@@ -1,0 +1,54 @@
+
+load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
+load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin")
+
+package(default_visibility = ["//:__subpackages__"])
+
+ts_library(
+    name = "schematics",
+    srcs = glob(
+        include = ["**/*.ts"],
+        exclude = [
+            "**/*.spec.ts",
+        ],
+    ),
+    data = ["collection.json"],
+    module_name = "schematics",
+    deps = [
+        "@npm//@angular-devkit/schematics", 
+        "@npm//@schematics/angular", 
+    ],
+)
+
+ts_library(
+    name = "schematics-test-lib",
+    testonly = True,
+    srcs = glob(
+        include = [
+            "**/*.spec.ts",
+        ],
+    ),
+    deps = [
+        ":schematics",
+        "@npm//@angular-devkit/schematics", 
+        "@npm//@types/node",
+        "@npm//@types/jasmine",
+        "@npm//jasmine-core",
+        "@npm//tslib",
+        "@npm//@schematics/angular", 
+    ],
+)
+
+jasmine_node_test(
+    name = "schematics-test",
+    srcs = [":schematics-test-lib"],
+)
+
+copy_to_bin(
+    name = "package",
+    srcs = [
+        "collection.json", 
+        "package.json"
+    ]
+)
