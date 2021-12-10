@@ -7,6 +7,9 @@
 # Cache action outputs on disk so they persist across output_base and bazel shutdown (eg. changing branches)
 build --disk_cache=~/.cache/bazel-disk-cache
 
+# Bazel picks up host-OS-specific config lines from bazelrc files
+build --enable_platform_specific_config
+
 # Bazel will create symlinks from the workspace directory to output artifacts.
 # Build results will be placed in a directory called "dist/bin"
 # Other directories will be created like "dist/testlogs"
@@ -60,6 +63,12 @@ build:debug --compilation_mode=dbg
 # Turn off legacy external runfiles
 # This prevents accidentally depending on this feature, which Bazel will remove.
 build --nolegacy_external_runfiles
+
+# Workaround for: https://github.com/bazelbuild/bazel/issues/4327.
+# The Chromium browser archive for macOS and Windows contain files with spaces that
+# will break runfile tree creation for browser tests relying on `rules_webtesting`.
+build:macos --experimental_inprocess_symlink_creation
+build:windows --experimental_inprocess_symlink_creation
 
 # Turn on --incompatible_strict_action_env which was on by default
 # in Bazel 0.21.0 but turned off again in 0.22.0. Follow

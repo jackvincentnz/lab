@@ -1,9 +1,6 @@
 {
   "name": "lab",
-  "scripts": {
-    "build": "bazel build //...",
-    "test": "bazel test //..."
-  },
+  "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@angular-devkit/schematics": "^10.1.2",
@@ -24,7 +21,7 @@
     "@angular/cli": "~10.1.1",
     "@angular/compiler-cli": "~10.1.1",
     "@bazel/bazelisk": "latest",
-    "@bazel/buildifier": "^3.5.0",
+    "@bazel/buildifier": "latest",
     "@bazel/ibazel": "latest",
     "@bazel/jasmine": "latest",
     "@bazel/typescript": "latest",
@@ -42,6 +39,10 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~4.0.2"
+    "typescript": "latest"
+  },
+  "scripts": {
+    "build": "bazel build //...",
+    "test": "bazel test //..."
   }
 }
