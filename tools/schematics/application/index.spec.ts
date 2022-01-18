@@ -52,7 +52,7 @@ describe('application', () => {
     );
 
     nonWorkspaceFiles.forEach((file) =>
-      expect(file.startsWith('/apps/foo')).toBe(true, file)
+      expect(file.startsWith('/apps/foo')).withContext(file).toBe(true)
     );
   });
 });
