@@ -2,25 +2,39 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
-    "outDir": "./dist/out-tsc",
-    "forceConsistentCasingInFileNames": true,
-    "strict": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "sourceMap": true,
-    "declaration": false,
-    "downlevelIteration": true,
-    "experimentalDecorators": true,
     "moduleResolution": "node",
-    "importHelpers": true,
+    // TODO: extract node & browser child configs so we can use e2 modules
+    // "module": "es2020",
+    "module": "commonjs", // needed so that jasmine_node_test can load the common js module
     "target": "es2015",
-    "module": "es2020",
+
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+
+    "baseUrl": ".",
+
+    // We hope this will not be needed in some future release of TypeScript. 
+    // Follow https://github.com/microsoft/TypeScript/issues/37257 for more info.
+    "rootDirs": [
+      ".",
+      "bazel-out/darwin-fastbuild/bin",
+    ],
+
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    
+    "sourceMap": true,
+    "declaration": true,
+    "importHelpers": true,
+
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
   },
+  
   "angularCompilerOptions": {
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,

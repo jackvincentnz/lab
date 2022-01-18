@@ -1,12 +1,19 @@
 
-load("@npm//@bazel/typescript:index.bzl", "ts_library")
+load("@npm//@bazel/typescript:index.bzl", "ts_project")
 load("@npm//@bazel/jasmine:index.bzl", "jasmine_node_test")
 load("@build_bazel_rules_nodejs//:index.bzl", "copy_to_bin")
 
 package(default_visibility = ["//:__subpackages__"])
 
-ts_library(
+ts_project(
     name = "schematics",
+
+    tsconfig = "//:tsconfig.json",
+    source_map = True,
+    declaration = True,
+
+    # glob is a quick way to select all the code,
+    # but has performance penalty in that Bazel must evaluate it.
     srcs = glob(
         include = ["**/*.ts"],
         exclude = [
@@ -14,16 +21,21 @@ ts_library(
         ],
     ),
     data = ["collection.json"],
-    module_name = "schematics",
     deps = [
+        "@npm//@types/node",
         "@npm//@angular-devkit/schematics", 
         "@npm//@schematics/angular", 
     ],
 )
 
-ts_library(
+ts_project(
     name = "schematics-test-lib",
     testonly = True,
+
+    tsconfig = "//:tsconfig.json",
+    source_map = True,
+    declaration = True,
+
     srcs = glob(
         include = [
             "**/*.spec.ts",
@@ -32,7 +44,6 @@ ts_library(
     deps = [
         ":schematics",
         "@npm//@angular-devkit/schematics", 
-        "@npm//@types/node",
         "@npm//@types/jasmine",
         "@npm//jasmine-core",
         "@npm//tslib",
@@ -42,7 +53,7 @@ ts_library(
 
 jasmine_node_test(
     name = "schematics-test",
-    srcs = [":schematics-test-lib"],
+    deps = [":schematics-test-lib"],
 )
 
 copy_to_bin(

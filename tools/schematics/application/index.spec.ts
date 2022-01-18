@@ -18,7 +18,7 @@ describe('application', () => {
   const workspaceOptions: WorkspaceOptions = {
     name: 'workspace',
     newProjectRoot: 'apps',
-    version: '10.1.1',
+    version: '13.1.2',
   };
 
   const defaultOptions: ApplicationOptions = {
@@ -33,20 +33,22 @@ describe('application', () => {
   });
 
   it('should create non workspace files', async () => {
+    const workspaceFiles = [...workspaceTree.files];
     const tree = await runner
       .runSchematicAsync('application', defaultOptions, workspaceTree)
       .toPromise();
 
-    expect(tree.files.length).not.toEqual(workspaceTree.files.length);
+    expect(tree.files.length).not.toEqual(workspaceFiles.length);
   });
 
   it('should create all files under new project root', async () => {
+    const workspaceFiles = [...workspaceTree.files];
     const tree = await runner
       .runSchematicAsync('application', defaultOptions, workspaceTree)
       .toPromise();
 
     const nonWorkspaceFiles = tree.files.filter(
-      (file) => !workspaceTree.files.includes(file)
+      (file) => !workspaceFiles.includes(file)
     );
 
     nonWorkspaceFiles.forEach((file) =>
