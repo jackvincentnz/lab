@@ -7,7 +7,7 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 def fetch_dependencies():
     http_archive(
-    name = "build_bazel_rules_nodejs",
-    sha256 = "d63ecec7192394f5cc4ad95a115f8a6c9de55c60d56c1f08da79c306355e4654",
-    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/4.6.1/rules_nodejs-4.6.1.tar.gz"],
-)
+        name = "build_bazel_rules_nodejs",
+        sha256 = "6b951612ce13738516398a8057899394e2b7a779be91e1a68f75f25c0a938864",
+        urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/5.0.0/rules_nodejs-5.0.0.tar.gz"],
+    )
