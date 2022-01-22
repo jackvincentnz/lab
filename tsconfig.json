@@ -19,7 +19,10 @@
     // Follow https://github.com/microsoft/TypeScript/issues/37257 for more info.
     "rootDirs": [
       ".",
+      // Local mac
       "bazel-out/darwin-fastbuild/bin",
+      // Github actions runner
+      "bazel-out/k8-fastbuild/bin",
     ],
 
     "strict": true,
