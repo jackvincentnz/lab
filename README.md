@@ -1,5 +1,7 @@
 # Lab
 
+![build](https://github.com/allocadia-jack/lab/actions/workflows/main.yml/badge.svg)
+
 Monorepo for the experimentation of all things Bazel, Javascript, Typescript, Angular, Java etc.
 
 ## Getting started
