@@ -10,16 +10,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Cache bazelisk and bazel outputs
+      - name: Cache bazel on successful builds
         uses: actions/cache@v2.1.7
-        env:
-          cache-name: bazel-cache
         with:
           path: |
             ~/.cache/bazelisk
             ~/.cache/bazel
-          key: ${{ runner.os }}-${{ env.cache-name }}
-      
+          key: bazel-${{ github.ref }}-${{ github.sha }}
+          restore-keys: |
+            bazel-${{ github.ref }}-
+            bazel-
+
       - uses: actions/checkout@v2
       
       - name: Build with bazel
