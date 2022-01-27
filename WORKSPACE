@@ -18,8 +18,6 @@ load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
 yarn_install(
     # Name this npm so that Bazel Label references look like @npm//package
     name = "npm",
-    # TODO: remove when jasmine_node_test no longer references @bazel/jasmine jasmine_runner.js directly.
-    exports_directories_only = False,
     package_json = "//:package.json",
     yarn_lock = "//:yarn.lock",
 )
