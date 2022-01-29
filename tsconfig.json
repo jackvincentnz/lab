@@ -6,10 +6,10 @@
     // TODO: extract node & browser child configs so we can use e2 modules
     // "module": "es2020",
     "module": "commonjs", // needed so that jasmine_node_test can load the common js module
-    "target": "es2015",
+    "target": "es2017",
 
     "lib": [
-      "es2018",
+      "es2020",
       "dom"
     ],
 
@@ -27,8 +27,10 @@
 
     "strict": true,
     "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
     
     "sourceMap": true,
     "declaration": true,
@@ -39,6 +41,7 @@
   },
   
   "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
