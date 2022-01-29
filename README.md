@@ -23,3 +23,19 @@ bazel test //...
 ## Experiments
 
 New projects to be added at `/projects`. Any experiment should have a new project for potential future use in a tutorial.
+
+## Tooling
+
+This repository includes multiple tools to improve consistency, maintainability and developer velocity.
+
+### Build
+* [Bazel](https://bazel.build):  Fast, multi-language, reproducible, incremental build system.
+
+### Style
+* [Commitlint](https://commitlint.js.org): Commit message linting.
+
+### Generation
+* [Schematics](https://github.com/allocadia-jack/lab/blob/master/tools/schematics/README.md): In progress tooling for generating new Angular projects.
+
+### Continuous integration
+* [Build & test](https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild): The solution is built and tested on each PR and commit to master.
