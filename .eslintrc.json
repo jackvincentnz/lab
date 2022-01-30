@@ -1,0 +1,65 @@
+/**
+ * Based on configuration from @anglar-eslint.
+ * See https://github.com/angular-eslint/angular-eslint#notes-on-eslint-configuration-itself for information on performant configurations.
+ */
+{
+  "root": true,
+  "overrides": [
+    {
+      "files": [
+        "*.[jt]s"
+      ],
+      "parserOptions": {
+        "project": [
+          // Consider creating a specific eslint.tsconfig.json if encountering performance issues.  
+          // See: https://github.com/angular-eslint/angular-eslint#notes-on-performance
+          "tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      // Use recommended linting as much as possible to minimize opinionated customization.
+      "extends": [
+        "eslint:recommended",
+
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+
+        "plugin:import/recommended",
+        "plugin:import/typescript",
+
+        "plugin:rxjs/recommended",
+
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+
+        "prettier"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ]
+    }
+  ]
+}
