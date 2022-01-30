@@ -1,0 +1,7 @@
+{
+    "recommendations": [
+        "dbaeumer.vscode-eslint",
+        "bazelbuild.vscode-bazel",
+        "angular.ng-template"
+    ]
+}
