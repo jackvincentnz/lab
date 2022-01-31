@@ -8,21 +8,18 @@
     "module": "commonjs", // needed so that jasmine_node_test can load the common js module
     "target": "es2017",
 
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
 
     "baseUrl": ".",
 
-    // We hope this will not be needed in some future release of TypeScript. 
+    // We hope this will not be needed in some future release of TypeScript.
     // Follow https://github.com/microsoft/TypeScript/issues/37257 for more info.
     "rootDirs": [
       ".",
       // Local mac
       "bazel-out/darwin-fastbuild/bin",
       // Github actions runner
-      "bazel-out/k8-fastbuild/bin",
+      "bazel-out/k8-fastbuild/bin"
     ],
 
     "strict": true,
@@ -31,15 +28,15 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
-    
+
     "sourceMap": true,
     "declaration": true,
     "importHelpers": true,
 
     "downlevelIteration": true,
-    "experimentalDecorators": true,
+    "experimentalDecorators": true
   },
-  
+
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
