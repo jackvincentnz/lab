@@ -32,6 +32,7 @@ This repository includes multiple tools to improve consistency, maintainability 
 * [Bazel](https://bazel.build):  Fast, multi-language, reproducible, incremental build system.
 
 ### Style
+* [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
 * [Commitlint](https://commitlint.js.org): Commit message linting.
 
 ### Generation
