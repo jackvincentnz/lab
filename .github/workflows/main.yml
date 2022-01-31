@@ -2,9 +2,9 @@ name: Build
 
 on:
   push:
-    branches: [ master ]
+    branches: [master]
   pull_request:
-    branches: [ master ]
+    branches: [master]
 
 jobs:
   build:
@@ -22,9 +22,9 @@ jobs:
             bazel-
 
       - uses: actions/checkout@v2
-      
+
       - name: Build with bazel
         run: bazel build //...
-      
+
       - name: Test with bazel
         run: bazel test //...

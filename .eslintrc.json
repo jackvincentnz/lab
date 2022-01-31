@@ -6,12 +6,10 @@
   "root": true,
   "overrides": [
     {
-      "files": [
-        "*.[jt]s"
-      ],
+      "files": ["*.[jt]s"],
       "parserOptions": {
         "project": [
-          // Consider creating a specific eslint.tsconfig.json if encountering performance issues.  
+          // Consider creating a specific eslint.tsconfig.json if encountering performance issues.
           // See: https://github.com/angular-eslint/angular-eslint#notes-on-performance
           "tsconfig.json"
         ],
@@ -54,12 +52,8 @@
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
-      "extends": [
-        "plugin:@angular-eslint/template/recommended"
-      ]
+      "files": ["*.html"],
+      "extends": ["plugin:@angular-eslint/template/recommended"]
     }
   ]
 }
