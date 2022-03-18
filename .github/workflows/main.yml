@@ -28,3 +28,9 @@ jobs:
 
       - name: Test with bazel
         run: bazel test //...
+
+      - name: Yarn install
+        run: yarn
+
+      - name: Check format
+        run: yarn check-format
