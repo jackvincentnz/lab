@@ -53,6 +53,7 @@
   "scripts": {
     "build": "bazel build //...",
     "test": "bazel test //...",
-    "format": "yarn prettier --write ."
+    "format": "yarn prettier --write .",
+    "check-format": "yarn prettier --check ."
   }
 }
