@@ -12,6 +12,11 @@ Commits should follow the [conventional](https://www.conventionalcommits.org/en/
 
 ## Code style
 
+Code style is enforced with:
+
+- [Pre-commit linting](https://github.com/okonet/lint-staged) - Source files are linted and fixed where possible prior to commiting locally.
+- [CI](https://github.com/jackvincentnz/lab/blob/master/.github/workflows/main.yml) - Source files are checked as part of continuous integration for alignment to the repo's style requirements.
+
 ### Prettier
 
 [Prettier](https://prettier.io/) is used to format multiple source files on commit, mostly in the front end eco-system. This ensures a consistent, opinionated style.
@@ -30,3 +35,13 @@ Why:
 > - Saves you time and energy
 
 See [Why prettier](https://prettier.io/docs/en/why-prettier.html) for more information.
+
+### lint-staged
+
+[lint-staged](https://github.com/okonet/lint-staged) is used to give commit-time style feedback, so that it is not necessary to wait for a continuous integration check.
+
+> Run linters against staged git files and don't let 💩 slip into your code base!
+
+> Linting makes more sense when run before committing your code. By doing so you can ensure no errors go into the repository and enforce code style.
+
+See [lint-staged](https://github.com/okonet/lint-staged/blob/master/README.md) for more information.
