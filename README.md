@@ -38,6 +38,7 @@ This repository includes multiple tools to improve consistency, maintainability 
 
 - [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
 - [Commitlint](https://commitlint.js.org): Commit message linting.
+- [lint-staged](https://github.com/okonet/lint-staged): Pre-commit source linting.
 
 ### Generation
 
