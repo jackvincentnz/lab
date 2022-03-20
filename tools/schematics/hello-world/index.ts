@@ -1,9 +1,13 @@
-import { Rule, SchematicContext, Tree } from "@angular-devkit/schematics";
+import { Rule, Tree } from "@angular-devkit/schematics";
 
 export const DEFAULT_NAME = "hello";
 
-export function helloWorld(options: any): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
+export interface HelloWorldOptions {
+  readonly name?: string;
+}
+
+export function helloWorld(options: HelloWorldOptions): Rule {
+  return (tree: Tree) => {
     tree.create(options?.name || DEFAULT_NAME, "world");
     return tree;
   };

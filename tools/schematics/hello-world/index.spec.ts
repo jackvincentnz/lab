@@ -1,7 +1,7 @@
 import { Tree } from "@angular-devkit/schematics";
 import { SchematicTestRunner } from "@angular-devkit/schematics/testing";
 
-import { DEFAULT_NAME } from "./index";
+import { DEFAULT_NAME, HelloWorldOptions } from "./index";
 
 describe("hello-world", () => {
   const runner = new SchematicTestRunner(
@@ -22,7 +22,7 @@ describe("hello-world", () => {
     expect(tree.files).toEqual(["/" + name]);
   });
 
-  async function setup(config?: { name?: string }) {
+  async function setup(config?: HelloWorldOptions) {
     const tree = await runner
       .runSchematicAsync("hello-world", config, Tree.empty())
       .toPromise();
