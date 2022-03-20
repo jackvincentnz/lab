@@ -59,7 +59,7 @@
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.{ts,js}": "eslint --cache --fix",
+    "*.{ts,js}": "eslint --fix",
     "*.{ts,js,html,css,scss,json,md}": "prettier --write"
   }
 }
