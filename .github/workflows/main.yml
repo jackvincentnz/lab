@@ -34,3 +34,9 @@ jobs:
 
       - name: Check format
         run: yarn check-format
+
+      - name: Fetch head ref
+        run: git fetch origin ${{ github.head_ref }}
+
+      - name: Check commit message
+        run: git show -s --format=%B origin/${{ github.head_ref }} | npx commitlint
