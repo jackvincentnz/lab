@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  common_ci:
     runs-on: ubuntu-latest
     steps:
       - name: Cache bazel on successful builds
@@ -28,6 +28,12 @@ jobs:
 
       - name: Test with bazel
         run: bazel test //...
+
+  pull_request_ci:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'pull_request' }}
+    steps:
+      - uses: actions/checkout@v3
 
       - name: Yarn install
         run: yarn
