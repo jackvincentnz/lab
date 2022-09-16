@@ -7,11 +7,11 @@ import {
 import { Schema as ApplicationOptions } from "@schematics/angular/application/schema";
 
 // Follows example at https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2
-export function application(options: ApplicationOptions): Rule {
+export function application(options: ApplicationOptions) {
   return chain([
     externalSchematic("@schematics/angular", "application", options),
     (tree: Tree) => {
       return tree;
     },
-  ]);
+  ]) as any;
 }
