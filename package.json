@@ -52,6 +52,8 @@
   "scripts": {
     "build": "bazel build //...",
     "test": "bazel test //...",
+    "lint": "eslint --fix .",
+    "check-lint": "eslint .",
     "format": "prettier --write .",
     "check-format": "prettier --check .",
     "prepare": "husky install"
