@@ -26,8 +26,6 @@
     "@bazel/bazelisk": "^1.11.0",
     "@bazel/buildifier": "^5.0.1",
     "@bazel/ibazel": "^0.16.2",
-    "@bazel/jasmine": "^5.5.0",
-    "@bazel/typescript": "^5.5.0",
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@types/jasmine": "^4.0.0",
@@ -49,7 +47,7 @@
     "lint-staged": "^12.3.7",
     "prettier": "^2.5.1",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.2"
+    "typescript": "~4.6.0"
   },
   "scripts": {
     "build": "bazel build //...",

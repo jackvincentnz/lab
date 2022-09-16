@@ -9,15 +9,58 @@ load("//tools/bazel:bazel_deps.bzl", "fetch_dependencies")
 
 fetch_dependencies()
 
-load("@build_bazel_rules_nodejs//:repositories.bzl", "build_bazel_rules_nodejs_dependencies")
-build_bazel_rules_nodejs_dependencies()
+load("@aspect_rules_js//js:repositories.bzl", "rules_js_dependencies")
 
-# The yarn_install rule runs yarn anytime the package.json or yarn.lock file changes.
-# It also extracts and installs any Bazel rules distributed in an npm package.
-load("@build_bazel_rules_nodejs//:index.bzl", "yarn_install")
-yarn_install(
-    # Name this npm so that Bazel Label references look like @npm//package
+rules_js_dependencies()
+
+load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
+
+nodejs_register_toolchains(
+    name = "nodejs",
+    node_version = DEFAULT_NODE_VERSION,
+)
+
+load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock")
+
+npm_translate_lock(
     name = "npm",
-    package_json = "//:package.json",
-    yarn_lock = "//:yarn.lock",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+
+load("@npm//:repositories.bzl", "npm_repositories")
+
+npm_repositories()
+
+##################
+# rules_ts setup #
+##################
+# Fetches the rules_ts dependencies.
+# If you want to have a different version of some dependency,
+# you should fetch it *before* calling this.
+# Alternatively, you can skip calling this function, so long as you've
+# already fetched all the dependencies.
+load("@aspect_rules_ts//ts:repositories.bzl", "LATEST_VERSION", "rules_ts_dependencies")
+
+rules_ts_dependencies(ts_version = LATEST_VERSION)
+
+######################
+# aspect_rules_jasmine setup #
+######################
+# Fetches the aspect_rules_jasmine dependencies.
+# If you want to have a different version of some dependency,
+# you should fetch it *before* calling this.
+# Alternatively, you can skip calling this function, so long as you've
+# already fetched all the dependencies.
+
+load("@aspect_rules_jasmine//jasmine:dependencies.bzl", "rules_jasmine_dependencies")
+
+# Fetch dependencies which users need as well
+rules_jasmine_dependencies()
+
+load("@aspect_rules_jasmine//jasmine:repositories.bzl", "rules_jasmine_repositories", "LATEST_VERSION")
+
+rules_jasmine_repositories(
+    name = "jasmine",
+    jasmine_version = LATEST_VERSION,
 )
