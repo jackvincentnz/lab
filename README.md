@@ -30,15 +30,6 @@ Test solution with:
 bazel test //...
 ```
 
-## Setup development environment
-
-### Install [pnpm](https://pnpm.io/installation#using-homebrew)
-
-```
-brew install pnpm
-pnpm install
-```
-
 ## Experiments
 
 New projects to be added at `/projects`. Any experiment should have a new project for potential future use in a tutorial.
