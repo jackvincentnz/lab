@@ -36,6 +36,22 @@ Why:
 
 See [Why prettier](https://prettier.io/docs/en/why-prettier.html) for more information.
 
+### ESLint
+
+[ESLint](https://eslint.org/) is used to find and fix problems in your JavaScript code.
+
+What:
+
+- ESLint statically analyzes your code to quickly find problems.
+
+- It is built into most text editors and you can run ESLint as part of your continuous integration pipeline.
+
+- It is a pluggable solution that can enforce numerous best practices and custom rules, largely against frontend source files.
+
+Why:
+
+- By using ESLint in the IDE, prior to commiting and during CI, we continuously provide feedback to the developer on the quality of the source code they have added.
+
 ### lint-staged
 
 [lint-staged](https://github.com/okonet/lint-staged) is used to give commit-time style feedback, so that it is not necessary to wait for a continuous integration check.
