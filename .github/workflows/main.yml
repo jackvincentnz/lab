@@ -41,6 +41,9 @@ jobs:
       - name: Check format
         run: yarn check-format
 
+      - name: Check linting
+        run: yarn check-lint
+
       - name: Fetch head ref
         run: git fetch origin ${{ github.head_ref }}
 
