@@ -10,6 +10,14 @@ Monorepo for the experimentation of all things Bazel, Javascript, Typescript, An
 
 ## Getting started
 
+Setup development environment with:
+
+```zsh
+brew install bazelisk
+brew install pnpm
+pnpm install
+```
+
 Build solution with:
 
 ```zsh
@@ -20,6 +28,15 @@ Test solution with:
 
 ```zsh
 bazel test //...
+```
+
+## Setup development environment
+
+### Install [pnpm](https://pnpm.io/installation#using-homebrew)
+
+```
+brew install pnpm
+pnpm install
 ```
 
 ## Experiments
