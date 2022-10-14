@@ -7,16 +7,16 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 def fetch_dependencies():
     http_archive(
         name = "aspect_rules_js",
-        sha256 = "bc9d48758458d72e743f6de4c485482e122b3b4472878cf6ff83bd0caa4ab855",
-        strip_prefix = "rules_js-1.3.0",
-        url = "https://github.com/aspect-build/rules_js/archive/refs/tags/v1.3.0.tar.gz",
+        sha256 = "b9fde0f20de6324ad443500ae738bda00facbd73900a12b417ce794856e01407",
+        strip_prefix = "rules_js-1.5.0",
+        url = "https://github.com/aspect-build/rules_js/archive/refs/tags/v1.5.0.tar.gz",
     )
 
     http_archive(
         name = "aspect_rules_ts",
-        sha256 = "3eb3171c26eb5d0951d51ae594695397218fb829e3798eea5557814723a1b3da",
-        strip_prefix = "rules_ts-1.0.0-rc3",
-        url = "https://github.com/aspect-build/rules_ts/archive/refs/tags/v1.0.0-rc3.tar.gz",
+        sha256 = "743f0e988e4e3f1e25e52c79f9dc3da1ddd77507ae88787ae95b4e70c537872b",
+        strip_prefix = "rules_ts-1.0.0-rc4",
+        url = "https://github.com/aspect-build/rules_ts/archive/refs/tags/v1.0.0-rc4.tar.gz",
     )
 
     http_archive(
