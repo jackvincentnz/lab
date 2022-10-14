@@ -9,19 +9,21 @@ on:
 jobs:
   common_ci:
     runs-on: ubuntu-latest
+    env:
+      BAZELISK_HOME: ~/.cache/bazel-home
     steps:
+      - uses: actions/checkout@v2
+
       - name: Cache bazel on successful builds
-        uses: actions/cache@v2.1.7
+        uses: actions/cache@v3
         with:
           path: |
-            ~/.cache/bazelisk
+            ${{ env.BAZELISK_HOME }}
             ~/.cache/bazel
           key: bazel-${{ github.ref }}-${{ github.sha }}
           restore-keys: |
             bazel-${{ github.ref }}-
             bazel-
-
-      - uses: actions/checkout@v2
 
       - name: Build with bazel
         run: bazel build //...
