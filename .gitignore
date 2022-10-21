@@ -18,6 +18,7 @@ yarn-error.log
 *.launch
 .settings
 *.sublime-workspace
+.ijwb
 
 # IDE - VSCode
 .vscode/*
