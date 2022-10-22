@@ -40,9 +40,9 @@ npm_repositories()
 # you should fetch it *before* calling this.
 # Alternatively, you can skip calling this function, so long as you've
 # already fetched all the dependencies.
-load("@aspect_rules_ts//ts:repositories.bzl", "LATEST_VERSION", "rules_ts_dependencies")
+load("@aspect_rules_ts//ts:repositories.bzl", _LATEST_TS_VERSION = "LATEST_VERSION", "rules_ts_dependencies")
 
-rules_ts_dependencies(ts_version = LATEST_VERSION)
+rules_ts_dependencies(ts_version = _LATEST_TS_VERSION)
 
 ######################
 # aspect_rules_jasmine setup #
@@ -58,9 +58,9 @@ load("@aspect_rules_jasmine//jasmine:dependencies.bzl", "rules_jasmine_dependenc
 # Fetch dependencies which users need as well
 rules_jasmine_dependencies()
 
-load("@aspect_rules_jasmine//jasmine:repositories.bzl", "rules_jasmine_repositories", "LATEST_VERSION")
+load("@aspect_rules_jasmine//jasmine:repositories.bzl", "rules_jasmine_repositories", _LATEST_JASMINE_VERSION = "LATEST_VERSION")
 
 rules_jasmine_repositories(
     name = "jasmine",
-    jasmine_version = LATEST_VERSION,
+    jasmine_version = _LATEST_JASMINE_VERSION,
 )
