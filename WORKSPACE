@@ -40,7 +40,7 @@ npm_repositories()
 # you should fetch it *before* calling this.
 # Alternatively, you can skip calling this function, so long as you've
 # already fetched all the dependencies.
-load("@aspect_rules_ts//ts:repositories.bzl", _LATEST_TS_VERSION = "LATEST_VERSION", "rules_ts_dependencies")
+load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies", _LATEST_TS_VERSION = "LATEST_VERSION")
 
 rules_ts_dependencies(ts_version = _LATEST_TS_VERSION)
 
@@ -64,3 +64,22 @@ rules_jasmine_repositories(
     name = "jasmine",
     jasmine_version = _LATEST_JASMINE_VERSION,
 )
+
+######################
+# bazel_gazelle setup
+######################
+
+load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
+load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
+
+############################################################
+# Define your own dependencies here using go_repository.
+# Else, dependencies declared by rules_go/gazelle will be used.
+# The first declaration of an external repository "wins".
+############################################################
+
+go_rules_dependencies()
+
+go_register_toolchains(version = "1.18.3")
+
+gazelle_dependencies()

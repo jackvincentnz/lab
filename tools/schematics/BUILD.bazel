@@ -6,10 +6,6 @@ package(default_visibility = ["//:__subpackages__"])
 ts_project(
     name = "schematics",
 
-    tsconfig = "//:tsconfig",
-    source_map = True,
-    declaration = True,
-
     # glob is a quick way to select all the code,
     # but has performance penalty in that Bazel must evaluate it.
     srcs = glob(
@@ -19,43 +15,44 @@ ts_project(
         ],
     ),
     data = ["collection.json"],
+    declaration = True,
+    source_map = True,
+    tsconfig = "//:tsconfig",
     deps = [
+        "//:node_modules/@angular-devkit/schematics",
+        "//:node_modules/@schematics/angular",
         "//:node_modules/@types/node",
-        "//:node_modules/@angular-devkit/schematics", 
-        "//:node_modules/@schematics/angular", 
     ],
 )
 
 ts_project(
     name = "schematics-test-lib",
     testonly = True,
-
-    tsconfig = "//:tsconfig",
-    source_map = True,
-    declaration = True,
-
     srcs = glob(
         include = [
             "**/*.spec.ts",
         ],
     ),
+    declaration = True,
+    source_map = True,
+    tsconfig = "//:tsconfig",
     deps = [
         ":schematics",
-        "//:node_modules/@angular-devkit/schematics", 
+        "//:node_modules/@angular-devkit/schematics",
+        "//:node_modules/@schematics/angular",
         "//:node_modules/@types/jasmine",
         "//:node_modules/jasmine-core",
         "//:node_modules/tslib",
-        "//:node_modules/@schematics/angular", 
     ],
 )
 
 jasmine_test(
     name = "schematics-test",
+    args = ["**/*.spec.js"],
+    chdir = package_name(),
     data = [
-        ":schematics-test-lib",
         "collection.json",
         "package.json",
+        ":schematics-test-lib",
     ],
-    args = ["**/*.spec.js"],
-    chdir = package_name()
 )
