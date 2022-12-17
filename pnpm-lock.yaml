@@ -42,7 +42,7 @@ specifiers:
   rxjs: ^7.5.1
   ts-node: ^10.4.0
   tslib: ^2.3.0
-  typescript: ~4.6.0
+  typescript: 4.6.4
   zone.js: ~0.11.4
 
 dependencies:

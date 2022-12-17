@@ -6,24 +6,17 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 def fetch_dependencies():
     http_archive(
-        name = "aspect_rules_js",
-        sha256 = "b9fde0f20de6324ad443500ae738bda00facbd73900a12b417ce794856e01407",
-        strip_prefix = "rules_js-1.5.0",
-        url = "https://github.com/aspect-build/rules_js/archive/refs/tags/v1.5.0.tar.gz",
-    )
-
-    http_archive(
         name = "aspect_rules_ts",
-        sha256 = "743f0e988e4e3f1e25e52c79f9dc3da1ddd77507ae88787ae95b4e70c537872b",
-        strip_prefix = "rules_ts-1.0.0-rc4",
-        url = "https://github.com/aspect-build/rules_ts/archive/refs/tags/v1.0.0-rc4.tar.gz",
+        sha256 = "e81f37c4fe014fc83229e619360d51bfd6cb8ac405a7e8018b4a362efa79d000",
+        strip_prefix = "rules_ts-1.0.4",
+        url = "https://github.com/aspect-build/rules_ts/archive/refs/tags/v1.0.4.tar.gz",
     )
 
     http_archive(
         name = "aspect_rules_jasmine",
-        sha256 = "938a2818100fd89e7600a45b7ba4fcd4114c11c5b5741db30ff7c6e0dcb2ea4b",
-        strip_prefix = "rules_jasmine-0.1.0",
-        url = "https://github.com/aspect-build/rules_jasmine/archive/refs/tags/v0.1.0.tar.gz",
+        sha256 = "28bd02acbcd78dd4fbe0ee133b21b11977acd70329a83fc987ff8c0a6ffae9e2",
+        strip_prefix = "rules_jasmine-0.2.3",
+        url = "https://github.com/aspect-build/rules_jasmine/archive/refs/tags/v0.2.3.tar.gz",
     )
 
     http_archive(
