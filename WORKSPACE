@@ -9,6 +9,24 @@ load("//tools/bazel:bazel_deps.bzl", "fetch_dependencies")
 
 fetch_dependencies()
 
+###############
+# maven setup #
+###############
+
+load("@rules_jvm_external//:defs.bzl", "maven_install")
+
+maven_install(
+    artifacts = [
+        "junit:junit:4.13.2",
+        "org.springframework.boot:spring-boot-starter-web:3.0.3",
+        "org.springframework.boot:spring-boot-starter-test:3.0.3",
+    ],
+    fetch_sources = True,
+    repositories = [
+        "https://repo1.maven.org/maven2",
+    ],
+)
+
 #########################
 # aspect_rules_ts setup #
 #########################
