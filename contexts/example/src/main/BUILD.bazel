@@ -1,0 +1,9 @@
+java_binary(
+    name = "app",
+    main_class = "geek.jack.example.ExampleApplication",
+    resources = glob(["**/*.properties"]),
+    runtime_deps = [
+        "//contexts/example/src/main/java/geek/jack/example",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
+)
