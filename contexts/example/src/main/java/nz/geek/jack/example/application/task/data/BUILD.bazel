@@ -1,0 +1,11 @@
+java_library(
+    name = "data",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//contexts/example/src/main/java/nz/geek/jack/example/application:__subpackages__",
+        "//contexts/example/src/main/java/nz/geek/jack/example/infrastructure:__subpackages__",
+    ],
+    deps = [
+        "//contexts/example/src/main/java/nz/geek/jack/example/domain",
+    ],
+)

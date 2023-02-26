@@ -1,0 +1,26 @@
+# The root query for the application
+type Query {
+  allTasks: [Task]!
+}
+
+# The root mutation for the application
+type Mutation {
+  addTask(input: AddTaskInput!) : Task!
+  markTaskCompleted(input: MarkTaskCompletedInput!) : Task!
+}
+
+# Objects
+type Task {
+  id: ID!
+  title: String!
+  isCompleted: Boolean!
+}
+
+# Input objects
+input AddTaskInput {
+  title: String!
+}
+
+input MarkTaskCompletedInput {
+  id: ID!
+}
