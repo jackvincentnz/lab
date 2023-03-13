@@ -1,9 +1,14 @@
 java_binary(
     name = "app",
-    main_class = "geek.jack.example.ExampleApplication",
-    resources = glob(["**/*.properties"]),
+    main_class = "nz.geek.jack.example.infrastructure.web.ExampleApplication",
+    resources = glob([
+        "**/*.properties",
+        "**/*.gqls",
+    ]),
     runtime_deps = [
-        "//contexts/example/src/main/java/geek/jack/example",
+        "//contexts/example/src/main/java/nz/geek/jack/example/application",
+        "//contexts/example/src/main/java/nz/geek/jack/example/domain",
+        "//contexts/example/src/main/java/nz/geek/jack/example/infrastructure",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )

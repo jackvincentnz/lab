@@ -19,7 +19,9 @@ maven_install(
     artifacts = [
         "junit:junit:4.13.2",
         "org.springframework.boot:spring-boot-starter-web:3.0.3",
+        "org.springframework.boot:spring-boot-starter-graphql:3.0.3",
         "org.springframework.boot:spring-boot-starter-test:3.0.3",
+        "org.apache.commons:commons-lang3:3.12.0",
     ],
     fetch_sources = True,
     repositories = [
