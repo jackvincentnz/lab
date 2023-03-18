@@ -41,7 +41,6 @@ ts_project(
         "//:node_modules/@angular-devkit/schematics",
         "//:node_modules/@schematics/angular",
         "//:node_modules/@types/jasmine",
-        "//:node_modules/jasmine-core",
         "//:node_modules/tslib",
     ],
 )

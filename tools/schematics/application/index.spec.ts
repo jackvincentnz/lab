@@ -8,7 +8,7 @@ import { Schema as ApplicationOptions } from "@schematics/angular/application/sc
 describe("application", () => {
   const angularSchematics = new SchematicTestRunner(
     "schematics",
-    require.resolve("@schematics/angular/collection.json")
+    require.resolve("../../../node_modules/@schematics/angular/collection.json")
   );
   const runner = new SchematicTestRunner(
     "schematics",
@@ -18,7 +18,7 @@ describe("application", () => {
   const workspaceOptions: WorkspaceOptions = {
     name: "workspace",
     newProjectRoot: "apps",
-    version: "13.1.2",
+    version: "15.2.4",
   };
 
   const defaultOptions: ApplicationOptions = {
