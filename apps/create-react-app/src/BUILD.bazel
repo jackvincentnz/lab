@@ -1,0 +1,80 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@jest//:defs.bzl", "jest_test")
+
+ASSET_PATTERNS = [
+    "*.svg",
+    "*.css",
+]
+
+SRC_PATTERNS = [
+    "*.tsx",
+    "*.ts",
+]
+
+# Filename conventions described at
+# https://create-react-app.dev/docs/running-tests#filename-conventions
+TEST_PATTERNS = [
+    "*.test.tsx",
+    "*.test.ts",
+    "*.spec.tsx",
+    "*.spec.ts",
+]
+
+ts_project(
+    name = "src_ts",
+    srcs = glob(
+        include = SRC_PATTERNS,
+        exclude = TEST_PATTERNS,
+    ),
+    declaration = True,
+    resolve_json_module = True,
+    # Workers are not always writing outputs for some reason.
+    # see https://github.com/aspect-build/rules_ts/issues/334
+    supports_workers = False,
+    tsconfig = "//:tsconfig_react",
+    deps = [
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/react-scripts",
+        "//:node_modules/web-vitals",
+    ],
+)
+
+js_library(
+    name = "src",
+    srcs = glob(ASSET_PATTERNS),
+    visibility = ["//visibility:public"],
+    deps = [
+        ":src_ts",
+    ],
+)
+
+ts_project(
+    name = "src_test_ts",
+    srcs = glob(TEST_PATTERNS),
+    declaration = True,
+    resolve_json_module = True,
+    # Workers are not always writing outputs for some reason.
+    # see https://github.com/aspect-build/rules_ts/issues/334
+    supports_workers = False,
+    tsconfig = "//:tsconfig_react",
+    deps = [
+        ":src_ts",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@types/jest",
+        "//:node_modules/@types/testing-library__jest-dom",
+    ],
+)
+
+jest_test(
+    name = "src_test",
+    config = "//tools/jest:jest_config",
+    data = [
+        ":src",
+        ":src_test_ts",
+        "//:node_modules/jest-environment-jsdom",
+        "//:node_modules/jest-transform-stub",
+        "//tools/jest:setup_tests",
+    ],
+)

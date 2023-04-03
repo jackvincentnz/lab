@@ -64,6 +64,12 @@ load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock")
 
 npm_translate_lock(
     name = "npm",
+    bins = {
+        # derived from "bin" attribute in node_modules/react-scripts/package.json
+        "react-scripts": {
+            "react-scripts": "./bin/react-scripts.js",
+        },
+    },
     pnpm_lock = "//:pnpm-lock.yaml",
     verify_node_modules_ignored = "//:.bazelignore",
 )
@@ -83,6 +89,22 @@ jasmine_repositories(name = "jasmine")
 load("@jasmine//:npm_repositories.bzl", jasmine_npm_repositories = "npm_repositories")
 
 jasmine_npm_repositories()
+
+###########################
+# aspect_rules_jest setup #
+###########################
+
+load("@aspect_rules_jest//jest:dependencies.bzl", "rules_jest_dependencies")
+
+rules_jest_dependencies()
+
+load("@aspect_rules_jest//jest:repositories.bzl", "jest_repositories")
+
+jest_repositories(name = "jest")
+
+load("@jest//:npm_repositories.bzl", jest_npm_repositories = "npm_repositories")
+
+jest_npm_repositories()
 
 #######################
 # bazel_gazelle setup #

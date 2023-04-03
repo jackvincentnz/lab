@@ -1,0 +1,38 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
+load("@npm//:react-scripts/package_json.bzl", cra_bin = "bin")
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+    visibility = [":__subpackages__"],
+)
+
+CRA_DEPS = [
+    "//apps/create-react-app/src",
+    "//apps/create-react-app/public",
+    "//:node_modules/react-dom",
+    "//:node_modules/react-scripts",
+    "//:node_modules/react",
+    "//:node_modules/typescript",
+    "//:node_modules/web-vitals",
+    ":package_json",
+]
+
+cra_bin.react_scripts(
+    # Note: If you want to change the name make sure you update BUILD_PATH below accordingly
+    # https://create-react-app.dev/docs/advanced-configuration/
+    name = "build",
+    srcs = CRA_DEPS,
+    args = ["build"],
+    chdir = package_name(),
+    env = {"BUILD_PATH": "./build"},
+    out_dirs = ["build"],
+)
+
+js_run_devserver(
+    name = "start",
+    args = ["start"],
+    chdir = package_name(),
+    command = "../../node_modules/.bin/react-scripts",
+    data = CRA_DEPS,
+)

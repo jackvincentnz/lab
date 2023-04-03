@@ -1,0 +1,31 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+
+js_library(
+    name = "jest_config",
+    srcs = ["jest.config.js"],
+    visibility = ["//visibility:public"],
+)
+
+ts_project(
+    name = "setup_tests_ts",
+    srcs = ["setupTests.ts"],
+    declaration = True,
+    resolve_json_module = True,
+    # Workers are not always writing outputs for some reason.
+    # see https://github.com/aspect-build/rules_ts/issues/334
+    supports_workers = False,
+    tsconfig = "//:tsconfig_react",
+    deps = [
+        "//:node_modules/@types/testing-library__jest-dom",
+    ],
+)
+
+js_library(
+    name = "setup_tests",
+    visibility = ["//visibility:public"],
+    deps = [
+        ":setup_tests_ts",
+        "//:node_modules/@testing-library/jest-dom",
+    ],
+)

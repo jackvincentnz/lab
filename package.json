@@ -13,8 +13,12 @@
     "@angular/platform-browser-dynamic": "^15.2.3",
     "@angular/router": "^15.2.3",
     "@schematics/angular": "^15.2.4",
+    "jest-transform-stub": "^2.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "rxjs": "^7.8.0",
     "tslib": "^2.5.0",
+    "web-vitals": "2.1.4",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
@@ -28,8 +32,13 @@
     "@bazel/ibazel": "^0.16.2",
     "@commitlint/cli": "^17.4.4",
     "@commitlint/config-conventional": "^17.4.4",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
     "@types/jasmine": "^4.3.1",
+    "@types/jest": "^27.5.2",
     "@types/node": "^18.15.3",
+    "@types/react": "^18.0.32",
+    "@types/testing-library__jest-dom": "^5.14.5",
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.55.0",
     "eslint": "^8.36.0",
@@ -37,6 +46,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-rxjs": "^5.0.2",
     "husky": "^8.0.3",
+    "jest-environment-jsdom": "^29.5.0",
     "karma": "^6.4.1",
     "karma-chrome-launcher": "^3.1.1",
     "karma-coverage": "^2.2.0",
@@ -44,6 +54,7 @@
     "karma-jasmine-html-reporter": "^2.0.0",
     "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
+    "react-scripts": "5.0.1",
     "ts-node": "^10.9.1",
     "typescript": "4.9.5"
   },
@@ -59,5 +70,16 @@
   "lint-staged": {
     "*.{ts,js}": "eslint --fix",
     "*.{ts,js,html,css,scss,json,md}": "prettier --write"
+  },
+  "pnpm": {
+    "packageExtensions": {
+      "postcss-loader": {
+        "peerDependencies": {
+          "postcss-flexbugs-fixes": "*",
+          "postcss-preset-env": "*",
+          "postcss-normalize": "*"
+        }
+      }
+    }
   }
 }

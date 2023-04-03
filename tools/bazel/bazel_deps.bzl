@@ -30,6 +30,13 @@ def fetch_dependencies():
     )
 
     http_archive(
+        name = "aspect_rules_jest",
+        sha256 = "fa103b278137738ef08fd23d3c8c9157897a7159af2aa22714bc71680da58583",
+        strip_prefix = "rules_jest-0.16.1",
+        url = "https://github.com/aspect-build/rules_jest/releases/download/v0.16.1/rules_jest-v0.16.1.tar.gz",
+    )
+
+    http_archive(
         name = "io_bazel_rules_go",
         sha256 = "dd926a88a564a9246713a9c00b35315f54cbd46b31a26d5d8fb264c07045f05d",
         urls = [

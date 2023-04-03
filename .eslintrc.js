@@ -6,14 +6,10 @@ module.exports = {
   root: true,
   overrides: [
     {
-      files: ["*.tsx?"],
+      files: ["*.tsx", "*.ts"],
       parserOptions: {
+        project: true,
         tsconfigRootDir: __dirname,
-        project: [
-          // Consider creating a specific eslint.tsconfig.json if encountering performance issues.
-          // See: https://github.com/angular-eslint/angular-eslint#notes-on-performance
-          "tsconfig.json",
-        ],
       },
       // Use recommended linting as much as possible to minimize opinionated customization.
       extends: [
@@ -52,16 +48,13 @@ module.exports = {
       },
     },
     {
-      files: ["*.jsx?"],
+      files: ["*.js", "*.jsx"],
+      env: {
+        commonjs: true,
+        node: true,
+      },
       // Use recommended linting as much as possible to minimize opinionated customization.
-      extends: [
-        "eslint:recommended",
-
-        "plugin:import/recommended",
-        "plugin:rxjs/recommended",
-
-        "prettier",
-      ],
+      extends: ["eslint:recommended", "plugin:import/recommended", "prettier"],
     },
     {
       files: ["*.html"],

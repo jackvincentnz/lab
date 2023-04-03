@@ -20,3 +20,4 @@ additional_languages:
 ts_config_rules:
   //:tsconfig_base
   //:tsconfig_node
+  //:tsconfig_react
