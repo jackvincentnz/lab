@@ -45,37 +45,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
-        id: pnpm-install
+      - name: Setup java
+        uses: actions/setup-java@v3
         with:
-          version: 7
-          run_install: false
+          distribution: temurin
+          java-version: 17
 
-      - name: Get pnpm store directory
-        id: pnpm-cache
-        run: |
-          echo "::set-output name=pnpm_cache_dir::$(pnpm store path)"
+      - name: Setup python
+        uses: actions/setup-python@v3
 
-      - name: Setup pnpm cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ steps.pnpm-cache.outputs.pnpm_cache_dir }}
-          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-pnpm-store-
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Check format
-        run: pnpm check-format
-
-      - name: Check linting
-        run: pnpm check-lint
-
-      - name: Fetch head ref
-        run: git fetch origin ${{ github.head_ref }}
-
-      - name: Check commit message
-        run: git show -s --format=%B origin/${{ github.head_ref }} | pnpm commitlint
+      - name: Check format, linting and style
+        uses: pre-commit/action@v3.0.0

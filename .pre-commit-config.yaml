@@ -1,0 +1,52 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+
+default_install_hook_types: [pre-commit, commit-msg]
+default_stages: [commit]
+
+repos:
+  # Check and format Bazel source files
+  - repo: https://github.com/keith/pre-commit-buildifier
+    rev: 6.1.0
+    hooks:
+      - id: buildifier
+      - id: buildifier-lint
+
+  # Lint FE source files
+  - repo: https://github.com/pre-commit/mirrors-eslint
+    rev: v8.37.0
+    hooks:
+      - id: eslint
+        args: [--fix]
+        additional_dependencies:
+          # Keep versions in sync with package.json so that IDE/CLI tooling works
+          - "eslint@^8.36.0"
+          - "@angular-eslint/eslint-plugin@^15.2.1"
+          - "@angular-eslint/eslint-plugin-template@^15.2.1"
+          - "@angular-eslint/template-parser@^15.2.1"
+          - "@typescript-eslint/eslint-plugin@^5.55.0"
+          - "@typescript-eslint/parser@^5.55.0"
+          - "eslint-config-prettier@^8.7.0"
+          - "eslint-plugin-import@^2.27.5"
+          - "eslint-plugin-rxjs@^5.0.2"
+
+  # Format FE source files
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v2.7.1
+    hooks:
+      - id: prettier
+
+  # Format java source files
+  - repo: https://github.com/jackvincentnz/language-formatters-pre-commit-hooks
+    rev: b3b86e7056e7bc4083b0eff811cd187413269f90
+    hooks:
+      - id: pretty-format-java
+        args: [--autofix]
+
+  # Check commit message meets requirements
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.4.0
+    hooks:
+      - id: commitlint
+        stages: [commit-msg]
+        additional_dependencies: ["@commitlint/config-conventional"]

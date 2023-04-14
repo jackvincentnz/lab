@@ -41,7 +41,6 @@
     "karma-coverage": "^2.2.0",
     "karma-jasmine": "^5.1.0",
     "karma-jasmine-html-reporter": "^2.0.0",
-    "lint-staged": "^13.2.0",
     "prettier": "^2.8.4",
     "ts-node": "^10.9.1",
     "typescript": "4.9.5"
@@ -49,14 +48,7 @@
   "scripts": {
     "build": "bazel build //...",
     "test": "bazel test //...",
-    "lint": "eslint --fix .",
-    "check-lint": "eslint .",
-    "format": "prettier --write .",
-    "check-format": "prettier --check .",
-    "prepare": "husky install"
-  },
-  "lint-staged": {
-    "*.{ts,js}": "eslint --fix",
-    "*.{ts,js,html,css,scss,json,md}": "prettier --write"
+    "lint": "pre-commit run eslint --all-files",
+    "format": "pre-commit run prettier --all-files"
   }
 }
