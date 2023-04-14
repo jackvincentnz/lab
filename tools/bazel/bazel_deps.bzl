@@ -1,6 +1,8 @@
-# Third-party dependencies fetched by Bazel
-# Unlike WORKSPACE, the content of this file is unordered.
-# We keep them separate to make the WORKSPACE file more maintainable.
+"""
+Third-party dependencies fetched by Bazel
+Unlike WORKSPACE, the content of this file is unordered.
+We keep them separate to make the WORKSPACE file more maintainable.
+"""
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
@@ -8,6 +10,9 @@ RULES_JVM_EXTERNAL_TAG = "5.0"
 RULES_JVM_EXTERNAL_SHA = "8c3cd0ce6aa3dd8c01a414385e0a3807c7a14c769ca0aa3c53fb135c91f9198c"
 
 def fetch_dependencies():
+    """
+    Fetches all the third party archives needed for this workspace.
+    """
     http_archive(
         name = "rules_jvm_external",
         strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
