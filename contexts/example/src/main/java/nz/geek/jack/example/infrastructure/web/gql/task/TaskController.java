@@ -2,9 +2,9 @@ package nz.geek.jack.example.infrastructure.web.gql.task;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
-import nz.geek.jack.example.application.task.data.DefaultTaskQuery;
 import nz.geek.jack.example.application.task.TaskCommandService;
 import nz.geek.jack.example.application.task.TaskQueryService;
+import nz.geek.jack.example.application.task.data.DefaultTaskQuery;
 import nz.geek.jack.example.infrastructure.web.gql.task.data.AddTaskInput;
 import nz.geek.jack.example.infrastructure.web.gql.task.data.MarkTaskCompletedInput;
 import nz.geek.jack.example.infrastructure.web.gql.task.data.TaskType;

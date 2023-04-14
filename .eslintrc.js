@@ -4,28 +4,21 @@
  */
 module.exports = {
   root: true,
+  env: {
+    browser: true,
+    node: true,
+  },
   overrides: [
     {
-      files: ["*.tsx?"],
-      parserOptions: {
-        tsconfigRootDir: __dirname,
-        project: [
-          // Consider creating a specific eslint.tsconfig.json if encountering performance issues.
-          // See: https://github.com/angular-eslint/angular-eslint#notes-on-performance
-          "tsconfig.json",
-        ],
-      },
+      files: ["*.tsx", "*.ts"],
       // Use recommended linting as much as possible to minimize opinionated customization.
       extends: [
         "eslint:recommended",
 
         "plugin:@typescript-eslint/recommended",
-        "plugin:@typescript-eslint/recommended-requiring-type-checking",
 
         "plugin:import/recommended",
         "plugin:import/typescript",
-
-        "plugin:rxjs/recommended",
 
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
@@ -52,16 +45,9 @@ module.exports = {
       },
     },
     {
-      files: ["*.jsx?"],
+      files: ["*.js", "*.jsx"],
       // Use recommended linting as much as possible to minimize opinionated customization.
-      extends: [
-        "eslint:recommended",
-
-        "plugin:import/recommended",
-        "plugin:rxjs/recommended",
-
-        "prettier",
-      ],
+      extends: ["eslint:recommended", "plugin:import/recommended", "prettier"],
     },
     {
       files: ["*.html"],

@@ -2,7 +2,7 @@ package nz.geek.jack.example.application.task.data;
 
 import nz.geek.jack.example.domain.TaskId;
 
-public final class DefaultTaskQuery implements TaskQuery{
+public final class DefaultTaskQuery implements TaskQuery {
 
   private final TaskId taskId;
 
