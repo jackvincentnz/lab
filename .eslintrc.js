@@ -2,21 +2,21 @@
  * Based on configuration from @anglar-eslint.
  * See https://github.com/angular-eslint/angular-eslint#notes-on-eslint-configuration-itself for information on performant configurations.
  */
-{
-  "root": true,
-  "overrides": [
+module.exports = {
+  root: true,
+  overrides: [
     {
-      "files": ["*.[jt]s"],
-      "parserOptions": {
-        "project": [
+      files: ["*.tsx?"],
+      parserOptions: {
+        tsconfigRootDir: __dirname,
+        project: [
           // Consider creating a specific eslint.tsconfig.json if encountering performance issues.
           // See: https://github.com/angular-eslint/angular-eslint#notes-on-performance
-          "tsconfig.json"
+          "tsconfig.json",
         ],
-        "createDefaultProgram": true
       },
       // Use recommended linting as much as possible to minimize opinionated customization.
-      "extends": [
+      extends: [
         "eslint:recommended",
 
         "plugin:@typescript-eslint/recommended",
@@ -30,30 +30,42 @@
         "plugin:@angular-eslint/recommended",
         "plugin:@angular-eslint/template/process-inline-templates",
 
-        "prettier"
+        "prettier",
       ],
-      "rules": {
+      rules: {
         "@angular-eslint/directive-selector": [
           "error",
           {
-            "type": "attribute",
-            "prefix": "app",
-            "style": "camelCase"
-          }
+            type: "attribute",
+            prefix: "app",
+            style: "camelCase",
+          },
         ],
         "@angular-eslint/component-selector": [
           "error",
           {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
-          }
-        ]
-      }
+            type: "element",
+            prefix: "app",
+            style: "kebab-case",
+          },
+        ],
+      },
     },
     {
-      "files": ["*.html"],
-      "extends": ["plugin:@angular-eslint/template/recommended"]
-    }
-  ]
-}
+      files: ["*.jsx?"],
+      // Use recommended linting as much as possible to minimize opinionated customization.
+      extends: [
+        "eslint:recommended",
+
+        "plugin:import/recommended",
+        "plugin:rxjs/recommended",
+
+        "prettier",
+      ],
+    },
+    {
+      files: ["*.html"],
+      extends: ["plugin:@angular-eslint/template/recommended"],
+    },
+  ],
+};

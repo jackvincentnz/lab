@@ -1,0 +1,32 @@
+// General options for all TypeScript, client, server etc.
+{
+  "compileOnSave": false,
+
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "es2020",
+    "moduleResolution": "node",
+
+    "baseUrl": "./",
+
+    "strict": true,
+
+    "sourceMap": true,
+    "declaration": true,
+    "importHelpers": true,
+
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true
+  },
+
+  // potentially reduce this to purely source directories
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist"]
+}

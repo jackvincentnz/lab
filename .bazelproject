@@ -18,5 +18,5 @@ additional_languages:
   javascript
 
 ts_config_rules:
-  //:tsconfig
-  //web-client:tsconfig
+  //:tsconfig_base
+  //:tsconfig_node

@@ -17,7 +17,7 @@ ts_project(
     data = ["collection.json"],
     declaration = True,
     source_map = True,
-    tsconfig = "//:tsconfig",
+    tsconfig = "//:tsconfig_node",
     deps = [
         "//:node_modules/@angular-devkit/schematics",
         "//:node_modules/@schematics/angular",
@@ -35,7 +35,7 @@ ts_project(
     ),
     declaration = True,
     source_map = True,
-    tsconfig = "//:tsconfig",
+    tsconfig = "//:tsconfig_node",
     deps = [
         ":schematics",
         "//:node_modules/@angular-devkit/schematics",
