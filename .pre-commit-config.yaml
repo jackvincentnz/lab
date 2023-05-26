@@ -21,7 +21,6 @@ repos:
         additional_dependencies:
           # Keep versions in sync with package.json so that IDE/CLI tooling works
           - "eslint@^8.36.0"
-          - "eslint-config-react-app@^7.0.1"
           - "@angular-eslint/eslint-plugin@^15.2.1"
           - "@angular-eslint/eslint-plugin-template@^15.2.1"
           - "@angular-eslint/template-parser@^15.2.1"

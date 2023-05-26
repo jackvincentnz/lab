@@ -1,0 +1,51 @@
+load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver", "js_test")
+load("@npm//:react-scripts/package_json.bzl", cra_bin = "bin")
+
+CRA_DEPS = [
+    "//apps/cra/src",
+    "//apps/cra/public",
+    "//:node_modules/react-dom",
+    "//:node_modules/react-scripts",
+    "//:node_modules/react",
+    "//:node_modules/typescript",
+    "//:node_modules/web-vitals",
+    "//:node_modules/tslib",
+    ":package_json",
+]
+
+cra_bin.react_scripts(
+    # Note: If you want to change the name make sure you update BUILD_PATH below accordingly
+    # https://create-react-app.dev/docs/advanced-configuration/
+    name = "build",
+    srcs = CRA_DEPS,
+    args = ["build"],
+    chdir = package_name(),
+    env = {"BUILD_PATH": "./build"},
+    out_dirs = ["build"],
+)
+
+js_test(
+    name = "build_smoke_test",
+    data = ["//apps/cra:build"],
+    entry_point = "build_smoke_test.js",
+)
+
+js_run_devserver(
+    name = "start",
+    args = ["start"],
+    chdir = package_name(),
+    command = "../../node_modules/.bin/react-scripts",
+    data = CRA_DEPS,
+)
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+    visibility = [":__subpackages__"],
+)
+
+js_library(
+    name = "jest_config",
+    srcs = ["jest.config.js"],
+    visibility = [":__subpackages__"],
+)

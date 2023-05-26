@@ -64,6 +64,12 @@ load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock")
 
 npm_translate_lock(
     name = "npm",
+    bins = {
+        # derived from "bin" attribute in node_modules/react-scripts/package.json
+        "react-scripts": {
+            "react-scripts": "./bin/react-scripts.js",
+        },
+    },
     npmrc = "//:.npmrc",
     pnpm_lock = "//:pnpm-lock.yaml",
     verify_node_modules_ignored = "//:.bazelignore",
@@ -72,6 +78,14 @@ npm_translate_lock(
 load("@npm//:repositories.bzl", "npm_repositories")
 
 npm_repositories()
+
+####################################################################################################
+# aspect_rules_jest setup
+####################################################################################################
+
+load("@aspect_rules_jest//jest:dependencies.bzl", "rules_jest_dependencies")
+
+rules_jest_dependencies()
 
 ####################################################################################################
 # aspect_rules_jasmine setup

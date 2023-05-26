@@ -5,6 +5,13 @@ load("@bazel_gazelle//:def.bzl", "DEFAULT_LANGUAGES", "gazelle", "gazelle_binary
 npm_link_all_packages(name = "node_modules")
 
 ts_config(
+    name = "tsconfig",
+    src = "tsconfig.json",
+    visibility = [":__subpackages__"],
+    deps = [":tsconfig_base"],
+)
+
+ts_config(
     name = "tsconfig_base",
     src = "tsconfig.base.json",
     visibility = [":__subpackages__"],
@@ -14,7 +21,14 @@ ts_config(
     name = "tsconfig_node",
     src = "tsconfig.node.json",
     visibility = [":__subpackages__"],
-    deps = ["tsconfig_base"],
+    deps = [":tsconfig_base"],
+)
+
+ts_config(
+    name = "tsconfig_react",
+    src = "tsconfig.react.json",
+    visibility = [":__subpackages__"],
+    deps = [":tsconfig_base"],
 )
 
 # gazelle:prefix github.com/jackvincentnz/lab

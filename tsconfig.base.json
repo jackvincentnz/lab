@@ -18,12 +18,15 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
 
+    "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noPropertyAccessFromIndexSignature": true
+    "noPropertyAccessFromIndexSignature": true,
+
+    "jsx": "react-jsx"
   },
 
   // potentially reduce this to purely source directories
