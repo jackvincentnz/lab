@@ -9,9 +9,9 @@ load("//tools/bazel:bazel_deps.bzl", "fetch_dependencies")
 
 fetch_dependencies()
 
-###############
-# maven setup #
-###############
+####################################################################################################
+# maven setup
+####################################################################################################
 
 load("@rules_jvm_external//:repositories.bzl", "rules_jvm_external_deps")
 
@@ -37,18 +37,18 @@ maven_install(
     ],
 )
 
-#########################
-# aspect_rules_ts setup #
-#########################
+####################################################################################################
+# aspect_rules_ts setup
+####################################################################################################
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
 rules_ts_dependencies(
     ts_version_from = "//:package.json",
 )
 
-######################
-# rules_nodejs setup #
-######################
+####################################################################################################
+# rules_nodejs setup
+####################################################################################################
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 
 nodejs_register_toolchains(
@@ -56,9 +56,9 @@ nodejs_register_toolchains(
     node_version = DEFAULT_NODE_VERSION,
 )
 
-#########################
-# aspect_rules_js setup #
-#########################
+####################################################################################################
+# aspect_rules_js setup
+####################################################################################################
 
 load("@aspect_rules_js//npm:npm_import.bzl", "npm_translate_lock")
 
@@ -73,9 +73,9 @@ load("@npm//:repositories.bzl", "npm_repositories")
 
 npm_repositories()
 
-##############################
-# aspect_rules_jasmine setup #
-##############################
+####################################################################################################
+# aspect_rules_jasmine setup
+####################################################################################################
 
 load("@aspect_rules_jasmine//jasmine:repositories.bzl", "jasmine_repositories")
 
@@ -85,9 +85,9 @@ load("@jasmine//:npm_repositories.bzl", jasmine_npm_repositories = "npm_reposito
 
 jasmine_npm_repositories()
 
-#######################
-# bazel_gazelle setup #
-#######################
+####################################################################################################
+# bazel_gazelle setup
+####################################################################################################
 
 load("@io_bazel_rules_go//go:deps.bzl", "go_register_toolchains", "go_rules_dependencies")
 
