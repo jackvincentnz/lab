@@ -22,9 +22,16 @@ def fetch_dependencies():
 
     http_archive(
         name = "aspect_rules_ts",
-        sha256 = "58b6c0ad158fc42883dafa157f1a25cddd65bcd788a772620192ac9ceefa0d78",
-        strip_prefix = "rules_ts-1.3.2",
-        url = "https://github.com/aspect-build/rules_ts/releases/download/v1.3.2/rules_ts-v1.3.2.tar.gz",
+        sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
+        strip_prefix = "rules_ts-1.4.0",
+        url = "https://github.com/aspect-build/rules_ts/releases/download/v1.4.0/rules_ts-v1.4.0.tar.gz",
+    )
+
+    http_archive(
+        name = "aspect_rules_jest",
+        sha256 = "a2f35eedce1a59f94b2158b056caab09ed66b92cafabd631b25dac78a178e044",
+        strip_prefix = "rules_jest-0.17.0",
+        url = "https://github.com/aspect-build/rules_jest/releases/download/v0.17.0/rules_jest-v0.17.0.tar.gz",
     )
 
     http_archive(
