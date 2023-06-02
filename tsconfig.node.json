@@ -2,6 +2,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "commonjs",
-    "lib": ["es2021"]
+    "lib": ["es2021"],
+
+    "declarationMap": false
   }
 }

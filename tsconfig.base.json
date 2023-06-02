@@ -13,6 +13,7 @@
 
     "sourceMap": true,
     "declaration": true,
+    "declarationMap": true,
     "importHelpers": true,
 
     "downlevelIteration": true,

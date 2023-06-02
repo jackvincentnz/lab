@@ -4,5 +4,4 @@ module.exports = {
     "^.+\\.svg$": "jest-transform-stub",
     "^.+\\.css$": "jest-transform-stub",
   },
-  setupFilesAfterEnv: ["./setupTests.js"],
 };
