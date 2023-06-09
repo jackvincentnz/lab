@@ -5,7 +5,7 @@
   "scripts": {
     "start": "ibazel run //apps/cra:start",
     "build": "bazel build //apps/cra:build",
-    "test": "ibazel test //apps/cra/src:src_test"
+    "test": "ibazel test $(bazel query \"kind(jest_test, //apps/cra/src/...)\")"
   },
   "browserslist": {
     "production": [

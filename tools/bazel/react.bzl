@@ -26,6 +26,7 @@ COMMON_REACT_TEST_DEPS = [
 COMMON_JEST_DEPS = [
     "//:node_modules/jest-environment-jsdom",
     "//:node_modules/jest-transform-stub",
+    "//:node_modules/@swc/jest",
 ]
 
 ASSET_PATTERNS = [
