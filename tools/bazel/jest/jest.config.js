@@ -2,7 +2,7 @@ module.exports = {
   testEnvironment: "jsdom",
   transform: {
     "^.+\\.css$": "jest-transform-stub",
-    "\\.js$": ["@swc/jest"],
+    "\\.js$": "@swc/jest",
   },
   transformIgnorePatterns: ["/node_modules/(?!(screenfull/index.js))/"],
 };

@@ -108,7 +108,7 @@ def _unit_tests(name, srcs, deps, data):
 
     jest_test(
         name = name,
-        config = "//apps/cra:jest_config",  # TODO: move out to tools or expect to be passed in for every unit test target
+        config = "//tools/bazel/jest:jest_config",
         data = data + [":_test_ts"] + COMMON_JEST_DEPS,
         node_modules = "//:node_modules",
         visibility = ["//visibility:private"],
