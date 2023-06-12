@@ -1,5 +1,6 @@
 java_test(
     name = "tests",
+    size = "small",
     srcs = glob(["*.java"]),
     test_class = "nz.geek.jack.example.ExampleApplicationTests",
     deps = [
