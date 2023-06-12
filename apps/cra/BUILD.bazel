@@ -43,9 +43,3 @@ js_library(
     srcs = ["package.json"],
     visibility = [":__subpackages__"],
 )
-
-js_library(
-    name = "jest_config",
-    srcs = ["jest.config.js"],
-    visibility = [":__subpackages__"],
-)

@@ -3,5 +3,8 @@ load("//tools/bazel:react.bzl", "react_lib")
 react_lib(
     name = "app",
     visibility = ["//apps/cra/src:__pkg__"],
-    deps = ["//apps/cra/src/tic_tac_toe"],
+    deps = [
+        "//:node_modules/screenfull",
+        "//apps/cra/src/tic_tac_toe",
+    ],
 )

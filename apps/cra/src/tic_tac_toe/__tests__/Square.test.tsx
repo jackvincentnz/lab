@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import App from "../App";
+import Square from "../Square";
 
 // jest-dom adds custom jest matchers for asserting on DOM nodes.
 // allows you to do things like:
@@ -8,8 +8,8 @@ import App from "../App";
 // learn more: https://github.com/testing-library/jest-dom
 import "@testing-library/jest-dom"; // TODO: move out to common setup
 
-test("renders tic tac toe game", () => {
-  render(<App />);
-  const linkElement = screen.getByText(/Next player/i);
-  expect(linkElement).toBeInTheDocument();
+test("renders Square", () => {
+  render(<Square value="1" onClick={() => {}} />);
+  const buttonElement = screen.getByText(/1/i);
+  expect(buttonElement).toBeInTheDocument();
 });

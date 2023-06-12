@@ -27,3 +27,15 @@ def ts_project(name, **kwargs):
         # Allow anything else to be overridden
         **kwargs
     )
+
+def node_ts_project(name, **kwargs):
+    ts_project(
+        name = name,
+
+        # Default tsconfig and aligning attributes
+        tsconfig = kwargs.pop("tsconfig", "//:tsconfig_node"),
+        declaration_map = kwargs.pop("declaration_map", False),
+
+        # Allow anything else to be overridden
+        **kwargs
+    )
