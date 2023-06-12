@@ -47,6 +47,7 @@ ts_project(
 
 jasmine_test(
     name = "schematics-test",
+    size = "small",
     args = ["**/*.spec.js"],
     chdir = package_name(),
     data = [
