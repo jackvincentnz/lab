@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import Board from "../Board";
 
@@ -9,7 +8,15 @@ import Board from "../Board";
 import "@testing-library/jest-dom"; // TODO: move out to common setup
 
 test("renders Board", () => {
-  render(<Board xIsNext={false} squares={[]} onPlay={() => {}} />);
+  render(
+    <Board
+      xIsNext={false}
+      squares={[]}
+      onPlay={() => {
+        // do nothing
+      }}
+    />
+  );
   const statusDiv = screen.getByText(/Next player/i);
   expect(statusDiv).toBeInTheDocument();
 });

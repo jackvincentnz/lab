@@ -1,57 +1,31 @@
-/**
- * Based on configuration from @anglar-eslint.
- * See https://github.com/angular-eslint/angular-eslint#notes-on-eslint-configuration-itself for information on performant configurations.
- */
 module.exports = {
   root: true,
   env: {
     browser: true,
+    es2020: true,
     node: true,
   },
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+  },
+  extends: ["eslint:recommended", "prettier"],
   overrides: [
     {
       files: ["*.tsx", "*.ts"],
       // Use recommended linting as much as possible to minimize opinionated customization.
-      extends: [
-        "eslint:recommended",
-
-        "plugin:@typescript-eslint/recommended",
-
-        "plugin:import/recommended",
-        "plugin:import/typescript",
-
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates",
-
-        "prettier",
-      ],
-      rules: {
-        "@angular-eslint/directive-selector": [
-          "error",
-          {
-            type: "attribute",
-            prefix: "app",
-            style: "camelCase",
-          },
-        ],
-        "@angular-eslint/component-selector": [
-          "error",
-          {
-            type: "element",
-            prefix: "app",
-            style: "kebab-case",
-          },
-        ],
+      extends: ["plugin:@typescript-eslint/recommended"],
+      parser: "@typescript-eslint/parser",
+      plugins: ["@typescript-eslint"],
+    },
+    {
+      files: ["*.tsx", "*.jsx"],
+      settings: {
+        react: {
+          version: "detect",
+        },
       },
-    },
-    {
-      files: ["*.js", "*.jsx"],
-      // Use recommended linting as much as possible to minimize opinionated customization.
-      extends: ["eslint:recommended", "plugin:import/recommended", "prettier"],
-    },
-    {
-      files: ["*.html"],
-      extends: ["plugin:@angular-eslint/template/recommended"],
+      extends: ["plugin:react/recommended", "plugin:react/jsx-runtime"],
     },
   ],
 };
