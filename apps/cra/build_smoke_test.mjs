@@ -1,5 +1,5 @@
-const assert = require("assert");
-const fs = require("fs");
+import assert from "assert";
+import fs from "fs";
 
 // Make sure there's a file like build/static/js/main.12345678.js
 const files = fs.readdirSync("apps/cra/build/static/js");

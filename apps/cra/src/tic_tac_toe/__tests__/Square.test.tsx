@@ -1,4 +1,3 @@
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import Square from "../Square";
 
@@ -9,7 +8,14 @@ import Square from "../Square";
 import "@testing-library/jest-dom"; // TODO: move out to common setup
 
 test("renders Square", () => {
-  render(<Square value="1" onClick={() => {}} />);
+  render(
+    <Square
+      value="1"
+      onClick={() => {
+        // do nothing
+      }}
+    />
+  );
   const buttonElement = screen.getByText(/1/i);
   expect(buttonElement).toBeInTheDocument();
 });
