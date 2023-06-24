@@ -5,6 +5,7 @@ react_lib(
     visibility = ["//apps/cra/src:__pkg__"],
     deps = [
         "//:node_modules/screenfull",
+        "//apps/cra/src/tasks",
         "//apps/cra/src/tic_tac_toe",
     ],
 )

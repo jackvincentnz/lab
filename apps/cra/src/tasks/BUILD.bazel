@@ -1,0 +1,17 @@
+load("//tools/bazel:react.bzl", "react_lib")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+react_lib(
+    name = "tasks",
+    visibility = ["//apps/cra/src/app:__pkg__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//apps/cra/src/__generated__:graphql_codegen_ts",
+    ],
+)
+
+js_library(
+    name = "graphql_documents",
+    srcs = glob(["*.gql"]),
+    visibility = ["//apps/cra/src/__generated__:__pkg__"],
+)

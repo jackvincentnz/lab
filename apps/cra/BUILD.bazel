@@ -44,3 +44,9 @@ js_library(
     srcs = ["package.json"],
     visibility = [":__subpackages__"],
 )
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//apps/cra/src/__generated__:__pkg__"],
+)

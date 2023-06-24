@@ -1,0 +1,10 @@
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+
+copy_to_bin(
+    name = "graphql_schema",
+    srcs = ["schema.gqls"],
+    visibility = [
+        "//apps/cra:__subpackages__",
+        "//contexts/example/src/main:__pkg__",
+    ],
+)

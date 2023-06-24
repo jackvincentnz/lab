@@ -1,10 +1,9 @@
 java_binary(
     name = "app",
     main_class = "nz.geek.jack.example.infrastructure.web.ExampleApplication",
-    resources = glob([
-        "**/*.properties",
-        "**/*.gqls",
-    ]),
+    resources = glob(["**/*.properties"]) + [
+        "//contexts/example/src/main/resources/graphql:graphql_schema",
+    ],
     runtime_deps = [
         "//contexts/example/src/main/java/nz/geek/jack/example/application",
         "//contexts/example/src/main/java/nz/geek/jack/example/domain",
