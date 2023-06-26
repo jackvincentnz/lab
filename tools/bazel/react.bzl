@@ -71,7 +71,7 @@ def react_lib(name, deps = [], test_deps = [], visibility = ["//visibility:publi
       visibility: visibility of the react lib
     """
 
-    _react_ts_project(
+    react_ts_project(
         name = "_ts",
         srcs = native.glob(
             include = SRCS_PATTERNS,
@@ -98,7 +98,7 @@ def react_lib(name, deps = [], test_deps = [], visibility = ["//visibility:publi
         )
 
 def _unit_tests(name, srcs, deps, data):
-    _react_ts_project(
+    react_ts_project(
         name = "_test_ts",
         srcs = srcs,
         deps = deps + COMMON_REACT_TEST_DEPS,
@@ -114,7 +114,7 @@ def _unit_tests(name, srcs, deps, data):
         visibility = ["//visibility:private"],
     )
 
-def _react_ts_project(name, **kwargs):
+def react_ts_project(name, **kwargs):
     _ts_project(
         name = name,
 

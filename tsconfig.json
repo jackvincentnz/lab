@@ -1,4 +1,7 @@
 // General options for IDE, any tools which look at the root tsconfig
 {
-  "extends": "./tsconfig.base.json"
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "rootDirs": [".", "dist/bin"] // enable resolving of Bazel generated sources
+  }
 }
