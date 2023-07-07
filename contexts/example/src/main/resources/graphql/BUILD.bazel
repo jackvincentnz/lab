@@ -4,7 +4,7 @@ copy_to_bin(
     name = "graphql_schema",
     srcs = ["schema.gqls"],
     visibility = [
-        "//apps/cra:__subpackages__",
+        "//apps:__subpackages__",
         "//contexts/example/src/main:__pkg__",
     ],
 )
