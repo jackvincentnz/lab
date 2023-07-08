@@ -4,6 +4,7 @@ import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { GetTasksDocument, GetTasksQuery } from "../../__generated__/graphql";
 import DisplayTasks from "../DisplayTasks";
 
+const title = "My Task";
 const mocks: ReadonlyArray<MockedResponse<GetTasksQuery>> = [
   {
     request: {
@@ -11,7 +12,7 @@ const mocks: ReadonlyArray<MockedResponse<GetTasksQuery>> = [
     },
     result: {
       data: {
-        allTasks: [],
+        allTasks: [{ id: "123", title }],
       },
     },
   },
@@ -24,5 +25,5 @@ test("renders without error", async () => {
     </MockedProvider>
   );
 
-  expect(await screen.findByText("0")).toBeInTheDocument();
+  expect(await screen.findByText(title)).toBeInTheDocument();
 });
