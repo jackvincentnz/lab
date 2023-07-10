@@ -1,0 +1,10 @@
+load("//tools/bazel:react.bzl", "react_lib")
+
+react_lib(
+    name = "src",
+    visibility = ["//apps/tasklist:__pkg__"],
+    deps = [
+        "//:node_modules/web-vitals",
+        "//apps/tasklist/src/app",
+    ],
+)

@@ -1,7 +1,6 @@
 import screenfull from "screenfull";
 
 import Game from "../tic_tac_toe/Game";
-import Tasks from "../tasks";
 
 function App() {
   return (
@@ -9,7 +8,6 @@ function App() {
       <Game />
       <br />
       <button onClick={handleClick}>Fullscreen</button>
-      <Tasks />
     </>
   );
 }

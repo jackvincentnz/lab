@@ -5,8 +5,8 @@ graphql_codegen_bin.graphql_codegen(
     name = "graphql_codegen",
     srcs = [
         "//:node_modules/@graphql-codegen/client-preset",
-        "//apps/cra:codegen",
-        "//apps/cra/src/tasks:graphql_documents",
+        "//apps/tasklist:codegen",
+        "//apps/tasklist/src/tasks:graphql_documents",
         "//contexts/example/src/main/resources/graphql:graphql_schema",
     ],
     outs = [
@@ -22,7 +22,7 @@ graphql_codegen_bin.graphql_codegen(
 react_ts_project(
     name = "graphql_codegen_ts",
     srcs = [":graphql_codegen"],
-    visibility = ["//apps/cra/src:__subpackages__"],
+    visibility = ["//apps/tasklist/src:__subpackages__"],
     deps = [
         "//:node_modules/@graphql-typed-document-node/core",
         "//:node_modules/graphql",

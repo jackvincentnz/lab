@@ -8,6 +8,5 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "sourceMap": false
-  },
-  "include": ["apps/cra/src"]
+  }
 }

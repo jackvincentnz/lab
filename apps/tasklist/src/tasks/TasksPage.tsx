@@ -1,5 +1,6 @@
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import DisplayTasks from "./DisplayTasks";
+import AddTask from "./AddTask";
 
 const client = new ApolloClient({
   uri: "http://localhost:3000/graphql",
@@ -9,6 +10,7 @@ const client = new ApolloClient({
 export function TasksPage() {
   return (
     <ApolloProvider client={client}>
+      <AddTask />
       <DisplayTasks />
     </ApolloProvider>
   );

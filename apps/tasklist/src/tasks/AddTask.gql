@@ -1,0 +1,5 @@
+mutation AddTask($input: AddTaskInput!) {
+  addTask(input: $input) {
+    id
+  }
+}
