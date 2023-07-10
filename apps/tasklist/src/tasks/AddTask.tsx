@@ -1,34 +1,39 @@
 import { useMutation } from "@apollo/client";
+import { Button, Group, TextInput } from "@mantine/core";
+import { useRef } from "react";
 import { AddTaskDocument, GetTasksDocument } from "../__generated__/graphql";
 
 export function AddTask() {
-  let input: HTMLInputElement | null;
-  const [addTaskMutation, { loading, error }] = useMutation(AddTaskDocument, {
+  const input = useRef<HTMLInputElement>(null);
+
+  const [addTaskMutation, { error }] = useMutation(AddTaskDocument, {
     refetchQueries: [GetTasksDocument],
   });
 
-  if (loading) return <>Submitting...</>;
-  if (error) return <>Submission error! ${error.message}</>;
-
   return (
-    <div>
+    <>
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          if (input?.value) {
-            addTaskMutation({ variables: { input: { title: input.value } } });
-            input.value = "";
+          if (input.current?.value) {
+            addTaskMutation({
+              variables: { input: { title: input.current.value } },
+            });
+            input.current.value = "";
           }
         }}
       >
-        <input
-          ref={(node) => {
-            input = node;
-          }}
-        />
-        <button type="submit">Add Task</button>
+        <Group spacing="xs">
+          <TextInput
+            placeholder="Task name"
+            aria-label="Task name"
+            ref={input}
+            error={error ? "Submission error!" : false}
+          />
+          <Button type="submit">Add task</Button>
+        </Group>
       </form>
-    </div>
+    </>
   );
 }
 

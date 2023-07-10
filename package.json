@@ -13,8 +13,12 @@
     "@angular/platform-browser-dynamic": "^15.2.3",
     "@angular/router": "^15.2.3",
     "@apollo/client": "^3.7.16",
+    "@emotion/react": "^11.11.1",
     "@graphql-typed-document-node/core": "^3.2.0",
+    "@mantine/core": "^6.0.16",
+    "@mantine/hooks": "^6.0.16",
     "@schematics/angular": "^15.2.4",
+    "@tabler/icons-react": "^2.24.0",
     "graphql": "^16.7.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -70,6 +74,13 @@
           "postcss-flexbugs-fixes": "*",
           "postcss-preset-env": "*",
           "postcss-normalize": "*"
+        }
+      },
+      "@mantine/styles": {
+        "peerDependencies": {
+          "@emotion/cache": "*",
+          "@emotion/serialize": "*",
+          "@emotion/utils": "*"
         }
       }
     }
