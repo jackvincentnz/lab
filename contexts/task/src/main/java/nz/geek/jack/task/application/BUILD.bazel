@@ -1,0 +1,10 @@
+java_library(
+    name = "application",
+    visibility = [
+        "//contexts/task/src/main:__pkg__",
+        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure:__subpackages__",
+    ],
+    runtime_deps = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/application/task",
+    ],
+)

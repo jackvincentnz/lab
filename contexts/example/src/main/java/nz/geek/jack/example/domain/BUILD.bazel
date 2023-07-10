@@ -1,5 +1,0 @@
-java_library(
-    name = "domain",
-    srcs = glob(["*.java"]),
-    visibility = ["//contexts/example/src:__subpackages__"],
-)
