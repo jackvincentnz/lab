@@ -1,0 +1,13 @@
+java_binary(
+    name = "app",
+    main_class = "nz.geek.jack.task.infrastructure.web.TaskApplication",
+    resources = glob(["**/*.properties"]) + [
+        "//contexts/task/src/main/resources/graphql:graphql_schema",
+    ],
+    runtime_deps = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/application",
+        "//contexts/task/src/main/java/nz/geek/jack/task/domain",
+        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
+)

@@ -1,9 +1,0 @@
-java_library(
-    name = "infrastructure",
-    visibility = ["//contexts/example/src/main:__pkg__"],
-    runtime_deps = [
-        "//contexts/example/src/main/java/nz/geek/jack/example/infrastructure/persistence",
-        "//contexts/example/src/main/java/nz/geek/jack/example/infrastructure/web",
-        "//contexts/example/src/main/java/nz/geek/jack/example/infrastructure/web/gql/task",
-    ],
-)

@@ -1,0 +1,7 @@
+java_library(
+    name = "exception",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure:__subpackages__",
+    ],
+)
