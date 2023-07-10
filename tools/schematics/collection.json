@@ -3,7 +3,7 @@
   "schematics": {
     "hello-world": {
       "description": "Example schematic to create a file.",
-      "factory": "./hello-world/index#helloWorld"
+      "factory": "./hello_world/index#helloWorld"
     },
     "application": {
       "description": "Pass through application creation to Angular CLI",
