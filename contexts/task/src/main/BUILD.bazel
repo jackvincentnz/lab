@@ -4,6 +4,7 @@ java_binary(
     resources = glob(["**/*.properties"]) + [
         "//contexts/task/src/main/resources/graphql:graphql_schema",
     ],
+    visibility = ["//visibility:public"],
     runtime_deps = [
         "//contexts/task/src/main/java/nz/geek/jack/task/application",
         "//contexts/task/src/main/java/nz/geek/jack/task/domain",

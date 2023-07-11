@@ -12,7 +12,7 @@ const mocks: ReadonlyArray<MockedResponse<GetTasksQuery>> = [
     },
     result: {
       data: {
-        allTasks: [{ id: "123", title }],
+        allTasks: [{ id: "123", title, isCompleted: false }],
       },
     },
   },
