@@ -1,0 +1,5 @@
+mutation MarkTaskCompleted($input: MarkTaskCompletedInput!) {
+  markTaskCompleted(input: $input) {
+    id
+  }
+}
