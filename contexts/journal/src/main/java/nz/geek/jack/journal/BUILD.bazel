@@ -1,0 +1,12 @@
+java_library(
+    name = "journal",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//contexts/journal/src/main:__pkg__",
+    ],
+    deps = [
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+    ],
+)
