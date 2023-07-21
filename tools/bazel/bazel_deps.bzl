@@ -21,6 +21,13 @@ def fetch_dependencies():
     )
 
     http_archive(
+        name = "contrib_rules_jvm",
+        sha256 = "159d343f799e4d18a51096c9d6298982fc42d9e67a7e0f8f10862e2a7add580b",
+        strip_prefix = "rules_jvm-0.16.0",
+        url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.16.0/rules_jvm-v0.16.0.tar.gz",
+    )
+
+    http_archive(
         name = "aspect_rules_ts",
         sha256 = "ace5b609603d9b5b875d56c9c07182357c4ee495030f40dcefb10d443ba8c208",
         strip_prefix = "rules_ts-1.4.0",

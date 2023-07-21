@@ -39,6 +39,22 @@ maven_install(
 )
 
 ####################################################################################################
+# contrib_rules_jvm setup
+####################################################################################################
+
+# Fetches the contrib_rules_jvm dependencies.
+# If you want to have a different version of some dependency,
+# you should fetch it *before* calling this.
+load("@contrib_rules_jvm//:repositories.bzl", "contrib_rules_jvm_deps")
+
+contrib_rules_jvm_deps()
+
+# Now ensure that the downloaded deps are properly configured
+load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
+
+contrib_rules_jvm_setup()
+
+####################################################################################################
 # aspect_rules_ts setup
 ####################################################################################################
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
