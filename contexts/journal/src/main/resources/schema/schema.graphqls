@@ -6,4 +6,10 @@ type Entry {
   id: ID!
   message: String!
   createdAt: String!
+  author: Author!
+}
+
+type Author {
+  id: ID!
+  name: String!
 }
