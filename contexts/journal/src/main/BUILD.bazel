@@ -1,0 +1,13 @@
+java_binary(
+    name = "main",
+    main_class = "nz.geek.jack.journal.JournalApplication",
+    resources = glob(["**/*.properties"]) + [
+        "//contexts/journal/src/main/resources/schema",
+    ],
+    visibility = ["//contexts/journal:__pkg__"],
+    runtime_deps = [
+        "//contexts/journal/src/main/java/nz/geek/jack/journal",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_starter",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
+)

@@ -1,0 +1,9 @@
+type Query {
+  allEntries(entryFilter: String): [Entry!]!
+}
+
+type Entry {
+  id: ID!
+  message: String!
+  createdAt: String!
+}
