@@ -23,6 +23,10 @@ rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 
+# Maven lock file will need to be updated whenever the artifacts or repositories change.
+# See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
+# To re-pin everything, run:
+# REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
     artifacts = [
         "junit:junit:4.13.2",
@@ -32,11 +36,17 @@ maven_install(
         "org.springframework.boot:spring-boot-starter-test:3.0.3",
         "org.apache.commons:commons-lang3:3.12.0",
     ],
+    fail_if_repin_required = True,
     fetch_sources = True,
+    maven_install_json = "//:maven_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
     ],
 )
+
+load("@maven//:defs.bzl", "pinned_maven_install")
+
+pinned_maven_install()
 
 ####################################################################################################
 # contrib_rules_jvm setup
@@ -57,6 +67,7 @@ contrib_rules_jvm_setup()
 ####################################################################################################
 # aspect_rules_ts setup
 ####################################################################################################
+
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
 rules_ts_dependencies(
@@ -66,6 +77,7 @@ rules_ts_dependencies(
 ####################################################################################################
 # rules_nodejs setup
 ####################################################################################################
+
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 
 nodejs_register_toolchains(
