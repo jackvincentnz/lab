@@ -1,4 +1,4 @@
-package nz.geek.jack.journal;
+package nz.geek.jack.journal.infrastructure.gql;
 
 public final class Entry {
 
