@@ -22,6 +22,29 @@ load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
 rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
+load("@rules_jvm_external//:specs.bzl", "maven")
+
+TEST_ARTIFACTS = [
+    "junit:junit:4.13.2",
+    maven.artifact(
+        "org.springframework.boot",
+        "spring-boot-starter-test",
+        "3.0.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.junit.platform",
+        "junit-platform-launcher",
+        "1.9.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.junit.platform",
+        "junit-platform-reporting",
+        "1.9.3",
+        testonly = True,
+    ),
+]
 
 # Maven lock file will need to be updated whenever the artifacts or repositories change.
 # See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
@@ -29,13 +52,11 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 # REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
     artifacts = [
-        "junit:junit:4.13.2",
         "org.springframework.boot:spring-boot-starter-web:3.0.3",
         "org.springframework.boot:spring-boot-starter-graphql:3.0.3",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.3.2",
-        "org.springframework.boot:spring-boot-starter-test:3.0.3",
         "org.apache.commons:commons-lang3:3.12.0",
-    ],
+    ] + TEST_ARTIFACTS,
     fail_if_repin_required = True,
     fetch_sources = True,
     maven_install_json = "//:maven_install.json",

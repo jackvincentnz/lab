@@ -3,6 +3,7 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = [
         "//contexts/journal/src/main:__pkg__",
+        "//contexts/journal/src/test/java/nz/geek/jack/journal:__pkg__",
     ],
     deps = [
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
