@@ -6,8 +6,8 @@ We keep them separate to make the WORKSPACE file more maintainable.
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-RULES_JVM_EXTERNAL_TAG = "5.0"
-RULES_JVM_EXTERNAL_SHA = "8c3cd0ce6aa3dd8c01a414385e0a3807c7a14c769ca0aa3c53fb135c91f9198c"
+RULES_JVM_EXTERNAL_TAG = "5.3"
+RULES_JVM_EXTERNAL_SHA = "d31e369b854322ca5098ea12c69d7175ded971435e55c18dd9dd5f29cc5249ac"
 
 def fetch_dependencies():
     """
@@ -17,7 +17,14 @@ def fetch_dependencies():
         name = "rules_jvm_external",
         strip_prefix = "rules_jvm_external-%s" % RULES_JVM_EXTERNAL_TAG,
         sha256 = RULES_JVM_EXTERNAL_SHA,
-        url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/5.0/rules_jvm_external-%s.tar.gz" % RULES_JVM_EXTERNAL_TAG,
+        url = "https://github.com/bazelbuild/rules_jvm_external/releases/download/%s/rules_jvm_external-%s.tar.gz" % (RULES_JVM_EXTERNAL_TAG, RULES_JVM_EXTERNAL_TAG),
+    )
+
+    http_archive(
+        name = "contrib_rules_jvm",
+        sha256 = "159d343f799e4d18a51096c9d6298982fc42d9e67a7e0f8f10862e2a7add580b",
+        strip_prefix = "rules_jvm-0.16.0",
+        url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.16.0/rules_jvm-v0.16.0.tar.gz",
     )
 
     http_archive(

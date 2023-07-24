@@ -22,25 +22,73 @@ load("@rules_jvm_external//:setup.bzl", "rules_jvm_external_setup")
 rules_jvm_external_setup()
 
 load("@rules_jvm_external//:defs.bzl", "maven_install")
+load("@rules_jvm_external//:specs.bzl", "maven")
 
+TEST_ARTIFACTS = [
+    "junit:junit:4.13.2",
+    maven.artifact(
+        "org.springframework.boot",
+        "spring-boot-starter-test",
+        "3.0.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.junit.platform",
+        "junit-platform-launcher",
+        "1.9.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.junit.platform",
+        "junit-platform-reporting",
+        "1.9.3",
+        testonly = True,
+    ),
+]
+
+# Maven lock file will need to be updated whenever the artifacts or repositories change.
+# See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
+# To re-pin everything, run:
+# REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
     artifacts = [
-        "junit:junit:4.13.2",
         "org.springframework.boot:spring-boot-starter-web:3.0.3",
         "org.springframework.boot:spring-boot-starter-graphql:3.0.3",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.3.2",
-        "org.springframework.boot:spring-boot-starter-test:3.0.3",
         "org.apache.commons:commons-lang3:3.12.0",
-    ],
+    ] + TEST_ARTIFACTS,
+    fail_if_repin_required = True,
     fetch_sources = True,
+    maven_install_json = "//:maven_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
     ],
 )
 
+load("@maven//:defs.bzl", "pinned_maven_install")
+
+pinned_maven_install()
+
+####################################################################################################
+# contrib_rules_jvm setup
+####################################################################################################
+
+# Fetches the contrib_rules_jvm dependencies.
+# If you want to have a different version of some dependency,
+# you should fetch it *before* calling this.
+load("@contrib_rules_jvm//:repositories.bzl", "contrib_rules_jvm_deps")
+
+contrib_rules_jvm_deps()
+
+# Now ensure that the downloaded deps are properly configured
+load("@contrib_rules_jvm//:setup.bzl", "contrib_rules_jvm_setup")
+
+contrib_rules_jvm_setup()
+
 ####################################################################################################
 # aspect_rules_ts setup
 ####################################################################################################
+
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
 
 rules_ts_dependencies(
@@ -50,6 +98,7 @@ rules_ts_dependencies(
 ####################################################################################################
 # rules_nodejs setup
 ####################################################################################################
+
 load("@rules_nodejs//nodejs:repositories.bzl", "DEFAULT_NODE_VERSION", "nodejs_register_toolchains")
 
 nodejs_register_toolchains(
