@@ -1,17 +1,8 @@
-load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
-    size = "small",
-    srcs = glob(["*.java"]),
-    package_prefixes = [".nz."],
-    runner = "junit5",
-    runtime_deps = [
-        "@maven//:org_springframework_boot_spring_boot_starter_test",
-    ] + JUNIT5_DEPS,
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
     deps = [
         "//contexts/journal/src/main/java/nz/geek/jack/journal",
-        "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_springframework_boot_spring_boot_test",
-    ],
+    ] + SPRING_TEST_DEPS,
 )

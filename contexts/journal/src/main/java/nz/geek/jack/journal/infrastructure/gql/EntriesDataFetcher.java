@@ -1,4 +1,4 @@
-package nz.geek.jack.journal;
+package nz.geek.jack.journal.infrastructure.gql;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsData;

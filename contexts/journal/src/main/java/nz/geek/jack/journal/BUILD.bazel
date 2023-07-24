@@ -5,8 +5,8 @@ java_library(
         "//contexts/journal/src/main:__pkg__",
         "//contexts/journal/src/test/java/nz/geek/jack/journal:__pkg__",
     ],
+    runtime_deps = ["//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure"],
     deps = [
-        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
     ],

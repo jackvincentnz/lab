@@ -1,0 +1,9 @@
+load("//tools/bazel:java.bzl", "DGS_TEST_DEPS", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    resources = ["//contexts/journal/src/main/resources/schema"],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
+    deps = [
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/gql",
+    ] + SPRING_TEST_DEPS + DGS_TEST_DEPS,
+)

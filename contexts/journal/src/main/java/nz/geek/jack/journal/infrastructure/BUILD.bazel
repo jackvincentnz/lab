@@ -1,0 +1,5 @@
+java_library(
+    name = "infrastructure",
+    visibility = ["//contexts/journal/src/main/java/nz/geek/jack/journal:__pkg__"],
+    runtime_deps = ["//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/gql"],
+)
