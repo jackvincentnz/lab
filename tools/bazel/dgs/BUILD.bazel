@@ -1,0 +1,6 @@
+java_binary(
+    name = "codegen",
+    main_class = "com.netflix.graphql.dgs.codegen.CodeGenCliKt",
+    visibility = ["//visibility:public"],
+    runtime_deps = ["@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_core"],
+)
