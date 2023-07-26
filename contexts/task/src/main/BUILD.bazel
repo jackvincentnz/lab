@@ -1,14 +1,12 @@
 java_binary(
-    name = "app",
-    main_class = "nz.geek.jack.task.infrastructure.web.TaskApplication",
+    name = "main",
+    main_class = "nz.geek.jack.task.TaskApplication",
     resources = glob(["**/*.properties"]) + [
         "//contexts/task/src/main/resources/graphql:graphql_schema",
     ],
     visibility = ["//visibility:public"],
     runtime_deps = [
-        "//contexts/task/src/main/java/nz/geek/jack/task/application",
-        "//contexts/task/src/main/java/nz/geek/jack/task/domain",
-        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure",
+        "//contexts/task/src/main/java/nz/geek/jack/task",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )

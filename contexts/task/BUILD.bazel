@@ -1,4 +1,4 @@
 alias(
     name = "task",
-    actual = "//contexts/task/src/main:app",
+    actual = "//contexts/task/src/main",
 )
