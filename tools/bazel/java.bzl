@@ -7,6 +7,8 @@ load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", _java_test_suite = "jav
 TEST_DEPS = [
     "@maven//:org_assertj_assertj_core",
     "@maven//:org_junit_jupiter_junit_jupiter_api",
+    "@maven//:org_mockito_mockito_core",
+    "@maven//:org_mockito_mockito_junit_jupiter",
 ]
 
 SPRING_TEST_DEPS = [
