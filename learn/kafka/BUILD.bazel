@@ -1,0 +1,4 @@
+alias(
+    name = "kafka",
+    actual = "//learn/kafka/src/main",
+)

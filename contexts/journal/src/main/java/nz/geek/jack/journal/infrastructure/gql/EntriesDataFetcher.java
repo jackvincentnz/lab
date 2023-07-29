@@ -5,36 +5,48 @@ import com.netflix.graphql.dgs.DgsData;
 import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
-import java.util.List;
+import java.util.Collection;
 import java.util.stream.Collectors;
+import nz.geek.jack.journal.application.EntryQueryService;
 import nz.geek.jack.journal.infrastructure.gql.schema.types.Author;
 import nz.geek.jack.journal.infrastructure.gql.schema.types.Entry;
 
 @DgsComponent
 public class EntriesDataFetcher {
 
-  private final List<Entry> entries =
-      List.of(
-          new Entry("1", "Stranger Things", "2016", null),
-          new Entry("2", "Ozark", "2017", null),
-          new Entry("3", "The Crown", "2016", null),
-          new Entry("4", "Dead to Me", "2019", null),
-          new Entry("5", "Orange is the New Black", "2013", null));
+  private final EntryQueryService entryQueryService;
+
+  public EntriesDataFetcher(EntryQueryService entryQueryService) {
+    this.entryQueryService = entryQueryService;
+  }
 
   @DgsQuery
-  public List<Entry> allEntries(@InputArgument String entryFilter) {
+  public Collection<Entry> allEntries(@InputArgument String entryFilter) {
+    var entries = entryQueryService.getAllEntries().stream();
+
     if (entryFilter == null) {
-      return entries;
+      return entries.map(this::map).collect(Collectors.toList());
     }
 
-    return entries.stream()
+    return entries
         .filter(s -> s.getMessage().contains(entryFilter))
+        .map(this::map)
         .collect(Collectors.toList());
   }
 
+  private Entry map(nz.geek.jack.journal.domain.Entry entry) {
+    return new Entry(
+        entry.getId().toString(), entry.getMessage(), entry.getCreatedAt().toString(), null);
+  }
+
   @DgsData(parentType = "Entry")
-  public Author author(DgsDataFetchingEnvironment dfe) {
+  public Author author(DgsDataFetchingEnvironment dfe) throws InterruptedException {
     Entry entry = dfe.getSource();
+
+    // Incur time to load to show how we would split out loading of a slow field from the rest of
+    // the type
+    Thread.sleep(1000);
+
     return new Author("1", String.format("%s Author", entry.getMessage()));
   }
 }

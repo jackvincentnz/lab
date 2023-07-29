@@ -1,0 +1,10 @@
+java_binary(
+    name = "main",
+    main_class = "nz.geek.jack.learn.kafka.KafkaApplication",
+    resources = ["resources/application.yaml"],
+    visibility = ["//learn/kafka:__pkg__"],
+    runtime_deps = [
+        "//learn/kafka/src/main/java/nz/geek/jack/learn/kafka",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
+)
