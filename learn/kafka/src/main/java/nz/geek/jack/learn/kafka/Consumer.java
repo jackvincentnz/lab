@@ -18,10 +18,12 @@ public class Consumer {
       groupId = "spring-boot",
       autoStartup = "false")
   public void listen(
-      String value,
+      SimpleMessage message,
       @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
       @Header(KafkaHeaders.RECEIVED_KEY) String key) {
     logger.info(
-        String.format("Consumed event from topic %s: key = %-10s value = %s", topic, key, value));
+        String.format(
+            "Consumed event from topic %s: key = %-10s value = %s",
+            topic, key, message.getContent()));
   }
 }

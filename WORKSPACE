@@ -10,6 +10,16 @@ load("//tools/bazel:bazel_deps.bzl", "fetch_dependencies")
 fetch_dependencies()
 
 ####################################################################################################
+# rules_proto setup
+####################################################################################################
+
+load("@rules_proto//proto:repositories.bzl", "rules_proto_dependencies", "rules_proto_toolchains")
+
+rules_proto_dependencies()
+
+rules_proto_toolchains()
+
+####################################################################################################
 # maven setup
 ####################################################################################################
 
@@ -59,12 +69,14 @@ maven_install(
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:5.12.4",
         "org.apache.commons:commons-lang3:3.12.0",
         "org.apache.kafka:kafka-clients:3.5.1",
+        "io.confluent:kafka-protobuf-serializer:7.4.0",  # TODO: check if I can make this only for confluent repo
     ] + TEST_ARTIFACTS,
     fail_if_repin_required = True,
     fetch_sources = True,
     maven_install_json = "//:maven_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
+        "https://packages.confluent.io/maven",
     ],
 )
 
