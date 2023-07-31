@@ -5,6 +5,7 @@ java_binary(
     visibility = ["//learn/kafka:__pkg__"],
     runtime_deps = [
         "//learn/kafka/src/main/java/nz/geek/jack/learn/kafka",
+        "@maven//:io_confluent_kafka_protobuf_serializer",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )
