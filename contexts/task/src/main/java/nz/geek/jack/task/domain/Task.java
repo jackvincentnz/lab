@@ -1,30 +1,38 @@
 package nz.geek.jack.task.domain;
 
-public final class Task {
+import nz.geek.jack.libs.domain.Aggregate;
 
-  private static final boolean DEFAULT_IS_COMPLETED = false;
+public final class Task extends Aggregate {
 
-  private final TaskId id;
+  private TaskId id;
 
-  private final String title;
+  private String title;
 
-  private boolean isCompleted = DEFAULT_IS_COMPLETED;
+  private boolean isCompleted = false;
 
-  private Task(TaskId id, String title) {
-    this.id = id;
-    this.title = title;
+  public static Task addTask(String title) {
+    return new Task(title);
+  }
+
+  private Task(String title) {
+    apply(new TaskAddedEvent(TaskId.create(), title));
+  }
+
+  private void on(TaskAddedEvent taskAddedEvent) {
+    id = taskAddedEvent.getTaskId();
+    title = taskAddedEvent.getTitle();
+  }
+
+  public void markCompleted() {
+    apply(new TaskCompletedEvent());
+  }
+
+  private void on(TaskCompletedEvent taskCompletedEvent) {
+    isCompleted = true;
   }
 
   public TaskId getId() {
     return id;
-  }
-
-  public void markCompleted() {
-    isCompleted = true;
-  }
-
-  public static Task addTask(String title) {
-    return new Task(TaskId.create(), title);
   }
 
   public String getTitle() {
@@ -33,5 +41,14 @@ public final class Task {
 
   public boolean isCompleted() {
     return isCompleted;
+  }
+
+  public static Task of(TaskId id, String title) {
+    return new Task(id, title);
+  }
+
+  private Task(TaskId id, String title) {
+    this.id = id;
+    this.title = title;
   }
 }
