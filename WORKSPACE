@@ -35,7 +35,6 @@ load("@rules_jvm_external//:defs.bzl", "maven_install")
 load("@rules_jvm_external//:specs.bzl", "maven")
 
 TEST_ARTIFACTS = [
-    "junit:junit:4.13.2",
     maven.artifact(
         "org.springframework.boot",
         "spring-boot-starter-test",
