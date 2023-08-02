@@ -1,10 +1,8 @@
-java_test(
-    name = "tests",
-    size = "small",
-    srcs = glob(["*.java"]),
-    test_class = "nz.geek.jack.task.TaskApplicationTests",
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
     deps = [
-        "@maven//:junit_junit",
-        "@maven//:org_springframework_boot_spring_boot_test",
-    ],
+        "//contexts/task/src/main/java/nz/geek/jack/task",
+    ] + SPRING_TEST_DEPS,
 )
