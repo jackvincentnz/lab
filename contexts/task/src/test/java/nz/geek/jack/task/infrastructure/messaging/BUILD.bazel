@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    deps = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/domain",
+        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure/messaging",
+        "//libs/domain/src/main/java/nz/geek/jack/libs/domain",
+        "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:org_springframework_kafka_spring_kafka",
+    ],
+)

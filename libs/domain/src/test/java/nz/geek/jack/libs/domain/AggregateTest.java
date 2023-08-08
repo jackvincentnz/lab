@@ -10,7 +10,7 @@ class AggregateTest {
   void apply_shouldApplyEvent() {
     var aggregate = new TestAggregate();
 
-    var appliedEvents = aggregate.getAppliedEvents();
+    var appliedEvents = aggregate.flushEvents();
 
     assertThat(appliedEvents).hasSize(1);
     assertThat(appliedEvents.get(0)).isInstanceOf(TestAggregateCreatedEvent.class);
@@ -21,6 +21,17 @@ class AggregateTest {
     var aggregate = new TestAggregate();
 
     assertThat(aggregate.getState()).isEqualTo(TestAggregate.STATE_UPDATED_STRING);
+  }
+
+  @Test
+  void flushEvents_shouldClearEvents() {
+    var aggregate = new TestAggregate();
+
+    var events = aggregate.flushEvents();
+    var afterFlush = aggregate.flushEvents();
+
+    assertThat(events).hasSize(1);
+    assertThat(afterFlush).hasSize(0);
   }
 
   static final class TestAggregate extends Aggregate {

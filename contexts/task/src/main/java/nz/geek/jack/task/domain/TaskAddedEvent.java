@@ -8,7 +8,11 @@ public final class TaskAddedEvent extends DomainEvent {
 
   private final String title;
 
-  public TaskAddedEvent(TaskId taskId, String title) {
+  public static TaskAddedEvent of(TaskId taskId, String title) {
+    return new TaskAddedEvent(taskId, title);
+  }
+
+  private TaskAddedEvent(TaskId taskId, String title) {
     this.taskId = taskId;
     this.title = title;
   }

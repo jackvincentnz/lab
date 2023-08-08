@@ -15,7 +15,7 @@ public final class Task extends Aggregate {
   }
 
   private Task(String title) {
-    apply(new TaskAddedEvent(TaskId.create(), title));
+    apply(TaskAddedEvent.of(TaskId.create(), title));
   }
 
   private void on(TaskAddedEvent taskAddedEvent) {
@@ -24,7 +24,7 @@ public final class Task extends Aggregate {
   }
 
   public void markCompleted() {
-    apply(new TaskCompletedEvent());
+    apply(TaskCompletedEvent.of(id));
   }
 
   private void on(TaskCompletedEvent taskCompletedEvent) {

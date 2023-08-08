@@ -1,10 +1,8 @@
 load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
 java_test_suite(
-    resources = ["//contexts/task/src/main/resources"],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS,
     deps = [
-        "//contexts/task/src/main/java/nz/geek/jack/task",
-        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure/messaging",
+        "//contexts/autojournal/src/main/java/nz/geek/jack/autojournal",
     ] + SPRING_TEST_DEPS,
 )

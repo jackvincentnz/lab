@@ -1,7 +1,8 @@
 java_binary(
     name = "main",
     main_class = "nz.geek.jack.task.TaskApplication",
-    resources = glob(["**/*.properties"]) + [
+    resources = [
+        "//contexts/task/src/main/resources",
         "//contexts/task/src/main/resources/graphql:graphql_schema",
     ],
     visibility = ["//visibility:public"],

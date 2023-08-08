@@ -4,5 +4,17 @@ import nz.geek.jack.libs.domain.DomainEvent;
 
 public final class TaskCompletedEvent extends DomainEvent {
 
-  public TaskCompletedEvent() {}
+  private final TaskId taskId;
+
+  public static TaskCompletedEvent of(TaskId id) {
+    return new TaskCompletedEvent(id);
+  }
+
+  private TaskCompletedEvent(TaskId taskId) {
+    this.taskId = taskId;
+  }
+
+  public TaskId getTaskId() {
+    return taskId;
+  }
 }

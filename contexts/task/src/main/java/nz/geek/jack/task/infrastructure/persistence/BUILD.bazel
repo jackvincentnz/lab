@@ -7,6 +7,7 @@ java_library(
     deps = [
         "//contexts/task/src/main/java/nz/geek/jack/task/domain",
         "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure/exception",
+        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure/messaging",
         "@maven//:org_springframework_spring_context",
     ],
 )
