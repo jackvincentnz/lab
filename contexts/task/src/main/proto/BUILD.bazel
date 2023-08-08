@@ -1,0 +1,12 @@
+load("@rules_proto//proto:defs.bzl", "proto_library")
+
+proto_library(
+    name = "task_api_proto",
+    srcs = ["task_api.proto"],
+)
+
+java_proto_library(
+    name = "task_api_java",
+    visibility = ["//visibility:public"],
+    deps = [":task_api_proto"],
+)

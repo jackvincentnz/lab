@@ -43,3 +43,8 @@ js_library(
     srcs = ["codegen.ts"],
     visibility = ["//apps/tasklist/src/__generated__:__pkg__"],
 )
+
+alias(
+    name = "tasklist",
+    actual = ":start",
+)

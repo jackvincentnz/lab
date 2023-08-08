@@ -89,7 +89,9 @@ public abstract class Aggregate {
     }
   }
 
-  public List<DomainEvent> getAppliedEvents() {
-    return appliedEvents;
+  public List<DomainEvent> flushEvents() {
+    var flushedEvents = List.copyOf(appliedEvents);
+    appliedEvents.clear();
+    return flushedEvents;
   }
 }
