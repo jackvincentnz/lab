@@ -1,7 +1,8 @@
 java_binary(
     name = "main",
     main_class = "nz.geek.jack.journal.JournalApplication",
-    resources = glob(["**/*.properties"]) + [
+    resources = [
+        "//contexts/journal/src/main/resources",
         "//contexts/journal/src/main/resources/schema",
     ],
     visibility = ["//contexts/journal:__pkg__"],

@@ -8,6 +8,7 @@ java_test_suite(
         "//contexts/journal/src/main/java/nz/geek/jack/journal/domain",
         "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/gql",
         "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/gql/schema",
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/persistence",
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs_client",
     ] + SPRING_TEST_DEPS + DGS_TEST_DEPS,

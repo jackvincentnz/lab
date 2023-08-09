@@ -16,8 +16,11 @@ public class EntriesDataFetcher {
 
   private final EntryQueryService entryQueryService;
 
-  public EntriesDataFetcher(EntryQueryService entryQueryService) {
+  private final EntryMapper entryMapper;
+
+  public EntriesDataFetcher(EntryQueryService entryQueryService, EntryMapper entryMapper) {
     this.entryQueryService = entryQueryService;
+    this.entryMapper = entryMapper;
   }
 
   @DgsQuery
@@ -25,18 +28,13 @@ public class EntriesDataFetcher {
     var entries = entryQueryService.getAllEntries().stream();
 
     if (entryFilter == null) {
-      return entries.map(this::map).collect(Collectors.toList());
+      return entries.map(entryMapper::map).collect(Collectors.toList());
     }
 
     return entries
         .filter(s -> s.getMessage().contains(entryFilter))
-        .map(this::map)
+        .map(entryMapper::map)
         .collect(Collectors.toList());
-  }
-
-  private Entry map(nz.geek.jack.journal.domain.Entry entry) {
-    return new Entry(
-        entry.getId().toString(), entry.getMessage(), entry.getCreatedAt().toString(), null);
   }
 
   @DgsData(parentType = "Entry")

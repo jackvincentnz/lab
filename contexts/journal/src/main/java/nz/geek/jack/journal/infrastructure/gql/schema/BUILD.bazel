@@ -4,8 +4,5 @@ dgs_codegen_library(
     name = "schema",
     package_name = "nz.geek.jack.journal.infrastructure.gql.schema",
     schemas = ["//contexts/journal/src/main/resources/schema"],
-    visibility = [
-        "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure/gql:__subpackages__",
-        "//contexts/journal/src/test/java/nz/geek/jack/journal/infrastructure/gql:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
 )
