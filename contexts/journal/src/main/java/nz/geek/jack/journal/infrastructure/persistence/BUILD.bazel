@@ -3,6 +3,7 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = [
         "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure:__subpackages__",
+        "//contexts/journal/src/test/java/nz/geek/jack/journal/infrastructure:__subpackages__",
     ],
     deps = [
         "//contexts/journal/src/main/java/nz/geek/jack/journal/domain",

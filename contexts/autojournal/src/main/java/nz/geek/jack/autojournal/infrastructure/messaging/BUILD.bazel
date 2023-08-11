@@ -5,9 +5,12 @@ java_library(
         "//contexts/autojournal/src/main/java/nz/geek/jack/autojournal/infrastructure:__subpackages__",
     ],
     runtime_deps = [
+        "//contexts/task/src/main/proto:task_api_java",
         "@maven//:io_confluent_kafka_protobuf_serializer",
     ],
     deps = [
+        "//contexts/autojournal/src/main/java/nz/geek/jack/autojournal/application",
+        "//contexts/task/src/main/proto:task_api_java",
         "@maven//:com_google_protobuf_protobuf_java",
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_kafka_spring_kafka",

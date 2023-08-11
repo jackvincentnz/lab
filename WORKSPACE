@@ -63,12 +63,14 @@ maven_install(
     artifacts = [
         "org.springframework.boot:spring-boot-starter-web:3.0.3",
         "org.springframework.boot:spring-boot-starter-graphql:3.0.3",
+        "org.springframework.boot:spring-boot-starter-validation:3.0.3",
         "org.springframework.kafka:spring-kafka:3.0.3",
+        "org.springframework:spring-webflux:6.0.5",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:6.0.5",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:5.12.4",
         "org.apache.commons:commons-lang3:3.12.0",
         "org.apache.kafka:kafka-clients:3.5.1",
-        "io.confluent:kafka-protobuf-serializer:7.4.0",  # TODO: check if I can make this only for confluent repo
+        "io.confluent:kafka-protobuf-serializer:7.4.0",
     ] + TEST_ARTIFACTS,
     fail_if_repin_required = True,
     fetch_sources = True,
