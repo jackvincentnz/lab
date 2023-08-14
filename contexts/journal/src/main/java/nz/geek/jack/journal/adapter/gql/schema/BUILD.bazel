@@ -1,0 +1,8 @@
+load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen_library")
+
+dgs_codegen_library(
+    name = "schema",
+    package_name = "nz.geek.jack.journal.adapter.gql.schema",
+    schemas = ["//contexts/journal/src/main/resources/schema"],
+    visibility = ["//visibility:public"],
+)

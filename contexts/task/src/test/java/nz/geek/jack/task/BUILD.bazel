@@ -5,6 +5,6 @@ java_test_suite(
     runtime_deps = SPRING_TEST_RUNTIME_DEPS,
     deps = [
         "//contexts/task/src/main/java/nz/geek/jack/task",
-        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure/messaging",
+        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/messaging",
     ] + SPRING_TEST_DEPS,
 )

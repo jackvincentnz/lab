@@ -6,9 +6,9 @@ java_library(
         "//contexts/task/src/test/java/nz/geek/jack/task:__pkg__",
     ],
     runtime_deps = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/adapter",
         "//contexts/task/src/main/java/nz/geek/jack/task/application",
         "//contexts/task/src/main/java/nz/geek/jack/task/domain",
-        "//contexts/task/src/main/java/nz/geek/jack/task/infrastructure",
     ],
     deps = [
         "@maven//:org_springframework_boot_spring_boot",

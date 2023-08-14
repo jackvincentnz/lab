@@ -3,11 +3,12 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = [
         "//contexts/task/src/main/java/nz/geek/jack/task/adapter:__subpackages__",
-        "//contexts/task/src/main/java/nz/geek/jack/task/application:__subpackages__",
     ],
     deps = [
+        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/web/gql/task/data",
+        "//contexts/task/src/main/java/nz/geek/jack/task/application/task",
         "//contexts/task/src/main/java/nz/geek/jack/task/application/task/data",
-        "//contexts/task/src/main/java/nz/geek/jack/task/domain",
+        "@maven//:org_springframework_graphql_spring_graphql",
         "@maven//:org_springframework_spring_context",
     ],
 )

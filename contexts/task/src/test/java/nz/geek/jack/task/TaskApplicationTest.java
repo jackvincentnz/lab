@@ -1,6 +1,6 @@
 package nz.geek.jack.task;
 
-import nz.geek.jack.task.infrastructure.messaging.KafkaTopicConfig;
+import nz.geek.jack.task.adapter.messaging.KafkaTopicConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;

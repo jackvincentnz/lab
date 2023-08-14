@@ -6,8 +6,8 @@ java_library(
         "//contexts/journal/src/test/java/nz/geek/jack/journal:__pkg__",
     ],
     runtime_deps = [
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/adapter",
         "//contexts/journal/src/main/java/nz/geek/jack/journal/application",
-        "//contexts/journal/src/main/java/nz/geek/jack/journal/infrastructure",
     ],
     deps = [
         "@maven//:org_springframework_boot_spring_boot",
