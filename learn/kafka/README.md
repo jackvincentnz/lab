@@ -36,7 +36,10 @@ curl -X DELETE localhost:8081/subjects/purchases-value
 
 - [Integration tests example](https://stackoverflow.com/a/75389041)
 - Transaction synchronization
-  - [https://docs.spring.io/spring-kafka/reference/html/#transaction-synchronization](https://docs.spring.io/spring-kafka/reference/html/#transaction-synchronization)
-  - [https://www.infoworld.com/article/2077963/distributed-transactions-in-spring--with-and-without-xa.html](https://www.infoworld.com/article/2077963/distributed-transactions-in-spring--with-and-without-xa.html)
-- More complicated example hosted in example architecture
+  - [Spring-kafka transaction synchronization](https://docs.spring.io/spring-kafka/reference/html/#transaction-synchronization)
+  - [Distributed transactions in Spring](https://www.infoworld.com/article/2077963/distributed-transactions-in-spring--with-and-without-xa.html)
 - [Strict vs dynamic schema design](https://www.confluent.io/blog/spring-kafka-protobuf-part-1-event-data-modeling/)
+
+## Useful resources
+
+- [Topic naming](https://medium.com/@kiranprabhu/kafka-topic-naming-conventions-best-practices-6b6b332769a3#:~:text=Don't%20tie%20topic%20names,dynamic%20and%20changes%20over%20time%20.)
