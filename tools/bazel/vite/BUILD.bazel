@@ -1,0 +1,6 @@
+load("@npm//:vite/package_json.bzl", vite_bin = "bin")
+
+vite_bin.vite_binary(
+    name = "vite_binary",
+    visibility = ["//visibility:public"],
+)
