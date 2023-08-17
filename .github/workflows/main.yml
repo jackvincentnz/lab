@@ -35,8 +35,14 @@ jobs:
       - name: Build with bazel
         run: bazel build //...
 
-      - name: Test with bazel
-        run: bazel test //...
+      - name: Test and generate coverage report with bazel
+        run: bazel coverage --combined_report=lcov //...
+
+      - name: Upload coverage reports to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./dist/out/_coverage/_coverage_report.dat
 
   pull_request_ci:
     runs-on: ubuntu-latest
