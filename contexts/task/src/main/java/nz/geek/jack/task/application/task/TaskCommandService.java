@@ -1,9 +1,7 @@
 package nz.geek.jack.task.application.task;
 
-import nz.geek.jack.task.application.task.data.AddTaskCommand;
-import nz.geek.jack.task.application.task.data.AddTaskResponse;
-import nz.geek.jack.task.application.task.data.MarkTaskCompletedCommand;
 import nz.geek.jack.task.domain.Task;
+import nz.geek.jack.task.domain.TaskId;
 import nz.geek.jack.task.domain.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,16 +14,16 @@ public class TaskCommandService {
     this.taskRepository = taskRepository;
   }
 
-  public AddTaskResponse addTask(AddTaskCommand command) {
-    var task = Task.addTask(command.title());
+  public TaskId addTask(String title) {
+    var task = Task.addTask(title);
 
     taskRepository.saveTask(task);
 
-    return AddTaskResponse.of(task.getId());
+    return task.getId();
   }
 
-  public void markTaskCompleted(MarkTaskCompletedCommand command) {
-    var task = taskRepository.getTask(command.taskId());
+  public void markTaskCompleted(TaskId taskId) {
+    var task = taskRepository.getTask(taskId);
 
     task.markCompleted();
 

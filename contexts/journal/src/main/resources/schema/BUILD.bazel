@@ -4,7 +4,6 @@ copy_to_bin(
     name = "schema",
     srcs = ["schema.graphqls"],
     visibility = [
-        "//contexts/journal/src/main:__subpackages__",
-        "//contexts/journal/src/test:__subpackages__",
+        "//contexts/journal/src:__subpackages__",
     ],
 )

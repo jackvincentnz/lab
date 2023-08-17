@@ -62,7 +62,6 @@ TEST_ARTIFACTS = [
 maven_install(
     artifacts = [
         "org.springframework.boot:spring-boot-starter-web:3.0.3",
-        "org.springframework.boot:spring-boot-starter-graphql:3.0.3",
         "org.springframework.boot:spring-boot-starter-validation:3.0.3",
         "org.springframework.kafka:spring-kafka:3.0.3",
         "org.springframework:spring-webflux:6.0.5",

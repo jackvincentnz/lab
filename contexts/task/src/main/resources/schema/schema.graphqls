@@ -5,8 +5,8 @@ type Query {
 
 # The root mutation for the application
 type Mutation {
-  addTask(input: AddTaskInput!) : Task!
-  markTaskCompleted(input: MarkTaskCompletedInput!) : Task!
+  addTask(input: AddTaskInput!): Task!
+  markTaskCompleted(input: MarkTaskCompletedInput!): Task!
 }
 
 # Objects

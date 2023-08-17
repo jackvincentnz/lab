@@ -3,11 +3,12 @@ java_binary(
     main_class = "nz.geek.jack.task.TaskApplication",
     resources = [
         "//contexts/task/src/main/resources",
-        "//contexts/task/src/main/resources/graphql:graphql_schema",
+        "//contexts/task/src/main/resources/schema",
     ],
     visibility = ["//visibility:public"],
     runtime_deps = [
         "//contexts/task/src/main/java/nz/geek/jack/task",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_starter",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )
