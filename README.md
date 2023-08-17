@@ -4,6 +4,9 @@
     <a href="https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild+branch%3Amaster+">
         <img alt="Build status" src="https://github.com/allocadia-jack/lab/actions/workflows/main.yml/badge.svg">
     </a>
+    <a href="https://codecov.io/gh/jackvincentnz/lab" >
+        <img src="https://codecov.io/gh/jackvincentnz/lab/graph/badge.svg?token=6NY99RW8Z8"/>
+    </a>
 </p>
 
 Monorepo for the experimentation of all things Bazel, Javascript, Typescript, Angular, Java etc.
