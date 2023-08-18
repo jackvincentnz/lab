@@ -1,8 +1,8 @@
 package nz.geek.jack.task.application.task;
 
 import java.util.Collection;
-import nz.geek.jack.task.application.task.data.TaskQuery;
 import nz.geek.jack.task.domain.Task;
+import nz.geek.jack.task.domain.TaskId;
 import nz.geek.jack.task.domain.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +19,7 @@ public class TaskQueryService {
     return taskRepository.getAllTasks();
   }
 
-  public Task getTask(TaskQuery query) {
-    return taskRepository.getTask(query.taskId());
+  public Task getTask(TaskId taskId) {
+    return taskRepository.getTask(taskId);
   }
 }
