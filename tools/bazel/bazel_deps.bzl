@@ -90,3 +90,18 @@ def fetch_dependencies():
         ],
         sha256 = "8f9ee2dc10c1ae514ee599a8b42ed99fa262b757058f65ad3c384289ff70c4b8",
     )
+
+    http_archive(
+        name = "rules_multirun",
+        sha256 = "9cd384e42b2da00104f0e18f25e66285aa21f64b573c667638a7a213206885ab",
+        strip_prefix = "rules_multirun-0.6.1",
+        url = "https://github.com/keith/rules_multirun/archive/refs/tags/0.6.1.tar.gz",
+    )
+
+    http_archive(
+        name = "rules_spring",
+        sha256 = "01426d0a67c32ba0de0b0f3baa2b0810087789c6260c0c06741c1733956158a3",
+        urls = [
+            "https://github.com/salesforce/rules_spring/releases/download/2.2.4/rules-spring-2.2.4.zip",
+        ],
+    )

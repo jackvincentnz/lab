@@ -1,6 +1,7 @@
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config")
 load("@bazel_gazelle//:def.bzl", "DEFAULT_LANGUAGES", "gazelle", "gazelle_binary")
+load("@rules_multirun//:defs.bzl", "command", "multirun")
 
 npm_link_all_packages(name = "node_modules")
 
@@ -40,4 +41,32 @@ gazelle(
 gazelle_binary(
     name = "gazelle_bin",
     languages = DEFAULT_LANGUAGES,
+)
+
+command(
+    name = "tag_task_image",
+    command = "//contexts/task/src/main:tarball",
+)
+
+command(
+    name = "tag_journal_image",
+    command = "//contexts/journal/src/main:tarball",
+)
+
+command(
+    name = "tag_autojournal_image",
+    command = "//contexts/autojournal/src/main:tarball",
+)
+
+# Tags images for local environment
+# 1. bazel run //:tag_images
+# 2. docker-compose up -d
+multirun(
+    name = "tag_images",
+    commands = [
+        "tag_task_image",
+        "tag_journal_image",
+        "tag_autojournal_image",
+    ],
+    jobs = 0,  # Set to 0 to run in parallel, defaults to sequential
 )

@@ -33,6 +33,13 @@ Test solution with:
 bazel test //...
 ```
 
+Run the whole local environment in docker with:
+
+```zsh
+bazel run //:tag_images
+docker-compose up -d
+```
+
 ## Experiments
 
 New projects to be added at `/projects`. Any experiment should have a new project for potential future use in a tutorial.
