@@ -1,0 +1,29 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+
+SRCS = [
+    "public/vite.svg",
+    "index.html",
+    "package.json",
+    "tsconfig.json",
+    "vite.config.ts",
+]
+
+DEPS = [
+    "//apps/journal_app/src",
+    "//:node_modules/@vitejs/plugin-react",
+    "//:node_modules/react",
+    "//:node_modules/react-dom",
+    "//:node_modules/vite",
+    "//:tsconfig_base",
+    "//:tsconfig_react",
+]
+
+vite_build(
+    name = "build",
+    srcs = SRCS + DEPS,
+)
+
+vite_dev_server(
+    name = "journal_app",
+    data = SRCS + DEPS,
+)

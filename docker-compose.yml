@@ -1,0 +1,75 @@
+---
+version: "3"
+services:
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.3.0
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  broker:
+    image: confluentinc/cp-kafka:7.3.0
+    container_name: broker
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+
+  schema-registry:
+    image: confluentinc/cp-schema-registry:7.3.0
+    hostname: schema-registry
+    container_name: schema-registry
+    depends_on:
+      - broker
+    ports:
+      - "8081:8081"
+    environment:
+      SCHEMA_REGISTRY_HOST_NAME: schema-registry
+      SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:29092"
+
+  task:
+    image: lab/task:latest
+    hostname: task
+    container_name: task
+    depends_on:
+      - broker
+    ports:
+      - "3001:3001"
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
+      SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  journal:
+    image: lab/journal:latest
+    hostname: journal
+    container_name: journal
+    depends_on:
+      - broker
+    ports:
+      - "3003:3003"
+
+  autojournal:
+    image: lab/autojournal:latest
+    hostname: autojournal
+    container_name: autojournal
+    depends_on:
+      - broker
+    ports:
+      - "3002:3002"
+    environment:
+      LAB_SERVICES_TASK_GRAPHQL_URL: http://task:3001/graphql
+      LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://journal:3003/graphql
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
+      SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081

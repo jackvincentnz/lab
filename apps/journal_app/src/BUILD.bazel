@@ -1,0 +1,21 @@
+load("//tools/bazel:react.bzl", "react_lib")
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+
+# TODO: use tsconfig from app root or update react ts to use similar restrictive config
+react_lib(
+    name = "lib",
+    deps = [
+        "//:node_modules/vite",
+    ],
+)
+
+copy_to_bin(
+    name = "src",
+    srcs = glob([
+        "**/*.css",
+        "**/*.svg",
+        "**/*.tsx",
+        "**/*.ts",
+    ]),
+    visibility = ["//apps/journal_app:__pkg__"],
+)
