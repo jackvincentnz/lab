@@ -58,6 +58,16 @@ command(
     command = "//contexts/autojournal/src/main:tarball",
 )
 
+command(
+    name = "tag_tasklist_image",
+    command = "//apps/tasklist:tarball",
+)
+
+command(
+    name = "tag_journal_app_image",
+    command = "//apps/journal_app:tarball",
+)
+
 # Tags images for local environment
 # 1. bazel run //:tag_images
 # 2. docker-compose up -d
@@ -67,6 +77,8 @@ multirun(
         "tag_task_image",
         "tag_journal_image",
         "tag_autojournal_image",
+        "tag_tasklist_image",
+        "tag_journal_app_image",
     ],
     jobs = 0,  # Set to 0 to run in parallel, defaults to sequential
 )

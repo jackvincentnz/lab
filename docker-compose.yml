@@ -55,8 +55,6 @@ services:
     image: lab/journal:latest
     hostname: journal
     container_name: journal
-    depends_on:
-      - broker
     ports:
       - "3003:3003"
 
@@ -73,3 +71,17 @@ services:
       LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://journal:3003/graphql
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+
+  tasklist:
+    image: lab/tasklist:latest
+    hostname: tasklist
+    container_name: tasklist
+    ports:
+      - "3000:80"
+
+  journal_app:
+    image: lab/journal_app:latest
+    hostname: journal_app
+    container_name: journal_app
+    ports:
+      - "3004:80"
