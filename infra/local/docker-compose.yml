@@ -26,6 +26,11 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+    healthcheck:
+      test: nc -z localhost 9092 || exit -1
+      interval: 5s
+      timeout: 10s
+      retries: 10
 
   schema-registry:
     image: confluentinc/cp-schema-registry:7.3.0
@@ -44,7 +49,8 @@ services:
     hostname: task
     container_name: task
     depends_on:
-      - broker
+      broker:
+        condition: service_healthy
     ports:
       - "3001:3001"
     environment:
@@ -63,7 +69,8 @@ services:
     hostname: autojournal
     container_name: autojournal
     depends_on:
-      - broker
+      broker:
+        condition: service_healthy
     ports:
       - "3002:3002"
     environment:
@@ -85,3 +92,15 @@ services:
     container_name: journal_app
     ports:
       - "3004:80"
+
+  proxy:
+    image: lab/proxy:latest
+    hostname: proxy
+    container_name: proxy
+    depends_on:
+      - task
+      - journal
+      - tasklist
+      - journal_app
+    ports:
+      - "8080:8080"

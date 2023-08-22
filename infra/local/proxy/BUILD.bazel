@@ -1,0 +1,26 @@
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+pkg_tar(
+    name = "nginx_conf_tar",
+    srcs = [":nginx.conf"],
+    package_dir = "/etc/nginx",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_debian_slim",
+    tars = [
+        ":nginx_conf_tar",
+    ],
+)
+
+# Tag and run a local container with:
+# $ bazel run :tarball
+# $ docker run --rm lab/proxy:latest
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["lab/proxy:latest"],
+    visibility = ["//:__pkg__"],
+)

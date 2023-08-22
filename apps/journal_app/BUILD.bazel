@@ -33,7 +33,12 @@ vite_dev_server(
 pkg_tar(
     name = "tar",
     srcs = [":build"],
-    package_dir = "/usr/share/nginx/html",
+    # The vite devserver needs to make requests to "base: /journal/" when behind the
+    # proxy since the $http_referer can't be used to identify the right app to proxy to.
+    # Keep aligned with:
+    # - apps/journal_app/vite.config.ts: "base"
+    # - infra/local/proxy/nginx.conf: "proxy_pass"
+    package_dir = "/usr/share/nginx/html/journal",
     strip_prefix = "dist",
 )
 

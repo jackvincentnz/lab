@@ -68,9 +68,12 @@ command(
     command = "//apps/journal_app:tarball",
 )
 
-# Tags images for local environment
-# 1. bazel run //:tag_images
-# 2. docker-compose up -d
+command(
+    name = "tag_proxy_image",
+    command = "//infra/local/proxy:tarball",
+)
+
+# Builds and tags local environment images, and then pushes to the local docker repository.
 multirun(
     name = "tag_images",
     commands = [
@@ -79,6 +82,23 @@ multirun(
         "tag_autojournal_image",
         "tag_tasklist_image",
         "tag_journal_app_image",
+        "tag_proxy_image",
     ],
     jobs = 0,  # Set to 0 to run in parallel, defaults to sequential
+)
+
+# Builds and tags local environment images with Bazel, and then runs with Docker.
+multirun(
+    name = "start",
+    commands = [
+        "tag_images",
+        "local_environment",
+    ],
+)
+
+# Runs local environment with Docker using existing images, without building and tagging changes with Bazel first.
+# Note: depends on configured images existing in the docker repository.
+command(
+    name = "local_environment",
+    command = "//infra/local",
 )

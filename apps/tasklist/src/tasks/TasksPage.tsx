@@ -4,7 +4,7 @@ import AddTask from "./AddTask";
 import { Container } from "@mantine/core";
 
 const client = new ApolloClient({
-  uri: "http://localhost:3001/graphql",
+  uri: "/graphql",
   cache: new InMemoryCache(),
 });
 
