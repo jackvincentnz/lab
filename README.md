@@ -13,12 +13,11 @@ Monorepo for the experimentation of all things Bazel, Javascript, Typescript, An
 
 ## Getting started
 
-Setup development environment with:
+Setup build environment with:
 
 ```zsh
 brew install bazelisk
-brew install pnpm
-pnpm install
+brew cask install docker
 ```
 
 Build solution with:
@@ -36,8 +35,7 @@ bazel test //...
 Run the whole local environment in docker with:
 
 ```zsh
-bazel run //:tag_images
-docker-compose up -d
+bazel run //:start
 ```
 
 ## Experiments

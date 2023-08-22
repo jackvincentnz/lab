@@ -1,4 +1,6 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 SRCS = [
     "public/vite.svg",
@@ -26,4 +28,29 @@ vite_build(
 vite_dev_server(
     name = "journal_app",
     data = SRCS + DEPS,
+)
+
+pkg_tar(
+    name = "tar",
+    srcs = [":build"],
+    # The vite devserver needs to make requests to "base: /journal/" when behind the
+    # proxy since the $http_referer can't be used to identify the right app to proxy to.
+    # Keep aligned with:
+    # - apps/journal_app/vite.config.ts: "base"
+    # - infra/local/proxy/nginx.conf: "proxy_pass"
+    package_dir = "/usr/share/nginx/html/journal",
+    strip_prefix = "dist",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_debian_slim",
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["lab/journal_app:latest"],
+    visibility = ["//:__pkg__"],
 )

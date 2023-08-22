@@ -1,5 +1,7 @@
 load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
 load("@npm//:react-scripts/package_json.bzl", cra_bin = "bin")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 CRA_DEPS = [
     "//apps/tasklist/src",
@@ -47,4 +49,24 @@ js_library(
 alias(
     name = "tasklist",
     actual = ":start",
+)
+
+pkg_tar(
+    name = "tar",
+    srcs = [":build"],
+    package_dir = "/usr/share/nginx/html",
+    strip_prefix = "build",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_debian_slim",
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["lab/tasklist:latest"],
+    visibility = ["//:__pkg__"],
 )

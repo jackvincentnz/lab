@@ -1,0 +1,9 @@
+sh_binary(
+    name = "local",
+    srcs = ["docker_compose.bash"],
+    data = [
+        "docker-compose.yml",
+        "@bazel_tools//tools/bash/runfiles",
+    ],
+    visibility = ["//:__pkg__"],
+)
