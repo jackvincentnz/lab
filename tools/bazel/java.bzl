@@ -27,7 +27,7 @@ SPRING_TEST_RUNTIME_DEPS = [
     "@maven//:org_springframework_boot_spring_boot_starter_test",
 ]
 
-def java_test_suite(name = "tests", **kwargs):
+def java_test_suite(name, **kwargs):
     _java_test_suite(
         name = name,
 
