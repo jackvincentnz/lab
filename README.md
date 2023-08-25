@@ -9,7 +9,7 @@
     </a>
 </p>
 
-Monorepo for the experimentation of all things Bazel, Javascript, Typescript, Angular, Java etc.
+Monorepo for experimenting with Bazel, Typescript, Java etc.
 
 ## Getting started
 
@@ -38,13 +38,9 @@ Run the whole local environment in docker with:
 bazel run //:start
 ```
 
-## Experiments
-
-New projects to be added at `/projects`. Any experiment should have a new project for potential future use in a tutorial.
-
 ## Tooling
 
-This repository includes multiple tools to improve consistency, maintainability and developer velocity.
+This repository includes multiple tools to improve consistency, maintainability and developer efficiency.
 
 ### Build
 
@@ -52,14 +48,10 @@ This repository includes multiple tools to improve consistency, maintainability 
 
 ### Style
 
-- [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
+- [pre-commit](https://pre-commit.com/): Pre-commit source linting.
 - [Commitlint](https://commitlint.js.org): Commit message linting.
-- [lint-staged](https://github.com/okonet/lint-staged): Pre-commit source linting.
+- [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
 - [ESLint](https://eslint.org/): Find and fix problems in your JavaScript code.
-
-### Generation
-
-- [Schematics](https://github.com/allocadia-jack/lab/blob/master/tools/schematics/README.md): In progress tooling for generating new Angular projects.
 
 ### Continuous integration
 

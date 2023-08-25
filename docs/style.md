@@ -14,8 +14,8 @@ Commits should follow the [conventional](https://www.conventionalcommits.org/en/
 
 Code style is enforced with:
 
-- [Pre-commit linting](https://github.com/okonet/lint-staged) - Source files are linted and fixed where possible prior to commiting locally.
-- [CI](https://github.com/jackvincentnz/lab/blob/master/.github/workflows/main.yml) - Source files are checked as part of continuous integration for alignment to the repo's style requirements.
+- [Pre-commit](https://pre-commit.com/) - Source files are linted and fixed where possible prior to commiting locally.
+- [CI](https://github.com/jackvincentnz/lab/blob/main/.github/workflows/main.yml) - Source files are checked as part of continuous integration for alignment to the repo's style requirements.
 
 ### Prettier
 
@@ -52,12 +52,12 @@ Why:
 
 - By using ESLint in the IDE, prior to commiting and during CI, we continuously provide feedback to the developer on the quality of the source code they have added.
 
-### lint-staged
+### pre-commit
 
-[lint-staged](https://github.com/okonet/lint-staged) is used to give commit-time style feedback, so that it is not necessary to wait for a continuous integration check.
+[pre-commit](https://pre-commit.com/) is used to give commit-time style feedback, so that it is not necessary to wait for a continuous integration check.
 
-> Run linters against staged git files and don't let 💩 slip into your code base!
+> A framework for managing and maintaining multi-language pre-commit hooks.
 
 > Linting makes more sense when run before committing your code. By doing so you can ensure no errors go into the repository and enforce code style.
 
-See [lint-staged](https://github.com/okonet/lint-staged/blob/master/README.md) for more information.
+See [pre-commit](https://pre-commit.com/) for more information.
