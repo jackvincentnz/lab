@@ -105,3 +105,10 @@ def fetch_dependencies():
             "https://github.com/salesforce/rules_spring/releases/download/2.2.4/rules-spring-2.2.4.zip",
         ],
     )
+
+    http_archive(
+        name = "aspect_rules_swc",
+        sha256 = "8eb9e42ed166f20cacedfdb22d8d5b31156352eac190fc3347db55603745a2d8",
+        strip_prefix = "rules_swc-1.1.0",
+        url = "https://github.com/aspect-build/rules_swc/releases/download/v1.1.0/rules_swc-v1.1.0.tar.gz",
+    )
