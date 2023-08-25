@@ -67,7 +67,7 @@ maven_install(
         "org.springframework.kafka:spring-kafka:3.0.10",
         "org.springframework:spring-webflux:6.0.11",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:6.0.5",
-        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:5.12.4",
+        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:6.0.2",
         "org.apache.commons:commons-lang3:3.13.0",
         "org.apache.kafka:kafka-clients:3.5.1",
         "io.confluent:kafka-protobuf-serializer:7.5.0",
