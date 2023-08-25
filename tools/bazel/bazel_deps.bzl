@@ -77,9 +77,9 @@ def fetch_dependencies():
 
     http_archive(
         name = "rules_oci",
-        sha256 = "176e601d21d1151efd88b6b027a24e782493c5d623d8c6211c7767f306d655c8",
-        strip_prefix = "rules_oci-1.2.0",
-        url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.2.0/rules_oci-v1.2.0.tar.gz",
+        sha256 = "a3b6f4c0051938940ccf251a7bdcdf7ac5a93ae00e63ad107c9c6d3bfe20885b",
+        strip_prefix = "rules_oci-1.3.1",
+        url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.3.1/rules_oci-v1.3.1.tar.gz",
     )
 
     http_archive(
