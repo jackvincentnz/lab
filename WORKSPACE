@@ -61,16 +61,16 @@ TEST_ARTIFACTS = [
 # REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
     artifacts = [
-        "org.springframework.boot:spring-boot-loader:3.0.3",
-        "org.springframework.boot:spring-boot-starter-web:3.0.3",
-        "org.springframework.boot:spring-boot-starter-validation:3.0.3",
-        "org.springframework.kafka:spring-kafka:3.0.3",
-        "org.springframework:spring-webflux:6.0.5",
+        "org.springframework.boot:spring-boot-loader:3.1.3",
+        "org.springframework.boot:spring-boot-starter-web:3.1.3",
+        "org.springframework.boot:spring-boot-starter-validation:3.1.3",
+        "org.springframework.kafka:spring-kafka:3.0.10",
+        "org.springframework:spring-webflux:6.0.11",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:6.0.5",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:5.12.4",
-        "org.apache.commons:commons-lang3:3.12.0",
+        "org.apache.commons:commons-lang3:3.13.0",
         "org.apache.kafka:kafka-clients:3.5.1",
-        "io.confluent:kafka-protobuf-serializer:7.4.0",
+        "io.confluent:kafka-protobuf-serializer:7.5.0",
     ] + TEST_ARTIFACTS,
     fail_if_repin_required = True,
     fetch_sources = True,
@@ -208,7 +208,7 @@ oci_pull(
 
 oci_pull(
     name = "nginx_debian_slim",
-    digest = "sha256:6b06964cdbbc517102ce5e0cef95152f3c6a7ef703e4057cb574539de91f72e6",
+    digest = "sha256:48a84a0728cab8ac558f48796f901f6d31d287101bc8b317683678125e0d2d35",
     image = "docker.io/library/nginx",
 )
 
