@@ -31,9 +31,9 @@ def fetch_dependencies():
 
     http_archive(
         name = "contrib_rules_jvm",
-        sha256 = "159d343f799e4d18a51096c9d6298982fc42d9e67a7e0f8f10862e2a7add580b",
-        strip_prefix = "rules_jvm-0.16.0",
-        url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.16.0/rules_jvm-v0.16.0.tar.gz",
+        sha256 = "bd0f82def1879df85ff0a80767e6455911e1c9c1eac5db1de8f68dcccd4a3d7a",
+        strip_prefix = "rules_jvm-0.18.0",
+        url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.18.0/rules_jvm-v0.18.0.tar.gz",
     )
 
     http_archive(
