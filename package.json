@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@angular-devkit/schematics": "15.2.9",
+    "@angular-devkit/schematics": "16.2.0",
     "@angular/animations": "15.2.9",
     "@angular/common": "15.2.9",
     "@angular/compiler": "15.2.9",
@@ -17,7 +17,7 @@
     "@graphql-typed-document-node/core": "^3.2.0",
     "@mantine/core": "^6.0.16",
     "@mantine/hooks": "^6.0.16",
-    "@schematics/angular": "15.2.9",
+    "@schematics/angular": "16.2.0",
     "@tabler/icons-react": "^2.24.0",
     "graphql": "16.8.0",
     "react": "^18.2.0",
@@ -29,7 +29,7 @@
     "zone.js": "0.13.1"
   },
   "devDependencies": {
-    "@angular/cli": "15.2.9",
+    "@angular/cli": "16.2.0",
     "@angular/compiler-cli": "15.2.9",
     "@commitlint/cli": "17.7.1",
     "@commitlint/config-conventional": "17.7.0",
