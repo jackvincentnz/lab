@@ -5,7 +5,6 @@ java_library(
         "//contexts/task/src/main/java/nz/geek/jack/task/adapter:__subpackages__",
     ],
     deps = [
-        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/exception",
         "//contexts/task/src/main/java/nz/geek/jack/task/adapter/messaging",
         "//contexts/task/src/main/java/nz/geek/jack/task/domain",
         "@maven//:org_springframework_spring_context",

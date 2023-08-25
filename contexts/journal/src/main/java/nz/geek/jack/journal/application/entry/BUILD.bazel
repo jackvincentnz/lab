@@ -1,0 +1,13 @@
+java_library(
+    name = "entry",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/adapter:__subpackages__",
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/application:__pkg__",
+        "//contexts/journal/src/test/java/nz/geek/jack/journal/adapter:__subpackages__",
+    ],
+    deps = [
+        "//contexts/journal/src/main/java/nz/geek/jack/journal/domain",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

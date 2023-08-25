@@ -2,8 +2,8 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     deps = [
-        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/web/gql/schema",
-        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/web/gql/task",
+        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/api/gql/schema",
+        "//contexts/task/src/main/java/nz/geek/jack/task/adapter/api/gql/task",
         "//contexts/task/src/main/java/nz/geek/jack/task/application/task",
         "//contexts/task/src/main/java/nz/geek/jack/task/domain",
     ],

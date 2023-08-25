@@ -1,4 +1,4 @@
-package nz.geek.jack.task.adapter.web.gql.task;
+package nz.geek.jack.task.adapter.api.gql.task;
 
 import nz.geek.jack.task.adapter.gql.schema.types.Task;
 import org.springframework.stereotype.Component;

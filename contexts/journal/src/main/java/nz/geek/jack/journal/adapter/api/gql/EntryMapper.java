@@ -1,4 +1,4 @@
-package nz.geek.jack.journal.adapter.gql;
+package nz.geek.jack.journal.adapter.api.gql;
 
 import nz.geek.jack.journal.adapter.gql.schema.types.Entry;
 import org.springframework.stereotype.Component;

@@ -1,4 +1,4 @@
-package nz.geek.jack.journal.adapter.gql;
+package nz.geek.jack.journal.adapter.api.gql;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nz.geek.jack.journal.adapter.gql.schema.client.AllEntriesGraphQLQuery;
 import nz.geek.jack.journal.adapter.gql.schema.client.AllEntriesProjectionRoot;
-import nz.geek.jack.journal.application.EntryQueryService;
+import nz.geek.jack.journal.application.entry.EntryQueryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

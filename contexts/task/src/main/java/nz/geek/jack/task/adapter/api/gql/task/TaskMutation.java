@@ -1,4 +1,4 @@
-package nz.geek.jack.task.adapter.web.gql.task;
+package nz.geek.jack.task.adapter.api.gql.task;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;

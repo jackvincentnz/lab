@@ -1,12 +1,12 @@
-package nz.geek.jack.journal.adapter.gql;
+package nz.geek.jack.journal.adapter.api.gql;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import nz.geek.jack.journal.adapter.gql.schema.types.AddEntryInput;
 import nz.geek.jack.journal.adapter.gql.schema.types.Entry;
-import nz.geek.jack.journal.application.EntryCommandService;
-import nz.geek.jack.journal.application.EntryQueryService;
+import nz.geek.jack.journal.application.entry.EntryCommandService;
+import nz.geek.jack.journal.application.entry.EntryQueryService;
 
 @DgsComponent
 public class EntryMutation {

@@ -1,4 +1,4 @@
-package nz.geek.jack.journal.adapter.gql;
+package nz.geek.jack.journal.adapter.api.gql;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
