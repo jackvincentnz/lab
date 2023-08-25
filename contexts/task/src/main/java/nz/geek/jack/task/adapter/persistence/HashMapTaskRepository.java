@@ -3,7 +3,6 @@ package nz.geek.jack.task.adapter.persistence;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import nz.geek.jack.task.adapter.exception.NotFoundException;
 import nz.geek.jack.task.domain.Task;
 import nz.geek.jack.task.domain.TaskId;
 import nz.geek.jack.task.domain.TaskRepository;
@@ -29,6 +28,6 @@ public class HashMapTaskRepository implements TaskRepository {
     if (TASKS.containsKey(id)) {
       return TASKS.get(id);
     }
-    throw new NotFoundException(String.format("Task: %s does not exist", id));
+    throw new RuntimeException(String.format("Task: %s does not exist", id));
   }
 }

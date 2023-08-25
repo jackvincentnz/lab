@@ -1,4 +1,4 @@
-package nz.geek.jack.task.adapter.web.gql.task;
+package nz.geek.jack.task.adapter.api.gql.task;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;

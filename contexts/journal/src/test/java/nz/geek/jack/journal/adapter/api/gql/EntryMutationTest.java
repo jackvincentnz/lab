@@ -1,4 +1,4 @@
-package nz.geek.jack.journal.adapter.gql;
+package nz.geek.jack.journal.adapter.api.gql;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,8 +9,8 @@ import nz.geek.jack.journal.adapter.gql.schema.client.AddEntryGraphQLQuery;
 import nz.geek.jack.journal.adapter.gql.schema.client.AddEntryProjectionRoot;
 import nz.geek.jack.journal.adapter.gql.schema.types.AddEntryInput;
 import nz.geek.jack.journal.adapter.persistence.HashMapEntryRepository;
-import nz.geek.jack.journal.application.EntryCommandService;
-import nz.geek.jack.journal.application.EntryQueryService;
+import nz.geek.jack.journal.application.entry.EntryCommandService;
+import nz.geek.jack.journal.application.entry.EntryQueryService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

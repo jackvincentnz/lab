@@ -1,4 +1,4 @@
-package nz.geek.jack.journal.application;
+package nz.geek.jack.journal.application.entry;
 
 import nz.geek.jack.journal.domain.Entry;
 import nz.geek.jack.journal.domain.EntryId;
