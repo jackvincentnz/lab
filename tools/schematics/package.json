@@ -1,5 +1,0 @@
-{
-  "name": "schematics",
-  "description": "Schematics for the lab.",
-  "schematics": "./collection.json"
-}
