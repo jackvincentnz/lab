@@ -21,7 +21,7 @@ repos:
 
   # Lint FE source files
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v8.47.0
+    rev: v8.48.0
     hooks:
       - id: eslint
         args: [--fix]
@@ -30,7 +30,7 @@ repos:
         verbose: true # ensure warnings are output from eslint
         additional_dependencies:
           # Keep versions in sync with package.json so that IDE/CLI tooling works
-          - "eslint@8.47.0"
+          - "eslint@8.48.0"
           - "@typescript-eslint/eslint-plugin@5.62.0"
           - "@typescript-eslint/parser@5.62.0"
           - "eslint-config-prettier@8.8.0"
