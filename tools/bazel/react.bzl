@@ -19,7 +19,6 @@ COMMON_REACT_TEST_DEPS = [
     "//:node_modules/@testing-library/jest-dom",
     "//:node_modules/@testing-library/react",
     "//:node_modules/@types/jest",
-    "//:node_modules/@types/testing-library__jest-dom",
 ]
 
 # Common dependencies of the jest runner
