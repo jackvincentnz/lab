@@ -51,13 +51,6 @@ def fetch_dependencies():
     )
 
     http_archive(
-        name = "aspect_rules_jasmine",
-        sha256 = "b3b2ff30ed222db653092d8280e0b62a4d54c5e65c598df09a0a1d7aae78fc8f",
-        strip_prefix = "rules_jasmine-0.3.1",
-        url = "https://github.com/aspect-build/rules_jasmine/releases/download/v0.3.1/rules_jasmine-v0.3.1.tar.gz",
-    )
-
-    http_archive(
         name = "io_bazel_rules_go",
         sha256 = "278b7ff5a826f3dc10f04feaf0b70d48b68748ccd512d7f98bf442077f043fe3",
         urls = [

@@ -154,18 +154,6 @@ load("@aspect_rules_jest//jest:dependencies.bzl", "rules_jest_dependencies")
 rules_jest_dependencies()
 
 ####################################################################################################
-# aspect_rules_jasmine setup
-####################################################################################################
-
-load("@aspect_rules_jasmine//jasmine:repositories.bzl", "jasmine_repositories")
-
-jasmine_repositories(name = "jasmine")
-
-load("@jasmine//:npm_repositories.bzl", jasmine_npm_repositories = "npm_repositories")
-
-jasmine_npm_repositories()
-
-####################################################################################################
 # bazel_gazelle setup
 ####################################################################################################
 
