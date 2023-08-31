@@ -66,8 +66,16 @@ maven_install(
         "org.springframework.boot:spring-boot-starter-validation:3.1.3",
         "org.springframework.kafka:spring-kafka:3.0.10",
         "org.springframework:spring-webflux:6.0.11",
-        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:6.0.5",
-        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:5.12.4",
+        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
+        maven.artifact(
+            artifact = "graphql-dgs-codegen-core",
+            exclusions = [
+                "com.graphql-java:graphql-java",
+            ],
+            group = "com.netflix.graphql.dgs.codegen",
+            version = "6.0.2",
+        ),
+        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:6.0.2",
         "org.apache.commons:commons-lang3:3.13.0",
         "org.apache.kafka:kafka-clients:3.5.1",
         "io.confluent:kafka-protobuf-serializer:7.5.0",
@@ -152,18 +160,6 @@ npm_repositories()
 load("@aspect_rules_jest//jest:dependencies.bzl", "rules_jest_dependencies")
 
 rules_jest_dependencies()
-
-####################################################################################################
-# aspect_rules_jasmine setup
-####################################################################################################
-
-load("@aspect_rules_jasmine//jasmine:repositories.bzl", "jasmine_repositories")
-
-jasmine_repositories(name = "jasmine")
-
-load("@jasmine//:npm_repositories.bzl", jasmine_npm_repositories = "npm_repositories")
-
-jasmine_npm_repositories()
 
 ####################################################################################################
 # bazel_gazelle setup
