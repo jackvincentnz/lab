@@ -7,7 +7,7 @@ specifiers:
   '@commitlint/cli': 17.7.1
   '@commitlint/config-conventional': 17.7.0
   '@emotion/react': ^11.11.1
-  '@graphql-codegen/cli': 4.0.1
+  '@graphql-codegen/cli': 5.0.0
   '@graphql-codegen/client-preset': 4.1.0
   '@graphql-typed-document-node/core': ^3.2.0
   '@mantine/core': ^6.0.16
@@ -59,7 +59,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 17.7.1_@swc+core@1.3.62
   '@commitlint/config-conventional': 17.7.0
-  '@graphql-codegen/cli': 4.0.1_kesusbuijfrsscc7bw5fupty44
+  '@graphql-codegen/cli': 5.0.0_kesusbuijfrsscc7bw5fupty44
   '@graphql-codegen/client-preset': 4.1.0_graphql@16.8.0
   '@swc/jest': 0.2.26_@swc+core@1.3.62
   '@testing-library/jest-dom': 5.17.0
@@ -2544,17 +2544,21 @@ packages:
       tslib: 2.5.0
     dev: true
 
-  /@graphql-codegen/cli/4.0.1_kesusbuijfrsscc7bw5fupty44:
-    resolution: {integrity: sha512-/H4imnGOl3hoPXLKmIiGUnXpmBmeIClSZie/YHDzD5N59cZlGGJlIOOrUlOTDpJx5JNU1MTQcRjyTToOYM5IfA==}
+  /@graphql-codegen/cli/5.0.0_kesusbuijfrsscc7bw5fupty44:
+    resolution: {integrity: sha512-A7J7+be/a6e+/ul2KI5sfJlpoqeqwX8EzktaKCeduyVKgOLA6W5t+NUGf6QumBDXU8PEOqXk3o3F+RAwCWOiqA==}
     hasBin: true
     peerDependencies:
+      '@parcel/watcher': ^2.1.0
       graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
+    peerDependenciesMeta:
+      '@parcel/watcher':
+        optional: true
     dependencies:
       '@babel/generator': 7.22.10
       '@babel/template': 7.22.5
       '@babel/types': 7.22.10
       '@graphql-codegen/core': 4.0.0_graphql@16.8.0
-      '@graphql-codegen/plugin-helpers': 5.0.0_graphql@16.8.0
+      '@graphql-codegen/plugin-helpers': 5.0.1_graphql@16.8.0
       '@graphql-tools/apollo-engine-loader': 8.0.0_graphql@16.8.0
       '@graphql-tools/code-file-loader': 8.0.1_qjet2464jrjk6njk3hsx5hvu3a
       '@graphql-tools/git-loader': 8.0.1_qjet2464jrjk6njk3hsx5hvu3a
@@ -2565,7 +2569,6 @@ packages:
       '@graphql-tools/prisma-loader': 8.0.1_l6h5ud7qcgp5k7c33kugcja2gi
       '@graphql-tools/url-loader': 8.0.0_l6h5ud7qcgp5k7c33kugcja2gi
       '@graphql-tools/utils': 10.0.1_graphql@16.8.0
-      '@parcel/watcher': 2.1.0
       '@whatwg-node/fetch': 0.8.8
       chalk: 4.1.2
       cosmiconfig: 8.2.0
@@ -2584,7 +2587,7 @@ packages:
       string-env-interpolation: 1.0.1
       ts-log: 2.2.5
       tslib: 2.6.2
-      yaml: 1.10.2
+      yaml: 2.3.1
       yargs: 17.7.1
     transitivePeerDependencies:
       - '@babel/core'
@@ -2647,20 +2650,6 @@ packages:
     transitivePeerDependencies:
       - encoding
       - supports-color
-    dev: true
-
-  /@graphql-codegen/plugin-helpers/5.0.0_graphql@16.8.0:
-    resolution: {integrity: sha512-suL2ZMkBAU2a4YbBHaZvUPsV1z0q3cW6S96Z/eYYfkRIsJoe2vN+wNZ9Xdzmqx0JLmeeFCBSoBGC0imFyXlkDQ==}
-    peerDependencies:
-      graphql: ^0.8.0 || ^0.9.0 || ^0.10.0 || ^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0 || ^16.0.0
-    dependencies:
-      '@graphql-tools/utils': 10.0.1_graphql@16.8.0
-      change-case-all: 1.0.15
-      common-tags: 1.8.2
-      graphql: 16.8.0
-      import-from: 4.0.0
-      lodash: 4.17.21
-      tslib: 2.5.0
     dev: true
 
   /@graphql-codegen/plugin-helpers/5.0.1_graphql@16.8.0:
@@ -3798,17 +3787,6 @@ packages:
       fastq: 1.15.0
     dev: true
 
-  /@parcel/watcher/2.1.0:
-    resolution: {integrity: sha512-8s8yYjd19pDSsBpbkOHnT6Z2+UJSuLQx61pCFM0s5wSRvKCEMDjd/cHY3/GI1szHIWbpXpsJdg3V6ISGGx9xDw==}
-    engines: {node: '>= 10.0.0'}
-    requiresBuild: true
-    dependencies:
-      is-glob: 4.0.3
-      micromatch: 4.0.5
-      node-addon-api: 3.2.1
-      node-gyp-build: 4.6.0
-    dev: true
-
   /@peculiar/asn1-schema/2.3.6:
     resolution: {integrity: sha512-izNRxPoaeJeg/AyH8hER6s+H7p4itk+03QCa4sbxI3lNdseQYCuxzgsuNK8bTXChtLTjpJz6NmXKA73qLa3rCA==}
     dependencies:
@@ -4458,14 +4436,14 @@ packages:
   /@types/bonjour/3.5.10:
     resolution: {integrity: sha512-p7ienRMiS41Nu2/igbJxxLDWrSZ0WxM8UQgCeO9KhoVF7cOVFkrKsiDr1EsJIla8vV3oEEjGcz11jc5yimhzZw==}
     dependencies:
-      '@types/node': 18.17.11
+      '@types/node': 20.4.7
     dev: true
 
   /@types/connect-history-api-fallback/1.5.0:
     resolution: {integrity: sha512-4x5FkPpLipqwthjPsF7ZRbOv3uoLUFkTA9G9v583qi4pACvq0uTELrB8OLUzPWUI4IJIyvM85vzkV1nyiI2Lig==}
     dependencies:
       '@types/express-serve-static-core': 4.17.35
-      '@types/node': 18.17.11
+      '@types/node': 20.4.7
     dev: true
 
   /@types/connect/3.4.35:
@@ -4670,13 +4648,13 @@ packages:
     resolution: {integrity: sha512-NUo5XNiAdULrJENtJXZZ3fHtfMolzZwczzBbnAeBbqBwG+LaG6YaJtuwzwGSQZ2wsCrxjEhNNjAkKigy3n8teQ==}
     dependencies:
       '@types/mime': 3.0.1
-      '@types/node': 18.17.11
+      '@types/node': 20.4.7
     dev: true
 
   /@types/sockjs/0.3.33:
     resolution: {integrity: sha512-f0KEEe05NvUnat+boPTZ0dgaLZ4SfSouXUgv5noUiefG2ajgKjmETo9ZJyuqsl7dfl2aHlLJUiki6B4ZYldiiw==}
     dependencies:
-      '@types/node': 18.17.11
+      '@types/node': 20.4.7
     dev: true
 
   /@types/stack-utils/2.0.1:
@@ -4700,7 +4678,7 @@ packages:
   /@types/ws/8.5.4:
     resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
     dependencies:
-      '@types/node': 18.17.11
+      '@types/node': 20.4.7
     dev: true
 
   /@types/yargs-parser/21.0.0:
@@ -10971,10 +10949,6 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /node-addon-api/3.2.1:
-    resolution: {integrity: sha512-mmcei9JghVNDYydghQmeDX8KoAm0FAiYyIcUt/N4nhyAipB17pllZQDOJD2fotxABnt4Mdz+dKTO7eftLg4d0A==}
-    dev: true
-
   /node-fetch/2.6.11:
     resolution: {integrity: sha512-4I6pdBY1EthSqDmJkiNk3JIT8cswwR9nfeW/cPdUagJYEQG7R95WRH74wpz7ma8Gh/9dI9FP+OU+0E4FvtA55w==}
     engines: {node: 4.x || >=6.0.0}
@@ -10990,11 +10964,6 @@ packages:
   /node-forge/1.3.1:
     resolution: {integrity: sha512-dPEtOeMvF9VMcYV/1Wb8CPoVAXtp6MKMlcbAt4ddqmGqUJ6fQZFXkNZNkNlfevtNkGtaSoXf/vNNNSvgrdXwtA==}
     engines: {node: '>= 6.13.0'}
-    dev: true
-
-  /node-gyp-build/4.6.0:
-    resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==}
-    hasBin: true
     dev: true
 
   /node-int64/0.4.0:
