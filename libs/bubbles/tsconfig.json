@@ -4,7 +4,7 @@
     "target": "ES2020",
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    //"module": "ESNext", TODO: why does this break IDE type checking?
+    //"module": "es2015", TODO: why does this break IDE type checking?
 
     "moduleResolution": "Node", // TODO: switch back to "bundler" mode
     "allowImportingTsExtensions": true,

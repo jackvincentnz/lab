@@ -1,0 +1,85 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+
+SRCS = [
+    "public/vite.svg",
+    "index.html",
+    "package.json",
+    "tsconfig.json",
+    "vite.config.ts",
+]
+
+DEPS = [
+    "//libs/bubbles/src",
+    "//:node_modules/@vitejs/plugin-react-swc",
+    "//:node_modules/react",
+    "//:node_modules/react-dom",
+    "//:node_modules/vite",
+    "//:tsconfig_base",
+    "//:tsconfig_react",
+]
+
+vite_build(
+    name = "build",
+    srcs = SRCS + DEPS,
+)
+
+vite_dev_server(
+    name = "bubbles",
+    data = SRCS + DEPS,
+)
+
+STORYBOOK_SRCS = [
+    ".storybook/main.ts",
+    ".storybook/preview.ts",
+]
+
+STORYBOOK_DEPS = [
+    "//libs/bubbles/src",
+    "//:node_modules/@storybook/addon-essentials",
+    "//:node_modules/@storybook/addon-interactions",
+    "//:node_modules/@storybook/addon-links",
+    "//:node_modules/@storybook/addon-onboarding",
+    "//:node_modules/@storybook/blocks",
+    "//:node_modules/@storybook/react",
+    "//:node_modules/@storybook/react-vite",
+    "//:node_modules/@storybook/testing-library",
+    "//:node_modules/@vitejs/plugin-react-swc",
+    "//:node_modules/react",
+    "//:node_modules/react-dom",
+    "//:node_modules/vite",
+]
+
+storybook_build(
+    name = "build_storybook",
+    srcs = STORYBOOK_SRCS + STORYBOOK_DEPS,
+    log_level = "debug",
+    silent_on_success = False,
+)
+
+storybook_dev_server(
+    name = "storybook",
+    data = STORYBOOK_SRCS + STORYBOOK_DEPS,
+)
+
+pkg_tar(
+    name = "tar",
+    srcs = [":build_storybook"],
+    package_dir = "/usr/share/nginx/html",
+    strip_prefix = "storybook-static",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_debian_slim",
+    tars = [":tar"],
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["lab/bubbles:latest"],
+    visibility = ["//:__pkg__"],
+)
