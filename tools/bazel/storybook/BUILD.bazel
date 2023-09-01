@@ -1,0 +1,6 @@
+load("@npm//:storybook/package_json.bzl", storybook_bin = "bin")
+
+storybook_bin.storybook_binary(
+    name = "storybook_binary",
+    visibility = ["//visibility:public"],
+)
