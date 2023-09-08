@@ -21,6 +21,7 @@ def vite_dev_server(name, **kwargs):
         name = name,
         chdir = kwargs.pop("chdir", native.package_name()),
         data = kwargs.pop("data", []),
+        args = ["--open", "--strictPort"],
         tool = "//tools/bazel/vite:vite_binary",
         **kwargs
     )

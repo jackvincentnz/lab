@@ -1,3 +1,11 @@
+# Local port reservations:
+# 3000: tasklist
+# 3001: task
+# 3002: autojournal
+# 3003: journal
+# 3004: journal_app
+# 3005: bubbles
+
 ---
 version: "3"
 services:

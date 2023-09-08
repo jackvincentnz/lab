@@ -54,20 +54,20 @@ Builds and tags storybook docker image which can be run with docker.
 
 ### Run with Docker
 
-\*Depends on building and tagging first.
+Depends on building and tagging with `pnpm build-storybook-docker` first.
 
 1. Run
 
    ```shell
    pnpm run-docker
    # or
-   docker run -p 8080:80 lab/bubbles:latest
+   docker run -p 3005:80 lab/bubbles:latest
    ```
 
-2. Open storybook in the browser [http://localhost:8080/](http://localhost:8080/).
+2. Open storybook in the browser [http://localhost:3005/](http://localhost:3005/).
 
 ## Improvements
 
-- Real components, currently only using the storybook init stories.
+- Types
 - Tests (snapshot and rapid testing + development example).
 - Export and consume library.

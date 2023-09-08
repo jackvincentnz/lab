@@ -11,8 +11,30 @@ export default defineConfig({
     - //apps/journal_app:tar: "package_dir"
   */
   base: "/journal/",
-  plugins: [react()],
+  plugins: [watchNodeModules(["@lab/bubbles"]), react()],
   server: {
     port: 3004,
   },
 });
+
+// https://github.com/vitejs/vite/issues/8619
+import type { PluginOption } from "vite";
+
+export function watchNodeModules(modules: string[]): PluginOption {
+  return {
+    name: "watch-node-modules",
+    config() {
+      return {
+        server: {
+          watch: {
+            ignored: modules.map((m) => `!**/node_modules/${m}/**`),
+          },
+        },
+        optimizeDeps: {
+          exclude: modules,
+          include: ["@mantine/core", "@tabler/icons-react"],
+        },
+      };
+    },
+  };
+}

@@ -1,13 +1,10 @@
-load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel/vite:vite.bzl", "vite_build")
+load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 SRCS = [
-    "public/vite.svg",
-    "index.html",
-    "package.json",
-    "tsconfig.json",
     "vite.config.ts",
 ]
 
@@ -17,18 +14,24 @@ DEPS = [
     "//:node_modules/react",
     "//:node_modules/react-dom",
     "//:node_modules/vite",
-    "//:tsconfig_base",
-    "//:tsconfig_react",
 ]
 
 vite_build(
     name = "build",
     srcs = SRCS + DEPS,
+    outs = ["dist/index.es.js"],
+    out_dirs = [],
 )
 
-vite_dev_server(
+npm_package(
     name = "bubbles",
-    data = SRCS + DEPS,
+    srcs = [
+        "package.json",
+        ":build",
+    ],
+    # This is a perf improvement; the default will be flipped to False in rules_js 2.0
+    include_runfiles = False,
+    visibility = ["//visibility:public"],
 )
 
 STORYBOOK_SRCS = [
@@ -38,6 +41,8 @@ STORYBOOK_SRCS = [
 
 STORYBOOK_DEPS = [
     "//libs/bubbles/src",
+    "//:node_modules/@mantine/core",
+    "//:node_modules/@tabler/icons-react",
     "//:node_modules/@storybook/addon-essentials",
     "//:node_modules/@storybook/addon-interactions",
     "//:node_modules/@storybook/addon-links",
@@ -55,8 +60,6 @@ STORYBOOK_DEPS = [
 storybook_build(
     name = "build_storybook",
     srcs = STORYBOOK_SRCS + STORYBOOK_DEPS,
-    log_level = "debug",
-    silent_on_success = False,
 )
 
 storybook_dev_server(
