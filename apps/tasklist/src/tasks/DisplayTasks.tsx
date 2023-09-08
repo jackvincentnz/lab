@@ -31,7 +31,7 @@ export function DisplayTasks() {
   });
 
   return (
-    <List spacing="xs" size="sm" center>
+    <List spacing="xs" size="sm" center mt="xs">
       {tasks}
     </List>
   );

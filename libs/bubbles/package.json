@@ -1,14 +1,14 @@
 {
-  "name": "bubbles",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
+  "name": "@lab/bubbles",
+  "files": [
+    "dist/*"
+  ],
+  "module": "./dist/index.es.js",
   "scripts": {
-    "dev": "ibazel run //libs/bubbles",
-    "build": "bazel build //libs/bubbles:build",
+    "build": "bazel build //libs/bubbles",
     "storybook": "ibazel run //libs/bubbles:storybook",
     "build-storybook": "bazel build //libs/bubbles:build_storybook",
     "build-storybook-docker": "bazel run //libs/bubbles:tarball",
-    "run-docker": "docker run -p 8080:80 lab/bubbles:latest"
+    "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
   }
 }

@@ -22,7 +22,10 @@ cra_bin.react_scripts(
     srcs = CRA_DEPS,
     args = ["build"],
     chdir = package_name(),
-    env = {"BUILD_PATH": "./build"},
+    env = {
+        "BUILD_PATH": "./build",
+        "DISABLE_ESLINT_PLUGIN": "true",
+    },
     out_dirs = ["build"],
 )
 
@@ -32,6 +35,9 @@ js_run_devserver(
     chdir = package_name(),
     command = "../../node_modules/.bin/react-scripts",
     data = CRA_DEPS,
+    env = {
+        "DISABLE_ESLINT_PLUGIN": "true",
+    },
 )
 
 js_library(

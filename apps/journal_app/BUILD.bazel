@@ -12,7 +12,10 @@ SRCS = [
 
 DEPS = [
     "//apps/journal_app/src",
+    "//:node_modules/@lab/bubbles",
     "//:node_modules/@vitejs/plugin-react",
+    "//:node_modules/@mantine/core",  # TODO: could be included by @lab/bubbles?
+    "//:node_modules/@tabler/icons-react",  # TODO: could be included by @lab/bubbles?
     "//:node_modules/react",
     "//:node_modules/react-dom",
     "//:node_modules/vite",

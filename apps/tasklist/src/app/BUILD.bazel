@@ -4,7 +4,7 @@ react_lib(
     name = "app",
     visibility = ["//apps/tasklist/src:__pkg__"],
     deps = [
-        "//:node_modules/@mantine/core",
+        "//:node_modules/@lab/bubbles",
         "//apps/tasklist/src/tasks",
     ],
 )
