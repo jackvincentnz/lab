@@ -1,6 +1,13 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//apps/journal_app/src/__generated__:__pkg__"],
+)
 
 SRCS = [
     "public/vite.svg",
@@ -12,10 +19,12 @@ SRCS = [
 
 DEPS = [
     "//apps/journal_app/src",
+    "//apps/journal_app/src/__generated__:graphql_codegen",
+    "//:node_modules/@apollo/client",
     "//:node_modules/@lab/bubbles",
-    "//:node_modules/@vitejs/plugin-react",
     "//:node_modules/@mantine/core",  # TODO: could be included by @lab/bubbles?
     "//:node_modules/@tabler/icons-react",  # TODO: could be included by @lab/bubbles?
+    "//:node_modules/@vitejs/plugin-react",
     "//:node_modules/react",
     "//:node_modules/react-dom",
     "//:node_modules/vite",
