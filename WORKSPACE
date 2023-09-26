@@ -77,7 +77,7 @@ maven_install(
         ),
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:6.0.2",
         "org.apache.commons:commons-lang3:3.13.0",
-        "org.apache.kafka:kafka-clients:3.5.1",
+        "org.apache.kafka:kafka-clients:7.5.0-ce",
         "io.confluent:kafka-protobuf-serializer:7.5.0",
     ] + TEST_ARTIFACTS,
     fail_if_repin_required = True,
