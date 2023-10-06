@@ -1,0 +1,7 @@
+query GetEntries {
+  allEntries {
+    id
+    message
+    createdAt
+  }
+}

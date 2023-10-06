@@ -1,0 +1,19 @@
+load("@npm//:@graphql-codegen/cli/package_json.bzl", graphql_codegen_bin = "bin")
+
+graphql_codegen_bin.graphql_codegen(
+    name = "graphql_codegen",
+    srcs = [
+        "//:node_modules/@graphql-codegen/client-preset",
+        "//apps/journal_app:codegen",
+        "//apps/journal_app/src:graphql_documents",
+        "//contexts/journal/src/main/resources/schema",
+    ],
+    outs = [
+        "fragment-masking.ts",
+        "gql.ts",
+        "graphql.ts",
+        "index.ts",
+    ],
+    chdir = package_name() + "/../../",
+    visibility = ["//apps/journal_app:__subpackages__"],
+)

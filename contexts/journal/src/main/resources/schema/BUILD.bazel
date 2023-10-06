@@ -3,7 +3,5 @@ load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 copy_to_bin(
     name = "schema",
     srcs = ["schema.graphqls"],
-    visibility = [
-        "//contexts/journal/src:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
 )

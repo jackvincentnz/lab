@@ -14,6 +14,12 @@ export default defineConfig({
   plugins: [watchNodeModules(["@lab/bubbles"]), react()],
   server: {
     port: 3004,
+    proxy: {
+      "/journal_bff/graphql": {
+        target: "http://localhost:3003",
+        rewrite: (path) => path.replace(/^\/journal_bff/, ""),
+      },
+    },
   },
 });
 
@@ -32,7 +38,7 @@ export function watchNodeModules(modules: string[]): PluginOption {
         },
         optimizeDeps: {
           exclude: modules,
-          include: ["@mantine/core", "@tabler/icons-react"],
+          include: ["@mantine/core", "@tabler/icons-react", "@apollo/client"],
         },
       };
     },

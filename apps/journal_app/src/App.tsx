@@ -1,9 +1,22 @@
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import { AppShell } from "@lab/bubbles"; // FIXME: type safety for the library
+import { EntriesPage } from "./entries";
+
+const client = new ApolloClient({
+  uri: "/journal_bff/graphql", // TODO: federation
+  cache: new InMemoryCache(),
+});
 
 function App() {
-  return <AppShell title="Journal">Content</AppShell>;
+  return (
+    <ApolloProvider client={client}>
+      <AppShell title="Journal">
+        <EntriesPage />
+      </AppShell>
+    </ApolloProvider>
+  );
 }
 
 export default App;
