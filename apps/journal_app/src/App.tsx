@@ -5,7 +5,7 @@ import { AppShell } from "@lab/bubbles"; // FIXME: type safety for the library
 import { EntriesPage } from "./entries";
 
 const client = new ApolloClient({
-  uri: "/journal_bff/graphql", // TODO: federation
+  uri: "/graphql/",
   cache: new InMemoryCache(),
 });
 
