@@ -1,0 +1,12 @@
+# e.g. compose with "APOLLO_ELV2_LICENSE=accept pn rover supergraph compose --config ./infra/local/supergraph-config.yaml > infra/local/supergraph.graphql"
+# requires running the sub graphs beforehand
+federation_version: =2.5.4
+subgraphs:
+  task:
+    routing_url: http://task:3001/graphql
+    schema:
+      subgraph_url: http://localhost:3001/graphql
+  journal:
+    routing_url: http://journal:3003/graphql
+    schema:
+      subgraph_url: http://localhost:3003/graphql
