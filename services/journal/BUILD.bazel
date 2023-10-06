@@ -1,0 +1,4 @@
+alias(
+    name = "journal",
+    actual = "//services/journal/src/main",
+)

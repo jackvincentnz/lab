@@ -1,0 +1,7 @@
+java_library(
+    name = "domain",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//services/autojournal/src:__subpackages__",
+    ],
+)

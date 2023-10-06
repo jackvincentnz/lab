@@ -1,4 +1,0 @@
-alias(
-    name = "task",
-    actual = "//contexts/task/src/main",
-)

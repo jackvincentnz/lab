@@ -1,0 +1,4 @@
+alias(
+    name = "task",
+    actual = "//services/task/src/main",
+)
