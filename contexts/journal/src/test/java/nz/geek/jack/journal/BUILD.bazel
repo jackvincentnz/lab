@@ -1,9 +1,0 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
-
-java_test_suite(
-    name = "tests",
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
-    deps = [
-        "//contexts/journal/src/main/java/nz/geek/jack/journal",
-    ] + SPRING_TEST_DEPS,
-)

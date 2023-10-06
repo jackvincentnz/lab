@@ -1,8 +1,0 @@
-java_library(
-    name = "adapter",
-    visibility = ["//contexts/journal/src/main/java/nz/geek/jack/journal:__pkg__"],
-    runtime_deps = [
-        "//contexts/journal/src/main/java/nz/geek/jack/journal/adapter/api",
-        "//contexts/journal/src/main/java/nz/geek/jack/journal/adapter/persistence",
-    ],
-)

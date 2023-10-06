@@ -1,4 +1,0 @@
-alias(
-    name = "autojournal",
-    actual = "//contexts/autojournal/src/main",
-)

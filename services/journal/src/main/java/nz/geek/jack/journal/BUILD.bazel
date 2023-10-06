@@ -1,0 +1,16 @@
+java_library(
+    name = "journal",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//services/journal/src/main:__pkg__",
+        "//services/journal/src/test/java/nz/geek/jack/journal:__pkg__",
+    ],
+    runtime_deps = [
+        "//services/journal/src/main/java/nz/geek/jack/journal/adapter",
+        "//services/journal/src/main/java/nz/geek/jack/journal/application",
+    ],
+    deps = [
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+    ],
+)

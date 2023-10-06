@@ -45,17 +45,17 @@ gazelle_binary(
 
 command(
     name = "tag_task_image",
-    command = "//contexts/task/src/main:tarball",
+    command = "//services/task/src/main:tarball",
 )
 
 command(
     name = "tag_journal_image",
-    command = "//contexts/journal/src/main:tarball",
+    command = "//services/journal/src/main:tarball",
 )
 
 command(
     name = "tag_autojournal_image",
-    command = "//contexts/autojournal/src/main:tarball",
+    command = "//services/autojournal/src/main:tarball",
 )
 
 command(

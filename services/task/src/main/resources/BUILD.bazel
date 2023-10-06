@@ -1,0 +1,8 @@
+filegroup(
+    name = "resources",
+    srcs = glob(["*.yaml"]),
+    visibility = [
+        "//services/task/src/main:__pkg__",
+        "//services/task/src/test:__subpackages__",
+    ],
+)

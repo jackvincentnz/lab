@@ -6,7 +6,7 @@ graphql_codegen_bin.graphql_codegen(
         "//:node_modules/@graphql-codegen/client-preset",
         "//apps/journal_app:codegen",
         "//apps/journal_app/src:graphql_documents",
-        "//contexts/journal/src/main/resources/schema",
+        "//services/journal/src/main/resources/schema",
     ],
     outs = [
         "fragment-masking.ts",
