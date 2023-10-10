@@ -15,10 +15,7 @@ export default defineConfig({
   server: {
     port: 3004,
     proxy: {
-      "/journal_bff/graphql": {
-        target: "http://localhost:3003",
-        rewrite: (path) => path.replace(/^\/journal_bff/, ""),
-      },
+      "/graphql": "http://localhost:4000",
     },
   },
 });

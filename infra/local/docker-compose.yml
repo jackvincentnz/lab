@@ -112,3 +112,25 @@ services:
       - journal_app
     ports:
       - "8080:8080"
+
+  router:
+    image: ghcr.io/apollographql/router:v1.32.0
+    hostname: router
+    container_name: router
+    depends_on:
+      - task
+      - journal
+    ports:
+      - "4000:4000"
+    volumes:
+      - type: bind
+        source: ./supergraph.graphql
+        target: /dist/schema/local.graphql
+      - type: bind
+        source: ./router.conf
+        target: /dist/conf/router.conf
+    environment:
+      APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
+      APOLLO_ROUTER_CONFIG_PATH: conf/router.conf
+#    command:
+#      - "--dev"

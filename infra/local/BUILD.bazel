@@ -3,6 +3,8 @@ sh_binary(
     srcs = ["docker_compose.bash"],
     data = [
         "docker-compose.yml",
+        "router.conf",
+        "supergraph.graphql",
         "@bazel_tools//tools/bash/runfiles",
     ],
     visibility = ["//:__pkg__"],
