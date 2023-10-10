@@ -126,7 +126,11 @@ services:
       - type: bind
         source: ./supergraph.graphql
         target: /dist/schema/local.graphql
+      - type: bind
+        source: ./router.conf
+        target: /dist/conf/router.conf
     environment:
       APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
-    command:
-      - "--dev"
+      APOLLO_ROUTER_CONFIG_PATH: conf/router.conf
+#    command:
+#      - "--dev"

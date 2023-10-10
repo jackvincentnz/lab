@@ -3,7 +3,7 @@ import DisplayTasks from "./DisplayTasks";
 import AddTask from "./AddTask";
 
 const client = new ApolloClient({
-  uri: "/graphql/",
+  uri: "/graphql",
   cache: new InMemoryCache(),
 });
 
