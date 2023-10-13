@@ -28,7 +28,7 @@ class EntriesDataFetcherTest {
   @Autowired DgsQueryExecutor dgsQueryExecutor;
 
   private static final List<nz.geek.jack.journal.domain.Entry> ENTRIES =
-      Stream.of("Stranger Things", "Ozark")
+      Stream.of("1", "2", "3")
           .map(nz.geek.jack.journal.domain.Entry::newEntry)
           .collect(Collectors.toList());
 
@@ -38,33 +38,46 @@ class EntriesDataFetcherTest {
   }
 
   @Test
-  void allEntries_shouldContainHardCodedEntries() {
+  void allEntries_shouldContainAllEntries() {
     List<String> messages =
         dgsQueryExecutor.executeAndExtractJsonPath(
             " { allEntries { message createdAt }}", "data.allEntries[*].message");
 
-    assertThat(messages).contains("Ozark");
+    assertThat(messages).contains("1");
+    assertThat(messages).contains("2");
+    assertThat(messages).contains("3");
+  }
+
+  @Test
+  void allEntries_shouldContainSortedEntries() {
+    List<String> messages =
+        dgsQueryExecutor.executeAndExtractJsonPath(
+            " { allEntries { message createdAt }}", "data.allEntries[*].message");
+
+    assertThat(ENTRIES.get(0).getMessage()).isEqualTo(messages.get(0));
+    assertThat(ENTRIES.get(1).getMessage()).isEqualTo(messages.get(1));
+    assertThat(ENTRIES.get(2).getMessage()).isEqualTo(messages.get(2));
   }
 
   @Test
   public void allEntries_withQueryApi() {
     GraphQLQueryRequest graphQLQueryRequest =
         new GraphQLQueryRequest(
-            new AllEntriesGraphQLQuery.Builder().entryFilter("Oz").build(),
+            new AllEntriesGraphQLQuery.Builder().entryFilter("2").build(),
             new AllEntriesProjectionRoot().message());
 
     List<String> messages =
         dgsQueryExecutor.executeAndExtractJsonPath(
             graphQLQueryRequest.serialize(), "data.allEntries[*].message");
 
-    assertThat(messages).containsExactly("Ozark");
+    assertThat(messages).containsExactly("2");
   }
 
   @Test
   void allEntries_shouldContainFilteredEntries_whenFiltered() {
     List<String> messages =
         dgsQueryExecutor.executeAndExtractJsonPath(
-            " { allEntries(entryFilter: \"Strange\") { message }}", "data.allEntries[*].message");
+            " { allEntries(entryFilter: \"1\") { message }}", "data.allEntries[*].message");
 
     assertThat(messages).size().isEqualTo(1);
   }
