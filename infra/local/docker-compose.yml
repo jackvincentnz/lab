@@ -82,8 +82,8 @@ services:
     ports:
       - "3002:3002"
     environment:
-      LAB_SERVICES_TASK_GRAPHQL_URL: http://task:3001/graphql
-      LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://journal:3003/graphql
+      LAB_SERVICES_TASK_GRAPHQL_URL: http://host.docker.internal:3001/graphql
+      LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://host.docker.internal:3003/graphql
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
 

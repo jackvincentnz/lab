@@ -3,10 +3,10 @@
 federation_version: =2.5.4
 subgraphs:
   task:
-    routing_url: http://task:3001/graphql
+    routing_url: http://host.docker.internal:3001/graphql
     schema:
       subgraph_url: http://localhost:3001/graphql
   journal:
-    routing_url: http://journal:3003/graphql
+    routing_url: http://host.docker.internal:3003/graphql
     schema:
       subgraph_url: http://localhost:3003/graphql
