@@ -28,12 +28,11 @@ public class EntriesDataFetcher {
   public Collection<Entry> allEntries(@InputArgument String entryFilter) {
     var entries = entryQueryService.getAllEntries().stream();
 
-    if (entryFilter == null) {
-      return entries.map(entryMapper::map).collect(Collectors.toList());
+    if (entryFilter != null) {
+      entries = entries.filter(s -> s.getMessage().contains(entryFilter));
     }
 
     return entries
-        .filter(s -> s.getMessage().contains(entryFilter))
         .sorted(Comparator.comparing(nz.geek.jack.journal.domain.Entry::getCreatedAt))
         .map(entryMapper::map)
         .collect(Collectors.toList());
