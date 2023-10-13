@@ -9,6 +9,7 @@ option java_outer_classname = "TaskApiProto";
 message TaskAddedEvent {
   string task_id = 1;
   string title = 2;
+  string createdAt = 3;
 }
 
 message TaskCompletedEvent {

@@ -50,13 +50,23 @@ class EntriesDataFetcherTest {
 
   @Test
   void allEntries_shouldContainSortedEntries() {
+    var first = nz.geek.jack.journal.domain.Entry.newEntry("1");
+    var second = nz.geek.jack.journal.domain.Entry.newEntry("2");
+    var third = nz.geek.jack.journal.domain.Entry.newEntry("3");
+    var fourth = nz.geek.jack.journal.domain.Entry.newEntry("4");
+    var fifth = nz.geek.jack.journal.domain.Entry.newEntry("5");
+    when(entryQueryService.getAllEntries())
+        .thenReturn(List.of(fifth, first, fourth, third, second));
+
     List<String> messages =
         dgsQueryExecutor.executeAndExtractJsonPath(
             " { allEntries { message createdAt }}", "data.allEntries[*].message");
 
-    assertThat(ENTRIES.get(0).getMessage()).isEqualTo(messages.get(0));
-    assertThat(ENTRIES.get(1).getMessage()).isEqualTo(messages.get(1));
-    assertThat(ENTRIES.get(2).getMessage()).isEqualTo(messages.get(2));
+    assertThat(first.getMessage()).isEqualTo(messages.get(0));
+    assertThat(second.getMessage()).isEqualTo(messages.get(1));
+    assertThat(third.getMessage()).isEqualTo(messages.get(2));
+    assertThat(fourth.getMessage()).isEqualTo(messages.get(3));
+    assertThat(fifth.getMessage()).isEqualTo(messages.get(4));
   }
 
   @Test

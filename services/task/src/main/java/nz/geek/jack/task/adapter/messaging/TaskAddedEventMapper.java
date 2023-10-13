@@ -10,6 +10,7 @@ public class TaskAddedEventMapper
     return TaskAddedEvent.newBuilder()
         .setTaskId(taskAddedEvent.getTaskId().toString())
         .setTitle(taskAddedEvent.getTitle())
+        .setCreatedAt(taskAddedEvent.getCreatedAt().toString())
         .build();
   }
 }

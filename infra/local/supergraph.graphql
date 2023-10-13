@@ -341,8 +341,13 @@ enum ErrorType @join__type(graph: JOURNAL) @join__type(graph: TASK) {
 scalar join__FieldSet
 
 enum join__Graph {
-  JOURNAL @join__graph(name: "journal", url: "http://journal:3003/graphql")
-  TASK @join__graph(name: "task", url: "http://task:3001/graphql")
+  JOURNAL
+    @join__graph(
+      name: "journal"
+      url: "http://host.docker.internal:3003/graphql"
+    )
+  TASK
+    @join__graph(name: "task", url: "http://host.docker.internal:3001/graphql")
 }
 
 scalar link__Import
