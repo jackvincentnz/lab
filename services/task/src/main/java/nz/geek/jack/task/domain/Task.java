@@ -1,5 +1,6 @@
 package nz.geek.jack.task.domain;
 
+import java.time.Instant;
 import nz.geek.jack.libs.domain.Aggregate;
 
 public final class Task extends Aggregate {
@@ -10,17 +11,20 @@ public final class Task extends Aggregate {
 
   private boolean isCompleted = false;
 
+  private Instant createdAt;
+
   public static Task addTask(String title) {
     return new Task(title);
   }
 
   private Task(String title) {
-    apply(TaskAddedEvent.of(TaskId.create(), title));
+    apply(TaskAddedEvent.of(TaskId.create(), title, Instant.now()));
   }
 
   private void on(TaskAddedEvent taskAddedEvent) {
     id = taskAddedEvent.getTaskId();
     title = taskAddedEvent.getTitle();
+    createdAt = taskAddedEvent.getCreatedAt();
   }
 
   public void markCompleted() {
@@ -43,12 +47,18 @@ public final class Task extends Aggregate {
     return isCompleted;
   }
 
-  public static Task of(TaskId id, String title) {
-    return new Task(id, title);
+  public Instant getCreatedAt() {
+    return createdAt;
   }
 
-  private Task(TaskId id, String title) {
+  public static Task of(TaskId id, String title, boolean isCompleted, Instant createdAt) {
+    return new Task(id, title, isCompleted, createdAt);
+  }
+
+  private Task(TaskId id, String title, boolean isCompleted, Instant createdAt) {
     this.id = id;
     this.title = title;
+    this.isCompleted = isCompleted;
+    this.createdAt = createdAt;
   }
 }
