@@ -1,7 +1,7 @@
 # Lab
 
 <p>
-    <a href="https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild+branch%3Amaster+">
+    <a href="https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild+branch%main+">
         <img alt="Build status" src="https://github.com/allocadia-jack/lab/actions/workflows/main.yml/badge.svg">
     </a>
     <a href="https://codecov.io/gh/jackvincentnz/lab" >
