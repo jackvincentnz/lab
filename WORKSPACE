@@ -64,7 +64,7 @@ maven_install(
         "org.springframework.boot:spring-boot-loader:3.1.3",
         "org.springframework.boot:spring-boot-starter-web:3.1.3",
         "org.springframework.boot:spring-boot-starter-validation:3.1.3",
-        "org.springframework.kafka:spring-kafka:3.0.10",
+        "org.springframework.kafka:spring-kafka:3.0.12",
         "org.springframework:spring-webflux:6.0.11",
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
         maven.artifact(
