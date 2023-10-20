@@ -6,6 +6,11 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  # Cancel previous actions from the same PR: https://stackoverflow.com/a/72408109
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   common_ci:
     runs-on: ubuntu-latest
@@ -21,22 +26,37 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Cache bazel on successful builds
+      # Cache build and external artifacts so that the next ci build is incremental.
+      # Because github action caches cannot be updated after a build, we need to
+      # store the contents of each build in a unique cache key, then fall back to loading
+      # it on the next ci run. We use hashFiles(...) in the key and restore-keys- with
+      # the prefix to load the most recent cache for the branch on a cache miss. You
+      # should customize the contents of hashFiles to capture any bazel input sources,
+      # although this doesn't need to be perfect. If none of the input sources change
+      # then a cache hit will load an existing cache and bazel won't have to do any work.
+      # In the case of a cache miss, you want the fallback cache to contain most of the
+      # previously built artifacts to minimize build time. The more precise you are with
+      # hashFiles sources the less work bazel will have to do.
+      - name: Mount bazel caches
         uses: actions/cache@v3
         with:
           path: |
-            ${{ env.BAZELISK_HOME }}
             ~/.cache/bazel
-          key: bazel-${{ github.ref }}-${{ github.sha }}
-          restore-keys: |
-            bazel-${{ github.ref }}-
-            bazel-
+            ~/.cache/bazel-repo
+          key: bazel-cache-${{ hashFiles('**/BUILD.bazel', '**/*.bzl', 'WORKSPACE') }}
+          restore-keys: bazel-cache-
 
       - name: Build with bazel
         run: bazel build //...
+        env:
+          # Bazelisk will download bazel to here, ensure it is cached between runs.
+          XDG_CACHE_HOME: ~/.cache/bazel-repo
 
       - name: Test and generate coverage report with bazel
         run: bazel coverage --combined_report=lcov //...
+        env:
+          # Bazelisk will download bazel to here, ensure it is cached between runs.
+          XDG_CACHE_HOME: ~/.cache/bazel-repo
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
