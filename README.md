@@ -38,6 +38,12 @@ Run the whole local environment in docker with:
 bazel run //:start
 ```
 
+Run e2e tests against local environment
+
+```zsh
+pnpm cypress run
+```
+
 ## Tooling
 
 This repository includes multiple tools to improve consistency, maintainability and developer efficiency.
