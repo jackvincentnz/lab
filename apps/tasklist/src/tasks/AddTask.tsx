@@ -29,8 +29,11 @@ export function AddTask() {
             aria-label="Task name"
             ref={input}
             error={error ? "Submission error!" : false}
+            data-test="add-task-input"
           />
-          <Button type="submit">Add task</Button>
+          <Button type="submit" data-test="add-task-button">
+            Add task
+          </Button>
         </Group>
       </form>
     </>

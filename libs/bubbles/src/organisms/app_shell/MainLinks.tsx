@@ -12,6 +12,7 @@ interface MainLinkProps {
   color: string;
   label: string;
   href: string;
+  dataTest?: string;
 }
 
 const useStyles = createStyles(() => ({
@@ -20,11 +21,11 @@ const useStyles = createStyles(() => ({
   },
 }));
 
-function MainLink({ icon, color, label, href }: MainLinkProps) {
+function MainLink({ icon, color, label, href, dataTest }: MainLinkProps) {
   const { classes, cx } = useStyles();
 
   return (
-    <a href={href} className={cx(classes.link)}>
+    <a href={href} className={cx(classes.link)} data-test={dataTest}>
       <UnstyledButton
         sx={(theme) => ({
           display: "block",
@@ -50,18 +51,20 @@ function MainLink({ icon, color, label, href }: MainLinkProps) {
 }
 
 const iconSize = "1rem";
-const data = [
+const data: MainLinkProps[] = [
   {
     icon: <IconListCheck size={iconSize} />,
     color: "blue",
     label: "Tasks",
     href: "/task",
+    dataTest: "tasks-page-main-nav",
   },
   {
     icon: <IconNotebook size={iconSize} />,
     color: "teal",
     label: "Journal",
     href: "/journal",
+    dataTest: "journal-page-main-nav",
   },
 ];
 
