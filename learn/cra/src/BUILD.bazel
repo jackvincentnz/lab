@@ -2,9 +2,9 @@ load("//tools/bazel:react.bzl", "react_lib")
 
 react_lib(
     name = "src",
-    visibility = ["//apps/cra:__pkg__"],
+    visibility = ["//learn/cra:__pkg__"],
     deps = [
         "//:node_modules/web-vitals",
-        "//apps/cra/src/app",
+        "//learn/cra/src/app",
     ],
 )

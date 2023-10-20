@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "ibazel run //apps/cra:start",
-    "build": "bazel build //apps/cra:build",
-    "test": "ibazel test $(bazel query \"kind(jest_test, //apps/cra/src/...)\")"
+    "start": "ibazel run //learn/cra:start",
+    "build": "bazel build //learn/cra:build",
+    "test": "ibazel test $(bazel query \"kind(jest_test, //learn/cra/src/...)\")"
   },
   "browserslist": {
     "production": [
