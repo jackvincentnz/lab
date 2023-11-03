@@ -109,9 +109,6 @@ importers:
       typescript: 4.9.5
       vite: 4.4.9_@types+node@18.17.11
 
-  apps/cra:
-    specifiers: {}
-
   apps/journal_app:
     specifiers: {}
 
