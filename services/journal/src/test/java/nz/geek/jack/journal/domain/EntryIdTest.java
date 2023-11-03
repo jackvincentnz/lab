@@ -1,23 +1,23 @@
-package nz.geek.jack.task.domain;
+package nz.geek.jack.journal.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-class TaskIdTest {
+class EntryIdTest {
 
   @Test
   void create_setsId() {
-    var id = TaskId.create();
+    var id = EntryId.create();
 
     assertThat(id).isNotNull();
   }
 
   @Test
   void fromString_setsId() {
-    var idString = TaskId.create().toString();
+    var idString = EntryId.create().toString();
 
-    var id = TaskId.fromString(idString);
+    var id = EntryId.fromString(idString);
 
     assertThat(id.toString()).isEqualTo(idString);
   }
