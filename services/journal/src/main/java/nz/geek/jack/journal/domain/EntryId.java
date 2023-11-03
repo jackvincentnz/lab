@@ -1,23 +1,16 @@
 package nz.geek.jack.journal.domain;
 
-import java.util.Objects;
 import java.util.UUID;
+import nz.geek.jack.libs.domain.AbstractId;
 
-public final class EntryId {
-
-  private final UUID id;
+public final class EntryId extends AbstractId {
 
   private EntryId() {
-    this(UUID.randomUUID());
+    super();
   }
 
   private EntryId(UUID id) {
-    this.id = id;
-  }
-
-  @Override
-  public String toString() {
-    return id.toString();
+    super(id);
   }
 
   public static EntryId create() {
@@ -26,22 +19,5 @@ public final class EntryId {
 
   public static EntryId fromString(String id) {
     return new EntryId(UUID.fromString(id));
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
-    }
-    if (o == null || getClass() != o.getClass()) {
-      return false;
-    }
-    EntryId entryId = (EntryId) o;
-    return id.equals(entryId.id);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
   }
 }

@@ -2,4 +2,5 @@ java_library(
     name = "domain",
     srcs = glob(["*.java"]),
     visibility = ["//services/journal/src:__subpackages__"],
+    deps = ["//libs/domain/src/main/java/nz/geek/jack/libs/domain"],
 )
