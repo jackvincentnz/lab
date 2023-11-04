@@ -27,23 +27,15 @@ public abstract class Aggregate {
 
     try {
       reducer.invoke(this, domainEvent);
-    } catch (InvocationTargetException e) {
+    } catch (InvocationTargetException | IllegalAccessException e) {
       var reductionFailedMessage =
           String.format(
-              "Method %s(%s) failed. See cause: %s",
-              REDUCER_METHOD_NAME, eventType.getSimpleName(), e.getMessage());
+              "Failed to reduce event: [%s], in method: [void %s(%s event)]",
+              eventType.getSimpleName(), REDUCER_METHOD_NAME, eventType.getSimpleName());
 
       if (e.getCause() != null) {
         throw new RuntimeException(reductionFailedMessage, e.getCause());
       }
-
-      throw new RuntimeException(reductionFailedMessage, e);
-
-    } catch (IllegalAccessException e) {
-      var reductionFailedMessage =
-          String.format(
-              "Method %s(%s) failed because of illegal access. See cause: %s",
-              REDUCER_METHOD_NAME, eventType.getSimpleName(), e.getMessage());
 
       throw new RuntimeException(reductionFailedMessage, e);
     }
@@ -79,7 +71,7 @@ public abstract class Aggregate {
     } catch (Exception e) {
       var reducerNotFoundMessage =
           String.format(
-              "Reducer %s(%s) not found: %s >>> %s",
+              "Reducer method: [void %s(%s event)] missing. %s >>> %s",
               REDUCER_METHOD_NAME,
               eventType.getSimpleName(),
               e.getClass().getSimpleName(),
