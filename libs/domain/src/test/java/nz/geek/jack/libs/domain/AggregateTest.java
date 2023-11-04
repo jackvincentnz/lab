@@ -1,6 +1,7 @@
 package nz.geek.jack.libs.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -21,6 +22,20 @@ class AggregateTest {
     var aggregate = new TestAggregate();
 
     assertThat(aggregate.getState()).isEqualTo(TestAggregate.STATE_UPDATED_STRING);
+  }
+
+  @Test()
+  void apply_throwsWhenReducerMethodIsMissing() {
+    var aggregate = new TestAggregate();
+
+    assertThrows(IllegalArgumentException.class, () -> aggregate.apply(new EventWithoutHandler()));
+  }
+
+  @Test()
+  void apply_throwsWhenReducerMethodThrows() {
+    var aggregate = new TestAggregate();
+
+    assertThrows(RuntimeException.class, () -> aggregate.apply(new EventThatThrowsWhenHandled()));
   }
 
   @Test
@@ -48,10 +63,18 @@ class AggregateTest {
       state = STATE_UPDATED_STRING;
     }
 
+    private void on(EventThatThrowsWhenHandled eventThatThrowsWhenHandled) {
+      throw new RuntimeException("Couldn't handle it!");
+    }
+
     String getState() {
       return state;
     }
   }
 
   static final class TestAggregateCreatedEvent extends DomainEvent {}
+
+  static final class EventWithoutHandler extends DomainEvent {}
+
+  static final class EventThatThrowsWhenHandled extends DomainEvent {}
 }
