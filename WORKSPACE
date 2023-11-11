@@ -34,11 +34,40 @@ rules_jvm_external_setup()
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 load("@rules_jvm_external//:specs.bzl", "maven")
 
-TEST_ARTIFACTS = [
+# Check the spring dependency management to see versions which work together:
+# e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
+SPRING_BOOT_DEPENDENCIES = [
+    "org.apache.commons:commons-lang3:3.12.0",
+    "org.apache.kafka:kafka-clients:3.3.2",
+    "org.apache.kafka:kafka-metadata:3.3.2",
+    "org.apache.kafka:kafka-raft:3.3.2",
+    "org.apache.kafka:kafka-server-common:3.3.2",
+    "org.apache.kafka:kafka-storage:3.3.2",
+    "org.apache.kafka:kafka-storage-api:3.3.2",
+    "org.apache.kafka:kafka-streams:3.3.2",
+    "org.apache.kafka:kafka-streams-test-utils:3.3.2",
+    "org.apache.kafka:kafka_2.13:3.3.2",
+    "org.springframework.boot:spring-boot-loader:3.0.12",
+    "org.springframework.boot:spring-boot-starter-validation:3.0.12",
+    "org.springframework.boot:spring-boot-starter-web:3.0.12",
+    "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
+    "org.springframework.kafka:spring-kafka:3.0.12",
     maven.artifact(
         "org.springframework.boot",
         "spring-boot-starter-test",
-        "3.0.3",
+        "3.0.12",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.springframework.kafka",
+        "spring-kafka-test",
+        "3.0.12",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.testcontainers",
+        "kafka",
+        "1.18.3",
         testonly = True,
     ),
     maven.artifact(
@@ -60,12 +89,7 @@ TEST_ARTIFACTS = [
 # To re-pin everything, run:
 # REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
-    artifacts = [
-        "org.springframework.boot:spring-boot-loader:3.1.3",
-        "org.springframework.boot:spring-boot-starter-web:3.1.3",
-        "org.springframework.boot:spring-boot-starter-validation:3.1.3",
-        "org.springframework.kafka:spring-kafka:3.0.10",
-        "org.springframework:spring-webflux:6.0.11",
+    artifacts = SPRING_BOOT_DEPENDENCIES + [
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
         maven.artifact(
             artifact = "graphql-dgs-codegen-core",
@@ -75,11 +99,8 @@ maven_install(
             group = "com.netflix.graphql.dgs.codegen",
             version = "6.0.2",
         ),
-        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:6.0.2",
-        "org.apache.commons:commons-lang3:3.13.0",
-        "org.apache.kafka:kafka-clients:3.5.1",
-        "io.confluent:kafka-protobuf-serializer:7.5.0",
-    ] + TEST_ARTIFACTS,
+        "io.confluent:kafka-protobuf-serializer:7.5.1",
+    ],
     fail_if_repin_required = True,
     fetch_sources = True,
     maven_install_json = "//:maven_install.json",
@@ -87,6 +108,7 @@ maven_install(
         "https://repo1.maven.org/maven2",
         "https://packages.confluent.io/maven",
     ],
+    version_conflict_policy = "pinned",
 )
 
 load("@maven//:defs.bzl", "pinned_maven_install")
