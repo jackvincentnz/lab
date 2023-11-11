@@ -8,8 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class Producer {
 
-  private static final Logger logger = LoggerFactory.getLogger(Producer.class);
-  private static final String TOPIC = "purchases";
+  private static final Logger LOGGER = LoggerFactory.getLogger(Producer.class);
+
+  protected static final String TOPIC = "test.topic";
 
   private final KafkaTemplate<String, SimpleMessage> kafkaTemplate;
 
@@ -19,19 +20,13 @@ public class Producer {
 
   public void sendMessage(String key, String value) {
     var message = SimpleMessage.newBuilder().setContent(value).build();
-    var future = kafkaTemplate.send(TOPIC, key, message);
 
-    future.whenComplete(
-        (result, ex) -> {
-          if (result != null) {
-            logger.info(
-                String.format(
-                    "Produced event to topic %s: key = %-10s value = %s", TOPIC, key, value));
-          }
-
-          if (ex != null) {
-            ex.printStackTrace();
-          }
-        });
+    kafkaTemplate
+        .send(TOPIC, key, message)
+        .thenAccept(
+            (result) ->
+                LOGGER.info(
+                    String.format(
+                        "Produced event to topic %s: key = %-10s value = %s", TOPIC, key, value)));
   }
 }

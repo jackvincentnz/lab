@@ -1,0 +1,13 @@
+spring:
+  kafka:
+    properties:
+      schema.registry.url: mock://
+      specific.protobuf.value.type: nz.geek.jack.learn.kafka.SimpleMessage
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer
+    consumer:
+      group-id: group_id
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufDeserializer
