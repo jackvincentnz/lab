@@ -13,6 +13,7 @@ TEST_DEPS = [
 
 SPRING_TEST_DEPS = [
     "@maven//:org_springframework_boot_spring_boot_test",
+    "@maven//:org_springframework_spring_test",
     "@maven//:org_springframework_spring_beans",
 ]
 

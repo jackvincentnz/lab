@@ -1,9 +1,18 @@
 load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
+# TODO: check if all these deps are actually needed
 java_test_suite(
     name = "tests",
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
+    tags = ["requires-network"],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//learn/kafka/src/test/resources",
+        "@maven//:io_confluent_kafka_protobuf_serializer",
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
     deps = [
         "//learn/kafka/src/main/java/nz/geek/jack/learn/kafka",
+        "@maven//:org_springframework_kafka_spring_kafka",
+        "@maven//:org_springframework_kafka_spring_kafka_test",
     ] + SPRING_TEST_DEPS,
 )
