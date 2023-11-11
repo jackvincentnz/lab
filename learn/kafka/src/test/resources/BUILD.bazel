@@ -1,0 +1,5 @@
+java_binary(
+    name = "resources",
+    resources = ["application.yaml"],
+    visibility = ["//learn/kafka:__subpackages__"],
+)

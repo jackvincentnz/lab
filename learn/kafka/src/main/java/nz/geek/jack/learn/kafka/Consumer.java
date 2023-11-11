@@ -1,7 +1,7 @@
 package nz.geek.jack.learn.kafka;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static nz.geek.jack.learn.kafka.Producer.TOPIC;
+
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
@@ -10,20 +10,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class Consumer {
 
-  private final Logger logger = LoggerFactory.getLogger(Consumer.class);
+  private final MessageHandler messageHandler;
 
-  @KafkaListener(
-      id = "myConsumer",
-      topics = "purchases",
-      groupId = "spring-boot",
-      autoStartup = "false")
+  public Consumer(MessageHandler messageHandler) {
+    this.messageHandler = messageHandler;
+  }
+
+  @KafkaListener(topics = TOPIC, groupId = "spring-boot")
   public void listen(
       SimpleMessage message,
       @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
       @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-    logger.info(
-        String.format(
-            "Consumed event from topic %s: key = %-10s value = %s",
-            topic, key, message.getContent()));
+    messageHandler.handle(message, topic, key);
   }
 }
