@@ -2,6 +2,7 @@ load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@aspect_rules_ts//ts:defs.bzl", "ts_config")
 load("@bazel_gazelle//:def.bzl", "DEFAULT_LANGUAGES", "gazelle", "gazelle_binary")
 load("@rules_multirun//:defs.bzl", "command", "multirun")
+load("@npm//:tsconfig-to-swcconfig/package_json.bzl", tsconfig_to_swcconfig = "bin")
 
 npm_link_all_packages(name = "node_modules")
 
@@ -18,6 +19,17 @@ ts_config(
     visibility = [":__subpackages__"],
 )
 
+tsconfig_to_swcconfig.t2s(
+    name = "write_swcrc",
+    srcs = ["tsconfig.base.json"],
+    args = [
+        "--filename",
+        "$(location tsconfig.base.json)",
+    ],
+    stdout = ".swcrc",
+    visibility = [":__subpackages__"],
+)
+
 ts_config(
     name = "tsconfig_node",
     src = "tsconfig.node.json",
@@ -30,6 +42,20 @@ ts_config(
     src = "tsconfig.react.json",
     visibility = [":__subpackages__"],
     deps = [":tsconfig_base"],
+)
+
+tsconfig_to_swcconfig.t2s(
+    name = "write_swcrc_react",
+    srcs = [
+        "tsconfig.base.json",
+        "tsconfig.react.json",
+    ],
+    args = [
+        "--filename",
+        "$(location tsconfig.react.json)",
+    ],
+    stdout = ".swcrc.react",
+    visibility = [":__subpackages__"],
 )
 
 # gazelle:prefix github.com/jackvincentnz/lab
