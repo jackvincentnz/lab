@@ -5,6 +5,8 @@ This module contains common react macros.
 load("//tools/bazel:ts.bzl", _ts_project = "ts_project")
 load("@aspect_rules_js//js:defs.bzl", "js_library")
 load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
+load("@bazel_skylib//lib:partial.bzl", "partial")
+load("@aspect_rules_swc//swc:defs.bzl", "swc")
 
 # Common dependencies of react packages
 COMMON_REACT_DEPS = [
@@ -121,6 +123,10 @@ def react_ts_project(name, **kwargs):
         tsconfig = kwargs.pop("tsconfig", "//:tsconfig_react"),
         resolve_json_module = kwargs.pop("resolve_json_module", True),
         source_map = kwargs.pop("source_map", False),
+        transpiler = kwargs.pop("transpiler", partial.make(
+            swc,
+            swcrc = "//:.swcrc.react",
+        )),
 
         # Allow anything else to be overridden
         **kwargs
