@@ -79,6 +79,10 @@ services:
     depends_on:
       broker:
         condition: service_healthy
+      task:
+        condition: service_started
+      journal:
+        condition: service_started
     ports:
       - "3002:3002"
     environment:
@@ -86,6 +90,8 @@ services:
       LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://host.docker.internal:3003/graphql
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   tasklist:
     image: lab/tasklist:latest
@@ -106,12 +112,13 @@ services:
     hostname: proxy
     container_name: proxy
     depends_on:
-      - task
-      - journal
+      - router
       - tasklist
       - journal_app
     ports:
       - "8080:8080"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   router:
     image: ghcr.io/apollographql/router:v1.32.0
@@ -132,5 +139,5 @@ services:
     environment:
       APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
       APOLLO_ROUTER_CONFIG_PATH: conf/router.conf
-#    command:
-#      - "--dev"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
