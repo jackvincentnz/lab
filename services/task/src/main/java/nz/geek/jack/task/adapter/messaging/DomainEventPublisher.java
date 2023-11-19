@@ -25,6 +25,11 @@ public class DomainEventPublisher {
     this.eventMapperFactory = eventMapperFactory;
   }
 
+  private void initializeProducer() {
+    // Reduce first send latency by eagerly fetching topic metadata
+    kafkaTemplate.partitionsFor(TASK_TOPIC);
+  }
+
   public void publish(List<DomainEvent> appliedEvents) {
     appliedEvents.stream().map(this::map).forEach(this::sendMessage);
   }

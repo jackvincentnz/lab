@@ -48,6 +48,7 @@ SPRING_BOOT_DEPENDENCIES = [
     "org.apache.kafka:kafka-streams-test-utils:3.3.2",
     "org.apache.kafka:kafka_2.13:3.3.2",
     "org.springframework.boot:spring-boot-loader:3.0.12",
+    "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
     "org.springframework.boot:spring-boot-starter-validation:3.0.12",
     "org.springframework.boot:spring-boot-starter-web:3.0.12",
     "org.springframework.boot:spring-boot-starter-webflux:3.0.12",

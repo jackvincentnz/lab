@@ -15,7 +15,7 @@ jobs:
   common_ci:
     runs-on: ubuntu-latest
     env:
-      BAZELISK_HOME: ~/.cache/bazel-home
+      BAZELISK_HOME: ~/.cache/bazel-repo
     steps:
       - name: Checkout
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4
@@ -42,27 +42,48 @@ jobs:
         with:
           path: |
             ~/.cache/bazel
-            ~/.cache/bazel-repo
+            ${{ env.BAZELISK_HOME }}
           key: bazel-cache-${{ hashFiles('**/BUILD.bazel', '**/*.bzl', 'WORKSPACE') }}
           restore-keys: bazel-cache-
 
       - name: Build with bazel
         run: bazel build //...
-        env:
-          # Bazelisk will download bazel to here, ensure it is cached between runs.
-          XDG_CACHE_HOME: ~/.cache/bazel-repo
 
       - name: Test and generate coverage report with bazel
         run: bazel coverage --combined_report=lcov //...
-        env:
-          # Bazelisk will download bazel to here, ensure it is cached between runs.
-          XDG_CACHE_HOME: ~/.cache/bazel-repo
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./dist/out/_coverage/_coverage_report.dat
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 7
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: Setup pnpm cache
+        with:
+          path: |
+            ${{ env.STORE_PATH }}
+            ~/.cache/Cypress
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Test e2e
+        run: pnpm start-then-e2e
 
   pull_request_ci:
     runs-on: ubuntu-latest
