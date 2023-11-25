@@ -1,7 +1,10 @@
 {
   "name": "lab",
-  "version": "0.1.0",
   "private": true,
+  "engines": {
+    "pnpm": ">=8.11.0",
+    "node": ">=18.18.0"
+  },
   "scripts": {
     "build": "bazel build //...",
     "test": "bazel test //...",
