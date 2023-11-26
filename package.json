@@ -45,7 +45,7 @@
     "@storybook/react-vite": "7.5.3",
     "@storybook/testing-library": "^0.2.0",
     "@swc/jest": "^0.2.26",
-    "@testing-library/jest-dom": "6.1.2",
+    "@testing-library/jest-dom": "6.1.4",
     "@testing-library/react": "^14.0.0",
     "@types/jest": "29.5.4",
     "@types/node": "18.17.11",
