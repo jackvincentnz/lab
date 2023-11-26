@@ -1,0 +1,55 @@
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@aspect_rules_swc//swc:defs.bzl", "swc")
+load("@aspect_rules_js//js:defs.bzl", "js_run_devserver")
+load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
+
+ts_project(
+    name = "src_ts",
+    srcs = ["sum.ts"],
+    declaration = True,
+    transpiler = swc,
+    tsconfig = {},
+)
+
+ts_project(
+    name = "test_ts",
+    srcs = ["sum.test.ts"],
+    declaration = True,
+    transpiler = swc,
+    tsconfig = {},
+    deps = [
+        ":src_ts",
+        "//:node_modules/vitest",
+    ],
+)
+
+js_run_devserver(
+    name = "test_ui",
+    args = ["--ui"],
+    data = [
+        ":test_ts",
+        "//:node_modules/@vitest/ui",
+    ],
+    tool = ":vitest_binary",
+)
+
+js_run_devserver(
+    name = "test_watch",
+    data = [
+        ":test_ts",
+    ],
+    tool = ":vitest_binary",
+)
+
+vitest_bin.vitest_binary(
+    name = "vitest_binary",
+)
+
+vitest_bin.vitest_test(
+    name = "test",
+    size = "small",
+    args = ["run"],
+    data = [
+        ":test_ts",
+    ],
+)

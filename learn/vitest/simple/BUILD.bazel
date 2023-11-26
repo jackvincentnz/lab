@@ -1,0 +1,39 @@
+load("@aspect_rules_js//js:defs.bzl", "js_run_devserver")
+load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
+
+js_run_devserver(
+    name = "test_ui",
+    args = ["--ui"],
+    data = [
+        "sum.js",
+        "sum.test.js",
+        "//:node_modules/@vitest/ui",
+        "//:node_modules/vitest",
+    ],
+    tool = ":vitest_binary",
+)
+
+js_run_devserver(
+    name = "test_watch",
+    data = [
+        "sum.js",
+        "sum.test.js",
+        "//:node_modules/vitest",
+    ],
+    tool = ":vitest_binary",
+)
+
+vitest_bin.vitest_binary(
+    name = "vitest_binary",
+)
+
+vitest_bin.vitest_test(
+    name = "test",
+    size = "small",
+    args = ["run"],
+    data = [
+        "sum.js",
+        "sum.test.js",
+        "//:node_modules/vitest",
+    ],
+)
