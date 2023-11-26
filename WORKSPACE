@@ -318,7 +318,7 @@ oci_pull(
 
 oci_pull(
     name = "nginx_debian_slim",
-    digest = "sha256:48a84a0728cab8ac558f48796f901f6d31d287101bc8b317683678125e0d2d35",
+    digest = "sha256:3c4c1f42a89e343c7b050c5e5d6f670a0e0b82e70e0e7d023f10092a04bbb5a7",
     image = "docker.io/library/nginx",
 )
 
