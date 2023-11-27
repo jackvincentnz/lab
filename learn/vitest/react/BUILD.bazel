@@ -1,0 +1,108 @@
+load("@npm//:tsconfig-to-swcconfig/package_json.bzl", tsconfig_to_swcconfig = "bin")
+load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
+load("@bazel_skylib//lib:partial.bzl", "partial")
+load("@aspect_rules_swc//swc:defs.bzl", "swc")
+load("@aspect_rules_js//js:defs.bzl", "js_run_devserver")
+load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
+
+tsconfig_to_swcconfig.t2s(
+    name = "write_swcrc_react",
+    srcs = [
+        "tsconfig.json",
+    ],
+    args = [
+        "--filename",
+        "$(location tsconfig.json)",
+    ],
+    stdout = ".swcrc",
+)
+
+ts_project(
+    name = "src_ts",
+    srcs = ["input.tsx"],
+    data = ["//:node_modules/react"],
+    declaration = True,
+    transpiler = partial.make(
+        swc,
+        swcrc = ":.swcrc",
+    ),
+    deps = [
+        "//:node_modules/@types/react",
+    ],
+)
+
+ts_project(
+    name = "test_ts",
+    srcs = [
+        "input.test.tsx",
+        "setup.ts",
+        "test-utils.ts",
+    ],
+    declaration = True,
+    transpiler = partial.make(
+        swc,
+        swcrc = ":.swcrc",
+    ),
+    deps = [
+        ":src_ts",
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/@vitest/expect",
+        "//:node_modules/vitest",
+    ],
+)
+
+js_run_devserver(
+    name = "test_ui",
+    args = [
+        "--ui",
+        "--config",
+        "$(location vite.config.ts)",
+    ],
+    data = [
+        "package.json",
+        "vite.config.ts",
+        ":test_ts",
+        "//:node_modules/@vitest/ui",
+        "//:node_modules/jsdom",
+        "//:node_modules/react",  # why is this necessary?
+    ],
+    tool = ":vitest_binary",
+)
+
+js_run_devserver(
+    name = "test_watch",
+    args = [
+        "--config",
+        "$(location vite.config.ts)",
+    ],
+    data = [
+        "package.json",
+        "vite.config.ts",
+        ":test_ts",
+        "//:node_modules/jsdom",
+        "//:node_modules/react",  # why is this necessary?
+    ],
+    tool = ":vitest_binary",
+)
+
+vitest_bin.vitest_binary(
+    name = "vitest_binary",
+)
+
+vitest_bin.vitest_test(
+    name = "test",
+    size = "small",
+    args = [
+        "run",
+        "--config",
+        "$(location vite.config.ts)",
+    ],
+    data = [
+        "package.json",
+        "vite.config.ts",
+        ":test_ts",
+        "//:node_modules/jsdom",
+    ],
+)
