@@ -228,6 +228,9 @@ npm_translate_lock(
     },
     npmrc = "//:.npmrc",
     pnpm_lock = "//:pnpm-lock.yaml",
+    public_hoist_packages = {
+        "@vitest/expect": [""],
+    },
     verify_node_modules_ignored = "//:.bazelignore",
 )
 

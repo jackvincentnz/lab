@@ -9,7 +9,6 @@ ts_project(
     transpiler = "tsc",
     tsconfig = ":tsconfig",
     deps = [
-        "//:node_modules/@testing-library/react",
         "//:node_modules/@types/react",
     ],
 )
@@ -22,6 +21,7 @@ ts_project(
     deps = [
         ":src_ts",
         "//:node_modules/@jest/globals",
+        "//:node_modules/@testing-library/react",
     ],
 )
 
