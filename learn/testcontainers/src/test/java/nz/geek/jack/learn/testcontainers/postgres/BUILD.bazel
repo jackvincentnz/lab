@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    tags = ["requires-network"],
+    runtime_deps = [
+        "@maven//:org_postgresql_postgresql",
+    ],
+    deps = [
+        "@maven//:org_testcontainers_junit_jupiter",
+        "@maven//:org_testcontainers_postgresql",
+        "@maven//:org_testcontainers_testcontainers",
+    ],
+)

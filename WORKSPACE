@@ -71,6 +71,8 @@ SPRING_BOOT_DEPENDENCIES = [
     "org.springframework.boot:spring-boot-starter-web:3.0.12",
     "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
     "org.springframework.kafka:spring-kafka:3.0.12",
+    "redis.clients:jedis:5.0.0",
+    "org.postgresql:postgresql:42.7.0",
     maven.artifact(
         "org.springframework.boot",
         "spring-boot-starter-test",
@@ -85,7 +87,25 @@ SPRING_BOOT_DEPENDENCIES = [
     ),
     maven.artifact(
         "org.testcontainers",
+        "testcontainers",
+        "1.18.3",
+        #testonly = True,
+    ),
+    maven.artifact(
+        "org.testcontainers",
+        "junit-jupiter",
+        "1.18.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.testcontainers",
         "kafka",
+        "1.18.3",
+        testonly = True,
+    ),
+    maven.artifact(
+        "org.testcontainers",
+        "postgresql",
         "1.18.3",
         testonly = True,
     ),
