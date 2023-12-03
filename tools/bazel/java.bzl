@@ -22,7 +22,9 @@ DGS_TEST_DEPS = [
     "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_oss_autoconfigure",
 ]
 
-TEST_RUNTIME_DEPS = JUNIT5_DEPS
+TEST_RUNTIME_DEPS = JUNIT5_DEPS + [
+    "@maven//:ch_qos_logback_logback_classic",
+]
 
 SPRING_TEST_RUNTIME_DEPS = [
     "@maven//:org_springframework_boot_spring_boot_starter_test",

@@ -1,0 +1,12 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    tags = ["requires-network"],
+    deps = [
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_testcontainers_junit_jupiter",
+        "@maven//:org_testcontainers_kafka",
+        "@maven//:org_testcontainers_testcontainers",
+    ],
+)
