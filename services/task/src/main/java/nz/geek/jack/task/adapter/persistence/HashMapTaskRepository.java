@@ -11,22 +11,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class HashMapTaskRepository implements TaskRepository {
 
-  private static final Map<TaskId, Task> TASKS = new ConcurrentHashMap<>();
+  private final Map<TaskId, Task> tasks = new ConcurrentHashMap<>();
 
   @Override
   public void saveTask(Task task) {
-    TASKS.put(task.getId(), task);
+    tasks.put(task.getId(), task);
   }
 
   @Override
   public Collection<Task> getAllTasks() {
-    return TASKS.values();
+    return tasks.values();
   }
 
   @Override
   public Task getTask(TaskId id) {
-    if (TASKS.containsKey(id)) {
-      return TASKS.get(id);
+    if (tasks.containsKey(id)) {
+      return tasks.get(id);
     }
     throw new RuntimeException(String.format("Task: %s does not exist", id));
   }

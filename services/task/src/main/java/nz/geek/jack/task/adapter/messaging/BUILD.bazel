@@ -4,7 +4,7 @@ java_library(
     visibility = [
         "//services/task/src/main/java/nz/geek/jack/task/adapter:__subpackages__",
         "//services/task/src/test/java/nz/geek/jack/task:__pkg__",
-        "//services/task/src/test/java/nz/geek/jack/task/adapter/messaging:__pkg__",
+        "//services/task/src/test/java/nz/geek/jack/task/adapter:__subpackages__",
     ],
     runtime_deps = [
         "@maven//:io_confluent_kafka_protobuf_serializer",
