@@ -55,6 +55,7 @@ load("@rules_jvm_external//:specs.bzl", "maven")
 # Check the spring dependency management to see versions which work together:
 # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
 SPRING_BOOT_DEPENDENCIES = [
+    "com.fasterxml.jackson.core:jackson-databind:2.14.3",
     "org.apache.commons:commons-lang3:3.12.0",
     "org.apache.kafka:kafka-clients:3.3.2",
     "org.apache.kafka:kafka-metadata:3.3.2",
@@ -65,6 +66,7 @@ SPRING_BOOT_DEPENDENCIES = [
     "org.apache.kafka:kafka-streams:3.3.2",
     "org.apache.kafka:kafka-streams-test-utils:3.3.2",
     "org.apache.kafka:kafka_2.13:3.3.2",
+    "org.eclipse.jetty:jetty-reactive-httpclient:3.0.10",
     "org.springframework.boot:spring-boot-loader:3.0.12",
     "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
     "org.springframework.boot:spring-boot-starter-validation:3.0.12",
@@ -140,6 +142,12 @@ maven_install(
             version = "6.0.2",
         ),
         "io.confluent:kafka-protobuf-serializer:7.5.1",
+        maven.artifact(
+            "org.wiremock",
+            "wiremock",
+            "3.3.1",
+            testonly = True,
+        ),
     ],
     fail_if_repin_required = True,
     fetch_sources = True,

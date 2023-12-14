@@ -15,7 +15,7 @@ public class GqlTaskServiceAdapter implements TaskService {
 
   private final WebClientGraphQLClient client;
 
-  private GqlTaskServiceAdapter(TaskServiceProperties taskServiceProperties) {
+  public GqlTaskServiceAdapter(TaskServiceProperties taskServiceProperties) {
     var webClient = WebClient.create(taskServiceProperties.getGraphqlUrl());
     client = MonoGraphQLClient.createWithWebClient(webClient);
   }
