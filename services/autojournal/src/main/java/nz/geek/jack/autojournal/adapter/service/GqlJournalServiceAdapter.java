@@ -18,7 +18,7 @@ public class GqlJournalServiceAdapter implements JournalService {
 
   private final WebClientGraphQLClient client;
 
-  private GqlJournalServiceAdapter(JournalServiceProperties journalServiceProperties) {
+  public GqlJournalServiceAdapter(JournalServiceProperties journalServiceProperties) {
     var webClient = WebClient.create(journalServiceProperties.getGraphqlUrl());
     client = MonoGraphQLClient.createWithWebClient(webClient);
   }
@@ -32,8 +32,7 @@ public class GqlJournalServiceAdapter implements JournalService {
                 .build(),
             new AddEntryProjectionRoot().id());
 
-    // TODO: block and wait for response to ensure transactional consume of TaskCompletedEvent
     // TODO: handle errors
-    client.reactiveExecuteQuery(request.serialize()).subscribe();
+    client.reactiveExecuteQuery(request.serialize()).block();
   }
 }
