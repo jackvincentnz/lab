@@ -13,7 +13,9 @@
 
     /* Linting */
     "noUnusedLocals": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+
+    "rootDirs": ["../../", "../../dist/bin"] // enable resolving of Bazel generated sources
   },
   "include": ["src"]
 }

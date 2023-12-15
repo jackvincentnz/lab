@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
 import { Timeline, TimelineItemProps } from "./Timeline";
 
-import { GetEntriesDocument } from "../__generated__/graphql"; // FIXME: types not working :/
+import { Entry, GetEntriesDocument } from "../__generated__/graphql";
 
 export function EntriesPage() {
   const { data } = useQuery(GetEntriesDocument, { pollInterval: 500 });
@@ -11,7 +11,9 @@ export function EntriesPage() {
   return <Timeline items={items} />;
 }
 
-function mapEntry(entry: any): TimelineItemProps {
+function mapEntry(
+  entry: Pick<Entry, "id" | "message" | "createdAt">
+): TimelineItemProps {
   return {
     title: entry.message,
     message: entry.message,
