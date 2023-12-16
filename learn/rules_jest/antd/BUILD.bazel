@@ -1,6 +1,5 @@
 load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
-load("@aspect_rules_ts//ts:defs.bzl", "ts_config")
-load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel:ts.bzl", "ts_config", "ts_project")
 
 ts_project(
     name = "src_ts",
