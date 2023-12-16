@@ -19,10 +19,8 @@ SRCS = [
 
 DEPS = [
     "//apps/journal_app/src",
-    "//apps/journal_app/src/__generated__:graphql_codegen",
     "//:node_modules/@apollo/client",
     "//:node_modules/@lab/bubbles",
-    "//:node_modules/@mantine/core",  # TODO: could be included by @lab/bubbles?
     "//:node_modules/@tabler/icons-react",  # TODO: could be included by @lab/bubbles?
     "//:node_modules/@vitejs/plugin-react",
     "//:node_modules/react",

@@ -10,6 +10,7 @@ js_library(
     ]),
     visibility = ["//apps/journal_app:__pkg__"],
     deps = [
-        "//apps/journal_app/src/entries",
+        "//apps/journal_app/src/entries:assets",
+        "//apps/journal_app/src/entries:entries_ts",
     ],
 )

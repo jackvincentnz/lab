@@ -1,4 +1,5 @@
 load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:ts.bzl", "ts_project")
 
 js_library(
     name = "graphql_documents",
@@ -7,12 +8,26 @@ js_library(
 )
 
 js_library(
-    name = "entries",
+    name = "assets",
     srcs = glob([
         "*.css",
         "*.svg",
+    ]),
+    visibility = ["//apps/journal_app/src:__pkg__"],
+)
+
+ts_project(
+    name = "entries_ts",
+    srcs = glob([
         "*.tsx",
         "*.ts",
     ]),
     visibility = ["//apps/journal_app/src:__pkg__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//apps/journal_app/src/__generated__:graphql_codegen_ts",
+    ],
 )
