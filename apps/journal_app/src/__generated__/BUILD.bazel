@@ -5,7 +5,7 @@ graphql_codegen_bin.graphql_codegen(
     srcs = [
         "//:node_modules/@graphql-codegen/client-preset",
         "//apps/journal_app:codegen",
-        "//apps/journal_app/src:graphql_documents",
+        "//apps/journal_app/src/entries:graphql_documents",
         "//services/journal/src/main/resources/schema",
     ],
     outs = [

@@ -2,7 +2,7 @@
 This module contains common vite macros.
 """
 
-load("@aspect_rules_js//js:defs.bzl", "js_run_binary", "js_run_devserver")
+load("//tools/bazel:js.bzl", "js_run_binary", "js_run_devserver")
 
 def vite_build(name, **kwargs):
     js_run_binary(

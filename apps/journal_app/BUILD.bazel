@@ -1,7 +1,7 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("//tools/bazel:js.bzl", "js_library")
 
 js_library(
     name = "codegen",

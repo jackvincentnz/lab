@@ -1,4 +1,4 @@
-load("@aspect_rules_js//js:defs.bzl", "js_library", "js_run_devserver")
+load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
 load("@npm//:react-scripts/package_json.bzl", cra_bin = "bin")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
