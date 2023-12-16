@@ -1,7 +1,6 @@
-load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
 load("//tools/bazel:js.bzl", "js_library")
 
-copy_to_bin(
+js_library(
     name = "src",
     srcs = glob([
         "**/*.css",
@@ -10,10 +9,7 @@ copy_to_bin(
         "**/*.ts",
     ]),
     visibility = ["//apps/journal_app:__pkg__"],
-)
-
-js_library(
-    name = "graphql_documents",
-    srcs = glob(["**/*.gql"]),
-    visibility = ["//apps/journal_app/src/__generated__:__pkg__"],
+    deps = [
+        "//apps/journal_app/src/entries",
+    ],
 )
