@@ -121,8 +121,6 @@ def react_ts_project(name, **kwargs):
 
         # Default tsconfig and aligning attributes
         tsconfig = kwargs.pop("tsconfig", "//:tsconfig_react"),
-        resolve_json_module = kwargs.pop("resolve_json_module", True),
-        source_map = kwargs.pop("source_map", False),
         transpiler = kwargs.pop("transpiler", partial.make(
             swc,
             swcrc = "//:.swcrc.react",

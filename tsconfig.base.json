@@ -6,6 +6,7 @@
     "target": "es2020",
     "module": "es2020",
     "moduleResolution": "node",
+    "lib": ["dom", "dom.iterable", "esnext"],
 
     "baseUrl": "./",
 
@@ -18,6 +19,10 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
 
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -25,6 +30,8 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "noPropertyAccessFromIndexSignature": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
 
     "jsx": "react-jsx"
   },

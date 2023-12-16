@@ -31,13 +31,6 @@ tsconfig_to_swcconfig.t2s(
 )
 
 ts_config(
-    name = "tsconfig_node",
-    src = "tsconfig.node.json",
-    visibility = [":__subpackages__"],
-    deps = [":tsconfig_base"],
-)
-
-ts_config(
     name = "tsconfig_react",
     src = "tsconfig.react.json",
     visibility = [":__subpackages__"],
