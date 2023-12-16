@@ -1,21 +1,6 @@
 {
-  "extends": "../../tsconfig.react.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    //"module": "ESNext", TODO: why does this break IDE type checking?
-
-    "moduleResolution": "Node", // TODO: switch back to "bundler" mode
-    "allowImportingTsExtensions": true,
-    "resolveJsonModule": true,
-    "noEmit": true,
-
-    /* Linting */
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-
     "rootDirs": ["../../", "../../dist/bin"] // enable resolving of Bazel generated sources
-  },
-  "include": ["src"]
+  }
 }
