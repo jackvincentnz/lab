@@ -1,4 +1,5 @@
 load("@npm//:@graphql-codegen/cli/package_json.bzl", graphql_codegen_bin = "bin")
+load("//tools/bazel:ts.bzl", "ts_project")
 
 graphql_codegen_bin.graphql_codegen(
     name = "graphql_codegen",
@@ -15,5 +16,16 @@ graphql_codegen_bin.graphql_codegen(
         "index.ts",
     ],
     chdir = package_name() + "/../../",
+)
+
+ts_project(
+    name = "graphql_codegen_ts",
+    srcs = [
+        ":graphql_codegen",
+    ],
     visibility = ["//apps/journal_app:__subpackages__"],
+    deps = [
+        "//:node_modules/@graphql-typed-document-node/core",
+        "//:node_modules/graphql",
+    ],
 )
