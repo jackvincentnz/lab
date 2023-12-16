@@ -3,7 +3,7 @@ This module contains common react macros.
 """
 
 load("//tools/bazel:ts.bzl", _ts_project = "ts_project")
-load("@aspect_rules_js//js:defs.bzl", "js_library")
+load("//tools/bazel:js.bzl", "js_library")
 load("@aspect_rules_jest//jest:defs.bzl", "jest_test")
 load("@bazel_skylib//lib:partial.bzl", "partial")
 load("@aspect_rules_swc//swc:defs.bzl", "swc")

@@ -1,6 +1,6 @@
 load("@aspect_rules_ts//ts:defs.bzl", "ts_project")
 load("@aspect_rules_swc//swc:defs.bzl", "swc")
-load("@aspect_rules_js//js:defs.bzl", "js_run_devserver")
+load("//tools/bazel:js.bzl", "js_run_devserver")
 load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
 
 ts_project(
