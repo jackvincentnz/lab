@@ -1,16 +1,14 @@
-load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-js_library(
+fe_library(
     name = "src",
-    srcs = glob([
-        "**/*.css",
-        "**/*.svg",
-        "**/*.tsx",
-        "**/*.ts",
-    ]),
-    visibility = ["//apps/journal_app:__pkg__"],
+    visibility = [
+        "//apps/journal_app:__pkg__",
+    ],
     deps = [
-        "//apps/journal_app/src/entries:assets",
-        "//apps/journal_app/src/entries:entries_ts",
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@lab/bubbles",
+        "//:node_modules/@tabler/icons-react",  # TODO: could be included by @lab/bubbles?
+        "//apps/journal_app/src/entries",
     ],
 )
