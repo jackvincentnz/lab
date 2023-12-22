@@ -187,7 +187,11 @@ importers:
 
   apps/tasklist: {}
 
-  libs/bubbles: {}
+  libs/bubbles:
+    dependencies:
+      '@tabler/icons-react':
+        specifier: ^2.24.0
+        version: 2.24.0(react@18.2.0)
 
 packages:
 
