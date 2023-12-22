@@ -259,6 +259,7 @@ npm_translate_lock(
     pnpm_lock = "//:pnpm-lock.yaml",
     public_hoist_packages = {
         "@vitest/expect": [""],
+        "@jest/expect": [""],
     },
     verify_node_modules_ignored = "//:.bazelignore",
 )

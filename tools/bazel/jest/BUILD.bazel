@@ -1,7 +1,15 @@
 load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:react.bzl", "react_ts_project")
+
+package(default_visibility = ["//visibility:public"])
 
 js_library(
     name = "jest_config",
     srcs = ["jest.config.js"],
-    visibility = ["//visibility:public"],
+)
+
+react_ts_project(
+    name = "setup_ts",
+    srcs = ["setup.ts"],
+    deps = ["//:node_modules/@testing-library/jest-dom"],
 )

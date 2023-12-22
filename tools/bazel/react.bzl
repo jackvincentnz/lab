@@ -18,16 +18,16 @@ COMMON_REACT_DEPS = [
 
 # Common dependencies of react package tests
 COMMON_REACT_TEST_DEPS = [
-    "//:node_modules/@testing-library/jest-dom",
+    "//:node_modules/@jest/expect",
+    "//:node_modules/@jest/globals",
     "//:node_modules/@testing-library/react",
-    "//:node_modules/@types/jest",
+    "//tools/bazel/jest:setup_ts",
 ]
 
 # Common dependencies of the jest runner
 COMMON_JEST_DEPS = [
     "//:node_modules/jest-environment-jsdom",
     "//:node_modules/jest-transform-stub",
-    "//:node_modules/@swc/jest",
 ]
 
 ASSET_PATTERNS = [
