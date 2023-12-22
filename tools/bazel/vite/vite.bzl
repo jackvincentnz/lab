@@ -21,7 +21,11 @@ def vite_dev_server(name, **kwargs):
         name = name,
         chdir = kwargs.pop("chdir", native.package_name()),
         data = kwargs.pop("data", []),
-        args = ["--open", "--strictPort", "--host"],
+        args = [
+            "--open",  # open browser on start
+            "--strictPort",  # fail if port already in use
+            "--host",  # vite should listen to requests from container networks
+        ],
         tool = "//tools/bazel/vite:vite_binary",
         **kwargs
     )
