@@ -1,21 +1,9 @@
-load("//tools/bazel:react.bzl", "react_lib")
-load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-# TODO: use tsconfig from app root or update react ts to use similar restrictive config
-react_lib(
-    name = "lib",
-    deps = [
-        "//:node_modules/vite",
-    ],
-)
-
-copy_to_bin(
+fe_library(
     name = "src",
-    srcs = glob([
-        "**/*.css",
-        "**/*.svg",
-        "**/*.tsx",
-        "**/*.ts",
-    ]),
     visibility = ["//learn/vite:__pkg__"],
+    deps = [
+        "//:node_modules/vite",  # TODO: move out to common dep for vite packages? It is used for asset types
+    ],
 )

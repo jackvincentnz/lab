@@ -1,4 +1,4 @@
-import "@testing-library/jest-dom"; // TODO: move out to common setup
+import { it, expect } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
 import { GetTasksDocument, GetTasksQuery } from "../../__generated__/graphql";
@@ -18,7 +18,7 @@ const mocks: ReadonlyArray<MockedResponse<GetTasksQuery>> = [
   },
 ];
 
-test("renders without error", async () => {
+it("renders without error", async () => {
   render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <DisplayTasks />

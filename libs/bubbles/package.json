@@ -10,5 +10,8 @@
     "build-storybook": "bazel build //libs/bubbles:build_storybook",
     "build-storybook-docker": "bazel run //libs/bubbles:tarball",
     "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
+  },
+  "peerDependencies": {
+    "@tabler/icons-react": "^2.24.0"
   }
 }

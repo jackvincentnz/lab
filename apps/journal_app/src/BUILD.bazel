@@ -8,7 +8,6 @@ fe_library(
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@lab/bubbles",
-        "//:node_modules/@tabler/icons-react",  # TODO: could be included by @lab/bubbles?
         "//apps/journal_app/src/entries",
     ],
 )

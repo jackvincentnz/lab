@@ -35,7 +35,7 @@ export function watchNodeModules(modules: string[]): PluginOption {
         },
         optimizeDeps: {
           exclude: modules,
-          include: ["@mantine/core", "@tabler/icons-react", "@apollo/client"],
+          include: ["@mantine/core", "@lab/bubbles", "@apollo/client"],
         },
       };
     },
