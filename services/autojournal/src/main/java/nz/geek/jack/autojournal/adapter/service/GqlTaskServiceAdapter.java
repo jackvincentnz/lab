@@ -3,10 +3,12 @@ package nz.geek.jack.autojournal.adapter.service;
 import com.jayway.jsonpath.TypeRef;
 import com.netflix.graphql.dgs.client.MonoGraphQLClient;
 import com.netflix.graphql.dgs.client.WebClientGraphQLClient;
+import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import java.util.List;
 import nz.geek.jack.autojournal.application.Task;
 import nz.geek.jack.autojournal.application.TaskService;
-import org.intellij.lang.annotations.Language;
+import nz.geek.jack.task.adapter.gql.schema.client.AllTasksGraphQLQuery;
+import nz.geek.jack.task.adapter.gql.schema.client.AllTasksProjectionRoot;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -22,19 +24,11 @@ public class GqlTaskServiceAdapter implements TaskService {
 
   @Override
   public Task getTask(String taskId) {
-    // TODO: switch task context to dgs and add getTask query
-    @Language("graphql")
     var query =
-        """
-      query {
-        allTasks {
-          id
-          title
-        }
-      }
-      """;
+        new GraphQLQueryRequest(
+            AllTasksGraphQLQuery.newRequest().build(), new AllTasksProjectionRoot().id().title());
 
-    var response = client.reactiveExecuteQuery(query).block();
+    var response = client.reactiveExecuteQuery(query.serialize()).block();
     var tasks =
         response.extractValueAsObject(
             "data.allTasks[*]",

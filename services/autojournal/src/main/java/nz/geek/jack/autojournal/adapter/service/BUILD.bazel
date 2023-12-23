@@ -11,6 +11,7 @@ java_library(
     deps = [
         "//services/autojournal/src/main/java/nz/geek/jack/autojournal/application",
         "//services/journal/src/main/java/nz/geek/jack/journal/adapter/api/gql/schema",
+        "//services/task/src/main/java/nz/geek/jack/task/adapter/api/gql/schema",
         "@maven//:com_jayway_jsonpath_json_path",
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs_client",

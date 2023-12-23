@@ -29,6 +29,7 @@ class GqlTaskServiceAdapterTest {
         .putArray("allTasks")
         .add(OBJECT_MAPPER.createObjectNode().put("id", taskId).put("title", taskTitle));
 
+    // TODO: verify that post body contains expected query
     stubFor(post("/graphql").willReturn(ok().withBody(responseJson.toString())));
 
     var task = taskServiceAdapter.getTask(taskId);
