@@ -169,9 +169,9 @@ pinned_maven_install()
 
 http_archive(
     name = "contrib_rules_jvm",
-    sha256 = "bd0f82def1879df85ff0a80767e6455911e1c9c1eac5db1de8f68dcccd4a3d7a",
-    strip_prefix = "rules_jvm-0.18.0",
-    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.18.0/rules_jvm-v0.18.0.tar.gz",
+    sha256 = "922499b167c946b2c2e5e4eacef0fb67ce349ddaa2301dfaa7bc97b39f476786",
+    strip_prefix = "rules_jvm-0.21.0",
+    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.21.0/rules_jvm-v0.21.0.tar.gz",
 )
 
 # Fetches the contrib_rules_jvm dependencies.
