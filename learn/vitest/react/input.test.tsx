@@ -13,7 +13,7 @@ describe("Input", async () => {
         placeholder="Email"
         label="Email Address"
         aria-label="Email Address"
-      />
+      />,
     );
 
     expect(screen.getByText("Email Address")).toBeDefined();
@@ -21,7 +21,7 @@ describe("Input", async () => {
     expect(
       screen.getByRole("textbox", {
         name: /email address/i,
-      })
+      }),
     ).toBeDefined();
   });
 
@@ -34,7 +34,7 @@ describe("Input", async () => {
         placeholder="Email"
         label="Email Address"
         aria-label="Email Address"
-      />
+      />,
     );
 
     screen.logTestingPlaygroundURL();
@@ -59,17 +59,17 @@ describe("Input", async () => {
         label="Email Address"
         aria-label="Email Address"
         error="Please enter your email"
-      />
+      />,
     );
 
     expect(
       screen.getByRole("textbox", {
         name: /email address/i,
-      })
+      }),
     ).toBeDefined();
 
     expect(screen.getByRole("alert")).toHaveTextContent(
-      "Please enter your email"
+      "Please enter your email",
     );
   });
 });

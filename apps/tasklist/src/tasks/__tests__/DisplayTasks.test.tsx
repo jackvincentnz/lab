@@ -22,7 +22,7 @@ it("renders without error", async () => {
   render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <DisplayTasks />
-    </MockedProvider>
+    </MockedProvider>,
   );
 
   expect(await screen.findByText(title)).toBeInTheDocument();
