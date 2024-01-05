@@ -5,7 +5,7 @@ import { GetTasksDocument, GetTasksQuery } from "../../__generated__/graphql";
 import DisplayTasks from "../DisplayTasks";
 
 const title = "My Task";
-const mocks: ReadonlyArray<MockedResponse<GetTasksQuery>> = [
+const mocks: readonly MockedResponse<GetTasksQuery>[] = [
   {
     request: {
       query: GetTasksDocument,
