@@ -10,7 +10,7 @@ test("renders Board", () => {
       onPlay={() => {
         // do nothing
       }}
-    />
+    />,
   );
   const statusDiv = screen.getByText(/Next player/i);
   expect(statusDiv).toBeInTheDocument();

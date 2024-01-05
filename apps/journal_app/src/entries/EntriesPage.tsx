@@ -12,7 +12,7 @@ export function EntriesPage() {
 }
 
 function mapEntry(
-  entry: Pick<Entry, "id" | "message" | "createdAt">
+  entry: Pick<Entry, "id" | "message" | "createdAt">,
 ): TimelineItemProps {
   return {
     title: entry.message,

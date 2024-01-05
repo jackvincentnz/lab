@@ -9,7 +9,7 @@ test("renders Square", () => {
       onClick={() => {
         // do nothing
       }}
-    />
+    />,
   );
   const buttonElement = screen.getByText(/1/i);
   expect(buttonElement).toBeInTheDocument();
