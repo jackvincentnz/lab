@@ -14,7 +14,10 @@ module.exports = {
     {
       files: ["*.tsx", "*.ts"],
       // Use recommended linting as much as possible to minimize opinionated customization.
-      extends: ["plugin:@typescript-eslint/recommended"],
+      extends: [
+        "plugin:@typescript-eslint/stylistic",
+        "plugin:@typescript-eslint/strict",
+      ],
       parser: "@typescript-eslint/parser",
       plugins: ["@typescript-eslint"],
     },
