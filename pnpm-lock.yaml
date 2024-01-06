@@ -54,8 +54,8 @@ importers:
         version: 3.4.0
     devDependencies:
       '@apollo/rover':
-        specifier: ^0.20.0
-        version: 0.20.0
+        specifier: ^0.22.0
+        version: 0.22.0
       '@graphql-codegen/cli':
         specifier: 5.0.0
         version: 5.0.0(@babel/core@7.23.3)(@types/node@18.19.4)(graphql@16.8.1)
@@ -315,8 +315,8 @@ packages:
       zen-observable-ts: 1.2.5
     dev: false
 
-  /@apollo/rover@0.20.0:
-    resolution: {integrity: sha512-rKCHvkT+6bodbT+Ach1i7zXXGwcg95ek7TMZIIgXEd1Zr82CF3Ej2iI4Bh7DxxbhT0nNqdH4qPSAbAJkoDfA9Q==}
+  /@apollo/rover@0.22.0:
+    resolution: {integrity: sha512-ZtdSu6vT5qPPM937sRYHiCUsfeBoqclUp9JgLXVat9Qtllx5CWr1JpKlVYR3Q3huCJH1PifO/leIhzlvbDB0/w==}
     engines: {node: '>=14', npm: '>=6'}
     hasBin: true
     requiresBuild: true

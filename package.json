@@ -30,7 +30,7 @@
     "web-vitals": "3.4.0"
   },
   "devDependencies": {
-    "@apollo/rover": "^0.20.0",
+    "@apollo/rover": "^0.22.0",
     "@graphql-codegen/cli": "5.0.0",
     "@graphql-codegen/client-preset": "4.1.0",
     "@jest/globals": "^29.7.0",
