@@ -62,7 +62,7 @@
     "jest-environment-jsdom": "29.7.0",
     "jest-junit": "^16.0.0",
     "jest-transform-stub": "^2.0.0",
-    "jsdom": "23.0.1",
+    "jsdom": "23.1.0",
     "prettier": "3.1.0",
     "react-scripts": "^5.0.1",
     "storybook": "^7.4.0",
