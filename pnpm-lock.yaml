@@ -150,8 +150,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0
       jsdom:
-        specifier: 23.1.0
-        version: 23.1.0
+        specifier: 23.2.0
+        version: 23.2.0
       prettier:
         specifier: 3.2.1
         version: 3.2.1
@@ -172,7 +172,7 @@ importers:
         version: 5.0.11(@types/node@18.19.6)
       vitest:
         specifier: 0.34.6
-        version: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.1.0)
+        version: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.2.0)
       wait-on:
         specifier: ^7.2.0
         version: 7.2.0
@@ -365,6 +365,14 @@ packages:
       node-fetch: 2.6.11
     transitivePeerDependencies:
       - encoding
+    dev: true
+
+  /@asamuzakjp/dom-selector@2.0.2:
+    resolution: {integrity: sha512-x1KXOatwofR6ZAYzXRBL5wrdV0vwNxlTCK9NCuLqAzQYARqGcvFwiJA6A1ERuh+dgeA4Dxm3JBYictIes+SqUQ==}
+    dependencies:
+      bidi-js: 1.0.3
+      css-tree: 2.3.1
+      is-potential-custom-element-name: 1.0.1
     dev: true
 
   /@aw-web-design/x-default-browser@1.4.126:
@@ -4616,10 +4624,10 @@ packages:
       '@types/ws': 8.5.4
       '@whatwg-node/fetch': 0.9.7
       graphql: 16.8.1
-      isomorphic-ws: 5.0.0(ws@8.14.2)
+      isomorphic-ws: 5.0.0(ws@8.16.0)
       tslib: 2.6.2
       value-or-promise: 1.0.12
-      ws: 8.14.2
+      ws: 8.16.0
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -6951,7 +6959,7 @@ packages:
       util: 0.12.5
       util-deprecate: 1.0.2
       watchpack: 2.4.0
-      ws: 8.14.2
+      ws: 8.16.0
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -7560,7 +7568,7 @@ packages:
       jest: 27.5.1
       lodash: 4.17.21
       redent: 3.0.0
-      vitest: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.1.0)
+      vitest: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.2.0)
     dev: true
 
   /@testing-library/react@14.0.0(react-dom@18.2.0)(react@18.2.0):
@@ -8422,7 +8430,7 @@ packages:
       pathe: 1.1.1
       picocolors: 1.0.0
       sirv: 2.0.3
-      vitest: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.1.0)
+      vitest: 0.34.6(@vitest/ui@0.34.7)(jsdom@23.2.0)
     dev: true
 
   /@vitest/utils@0.34.6:
@@ -9628,6 +9636,12 @@ packages:
       tryer: 1.0.1
     dev: true
 
+  /bidi-js@1.0.3:
+    resolution: {integrity: sha512-RKshQI1R3YQ+n9YJz2QQ147P66ELpa1FQEg20Dk8oW9t2KgLbpDLLp9aGZ7y8WHSshDknG0bknqGw5/tyCs5tw==}
+    dependencies:
+      require-from-string: 2.0.2
+    dev: true
+
   /big-integer@1.6.51:
     resolution: {integrity: sha512-GPEid2Y9QU1Exl1rpO9B2IPJGHPSupF5GnVIP0blYvNOMer2bTvSWs1jGOUg04hTmu67nmLsQ9TBo1puaotBHg==}
     engines: {node: '>=0.6'}
@@ -10500,6 +10514,14 @@ packages:
     dependencies:
       mdn-data: 2.0.14
       source-map: 0.6.1
+    dev: true
+
+  /css-tree@2.3.1:
+    resolution: {integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==}
+    engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
+    dependencies:
+      mdn-data: 2.0.30
+      source-map-js: 1.0.2
     dev: true
 
   /css-what@3.4.2:
@@ -13563,12 +13585,12 @@ packages:
       ws: 8.13.0
     dev: true
 
-  /isomorphic-ws@5.0.0(ws@8.14.2):
+  /isomorphic-ws@5.0.0(ws@8.16.0):
     resolution: {integrity: sha512-muId7Zzn9ywDsyXgTIafTry2sV3nySZeUDe6YedVd1Hvuuep5AsIlqK+XefWpYTyJG5e503F2xIuT2lcU6rCSw==}
     peerDependencies:
       ws: '*'
     dependencies:
-      ws: 8.14.2
+      ws: 8.16.0
     dev: true
 
   /isstream@0.1.2:
@@ -14786,8 +14808,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jsdom@23.1.0:
-    resolution: {integrity: sha512-wRscu8dBFxi7O65Cvi0jFRDv0Qa7XEHPix8Qg/vlXHLAMQsRWV1EDeQHBermzXf4Dt7JtFgBLbva3iTcBZDXEQ==}
+  /jsdom@23.2.0:
+    resolution: {integrity: sha512-L88oL7D/8ufIES+Zjz7v0aes+oBMh2Xnh3ygWvL0OaICOomKEPKuPnIfBJekiXr+BHbbMjrWn/xqrDQuxFTeyA==}
     engines: {node: '>=18'}
     peerDependencies:
       canvas: ^2.11.2
@@ -14795,6 +14817,7 @@ packages:
       canvas:
         optional: true
     dependencies:
+      '@asamuzakjp/dom-selector': 2.0.2
       cssstyle: 4.0.1
       data-urls: 5.0.0
       decimal.js: 10.4.3
@@ -14803,7 +14826,6 @@ packages:
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.2
       is-potential-custom-element-name: 1.0.1
-      nwsapi: 2.2.7
       parse5: 7.1.2
       rrweb-cssom: 0.6.0
       saxes: 6.0.0
@@ -15244,6 +15266,10 @@ packages:
 
   /mdn-data@2.0.14:
     resolution: {integrity: sha512-dn6wd0uw5GsdswPFfsgMp5NSB0/aDe6fK94YJV/AJDYXL6HVLWBsxeq7js7Ad+mU2K9LAlwpk6kN2D5mwCPVow==}
+    dev: true
+
+  /mdn-data@2.0.30:
+    resolution: {integrity: sha512-GaqWWShW4kv/G9IEucWScBx9G1/vsFZZJUO+tD26M8J8z3Kw5RDQjaoZe03YAClgeS/SWPOcb4nkFBTEi5DUEA==}
     dev: true
 
   /mdn-data@2.0.4:
@@ -20167,7 +20193,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitest@0.34.6(@vitest/ui@0.34.7)(jsdom@23.1.0):
+  /vitest@0.34.6(@vitest/ui@0.34.7)(jsdom@23.2.0):
     resolution: {integrity: sha512-+5CALsOvbNKnS+ZHMXtuUC7nL8/7F1F2DnHGjSsszX8zCjWSSviphCb/NuS9Nzf4Q03KyyDRBAXhF/8lffME4Q==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -20212,7 +20238,7 @@ packages:
       cac: 6.7.14
       chai: 4.3.10
       debug: 4.3.4(supports-color@8.1.1)
-      jsdom: 23.1.0
+      jsdom: 23.2.0
       local-pkg: 0.4.3
       magic-string: 0.30.3
       pathe: 1.1.1
@@ -20401,7 +20427,7 @@ packages:
       spdy: 4.0.2
       webpack: 5.84.1(@swc/core@1.3.99)(esbuild@0.18.20)
       webpack-dev-middleware: 5.3.3(webpack@5.84.1)
-      ws: 8.14.2
+      ws: 8.16.0
     transitivePeerDependencies:
       - bufferutil
       - debug
