@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import nz.geek.jack.task.adapter.gql.schema.types.Task;
 import nz.geek.jack.task.application.task.TaskQueryService;
+import nz.geek.jack.task.domain.TaskId;
 
 @DgsComponent
 public class TaskDataFetcher {
@@ -28,5 +29,13 @@ public class TaskDataFetcher {
         .sorted(Comparator.comparing(nz.geek.jack.task.domain.Task::getCreatedAt))
         .map(taskMapper::map)
         .collect(Collectors.toList());
+  }
+
+  @DgsQuery
+  public Task task(String id) {
+    // TODO: error handing (not found, id format, id length)
+    var task = taskQueryService.getTask(TaskId.fromString(id));
+
+    return taskMapper.map(task);
   }
 }
