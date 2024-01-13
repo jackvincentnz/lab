@@ -1,6 +1,7 @@
 # The root query for the application
 type Query {
   allTasks: [Task!]!
+  task(id: ID!): Task
 }
 
 # The root mutation for the application
