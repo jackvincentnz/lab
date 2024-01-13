@@ -8,6 +8,30 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 ####################################################################################################
+# aspect_bazel_lib setup
+####################################################################################################
+
+http_archive(
+    name = "aspect_bazel_lib",
+    sha256 = "bda4a69fa50411b5feef473b423719d88992514d259dadba7d8218a1d02c7883",
+    strip_prefix = "bazel-lib-2.3.0",
+    url = "https://github.com/aspect-build/bazel-lib/releases/download/v2.3.0/bazel-lib-v2.3.0.tar.gz",
+)
+
+load(
+    "@aspect_bazel_lib//lib:repositories.bzl",
+    "aspect_bazel_lib_dependencies",
+    "aspect_bazel_lib_register_toolchains",
+    "register_coreutils_toolchains",
+)
+
+aspect_bazel_lib_dependencies()
+
+aspect_bazel_lib_register_toolchains()
+
+register_coreutils_toolchains()
+
+####################################################################################################
 # rules_proto setup
 ####################################################################################################
 
@@ -222,9 +246,9 @@ nodejs_register_toolchains(
 
 http_archive(
     name = "aspect_rules_ts",
-    sha256 = "8aabb2055629a7becae2e77ae828950d3581d7fc3602fe0276e6e039b65092cb",
-    strip_prefix = "rules_ts-2.0.0",
-    url = "https://github.com/aspect-build/rules_ts/releases/download/v2.0.0/rules_ts-v2.0.0.tar.gz",
+    sha256 = "bd3e7b17e677d2b8ba1bac3862f0f238ab16edb3e43fb0f0b9308649ea58a2ad",
+    strip_prefix = "rules_ts-2.1.0",
+    url = "https://github.com/aspect-build/rules_ts/releases/download/v2.1.0/rules_ts-v2.1.0.tar.gz",
 )
 
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
