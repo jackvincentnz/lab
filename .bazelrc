@@ -1,5 +1,5 @@
 # Import Aspect bazelrc presets
-import %workspace%/.aspect/bazelrc/bazel6.bazelrc
+import %workspace%/.aspect/bazelrc/bazel7.bazelrc
 import %workspace%/.aspect/bazelrc/convenience.bazelrc
 import %workspace%/.aspect/bazelrc/correctness.bazelrc
 import %workspace%/.aspect/bazelrc/debug.bazelrc
@@ -29,6 +29,9 @@ build --tool_java_runtime_version=remotejdk_17
 build --@aspect_rules_ts//ts:skipLibCheck=always
 fetch --@aspect_rules_ts//ts:skipLibCheck=always
 query --@aspect_rules_ts//ts:skipLibCheck=always
+
+# FIXME: enable this by setting allow_empty = True where applicable
+common --noincompatible_disallow_empty_glob
 
 ### NO MORE PROJECT SPECIFIC OPTIONS AFTER HERE ###
 
