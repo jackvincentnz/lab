@@ -13,7 +13,6 @@ SRCS = [
     "public/vite.svg",
     "index.html",
     "package.json",
-    "tsconfig.json",
     "vite.config.ts",
 ]
 
@@ -21,7 +20,6 @@ DEPS = [
     "//apps/journal_app/src",
     "//:node_modules/@vitejs/plugin-react",
     "//:node_modules/vite",
-    "//:tsconfig_base",
 ]
 
 vite_build(

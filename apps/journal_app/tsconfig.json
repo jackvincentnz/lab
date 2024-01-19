@@ -1,6 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": {
-    "rootDirs": ["../../", "../../dist/bin"] // enable resolving of Bazel generated sources
-  }
-}
