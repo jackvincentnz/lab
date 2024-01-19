@@ -46,7 +46,6 @@ STORYBOOK_DEPS = [
     "//:node_modules/@storybook/addon-essentials",
     "//:node_modules/@storybook/addon-interactions",
     "//:node_modules/@storybook/addon-links",
-    "//:node_modules/@storybook/addon-onboarding",
     "//:node_modules/@storybook/blocks",
     "//:node_modules/@storybook/react",
     "//:node_modules/@storybook/react-vite",
