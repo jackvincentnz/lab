@@ -1,7 +1,12 @@
-import { it, expect } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
 import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+
 import { GetTasksDocument, GetTasksQuery } from "../../__generated__/graphql";
+import {
+  expect,
+  it,
+  render,
+  screen,
+} from "../../../../../tools/bazel/vitest/test-utils";
 import DisplayTasks from "../DisplayTasks";
 
 const title = "My Task";

@@ -5,6 +5,8 @@
 # 3003: journal
 # 3004: journal_app
 # 3005: bubbles
+# 4000: router
+# 8080: proxy
 
 ---
 version: "3"

@@ -1,23 +1,8 @@
 {
   "name": "tasklist",
-  "version": "0.1.0",
-  "private": true,
+  "type": "module",
   "scripts": {
-    "start": "ibazel run //apps/tasklist:start",
-    "build": "bazel build //apps/tasklist:build",
-    "test": "ibazel test $(bazel query \"kind(jest_test, //apps/tasklist/src/...)\")"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "proxy": "http://localhost:4000"
+    "start": "ibazel run //apps/tasklist",
+    "build": "bazel build //apps/tasklist:build"
+  }
 }

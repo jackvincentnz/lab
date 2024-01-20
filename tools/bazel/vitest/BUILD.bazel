@@ -1,0 +1,37 @@
+load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
+load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel:js.bzl", "js_library")
+
+package(default_visibility = ["//visibility:public"])
+
+vitest_bin.vitest_binary(
+    name = "vitest_binary",
+)
+
+ts_project(
+    name = "utils",
+    srcs = [
+        "setup.ts",
+        "test-utils.ts",
+    ],
+    deps = [
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/@vitest/expect",
+        "//:node_modules/vitest",
+    ],
+)
+
+js_library(
+    name = "vite_config",
+    srcs = ["vite.config.ts"],
+    deps = [
+        "//:node_modules/jsdom",
+    ],
+)
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+)
