@@ -1,6 +1,6 @@
-load("//tools/bazel:react.bzl", "react_lib")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-react_lib(
+fe_library(
     name = "app",
     visibility = ["//apps/tasklist/src:__pkg__"],
     deps = [

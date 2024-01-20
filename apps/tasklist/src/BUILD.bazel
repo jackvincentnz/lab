@@ -1,9 +1,10 @@
-load("//tools/bazel:react.bzl", "react_lib")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-react_lib(
+fe_library(
     name = "src",
     visibility = ["//apps/tasklist:__pkg__"],
     deps = [
+        "//:node_modules/vite",
         "//:node_modules/web-vitals",
         "//apps/tasklist/src/app",
     ],

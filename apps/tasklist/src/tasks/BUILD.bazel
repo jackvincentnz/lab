@@ -1,19 +1,15 @@
-load("//tools/bazel:react.bzl", "react_lib")
-load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-react_lib(
+fe_library(
     name = "tasks",
-    visibility = ["//apps/tasklist/src/app:__pkg__"],
+    visibility = [
+        "//apps/tasklist/src/__generated__:__pkg__",
+        "//apps/tasklist/src/app:__pkg__",
+    ],
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",
         "//:node_modules/@tabler/icons-react",
         "//apps/tasklist/src/__generated__:graphql_codegen_ts",
     ],
-)
-
-js_library(
-    name = "graphql_documents",
-    srcs = glob(["*.gql"]),
-    visibility = ["//apps/tasklist/src/__generated__:__pkg__"],
 )
