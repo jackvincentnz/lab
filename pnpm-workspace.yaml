@@ -1,3 +1,4 @@
 packages:
   - "apps/**"
+  - "learn/cypress"
   - "libs/bubbles"

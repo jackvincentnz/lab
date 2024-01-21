@@ -419,6 +419,55 @@ swc_register_toolchains(
 )
 
 ####################################################################################################
+# rules_cypress setup
+####################################################################################################
+
+http_archive(
+    name = "aspect_rules_cypress",
+    sha256 = "76947778d8e855eee3c15931e1fcdc1c2a25d56d6c0edd110b2227c05b794d08",
+    strip_prefix = "rules_cypress-0.3.2",
+    url = "https://github.com/aspect-build/rules_cypress/archive/refs/tags/v0.3.2/rules_cypress-v0.3.2.tar.gz",
+)
+
+load("@aspect_rules_cypress//cypress:dependencies.bzl", "rules_cypress_dependencies")
+load("@aspect_rules_cypress//cypress:repositories.bzl", "cypress_register_toolchains")
+
+rules_cypress_dependencies()
+
+cypress_register_toolchains(
+    name = "cypress",
+    cypress_integrity = {
+        "darwin-x64": "63cf64deb6a3b707d540aa574438f25792552948560371ca58ad1566db852525",
+        "darwin-arm64": "81238d8c1128add2c5a27019225e789c941118ec91bc0107e9a3a2870ffb1599",
+        "linux-x64": "c9711d018f5af0bcba369bdcb5637a0454ddad0bb52f6db880fd55bfbdefe1e1",
+        "linux-arm64": "c6684aa037eb9bd4efa47cc4d37815637689ce7a84f5913a615eb515baabb8fe",
+        "win32-x64": "73ae75233d888a36c4d94352e9e23694c4c49bafbc9598ee05d42353e6790693",
+    },
+    cypress_version = "12.17.4",
+)
+
+# To update CHROME_REVISION, use the below script
+#
+# LASTCHANGE_URL="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media"
+# CHROME_REVISION=$(curl -s -S $LASTCHANGE_URL)
+# echo "latest CHROME_REVISION_LINUX is $CHROME_REVISION"
+CHROME_REVISION_LINUX = "1072361"
+
+http_archive(
+    name = "chrome_linux",
+    build_file_content = """filegroup(
+name = "all",
+srcs = glob(["**"]),
+visibility = ["//visibility:public"],
+)""",
+    sha256 = "0df22f743facd1e090eff9b7f8d8bdc293fb4dc31ce9156d2ef19b515974a72b",
+    strip_prefix = "chrome-linux",
+    urls = [
+        "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F" + CHROME_REVISION_LINUX + "%2Fchrome-linux.zip?alt=media",
+    ],
+)
+
+####################################################################################################
 # rules_multirun setup
 ####################################################################################################
 

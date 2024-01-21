@@ -1,0 +1,7 @@
+{
+  "name": "cypress",
+  "dependencies": {
+    "cypress": "12.17.4",
+    "typescript": "4.9.5"
+  }
+}
