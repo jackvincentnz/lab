@@ -11,8 +11,8 @@
     "lint": "pre-commit run eslint --all-files",
     "format": "pre-commit run prettier --all-files",
     "start": "bazel run //:start",
-    "e2e": " cypress run",
-    "start-then-e2e": "bazel run //:start && wait-on http-get://localhost:3001/actuator/health && cypress run"
+    "e2e": "bazel run //apps/full/e2e",
+    "start-then-e2e": "bazel run //:start && bazel run //apps/full/e2e:wait_on_task && bazel run //apps/full/e2e"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",

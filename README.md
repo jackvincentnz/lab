@@ -38,10 +38,10 @@ Run the whole local environment in docker with:
 bazel run //:start
 ```
 
-Run e2e tests against local environment
+Run e2e tests with:
 
 ```zsh
-pnpm cypress run
+bazel run //apps/full/e2e
 ```
 
 ## Tooling
