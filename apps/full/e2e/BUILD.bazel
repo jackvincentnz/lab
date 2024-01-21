@@ -1,7 +1,8 @@
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_test")
+load("@npm//:wait-on/package_json.bzl", wait_on_bin = "bin")
 
 cypress_test(
-    name = "cli_test",
+    name = "e2e",
     size = "small",
     args = [
         "run",
@@ -16,11 +17,17 @@ cypress_test(
         "@bazel_tools//src/conditions:darwin": [],
         "//conditions:default": ["@chrome_linux//:all"],
     }),
-    cypress = "//learn/cypress:node_modules/cypress",
     data = [
-        "cli_test.cy.ts",
+        "autojournal.cy.ts",
         "cypress.config.ts",
+        "routing.cy.ts",
         "tsconfig.json",
-        "//learn/cypress:node_modules/typescript",
+        "//:node_modules/typescript",
     ],
+    tags = ["manual"],
+)
+
+wait_on_bin.wait_on_binary(
+    name = "wait_on_task",
+    args = ["http-get://localhost:3001/actuator/health"],
 )
