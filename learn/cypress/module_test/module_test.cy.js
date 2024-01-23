@@ -1,7 +1,9 @@
-/*global describe, it, expect */
+/*global describe, it, cy */
 
-describe("My First Test", () => {
-  it("Does not do much!", () => {
-    expect(true).to.equal(true);
+describe("Module test", () => {
+  it("should find running Bazel built container", () => {
+    cy.visit("/");
+
+    cy.contains("Welcome to nginx!");
   });
 });
