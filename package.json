@@ -94,6 +94,11 @@
         "peerDependencies": {
           "@storybook/addon-docs": "*"
         }
+      },
+      "cpu-features": {
+        "peerDependencies": {
+          "node-gyp": "*"
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 
 cypress_module_test(
     name = "module_test",
@@ -7,6 +8,24 @@ cypress_module_test(
     data = [
         "cypress.config.js",
         "module_test.cy.js",
+        ":tarball",
+        "//learn/cypress:node_modules/dockerode",
+        "//learn/cypress:node_modules/testcontainers",
     ],
     runner = "runner.js",
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_debian_slim",
+)
+
+oci_tarball(
+    name = "tarball",
+    image = ":image",
+    repo_tags = ["lab/learn/cypress/module_test/nginx:latest"],
 )
