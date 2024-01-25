@@ -50,8 +50,8 @@ importers:
         specifier: ^6.0.2
         version: 6.0.2
       web-vitals:
-        specifier: 3.5.1
-        version: 3.5.1
+        specifier: 3.5.2
+        version: 3.5.2
     devDependencies:
       '@apollo/rover':
         specifier: ^0.22.0
@@ -19988,8 +19988,8 @@ packages:
     engines: {node: '>= 8'}
     dev: true
 
-  /web-vitals@3.5.1:
-    resolution: {integrity: sha512-xQ9lvIpfLxUj0eSmT79ZjRoU5wIRfIr7pNukL7ZE4EcWZSmfZQqOlhuAGfkVa3EFmzPHZhWhXfm2i5ys+THVPg==}
+  /web-vitals@3.5.2:
+    resolution: {integrity: sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==}
     dev: false
 
   /webcrypto-core@1.7.7:
