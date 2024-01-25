@@ -4,13 +4,12 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 cypress_module_test(
     name = "module_test",
     size = "small",
-    cypress = "//learn/cypress:node_modules",
     data = [
         "cypress.config.js",
         "module_test.cy.js",
         ":tarball",
-        "//learn/cypress:node_modules/dockerode",
-        "//learn/cypress:node_modules/testcontainers",
+        "//:node_modules/dockerode",
+        "//:node_modules/testcontainers",
     ],
     runner = "runner.js",
     tags = [
