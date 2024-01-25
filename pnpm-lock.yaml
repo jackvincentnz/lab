@@ -125,6 +125,9 @@ importers:
       cypress:
         specifier: 12.17.4
         version: 12.17.4
+      dockerode:
+        specifier: 4.0.2
+        version: 4.0.2(node-gyp@10.0.1)
       eslint:
         specifier: 8.56.0
         version: 8.56.0
@@ -158,6 +161,9 @@ importers:
       storybook:
         specifier: ^7.4.0
         version: 7.4.0
+      testcontainers:
+        specifier: 10.6.0
+        version: 10.6.0(node-gyp@10.0.1)
       tsconfig-to-swcconfig:
         specifier: 2.7.0
         version: 2.7.0
@@ -177,21 +183,6 @@ importers:
   apps/journal_app: {}
 
   apps/tasklist: {}
-
-  learn/cypress:
-    devDependencies:
-      cypress:
-        specifier: 12.17.4
-        version: 12.17.4
-      dockerode:
-        specifier: 4.0.2
-        version: 4.0.2(node-gyp@10.0.1)
-      testcontainers:
-        specifier: 10.6.0
-        version: 10.6.0(node-gyp@10.0.1)
-      typescript:
-        specifier: 4.9.5
-        version: 4.9.5
 
   libs/bubbles:
     dependencies:
@@ -5958,7 +5949,7 @@ packages:
       glob: 10.3.4
       handlebars: 4.7.8
       lazy-universal-dotenv: 4.0.0
-      node-fetch: 2.6.11
+      node-fetch: 2.7.0
       picomatch: 2.3.1
       pkg-dir: 5.0.0
       pretty-hrtime: 1.0.3
@@ -9557,7 +9548,7 @@ packages:
   /cross-fetch@3.1.6:
     resolution: {integrity: sha512-riRvo06crlE8HiqOwIpQhxwdOk4fOeR7FVM/wXoxchFEqMNUjvbs3bfo4OTgMEMHzppd4DxFBDbyySj8Cv781g==}
     dependencies:
-      node-fetch: 2.6.11
+      node-fetch: 2.7.0
     transitivePeerDependencies:
       - encoding
     dev: true

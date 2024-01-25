@@ -16,11 +16,10 @@ cypress_test(
         "@bazel_tools//src/conditions:darwin": [],
         "//conditions:default": ["@chrome_linux//:all"],
     }),
-    cypress = "//learn/cypress:node_modules/cypress",
     data = [
         "cli_test.cy.ts",
         "cypress.config.ts",
         "tsconfig.json",
-        "//learn/cypress:node_modules/typescript",
+        "//:node_modules/typescript",
     ],
 )
