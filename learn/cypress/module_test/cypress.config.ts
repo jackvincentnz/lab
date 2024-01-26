@@ -1,14 +1,14 @@
-const { defineConfig } = require("cypress");
+import { defineConfig } from "cypress";
 
-module.exports = defineConfig({
+export default defineConfig({
   e2e: {
     specPattern: ["*.cy.js"],
     supportFile: false,
     setupNodeEvents(on) {
-      on("before:browser:launch", (browser, launchOptions) => {
+      on("before:browser:launch", (_, launchOptions) => {
         launchOptions.args.push("--disable-gpu-shader-disk-cache");
       });
     },
   },
-  video: false, // TODO: remove in v13
+  video: false, // TODO: remove in v13,
 });

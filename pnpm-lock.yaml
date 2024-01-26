@@ -98,6 +98,9 @@ importers:
       '@testing-library/user-event':
         specifier: 14.5.2
         version: 14.5.2(@testing-library/dom@9.3.0)
+      '@types/dockerode':
+        specifier: 3.3.23
+        version: 3.3.23
       '@types/node':
         specifier: 18.19.10
         version: 18.19.10
