@@ -33,6 +33,10 @@ query --@aspect_rules_ts//ts:skipLibCheck=always
 # FIXME: enable this by setting allow_empty = True where applicable
 common --noincompatible_disallow_empty_glob
 
+# The IDE passes this which causes a repository remap and analysis when switching between IDE and terminal commands.
+# Leave here until the IDE no longer passes it.
+common --experimental_google_legacy_api
+
 ### NO MORE PROJECT SPECIFIC OPTIONS AFTER HERE ###
 
 # Load any settings & overrides specific to the current user from `.aspect/bazelrc/user.bazelrc`.
