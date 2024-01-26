@@ -47,10 +47,23 @@ jobs:
           restore-keys: bazel-cache-
 
       - name: Build with bazel
-        run: bazel build //...
+        run: |
+          bazel \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
+            build \
+            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            //...
 
       - name: Test and generate coverage report with bazel
-        run: bazel coverage --combined_report=lcov //...
+        run: |
+          bazel \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
+            coverage \
+            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            --combined_report=lcov \
+            //...
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
