@@ -1,12 +1,12 @@
-const cypress = require("cypress");
-const fs = require("fs");
-const dockerode = require("dockerode");
-const { GenericContainer } = require("testcontainers");
+import cypress from "cypress";
+import fs from "fs";
+import dockerode from "dockerode";
+import { GenericContainer } from "testcontainers";
 
 const docker = new dockerode();
 
 const NGINX_TAR_PATH =
-  process.env.JS_BINARY__RUNFILES +
+  process.env["JS_BINARY__RUNFILES"] +
   "/_main/learn/cypress/module_test/tarball/tarball.tar";
 const NGINX_IMAGE_TAG = "lab/learn/cypress/module_test/nginx:latest";
 
@@ -24,17 +24,19 @@ async function main() {
     const result = await cypress.run({
       headless: true,
       config: {
-        baseUrl: "http://localhost:" + port,
+        e2e: {
+          baseUrl: "http://localhost:" + port,
+        },
       },
     });
 
-    if (result.totalFailed !== 0) {
+    if (result.status === "finished" && result.totalFailed !== 0) {
       console.error("One or more cypress tests have failed");
       process.exit(1);
     }
-
     if (result.status !== "finished") {
       console.error("Cypress tests failed with status", result.status);
+      console.error(result.message);
       process.exit(2);
     }
   } catch (e) {

@@ -51,6 +51,27 @@ tsconfig_to_swcconfig.t2s(
     visibility = [":__subpackages__"],
 )
 
+ts_config(
+    name = "tsconfig_node",
+    src = "tsconfig.node.json",
+    visibility = [":__subpackages__"],
+    deps = [":tsconfig_base"],
+)
+
+tsconfig_to_swcconfig.t2s(
+    name = "write_swcrc_node",
+    srcs = [
+        "tsconfig.base.json",
+        "tsconfig.node.json",
+    ],
+    args = [
+        "--filename",
+        "$(location tsconfig.node.json)",
+    ],
+    stdout = ".swcrc.node",
+    visibility = [":__subpackages__"],
+)
+
 # gazelle:prefix github.com/jackvincentnz/lab
 gazelle(
     name = "gazelle",

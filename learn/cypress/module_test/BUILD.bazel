@@ -1,5 +1,16 @@
+load("//tools/bazel:ts.bzl", "node_ts_project")
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+
+node_ts_project(
+    name = "ts",
+    deps = [
+        "//:node_modules/@types/dockerode",
+        "//:node_modules/cypress",
+        "//:node_modules/dockerode",
+        "//:node_modules/testcontainers",
+    ],
+)
 
 cypress_module_test(
     name = "module_test",
