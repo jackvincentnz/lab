@@ -29,6 +29,21 @@ def ts_project(name, **kwargs):
         **kwargs
     )
 
+def node_ts_project(name, **kwargs):
+    ts_project(
+        name = name,
+
+        # Default tsconfig and aligning attributes
+        tsconfig = kwargs.pop("tsconfig", "//:tsconfig_node"),
+        transpiler = kwargs.pop("transpiler", partial.make(
+            swc,
+            swcrc = "//:.swcrc.node",
+        )),
+
+        # Allow anything else to be overridden
+        **kwargs
+    )
+
 def ts_config(name, **kwargs):
     _ts_config(
         name = name,
