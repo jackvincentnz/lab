@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("autojournal", () => {
   it("should automatically journal a completed task", () => {
     const task = Date.now().toString();
@@ -24,3 +26,5 @@ describe("autojournal", () => {
     cy.contains("Completed: " + task);
   });
 });
+
+export {};
