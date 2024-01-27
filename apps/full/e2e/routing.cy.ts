@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("routing", () => {
   it("should redirect root path to tasks page", () => {
     cy.visit("/");
@@ -14,3 +16,5 @@ describe("routing", () => {
     cy.visit("journal");
   });
 });
+
+export {};
