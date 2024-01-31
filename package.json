@@ -52,7 +52,7 @@
     "@typescript-eslint/eslint-plugin": "6.19.1",
     "@typescript-eslint/parser": "6.19.1",
     "@vitejs/plugin-react": "4.2.1",
-    "@vitejs/plugin-react-swc": "3.5.0",
+    "@vitejs/plugin-react-swc": "3.6.0",
     "@vitest/ui": "1.2.2",
     "cypress": "12.17.4",
     "dockerode": "4.0.2",
