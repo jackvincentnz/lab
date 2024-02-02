@@ -1,28 +1,35 @@
 load("//tools/bazel:ts.bzl", "node_ts_project")
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
-load("@npm//:wait-on/package_json.bzl", wait_on_bin = "bin")
 
 node_ts_project(
     name = "ts",
     deps = [
+        "//:node_modules/@testcontainers/kafka",
+        "//:node_modules/@types/dockerode",
         "//:node_modules/@types/node",
         "//:node_modules/cypress",
+        "//:node_modules/dockerode",
+        "//:node_modules/testcontainers",
     ],
 )
 
 cypress_module_test(
     name = "e2e",
-    size = "small",
+    size = "medium",
     data = [
-        "autojournal.cy.js",
-        "cypress.config.js",
-        "routing.cy.js",
+        ":ts",
+        "//apps/journal_app:tarball",
+        "//apps/tasklist:tarball",
+        "//infra/local:router_conf",
+        "//infra/local/proxy:tarball",
+        "//services/autojournal/src/main:tarball",
+        "//services/journal/src/main:tarball",
+        "//services/task/src/main:tarball",
     ],
     runner = "runner.js",
-    tags = ["manual"],
-)
-
-wait_on_bin.wait_on_binary(
-    name = "wait_on_task",
-    args = ["http-get://localhost:3001/actuator/health"],
+    tags = [
+        "exclusive",  # TODO: see if this can be removed if all ports are dynamically allocated
+        "requires-docker",
+        "requires-network",
+    ],
 )

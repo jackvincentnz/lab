@@ -22,5 +22,8 @@ oci_tarball(
     name = "tarball",
     image = ":image",
     repo_tags = ["lab/proxy:latest"],
-    visibility = ["//:__pkg__"],
+    visibility = [
+        "//:__pkg__",
+        "//apps/full/e2e:__pkg__",
+    ],
 )

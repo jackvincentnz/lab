@@ -16,11 +16,8 @@ cypress_module_test(
     name = "module_test",
     size = "small",
     data = [
-        "cypress.config.js",
-        "module_test.cy.js",
         ":tarball",
-        "//:node_modules/dockerode",
-        "//:node_modules/testcontainers",
+        ":ts",
     ],
     runner = "runner.js",
     tags = [

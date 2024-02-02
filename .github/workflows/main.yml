@@ -55,6 +55,16 @@ jobs:
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             //...
 
+      - name: Test with bazel
+        run: |
+          bazel \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
+            test \
+            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            //...
+
+      # TODO: Avoid rebuilding and retesting tests with coverage
       - name: Test and generate coverage report with bazel
         run: |
           bazel \
@@ -63,16 +73,13 @@ jobs:
             coverage \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --combined_report=lcov \
-            //...
+            $(bazel query 'kind("java_test", //...)')
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./dist/out/_coverage/_coverage_report.dat
-
-      - name: E2E test with bazel
-        run: bazel run //:start && bazel run //apps/full/e2e:wait_on_task && bazel run //apps/full/e2e
 
   pull_request_ci:
     runs-on: ubuntu-latest

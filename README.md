@@ -41,7 +41,7 @@ bazel run //:start
 Run e2e tests with:
 
 ```zsh
-bazel run //apps/full/e2e
+bazel test //apps/full/e2e
 ```
 
 ## Tooling
