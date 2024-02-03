@@ -133,13 +133,13 @@ services:
       - "4000:4000"
     volumes:
       - type: bind
-        source: ./supergraph.graphql
+        source: ./router/schema/supergraph.graphql
         target: /dist/schema/local.graphql
       - type: bind
-        source: ./router.conf
-        target: /dist/conf/router.conf
+        source: ./router/config/router.conf
+        target: /dist/config/router.conf
     environment:
       APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
-      APOLLO_ROUTER_CONFIG_PATH: conf/router.conf
+      APOLLO_ROUTER_CONFIG_PATH: config/router.conf
     extra_hosts:
       - "host.docker.internal:host-gateway"

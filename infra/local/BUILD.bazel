@@ -1,10 +1,21 @@
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+
+copy_to_bin(
+    name = "router_conf",
+    srcs = [
+        "router/config/router.conf",
+        "router/schema/supergraph.graphql",
+    ],
+    visibility = ["//apps/full/e2e:__pkg__"],
+)
+
 sh_binary(
     name = "local",
     srcs = ["docker_compose.bash"],
     data = [
         "docker-compose.yml",
-        "router.conf",
-        "supergraph.graphql",
+        "router/config/router.conf",
+        "router/schema/supergraph.graphql",
         "@bazel_tools//tools/bash/runfiles",
     ],
     visibility = ["//:__pkg__"],
