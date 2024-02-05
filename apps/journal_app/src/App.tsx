@@ -1,8 +1,11 @@
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { MantineProvider } from "@mantine/core";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-expect-error
-import { AppShell } from "@lab/bubbles"; // FIXME: type safety for the library
+import { Shell } from "@lab/bubbles"; // FIXME: type safety for the library
 import { EntriesPage } from "./entries";
+
+import "@lab/bubbles/style.css";
 
 const client = new ApolloClient({
   uri: "/graphql",
@@ -12,9 +15,11 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <AppShell title="Journal">
-        <EntriesPage />
-      </AppShell>
+      <MantineProvider>
+        <Shell title="Journal">
+          <EntriesPage />
+        </Shell>
+      </MantineProvider>
     </ApolloProvider>
   );
 }

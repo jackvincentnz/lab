@@ -1,3 +1,3 @@
-import { AppShell } from "./organisms";
+import { Shell } from "./organisms";
 
-export { AppShell };
+export { Shell };
