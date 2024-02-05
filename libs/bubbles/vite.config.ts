@@ -16,7 +16,13 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ["@mantine/core", "react", "@tabler/icons-react"],
+      external: [
+        "@mantine/core",
+        "@mantine/core/styles.css",
+        "@mantine/hooks",
+        "@tabler/icons-react",
+        "react",
+      ],
       output: {
         // disable warning on src/index.ts using both default and named export
         exports: "named",

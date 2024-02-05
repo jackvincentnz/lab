@@ -1,3 +1,3 @@
-import { AppShell } from "./app_shell";
+import { Shell } from "./shell";
 
-export { AppShell };
+export { Shell };

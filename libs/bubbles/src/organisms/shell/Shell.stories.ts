@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
-import { AppShell } from "./AppShell";
+import { Shell } from "./Shell";
 
-const meta: Meta<typeof AppShell> = {
-  title: "Organisms/AppShell",
-  component: AppShell,
+const meta: Meta<typeof Shell> = {
+  title: "Organisms/Shell",
+  component: Shell,
   parameters: {
     layout: "fullscreen",
   },
@@ -15,6 +15,6 @@ type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
-    title: "Application title",
+    title: "Page title",
   },
 };

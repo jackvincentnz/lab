@@ -19,7 +19,10 @@ DEPS = [
 vite_build(
     name = "build",
     srcs = SRCS + DEPS,
-    outs = ["dist/index.es.js"],
+    outs = [
+        "dist/index.es.js",
+        "dist/style.css",
+    ],
     out_dirs = [],
 )
 
@@ -36,12 +39,13 @@ npm_package(
 
 STORYBOOK_SRCS = [
     ".storybook/main.ts",
-    ".storybook/preview.ts",
+    ".storybook/preview.tsx",
 ]
 
 STORYBOOK_DEPS = [
     "//libs/bubbles/src",
     "//:node_modules/@mantine/core",
+    "//:node_modules/@mantine/hooks",
     "//:node_modules/@tabler/icons-react",
     "//:node_modules/@storybook/addon-essentials",
     "//:node_modules/@storybook/addon-interactions",

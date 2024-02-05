@@ -23,7 +23,7 @@ export function AddTask() {
           }
         }}
       >
-        <Group spacing="xs">
+        <Group gap="xs">
           <TextInput
             placeholder="Task name"
             aria-label="Task name"
