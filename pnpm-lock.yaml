@@ -90,8 +90,8 @@ importers:
         specifier: ^0.2.26
         version: 0.2.26(@swc/core@1.3.107)
       '@testcontainers/kafka':
-        specifier: 10.6.0
-        version: 10.6.0(node-gyp@10.0.1)
+        specifier: 10.7.1
+        version: 10.7.1(node-gyp@10.0.1)
       '@testing-library/jest-dom':
         specifier: 6.4.2
         version: 6.4.2(@jest/globals@29.7.0)(jest@27.5.1)(vitest@1.2.2)
@@ -168,8 +168,8 @@ importers:
         specifier: ^7.4.0
         version: 7.4.0
       testcontainers:
-        specifier: 10.6.0
-        version: 10.6.0(node-gyp@10.0.1)
+        specifier: 10.7.1
+        version: 10.7.1(node-gyp@10.0.1)
       tsconfig-to-swcconfig:
         specifier: 2.7.0
         version: 2.7.0
@@ -6408,10 +6408,10 @@ packages:
     resolution: {integrity: sha512-Otv6zrVF3HU54G6FK7OPODcQmKR9KgM6Ppi+ib3gHHB1LZEs2HIdQJYTHP5dGE+yOQWtXS9ZnGmSZDkSFLbkkg==}
     dev: false
 
-  /@testcontainers/kafka@10.6.0(node-gyp@10.0.1):
-    resolution: {integrity: sha512-gtkHqv6A+EXLAJIaSmbC9wDn6zOsAuNRJPw+D1mkqFXoLpMmJZrBa/bpMioa8Es8tj68/1rRMYyWFoeCi1jdpw==}
+  /@testcontainers/kafka@10.7.1(node-gyp@10.0.1):
+    resolution: {integrity: sha512-+OuWkIKZzxGs3zTy85rUgARe9ouYpYnQEm216vqM2RkmhFV8N++MXL66itIrb5PBlfxjk/3v7w+4NN/A0eUEwg==}
     dependencies:
-      testcontainers: 10.6.0(node-gyp@10.0.1)
+      testcontainers: 10.7.1(node-gyp@10.0.1)
     transitivePeerDependencies:
       - encoding
       - node-gyp
@@ -18830,8 +18830,8 @@ packages:
       minimatch: 3.1.2
     dev: true
 
-  /testcontainers@10.6.0(node-gyp@10.0.1):
-    resolution: {integrity: sha512-FDJ3o3J8IMu1V7Uc6lNZ2MAD8+BV4HdpR/Vf5mHtgYHKdn6k1EbGFwtnvVNOxanJ99FCjf/EU8eA5ZQ4yjlsGA==}
+  /testcontainers@10.7.1(node-gyp@10.0.1):
+    resolution: {integrity: sha512-JarbT6o7fv1siUts4tGv3wBoYrWKxjla69+5QWG9+bcd4l+ECJ3ikfGD/hpXRmRBsnjzeWyV+tL9oWOBRzk+lA==}
     dependencies:
       '@balena/dockerignore': 1.0.2
       '@types/dockerode': 3.3.23
