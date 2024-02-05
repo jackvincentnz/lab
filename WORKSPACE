@@ -369,7 +369,7 @@ load("@rules_oci//oci:pull.bzl", "oci_pull")
 # A single-arch base image
 oci_pull(
     name = "distroless_java",
-    digest = "sha256:ce7b2c695953fba6579d3d524590d7a7e67236d814fbd6f6769fe10e800e758d",
+    digest = "sha256:85c2fa20773270fe6fecf576dd5a53f5bb8b914e57a463c533dac034c51862d9",
     image = "gcr.io/distroless/java17",
 )
 
