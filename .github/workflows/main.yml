@@ -89,4 +89,4 @@ jobs:
         uses: actions/setup-python@v5
 
       - name: Check format, linting and style
-        uses: pre-commit/action@v3.0.0
+        uses: pre-commit/action@v3.0.1
