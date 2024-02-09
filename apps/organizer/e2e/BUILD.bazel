@@ -9,6 +9,7 @@ node_ts_project(
         "//:node_modules/cypress",
         "//:node_modules/dockerode",
         "//:node_modules/testcontainers",
+        "//libs/utils/ts",
     ],
 )
 
