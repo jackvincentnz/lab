@@ -8,5 +8,11 @@ apps/tasklist/node_modules
 learn/cypress/node_modules
 libs/bubbles/node_modules
 dist
+bazel-bin
+bazel-genfiles
 bazel-out
+bazel-testlogs
+bazel-lab
+.bazelignore
 .git
+.ijwb

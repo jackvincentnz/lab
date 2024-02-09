@@ -11,7 +11,7 @@
     "lint": "pre-commit run eslint --all-files",
     "format": "pre-commit run prettier --all-files",
     "start": "bazel run //:start",
-    "e2e": "bazel test //apps/full/e2e"
+    "e2e": "bazel test //apps/organizer/e2e"
   },
   "dependencies": {
     "@apollo/client": "^3.7.16",

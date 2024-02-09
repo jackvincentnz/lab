@@ -56,6 +56,6 @@ oci_tarball(
     repo_tags = ["lab/journal_app:latest"],
     visibility = [
         "//:__pkg__",
-        "//apps/full/e2e:__pkg__",
+        "//apps/organizer/e2e:__pkg__",
     ],
 )
