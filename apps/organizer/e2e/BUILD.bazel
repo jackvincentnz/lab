@@ -6,7 +6,6 @@ node_ts_project(
     deps = [
         "//:node_modules/@testcontainers/kafka",
         "//:node_modules/@types/dockerode",
-        "//:node_modules/@types/node",
         "//:node_modules/cypress",
         "//:node_modules/dockerode",
         "//:node_modules/testcontainers",
