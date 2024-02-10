@@ -3,6 +3,7 @@ import fs from "fs";
 import Dockerode from "dockerode";
 import { GenericContainer, Wait, Network } from "testcontainers";
 import { KafkaContainer } from "@testcontainers/kafka";
+import { findUnusedPort } from "../../../libs/utils/ts/find-port";
 
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
@@ -143,12 +144,17 @@ async function main() {
       .start(),
   );
 
+  const proxyPort = await findUnusedPort(5000);
+
   const proxyContainer = loadContainer(PROXY_TARBALL, PROXY_TAG).then(
     (container) =>
       container
         .withExposedPorts({
-          host: 8080,
-          container: 8080,
+          host: proxyPort,
+          container: proxyPort,
+        })
+        .withEnvironment({
+          NGINX_PORT: proxyPort.toString(),
         })
         .withExtraHosts([
           { host: "host.docker.internal", ipAddress: "host-gateway" },
@@ -164,7 +170,7 @@ async function main() {
     tasklistContainer,
     journalAppContainer,
     proxyContainer,
-  ]).then(() => runCypressAgainstUrl(`http://localhost:8080`));
+  ]).then(() => runCypressAgainstUrl(`http://localhost:${proxyPort}`));
 }
 
 async function runCypressAgainstUrl(baseUrl: string) {

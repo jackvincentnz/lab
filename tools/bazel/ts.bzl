@@ -39,6 +39,7 @@ def node_ts_project(name, **kwargs):
             swc,
             swcrc = "//:.swcrc.node",
         )),
+        deps = kwargs.pop("deps", []) + ["//:node_modules/@types/node"],
 
         # Allow anything else to be overridden
         **kwargs

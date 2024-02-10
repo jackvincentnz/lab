@@ -3,8 +3,8 @@ load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 pkg_tar(
     name = "nginx_conf_tar",
-    srcs = [":nginx.conf"],
-    package_dir = "/etc/nginx",
+    srcs = [":default.conf.template"],
+    package_dir = "/etc/nginx/templates",
 )
 
 oci_image(

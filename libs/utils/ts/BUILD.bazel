@@ -1,0 +1,7 @@
+load("//tools/bazel:ts.bzl", "node_ts_project")
+
+node_ts_project(
+    name = "ts",
+    srcs = ["find-port.ts"],
+    visibility = ["//visibility:public"],
+)

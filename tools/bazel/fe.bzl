@@ -6,7 +6,7 @@ load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/vitest:vitest.bzl", "vitest")
 
-def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:public"]):
+def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:private"]):
     """Bazel macro for packaging a standard front end library.
 
     ### Requirements
