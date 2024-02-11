@@ -11,7 +11,7 @@ server {
         # Keep aligned with:
         # - apps/tasklist/vite.config.ts: "base"
         # - //apps/tasklist:tar: "package_dir"
-        proxy_pass http://host.docker.internal:3000/task/;
+        proxy_pass ${TASK_APP_HOST}/task/;
     }
 
     location /journal/ {
@@ -20,10 +20,10 @@ server {
         # Keep aligned with:
         # - apps/journal_app/vite.config.ts: "base"
         # - //apps/journal_app:tar: "package_dir"
-        proxy_pass http://host.docker.internal:3004/journal/;
+        proxy_pass ${JOURNAL_APP_HOST}/journal/;
     }
 
     location /graphql {
-        proxy_pass http://host.docker.internal:4000;
+        proxy_pass ${ROUTER_HOST};
     }
 }
