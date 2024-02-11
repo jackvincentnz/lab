@@ -67,10 +67,11 @@ jobs:
             $(bazel query 'kind("java_test", //...)')
 
       - name: Upload coverage report
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v3
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: ./dist/out/_coverage/_coverage_report.dat
+          fail_ci_if_error: true
 
   pull_request_ci:
     runs-on: ubuntu-latest
