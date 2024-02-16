@@ -22,7 +22,7 @@ import org.testcontainers.utility.DockerImageName;
 public class KafkaTest {
   @Container
   public KafkaContainer kafka =
-      new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.5.3"));
+      new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.6.0"));
 
   @Test
   public void getBootstrapServers_isNotBlank() {

@@ -130,10 +130,11 @@ async function startSchemaRegistry(network: StartedNetwork) {
     SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:9092",
   };
 
-  return new GenericContainer("confluentinc/cp-schema-registry:7.5.3")
+  return new GenericContainer("confluentinc/cp-schema-registry:7.6.0")
     .withNetwork(network)
     .withNetworkAliases("schema-registry")
     .withEnvironment(environment)
+    .withExposedPorts(8081 as PortWithOptionalBinding)
     .start();
 }
 
@@ -225,6 +226,7 @@ async function startRouter(network: StartedNetwork) {
     .withEnvironment(environment)
     .withNetworkAliases("router")
     .withNetwork(network)
+    .withExposedPorts(4000 as PortWithOptionalBinding)
     .start();
 }
 
@@ -235,6 +237,7 @@ async function startTasklist(
   return tasklistContainer
     .withNetwork(network)
     .withNetworkAliases("tasklist")
+    .withExposedPorts(80 as PortWithOptionalBinding)
     .start();
 }
 
@@ -245,6 +248,7 @@ async function startJournalApp(
   return journalAppContainer
     .withNetwork(network)
     .withNetworkAliases("journal_app")
+    .withExposedPorts(80 as PortWithOptionalBinding)
     .start();
 }
 
