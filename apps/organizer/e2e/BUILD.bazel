@@ -26,6 +26,9 @@ cypress_module_test(
         "//services/journal/src/main:tarball",
         "//services/task/src/main:tarball",
     ],
+    env = {
+        "DEBUG": "testcontainers*",
+    },
     runner = "runner.js",
     tags = [
         "exclusive",  # TODO: see if this can be removed if all ports are dynamically allocated
