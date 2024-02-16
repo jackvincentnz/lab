@@ -146,5 +146,8 @@ services:
     environment:
       APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
       APOLLO_ROUTER_CONFIG_PATH: config/router.conf
+      TASK_ROUTING_URL: http://host.docker.internal:3001/graphql
+      JOURNAL_ROUTING_URL: http://host.docker.internal:3003/graphql
+    command: --hot-reload
     extra_hosts:
       - "host.docker.internal:host-gateway"

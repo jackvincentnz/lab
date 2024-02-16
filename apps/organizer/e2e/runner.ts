@@ -8,11 +8,7 @@ import {
   StartedNetwork,
 } from "testcontainers";
 import { KafkaContainer } from "@testcontainers/kafka";
-import {
-  ContentToCopy,
-  Environment,
-  ExtraHost,
-} from "testcontainers/build/types";
+import { ContentToCopy, Environment } from "testcontainers/build/types";
 import { PortWithOptionalBinding } from "testcontainers/build/utils/port";
 
 import { findUnusedPort } from "../../../libs/utils/ts/find-port";
@@ -63,8 +59,9 @@ async function main() {
     startTask(loadedTask, startedNetwork),
   );
 
-  const startedJournal = loadedJournal.then((loadedJournal) =>
-    startJournal(loadedJournal),
+  const startedJournal = Promise.all([loadedJournal, startedNetwork]).then(
+    ([loadedJournal, startedNetwork]) =>
+      startJournal(loadedJournal, startedNetwork),
   );
 
   const startedAutojournal = Promise.all([
@@ -75,13 +72,19 @@ async function main() {
     startAutojournal(loadedAutojournal, startedNetwork),
   );
 
-  const startedRouter = startRouter();
-
-  const startedTasklist = loadedTasklist.then((loadedTasklist) =>
-    startTasklist(loadedTasklist),
+  const startedRouter = startedNetwork.then((startedNetwork) =>
+    startRouter(startedNetwork),
   );
-  const startedJournalApp = loadedJournalApp.then((loadedJournalApp) =>
-    startJournalApp(loadedJournalApp),
+
+  const startedTasklist = Promise.all([loadedTasklist, startedNetwork]).then(
+    ([loadedTasklist, startedNetwork]) =>
+      startTasklist(loadedTasklist, startedNetwork),
+  );
+  const startedJournalApp = Promise.all([
+    loadedJournalApp,
+    startedNetwork,
+  ]).then(([loadedJournalApp, startedNetwork]) =>
+    startJournalApp(loadedJournalApp, startedNetwork),
   );
 
   const proxyPort = findUnusedPort(5000);
@@ -89,24 +92,12 @@ async function main() {
   const startedProxy = Promise.all([
     loadedProxy,
     proxyPort,
+    startedNetwork,
     startedTasklist,
     startedJournalApp,
     startedRouter,
-  ]).then(
-    ([
-      loadedProxy,
-      proxyPort,
-      startedTasklist,
-      startedJournalApp,
-      startedRouter,
-    ]) =>
-      startProxy(
-        loadedProxy,
-        proxyPort,
-        startedTasklist.getFirstMappedPort(),
-        startedJournalApp.getFirstMappedPort(),
-        startedRouter.getFirstMappedPort(),
-      ),
+  ]).then(([loadedProxy, proxyPort, startedNetwork]) =>
+    startProxy(loadedProxy, proxyPort, startedNetwork),
   );
 
   Promise.all([
@@ -161,11 +152,6 @@ async function startTask(
   taskContainer: GenericContainer,
   network: StartedNetwork,
 ) {
-  const ports: PortWithOptionalBinding = {
-    host: 3001,
-    container: 3001,
-  };
-
   const environment: Environment = {
     SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:9092",
     SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schema-registry:8081",
@@ -173,20 +159,19 @@ async function startTask(
 
   return taskContainer
     .withNetwork(network)
-    .withExposedPorts(ports)
+    .withNetworkAliases("task")
     .withEnvironment(environment)
     .withWaitStrategy(Wait.forLogMessage("Started TaskApplication"))
     .start();
 }
 
-async function startJournal(journalContainer: GenericContainer) {
-  const ports: PortWithOptionalBinding = {
-    host: 3003,
-    container: 3003,
-  };
-
+async function startJournal(
+  journalContainer: GenericContainer,
+  network: StartedNetwork,
+) {
   return journalContainer
-    .withExposedPorts(ports)
+    .withNetwork(network)
+    .withNetworkAliases("journal")
     .withWaitStrategy(Wait.forLogMessage("Started JournalApplication"))
     .start();
 }
@@ -195,33 +180,21 @@ async function startAutojournal(
   autoJournalContainer: GenericContainer,
   network: StartedNetwork,
 ) {
-  const ports: PortWithOptionalBinding = {
-    host: 3002,
-    container: 3002,
-  };
-
   const environment: Environment = {
-    LAB_SERVICES_TASK_GRAPHQL_URL: "http://host.docker.internal:3001/graphql",
-    LAB_SERVICES_JOURNAL_GRAPHQL_URL:
-      "http://host.docker.internal:3003/graphql",
+    LAB_SERVICES_TASK_GRAPHQL_URL: "http://task:3001/graphql",
+    LAB_SERVICES_JOURNAL_GRAPHQL_URL: "http://journal:3003/graphql",
     SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:9092",
     SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: "http://schema-registry:8081",
   };
 
-  const extraHosts: ExtraHost[] = [
-    { host: "host.docker.internal", ipAddress: "host-gateway" },
-  ];
-
   return autoJournalContainer
     .withNetwork(network)
-    .withExposedPorts(ports)
     .withEnvironment(environment)
-    .withExtraHosts(extraHosts)
     .withWaitStrategy(Wait.forLogMessage("Started AutoJournalApplication"))
     .start();
 }
 
-async function startRouter() {
+async function startRouter(network: StartedNetwork) {
   const schema = fs.readFileSync(
     `${RUNFILES}/_main/infra/local/router/schema/supergraph.graphql`,
   );
@@ -243,34 +216,42 @@ async function startRouter() {
   const environment: Environment = {
     APOLLO_ROUTER_SUPERGRAPH_PATH: "schema/local.graphql",
     APOLLO_ROUTER_CONFIG_PATH: "config/router.conf",
+    TASK_ROUTING_URL: "http://task:3001/graphql",
+    JOURNAL_ROUTING_URL: "http://journal:3003/graphql",
   };
-
-  const extraHosts: ExtraHost[] = [
-    { host: "host.docker.internal", ipAddress: "host-gateway" },
-  ];
 
   return new GenericContainer("ghcr.io/apollographql/router:v1.38.0")
     .withCopyContentToContainer(contentToCopy)
     .withEnvironment(environment)
-    .withExtraHosts(extraHosts)
-    .withExposedPorts(4000)
+    .withNetworkAliases("router")
+    .withNetwork(network)
     .start();
 }
 
-async function startTasklist(tasklistContainer: GenericContainer) {
-  return tasklistContainer.withExposedPorts(80).start();
+async function startTasklist(
+  tasklistContainer: GenericContainer,
+  network: StartedNetwork,
+) {
+  return tasklistContainer
+    .withNetwork(network)
+    .withNetworkAliases("tasklist")
+    .start();
 }
 
-async function startJournalApp(journalAppContainer: GenericContainer) {
-  return journalAppContainer.withExposedPorts(80).start();
+async function startJournalApp(
+  journalAppContainer: GenericContainer,
+  network: StartedNetwork,
+) {
+  return journalAppContainer
+    .withNetwork(network)
+    .withNetworkAliases("journal_app")
+    .start();
 }
 
 async function startProxy(
   proxyContainer: GenericContainer,
   proxyPort: number,
-  taskAppPort: number,
-  journalAppPort: number,
-  routerPort: number,
+  network: StartedNetwork,
 ) {
   const portBinding: PortWithOptionalBinding = {
     host: proxyPort,
@@ -279,19 +260,15 @@ async function startProxy(
 
   const environment: Environment = {
     NGINX_PORT: proxyPort.toString(),
-    TASK_APP_HOST: `http://host.docker.internal:${taskAppPort}`,
-    JOURNAL_APP_HOST: `http://host.docker.internal:${journalAppPort}`,
-    ROUTER_HOST: `http://host.docker.internal:${routerPort}`,
+    TASK_APP_HOST: `http://tasklist`,
+    JOURNAL_APP_HOST: `http://journal_app`,
+    ROUTER_HOST: `http://router:4000`,
   };
 
-  const extraHosts: ExtraHost[] = [
-    { host: "host.docker.internal", ipAddress: "host-gateway" },
-  ];
-
   return proxyContainer
+    .withNetwork(network)
     .withExposedPorts(portBinding)
     .withEnvironment(environment)
-    .withExtraHosts(extraHosts)
     .start();
 }
 
