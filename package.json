@@ -23,7 +23,6 @@
     "graphql": "16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "screenfull": "^6.0.2",
     "web-vitals": "3.5.2"
   },
   "devDependencies": {
@@ -62,7 +61,6 @@
     "jest-transform-stub": "^2.0.0",
     "jsdom": "24.0.0",
     "prettier": "3.2.5",
-    "react-scripts": "^5.0.1",
     "storybook": "7.6.16",
     "testcontainers": "10.7.1",
     "tsconfig-to-swcconfig": "2.7.0",
@@ -75,13 +73,6 @@
       "@vitejs/plugin-react": "4.2.0"
     },
     "packageExtensions": {
-      "postcss-loader": {
-        "peerDependencies": {
-          "postcss-flexbugs-fixes": "*",
-          "postcss-preset-env": "*",
-          "postcss-normalize": "*"
-        }
-      },
       "@mantine/styles": {
         "peerDependencies": {
           "@emotion/cache": "*",

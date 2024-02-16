@@ -1,7 +1,0 @@
-load("//tools/bazel:js.bzl", "js_library")
-
-js_library(
-    name = "public",
-    srcs = glob(["**"]),
-    visibility = ["//learn/cra:__pkg__"],
-)

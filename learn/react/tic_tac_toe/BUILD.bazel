@@ -2,5 +2,4 @@ load("//tools/bazel:react.bzl", "react_lib")
 
 react_lib(
     name = "tic_tac_toe",
-    visibility = ["//learn/cra/src/app:__pkg__"],
 )
