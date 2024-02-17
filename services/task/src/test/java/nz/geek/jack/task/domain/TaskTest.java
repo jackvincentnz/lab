@@ -109,6 +109,20 @@ class TaskTest {
   }
 
   @Test
+  void markCompleted_isIdempotent() {
+    var title = "My Task";
+    var task = Task.addTask(title);
+    task.flushEvents();
+
+    task.markCompleted();
+    task.markCompleted();
+
+    var events = task.flushEvents();
+
+    assertThat(events.size()).isEqualTo(1);
+  }
+
+  @Test
   void markCompleted_appliesTaskCompletedEvent_withId() {
     var title = "My Task";
     var task = Task.addTask(title);

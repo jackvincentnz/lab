@@ -2,8 +2,12 @@ package nz.geek.jack.task.domain;
 
 import java.time.Instant;
 import nz.geek.jack.libs.domain.Aggregate;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class Task extends Aggregate {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Task.class);
 
   private TaskId id;
 
@@ -28,7 +32,11 @@ public final class Task extends Aggregate {
   }
 
   public void markCompleted() {
-    apply(TaskCompletedEvent.of(id));
+    if (!isCompleted) {
+      apply(TaskCompletedEvent.of(id));
+    } else {
+      LOG.debug(String.format("Task [%s] is already completed.", id));
+    }
   }
 
   private void on(TaskCompletedEvent taskCompletedEvent) {
