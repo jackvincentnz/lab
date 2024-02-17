@@ -23,6 +23,7 @@ public class DomainEventPublisher {
       KafkaTemplate<String, Message> kafkaTemplate, EventMapperFactory eventMapperFactory) {
     this.kafkaTemplate = kafkaTemplate;
     this.eventMapperFactory = eventMapperFactory;
+    initializeProducer();
   }
 
   private void initializeProducer() {

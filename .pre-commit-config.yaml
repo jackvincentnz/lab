@@ -44,7 +44,7 @@ repos:
 
   # Format java source files
   - repo: https://github.com/jackvincentnz/language-formatters-pre-commit-hooks
-    rev: a218f430c6f370378ef89b5f315ac24062f960eb
+    rev: 2664e6558f31bf73cb8f8a6558f33f4ba22e82a1
     hooks:
       - id: pretty-format-java
         args: [--autofix]

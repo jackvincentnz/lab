@@ -1,14 +1,7 @@
-load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+load("//tools/bazel:fe.bzl", "fe_library")
 
-copy_to_bin(
+fe_library(
     name = "src",
-    srcs = glob([
-        "**/*.css",
-        "**/*.png",
-        "**/*.svg",
-        "**/*.tsx",
-        "**/*.ts",
-        "**/*.mdx",
-    ]),
     visibility = ["//libs/bubbles:__pkg__"],
+    deps = ["//libs/bubbles/src/organisms"],
 )

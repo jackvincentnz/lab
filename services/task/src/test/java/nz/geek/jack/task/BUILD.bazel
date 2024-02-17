@@ -3,9 +3,10 @@ load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "
 java_test_suite(
     name = "tests",
     resources = ["//services/task/src/main/resources"],
+    tags = ["requires-network"],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS,
     deps = [
         "//services/task/src/main/java/nz/geek/jack/task",
-        "//services/task/src/main/java/nz/geek/jack/task/adapter/messaging",
+        "@maven//:org_springframework_kafka_spring_kafka_test",
     ] + SPRING_TEST_DEPS,
 )

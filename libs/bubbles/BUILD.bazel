@@ -1,36 +1,13 @@
-load("//tools/bazel/vite:vite.bzl", "vite_build")
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
-SRCS = [
-    "vite.config.ts",
-]
-
-DEPS = [
-    "//libs/bubbles/src",
-    "//:node_modules/@vitejs/plugin-react-swc",
-    "//:node_modules/react",
-    "//:node_modules/react-dom",
-    "//:node_modules/vite",
-]
-
-vite_build(
-    name = "build",
-    srcs = SRCS + DEPS,
-    outs = [
-        "dist/index.es.js",
-        "dist/style.css",
-    ],
-    out_dirs = [],
-)
-
 npm_package(
     name = "bubbles",
     srcs = [
         "package.json",
-        ":build",
+        "//libs/bubbles/src",
     ],
     # This is a perf improvement; the default will be flipped to False in rules_js 2.0
     include_runfiles = False,
@@ -43,7 +20,7 @@ STORYBOOK_SRCS = [
 ]
 
 STORYBOOK_DEPS = [
-    "//libs/bubbles/src",
+    "//libs/bubbles/src/organisms/shell:stories",
     "//:node_modules/@mantine/core",
     "//:node_modules/@mantine/hooks",
     "//:node_modules/@tabler/icons-react",
@@ -54,7 +31,6 @@ STORYBOOK_DEPS = [
     "//:node_modules/@storybook/react",
     "//:node_modules/@storybook/react-vite",
     "//:node_modules/@storybook/testing-library",
-    "//:node_modules/@vitejs/plugin-react-swc",
     "//:node_modules/react",
     "//:node_modules/react-dom",
     "//:node_modules/vite",

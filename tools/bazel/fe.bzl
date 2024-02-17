@@ -35,6 +35,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     - `...` - Type check and transpile whole package including test sources.
     - `:[target_name]` - The js_library which can be included in the deps of downstream rules.
+    - `:stories` - The stories which can be included in a storybook.
 
     For example:
 
@@ -91,6 +92,11 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
         "*.ts",
     ]
 
+    STORY_SRC_PATTERNS = [
+        "*.stories.ts",
+        "*.stories.tsx",
+    ]
+
     ASSET_PATTERNS = [
         "*.css",
         "*.svg",
@@ -110,7 +116,10 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     ts_project(
         name = "_ts",
-        srcs = native.glob(SRC_PATTERNS),
+        srcs = native.glob(
+            include = SRC_PATTERNS,
+            exclude = STORY_SRC_PATTERNS,
+        ),
         visibility = ["//visibility:private"],
         deps = COMMON_REACT_DEPS + deps,
     )
@@ -132,6 +141,18 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
         _tests(
             name = "test",
             deps = test_deps + [":%s" % name],
+        )
+
+    stories = native.glob(STORY_SRC_PATTERNS)
+    if len(stories) > 0:
+        ts_project(
+            name = "stories",
+            srcs = stories,
+            deps = [
+                "//:node_modules/@storybook/react",
+                ":%s" % name,
+            ],
+            visibility = ["//visibility:public"],
         )
 
 def _tests(name, deps):

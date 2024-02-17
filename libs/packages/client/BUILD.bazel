@@ -1,0 +1,8 @@
+load("//tools/bazel:js.bzl", "js_library")
+
+js_library(
+    name = "client",
+    srcs = ["vite-env.d.ts"],
+    visibility = ["//visibility:public"],
+    deps = ["//:node_modules/vite"],
+)
