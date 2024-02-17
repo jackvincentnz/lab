@@ -360,17 +360,20 @@ oci_register_toolchains(
 
 load("@rules_oci//oci:pull.bzl", "oci_pull")
 
-# A single-arch base image
 oci_pull(
     name = "distroless_java",
-    digest = "sha256:85c2fa20773270fe6fecf576dd5a53f5bb8b914e57a463c533dac034c51862d9",
+    digest = "sha256:68e2373f7bef9486c08356bd9ffd3b40b56e6b9316c5f6885eb58b1d9093b43d",
     image = "gcr.io/distroless/java17",
 )
 
 oci_pull(
-    name = "nginx_debian_slim",
-    digest = "sha256:d02f9b9db4d759ef27dc26b426b842ff2fb881c5c6079612d27ec36e36b132dd",
-    image = "docker.io/library/nginx",
+    name = "nginx_alpine_slim",
+    digest = "sha256:9cec4fd40a4e5156b4f4f555ee44a597491b6e8b91380c32b63ed45a4053a763",
+    image = "nginx",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64/v8",
+    ],
 )
 
 ####################################################################################################

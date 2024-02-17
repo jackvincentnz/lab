@@ -56,6 +56,7 @@ services:
 
   task:
     image: lab/task:latest
+    platform: linux/amd64
     hostname: task
     container_name: task
     depends_on:
@@ -69,6 +70,7 @@ services:
 
   journal:
     image: lab/journal:latest
+    platform: linux/amd64
     hostname: journal
     container_name: journal
     ports:
@@ -76,6 +78,7 @@ services:
 
   autojournal:
     image: lab/autojournal:latest
+    platform: linux/amd64
     hostname: autojournal
     container_name: autojournal
     depends_on:

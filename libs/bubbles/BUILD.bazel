@@ -55,7 +55,7 @@ pkg_tar(
 
 oci_image(
     name = "image",
-    base = "@nginx_debian_slim",
+    base = "@nginx_alpine_slim",
     tars = [":tar"],
 )
 
