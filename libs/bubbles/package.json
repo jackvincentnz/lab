@@ -1,18 +1,15 @@
 {
   "name": "@lab/bubbles",
   "type": "module",
-  "files": [
-    "dist/*"
-  ],
-  "module": "./dist/index.es.js",
+  "module": "./src/index.js",
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/index.es.js"
+        "default": "./src/index.js"
       }
-    },
-    "./style.css": "./dist/style.css"
+    }
   },
+  "types": "src/index.d.ts",
   "scripts": {
     "build": "bazel build //libs/bubbles",
     "storybook": "ibazel run //libs/bubbles:storybook",
