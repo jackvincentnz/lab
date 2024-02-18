@@ -368,12 +368,13 @@ oci_pull(
 
 oci_pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:9cec4fd40a4e5156b4f4f555ee44a597491b6e8b91380c32b63ed45a4053a763",
     image = "nginx",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
+    reproducible = False,
+    tag = "stable-alpine-slim",
 )
 
 ####################################################################################################
