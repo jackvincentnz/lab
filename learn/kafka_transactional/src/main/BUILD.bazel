@@ -1,0 +1,17 @@
+java_library(
+    name = "main_lib",
+    resources = ["resources/application.properties"],
+    runtime_deps = ["//learn/kafka_transactional/src/main/java/nz/geek/jack/learn/kafka_transactional"],
+)
+
+java_binary(
+    name = "main",
+    main_class = "nz.geek.jack.learn.kafka_transactional.Application",
+    visibility = ["//learn/kafka_transactional:__pkg__"],
+    runtime_deps = [
+        ":main_lib",
+        "@maven//:com_mysql_mysql_connector_j",
+        "@maven//:org_springframework_boot_spring_boot_starter",
+        "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
+    ],
+)

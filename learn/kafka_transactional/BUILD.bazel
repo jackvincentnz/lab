@@ -1,0 +1,4 @@
+alias(
+    name = "kafka_transactional",
+    actual = "//learn/kafka_transactional/src/main",
+)
