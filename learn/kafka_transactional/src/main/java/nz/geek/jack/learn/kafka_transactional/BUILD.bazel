@@ -1,0 +1,14 @@
+java_library(
+    name = "kafka_transactional",
+    srcs = glob(["*.java"]),
+    visibility = ["//learn/kafka_transactional:__subpackages__"],
+    deps = [
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_kafka_spring_kafka",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)
