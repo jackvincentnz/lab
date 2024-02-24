@@ -1,0 +1,5 @@
+java_library(
+    name = "tenancy",
+    srcs = glob(["*.java"]),
+    visibility = ["//libs/tenancy/src/test/java/nz/geek/jack/libs/tenancy:__pkg__"],
+)
