@@ -6,5 +6,6 @@ java_test_suite(
         "//services/autojournal/src/main/java/nz/geek/jack/autojournal/adapter/messaging",
         "//services/autojournal/src/main/java/nz/geek/jack/autojournal/application",
         "//services/task/src/main/proto:task_api_java",
+        "@maven//:com_google_protobuf_protobuf_java",
     ],
 )
