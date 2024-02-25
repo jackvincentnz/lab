@@ -4,15 +4,15 @@ import java.util.Objects;
 
 public final class SimpleTenantContext implements TenantContext {
 
-  private final String tenant;
+  private final String tenantId;
 
-  private SimpleTenantContext(String tenant) {
-    this.tenant = tenant;
+  private SimpleTenantContext(String tenantId) {
+    this.tenantId = tenantId;
   }
 
   @Override
-  public String getTenant() {
-    return tenant;
+  public String getTenantId() {
+    return tenantId;
   }
 
   @Override
@@ -20,15 +20,15 @@ public final class SimpleTenantContext implements TenantContext {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     SimpleTenantContext that = (SimpleTenantContext) o;
-    return Objects.equals(tenant, that.tenant);
+    return Objects.equals(tenantId, that.tenantId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(tenant);
+    return Objects.hash(tenantId);
   }
 
-  public static SimpleTenantContext of(String tenant) {
-    return new SimpleTenantContext(tenant);
+  public static SimpleTenantContext of(String tenantId) {
+    return new SimpleTenantContext(tenantId);
   }
 }

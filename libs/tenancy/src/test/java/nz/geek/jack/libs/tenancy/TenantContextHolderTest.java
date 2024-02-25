@@ -51,8 +51,8 @@ class TenantContextHolderTest {
   }
 
   private TenantContext newContext() {
-    var tenant = newId();
-    return SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    return SimpleTenantContext.of(tenantId);
   }
 
   private String newId() {
