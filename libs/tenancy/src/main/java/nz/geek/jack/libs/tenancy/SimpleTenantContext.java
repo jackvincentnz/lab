@@ -1,12 +1,14 @@
 package nz.geek.jack.libs.tenancy;
 
 import java.util.Objects;
+import org.springframework.util.Assert;
 
 public final class SimpleTenantContext implements TenantContext {
 
   private final String tenantId;
 
   private SimpleTenantContext(String tenantId) {
+    Assert.notNull(tenantId, "The tenantId must not be null");
     this.tenantId = tenantId;
   }
 

@@ -1,11 +1,17 @@
 package nz.geek.jack.libs.tenancy;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
 class SimpleTenantContextTest {
+
+  @Test
+  void of_throwsWhenTenantIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> SimpleTenantContext.of(null));
+  }
 
   @Test
   void getTenantId_returnsTenant() {

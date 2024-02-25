@@ -2,4 +2,7 @@ java_library(
     name = "tenancy",
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_springframework_spring_core",
+    ],
 )
