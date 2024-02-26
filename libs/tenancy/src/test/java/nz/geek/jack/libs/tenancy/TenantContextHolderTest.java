@@ -1,7 +1,6 @@
 package nz.geek.jack.libs.tenancy;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -51,8 +50,8 @@ class TenantContextHolderTest {
   }
 
   private TenantContext newContext() {
-    var tenant = newId();
-    return SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    return SimpleTenantContext.of(tenantId);
   }
 
   private String newId() {

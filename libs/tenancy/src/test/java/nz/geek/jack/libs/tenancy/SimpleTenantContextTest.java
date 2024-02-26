@@ -1,6 +1,7 @@
 package nz.geek.jack.libs.tenancy;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -8,12 +9,17 @@ import org.junit.jupiter.api.Test;
 class SimpleTenantContextTest {
 
   @Test
-  void getTenant_returnsTenant() {
-    var tenant = "tenant";
+  void of_throwsWhenTenantIsNull() {
+    assertThrows(IllegalArgumentException.class, () -> SimpleTenantContext.of(null));
+  }
 
-    var context = SimpleTenantContext.of(tenant);
+  @Test
+  void getTenantId_returnsTenant() {
+    var tenantId = newId();
 
-    assertThat(context.getTenant()).isEqualTo(tenant);
+    var context = SimpleTenantContext.of(tenantId);
+
+    assertThat(context.getTenantId()).isEqualTo(tenantId);
   }
 
   @Test
@@ -26,19 +32,19 @@ class SimpleTenantContextTest {
 
   @Test
   void equals_otherInstance() {
-    var tenant = newId();
-    var first = SimpleTenantContext.of(tenant);
-    var second = SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    var first = SimpleTenantContext.of(tenantId);
+    var second = SimpleTenantContext.of(tenantId);
 
     assertThat(first).isEqualTo(second);
   }
 
   @Test
   void equals_doesNotEqualDifferentTenant() {
-    var tenant1 = newId();
-    var tenant2 = newId();
-    var first = SimpleTenantContext.of(tenant1);
-    var second = SimpleTenantContext.of(tenant2);
+    var tenantId1 = newId();
+    var tenantId2 = newId();
+    var first = SimpleTenantContext.of(tenantId1);
+    var second = SimpleTenantContext.of(tenantId2);
 
     assertThat(first).isNotEqualTo(second);
   }
@@ -52,13 +58,13 @@ class SimpleTenantContextTest {
 
   @Test
   void equals_doesNotEqualOtherClass() {
-    var tenant = newId();
-    var context = SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    var context = SimpleTenantContext.of(tenantId);
     var anotherContext =
         new TenantContext() {
           @Override
-          public String getTenant() {
-            return tenant;
+          public String getTenantId() {
+            return tenantId;
           }
         };
 
@@ -67,16 +73,16 @@ class SimpleTenantContextTest {
 
   @Test
   void hashCode_isSameForMatchingInstances() {
-    var tenant = newId();
-    var first = SimpleTenantContext.of(tenant);
-    var second = SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    var first = SimpleTenantContext.of(tenantId);
+    var second = SimpleTenantContext.of(tenantId);
 
     assertThat(first.hashCode()).isEqualTo(second.hashCode());
   }
 
   private SimpleTenantContext newContext() {
-    var tenant = newId();
-    return SimpleTenantContext.of(tenant);
+    var tenantId = newId();
+    return SimpleTenantContext.of(tenantId);
   }
 
   private String newId() {
