@@ -109,7 +109,7 @@ importers:
         version: 7.0.2(eslint@8.57.0)(typescript@5.3.3)
       '@vitejs/plugin-react':
         specifier: 4.2.0
-        version: 4.2.0(vite@5.1.4)
+        version: 4.2.1(vite@5.1.4)
       '@vitest/ui':
         specifier: 1.3.1
         version: 1.3.1(vitest@1.3.1)
@@ -263,11 +263,11 @@ packages:
       graphql: '*'
     dependencies:
       '@babel/core': 7.23.9
-      '@babel/generator': 7.23.4
-      '@babel/parser': 7.23.4
+      '@babel/generator': 7.23.6
+      '@babel/parser': 7.23.9
       '@babel/runtime': 7.23.2
-      '@babel/traverse': 7.23.4
-      '@babel/types': 7.23.4
+      '@babel/traverse': 7.23.9
+      '@babel/types': 7.23.9
       babel-preset-fbjs: 3.4.0(@babel/core@7.23.9)
       chalk: 4.1.2
       fb-watchman: 2.0.2
@@ -349,7 +349,7 @@ packages:
     resolution: {integrity: sha512-esuS49Cga3HcThFNebGhlgsrVLkvhqvYDTzgjfFFlHJcIfLe5jFmRRfCQ1KuBfc4Jrtn3ndLgKWAKjBE+IraYQ==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
       '@jridgewell/gen-mapping': 0.3.4
       '@jridgewell/trace-mapping': 0.3.23
       jsesc: 2.5.2
@@ -376,7 +376,7 @@ packages:
     resolution: {integrity: sha512-QkBXwGgaoC2GtGZRoma6kv7Szfv06khvhFav67ZExau2RaXzy8MpHSMO2PNoP2XtmQphJQRHFfg77Bq731Yizw==}
     engines: {node: '>=6.9.0'}
     dependencies:
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
     dev: true
 
   /@babel/helper-compilation-targets@7.23.6:
@@ -561,7 +561,7 @@ packages:
     dependencies:
       '@babel/helper-function-name': 7.23.0
       '@babel/template': 7.23.9
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
     dev: true
 
   /@babel/helpers@7.23.9:
@@ -582,14 +582,6 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       chalk: 2.4.2
       js-tokens: 4.0.0
-    dev: true
-
-  /@babel/parser@7.23.4:
-    resolution: {integrity: sha512-vf3Xna6UEprW+7t6EtOmFpHNAuxw3xqPZghy+brsnusscJRW5BMUzzHZc5ICjULee81WeUV2jjakG09MDglJXQ==}
-    engines: {node: '>=6.0.0'}
-    hasBin: true
-    dependencies:
-      '@babel/types': 7.23.9
     dev: true
 
   /@babel/parser@7.23.9:
@@ -980,7 +972,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.9
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/template': 7.23.9
+      '@babel/template': 7.22.15
     dev: true
 
   /@babel/plugin-transform-destructuring@7.23.3(@babel/core@7.23.9):
@@ -1587,7 +1579,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.9
       '@babel/helper-plugin-utils': 7.22.5
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
       esutils: 2.0.3
     dev: true
 
@@ -1642,7 +1634,7 @@ packages:
     dependencies:
       '@babel/code-frame': 7.23.5
       '@babel/parser': 7.23.9
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
     dev: true
 
   /@babel/template@7.23.9:
@@ -1652,24 +1644,6 @@ packages:
       '@babel/code-frame': 7.23.5
       '@babel/parser': 7.23.9
       '@babel/types': 7.23.9
-    dev: true
-
-  /@babel/traverse@7.23.4:
-    resolution: {integrity: sha512-IYM8wSUwunWTB6tFC2dkKZhxbIjHoWemdK+3f8/wq8aKhbUscxD5MX72ubd90fxvFknaLPeGw5ycU84V1obHJg==}
-    engines: {node: '>=6.9.0'}
-    dependencies:
-      '@babel/code-frame': 7.23.5
-      '@babel/generator': 7.23.6
-      '@babel/helper-environment-visitor': 7.22.20
-      '@babel/helper-function-name': 7.23.0
-      '@babel/helper-hoist-variables': 7.22.5
-      '@babel/helper-split-export-declaration': 7.22.6
-      '@babel/parser': 7.23.9
-      '@babel/types': 7.23.9
-      debug: 4.3.4(supports-color@8.1.1)
-      globals: 11.12.0
-    transitivePeerDependencies:
-      - supports-color
     dev: true
 
   /@babel/traverse@7.23.9:
@@ -2667,7 +2641,7 @@ packages:
       '@babel/parser': 7.23.9
       '@babel/plugin-syntax-import-assertions': 7.23.3(@babel/core@7.23.9)
       '@babel/traverse': 7.23.9
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
       '@graphql-tools/utils': 10.0.1(graphql@16.8.1)
       graphql: 16.8.1
       tslib: 2.6.2
@@ -4322,7 +4296,7 @@ packages:
     dependencies:
       '@babel/core': 7.23.9
       '@babel/preset-env': 7.23.9(@babel/core@7.23.9)
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
       '@storybook/csf': 0.1.2
       '@storybook/csf-tools': 7.6.17
       '@storybook/node-logger': 7.6.17
@@ -4441,7 +4415,7 @@ packages:
       pretty-hrtime: 1.0.3
       prompts: 2.4.2
       read-pkg-up: 7.0.1
-      semver: 7.6.0
+      semver: 7.5.4
       telejson: 7.2.0
       tiny-invariant: 1.3.1
       ts-dedent: 2.2.0
@@ -4471,7 +4445,7 @@ packages:
       '@babel/generator': 7.23.6
       '@babel/parser': 7.23.9
       '@babel/traverse': 7.23.9
-      '@babel/types': 7.23.9
+      '@babel/types': 7.23.4
       '@storybook/csf': 0.1.2
       '@storybook/types': 7.6.17
       fs-extra: 11.1.1
@@ -5336,6 +5310,22 @@ packages:
       - supports-color
     dev: true
 
+  /@vitejs/plugin-react@4.2.1(vite@5.1.4):
+    resolution: {integrity: sha512-oojO9IDc4nCUUi8qIR11KoQm0XFFLIwsRBwHRR4d/88IWghn1y6ckz/bJ8GHDCsYEJee8mDzqtJxh15/cisJNQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.2.0 || ^5.0.0
+    dependencies:
+      '@babel/core': 7.23.9
+      '@babel/plugin-transform-react-jsx-self': 7.23.3(@babel/core@7.23.9)
+      '@babel/plugin-transform-react-jsx-source': 7.23.3(@babel/core@7.23.9)
+      '@types/babel__core': 7.20.5
+      react-refresh: 0.14.0
+      vite: 5.1.4(@types/node@18.19.18)
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /@vitest/expect@1.3.1:
     resolution: {integrity: sha512-xofQFwIzfdmLLlHa6ag0dPV8YsnKOCP1KdAeVVh34vSjN2dcUiXYCD9htu/9eM7t8Xln4v03U9HLxLpPlsXdZw==}
     dependencies:
@@ -6185,7 +6175,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001589
-      electron-to-chromium: 1.4.681
+      electron-to-chromium: 1.4.682
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: true
@@ -7223,8 +7213,8 @@ packages:
       jake: 10.8.6
     dev: true
 
-  /electron-to-chromium@1.4.681:
-    resolution: {integrity: sha512-1PpuqJUFWoXZ1E54m8bsLPVYwIVCRzvaL+n5cjigGga4z854abDnFRc+cTa2th4S79kyGqya/1xoR7h+Y5G5lg==}
+  /electron-to-chromium@1.4.682:
+    resolution: {integrity: sha512-oCglfs8yYKs9RQjJFOHonSnhikPK3y+0SvSYc/YpYJV//6rqc0/hbwd0c7vgK4vrl6y2gJAwjkhkSGWK+z4KRA==}
     dev: true
 
   /emittery@0.13.1:
