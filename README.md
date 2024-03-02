@@ -59,6 +59,8 @@ This repository includes multiple tools to improve consistency, maintainability 
 - [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
 - [ESLint](https://eslint.org/): Find and fix problems in your JavaScript code.
 
+More info: [Style](docs/style.md)
+
 ### Continuous integration
 
 - [Build & test](https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild): The solution is built and tested on each PR and commit to master.
