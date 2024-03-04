@@ -53,7 +53,7 @@
     "dockerode": "4.0.2",
     "eslint": "8.57.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-react": "7.34.0",
     "jest-cli": "29.7.0",
     "jest-environment-jsdom": "29.7.0",
     "jest-junit": "^16.0.0",
