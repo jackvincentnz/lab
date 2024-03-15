@@ -29,8 +29,8 @@ importers:
         specifier: 7.5.1
         version: 7.5.1(react@18.2.0)
       '@tabler/icons-react':
-        specifier: 2.47.0
-        version: 2.47.0(react@18.2.0)
+        specifier: 3.1.0
+        version: 3.1.0(react@18.2.0)
       graphql:
         specifier: 16.8.1
         version: 16.8.1
@@ -178,8 +178,8 @@ importers:
         specifier: ^7.5.1
         version: 7.5.1(react@18.2.0)
       '@tabler/icons-react':
-        specifier: ^2.24.0
-        version: 2.24.0(react@18.2.0)
+        specifier: ^2.24.0 || ^3.0.0
+        version: 3.1.0(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -4675,32 +4675,17 @@ packages:
       file-system-cache: 2.3.0
     dev: true
 
-  /@tabler/icons-react@2.24.0(react@18.2.0):
-    resolution: {integrity: sha512-0pNc+ffp4HZCsozv9aN/hSDiC/RTGozTmf0MCL4U9NIo8yMQh8q3zEfXRNr18IM2InyIBJL95/1J2kzgU2lYeA==}
+  /@tabler/icons-react@3.1.0(react@18.2.0):
+    resolution: {integrity: sha512-k/WTlax2vbj/LpxvaJ+BmaLAAhVUgyLj4Ftgaczz66tUSNzqrAZXCFdOU7cRMYPNVBqyqE2IdQd2rzzhDEJvkw==}
     peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
+      react: '>= 16'
     dependencies:
-      '@tabler/icons': 2.24.0
-      prop-types: 15.8.1
+      '@tabler/icons': 3.1.0
       react: 18.2.0
     dev: false
 
-  /@tabler/icons-react@2.47.0(react@18.2.0):
-    resolution: {integrity: sha512-iqly2FvCF/qUbgmvS8E40rVeYY7laltc5GUjRxQj59DuX0x/6CpKHTXt86YlI2whg4czvd/c8Ce8YR08uEku0g==}
-    peerDependencies:
-      react: ^16.5.1 || ^17.0.0 || ^18.0.0
-    dependencies:
-      '@tabler/icons': 2.47.0
-      prop-types: 15.8.1
-      react: 18.2.0
-    dev: false
-
-  /@tabler/icons@2.24.0:
-    resolution: {integrity: sha512-Otv6zrVF3HU54G6FK7OPODcQmKR9KgM6Ppi+ib3gHHB1LZEs2HIdQJYTHP5dGE+yOQWtXS9ZnGmSZDkSFLbkkg==}
-    dev: false
-
-  /@tabler/icons@2.47.0:
-    resolution: {integrity: sha512-4w5evLh+7FUUiA1GucvGj2ReX2TvOjEr4ejXdwL/bsjoSkof6r1gQmzqI+VHrE2CpJpB3al7bCTulOkFa/RcyA==}
+  /@tabler/icons@3.1.0:
+    resolution: {integrity: sha512-CpZGyS1IVJKFcv88yZ2sYZIpWWhQ6oy76BQKQ5SF0fGgOqgyqKdBGG/YGyyMW632on37MX7VqQIMTzN/uQqmFg==}
     dev: false
 
   /@testcontainers/kafka@10.7.2(node-gyp@10.0.1):
