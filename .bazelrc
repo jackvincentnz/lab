@@ -37,6 +37,10 @@ common --noincompatible_disallow_empty_glob
 # Leave here until the IDE no longer passes it.
 common --experimental_google_legacy_api
 
+# This tells Bazel how to interact with the version control system
+# Enable this with --config=release
+build:release --stamp --workspace_status_command=tools/bazel/output_workspace_status.sh
+
 ### NO MORE PROJECT SPECIFIC OPTIONS AFTER HERE ###
 
 # Load any settings & overrides specific to the current user from `.aspect/bazelrc/user.bazelrc`.
