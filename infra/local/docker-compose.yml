@@ -55,7 +55,7 @@ services:
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:29092"
 
   task:
-    image: lab/task:latest
+    image: jackvincent/lab-task:latest
     platform: linux/amd64
     hostname: task
     container_name: task
@@ -69,7 +69,7 @@ services:
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
 
   journal:
-    image: lab/journal:latest
+    image: jackvincent/lab-journal:latest
     platform: linux/amd64
     hostname: journal
     container_name: journal
@@ -77,7 +77,7 @@ services:
       - "3003:3003"
 
   autojournal:
-    image: lab/autojournal:latest
+    image: jackvincent/lab-autojournal:latest
     platform: linux/amd64
     hostname: autojournal
     container_name: autojournal
@@ -99,14 +99,14 @@ services:
       - "host.docker.internal:host-gateway"
 
   tasklist:
-    image: lab/tasklist:latest
+    image: jackvincent/lab-tasklist:latest
     hostname: tasklist
     container_name: tasklist
     ports:
       - "3000:80"
 
   journal_app:
-    image: lab/journal_app:latest
+    image: jackvincent/lab-journal-app:latest
     hostname: journal_app
     container_name: journal_app
     ports:
