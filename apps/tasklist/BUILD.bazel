@@ -1,9 +1,7 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("//tools/bazel:js.bzl", "js_library")
-load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+load("//tools/bazel:oci.bzl", "oci_deliver", "oci_image")
 
 js_library(
     name = "codegen",
@@ -52,47 +50,12 @@ oci_image(
     tars = [":tar"],
 )
 
-write_file(
-    name = "tags_tmpl",
-    out = "_tags.txt.tmpl",
-    content = ["lab/tasklist:VERSION"],
-)
-
-expand_template(
-    name = "stamped_tags",
-    out = "_stamped.tags.txt",
-    stamp_substitutions = {"VERSION": "{{STABLE_VERSION}}"},
-    substitutions = {"VERSION": "latest"},
-    template = "tags_tmpl",
-)
-
-oci_tarball(
-    name = "tarball",
+oci_deliver(
+    name = "deliver",
     image = ":image",
-    repo_tags = ":stamped_tags",
+    repo_suffix = "tasklist",
     visibility = [
         "//:__pkg__",
         "//apps/organizer/e2e:__pkg__",
     ],
-)
-
-write_file(
-    name = "version_tmpl",
-    out = "_version.txt.tmpl",
-    content = ["VERSION"],
-)
-
-expand_template(
-    name = "stamped_version",
-    out = "_stamped.version.txt",
-    stamp_substitutions = {"VERSION": "{{STABLE_VERSION}}"},
-    substitutions = {"VERSION": "latest"},
-    template = "version_tmpl",
-)
-
-oci_push(
-    name = "push",
-    image = ":image",
-    remote_tags = ":stamped_version",
-    repository = "jackvincent/lab-tasklist",
 )

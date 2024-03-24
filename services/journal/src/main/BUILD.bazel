@@ -1,5 +1,5 @@
 load("@rules_spring//springboot:springboot.bzl", "springboot")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("//tools/bazel:oci.bzl", "oci_deliver", "oci_image")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 java_binary(
@@ -52,11 +52,11 @@ oci_image(
 
 # Tag and run a local container with:
 # $ bazel run //services/journal/src/main:tarball
-# $ docker run --rm lab/journal:latest
-oci_tarball(
-    name = "tarball",
+# $ docker run --rm jackvincent/lab-journal:latest
+oci_deliver(
+    name = "deliver",
     image = ":image",
-    repo_tags = ["lab/journal:latest"],
+    repo_suffix = "journal",
     visibility = [
         "//:__pkg__",
         "//apps/organizer/e2e:__pkg__",
