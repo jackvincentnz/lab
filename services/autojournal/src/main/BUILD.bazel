@@ -1,5 +1,5 @@
 load("@rules_spring//springboot:springboot.bzl", "springboot")
-load("//tools/bazel:oci.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 
 java_binary(

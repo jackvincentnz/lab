@@ -1,5 +1,5 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
-load("//tools/bazel:oci.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 load("@rules_pkg//:pkg.bzl", "pkg_tar")
 load("//tools/bazel:js.bzl", "js_library")
 
