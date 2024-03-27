@@ -76,88 +76,85 @@ rules_jvm_external_setup()
 load("@rules_jvm_external//:defs.bzl", "maven_install")
 load("@rules_jvm_external//:specs.bzl", "maven")
 
-# Check the spring dependency management to see versions which work together:
-# e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
-SPRING_BOOT_DEPENDENCIES = [
-    "com.fasterxml.jackson.core:jackson-databind:2.14.3",
-    "com.mysql:mysql-connector-j:8.3.0",
-    "org.apache.commons:commons-lang3:3.12.0",
-    "org.apache.kafka:kafka-clients:3.3.2",
-    "org.apache.kafka:kafka-metadata:3.3.2",
-    "org.apache.kafka:kafka-raft:3.3.2",
-    "org.apache.kafka:kafka-server-common:3.3.2",
-    "org.apache.kafka:kafka-storage:3.3.2",
-    "org.apache.kafka:kafka-storage-api:3.3.2",
-    "org.apache.kafka:kafka-streams:3.3.2",
-    "org.apache.kafka:kafka-streams-test-utils:3.3.2",
-    "org.apache.kafka:kafka_2.13:3.3.2",
-    "org.eclipse.jetty:jetty-reactive-httpclient:3.0.10",
-    "org.springframework.boot:spring-boot-loader:3.0.12",
-    "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
-    "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
-    "org.springframework.boot:spring-boot-starter-validation:3.0.12",
-    "org.springframework.boot:spring-boot-starter-web:3.0.12",
-    "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
-    "org.springframework.kafka:spring-kafka:3.0.12",
-    "redis.clients:jedis:5.0.0",
-    "org.postgresql:postgresql:42.7.0",
-    "com.eventstore:db-client-java:5.0.0",
-    maven.artifact(
-        "org.springframework.boot",
-        "spring-boot-starter-test",
-        "3.0.12",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.springframework.kafka",
-        "spring-kafka-test",
-        "3.0.12",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.testcontainers",
-        "testcontainers",
-        "1.18.3",
-        #testonly = True,
-    ),
-    maven.artifact(
-        "org.testcontainers",
-        "junit-jupiter",
-        "1.18.3",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.testcontainers",
-        "kafka",
-        "1.18.3",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.testcontainers",
-        "postgresql",
-        "1.18.3",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.junit.platform",
-        "junit-platform-launcher",
-        "1.9.3",
-        testonly = True,
-    ),
-    maven.artifact(
-        "org.junit.platform",
-        "junit-platform-reporting",
-        "1.9.3",
-        testonly = True,
-    ),
-]
-
 # Maven lock file will need to be updated whenever the artifacts or repositories change.
 # See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
 # To re-pin everything, run:
 # REPIN=1 bazel run @unpinned_maven//:pin
 maven_install(
-    artifacts = SPRING_BOOT_DEPENDENCIES + [
+    # Check the spring dependency management to see versions which work together:
+    # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
+    artifacts = [
+        "com.fasterxml.jackson.core:jackson-databind:2.14.3",
+        "com.mysql:mysql-connector-j:8.3.0",
+        "org.apache.commons:commons-lang3:3.12.0",
+        "org.apache.kafka:kafka-clients:3.3.2",
+        "org.apache.kafka:kafka-metadata:3.3.2",
+        "org.apache.kafka:kafka-raft:3.3.2",
+        "org.apache.kafka:kafka-server-common:3.3.2",
+        "org.apache.kafka:kafka-storage:3.3.2",
+        "org.apache.kafka:kafka-storage-api:3.3.2",
+        "org.apache.kafka:kafka-streams:3.3.2",
+        "org.apache.kafka:kafka-streams-test-utils:3.3.2",
+        "org.apache.kafka:kafka_2.13:3.3.2",
+        "org.eclipse.jetty:jetty-reactive-httpclient:3.0.10",
+        "org.springframework.boot:spring-boot-loader:3.0.12",
+        "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
+        "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
+        "org.springframework.boot:spring-boot-starter-validation:3.0.12",
+        "org.springframework.boot:spring-boot-starter-web:3.0.12",
+        "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
+        "org.springframework.kafka:spring-kafka:3.0.12",
+        "redis.clients:jedis:5.0.0",
+        "org.postgresql:postgresql:42.7.0",
+        "com.eventstore:db-client-java:5.0.0",
+        maven.artifact(
+            "org.springframework.boot",
+            "spring-boot-starter-test",
+            "3.0.12",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.springframework.kafka",
+            "spring-kafka-test",
+            "3.0.12",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.testcontainers",
+            "testcontainers",
+            "1.18.3",
+            #testonly = True,
+        ),
+        maven.artifact(
+            "org.testcontainers",
+            "junit-jupiter",
+            "1.18.3",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.testcontainers",
+            "kafka",
+            "1.18.3",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.testcontainers",
+            "postgresql",
+            "1.18.3",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.junit.platform",
+            "junit-platform-launcher",
+            "1.9.3",
+            testonly = True,
+        ),
+        maven.artifact(
+            "org.junit.platform",
+            "junit-platform-reporting",
+            "1.9.3",
+            testonly = True,
+        ),
         "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
         maven.artifact(
             artifact = "graphql-dgs-codegen-core",
