@@ -96,7 +96,7 @@ maven_install(
         "org.apache.kafka:kafka-streams:3.3.2",
         "org.apache.kafka:kafka-streams-test-utils:3.3.2",
         "org.apache.kafka:kafka_2.13:3.3.2",
-        "org.eclipse.jetty:jetty-reactive-httpclient:3.0.10",
+        "org.eclipse.jetty:jetty-reactive-httpclient:3.0.12",
         "org.springframework.boot:spring-boot-loader:3.0.12",
         "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
         "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
