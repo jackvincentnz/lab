@@ -155,7 +155,7 @@ maven_install(
             "1.9.3",
             testonly = True,
         ),
-        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
+        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.6.0",
         maven.artifact(
             artifact = "graphql-dgs-codegen-core",
             exclusions = [
