@@ -14,3 +14,5 @@ echo "$targets" | xargs -P "$targets_count" -n 1 bazel \
   run \
   --config=release \
   --remote_header=x-buildbuddy-api-key="$BUILDBUDDY_API_KEY"
+
+cat dist/out/stable-status.txt
