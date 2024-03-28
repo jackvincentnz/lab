@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BAZELISK_HOME: ~/.cache/bazel-repo
+      BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
     steps:
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@v1.3.1
@@ -30,6 +31,13 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+        with:
+          # Increase fetch-depth if checkout is taking a long time.
+          # Depth 0 defaults to fetching all history.
+          # We need at least enough history to contain the most recent weekly-tag for versioning purposes commits per week.
+          # Max commits per week + some buffer would be a good depth.
+          fetch-depth: 0
+          fetch-tags: true
 
       # Cache build and external artifacts so that the next ci build is incremental.
       # Because github action caches cannot be updated after a build, we need to
@@ -59,6 +67,17 @@ jobs:
             test \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             //...
+
+      - name: Log in to Docker Hub
+        if: github.ref == 'refs/heads/main'
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Deliver artifacts
+        if: github.ref == 'refs/heads/main'
+        run: tools/bazel/deliver_changed.sh
 
       # TODO: Avoid rebuilding and retesting tests with coverage
       - name: Generate coverage report
