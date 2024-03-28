@@ -39,6 +39,9 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Print build version
+        run: tools/bazel/output_workspace_status.sh
+
       # Cache build and external artifacts so that the next ci build is incremental.
       # Because github action caches cannot be updated after a build, we need to
       # store the contents of each build in a unique cache key, then fall back to loading
@@ -68,15 +71,18 @@ jobs:
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             //...
 
+      - name: Output status
+        run: cat dist/out/stable-status.txt
+
       - name: Log in to Docker Hub
-        if: github.ref == 'refs/heads/main'
+        #        if: github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Deliver artifacts
-        if: github.ref == 'refs/heads/main'
+        #        if: github.ref == 'refs/heads/main'
         run: tools/bazel/deliver_changed.sh
 
       # TODO: Avoid rebuilding and retesting tests with coverage
