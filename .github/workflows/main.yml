@@ -39,6 +39,9 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
+      - name: Print build version
+        run: tools/bazel/output_workspace_status.sh
+
       # Cache build and external artifacts so that the next ci build is incremental.
       # Because github action caches cannot be updated after a build, we need to
       # store the contents of each build in a unique cache key, then fall back to loading
