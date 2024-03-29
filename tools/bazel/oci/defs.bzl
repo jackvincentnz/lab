@@ -5,7 +5,6 @@ This module contains common oci macros.
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
 load("@rules_oci//oci:defs.bzl", "oci_push", "oci_tarball", _oci_image = "oci_image")
-load(":push_if_not_exists.bzl", "push_if_not_exists")
 
 def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
     """Bazel macro for delivering oci images to a local and remote repository.
@@ -87,11 +86,23 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
 
     # First checks if a manifest has been previously pushed before executing :push above.
     # Useful to avoid re-tagging images that haven't changed.
-    push_if_not_exists(
-        name = "push_if_not_exists",
-        image = image,
-        pusher = ":push",
-        repository = repository,
+    native.sh_binary(
+        name = "check_then_push",
+        srcs = ["//tools/bazel/oci:check_then_push.sh"],
+        args = [
+            "--crane_path $(location @oci_crane_toolchains//:current_toolchain)",
+            "--yq_path $(location @yq_toolchains//:resolved_toolchain)",
+            "--image_dir $(location %s)" % image,
+            "--repository %s" % repository,
+            "--pusher_path $(location :push)",
+        ],
+        data = [
+            "@oci_crane_toolchains//:current_toolchain",
+            "@yq_toolchains//:resolved_toolchain",
+            image,
+            ":push",
+        ],
+        tags = ["deliverable"],
     )
 
 def oci_image(name, **kwargs):

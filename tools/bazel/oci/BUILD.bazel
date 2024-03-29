@@ -1,1 +1,1 @@
-exports_files(["push_if_not_exists.sh.tpl"])
+exports_files(["check_then_push.sh"])

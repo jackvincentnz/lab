@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Find all delivery targets
-targets=$(bazel query 'kind("push_if_not_exists", //...)' --output label)
+targets=$(bazel query 'attr("tags", "deliverable", //...)' --output label)
 
 # Learn target count for parallel pushes
 targets_count=$(echo "$targets" | wc -l)
