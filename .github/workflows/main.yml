@@ -71,6 +71,17 @@ jobs:
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             //...
 
+      - name: Copy test reports out of symlink forest
+        if: success() || failure()
+        run: mkdir -p tmp/testlogs && find dist/testlogs/ -name "test.xml" -exec rsync -RL {} tmp/testlogs \;
+
+      - name: Publish test report
+        uses: mikepenz/action-junit-report@v4
+        if: success() || failure()
+        with:
+          report_paths: "tmp/testlogs/**/test.xml"
+          check_name: "publish_test_report"
+
       - name: Log in to Docker Hub
         if: github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
