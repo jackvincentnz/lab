@@ -13,16 +13,16 @@ import org.springframework.stereotype.Service;
 
 @Service
 @KafkaListener(id = "autojournal", topics = "task")
-public class TaskEventConsumer {
+public class KafkaTaskEventConsumer {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(TaskEventConsumer.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(KafkaTaskEventConsumer.class);
 
   private static final List<Class<? extends Message>> IGNORED_MESSAGES =
       List.of(TaskAddedEvent.class);
 
   private final TaskEventHandler taskEventHandler;
 
-  public TaskEventConsumer(TaskEventHandler taskEventHandler) {
+  public KafkaTaskEventConsumer(TaskEventHandler taskEventHandler) {
     this.taskEventHandler = taskEventHandler;
   }
 

@@ -17,11 +17,11 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class TaskEventConsumerTest {
+class KafkaTaskEventConsumerTest {
 
   @Mock TaskEventHandler taskEventHandler;
 
-  @InjectMocks TaskEventConsumer taskEventConsumer;
+  @InjectMocks KafkaTaskEventConsumer taskEventConsumer;
 
   @Test
   void on_handlesTaskCompletedEvents() {
