@@ -86,7 +86,7 @@ maven_install(
     artifacts = [
         "com.fasterxml.jackson.core:jackson-databind:2.14.3",
         "com.mysql:mysql-connector-j:8.3.0",
-        "org.apache.commons:commons-lang3:3.12.0",
+        "org.apache.commons:commons-lang3:3.14.0",
         "org.apache.kafka:kafka-clients:3.3.2",
         "org.apache.kafka:kafka-metadata:3.3.2",
         "org.apache.kafka:kafka-raft:3.3.2",
