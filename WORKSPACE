@@ -164,7 +164,7 @@ maven_install(
             group = "com.netflix.graphql.dgs.codegen",
             version = "6.0.2",
         ),
-        "io.confluent:kafka-protobuf-serializer:7.5.1",
+        "io.confluent:kafka-protobuf-serializer:7.6.1",
         maven.artifact(
             "org.wiremock",
             "wiremock",
