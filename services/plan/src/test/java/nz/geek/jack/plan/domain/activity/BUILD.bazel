@@ -1,0 +1,8 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    deps = [
+        "//services/plan/src/main/java/nz/geek/jack/plan/domain/activity",
+    ],
+)
