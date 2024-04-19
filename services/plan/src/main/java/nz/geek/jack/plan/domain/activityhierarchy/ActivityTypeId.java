@@ -1,4 +1,4 @@
-package nz.geek.jack.plan.domain.activitytype;
+package nz.geek.jack.plan.domain.activityhierarchy;
 
 import java.util.UUID;
 import nz.geek.jack.libs.domain.AbstractId;
