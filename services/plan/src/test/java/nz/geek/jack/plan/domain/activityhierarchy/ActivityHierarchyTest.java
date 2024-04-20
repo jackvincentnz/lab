@@ -1,8 +1,10 @@
 package nz.geek.jack.plan.domain.activityhierarchy;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
+import nz.geek.jack.libs.domain.EventReductionException;
 import org.junit.jupiter.api.Test;
 
 class ActivityHierarchyTest {
@@ -85,6 +87,19 @@ class ActivityHierarchyTest {
     var event = (ActivityTypeAddedEvent) events.get(0);
 
     assertThat(event.getName()).isEqualTo(activityTypeName);
+  }
+
+  @Test
+  void addActivityType_mustUseUniqueName() {
+    var activityTypeName = randomString();
+    var activityHierarchy = ActivityHierarchy.create();
+    activityHierarchy.addActivityType(activityTypeName);
+
+    var thrown =
+        assertThrows(
+            EventReductionException.class,
+            () -> activityHierarchy.addActivityType(activityTypeName));
+    assertThat(thrown.getCause()).isInstanceOf(DuplicateActivityTypeNameException.class);
   }
 
   private ActivityHierarchy existingHierarchy() {

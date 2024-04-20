@@ -26,8 +26,17 @@ public final class ActivityHierarchy extends Aggregate {
   }
 
   private void on(ActivityTypeAddedEvent event) {
+    validateActivityTypeNameIsUnique(event.getName());
+
     var activityType = ActivityType.create(event.getActivityTypeId(), event.getName());
+
     activityTypes.put(activityType.getId(), activityType);
+  }
+
+  private void validateActivityTypeNameIsUnique(String name) {
+    if (activityTypes.values().stream().anyMatch(a -> a.getName().equals(name))) {
+      throw new DuplicateActivityTypeNameException();
+    }
   }
 
   public ActivityHierarchyId getId() {
