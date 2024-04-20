@@ -34,10 +34,10 @@ public abstract class Aggregate {
               eventType.getSimpleName(), REDUCER_METHOD_NAME, eventType.getSimpleName());
 
       if (e.getCause() != null) {
-        throw new RuntimeException(reductionFailedMessage, e.getCause());
+        throw new EventReductionException(reductionFailedMessage, e.getCause());
       }
 
-      throw new RuntimeException(reductionFailedMessage, e);
+      throw new EventReductionException(reductionFailedMessage, e);
     }
   }
 

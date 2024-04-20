@@ -35,7 +35,8 @@ class AggregateTest {
   void apply_throwsWhenReducerMethodThrows() {
     var aggregate = new TestAggregate();
 
-    assertThrows(RuntimeException.class, () -> aggregate.apply(new EventThatThrowsWhenHandled()));
+    assertThrows(
+        EventReductionException.class, () -> aggregate.apply(new EventThatThrowsWhenHandled()));
   }
 
   @Test
