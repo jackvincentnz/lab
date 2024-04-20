@@ -1,4 +1,4 @@
-package nz.geek.jack.plan.domain.activitytype;
+package nz.geek.jack.plan.domain.activityhierarchy;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
