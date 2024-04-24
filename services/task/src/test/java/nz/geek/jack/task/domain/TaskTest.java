@@ -1,5 +1,6 @@
 package nz.geek.jack.task.domain;
 
+import static nz.geek.jack.libs.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
@@ -35,27 +36,12 @@ class TaskTest {
   }
 
   @Test
-  void addTask_appliesTaskAddedEvent() {
-    var title = "My Task";
-
-    var task = Task.addTask(title);
-
-    var events = task.flushEvents();
-    var event = events.get(0);
-
-    assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(TaskAddedEvent.class);
-  }
-
-  @Test
   void addTask_appliesTaskAddedEvent_withId() {
     var title = "My Task";
 
     var task = Task.addTask(title);
 
-    var events = task.flushEvents();
-    var event = (TaskAddedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(task, TaskAddedEvent.class);
     assertThat(event.getTaskId()).isEqualTo(task.getId());
   }
 
@@ -65,9 +51,7 @@ class TaskTest {
 
     var task = Task.addTask(title);
 
-    var events = task.flushEvents();
-    var event = (TaskAddedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(task, TaskAddedEvent.class);
     assertThat(event.getTitle()).isEqualTo(title);
   }
 
@@ -77,9 +61,7 @@ class TaskTest {
 
     var task = Task.addTask(title);
 
-    var events = task.flushEvents();
-    var event = (TaskAddedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(task, TaskAddedEvent.class);
     assertThat(event.getCreatedAt()).isEqualTo(task.getCreatedAt());
   }
 
@@ -91,21 +73,6 @@ class TaskTest {
     task.markCompleted();
 
     assertThat(task.isCompleted()).isTrue();
-  }
-
-  @Test
-  void markCompleted_appliesTaskCompletedEvent() {
-    var title = "My Task";
-    var task = Task.addTask(title);
-    task.flushEvents();
-
-    task.markCompleted();
-
-    var events = task.flushEvents();
-    var event = events.get(0);
-
-    assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(TaskCompletedEvent.class);
   }
 
   @Test
@@ -130,9 +97,7 @@ class TaskTest {
 
     task.markCompleted();
 
-    var events = task.flushEvents();
-    var event = (TaskCompletedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(task, TaskCompletedEvent.class);
     assertThat(event.getTaskId()).isEqualTo(task.getId());
   }
 

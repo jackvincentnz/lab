@@ -1,5 +1,6 @@
 package nz.geek.jack.plan.domain.activity;
 
+import static nz.geek.jack.libs.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
@@ -31,23 +32,10 @@ class ActivityTest {
   }
 
   @Test
-  void createActivity_appliesActivityCreatedEvent() {
-    var activity = Activity.createActivity(NAME);
-
-    var events = activity.flushEvents();
-    var event = events.get(0);
-
-    assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(ActivityCreatedEvent.class);
-  }
-
-  @Test
   void createActivity_appliesActivityCreatedEvent_withId() {
     var activity = Activity.createActivity(NAME);
 
-    var events = activity.flushEvents();
-    var event = (ActivityCreatedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
     assertThat(event.getActivityId()).isEqualTo(activity.getId());
   }
 
@@ -55,9 +43,7 @@ class ActivityTest {
   void createActivity_appliesActivityCreatedEvent_withName() {
     var activity = Activity.createActivity(NAME);
 
-    var events = activity.flushEvents();
-    var event = (ActivityCreatedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
     assertThat(event.getName()).isEqualTo(NAME);
   }
 
@@ -65,9 +51,7 @@ class ActivityTest {
   void createActivity_appliesActivityCreatedEvent_withCreatedAt() {
     var activity = Activity.createActivity(NAME);
 
-    var events = activity.flushEvents();
-    var event = (ActivityCreatedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
     assertThat(event.getCreatedAt()).isEqualTo(activity.getCreatedAt());
   }
 

@@ -1,5 +1,6 @@
 package nz.geek.jack.plan.domain.activityhierarchy;
 
+import static nz.geek.jack.libs.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -17,23 +18,10 @@ class ActivityHierarchyTest {
   }
 
   @Test
-  void create_appliesActivityHierarchyCreatedEvent() {
-    var activityHierarchy = ActivityHierarchy.create();
-
-    var events = activityHierarchy.flushEvents();
-    var event = events.get(0);
-
-    assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(ActivityHierarchyCreatedEvent.class);
-  }
-
-  @Test
   void create_appliesActivityHierarchyCreatedEvent_withId() {
     var activityHierarchy = ActivityHierarchy.create();
 
-    var events = activityHierarchy.flushEvents();
-    var event = (ActivityHierarchyCreatedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activityHierarchy, ActivityHierarchyCreatedEvent.class);
     assertThat(event.getActivityHierarchyId()).isEqualTo(activityHierarchy.getId());
   }
 
@@ -52,29 +40,13 @@ class ActivityHierarchyTest {
   }
 
   @Test
-  void addRootActivityType_appliesRootActivityTypeAddedEvent() {
-    var activityTypeName = randomString();
-    var activityHierarchy = existingHierarchy();
-
-    activityHierarchy.addRootActivityType(activityTypeName);
-
-    var events = activityHierarchy.flushEvents();
-    var event = events.get(0);
-
-    assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(RootActivityTypeAddedEvent.class);
-  }
-
-  @Test
   void addRootActivityType_appliesRootActivityTypeAddedEvent_withId() {
     var activityTypeName = randomString();
     var activityHierarchy = existingHierarchy();
 
     activityHierarchy.addRootActivityType(activityTypeName);
 
-    var events = activityHierarchy.flushEvents();
-    var event = (RootActivityTypeAddedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activityHierarchy, RootActivityTypeAddedEvent.class);
     assertThat(event.getActivityTypeId()).isNotNull();
   }
 
@@ -85,9 +57,7 @@ class ActivityHierarchyTest {
 
     activityHierarchy.addRootActivityType(activityTypeName);
 
-    var events = activityHierarchy.flushEvents();
-    var event = (RootActivityTypeAddedEvent) events.get(0);
-
+    var event = getOnlyEventOfType(activityHierarchy, RootActivityTypeAddedEvent.class);
     assertThat(event.getName()).isEqualTo(activityTypeName);
   }
 
