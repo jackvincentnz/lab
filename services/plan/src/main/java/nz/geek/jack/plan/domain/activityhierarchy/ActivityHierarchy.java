@@ -1,11 +1,14 @@
 package nz.geek.jack.plan.domain.activityhierarchy;
 
 import java.util.HashMap;
+import java.util.Optional;
 import nz.geek.jack.libs.domain.Aggregate;
 
 public final class ActivityHierarchy extends Aggregate {
 
   private ActivityHierarchyId id;
+
+  private ActivityType rootActivityType;
 
   private final HashMap<ActivityTypeId, ActivityType> activityTypes = new HashMap<>();
 
@@ -21,26 +24,31 @@ public final class ActivityHierarchy extends Aggregate {
     id = event.getActivityHierarchyId();
   }
 
-  public void addActivityType(String name) {
-    apply(ActivityTypeAddedEvent.of(ActivityTypeId.create(), name));
+  public void addRootActivityType(String name) {
+    apply(RootActivityTypeAddedEvent.of(ActivityTypeId.create(), name));
   }
 
-  private void on(ActivityTypeAddedEvent event) {
-    validateActivityTypeNameIsUnique(event.getName());
+  private void on(RootActivityTypeAddedEvent event) {
+    validateEmptyHierarchy();
 
     var activityType = ActivityType.create(event.getActivityTypeId(), event.getName());
 
+    rootActivityType = activityType;
     activityTypes.put(activityType.getId(), activityType);
   }
 
-  private void validateActivityTypeNameIsUnique(String name) {
-    if (activityTypes.values().stream().anyMatch(a -> a.getName().equals(name))) {
-      throw new DuplicateActivityTypeNameException();
+  private void validateEmptyHierarchy() {
+    if (rootActivityType != null) {
+      throw new NotEmptyHierarchyException(String.format("The hierarchy [%s] is not empty", id));
     }
   }
 
   public ActivityHierarchyId getId() {
     return id;
+  }
+
+  Optional<ActivityType> getRootActivityType() {
+    return Optional.ofNullable(rootActivityType);
   }
 
   int getActivityTypeCount() {

@@ -38,68 +38,70 @@ class ActivityHierarchyTest {
   }
 
   @Test
-  void addActivityType_addsType() {
+  void addRootActivityType_addsRootType() {
     var activityTypeName = randomString();
     var activityHierarchy = ActivityHierarchy.create();
 
+    assertThat(activityHierarchy.getRootActivityType()).isEmpty();
     assertThat(activityHierarchy.getActivityTypeCount()).isEqualTo(0);
 
-    activityHierarchy.addActivityType(activityTypeName);
+    activityHierarchy.addRootActivityType(activityTypeName);
 
+    assertThat(activityHierarchy.getRootActivityType()).isNotEmpty();
     assertThat(activityHierarchy.getActivityTypeCount()).isEqualTo(1);
   }
 
   @Test
-  void addActivityType_appliesActivityTypeAddedEvent() {
+  void addRootActivityType_appliesRootActivityTypeAddedEvent() {
     var activityTypeName = randomString();
     var activityHierarchy = existingHierarchy();
 
-    activityHierarchy.addActivityType(activityTypeName);
+    activityHierarchy.addRootActivityType(activityTypeName);
 
     var events = activityHierarchy.flushEvents();
     var event = events.get(0);
 
     assertThat(events.size()).isEqualTo(1);
-    assertThat(event).isInstanceOf(ActivityTypeAddedEvent.class);
+    assertThat(event).isInstanceOf(RootActivityTypeAddedEvent.class);
   }
 
   @Test
-  void addActivityType_appliesActivityTypeAddedEvent_withId() {
+  void addRootActivityType_appliesRootActivityTypeAddedEvent_withId() {
     var activityTypeName = randomString();
     var activityHierarchy = existingHierarchy();
 
-    activityHierarchy.addActivityType(activityTypeName);
+    activityHierarchy.addRootActivityType(activityTypeName);
 
     var events = activityHierarchy.flushEvents();
-    var event = (ActivityTypeAddedEvent) events.get(0);
+    var event = (RootActivityTypeAddedEvent) events.get(0);
 
     assertThat(event.getActivityTypeId()).isNotNull();
   }
 
   @Test
-  void addActivityType_appliesActivityTypeAddedEvent_withName() {
+  void addRootActivityType_appliesRootActivityTypeAddedEvent_withName() {
     var activityTypeName = randomString();
     var activityHierarchy = existingHierarchy();
 
-    activityHierarchy.addActivityType(activityTypeName);
+    activityHierarchy.addRootActivityType(activityTypeName);
 
     var events = activityHierarchy.flushEvents();
-    var event = (ActivityTypeAddedEvent) events.get(0);
+    var event = (RootActivityTypeAddedEvent) events.get(0);
 
     assertThat(event.getName()).isEqualTo(activityTypeName);
   }
 
   @Test
-  void addActivityType_mustUseUniqueName() {
+  void addRootActivityType_mustBeAddedToEmptyHierarchy() {
     var activityTypeName = randomString();
     var activityHierarchy = ActivityHierarchy.create();
-    activityHierarchy.addActivityType(activityTypeName);
+    activityHierarchy.addRootActivityType(activityTypeName);
 
     var thrown =
         assertThrows(
             EventReductionException.class,
-            () -> activityHierarchy.addActivityType(activityTypeName));
-    assertThat(thrown.getCause()).isInstanceOf(DuplicateActivityTypeNameException.class);
+            () -> activityHierarchy.addRootActivityType(activityTypeName));
+    assertThat(thrown.getCause()).isInstanceOf(NotEmptyHierarchyException.class);
   }
 
   private ActivityHierarchy existingHierarchy() {
