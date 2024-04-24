@@ -44,6 +44,50 @@ public final class ActivityHierarchy extends Aggregate {
     }
   }
 
+  public ActivityType addNestedActivityType(String name, ActivityTypeId parentId) {
+    ActivityTypeId id = ActivityTypeId.create();
+    apply(NestedActivityTypeAddedEvent.of(id, name, parentId));
+    return activityTypes.get(id);
+  }
+
+  private void on(NestedActivityTypeAddedEvent event) {
+    validateActivityTypeNameIsUnique(event.getName());
+    validateActivityTypeExists(event.getParentId());
+
+    var parent = activityTypes.get(event.getParentId());
+    var child = ActivityType.create(event.getId(), event.getName());
+
+    parent.addChild(child);
+    activityTypes.put(child.getId(), child);
+  }
+
+  private void validateActivityTypeNameIsUnique(String name) {
+    if (activityTypes.values().stream().anyMatch(a -> a.getName().equals(name))) {
+      throw new DuplicateActivityTypeNameException();
+    }
+  }
+
+  public void nestActivityType(ActivityTypeId parentId, ActivityTypeId childId) {
+    apply(ActivityTypeNestedEvent.of(parentId, childId));
+  }
+
+  private void on(ActivityTypeNestedEvent event) {
+    validateActivityTypeExists(event.getParentId());
+    validateActivityTypeExists(event.getChildId());
+
+    var parent = activityTypes.get(event.getParentId());
+    var child = activityTypes.get(event.getChildId());
+
+    parent.addChild(child);
+  }
+
+  private void validateActivityTypeExists(ActivityTypeId activityTypeId) {
+    if (!activityTypes.containsKey(activityTypeId)) {
+      throw new ActivityTypeNotFoundException(
+          String.format("Activity type [%s] does not exist in hierarchy [%s]", activityTypeId, id));
+    }
+  }
+
   public ActivityHierarchyId getId() {
     return id;
   }

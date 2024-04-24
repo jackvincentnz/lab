@@ -85,9 +85,178 @@ class ActivityHierarchyTest {
     assertThat(activityType.getName()).isEqualTo(activityTypeName);
   }
 
+  @Test
+  void addNestedActivityType_addsNestedType() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    assertThat(activityHierarchy.getActivityTypeCount()).isEqualTo(1);
+
+    activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    assertThat(activityHierarchy.getActivityTypeCount()).isEqualTo(2);
+  }
+
+  @Test
+  void addNestedActivityType_addsNestedTypeAsChildOfParent() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    var activityType =
+        activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    assertThat(rootActivityType.hasChild(activityType)).isTrue();
+  }
+
+  @Test
+  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withId() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    var activityType =
+        activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, NestedActivityTypeAddedEvent.class);
+    assertThat(event.getId()).isEqualTo(activityType.getId());
+  }
+
+  @Test
+  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withName() {
+    var activityTypeName = randomString();
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    activityHierarchy.addNestedActivityType(activityTypeName, rootActivityType.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, NestedActivityTypeAddedEvent.class);
+    assertThat(event.getName()).isEqualTo(activityTypeName);
+  }
+
+  @Test
+  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withParentId() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, NestedActivityTypeAddedEvent.class);
+    assertThat(event.getParentId()).isEqualTo(rootActivityType.getId());
+  }
+
+  @Test
+  void addNestedActivityType_mustHaveUniqueName() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    var thrown =
+        assertThrows(
+            EventReductionException.class,
+            () ->
+                activityHierarchy.addNestedActivityType(
+                    rootActivityType.getName(), rootActivityType.getId()));
+    assertThat(thrown.getCause()).isInstanceOf(DuplicateActivityTypeNameException.class);
+  }
+
+  @Test
+  void addNestedActivityType_parentMustExist() {
+    var activityHierarchy = existingHierarchy();
+
+    var thrown =
+        assertThrows(
+            EventReductionException.class,
+            () -> activityHierarchy.addNestedActivityType(randomString(), ActivityTypeId.create()));
+    assertThat(thrown.getCause()).isInstanceOf(ActivityTypeNotFoundException.class);
+  }
+
+  @Test
+  void nestActivityType_validatesParentExists() {
+    var activityHierarchy = existingHierarchy();
+    var existingType = activityHierarchy.addRootActivityType(randomString());
+
+    var thrown =
+        assertThrows(
+            EventReductionException.class,
+            () ->
+                activityHierarchy.nestActivityType(ActivityTypeId.create(), existingType.getId()));
+    assertThat(thrown.getCause()).isInstanceOf(ActivityTypeNotFoundException.class);
+  }
+
+  @Test
+  void nestActivityType_validatesChildExists() {
+    var activityHierarchy = existingHierarchy();
+    var existingType = activityHierarchy.addRootActivityType(randomString());
+
+    var thrown =
+        assertThrows(
+            EventReductionException.class,
+            () ->
+                activityHierarchy.nestActivityType(existingType.getId(), ActivityTypeId.create()));
+    assertThat(thrown.getCause()).isInstanceOf(ActivityTypeNotFoundException.class);
+  }
+
+  @Test
+  void nestActivityType_addsChildToParent() {
+    var activityHierarchy = existingHierarchy();
+    var rootActivityType = activityHierarchy.addRootActivityType(randomString());
+
+    // Add two types under root
+    var parent = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+    var child = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    // Nest child under parent
+    activityHierarchy.nestActivityType(parent.getId(), child.getId());
+
+    assertThat(parent.hasChild(child)).isTrue();
+  }
+
+  @Test
+  void nestActivityType_appliesActivityTypeNestedEvent_withParentId() {
+    var activityHierarchy = existingHierarchy();
+    var rootActivityType = activityHierarchy.addRootActivityType(randomString());
+
+    // Add two types under root
+    var parent = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+    var child = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+    activityHierarchy.flushEvents();
+
+    // Nest child under parent
+    activityHierarchy.nestActivityType(parent.getId(), child.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, ActivityTypeNestedEvent.class);
+    assertThat(event.getParentId()).isEqualTo(parent.getId());
+  }
+
+  @Test
+  void nestActivityType_appliesActivityTypeNestedEvent_withChildId() {
+    var activityHierarchy = existingHierarchy();
+    var rootActivityType = activityHierarchy.addRootActivityType(randomString());
+
+    // Add two types under root
+    var parent = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+    var child = activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+    activityHierarchy.flushEvents();
+
+    // Nest child under parent
+    activityHierarchy.nestActivityType(parent.getId(), child.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, ActivityTypeNestedEvent.class);
+    assertThat(event.getChildId()).isEqualTo(child.getId());
+  }
+
   private ActivityHierarchy existingHierarchy() {
     var activityHierarchy = ActivityHierarchy.create();
     activityHierarchy.flushEvents();
+    return activityHierarchy;
+  }
+
+  private ActivityHierarchy existingHierarchyWithRoot() {
+    var activityHierarchy = existingHierarchy();
+
+    var rootActivityTypeName = randomString();
+    activityHierarchy.addRootActivityType(rootActivityTypeName);
+
+    activityHierarchy.flushEvents();
+
     return activityHierarchy;
   }
 
