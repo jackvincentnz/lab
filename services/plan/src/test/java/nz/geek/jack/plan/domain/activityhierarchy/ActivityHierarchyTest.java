@@ -104,6 +104,17 @@ class ActivityHierarchyTest {
     assertThat(thrown.getCause()).isInstanceOf(NotEmptyHierarchyException.class);
   }
 
+  @Test
+  void addRootActivityType_returnsAddedType() {
+    var activityTypeName = randomString();
+    var activityHierarchy = ActivityHierarchy.create();
+
+    var activityType = activityHierarchy.addRootActivityType(activityTypeName);
+
+    assertThat(activityType).isNotNull();
+    assertThat(activityType.getName()).isEqualTo(activityTypeName);
+  }
+
   private ActivityHierarchy existingHierarchy() {
     var activityHierarchy = ActivityHierarchy.create();
     activityHierarchy.flushEvents();

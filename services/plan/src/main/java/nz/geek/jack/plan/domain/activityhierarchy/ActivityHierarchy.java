@@ -24,8 +24,9 @@ public final class ActivityHierarchy extends Aggregate {
     id = event.getActivityHierarchyId();
   }
 
-  public void addRootActivityType(String name) {
+  public ActivityType addRootActivityType(String name) {
     apply(RootActivityTypeAddedEvent.of(ActivityTypeId.create(), name));
+    return rootActivityType;
   }
 
   private void on(RootActivityTypeAddedEvent event) {
