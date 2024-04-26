@@ -67,20 +67,6 @@ public final class ActivityHierarchy extends Aggregate {
     }
   }
 
-  public void nestActivityType(ActivityTypeId parentId, ActivityTypeId childId) {
-    apply(ActivityTypeNestedEvent.of(parentId, childId));
-  }
-
-  private void on(ActivityTypeNestedEvent event) {
-    validateActivityTypeExists(event.getParentId());
-    validateActivityTypeExists(event.getChildId());
-
-    var parent = activityTypes.get(event.getParentId());
-    var child = activityTypes.get(event.getChildId());
-
-    parent.addChild(child);
-  }
-
   private void validateActivityTypeExists(ActivityTypeId activityTypeId) {
     if (!activityTypes.containsKey(activityTypeId)) {
       throw new ActivityTypeNotFoundException(
