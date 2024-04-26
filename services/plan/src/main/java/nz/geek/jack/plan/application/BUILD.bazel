@@ -1,6 +1,0 @@
-java_library(
-    name = "application",
-    runtime_deps = [
-        "//services/plan/src/main/java/nz/geek/jack/plan/application/activity",
-    ],
-)

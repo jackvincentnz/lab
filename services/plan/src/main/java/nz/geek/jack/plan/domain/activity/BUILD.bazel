@@ -1,6 +1,0 @@
-java_library(
-    name = "activity",
-    srcs = glob(["*.java"]),
-    visibility = ["//services/plan/src:__subpackages__"],
-    deps = ["//libs/domain/src/main/java/nz/geek/jack/libs/domain"],
-)
