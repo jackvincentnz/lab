@@ -1,0 +1,7 @@
+java_library(
+    name = "test",
+    testonly = True,
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    deps = ["//libs/domain/src/main/java/nz/geek/jack/libs/domain"],
+)

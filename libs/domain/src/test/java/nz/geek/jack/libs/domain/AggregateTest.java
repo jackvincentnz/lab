@@ -1,5 +1,6 @@
 package nz.geek.jack.libs.domain;
 
+import static nz.geek.jack.libs.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -11,10 +12,7 @@ class AggregateTest {
   void apply_shouldApplyEvent() {
     var aggregate = new TestAggregate();
 
-    var appliedEvents = aggregate.flushEvents();
-
-    assertThat(appliedEvents).hasSize(1);
-    assertThat(appliedEvents.get(0)).isInstanceOf(TestAggregateCreatedEvent.class);
+    getOnlyEventOfType(aggregate, TestAggregateCreatedEvent.class);
   }
 
   @Test
