@@ -16,10 +16,10 @@ public class TaskQueryService {
   }
 
   public Collection<Task> getAllTasks() {
-    return taskRepository.getAllTasks();
+    return taskRepository.getAll();
   }
 
   public Task getTask(TaskId taskId) {
-    return taskRepository.getTask(taskId);
+    return taskRepository.get(taskId);
   }
 }

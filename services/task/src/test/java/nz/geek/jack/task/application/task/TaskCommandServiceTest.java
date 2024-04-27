@@ -27,7 +27,7 @@ class TaskCommandServiceTest {
 
     taskCommandService.addTask(title);
 
-    verify(taskRepository).saveTask(taskCaptor.capture());
+    verify(taskRepository).save(taskCaptor.capture());
     assertThat(taskCaptor.getValue().getTitle()).isEqualTo(title);
   }
 
@@ -38,21 +38,21 @@ class TaskCommandServiceTest {
 
     var taskId = taskCommandService.addTask(title);
 
-    verify(taskRepository).saveTask(taskCaptor.capture());
+    verify(taskRepository).save(taskCaptor.capture());
     assertThat(taskId).isEqualTo(taskCaptor.getValue().getId());
   }
 
   @Test
   void markTaskCompleted_savesCompletedTask() {
     var task = Task.addTask("My Task");
-    when(taskRepository.getTask(task.getId())).thenReturn(task);
+    when(taskRepository.get(task.getId())).thenReturn(task);
     var taskCaptor = ArgumentCaptor.forClass(Task.class);
 
     assertThat(task.isCompleted()).isFalse();
 
     taskCommandService.markTaskCompleted(task.getId());
 
-    verify(taskRepository).saveTask(taskCaptor.capture());
+    verify(taskRepository).save(taskCaptor.capture());
     assertThat(taskCaptor.getValue()).isEqualTo(task);
     assertThat(task.isCompleted()).isTrue();
   }

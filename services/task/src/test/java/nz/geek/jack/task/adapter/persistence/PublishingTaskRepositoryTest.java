@@ -32,7 +32,7 @@ class PublishingTaskRepositoryTest {
     var task = Task.addTask("my task");
     task.markCompleted();
 
-    publishingTaskRepository.saveTask(task);
+    publishingTaskRepository.save(task);
 
     verify(domainEventPublisher).publish(eventsCaptor.capture());
     var publishedEvents = eventsCaptor.getValue();
