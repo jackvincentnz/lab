@@ -1,7 +1,7 @@
 package nz.geek.jack.task.domain;
 
 import java.time.Instant;
-import nz.geek.jack.libs.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

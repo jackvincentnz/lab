@@ -1,6 +1,6 @@
 package nz.geek.jack.iam.domain.identity;
 
-import nz.geek.jack.libs.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 
 public class Tenant extends Aggregate {
 

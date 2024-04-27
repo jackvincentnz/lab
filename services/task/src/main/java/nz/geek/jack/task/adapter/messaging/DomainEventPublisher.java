@@ -2,7 +2,7 @@ package nz.geek.jack.task.adapter.messaging;
 
 import com.google.protobuf.Message;
 import java.util.List;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;

@@ -2,7 +2,7 @@ package nz.geek.jack.task.adapter.messaging;
 
 import java.util.HashMap;
 import java.util.Map;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import nz.geek.jack.task.domain.TaskAddedEvent;
 import nz.geek.jack.task.domain.TaskCompletedEvent;
 import org.springframework.stereotype.Component;

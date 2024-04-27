@@ -1,7 +1,7 @@
 package nz.geek.jack.mops.plan.domain.activity;
 
 import java.time.Instant;
-import nz.geek.jack.libs.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 
 public final class Activity extends Aggregate {
 

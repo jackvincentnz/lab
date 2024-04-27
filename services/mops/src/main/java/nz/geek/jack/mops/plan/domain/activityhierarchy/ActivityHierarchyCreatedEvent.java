@@ -1,6 +1,6 @@
 package nz.geek.jack.mops.plan.domain.activityhierarchy;
 
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public final class ActivityHierarchyCreatedEvent extends DomainEvent {
 

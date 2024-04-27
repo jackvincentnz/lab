@@ -1,6 +1,6 @@
 package nz.geek.jack.task.domain;
 
-import static nz.geek.jack.libs.domain.test.AggregateTestUtils.getOnlyEventOfType;
+import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;

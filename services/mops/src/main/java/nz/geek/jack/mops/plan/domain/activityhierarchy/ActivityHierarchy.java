@@ -2,7 +2,7 @@ package nz.geek.jack.mops.plan.domain.activityhierarchy;
 
 import java.util.HashMap;
 import java.util.Optional;
-import nz.geek.jack.libs.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 
 public final class ActivityHierarchy extends Aggregate {
 

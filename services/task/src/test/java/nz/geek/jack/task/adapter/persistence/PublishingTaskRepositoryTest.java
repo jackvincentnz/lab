@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import nz.geek.jack.task.adapter.messaging.DomainEventPublisher;
 import nz.geek.jack.task.domain.Task;
 import nz.geek.jack.task.domain.TaskRepository;

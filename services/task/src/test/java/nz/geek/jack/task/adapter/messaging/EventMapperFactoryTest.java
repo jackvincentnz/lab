@@ -3,7 +3,7 @@ package nz.geek.jack.task.adapter.messaging;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import nz.geek.jack.task.domain.TaskAddedEvent;
 import nz.geek.jack.task.domain.TaskCompletedEvent;
 import org.junit.jupiter.api.Test;

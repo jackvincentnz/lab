@@ -1,7 +1,7 @@
 package nz.geek.jack.task.domain;
 
 import java.time.Instant;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public final class TaskAddedEvent extends DomainEvent {
 

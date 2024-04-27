@@ -1,4 +1,4 @@
-package nz.geek.jack.libs.domain;
+package nz.geek.jack.libs.ddd.domain;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
