@@ -5,11 +5,9 @@ import nz.geek.jack.libs.ddd.domain.Aggregate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class Task extends Aggregate {
+public final class Task extends Aggregate<TaskId> {
 
   private static final Logger LOG = LoggerFactory.getLogger(Task.class);
-
-  private TaskId id;
 
   private String title;
 
@@ -41,10 +39,6 @@ public final class Task extends Aggregate {
 
   private void on(TaskCompletedEvent taskCompletedEvent) {
     isCompleted = true;
-  }
-
-  public TaskId getId() {
-    return id;
   }
 
   public String getTitle() {

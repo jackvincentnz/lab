@@ -2,9 +2,7 @@ package nz.geek.jack.iam.domain.identity;
 
 import nz.geek.jack.libs.ddd.domain.Aggregate;
 
-public class Tenant extends Aggregate {
-
-  private TenantId id;
+public class Tenant extends Aggregate<TenantId> {
 
   private String name;
 
@@ -20,10 +18,6 @@ public class Tenant extends Aggregate {
   private void on(TenantProvisionedEvent event) {
     this.id = event.getId();
     this.name = event.getName();
-  }
-
-  public TenantId getId() {
-    return id;
   }
 
   public String getName() {

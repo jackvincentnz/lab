@@ -7,13 +7,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class Aggregate {
+public abstract class Aggregate<I extends AbstractId> {
 
   private static final String REDUCER_METHOD_NAME = "on";
 
   private static final Map<String, Method> REDUCER_METHODS = new HashMap<>();
 
   private final List<DomainEvent> appliedEvents = new ArrayList<>();
+
+  protected I id;
 
   protected void apply(DomainEvent domainEvent) {
     appliedEvents.add(domainEvent);
@@ -85,5 +87,9 @@ public abstract class Aggregate {
     var flushedEvents = List.copyOf(appliedEvents);
     appliedEvents.clear();
     return flushedEvents;
+  }
+
+  public I getId() {
+    return id;
   }
 }

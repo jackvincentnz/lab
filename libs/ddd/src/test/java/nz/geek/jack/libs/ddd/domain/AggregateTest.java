@@ -19,7 +19,7 @@ class AggregateTest {
   void apply_shouldReduceState() {
     var aggregate = new TestAggregate();
 
-    assertThat(aggregate.getState()).isEqualTo(TestAggregate.STATE_UPDATED_STRING);
+    assertThat(aggregate.getId()).isEqualTo(TestAggregate.EXPECTED_ID);
   }
 
   @Test()
@@ -48,30 +48,35 @@ class AggregateTest {
     assertThat(afterFlush).hasSize(0);
   }
 
-  static final class TestAggregate extends Aggregate {
-
-    private static final String STATE_UPDATED_STRING = "updated";
-
-    private String state = "";
+  static final class TestAggregate extends Aggregate<TestId> {
+    private static final TestId EXPECTED_ID = new TestId();
 
     TestAggregate() {
-      apply(new TestAggregateCreatedEvent());
+      apply(new TestAggregateCreatedEvent(EXPECTED_ID));
     }
 
     private void on(TestAggregateCreatedEvent testAggregateCreatedEvent) {
-      state = STATE_UPDATED_STRING;
+      id = testAggregateCreatedEvent.id;
     }
 
     private void on(EventThatThrowsWhenHandled eventThatThrowsWhenHandled) {
       throw new RuntimeException("Couldn't handle it!");
     }
+  }
 
-    String getState() {
-      return state;
+  static final class TestId extends AbstractId {
+    TestId() {
+      super();
     }
   }
 
-  static final class TestAggregateCreatedEvent extends DomainEvent {}
+  static final class TestAggregateCreatedEvent extends DomainEvent {
+    private final TestId id;
+
+    TestAggregateCreatedEvent(TestId id) {
+      this.id = id;
+    }
+  }
 
   static final class EventWithoutHandler extends DomainEvent {}
 

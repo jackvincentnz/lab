@@ -3,9 +3,7 @@ package nz.geek.jack.mops.plan.domain.activity;
 import java.time.Instant;
 import nz.geek.jack.libs.ddd.domain.Aggregate;
 
-public final class Activity extends Aggregate {
-
-  private ActivityId id;
+public final class Activity extends Aggregate<ActivityId> {
 
   private String name;
 
@@ -23,10 +21,6 @@ public final class Activity extends Aggregate {
     id = activityCreatedEvent.getActivityId();
     name = activityCreatedEvent.getName();
     createdAt = activityCreatedEvent.getCreatedAt();
-  }
-
-  public ActivityId getId() {
-    return id;
   }
 
   public String getName() {
