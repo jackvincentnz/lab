@@ -1,0 +1,12 @@
+type Mutation {
+  provisionTenant(input: ProvisionTenantInput!): Tenant
+}
+
+type Tenant {
+  id: ID!
+  name: String!
+}
+
+input ProvisionTenantInput {
+  name: String!
+}
