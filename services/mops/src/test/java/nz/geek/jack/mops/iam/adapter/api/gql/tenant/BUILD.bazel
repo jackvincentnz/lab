@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    deps = [
+        "//services/mops/src/main/java/nz/geek/jack/mops/api/gql",
+        "//services/mops/src/main/java/nz/geek/jack/mops/iam/adapter/api/gql/tenant",
+        "//services/mops/src/main/java/nz/geek/jack/mops/iam/application/identity",
+        "//services/mops/src/main/java/nz/geek/jack/mops/iam/domain/identity",
+    ],
+)

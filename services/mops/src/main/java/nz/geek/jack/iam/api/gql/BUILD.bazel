@@ -1,8 +1,0 @@
-load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen_library")
-
-dgs_codegen_library(
-    name = "gql",
-    package_name = "nz.geek.jack.iam.api.gql",
-    schemas = ["//services/mops/src/main/resources/schema"],
-    visibility = ["//visibility:public"],
-)
