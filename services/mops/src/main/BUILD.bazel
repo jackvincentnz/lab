@@ -28,7 +28,7 @@ java_binary(
 
 springboot(
     name = "main_spring",
-    boot_app_class = "nz.geek.jack.task.TaskApplication",
+    boot_app_class = "nz.geek.jack.mops.MopsApplication",
     java_library = ":main_lib",
 )
 
