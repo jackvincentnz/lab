@@ -1,6 +1,6 @@
 package nz.geek.jack.iam.domain.identity;
 
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public class TenantProvisionedEvent extends DomainEvent {
 

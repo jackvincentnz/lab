@@ -1,7 +1,7 @@
 package nz.geek.jack.mops.plan.domain.activity;
 
 import java.time.Instant;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public final class ActivityCreatedEvent extends DomainEvent {
 

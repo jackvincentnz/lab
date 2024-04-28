@@ -2,11 +2,9 @@ package nz.geek.jack.mops.plan.domain.activityhierarchy;
 
 import java.util.HashMap;
 import java.util.Optional;
-import nz.geek.jack.libs.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 
-public final class ActivityHierarchy extends Aggregate {
-
-  private ActivityHierarchyId id;
+public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
 
   private ActivityType rootActivityType;
 
@@ -72,10 +70,6 @@ public final class ActivityHierarchy extends Aggregate {
       throw new ActivityTypeNotFoundException(
           String.format("Activity type [%s] does not exist in hierarchy [%s]", activityTypeId, id));
     }
-  }
-
-  public ActivityHierarchyId getId() {
-    return id;
   }
 
   Optional<ActivityType> getRootActivityType() {

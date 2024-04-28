@@ -3,7 +3,7 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = ["//services/task/src:__subpackages__"],
     deps = [
-        "//libs/domain/src/main/java/nz/geek/jack/libs/domain",
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
         "@maven//:org_slf4j_slf4j_api",
     ],
 )

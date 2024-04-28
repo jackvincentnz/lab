@@ -1,7 +1,7 @@
 package nz.geek.jack.iam.domain.identity;
 
 import java.util.UUID;
-import nz.geek.jack.libs.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.AbstractId;
 
 public class TenantId extends AbstractId {
 

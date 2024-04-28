@@ -1,4 +1,4 @@
-package nz.geek.jack.libs.domain;
+package nz.geek.jack.libs.ddd.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

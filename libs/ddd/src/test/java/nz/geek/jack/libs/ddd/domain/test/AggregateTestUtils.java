@@ -1,7 +1,7 @@
-package nz.geek.jack.libs.domain.test;
+package nz.geek.jack.libs.ddd.domain.test;
 
-import nz.geek.jack.libs.domain.Aggregate;
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public class AggregateTestUtils {
 

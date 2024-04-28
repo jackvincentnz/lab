@@ -23,18 +23,18 @@ public class PublishingTaskRepository implements TaskRepository {
   }
 
   @Override
-  public void saveTask(Task task) {
+  public void save(Task task) {
     domainEventPublisher.publish(task.flushEvents());
-    taskRepository.saveTask(task);
+    taskRepository.save(task);
   }
 
   @Override
-  public Collection<Task> getAllTasks() {
-    return taskRepository.getAllTasks();
+  public Collection<Task> getAll() {
+    return taskRepository.getAll();
   }
 
   @Override
-  public Task getTask(TaskId id) {
-    return taskRepository.getTask(id);
+  public Task get(TaskId id) {
+    return taskRepository.get(id);
   }
 }

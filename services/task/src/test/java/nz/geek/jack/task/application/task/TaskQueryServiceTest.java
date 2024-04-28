@@ -22,7 +22,7 @@ class TaskQueryServiceTest {
   @Test
   void getAllTasks_returnsTasksFromRepository() {
     var tasks = List.of(Task.addTask("A task"), Task.addTask("Another task"));
-    when(taskRepository.getAllTasks()).thenReturn(tasks);
+    when(taskRepository.getAll()).thenReturn(tasks);
 
     var result = taskQueryService.getAllTasks();
 
@@ -32,7 +32,7 @@ class TaskQueryServiceTest {
   @Test
   void getTask_returnsTaskFromRepository() {
     var task = Task.addTask("A task");
-    when(taskRepository.getTask(task.getId())).thenReturn(task);
+    when(taskRepository.get(task.getId())).thenReturn(task);
 
     var result = taskQueryService.getTask(task.getId());
 

@@ -4,9 +4,9 @@ import java.util.Collection;
 
 public interface TaskRepository {
 
-  void saveTask(Task task);
+  void save(Task task);
 
-  Collection<Task> getAllTasks();
+  Collection<Task> getAll();
 
-  Task getTask(TaskId id);
+  Task get(TaskId id);
 }

@@ -17,16 +17,16 @@ public class TaskCommandService {
   public TaskId addTask(String title) {
     var task = Task.addTask(title);
 
-    taskRepository.saveTask(task);
+    taskRepository.save(task);
 
     return task.getId();
   }
 
   public void markTaskCompleted(TaskId taskId) {
-    var task = taskRepository.getTask(taskId);
+    var task = taskRepository.get(taskId);
 
     task.markCompleted();
 
-    taskRepository.saveTask(task);
+    taskRepository.save(task);
   }
 }

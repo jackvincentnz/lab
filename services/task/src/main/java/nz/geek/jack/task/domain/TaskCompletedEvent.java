@@ -1,6 +1,6 @@
 package nz.geek.jack.task.domain;
 
-import nz.geek.jack.libs.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
 public final class TaskCompletedEvent extends DomainEvent {
 

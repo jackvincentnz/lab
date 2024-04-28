@@ -1,7 +1,7 @@
 package nz.geek.jack.mops.plan.domain.activity;
 
 import java.util.UUID;
-import nz.geek.jack.libs.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.AbstractId;
 
 public final class ActivityId extends AbstractId {
 
