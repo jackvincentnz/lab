@@ -1,4 +1,4 @@
-package nz.geek.jack;
+package nz.geek.jack.mops;
 
 import nz.geek.jack.libs.tenancy.filter.TenantFilter;
 import org.springframework.boot.SpringApplication;

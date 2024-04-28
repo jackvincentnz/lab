@@ -1,4 +1,4 @@
-package nz.geek.jack;
+package nz.geek.jack.mops;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
