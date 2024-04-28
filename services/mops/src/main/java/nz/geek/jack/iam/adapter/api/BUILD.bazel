@@ -1,0 +1,9 @@
+java_library(
+    name = "api",
+    visibility = [
+        "//services/mops/src/main/java/nz/geek/jack/iam/adapter:__pkg__",
+    ],
+    runtime_deps = [
+        "//services/mops/src/main/java/nz/geek/jack/iam/adapter/api/gql",
+    ],
+)

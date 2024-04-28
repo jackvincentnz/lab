@@ -1,0 +1,10 @@
+java_library(
+    name = "adapter",
+    visibility = [
+        "//services/mops/src/main/java/nz/geek/jack/iam:__pkg__",
+    ],
+    runtime_deps = [
+        "//services/mops/src/main/java/nz/geek/jack/iam/adapter/api",
+        "//services/mops/src/main/java/nz/geek/jack/iam/adapter/persistence",
+    ],
+)
