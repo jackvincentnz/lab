@@ -84,7 +84,7 @@ maven_install(
     # Check the spring dependency management to see versions which work together:
     # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
     artifacts = [
-        "com.fasterxml.jackson.core:jackson-databind:2.14.3",
+        "com.fasterxml.jackson.core:jackson-databind:2.17.1",
         "com.h2database:h2:2.2.224",
         "com.mysql:mysql-connector-j:8.3.0",
         "org.apache.commons:commons-lang3:3.12.0",
