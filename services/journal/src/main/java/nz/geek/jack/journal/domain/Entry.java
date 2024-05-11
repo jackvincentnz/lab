@@ -1,14 +1,18 @@
 package nz.geek.jack.journal.domain;
 
 import java.time.Instant;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.Version;
 
 public final class Entry {
 
-  private final EntryId id;
+  @Id private final EntryId id;
 
   private final String message;
 
   private final Instant createdAt;
+
+  @Version private Integer version;
 
   private Entry(EntryId id, String message, Instant createdAt) {
     this.id = id;

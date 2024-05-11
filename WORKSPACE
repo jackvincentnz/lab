@@ -85,6 +85,7 @@ maven_install(
     # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
     artifacts = [
         "com.fasterxml.jackson.core:jackson-databind:2.14.3",
+        "com.h2database:h2:2.2.224",
         "com.mysql:mysql-connector-j:8.3.0",
         "org.apache.commons:commons-lang3:3.12.0",
         "org.apache.kafka:kafka-clients:3.3.2",
@@ -103,6 +104,7 @@ maven_install(
         "org.springframework.boot:spring-boot-starter-validation:3.0.12",
         "org.springframework.boot:spring-boot-starter-web:3.0.12",
         "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
+        "org.springframework.data:spring-data-jdbc:3.0.11",  # Managed by https://mvnrepository.com/artifact/org.springframework.data/spring-data-bom
         "org.springframework.kafka:spring-kafka:3.0.12",
         "redis.clients:jedis:5.0.0",
         "org.postgresql:postgresql:42.7.3",

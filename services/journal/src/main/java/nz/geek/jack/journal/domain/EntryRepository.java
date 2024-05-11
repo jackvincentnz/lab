@@ -1,12 +1,12 @@
 package nz.geek.jack.journal.domain;
 
 import java.util.Collection;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
-public interface EntryRepository {
+@Repository
+public interface EntryRepository extends CrudRepository<Entry, EntryId> {
 
-  void saveEntry(Entry entry);
-
-  Collection<Entry> getAllEntries();
-
-  Entry getEntry(EntryId id);
+  @Override
+  Collection<Entry> findAll();
 }

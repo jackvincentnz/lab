@@ -15,6 +15,10 @@ public abstract class AbstractId {
     this.id = id;
   }
 
+  public UUID toUUID() {
+    return id;
+  }
+
   @Override
   public String toString() {
     return id.toString();
