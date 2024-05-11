@@ -1,10 +1,10 @@
 java_library(
-    name = "domain",
+    name = "springdata",
     srcs = glob(["*.java"]),
-    visibility = ["//services/journal/src:__subpackages__"],
+    visibility = ["//visibility:public"],
     deps = [
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
         "@maven//:org_springframework_data_spring_data_commons",
-        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_core",
     ],
 )

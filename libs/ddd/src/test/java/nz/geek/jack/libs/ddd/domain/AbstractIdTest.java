@@ -75,6 +75,16 @@ class AbstractIdTest {
     assertThat(first.hashCode()).isEqualTo(second.hashCode());
   }
 
+  @Test
+  void toUUID_returns_UUID() {
+    var uuid = UUID.randomUUID();
+    var id = new TestId(uuid);
+
+    var result = id.toUUID();
+
+    assertThat(result).isEqualTo(uuid);
+  }
+
   static class TestId extends AbstractId {
     TestId() {
       super();

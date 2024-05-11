@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS entry (
+  id UUID PRIMARY KEY,
+  message VARCHAR(100),
+  created_at TIMESTAMP WITH TIME ZONE,
+  version INTEGER
+);

@@ -16,10 +16,10 @@ public class EntryQueryService {
   }
 
   public Collection<Entry> getAllEntries() {
-    return entryRepository.getAllEntries();
+    return entryRepository.findAll();
   }
 
   public Entry getEntry(EntryId entryId) {
-    return entryRepository.getEntry(entryId);
+    return entryRepository.findById(entryId).orElseThrow();
   }
 }

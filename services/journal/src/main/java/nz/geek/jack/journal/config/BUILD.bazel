@@ -1,0 +1,19 @@
+java_library(
+    name = "config",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//services/journal/src/main/java/nz/geek/jack/journal:__pkg__",
+        "//services/journal/src/test/java/nz/geek/jack/journal:__subpackages__",
+    ],
+    runtime_deps = [
+        "@maven//:com_h2database_h2",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain/springdata",
+        "//services/journal/src/main/java/nz/geek/jack/journal/domain",
+        "@maven//:org_springframework_data_spring_data_jdbc",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)

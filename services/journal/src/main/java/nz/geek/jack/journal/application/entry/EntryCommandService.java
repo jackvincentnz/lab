@@ -17,7 +17,7 @@ public class EntryCommandService {
   public EntryId addEntry(String message) {
     var entry = Entry.newEntry(message);
 
-    entryRepository.saveEntry(entry);
+    entryRepository.save(entry);
 
     return entry.getId();
   }
