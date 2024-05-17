@@ -164,7 +164,7 @@ maven_install(
                 "com.graphql-java:graphql-java",
             ],
             group = "com.netflix.graphql.dgs.codegen",
-            version = "6.0.2",
+            version = "6.2.1",
         ),
         "io.confluent:kafka-protobuf-serializer:7.5.1",
         maven.artifact(
