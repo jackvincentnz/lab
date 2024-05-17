@@ -12,6 +12,6 @@ class ActivityHierarchyCreatedEventTest {
 
     var event = ActivityHierarchyCreatedEvent.of(id);
 
-    assertThat(event.getActivityHierarchyId()).isEqualTo(id);
+    assertThat(event.getAggregateId()).isEqualTo(id);
   }
 }

@@ -9,16 +9,27 @@ class RootActivityTypeAddedEventTest {
   static final String NAME = "Tactic";
 
   @Test
+  void of_setsActivityHierarchyId() {
+    var activityHierarchyId = ActivityHierarchyId.create();
+
+    var event = RootActivityTypeAddedEvent.of(activityHierarchyId, ActivityTypeId.create(), NAME);
+
+    assertThat(event.getAggregateId()).isEqualTo(activityHierarchyId);
+  }
+
+  @Test
   void of_setsActivityTypeId() {
     var activityTypeId = ActivityTypeId.create();
-    var event = RootActivityTypeAddedEvent.of(activityTypeId, NAME);
+
+    var event = RootActivityTypeAddedEvent.of(ActivityHierarchyId.create(), activityTypeId, NAME);
 
     assertThat(event.getActivityTypeId()).isEqualTo(activityTypeId);
   }
 
   @Test
   void of_setsName() {
-    var event = RootActivityTypeAddedEvent.of(ActivityTypeId.create(), NAME);
+    var event =
+        RootActivityTypeAddedEvent.of(ActivityHierarchyId.create(), ActivityTypeId.create(), NAME);
 
     assertThat(event.getName()).isEqualTo(NAME);
   }

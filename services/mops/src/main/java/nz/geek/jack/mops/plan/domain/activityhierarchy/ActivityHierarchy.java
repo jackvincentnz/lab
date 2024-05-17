@@ -19,11 +19,11 @@ public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
   }
 
   private void on(ActivityHierarchyCreatedEvent event) {
-    id = event.getActivityHierarchyId();
+    id = event.getAggregateId();
   }
 
   public ActivityType addRootActivityType(String name) {
-    apply(RootActivityTypeAddedEvent.of(ActivityTypeId.create(), name));
+    apply(RootActivityTypeAddedEvent.of(id, ActivityTypeId.create(), name));
     return rootActivityType;
   }
 
@@ -43,9 +43,9 @@ public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
   }
 
   public ActivityType addNestedActivityType(String name, ActivityTypeId parentId) {
-    ActivityTypeId id = ActivityTypeId.create();
-    apply(NestedActivityTypeAddedEvent.of(id, name, parentId));
-    return activityTypes.get(id);
+    ActivityTypeId activityTypeId = ActivityTypeId.create();
+    apply(NestedActivityTypeAddedEvent.of(id, activityTypeId, name, parentId));
+    return activityTypes.get(activityTypeId);
   }
 
   private void on(NestedActivityTypeAddedEvent event) {
@@ -53,7 +53,7 @@ public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
     validateActivityTypeExists(event.getParentId());
 
     var parent = activityTypes.get(event.getParentId());
-    var child = ActivityType.create(event.getId(), event.getName());
+    var child = ActivityType.create(event.getActivityTypeId(), event.getName());
 
     parent.addChild(child);
     activityTypes.put(child.getId(), child);

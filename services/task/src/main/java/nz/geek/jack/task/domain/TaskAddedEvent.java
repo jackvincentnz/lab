@@ -3,9 +3,7 @@ package nz.geek.jack.task.domain;
 import java.time.Instant;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
-public final class TaskAddedEvent extends DomainEvent {
-
-  private final TaskId taskId;
+public final class TaskAddedEvent extends DomainEvent<TaskId> {
 
   private final String title;
 
@@ -16,13 +14,9 @@ public final class TaskAddedEvent extends DomainEvent {
   }
 
   private TaskAddedEvent(TaskId taskId, String title, Instant createdAt) {
-    this.taskId = taskId;
+    super(taskId);
     this.title = title;
     this.createdAt = createdAt;
-  }
-
-  public TaskId getTaskId() {
-    return taskId;
   }
 
   public String getTitle() {

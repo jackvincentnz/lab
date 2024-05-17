@@ -18,7 +18,7 @@ public final class Activity extends Aggregate<ActivityId> {
   }
 
   private void on(ActivityCreatedEvent activityCreatedEvent) {
-    id = activityCreatedEvent.getActivityId();
+    id = activityCreatedEvent.getAggregateId();
     name = activityCreatedEvent.getName();
     createdAt = activityCreatedEvent.getCreatedAt();
   }

@@ -42,7 +42,7 @@ class TaskTest {
     var task = Task.addTask(title);
 
     var event = getOnlyEventOfType(task, TaskAddedEvent.class);
-    assertThat(event.getTaskId()).isEqualTo(task.getId());
+    assertThat(event.getAggregateId()).isEqualTo(task.getId());
   }
 
   @Test
@@ -98,7 +98,7 @@ class TaskTest {
     task.markCompleted();
 
     var event = getOnlyEventOfType(task, TaskCompletedEvent.class);
-    assertThat(event.getTaskId()).isEqualTo(task.getId());
+    assertThat(event.getAggregateId()).isEqualTo(task.getId());
   }
 
   @Test

@@ -29,7 +29,7 @@ class TenantTest {
     var tenant = Tenant.provision(randomString());
 
     var event = getOnlyEventOfType(tenant, TenantProvisionedEvent.class);
-    assertThat(event.getId()).isEqualTo(tenant.getId());
+    assertThat(event.getAggregateId()).isEqualTo(tenant.getId());
   }
 
   @Test

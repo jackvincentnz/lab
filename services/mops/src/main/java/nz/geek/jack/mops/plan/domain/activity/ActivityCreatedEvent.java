@@ -3,9 +3,7 @@ package nz.geek.jack.mops.plan.domain.activity;
 import java.time.Instant;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
-public final class ActivityCreatedEvent extends DomainEvent {
-
-  private final ActivityId activityId;
+public final class ActivityCreatedEvent extends DomainEvent<ActivityId> {
 
   private final String name;
 
@@ -16,13 +14,9 @@ public final class ActivityCreatedEvent extends DomainEvent {
   }
 
   private ActivityCreatedEvent(ActivityId activityId, String name, Instant createdAt) {
-    this.activityId = activityId;
+    super(activityId);
     this.name = name;
     this.createdAt = createdAt;
-  }
-
-  public ActivityId getActivityId() {
-    return activityId;
   }
 
   public String getName() {

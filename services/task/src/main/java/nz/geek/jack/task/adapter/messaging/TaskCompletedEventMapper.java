@@ -8,7 +8,7 @@ public class TaskCompletedEventMapper
   @Override
   public TaskCompletedEvent map(nz.geek.jack.task.domain.TaskCompletedEvent taskCompletedEvent) {
     return TaskCompletedEvent.newBuilder()
-        .setTaskId(taskCompletedEvent.getTaskId().toString())
+        .setTaskId(taskCompletedEvent.getAggregateId().toString())
         .build();
   }
 }

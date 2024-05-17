@@ -12,6 +12,6 @@ class TaskCompletedEventTest {
 
     var event = TaskCompletedEvent.of(taskId);
 
-    assertThat(event.getTaskId()).isEqualTo(taskId);
+    assertThat(event.getAggregateId()).isEqualTo(taskId);
   }
 }

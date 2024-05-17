@@ -26,7 +26,9 @@ class AggregateTest {
   void apply_throwsWhenReducerMethodIsMissing() {
     var aggregate = new TestAggregate();
 
-    assertThrows(IllegalArgumentException.class, () -> aggregate.apply(new EventWithoutHandler()));
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> aggregate.apply(new EventWithoutHandler(aggregate.getId())));
   }
 
   @Test()
@@ -34,7 +36,8 @@ class AggregateTest {
     var aggregate = new TestAggregate();
 
     assertThrows(
-        EventReductionException.class, () -> aggregate.apply(new EventThatThrowsWhenHandled()));
+        EventReductionException.class,
+        () -> aggregate.apply(new EventThatThrowsWhenHandled(aggregate.getId())));
   }
 
   @Test
@@ -56,7 +59,7 @@ class AggregateTest {
     }
 
     private void on(TestAggregateCreatedEvent testAggregateCreatedEvent) {
-      id = testAggregateCreatedEvent.id;
+      id = testAggregateCreatedEvent.aggregateId;
     }
 
     private void on(EventThatThrowsWhenHandled eventThatThrowsWhenHandled) {
@@ -70,15 +73,22 @@ class AggregateTest {
     }
   }
 
-  static final class TestAggregateCreatedEvent extends DomainEvent {
-    private final TestId id;
+  static final class TestAggregateCreatedEvent extends DomainEvent<TestId> {
 
     TestAggregateCreatedEvent(TestId id) {
-      this.id = id;
+      super(id);
     }
   }
 
-  static final class EventWithoutHandler extends DomainEvent {}
+  static final class EventWithoutHandler extends DomainEvent<TestId> {
+    EventWithoutHandler(TestId id) {
+      super(id);
+    }
+  }
 
-  static final class EventThatThrowsWhenHandled extends DomainEvent {}
+  static final class EventThatThrowsWhenHandled extends DomainEvent<TestId> {
+    EventThatThrowsWhenHandled(TestId id) {
+      super(id);
+    }
+  }
 }
