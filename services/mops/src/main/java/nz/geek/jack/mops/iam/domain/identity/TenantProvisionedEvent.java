@@ -2,9 +2,7 @@ package nz.geek.jack.mops.iam.domain.identity;
 
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
-public class TenantProvisionedEvent extends DomainEvent {
-
-  private final TenantId id;
+public class TenantProvisionedEvent extends DomainEvent<TenantId> {
 
   private final String name;
 
@@ -13,12 +11,8 @@ public class TenantProvisionedEvent extends DomainEvent {
   }
 
   private TenantProvisionedEvent(TenantId id, String name) {
-    this.id = id;
+    super(id);
     this.name = name;
-  }
-
-  public TenantId getId() {
-    return id;
   }
 
   public String getName() {

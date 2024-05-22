@@ -15,7 +15,7 @@ class TaskAddedEventTest {
 
     var event = TaskAddedEvent.of(id, title, createdAt);
 
-    assertThat(event.getTaskId()).isEqualTo(id);
+    assertThat(event.getAggregateId()).isEqualTo(id);
   }
 
   @Test

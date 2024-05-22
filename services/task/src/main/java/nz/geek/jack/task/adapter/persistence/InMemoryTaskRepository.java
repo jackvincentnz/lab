@@ -7,5 +7,5 @@ import nz.geek.jack.task.domain.TaskRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class HashMapTaskRepository extends InMemoryAggregateStore<TaskId, Task>
+public class InMemoryTaskRepository extends InMemoryAggregateStore<TaskId, Task>
     implements TaskRepository {}

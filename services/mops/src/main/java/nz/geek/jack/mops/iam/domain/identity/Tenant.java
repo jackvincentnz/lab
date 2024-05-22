@@ -16,7 +16,7 @@ public class Tenant extends Aggregate<TenantId> {
   }
 
   private void on(TenantProvisionedEvent event) {
-    this.id = event.getId();
+    this.id = event.getAggregateId();
     this.name = event.getName();
   }
 

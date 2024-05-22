@@ -13,7 +13,7 @@ class TenantProvisionedEventTest {
 
     var event = TenantProvisionedEvent.of(id, randomString());
 
-    assertThat(event.getId()).isEqualTo(id);
+    assertThat(event.getAggregateId()).isEqualTo(id);
   }
 
   @Test

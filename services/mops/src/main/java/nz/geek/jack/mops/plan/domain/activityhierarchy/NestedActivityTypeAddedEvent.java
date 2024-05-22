@@ -2,27 +2,35 @@ package nz.geek.jack.mops.plan.domain.activityhierarchy;
 
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 
-public final class NestedActivityTypeAddedEvent extends DomainEvent {
+public final class NestedActivityTypeAddedEvent extends DomainEvent<ActivityHierarchyId> {
 
-  private final ActivityTypeId id;
+  private final ActivityTypeId activityTypeId;
 
   private final String name;
 
   private final ActivityTypeId parentId;
 
   public static NestedActivityTypeAddedEvent of(
-      ActivityTypeId id, String name, ActivityTypeId parentId) {
-    return new NestedActivityTypeAddedEvent(id, name, parentId);
+      ActivityHierarchyId activityHierarchyId,
+      ActivityTypeId activityTypeId,
+      String name,
+      ActivityTypeId parentId) {
+    return new NestedActivityTypeAddedEvent(activityHierarchyId, activityTypeId, name, parentId);
   }
 
-  private NestedActivityTypeAddedEvent(ActivityTypeId id, String name, ActivityTypeId parentId) {
-    this.id = id;
+  private NestedActivityTypeAddedEvent(
+      ActivityHierarchyId activityHierarchyId,
+      ActivityTypeId activityTypeId,
+      String name,
+      ActivityTypeId parentId) {
+    super(activityHierarchyId);
+    this.activityTypeId = activityTypeId;
     this.name = name;
     this.parentId = parentId;
   }
 
-  public ActivityTypeId getId() {
-    return id;
+  public ActivityTypeId getActivityTypeId() {
+    return activityTypeId;
   }
 
   public String getName() {

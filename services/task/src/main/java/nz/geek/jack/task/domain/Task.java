@@ -24,7 +24,7 @@ public final class Task extends Aggregate<TaskId> {
   }
 
   private void on(TaskAddedEvent taskAddedEvent) {
-    id = taskAddedEvent.getTaskId();
+    id = taskAddedEvent.getAggregateId();
     title = taskAddedEvent.getTitle();
     createdAt = taskAddedEvent.getCreatedAt();
   }

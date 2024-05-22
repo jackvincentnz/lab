@@ -8,7 +8,7 @@ public class TaskAddedEventMapper
   @Override
   public TaskAddedEvent map(nz.geek.jack.task.domain.TaskAddedEvent taskAddedEvent) {
     return TaskAddedEvent.newBuilder()
-        .setTaskId(taskAddedEvent.getTaskId().toString())
+        .setTaskId(taskAddedEvent.getAggregateId().toString())
         .setTitle(taskAddedEvent.getTitle())
         .setCreatedAt(taskAddedEvent.getCreatedAt().toString())
         .build();

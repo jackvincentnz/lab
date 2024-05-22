@@ -3,6 +3,7 @@ package nz.geek.jack.task.adapter.messaging;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import nz.geek.jack.task.domain.TaskAddedEvent;
 import nz.geek.jack.task.domain.TaskCompletedEvent;
@@ -14,7 +15,11 @@ class EventMapperFactoryTest {
 
   @Test
   void mapperFor_throwsForUnknownEvent() {
-    class UnknownEvent extends DomainEvent {}
+    class UnknownEvent extends DomainEvent<AbstractId> {
+      UnknownEvent() {
+        super(null);
+      }
+    }
 
     assertThrows(RuntimeException.class, () -> eventMapperFactory.mapperFor(new UnknownEvent()));
   }

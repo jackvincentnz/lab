@@ -16,7 +16,7 @@ class ActivityCreatedEventTest {
 
     var event = ActivityCreatedEvent.of(id, NAME, createdAt);
 
-    assertThat(event.getActivityId()).isEqualTo(id);
+    assertThat(event.getAggregateId()).isEqualTo(id);
   }
 
   @Test

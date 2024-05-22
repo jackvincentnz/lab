@@ -36,7 +36,7 @@ class ActivityTest {
     var activity = Activity.createActivity(NAME);
 
     var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
-    assertThat(event.getActivityId()).isEqualTo(activity.getId());
+    assertThat(event.getAggregateId()).isEqualTo(activity.getId());
   }
 
   @Test

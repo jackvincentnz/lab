@@ -22,7 +22,7 @@ class ActivityHierarchyTest {
     var activityHierarchy = ActivityHierarchy.create();
 
     var event = getOnlyEventOfType(activityHierarchy, ActivityHierarchyCreatedEvent.class);
-    assertThat(event.getActivityHierarchyId()).isEqualTo(activityHierarchy.getId());
+    assertThat(event.getAggregateId()).isEqualTo(activityHierarchy.getId());
   }
 
   @Test
@@ -40,14 +40,25 @@ class ActivityHierarchyTest {
   }
 
   @Test
-  void addRootActivityType_appliesRootActivityTypeAddedEvent_withId() {
+  void addRootActivityType_appliesRootActivityTypeAddedEvent_withActivityHierarchyId() {
     var activityTypeName = randomString();
     var activityHierarchy = existingHierarchy();
 
     activityHierarchy.addRootActivityType(activityTypeName);
 
     var event = getOnlyEventOfType(activityHierarchy, RootActivityTypeAddedEvent.class);
-    assertThat(event.getActivityTypeId()).isNotNull();
+    assertThat(event.getAggregateId()).isEqualTo(activityHierarchy.getId());
+  }
+
+  @Test
+  void addRootActivityType_appliesRootActivityTypeAddedEvent_withActivityTypeId() {
+    var activityTypeName = randomString();
+    var activityHierarchy = existingHierarchy();
+
+    var activityType = activityHierarchy.addRootActivityType(activityTypeName);
+
+    var event = getOnlyEventOfType(activityHierarchy, RootActivityTypeAddedEvent.class);
+    assertThat(event.getActivityTypeId()).isEqualTo(activityType.getId());
   }
 
   @Test
@@ -109,7 +120,18 @@ class ActivityHierarchyTest {
   }
 
   @Test
-  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withId() {
+  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withActivityHierarchyId() {
+    var activityHierarchy = existingHierarchyWithRoot();
+    var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
+
+    activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
+
+    var event = getOnlyEventOfType(activityHierarchy, NestedActivityTypeAddedEvent.class);
+    assertThat(event.getAggregateId()).isEqualTo(activityHierarchy.getId());
+  }
+
+  @Test
+  void addNestedActivityType_appliesNestedActivityTypeAddedEvent_withActivityTypeId() {
     var activityHierarchy = existingHierarchyWithRoot();
     var rootActivityType = activityHierarchy.getRootActivityType().orElseThrow();
 
@@ -117,7 +139,7 @@ class ActivityHierarchyTest {
         activityHierarchy.addNestedActivityType(randomString(), rootActivityType.getId());
 
     var event = getOnlyEventOfType(activityHierarchy, NestedActivityTypeAddedEvent.class);
-    assertThat(event.getId()).isEqualTo(activityType.getId());
+    assertThat(event.getActivityTypeId()).isEqualTo(activityType.getId());
   }
 
   @Test
