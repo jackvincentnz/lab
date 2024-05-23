@@ -108,7 +108,7 @@ maven_install(
         "org.springframework.kafka:spring-kafka:3.0.12",
         "redis.clients:jedis:5.0.0",
         "org.postgresql:postgresql:42.7.3",
-        "com.eventstore:db-client-java:5.0.0",
+        "com.eventstore:db-client-java:5.4.0",
         maven.artifact(
             "org.springframework.boot",
             "spring-boot-starter-test",
