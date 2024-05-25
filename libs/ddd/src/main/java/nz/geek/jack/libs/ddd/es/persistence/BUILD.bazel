@@ -1,0 +1,16 @@
+java_library(
+    name = "persistence",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    runtime_deps = ["//libs/ddd/src/main/resources"],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:com_fasterxml_jackson_core_jackson_core",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:org_postgresql_postgresql",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)

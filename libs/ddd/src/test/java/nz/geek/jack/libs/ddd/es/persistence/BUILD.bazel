@@ -1,0 +1,18 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "persistence",
+    tags = ["requires-network"],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "@maven//:org_postgresql_postgresql",
+        "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/es/persistence",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_testcontainers_jdbc",
+        "@maven//:org_testcontainers_postgresql",
+    ],
+)
