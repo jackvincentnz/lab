@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import nz.geek.jack.libs.ddd.domain.AbstractId;
@@ -58,6 +59,20 @@ class EventRepositoryTest {
     assertThat(testEvent.value).isEqualTo(event.value);
   }
 
+  @Test
+  void appendEvents_supportsTime() {
+    var streamId = new TestId();
+    var time = Instant.now();
+    var event = new TimeEvent(streamId, time);
+
+    eventRepository.appendEvents(streamId.toUUID(), 0, List.of(event));
+
+    var readEvents = eventRepository.readEvents(streamId.toUUID());
+
+    var timeEvent = (TimeEvent) readEvents.get(0);
+    assertThat(timeEvent.time).isEqualTo(time);
+  }
+
   @SpringBootApplication
   static class EventRepositoryTestConfig {}
 
@@ -80,6 +95,19 @@ class EventRepositoryTest {
   static class TestId extends AbstractId {
     TestId(@JsonProperty("id") UUID streamId) {
       super(streamId);
+    }
+
+    TestId() {
+      super();
+    }
+  }
+
+  static class TimeEvent extends DomainEvent<TestId> {
+    Instant time;
+
+    TimeEvent(@JsonProperty("aggregateId") TestId streamId, @JsonProperty("time") Instant time) {
+      super(streamId);
+      this.time = time;
     }
   }
 }
