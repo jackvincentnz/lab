@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -24,13 +25,15 @@ public class EventRepository {
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
   private final ObjectMapper objectMapper =
-      new ObjectMapper().setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+      new ObjectMapper()
+          .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
+          .registerModule(new JavaTimeModule());
 
   public EventRepository(NamedParameterJdbcTemplate jdbcTemplate) {
     this.jdbcTemplate = jdbcTemplate;
   }
 
-  public void appendEvents(UUID streamId, int expectedVersion, List<DomainEvent<?>> events) {
+  public void appendEvents(UUID streamId, int expectedVersion, List<DomainEvent> events) {
     createStreamIfAbsent(streamId);
 
     var newVersion = calculateNewVersion(expectedVersion, events.size());

@@ -17,6 +17,8 @@ public abstract class Aggregate<I extends AbstractId> {
 
   protected I id;
 
+  private int version = 0;
+
   protected void apply(DomainEvent domainEvent) {
     appliedEvents.add(domainEvent);
     reduce(domainEvent);
@@ -89,7 +91,23 @@ public abstract class Aggregate<I extends AbstractId> {
     return flushedEvents;
   }
 
+  public void replay(List<DomainEvent<?>> events) {
+    if (!appliedEvents.isEmpty()) {
+      throw new IllegalStateException("Aggregate has non-empty changes");
+    }
+
+    events.forEach(
+        event -> {
+          reduce(event);
+          version++;
+        });
+  }
+
   public I getId() {
     return id;
+  }
+
+  public int getVersion() {
+    return version;
   }
 }
