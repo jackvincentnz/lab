@@ -4,6 +4,7 @@ java_library(
     visibility = ["//services/task/src:__subpackages__"],
     deps = [
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
         "@maven//:org_slf4j_slf4j_api",
     ],
 )
