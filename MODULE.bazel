@@ -4,3 +4,79 @@
 #
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
+
+####################################################################################################
+# maven setup
+####################################################################################################
+
+bazel_dep(name = "rules_jvm_external", version = "6.1")
+
+maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
+
+# Maven lock file will need to be updated whenever the artifacts or repositories change.
+# See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
+# To re-pin everything, run:
+# REPIN=1 bazel run @unpinned_maven//:pin
+maven.install(
+    # Check the spring dependency management to see versions which work together:
+    # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
+    artifacts = [
+        "com.fasterxml.jackson.core:jackson-databind:2.14.3",
+        "com.h2database:h2:2.2.224",
+        "com.mysql:mysql-connector-j:8.3.0",
+        "org.apache.commons:commons-lang3:3.12.0",
+        "org.apache.kafka:kafka-clients:3.3.2",
+        "org.apache.kafka:kafka-metadata:3.3.2",
+        "org.apache.kafka:kafka-raft:3.3.2",
+        "org.apache.kafka:kafka-server-common:3.3.2",
+        "org.apache.kafka:kafka-storage:3.3.2",
+        "org.apache.kafka:kafka-storage-api:3.3.2",
+        "org.apache.kafka:kafka-streams:3.3.2",
+        "org.apache.kafka:kafka-streams-test-utils:3.3.2",
+        "org.apache.kafka:kafka_2.13:3.3.2",
+        "org.eclipse.jetty:jetty-reactive-httpclient:3.0.12",
+        "org.springframework.boot:spring-boot-loader:3.0.12",
+        "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
+        "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
+        "org.springframework.boot:spring-boot-starter-validation:3.0.12",
+        "org.springframework.boot:spring-boot-starter-web:3.0.12",
+        "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
+        "org.springframework.data:spring-data-jdbc:3.0.11",  # Managed by https://mvnrepository.com/artifact/org.springframework.data/spring-data-bom
+        "org.springframework.kafka:spring-kafka:3.0.12",
+        "redis.clients:jedis:5.0.0",
+        "org.postgresql:postgresql:42.7.3",
+        "com.eventstore:db-client-java:5.0.0",
+        "org.springframework.boot:spring-boot-starter-test:3.0.12",
+        "org.springframework.kafka:spring-kafka-test:3.0.12",
+        "org.testcontainers:testcontainers:1.18.3",
+        "org.testcontainers:junit-jupiter:1.18.3",
+        "org.testcontainers:kafka:1.18.3",
+        "org.testcontainers:postgresql:1.18.3",
+        "org.junit.platform:junit-platform-launcher:1.9.3",
+        "org.junit.platform:junit-platform-reporting:1.9.3",
+        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
+        "io.confluent:kafka-protobuf-serializer:7.5.1",
+        "org.wiremock:wiremock:3.3.1",
+    ],
+    fail_if_repin_required = True,
+    fetch_sources = True,
+    lock_file = "//:maven_install.json",
+    repositories = [
+        "https://repo1.maven.org/maven2",
+        "https://packages.confluent.io/maven",
+    ],
+    version_conflict_policy = "pinned",
+)
+maven.artifact(
+    artifact = "graphql-dgs-codegen-core",
+    exclusions = [
+        "com.graphql-java:graphql-java",
+    ],
+    group = "com.netflix.graphql.dgs.codegen",
+    version = "6.0.2",
+)
+use_repo(
+    maven,
+    "maven",
+    "unpinned_maven",
+)
