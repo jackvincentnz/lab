@@ -264,9 +264,9 @@ rules_pkg_dependencies()
 
 http_archive(
     name = "aspect_rules_swc",
-    sha256 = "cde09df7dea773adaed896612434559f8955d2dfb2cfd6429ee333f30299ed34",
-    strip_prefix = "rules_swc-1.2.2",
-    url = "https://github.com/aspect-build/rules_swc/releases/download/v1.2.2/rules_swc-v1.2.2.tar.gz",
+    sha256 = "1908691bde56321423c3f3beaf37f5fc21c51614869572e5f626cea058649373",
+    strip_prefix = "rules_swc-1.2.3",
+    url = "https://github.com/aspect-build/rules_swc/releases/download/v1.2.3/rules_swc-v1.2.3.tar.gz",
 )
 
 load("@aspect_rules_swc//swc:dependencies.bzl", "rules_swc_dependencies")
