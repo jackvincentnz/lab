@@ -16,6 +16,7 @@ node_ts_project(
 cypress_module_test(
     name = "e2e",
     size = "medium",
+    chdir = package_name(),
     data = [
         ":ts",
         "//apps/journal_app:tarball",

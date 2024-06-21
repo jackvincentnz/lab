@@ -286,26 +286,20 @@ swc_register_toolchains(
 
 http_archive(
     name = "aspect_rules_cypress",
-    sha256 = "76947778d8e855eee3c15931e1fcdc1c2a25d56d6c0edd110b2227c05b794d08",
-    strip_prefix = "rules_cypress-0.3.2",
-    url = "https://github.com/aspect-build/rules_cypress/archive/refs/tags/v0.3.2/rules_cypress-v0.3.2.tar.gz",
+    sha256 = "bca909724a07bd52c9c0b01b461e1df019c3af28aecfd98de924c1d7c358166e",
+    strip_prefix = "rules_cypress-0.5.0",
+    url = "https://github.com/aspect-build/rules_cypress/releases/download/v0.5.0/rules_cypress-v0.5.0.tar.gz",
 )
 
 load("@aspect_rules_cypress//cypress:dependencies.bzl", "rules_cypress_dependencies")
-load("@aspect_rules_cypress//cypress:repositories.bzl", "cypress_register_toolchains")
 
 rules_cypress_dependencies()
 
+load("@aspect_rules_cypress//cypress:repositories.bzl", "cypress_register_toolchains")
+
 cypress_register_toolchains(
     name = "cypress",
-    cypress_integrity = {
-        "darwin-x64": "63cf64deb6a3b707d540aa574438f25792552948560371ca58ad1566db852525",
-        "darwin-arm64": "81238d8c1128add2c5a27019225e789c941118ec91bc0107e9a3a2870ffb1599",
-        "linux-x64": "c9711d018f5af0bcba369bdcb5637a0454ddad0bb52f6db880fd55bfbdefe1e1",
-        "linux-arm64": "c6684aa037eb9bd4efa47cc4d37815637689ce7a84f5913a615eb515baabb8fe",
-        "win32-x64": "73ae75233d888a36c4d94352e9e23694c4c49bafbc9598ee05d42353e6790693",
-    },
-    cypress_version = "12.17.4",
+    cypress_version = "13.7.3",
 )
 
 # To update CHROME_REVISION, use the below script

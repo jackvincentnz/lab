@@ -15,6 +15,7 @@ node_ts_project(
 cypress_module_test(
     name = "module_test",
     size = "small",
+    chdir = package_name(),
     data = [
         ":tarball",
         ":ts",

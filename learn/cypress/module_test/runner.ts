@@ -30,19 +30,27 @@ async function main() {
       },
     });
 
-    if (result.status === "finished" && result.totalFailed !== 0) {
-      console.error("One or more cypress tests have failed");
-      process.exit(1);
-    }
-    if (result.status !== "finished") {
+    if (isFailedRunResult(result)) {
       console.error("Cypress tests failed with status", result.status);
       console.error(result.message);
       process.exit(2);
+    }
+    if (result.totalFailed !== 0) {
+      console.error("One or more cypress tests have failed");
+      process.exit(1);
     }
   } catch (e) {
     console.error("Cypress encountered unexpected exception. Exiting.", e);
     process.exit(3);
   }
+}
+
+function isFailedRunResult(
+  result:
+    | CypressCommandLine.CypressRunResult
+    | CypressCommandLine.CypressFailedRunResult,
+): result is CypressCommandLine.CypressFailedRunResult {
+  return "failures" in result;
 }
 
 main();
