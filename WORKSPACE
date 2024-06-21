@@ -226,7 +226,7 @@ load("@rules_oci//oci:pull.bzl", "oci_pull")
 
 oci_pull(
     name = "distroless_java",
-    digest = "sha256:64967fe3051702640c68bd434813b91a3fc9182f8894962f7638f79a5986c31d",
+    digest = "sha256:8bb82ccf73085b71159ce05d2cc6030cbaa927b403c04774f0b22f37ab4fd78a",
     image = "gcr.io/distroless/java17",
 )
 
