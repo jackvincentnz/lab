@@ -2,7 +2,7 @@
   "name": "lab",
   "private": true,
   "engines": {
-    "pnpm": ">=8.11.0",
+    "pnpm": ">=8.11.0 <9",
     "node": ">=18.18.0"
   },
   "scripts": {
