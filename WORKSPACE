@@ -109,9 +109,9 @@ nodejs_register_toolchains(
 
 http_archive(
     name = "aspect_rules_ts",
-    sha256 = "c77f0dfa78c407893806491223c1264c289074feefbf706721743a3556fa7cea",
-    strip_prefix = "rules_ts-2.2.0",
-    url = "https://github.com/aspect-build/rules_ts/releases/download/v2.2.0/rules_ts-v2.2.0.tar.gz",
+    sha256 = "f69a6452b129d39d9b05f3dff8b1057185bb195b4daf0cff419988de757c6c31",
+    strip_prefix = "rules_ts-2.4.2",
+    url = "https://github.com/aspect-build/rules_ts/releases/download/v2.4.2/rules_ts-v2.4.2.tar.gz",
 )
 
 load("@aspect_rules_ts//ts:repositories.bzl", "rules_ts_dependencies")
