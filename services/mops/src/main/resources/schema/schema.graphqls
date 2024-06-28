@@ -1,5 +1,12 @@
 type Mutation {
-  provisionTenant(input: ProvisionTenantInput!): Tenant
+  provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse
+}
+
+type ProvisionTenantResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  tenant: Tenant
 }
 
 type Tenant {
@@ -9,4 +16,10 @@ type Tenant {
 
 input ProvisionTenantInput {
   name: String!
+}
+
+interface MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
 }

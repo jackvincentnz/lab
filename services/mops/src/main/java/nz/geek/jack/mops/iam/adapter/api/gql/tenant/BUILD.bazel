@@ -6,10 +6,11 @@ java_library(
         "//services/mops/src/test/java/nz/geek/jack/mops/iam/adapter/api/gql/tenant:__pkg__",
     ],
     deps = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/api/gql",
         "//services/mops/src/main/java/nz/geek/jack/mops/iam/application/identity",
         "//services/mops/src/main/java/nz/geek/jack/mops/iam/domain/identity",
+        "//services/mops/src/main/resources/schema:java",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_springframework_spring_context",
     ],
 )

@@ -1,5 +1,6 @@
 package nz.geek.jack.mops.iam.adapter.api.gql.tenant;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -44,7 +45,24 @@ class TenantMutationTest {
 
     var result = tenantMutation.provisionTenant(input);
 
-    assertThat(result).isEqualTo(gqlTenant);
+    assertThat(result.getTenant()).isEqualTo(gqlTenant);
+  }
+
+  @Test
+  void provisionTenant_returnsSuccess() {
+    var name = randomString();
+    var input = ProvisionTenantInput.newBuilder().name(name).build();
+    var tenant = nz.geek.jack.mops.iam.domain.identity.Tenant.provision(name);
+    var gqlTenant = Tenant.newBuilder().build();
+
+    when(tenantCommandService.provisionTenant(name)).thenReturn(tenant);
+    when(tenantMapper.map(tenant)).thenReturn(gqlTenant);
+
+    var result = tenantMutation.provisionTenant(input);
+
+    assertThat(result.getCode()).isEqualTo(SC_ACCEPTED);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(TenantMutation.PROVISION_TENANT_SUCCESS_MESSAGE);
   }
 
   private String randomString() {
