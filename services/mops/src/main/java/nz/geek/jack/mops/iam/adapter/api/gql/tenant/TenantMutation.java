@@ -1,14 +1,19 @@
 package nz.geek.jack.mops.iam.adapter.api.gql.tenant;
 
+import static jakarta.servlet.http.HttpServletResponse.SC_ACCEPTED;
+
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import nz.geek.jack.mops.api.gql.types.ProvisionTenantInput;
-import nz.geek.jack.mops.api.gql.types.Tenant;
+import nz.geek.jack.mops.api.gql.types.ProvisionTenantResponse;
 import nz.geek.jack.mops.iam.application.identity.TenantCommandService;
 
 @DgsComponent
 public class TenantMutation {
+
+  protected static final String PROVISION_TENANT_SUCCESS_MESSAGE =
+      "Tenant was successfully provisioned";
 
   private final TenantCommandService tenantCommandService;
 
@@ -20,9 +25,16 @@ public class TenantMutation {
   }
 
   @DgsMutation
-  public Tenant provisionTenant(@InputArgument("input") ProvisionTenantInput input) {
-    var tenant = tenantCommandService.provisionTenant(input.getName());
+  public ProvisionTenantResponse provisionTenant(
+      @InputArgument("input") ProvisionTenantInput input) {
+    var domainTenant = tenantCommandService.provisionTenant(input.getName());
+    var gqlTenant = tenantMapper.map(domainTenant);
 
-    return tenantMapper.map(tenant);
+    return ProvisionTenantResponse.newBuilder()
+        .code(SC_ACCEPTED)
+        .success(true)
+        .message(PROVISION_TENANT_SUCCESS_MESSAGE)
+        .tenant(gqlTenant)
+        .build();
   }
 }
