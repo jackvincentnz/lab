@@ -6,25 +6,27 @@ import nz.geek.jack.libs.ddd.domain.Aggregate;
 
 public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
 
-  private ActivityType rootActivityType;
-
   private final HashMap<ActivityTypeId, ActivityType> activityTypes = new HashMap<>();
 
-  public static ActivityHierarchy create() {
-    return new ActivityHierarchy();
-  }
+  private ActivityType rootActivityType;
 
   private ActivityHierarchy() {
     apply(ActivityHierarchyCreatedEvent.of(ActivityHierarchyId.create()));
   }
 
-  private void on(ActivityHierarchyCreatedEvent event) {
-    id = event.getAggregateId();
-  }
-
   public ActivityType addRootActivityType(String name) {
     apply(RootActivityTypeAddedEvent.of(id, ActivityTypeId.create(), name));
     return rootActivityType;
+  }
+
+  public ActivityType addNestedActivityType(String name, ActivityTypeId parentId) {
+    ActivityTypeId activityTypeId = ActivityTypeId.create();
+    apply(NestedActivityTypeAddedEvent.of(id, activityTypeId, name, parentId));
+    return activityTypes.get(activityTypeId);
+  }
+
+  private void on(ActivityHierarchyCreatedEvent event) {
+    id = event.getAggregateId();
   }
 
   private void on(RootActivityTypeAddedEvent event) {
@@ -40,12 +42,6 @@ public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
     if (rootActivityType != null) {
       throw new NotEmptyHierarchyException(String.format("The hierarchy [%s] is not empty", id));
     }
-  }
-
-  public ActivityType addNestedActivityType(String name, ActivityTypeId parentId) {
-    ActivityTypeId activityTypeId = ActivityTypeId.create();
-    apply(NestedActivityTypeAddedEvent.of(id, activityTypeId, name, parentId));
-    return activityTypes.get(activityTypeId);
   }
 
   private void on(NestedActivityTypeAddedEvent event) {
@@ -78,5 +74,9 @@ public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
 
   int getActivityTypeCount() {
     return activityTypes.size();
+  }
+
+  public static ActivityHierarchy create() {
+    return new ActivityHierarchy();
   }
 }

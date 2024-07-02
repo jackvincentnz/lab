@@ -80,6 +80,9 @@ def dgs_codegen_library(name, **kwargs):
     native.java_library(
         name = name,
         srcs = [":" + name + "_srcs"],
-        deps = ["@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core"],
+        deps = [
+            "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+            "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        ],
         visibility = visibility,
     )
