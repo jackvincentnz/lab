@@ -56,9 +56,9 @@ rules_proto_toolchains()
 
 http_archive(
     name = "contrib_rules_jvm",
-    sha256 = "2412e22bc1eb9d3a5eae15180f304140f1aad3f8184dbd99c845fafde0964559",
-    strip_prefix = "rules_jvm-0.24.0",
-    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.24.0/rules_jvm-v0.24.0.tar.gz",
+    sha256 = "e6cd8f54b7491fb3caea1e78c2c740b88c73c7a43150ec8a826ae347cc332fc7",
+    strip_prefix = "rules_jvm-0.27.0",
+    url = "https://github.com/bazel-contrib/rules_jvm/releases/download/v0.27.0/rules_jvm-v0.27.0.tar.gz",
 )
 
 # Fetches the contrib_rules_jvm dependencies.
