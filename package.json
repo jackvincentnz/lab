@@ -59,7 +59,7 @@
     "jest-junit": "^16.0.0",
     "jest-transform-stub": "^2.0.0",
     "jsdom": "24.0.0",
-    "prettier": "3.2.5",
+    "prettier": "3.3.2",
     "storybook": "7.6.19",
     "testcontainers": "10.7.2",
     "tsconfig-to-swcconfig": "2.7.0",
