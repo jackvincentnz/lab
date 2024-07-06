@@ -91,9 +91,9 @@ http_archive(
 
 http_archive(
     name = "rules_nodejs",
-    sha256 = "a50986c7d2f2dc43a5b9b81a6245fd89bdc4866f1d5e316d9cef2782dd859292",
-    strip_prefix = "rules_nodejs-6.0.5",
-    url = "https://github.com/bazelbuild/rules_nodejs/releases/download/v6.0.5/rules_nodejs-v6.0.5.tar.gz",
+    sha256 = "87c6171c5be7b69538d4695d9ded29ae2626c5ed76a9adeedce37b63c73bef67",
+    strip_prefix = "rules_nodejs-6.2.0",
+    url = "https://github.com/bazelbuild/rules_nodejs/releases/download/v6.2.0/rules_nodejs-v6.2.0.tar.gz",
 )
 
 load("@rules_nodejs//nodejs:repositories.bzl", "nodejs_register_toolchains")
