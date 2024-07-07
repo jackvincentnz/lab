@@ -16,11 +16,13 @@ public final class Task extends Aggregate<TaskId> {
   private Instant createdAt;
 
   public static Task addTask(String title) {
-    return new Task(title);
+    var task = new Task();
+    task.apply(TaskAddedEvent.of(TaskId.create(), title, Instant.now()));
+    return task;
   }
 
-  private Task(String title) {
-    apply(TaskAddedEvent.of(TaskId.create(), title, Instant.now()));
+  private Task() {
+    super();
   }
 
   private void on(TaskAddedEvent taskAddedEvent) {
