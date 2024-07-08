@@ -64,7 +64,7 @@
     "testcontainers": "10.10.1",
     "tsconfig-to-swcconfig": "2.7.0",
     "typescript": "5.4.4",
-    "vite": "5.2.8",
+    "vite": "5.3.3",
     "vitest": "1.4.0"
   },
   "pnpm": {
