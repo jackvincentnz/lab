@@ -90,8 +90,8 @@ importers:
         specifier: 14.5.2
         version: 14.5.2(@testing-library/dom@9.3.4)
       '@types/dockerode':
-        specifier: 3.3.29
-        version: 3.3.29
+        specifier: 3.3.31
+        version: 3.3.31
       '@types/node':
         specifier: 18.19.39
         version: 18.19.39
@@ -5437,8 +5437,8 @@ packages:
       '@types/ssh2': 1.11.19
     dev: true
 
-  /@types/dockerode@3.3.29:
-    resolution: {integrity: sha512-5PRRq/yt5OT/Jf77ltIdz4EiR9+VLnPF+HpU4xGFwUqmV24Co2HKBNW3w+slqZ1CYchbcDeqJASHDYWzZCcMiQ==}
+  /@types/dockerode@3.3.31:
+    resolution: {integrity: sha512-42R9eoVqJDSvVspV89g7RwRqfNExgievLNWoHkg7NoWIqAmavIbgQBb4oc0qRtHkxE+I3Xxvqv7qVXFABKPBTg==}
     dependencies:
       '@types/docker-modem': 3.0.6
       '@types/node': 18.19.39
@@ -13303,7 +13303,7 @@ packages:
     resolution: {integrity: sha512-/vAEbFfF0m8oU+LmnRcETxKCQ28t+zC5Mkdi1QfydrR9HCFEsj1M4UrKWwiCbOa1Y2gLUZ3JX6553oxZb6n7zw==}
     dependencies:
       '@balena/dockerignore': 1.0.2
-      '@types/dockerode': 3.3.29
+      '@types/dockerode': 3.3.31
       archiver: 5.3.2
       async-lock: 1.4.1
       byline: 5.0.0
