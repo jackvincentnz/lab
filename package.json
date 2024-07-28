@@ -63,7 +63,7 @@
     "storybook": "7.6.20",
     "testcontainers": "10.10.4",
     "tsconfig-to-swcconfig": "2.7.0",
-    "typescript": "5.5.3",
+    "typescript": "5.5.4",
     "vite": "5.3.3",
     "vitest": "1.6.0"
   },
