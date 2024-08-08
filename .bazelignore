@@ -5,6 +5,7 @@ node_modules
 apps/app_template/node_modules
 apps/cra/node_modules
 apps/journal_app/node_modules
+apps/mops_app/node_modules
 apps/tasklist/node_modules
 learn/cypress/node_modules
 libs/bubbles/node_modules

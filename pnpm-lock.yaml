@@ -175,6 +175,8 @@ importers:
 
   apps/journal_app: {}
 
+  apps/mops_app: {}
+
   apps/tasklist: {}
 
   libs/bubbles:
