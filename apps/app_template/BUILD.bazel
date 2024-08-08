@@ -1,0 +1,44 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+
+SRCS = [
+    "//:node_modules/vite",
+    "//:node_modules/postcss-preset-mantine",
+    "//:node_modules/postcss-simple-vars",
+    "//apps/app_template/public",
+    "//apps/app_template/src",
+    "index.html",
+    "package.json",
+    "postcss.config.cjs",
+    "vite.config.ts",
+]
+
+vite_build(
+    name = "build",
+    srcs = SRCS,
+)
+
+vite_dev_server(
+    name = "app_template",
+    data = SRCS,
+)
+
+pkg_tar(
+    name = "tar",
+    srcs = [":build"],
+    package_dir = "/usr/share/nginx/html/",
+    strip_prefix = "dist",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_alpine_slim",
+    tars = [":tar"],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "app-template",
+)
