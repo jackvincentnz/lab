@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, Text } from "@mantine/core";
+import { AppShell, Burger, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./Navbar";
 
@@ -15,11 +15,11 @@ export function Shell() {
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Text>Page Title</Text>
+          <Title order={2}>Activities</Title>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar>
-        <Navbar />
+        <Navbar opened={opened} onCloseClick={toggle} />
       </AppShell.Navbar>
       <AppShell.Main>Main content</AppShell.Main>
     </AppShell>

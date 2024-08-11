@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Group, Code, Text } from "@mantine/core";
+import { Group, Burger, Title } from "@mantine/core";
 import {
   IconBellRinging,
   IconCalendarEvent,
@@ -25,7 +25,12 @@ const data = [
   { link: "", label: "Other Settings", icon: IconSettings },
 ];
 
-export function Navbar() {
+export interface NavbarProps {
+  opened: boolean;
+  onCloseClick: () => void;
+}
+
+export function Navbar({ opened, onCloseClick }: NavbarProps) {
   const [active, setActive] = useState("Billing");
 
   const links = data.map((item) => (
@@ -47,9 +52,15 @@ export function Navbar() {
   return (
     <nav className={classes["navbar"]}>
       <div className={classes["navbarMain"]}>
-        <Group className={classes["header"]} justify="space-between">
-          <Text>Mops</Text>
-          <Code fw={700}>v3.1.2</Code>
+        <Group className={classes["header"]} justify="left">
+          <Burger
+            opened={opened}
+            onClick={onCloseClick}
+            hiddenFrom="sm"
+            size="sm"
+            color="white"
+          />
+          <Title order={2}>Mops</Title>
         </Group>
         {links}
       </div>
