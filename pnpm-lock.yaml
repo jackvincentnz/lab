@@ -29,8 +29,8 @@ importers:
         specifier: 7.11.2
         version: 7.11.2(react@18.2.0)
       '@tabler/icons-react':
-        specifier: 3.1.0
-        version: 3.1.0(react@18.2.0)
+        specifier: 3.12.0
+        version: 3.12.0(react@18.2.0)
       graphql:
         specifier: 16.8.1
         version: 16.8.1
@@ -4972,8 +4972,21 @@ packages:
       react: 18.2.0
     dev: false
 
+  /@tabler/icons-react@3.12.0(react@18.2.0):
+    resolution: {integrity: sha512-RnJl3HrCqInuC8JJEUxWuYP4OFNYnY2EUtBqZFSpYatPKY3AnvJBIrShJLHf3fiLPpo6xEYAIoB7Qow93JX0fQ==}
+    peerDependencies:
+      react: '>= 16'
+    dependencies:
+      '@tabler/icons': 3.12.0
+      react: 18.2.0
+    dev: false
+
   /@tabler/icons@3.1.0:
     resolution: {integrity: sha512-CpZGyS1IVJKFcv88yZ2sYZIpWWhQ6oy76BQKQ5SF0fGgOqgyqKdBGG/YGyyMW632on37MX7VqQIMTzN/uQqmFg==}
+    dev: false
+
+  /@tabler/icons@3.12.0:
+    resolution: {integrity: sha512-Im37ar/mQkqLb6XUXsU7nOc4/66VB9/3KLuZ+6tUsJKHHNLaDUkYfCTNG3pnGDI03laByxVf5+umSNK2yPTx8A==}
     dev: false
 
   /@testcontainers/kafka@10.11.0(node-gyp@10.0.1):
