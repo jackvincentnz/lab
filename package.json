@@ -20,7 +20,7 @@
     "@mantine/core": "7.11.2",
     "@mantine/hooks": "7.11.2",
     "@tabler/icons-react": "3.12.0",
-    "graphql": "16.8.1",
+    "graphql": "16.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "web-vitals": "3.5.2"
