@@ -20,7 +20,7 @@
   "peerDependencies": {
     "@mantine/core": "*",
     "@mantine/hooks": "*",
-    "@tabler/icons-react": "*",
+    "@tabler/icons-react": "3.12.0",
     "react": "*"
   }
 }

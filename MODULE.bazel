@@ -15,6 +15,12 @@ bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "t
 use_repo(bazel_lib_toolchains, "jq_toolchains")
 
 ####################################################################################################
+# rules_proto setup
+####################################################################################################
+
+bazel_dep(name = "rules_proto", version = "6.0.2")
+
+####################################################################################################
 # maven setup
 ####################################################################################################
 
@@ -91,6 +97,82 @@ use_repo(
 )
 
 ####################################################################################################
+# contrib_rules_jvm setup
+####################################################################################################
+
+bazel_dep(name = "contrib_rules_jvm", version = "0.27.0")
+
+####################################################################################################
+# rules_nodejs setup
+####################################################################################################
+
+bazel_dep(name = "rules_nodejs", version = "6.2.0")
+
+node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
+node.toolchain(node_version = "18.18.0")  # keep in sync with package.json
+
+####################################################################################################
+# aspect_rules_js setup
+####################################################################################################
+
+bazel_dep(name = "aspect_rules_js", version = "1.42.3")
+
+npm = use_extension(
+    "@aspect_rules_js//npm:extensions.bzl",
+    "npm",
+    dev_dependency = True,
+)
+npm.npm_translate_lock(
+    name = "npm",
+    npmrc = "//:.npmrc",
+    pnpm_lock = "//:pnpm-lock.yaml",
+    public_hoist_packages = {
+        "@vitest/expect": [""],
+        "@jest/expect": [""],
+    },
+    verify_node_modules_ignored = "//:.bazelignore",
+)
+use_repo(npm, "npm")
+
+pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
+
+# Allows developers to use the matching pnpm version, for example:
+# bazel run -- @pnpm --dir /home/runner/work/rules_js/rules_js install
+use_repo(pnpm, "pnpm")
+
+####################################################################################################
+# aspect_rules_ts setup
+####################################################################################################
+
+bazel_dep(name = "aspect_rules_ts", version = "2.4.2")
+
+rules_ts_ext = use_extension(
+    "@aspect_rules_ts//ts:extensions.bzl",
+    "ext",
+    dev_dependency = True,
+)
+rules_ts_ext.deps()
+use_repo(rules_ts_ext, "npm_typescript")
+
+####################################################################################################
+# aspect_rules_jest setup
+####################################################################################################
+
+bazel_dep(name = "aspect_rules_jest", version = "0.21.0")
+
+####################################################################################################
+# aspect_rules_swc setup
+####################################################################################################
+
+bazel_dep(name = "aspect_rules_swc", version = "1.2.3")
+
+####################################################################################################
+# rules_pkg setup
+####################################################################################################
+
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+
+####################################################################################################
 # rules_oci setup
 ####################################################################################################
 
@@ -117,3 +199,9 @@ use_repo(oci, "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpin
 
 # TODO: figure out why this is throwing a warning for importing from a transitive repository
 use_repo(oci, "oci_crane_toolchains")
+
+####################################################################################################
+# rules_multirun setup
+####################################################################################################
+
+bazel_dep(name = "rules_multirun", version = "0.9.0")
