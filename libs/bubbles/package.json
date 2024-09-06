@@ -14,7 +14,7 @@
     "build": "bazel build //libs/bubbles",
     "storybook": "ibazel run //libs/bubbles:storybook",
     "build-storybook": "bazel build //libs/bubbles:build_storybook",
-    "build-storybook-docker": "bazel run //libs/bubbles:tarball",
+    "build-storybook-docker": "bazel run //libs/bubbles:load",
     "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
   },
   "peerDependencies": {

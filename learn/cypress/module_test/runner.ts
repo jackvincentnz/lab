@@ -7,7 +7,7 @@ const docker = new dockerode();
 
 const NGINX_TAR_PATH =
   process.env["JS_BINARY__RUNFILES"] +
-  "/_main/learn/cypress/module_test/tarball/tarball.tar";
+  "/_main/learn/cypress/module_test/load/tarball.tar";
 const NGINX_IMAGE_TAG = "lab/learn/cypress/module_test/nginx:latest";
 
 async function main() {

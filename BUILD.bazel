@@ -85,32 +85,32 @@ gazelle_binary(
 
 command(
     name = "tag_task_image",
-    command = "//services/task/src/main:tarball",
+    command = "//services/task/src/main:deliver",
 )
 
 command(
     name = "tag_journal_image",
-    command = "//services/journal/src/main:tarball",
+    command = "//services/journal/src/main:deliver",
 )
 
 command(
     name = "tag_autojournal_image",
-    command = "//services/autojournal/src/main:tarball",
+    command = "//services/autojournal/src/main:deliver",
 )
 
 command(
     name = "tag_tasklist_image",
-    command = "//apps/tasklist:tarball",
+    command = "//apps/tasklist:deliver",
 )
 
 command(
     name = "tag_journal_app_image",
-    command = "//apps/journal_app:tarball",
+    command = "//apps/journal_app:deliver",
 )
 
 command(
     name = "tag_proxy_image",
-    command = "//infra/local/proxy:tarball",
+    command = "//infra/local/proxy:load",
 )
 
 # Builds and tags local environment images, and then pushes to the local docker repository.

@@ -4,19 +4,19 @@ This module contains common oci macros.
 
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
-load("@rules_oci//oci:defs.bzl", "oci_push", "oci_tarball", _oci_image = "oci_image")
+load("@rules_oci//oci:defs.bzl", "oci_load", "oci_push", _oci_image = "oci_image")
 
 def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
     """Bazel macro for delivering oci images to a local and remote repository.
 
     See:
     - https://docs.aspect.build/guides/delivery/
-    - https://github.com/bazel-contrib/rules_oci/blob/main/docs/tarball.md
+    - https://github.com/bazel-contrib/rules_oci/blob/main/docs/load.md
     - https://github.com/bazel-contrib/rules_oci/blob/main/docs/push.md
 
     ### Targets
 
-    - `:tarball` - oci_tarball target, with stamping configured for the tags.
+    - `:[name].load` - oci_load target, with stamping configured for the tags.
     - `:push` - oci_push target, with stamping configured for the tags.
 
     Args:
@@ -47,13 +47,26 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         template = ":_tags_tmpl",
     )
 
+    load_label = "%s.load" % name
+
     # Tag and run a local container with:
-    # $ bazel run :tarball
+    # $ bazel run :[oci_deliver name]
     # $ docker run --rm jackvincent/lab-<repo_suffix>:latest
-    oci_tarball(
-        name = "tarball",
+    oci_load(
+        name = load_label,
         image = image,
         repo_tags = ":_stamped_tags",
+        visibility = visibility,
+    )
+    native.alias(
+        name = name,
+        actual = load_label,
+        visibility = visibility,
+    )
+    native.filegroup(
+        name = "%s.tar" % name,
+        srcs = [":%s" % name],
+        output_group = "tarball",
         visibility = visibility,
     )
 
@@ -91,14 +104,14 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         srcs = ["//tools/bazel/oci:check_then_push.sh"],
         args = [
             "--crane_path $(location @oci_crane_toolchains//:current_toolchain)",
-            "--yq_path $(location @yq_toolchains//:resolved_toolchain)",
+            "--yq_path $(location @jq_toolchains//:resolved_toolchain)",
             "--image_dir $(location %s)" % image,
             "--repository %s" % repository,
             "--pusher_path $(location :push)",
         ],
         data = [
             "@oci_crane_toolchains//:current_toolchain",
-            "@yq_toolchains//:resolved_toolchain",
+            "@jq_toolchains//:resolved_toolchain",
             image,
             ":push",
         ],

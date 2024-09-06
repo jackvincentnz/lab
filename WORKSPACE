@@ -8,30 +8,6 @@ workspace(
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 ####################################################################################################
-# aspect_bazel_lib setup
-####################################################################################################
-
-http_archive(
-    name = "aspect_bazel_lib",
-    sha256 = "357dad9d212327c35d9244190ef010aad315e73ffa1bed1a29e20c372f9ca346",
-    strip_prefix = "bazel-lib-2.7.0",
-    url = "https://github.com/aspect-build/bazel-lib/releases/download/v2.7.0/bazel-lib-v2.7.0.tar.gz",
-)
-
-load(
-    "@aspect_bazel_lib//lib:repositories.bzl",
-    "aspect_bazel_lib_dependencies",
-    "aspect_bazel_lib_register_toolchains",
-    "register_coreutils_toolchains",
-)
-
-aspect_bazel_lib_dependencies()
-
-aspect_bazel_lib_register_toolchains()
-
-register_coreutils_toolchains()
-
-####################################################################################################
 # rules_proto setup
 ####################################################################################################
 
@@ -196,50 +172,6 @@ http_archive(
 load("@bazel_gazelle//:deps.bzl", "gazelle_dependencies")
 
 gazelle_dependencies()
-
-####################################################################################################
-# rules_oci setup
-####################################################################################################
-
-http_archive(
-    name = "rules_oci",
-    sha256 = "46ce9edcff4d3d7b3a550774b82396c0fa619cc9ce9da00c1b09a08b45ea5a14",
-    strip_prefix = "rules_oci-1.8.0",
-    url = "https://github.com/bazel-contrib/rules_oci/releases/download/v1.8.0/rules_oci-v1.8.0.tar.gz",
-)
-
-load("@rules_oci//oci:dependencies.bzl", "rules_oci_dependencies")
-
-rules_oci_dependencies()
-
-load("@rules_oci//oci:repositories.bzl", "LATEST_CRANE_VERSION", "oci_register_toolchains")
-
-oci_register_toolchains(
-    name = "oci",
-    crane_version = LATEST_CRANE_VERSION,
-    # Uncommenting the zot toolchain will cause it to be used instead of crane for some tasks.
-    # Note that it does not support docker-format images.
-    # zot_version = LATEST_ZOT_VERSION,
-)
-
-load("@rules_oci//oci:pull.bzl", "oci_pull")
-
-oci_pull(
-    name = "distroless_java",
-    digest = "sha256:2578479b0d22bdf9dba8320de62969793b32e3226c9327b1f5e1c9f2bd3f1021",
-    image = "gcr.io/distroless/java17",
-)
-
-oci_pull(
-    name = "nginx_alpine_slim",
-    image = "nginx",
-    platforms = [
-        "linux/amd64",
-        "linux/arm64/v8",
-    ],
-    reproducible = False,
-    tag = "stable-alpine-slim",
-)
 
 ####################################################################################################
 # rules_pkg setup

@@ -1,7 +1,7 @@
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("//tools/bazel:pkg.bzl", "tar")
 
 npm_package(
     name = "bubbles",
@@ -46,7 +46,7 @@ storybook_dev_server(
     data = STORYBOOK_SRCS + STORYBOOK_DEPS,
 )
 
-pkg_tar(
+tar(
     name = "tar",
     srcs = [":build_storybook"],
     package_dir = "/usr/share/nginx/html",
@@ -59,8 +59,8 @@ oci_image(
     tars = [":tar"],
 )
 
-oci_tarball(
-    name = "tarball",
+oci_load(
+    name = "load",
     image = ":image",
     repo_tags = ["lab/bubbles:latest"],
     visibility = ["//:__pkg__"],
