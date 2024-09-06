@@ -1,6 +1,6 @@
 load("@rules_spring//springboot:springboot.bzl", "springboot")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("//tools/bazel:pkg.bzl", "tar")
 
 java_library(
     name = "main_lib",
@@ -32,7 +32,7 @@ springboot(
     java_library = ":main_lib",
 )
 
-pkg_tar(
+tar(
     name = "tar",
     srcs = [":main_spring.jar"],
     include_runfiles = True,

@@ -15,17 +15,17 @@ import { findUnusedPort } from "../../../libs/utils/ts/find-port";
 
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
-const TASKLIST_TARBALL = `${RUNFILES}/_main/apps/tasklist/tarball/tarball.tar`;
+const TASKLIST_TARBALL = `${RUNFILES}/_main/apps/tasklist/deliver.load/tarball.tar`;
 const TASKLIST_TAG = "jackvincent/lab-tasklist:latest";
-const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/apps/journal_app/tarball/tarball.tar`;
+const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/apps/journal_app/deliver.load/tarball.tar`;
 const JOURNAL_APP_TAG = "jackvincent/lab-journal-app:latest";
-const TASK_TARBALL = `${RUNFILES}/_main/services/task/src/main/tarball/tarball.tar`;
+const TASK_TARBALL = `${RUNFILES}/_main/services/task/src/main/deliver.load/tarball.tar`;
 const TASK_TAG = "jackvincent/lab-task:latest";
-const JOURNAL_TARBALL = `${RUNFILES}/_main/services/journal/src/main/tarball/tarball.tar`;
+const JOURNAL_TARBALL = `${RUNFILES}/_main/services/journal/src/main/deliver.load/tarball.tar`;
 const JOURNAL_TAG = "jackvincent/lab-journal:latest";
-const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/services/autojournal/src/main/tarball/tarball.tar`;
+const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/services/autojournal/src/main/deliver.load/tarball.tar`;
 const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
-const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/tarball/tarball.tar`;
+const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_TAG = "lab/proxy:latest";
 
 const DOCKER = new Dockerode();

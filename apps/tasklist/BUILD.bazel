@@ -1,5 +1,5 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 
@@ -32,7 +32,7 @@ vite_dev_server(
     data = SRCS + DEPS,
 )
 
-pkg_tar(
+tar(
     name = "tar",
     srcs = [":build"],
     # The vite devserver needs to make requests to "base: /task/" when behind the

@@ -1,6 +1,6 @@
 load("//tools/bazel:ts.bzl", "node_ts_project")
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_tarball")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 
 node_ts_project(
     name = "ts",
@@ -17,7 +17,7 @@ cypress_module_test(
     size = "small",
     chdir = package_name(),
     data = [
-        ":tarball",
+        ":tarball.tar",
         ":ts",
     ],
     runner = "runner.js",
@@ -32,8 +32,14 @@ oci_image(
     base = "@nginx_alpine_slim",
 )
 
-oci_tarball(
-    name = "tarball",
+oci_load(
+    name = "load",
     image = ":image",
     repo_tags = ["lab/learn/cypress/module_test/nginx:latest"],
+)
+
+filegroup(
+    name = "tarball.tar",
+    srcs = [":load"],
+    output_group = "tarball",
 )

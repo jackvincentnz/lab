@@ -1,5 +1,5 @@
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 
 SRCS = [
@@ -24,7 +24,7 @@ vite_dev_server(
     data = SRCS,
 )
 
-pkg_tar(
+tar(
     name = "tar",
     srcs = [":build"],
     package_dir = "/usr/share/nginx/html/",

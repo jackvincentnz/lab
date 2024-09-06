@@ -1,6 +1,6 @@
 load("@rules_spring//springboot:springboot.bzl", "springboot")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
+load("//tools/bazel:pkg.bzl", "tar")
 
 java_binary(
     name = "main",
@@ -31,7 +31,7 @@ java_library(
     ],
 )
 
-pkg_tar(
+tar(
     name = "tar",
     # Bring the java_binary
     srcs = [":main_spring.jar"],
@@ -51,7 +51,7 @@ oci_image(
 )
 
 # Tag and run a local container with:
-# $ bazel run //services/journal/src/main:tarball
+# $ bazel run //services/journal/src/main:deliver
 # $ docker run --rm jackvincent/lab-journal:latest
 oci_deliver(
     name = "deliver",
