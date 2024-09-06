@@ -188,8 +188,8 @@ importers:
         specifier: '*'
         version: 7.11.2(react@18.2.0)
       '@tabler/icons-react':
-        specifier: '*'
-        version: 3.1.0(react@18.2.0)
+        specifier: 3.12.0
+        version: 3.12.0(react@18.2.0)
       react:
         specifier: '*'
         version: 18.2.0
@@ -4955,15 +4955,6 @@ packages:
       file-system-cache: 2.3.0
     dev: true
 
-  /@tabler/icons-react@3.1.0(react@18.2.0):
-    resolution: {integrity: sha512-k/WTlax2vbj/LpxvaJ+BmaLAAhVUgyLj4Ftgaczz66tUSNzqrAZXCFdOU7cRMYPNVBqyqE2IdQd2rzzhDEJvkw==}
-    peerDependencies:
-      react: '>= 16'
-    dependencies:
-      '@tabler/icons': 3.1.0
-      react: 18.2.0
-    dev: false
-
   /@tabler/icons-react@3.12.0(react@18.2.0):
     resolution: {integrity: sha512-RnJl3HrCqInuC8JJEUxWuYP4OFNYnY2EUtBqZFSpYatPKY3AnvJBIrShJLHf3fiLPpo6xEYAIoB7Qow93JX0fQ==}
     peerDependencies:
@@ -4971,10 +4962,6 @@ packages:
     dependencies:
       '@tabler/icons': 3.12.0
       react: 18.2.0
-    dev: false
-
-  /@tabler/icons@3.1.0:
-    resolution: {integrity: sha512-CpZGyS1IVJKFcv88yZ2sYZIpWWhQ6oy76BQKQ5SF0fGgOqgyqKdBGG/YGyyMW632on37MX7VqQIMTzN/uQqmFg==}
     dev: false
 
   /@tabler/icons@3.12.0:
