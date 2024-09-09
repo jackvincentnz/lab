@@ -4,13 +4,11 @@ load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 load("//tools/bazel:pkg.bzl", "tar")
 
 npm_package(
-    name = "bubbles",
+    name = "pkg",
     srcs = [
         "package.json",
         "//libs/bubbles/src",
     ],
-    # This is a perf improvement; the default will be flipped to False in rules_js 2.0
-    include_runfiles = False,
     visibility = ["//visibility:public"],
 )
 
