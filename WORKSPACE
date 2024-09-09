@@ -25,9 +25,9 @@ http_archive(
 
 http_archive(
     name = "aspect_rules_cypress",
-    sha256 = "bca909724a07bd52c9c0b01b461e1df019c3af28aecfd98de924c1d7c358166e",
-    strip_prefix = "rules_cypress-0.5.0",
-    url = "https://github.com/aspect-build/rules_cypress/releases/download/v0.5.0/rules_cypress-v0.5.0.tar.gz",
+    sha256 = "598b3cbab64c8d44a603dde055687c19cc4de76fbbb631871f0c97e5f472876a",
+    strip_prefix = "rules_cypress-0.6.0",
+    url = "https://github.com/aspect-build/rules_cypress/releases/download/v0.6.0/rules_cypress-v0.6.0.tar.gz",
 )
 
 load("@aspect_rules_cypress//cypress:dependencies.bzl", "rules_cypress_dependencies")

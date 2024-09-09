@@ -115,7 +115,7 @@ node.toolchain(node_version = "18.18.0")  # keep in sync with package.json
 # aspect_rules_js setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_js", version = "1.42.3")
+bazel_dep(name = "aspect_rules_js", version = "2.0.1")
 
 npm = use_extension(
     "@aspect_rules_js//npm:extensions.bzl",
@@ -144,27 +144,29 @@ use_repo(pnpm, "pnpm")
 # aspect_rules_ts setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_ts", version = "2.4.2")
+bazel_dep(name = "aspect_rules_ts", version = "3.1.0")
 
 rules_ts_ext = use_extension(
     "@aspect_rules_ts//ts:extensions.bzl",
     "ext",
     dev_dependency = True,
 )
-rules_ts_ext.deps()
+rules_ts_ext.deps(
+    ts_version_from = "//:package.json",
+)
 use_repo(rules_ts_ext, "npm_typescript")
 
 ####################################################################################################
 # aspect_rules_jest setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_jest", version = "0.21.0")
+bazel_dep(name = "aspect_rules_jest", version = "0.22.0")
 
 ####################################################################################################
 # aspect_rules_swc setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_swc", version = "1.2.3")
+bazel_dep(name = "aspect_rules_swc", version = "2.0.0")
 
 ####################################################################################################
 # rules_pkg setup
