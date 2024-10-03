@@ -23,11 +23,11 @@ importers:
         specifier: workspace:*
         version: link:libs/bubbles
       '@mantine/core':
-        specifier: 7.11.2
-        version: 7.11.2(@mantine/hooks@7.11.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+        specifier: 7.13.2
+        version: 7.13.2(@mantine/hooks@7.13.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks':
-        specifier: 7.11.2
-        version: 7.11.2(react@18.2.0)
+        specifier: 7.13.2
+        version: 7.13.2(react@18.2.0)
       '@tabler/icons-react':
         specifier: 3.12.0
         version: 3.12.0(react@18.2.0)
@@ -3443,8 +3443,36 @@ packages:
       - '@types/react'
     dev: false
 
+  /@mantine/core@7.13.2(@mantine/hooks@7.13.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-nD8oKIal+KdthqF074+ZG21035QBEAKso2zK9D6zWxRTLVCjLCNSc5JSXrXLrdBTnvPQGY26yunX4+MEPlmrHg==}
+    peerDependencies:
+      '@mantine/hooks': 7.13.2
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      '@floating-ui/react': 0.26.20(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 7.13.2(react@18.2.0)
+      clsx: 2.1.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+      react-number-format: 5.3.1(react-dom@18.2.0)(react@18.2.0)
+      react-remove-scroll: 2.5.7(@types/react@18.2.74)(react@18.2.0)
+      react-textarea-autosize: 8.5.3(@types/react@18.2.74)(react@18.2.0)
+      type-fest: 4.23.0
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /@mantine/hooks@7.11.2(react@18.2.0):
     resolution: {integrity: sha512-jhyVe/sbDEG2U8rr2lMecUPgQxcfr5hh9HazqGfkS7ZRIMDO7uJ947yAcTMGGkp5Lxtt5TBFt1Cb6tiB2/1agg==}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      react: 18.2.0
+    dev: false
+
+  /@mantine/hooks@7.13.2(react@18.2.0):
+    resolution: {integrity: sha512-NKfGl2sKZw6zF//AfAFJrVDftjg7DKCn0h8rwJBIZCKi9axhwlV0Mvlqe2dep8QuM7O/uLLJSymSKIv1gaxIJg==}
     peerDependencies:
       react: ^18.2.0
     dependencies:
