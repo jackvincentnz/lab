@@ -1,8 +1,9 @@
+import { PropsWithChildren } from "react";
 import { AppShell, Burger, Group, Title } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Navbar } from "./Navbar";
 
-export function Shell() {
+export function Shell({ children }: PropsWithChildren) {
   const [opened, { toggle }] = useDisclosure();
 
   return (
@@ -21,7 +22,7 @@ export function Shell() {
       <AppShell.Navbar>
         <Navbar opened={opened} onCloseClick={toggle} />
       </AppShell.Navbar>
-      <AppShell.Main>Main content</AppShell.Main>
+      <AppShell.Main>{children}</AppShell.Main>
     </AppShell>
   );
 }
