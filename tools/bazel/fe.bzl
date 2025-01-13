@@ -4,7 +4,7 @@ This module contains common front end macros.
 
 load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
 load("//tools/bazel:ts.bzl", "ts_project")
-load("//tools/bazel/vitest:vitest.bzl", "vitest")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
 def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:private"]):
     """Bazel macro for packaging a standard front end library.
@@ -164,10 +164,9 @@ def _tests(name, deps):
         ],
     )
 
-    vitest(
+    vitest_run(
         name = "test",
         args = [
-            "run",
             "--config",
             "$(location //tools/bazel/vitest:vite_config)",
         ],
@@ -176,6 +175,7 @@ def _tests(name, deps):
             "//tools/bazel/vitest:vite_config",
             "//tools/bazel/vitest:package_json",
         ],
+        chdir = None,
     )
 
     js_run_devserver(
