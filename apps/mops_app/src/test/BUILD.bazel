@@ -1,0 +1,20 @@
+load("//tools/bazel:ts.bzl", "ts_project")
+
+ts_project(
+    name = "test",
+    srcs = glob([
+        "**/*.tsx",
+        "**/*.ts",
+    ]),
+    visibility = [
+        "//apps/mops_app:__subpackages__",
+    ],
+    deps = [
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/@types/react",
+        "//:node_modules/vitest",
+    ],
+)

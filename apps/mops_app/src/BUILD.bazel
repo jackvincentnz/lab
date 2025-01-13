@@ -1,12 +1,22 @@
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel:js.bzl", "js_library")
 
+SRC_PATHS = [
+    "**/*.tsx",
+    "**/*.ts",
+]
+
+TEST_PATHS = [
+    "**/*.test.tsx",
+    "**/*.test.ts",
+]
+
 ts_project(
     name = "src_ts",
-    srcs = glob([
-        "**/*.tsx",
-        "**/*.ts",
-    ]),
+    srcs = glob(
+        include = SRC_PATHS,
+        exclude = TEST_PATHS,
+    ),
     deps = [
         "//:node_modules/@mantine/core",
         "//:node_modules/@mantine/hooks",
@@ -17,6 +27,19 @@ ts_project(
         "//:node_modules/react-dom",
         "//:node_modules/react-router-dom",
         "//:node_modules/vite",
+    ],
+)
+
+ts_project(
+    name = "test_ts",
+    srcs = glob(TEST_PATHS),
+    visibility = [
+        "//apps/mops_app:__pkg__",
+    ],
+    deps = [
+        ":src_ts",
+        "//:node_modules/@vitest/expect",
+        "//apps/mops_app/src/test",
     ],
 )
 
