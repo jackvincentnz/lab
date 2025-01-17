@@ -1,28 +1,16 @@
-import { useState } from "react";
-import { Group, Burger, Title } from "@mantine/core";
+import { Burger, Group, Title } from "@mantine/core";
 import {
-  IconBellRinging,
   IconCalendarEvent,
-  IconFingerprint,
-  IconKey,
-  IconSettings,
-  Icon2fa,
-  IconDatabaseImport,
-  IconReceipt2,
-  IconSwitchHorizontal,
   IconLogout,
+  IconSettings,
+  IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
+import { Link, useLocation } from "react-router-dom";
 
 const data = [
-  { link: "", label: "Activities", icon: IconCalendarEvent },
-  { link: "", label: "Notifications", icon: IconBellRinging },
-  { link: "", label: "Billing", icon: IconReceipt2 },
-  { link: "", label: "Security", icon: IconFingerprint },
-  { link: "", label: "SSH Keys", icon: IconKey },
-  { link: "", label: "Databases", icon: IconDatabaseImport },
-  { link: "", label: "Authentication", icon: Icon2fa },
-  { link: "", label: "Other Settings", icon: IconSettings },
+  { link: "/activities", label: "Activities", icon: IconCalendarEvent },
+  { link: "/settings", label: "Settings", icon: IconSettings },
 ];
 
 export interface NavbarProps {
@@ -31,22 +19,18 @@ export interface NavbarProps {
 }
 
 export function Navbar({ opened, onCloseClick }: NavbarProps) {
-  const [active, setActive] = useState("Billing");
+  const location = useLocation();
 
   const links = data.map((item) => (
-    <a
+    <Link
+      to={item.link}
       className={classes["link"]}
-      data-active={item.label === active || undefined}
-      href={item.link}
+      data-active={item.link === location.pathname || undefined}
       key={item.label}
-      onClick={(event) => {
-        event.preventDefault();
-        setActive(item.label);
-      }}
     >
       <item.icon className={classes["linkIcon"]} stroke={1.5} />
       <span>{item.label}</span>
-    </a>
+    </Link>
   ));
 
   return (
