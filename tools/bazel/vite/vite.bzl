@@ -22,7 +22,6 @@ def vite_dev_server(name, **kwargs):
         chdir = kwargs.pop("chdir", native.package_name()),
         data = kwargs.pop("data", []),
         args = [
-            "--open",  # open browser on start
             "--strictPort",  # fail if port already in use
             "--host",  # vite should listen to requests from container networks
         ],
