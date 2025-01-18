@@ -1,6 +1,8 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
-import { HomePage } from "./pages/home";
 import { Shell } from "./components/shell";
+import { HomePage } from "./pages/home";
+import { ActivitiesPage } from "./pages/activities";
+import { SettingsPage } from "./pages/settings";
 
 const router = createBrowserRouter([
   {
@@ -14,6 +16,14 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <HomePage />,
+      },
+      {
+        path: "/activities",
+        element: <ActivitiesPage />,
+      },
+      {
+        path: "/settings",
+        element: <SettingsPage />,
       },
     ],
   },
