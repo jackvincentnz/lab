@@ -25,15 +25,27 @@ importers:
       '@mantine/core':
         specifier: 7.11.2
         version: 7.11.2(@mantine/hooks@7.11.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/dates':
+        specifier: 7.11.2
+        version: 7.11.2(@mantine/core@7.11.2)(@mantine/hooks@7.11.2)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks':
         specifier: 7.11.2
         version: 7.11.2(react@18.2.0)
       '@tabler/icons-react':
         specifier: 3.12.0
         version: 3.12.0(react@18.2.0)
+      clsx:
+        specifier: 2.1.1
+        version: 2.1.1
+      dayjs:
+        specifier: 1.11.13
+        version: 1.11.13
       graphql:
         specifier: 16.9.0
         version: 16.9.0
+      mantine-react-table:
+        specifier: 2.0.0-beta.8
+        version: 2.0.0-beta.8(@mantine/core@7.11.2)(@mantine/dates@7.11.2)(@mantine/hooks@7.11.2)(@tabler/icons-react@3.12.0)(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0)
       react:
         specifier: ^18.2.0
         version: 18.2.0
@@ -3450,6 +3462,23 @@ packages:
       - '@types/react'
     dev: false
 
+  /@mantine/dates@7.11.2(@mantine/core@7.11.2)(@mantine/hooks@7.11.2)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-BEZs949EvfIG1fRNsEpcB0YqSe53z/KObwHyBwiqFjFHJ2eFPVMpxw6Rpy1Bud0/FZRV+QBokebxaf6+2tbCCw==}
+    peerDependencies:
+      '@mantine/core': 7.11.2
+      '@mantine/hooks': 7.11.2
+      dayjs: '>=1.0.0'
+      react: ^18.2.0
+      react-dom: ^18.2.0
+    dependencies:
+      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 7.11.2(react@18.2.0)
+      clsx: 2.1.1
+      dayjs: 1.11.13
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /@mantine/hooks@7.11.2(react@18.2.0):
     resolution: {integrity: sha512-jhyVe/sbDEG2U8rr2lMecUPgQxcfr5hh9HazqGfkS7ZRIMDO7uJ947yAcTMGGkp5Lxtt5TBFt1Cb6tiB2/1agg==}
     peerDependencies:
@@ -5002,6 +5031,45 @@ packages:
 
   /@tabler/icons@3.12.0:
     resolution: {integrity: sha512-Im37ar/mQkqLb6XUXsU7nOc4/66VB9/3KLuZ+6tUsJKHHNLaDUkYfCTNG3pnGDI03laByxVf5+umSNK2yPTx8A==}
+    dev: false
+
+  /@tanstack/match-sorter-utils@8.19.4:
+    resolution: {integrity: sha512-Wo1iKt2b9OT7d+YGhvEPD3DXvPv2etTusIMhMUoG7fbhmxcXCtIjJDEygy91Y2JFlwGyjqiBPRozme7UD8hoqg==}
+    engines: {node: '>=12'}
+    dependencies:
+      remove-accents: 0.5.0
+    dev: false
+
+  /@tanstack/react-table@8.20.5(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-WEHopKw3znbUZ61s9i0+i9g8drmDo6asTWbrQh8Us63DAk/M0FkmIqERew6P71HI75ksZ2Pxyuf4vvKh9rAkiA==}
+    engines: {node: '>=12'}
+    peerDependencies:
+      react: '>=16.8'
+      react-dom: '>=16.8'
+    dependencies:
+      '@tanstack/table-core': 8.20.5
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/react-virtual@3.11.2(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-OuFzMXPF4+xZgx8UzJha0AieuMihhhaWG0tCqpp6tDzlFwOmNBPYMuLOtMJ1Tr4pXLHmgjcWhG6RlknY2oNTdQ==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    dependencies:
+      '@tanstack/virtual-core': 3.11.2
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  /@tanstack/table-core@8.20.5:
+    resolution: {integrity: sha512-P9dF7XbibHph2PFRz8gfBKEXEY/HJPOhym8CHmjF8y3q5mWpKx9xtZapXQUWCgkqvsK0R46Azuz+VaxD4Xl+Tg==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /@tanstack/virtual-core@3.11.2:
+    resolution: {integrity: sha512-vTtpNt7mKCiZ1pwU9hfKPhpdVO2sVzFQsxoVBGtOSHxlrRRzYr8iQ2TlwbAcRYCcEiZ9ECAM8kBzH0v2+VzfKw==}
     dev: false
 
   /@testcontainers/kafka@10.11.0(node-gyp@10.0.1):
@@ -7146,7 +7214,7 @@ packages:
       cli-table3: 0.6.3
       commander: 6.2.1
       common-tags: 1.8.2
-      dayjs: 1.11.10
+      dayjs: 1.11.13
       debug: 4.3.5(supports-color@8.1.1)
       enquirer: 2.4.1
       eventemitter2: 6.4.7
@@ -7230,9 +7298,8 @@ packages:
     resolution: {integrity: sha512-8YnDaaf7N3k/q5HnTJVuzSyLETjoZjVmHc4AeKAzOvKHEFQKcn64OKBfzHYtE9zGjctNM7V9I0MfnUVLpi7M5g==}
     dev: true
 
-  /dayjs@1.11.10:
-    resolution: {integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==}
-    dev: true
+  /dayjs@1.11.13:
+    resolution: {integrity: sha512-oaMBel6gjolK862uaPQOVTA7q3TZhuSvuMQAAglQDOWYO9A91IrAOUJEyKVlqJlHE0vq5p5UXxzdPfMH/x6xNg==}
 
   /debounce@1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
@@ -10568,6 +10635,32 @@ packages:
       tmpl: 1.0.5
     dev: true
 
+  /mantine-react-table@2.0.0-beta.8(@mantine/core@7.11.2)(@mantine/dates@7.11.2)(@mantine/hooks@7.11.2)(@tabler/icons-react@3.12.0)(clsx@2.1.1)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-3Ey0jbLtqcN89n24kDRiOeYwhR5zcfHzzCz7KOip5fXvvrtn6N7vj+Fw2jYFFbPQr7TLzBviSSQkPcVyQbs+/w==}
+    engines: {node: '>=16'}
+    peerDependencies:
+      '@mantine/core': ^7.9
+      '@mantine/dates': ^7.9
+      '@mantine/hooks': ^7.9
+      '@tabler/icons-react': '>=2.23.0'
+      clsx: '>=2'
+      dayjs: '>=1.11'
+      react: '>=18.0'
+      react-dom: '>=18.0'
+    dependencies:
+      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/dates': 7.11.2(@mantine/core@7.11.2)(@mantine/hooks@7.11.2)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 7.11.2(react@18.2.0)
+      '@tabler/icons-react': 3.12.0(react@18.2.0)
+      '@tanstack/match-sorter-utils': 8.19.4
+      '@tanstack/react-table': 8.20.5(react-dom@18.2.0)(react@18.2.0)
+      '@tanstack/react-virtual': 3.11.2(react-dom@18.2.0)(react@18.2.0)
+      clsx: 2.1.1
+      dayjs: 1.11.13
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
   /map-cache@0.2.2:
     resolution: {integrity: sha512-8y/eV9QQZCiyn1SprXSrCmqJN0yNRATe+PO8ztwqrvrbdRLA3eYJF0yaR0YayLWkMbsQSKWS9N2gPcGEc4UsZg==}
     engines: {node: '>=0.10.0'}
@@ -12058,6 +12151,10 @@ packages:
   /remedial@1.0.8:
     resolution: {integrity: sha512-/62tYiOe6DzS5BqVsNpH/nkGlX45C/Sp6V+NtiN6JQNS1Viay7cWkazmRkrQrdFj2eshDe96SIQNIoMxqhzBOg==}
     dev: true
+
+  /remove-accents@0.5.0:
+    resolution: {integrity: sha512-8g3/Otx1eJaVD12e31UbJj1YzdtVvzH85HV7t+9MJYk/u3XmkOUJ5Ys9wQrf9PCPK8+xn4ymzqYCiZl6QWKn+A==}
+    dev: false
 
   /remove-trailing-separator@1.1.0:
     resolution: {integrity: sha512-/hS+Y0u3aOfIETiaiirUFwDBDzmXPvO+jAfKTitUngIPzdKc6Z0LoFjM/CK5PL4C+eKwHohlHAb6H0VFfmmUsw==}
