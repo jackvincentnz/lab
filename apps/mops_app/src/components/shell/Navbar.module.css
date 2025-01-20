@@ -63,3 +63,9 @@
   width: rem(25px);
   height: rem(25px);
 }
+
+.logo {
+  width: 30px;
+  border: 2px solid var(--mantine-color-white);
+  border-radius: 5px;
+}

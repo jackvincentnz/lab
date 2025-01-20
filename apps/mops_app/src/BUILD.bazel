@@ -49,6 +49,7 @@ js_library(
     name = "src",
     srcs = glob([
         "**/*.css",
+        "**/*.png",
     ]),
     visibility = [
         "//apps/mops_app:__pkg__",
