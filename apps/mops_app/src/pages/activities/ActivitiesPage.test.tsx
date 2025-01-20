@@ -7,4 +7,10 @@ describe("ActivitiesPage", async () => {
 
     expect(await screen.findByText(/Activities Page!/)).toBeInTheDocument();
   });
+
+  test("renders table", async () => {
+    render(<ActivitiesPage />);
+
+    expect(await screen.findByText(/First Name/)).toBeInTheDocument();
+  });
 });

@@ -1,3 +1,10 @@
+import { Table } from "../../components/table-minimal";
+
 export function ActivitiesPage() {
-  return <p>Activities Page!</p>;
+  return (
+    <>
+      <h2>Activities Page!</h2>
+      <Table />
+    </>
+  );
 }
