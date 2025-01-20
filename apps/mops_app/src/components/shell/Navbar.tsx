@@ -4,11 +4,14 @@ import {
   IconLogout,
   IconSettings,
   IconSwitchHorizontal,
+  IconLayoutBoard,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
+import logo from "./logo.png";
 
-const data = [
+export const navigationItems = [
+  { link: "/", label: "Home", icon: IconLayoutBoard },
   { link: "/activities", label: "Activities", icon: IconCalendarEvent },
   { link: "/settings", label: "Settings", icon: IconSettings },
 ];
@@ -21,7 +24,7 @@ export interface NavbarProps {
 export function Navbar({ opened, onCloseClick }: NavbarProps) {
   const location = useLocation();
 
-  const links = data.map((item) => (
+  const links = navigationItems.map((item) => (
     <Link
       to={item.link}
       className={classes["link"]}
@@ -44,7 +47,8 @@ export function Navbar({ opened, onCloseClick }: NavbarProps) {
             size="sm"
             color="white"
           />
-          <Title order={2}>Mops</Title>
+          <img className={classes["logo"]} src={logo} alt="logo" />
+          <Title order={2}> Mops</Title>
         </Group>
         {links}
       </div>
