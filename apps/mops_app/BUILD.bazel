@@ -2,10 +2,17 @@ load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run", "vitest_watch")
 load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel:js.bzl", "js_library")
 
 alias(
     name = "mops_app",
     actual = ":dev",
+)
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//apps/mops_app/src/__generated__:__pkg__"],
 )
 
 SRCS = [

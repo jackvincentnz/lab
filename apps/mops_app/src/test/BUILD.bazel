@@ -10,6 +10,7 @@ ts_project(
         "//apps/mops_app:__subpackages__",
     ],
     deps = [
+        "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",
         "//:node_modules/@testing-library/jest-dom",
         "//:node_modules/@testing-library/react",

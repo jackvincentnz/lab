@@ -1,0 +1,1 @@
+export { SpendPage } from "./SpendPage";

@@ -1,9 +1,9 @@
 java_library(
-    name = "iam",
+    name = "core",
     visibility = [
         "//services/mops/src/main:__pkg__",
     ],
     runtime_deps = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/iam/adapter",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/gql/lineitem",
     ],
 )

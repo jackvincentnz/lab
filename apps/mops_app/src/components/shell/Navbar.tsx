@@ -5,6 +5,7 @@ import {
   IconSettings,
   IconSwitchHorizontal,
   IconLayoutBoard,
+  IconCalendarDollar,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
@@ -13,6 +14,7 @@ import logo from "./logo.png";
 export const navigationItems = [
   { link: "/", label: "Home", icon: IconLayoutBoard },
   { link: "/activities", label: "Activities", icon: IconCalendarEvent },
+  { link: "/spend", label: "Spend", icon: IconCalendarDollar },
   { link: "/settings", label: "Settings", icon: IconSettings },
 ];
 

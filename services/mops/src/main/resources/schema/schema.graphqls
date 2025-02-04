@@ -1,6 +1,37 @@
-type Mutation {
-  provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse
+# API root
+
+type Query {
+  allLineItems: [LineItem!]!
 }
+
+type Mutation {
+  provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse!
+  addLineItem(input: AddLineItemInput!): AddLineItemResponse!
+}
+
+# Objects
+
+type Tenant {
+  id: ID!
+  name: String!
+}
+
+type LineItem {
+  id: ID!
+  name: String!
+}
+
+# Inputs
+
+input ProvisionTenantInput {
+  name: String!
+}
+
+input AddLineItemInput {
+  name: String!
+}
+
+# Responses
 
 type ProvisionTenantResponse implements MutationResponse {
   code: Int!
@@ -9,13 +40,11 @@ type ProvisionTenantResponse implements MutationResponse {
   tenant: Tenant
 }
 
-type Tenant {
-  id: ID!
-  name: String!
-}
-
-input ProvisionTenantInput {
-  name: String!
+type AddLineItemResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  lineItem: LineItem
 }
 
 interface MutationResponse {
