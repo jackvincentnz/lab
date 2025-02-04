@@ -18,6 +18,7 @@ ts_project(
         exclude = TEST_PATHS,
     ),
     deps = [
+        "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",
         "//:node_modules/@mantine/hooks",
         "//:node_modules/@tabler/icons-react",
@@ -29,6 +30,7 @@ ts_project(
         "//:node_modules/react-dom",
         "//:node_modules/react-router-dom",
         "//:node_modules/vite",
+        "//apps/mops_app/src/__generated__:graphql_codegen_ts",
     ],
 )
 
@@ -57,4 +59,10 @@ js_library(
     deps = [
         ":src_ts",
     ],
+)
+
+js_library(
+    name = "gql",
+    srcs = glob(["**/*.gql"]),
+    visibility = ["//apps/mops_app/src/__generated__:__pkg__"],
 )
