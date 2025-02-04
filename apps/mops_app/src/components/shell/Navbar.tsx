@@ -13,7 +13,7 @@ import logo from "./logo.png";
 
 export const navigationItems = [
   { link: "/", label: "Home", icon: IconLayoutBoard },
-  { link: "/activities", label: "Activities", icon: IconCalendarEvent },
+  { link: "/plan", label: "Plan", icon: IconCalendarEvent },
   { link: "/spend", label: "Spend", icon: IconCalendarDollar },
   { link: "/settings", label: "Settings", icon: IconSettings },
 ];
