@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 
-class AggregateTest {
+class EventSourcedAggregateTest {
 
   @Test
   void apply_shouldApplyEvent() {
@@ -85,7 +85,7 @@ class AggregateTest {
     assertThat(aggregate.getVersion()).isEqualTo(3);
   }
 
-  static final class TestAggregate extends Aggregate<TestId> {
+  static final class TestAggregate extends EventSourcedAggregate<TestId> {
     private static final TestId EXPECTED_ID = new TestId();
 
     static TestAggregate create() {

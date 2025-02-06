@@ -1,12 +1,13 @@
 package nz.geek.jack.libs.ddd.domain.test;
 
-import nz.geek.jack.libs.ddd.domain.Aggregate;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 
 public class AggregateTestUtils {
 
   @SuppressWarnings("unchecked")
-  public static <T extends DomainEvent> T getOnlyEventOfType(Aggregate aggregate, Class<T> clazz) {
+  public static <T extends DomainEvent> T getOnlyEventOfType(
+      EventSourcedAggregate aggregate, Class<T> clazz) {
     var events = aggregate.flushEvents();
 
     if (events.size() > 1) {

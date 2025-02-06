@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import nz.geek.jack.libs.ddd.domain.AbstractId;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 import org.junit.jupiter.api.Test;
 
 class AggregateFactoryTest {
@@ -25,9 +25,9 @@ class AggregateFactoryTest {
         () -> aggregateFactory.forClass(TestAggregateWithNoConstructor.class));
   }
 
-  static class TestAggregate extends Aggregate<TestId> {}
+  static class TestAggregate extends EventSourcedAggregate<TestId> {}
 
-  static class TestAggregateWithNoConstructor extends Aggregate<TestId> {
+  static class TestAggregateWithNoConstructor extends EventSourcedAggregate<TestId> {
     private TestAggregateWithNoConstructor(String something) {}
   }
 

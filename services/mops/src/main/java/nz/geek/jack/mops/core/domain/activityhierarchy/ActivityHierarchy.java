@@ -2,9 +2,9 @@ package nz.geek.jack.mops.core.domain.activityhierarchy;
 
 import java.util.HashMap;
 import java.util.Optional;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 
-public final class ActivityHierarchy extends Aggregate<ActivityHierarchyId> {
+public final class ActivityHierarchy extends EventSourcedAggregate<ActivityHierarchyId> {
 
   private final HashMap<ActivityTypeId, ActivityType> activityTypes = new HashMap<>();
 
