@@ -5,6 +5,7 @@ This module contains common java macros.
 load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", _java_test_suite = "java_test_suite")
 
 TEST_DEPS = [
+    "//libs/test/src/test/java/nz/geek/jack/test",
     "@maven//:org_assertj_assertj_core",
     "@maven//:org_junit_jupiter_junit_jupiter_api",
     "@maven//:org_mockito_mockito_core",

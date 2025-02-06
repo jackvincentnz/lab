@@ -5,7 +5,6 @@ java_test_suite(
     deps = [
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain/springdata",
-        "//libs/test/src/test/java/nz/geek/jack/test",
         "@maven//:org_springframework_spring_core",
     ],
 )
