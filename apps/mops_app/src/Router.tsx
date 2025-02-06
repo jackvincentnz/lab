@@ -1,7 +1,7 @@
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import { Shell } from "./components/shell";
 import { HomePage } from "./pages/home";
-import { ActivitiesPage } from "./pages/activities";
+import { PlanPage } from "./pages/plan";
 import { SpendPage } from "./pages/spend";
 import { SettingsPage } from "./pages/settings";
 
@@ -19,8 +19,8 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/activities",
-        element: <ActivitiesPage />,
+        path: "/plan",
+        element: <PlanPage />,
       },
       {
         path: "/spend",

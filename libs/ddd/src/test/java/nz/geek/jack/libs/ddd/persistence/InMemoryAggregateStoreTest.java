@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import nz.geek.jack.libs.ddd.domain.AbstractId;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 import org.junit.jupiter.api.Test;
 
 class InMemoryAggregateStoreTest {
@@ -45,7 +45,7 @@ class InMemoryAggregateStoreTest {
 
   static final class TestRepository extends InMemoryAggregateStore<TestId, TestAggregate> {}
 
-  static final class TestAggregate extends Aggregate<TestId> {
+  static final class TestAggregate extends EventSourcedAggregate<TestId> {
     TestAggregate() {
       id = new TestId();
     }

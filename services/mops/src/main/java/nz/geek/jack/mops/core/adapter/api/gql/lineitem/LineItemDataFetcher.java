@@ -2,18 +2,26 @@ package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 import nz.geek.jack.mops.api.gql.types.LineItem;
+import nz.geek.jack.mops.core.application.lineitem.LineItemQueryService;
 
 @DgsComponent
 public class LineItemDataFetcher {
 
-  static final List<LineItem> ALL_LINE_ITEMS = new ArrayList<>();
+  private final LineItemQueryService lineItemQueryService;
+
+  public LineItemDataFetcher(LineItemQueryService lineItemQueryService) {
+    this.lineItemQueryService = lineItemQueryService;
+  }
 
   @DgsQuery
-  public Collection<LineItem> allLineItems() {
-    return ALL_LINE_ITEMS;
+  public List<LineItem> allLineItems() {
+    return lineItemQueryService.findAll().stream().map(this::map).collect(Collectors.toList());
+  }
+
+  private LineItem map(nz.geek.jack.mops.core.domain.lineitem.LineItem lineItem) {
+    return LineItem.newBuilder().id(lineItem.getId().toString()).name(lineItem.getName()).build();
   }
 }

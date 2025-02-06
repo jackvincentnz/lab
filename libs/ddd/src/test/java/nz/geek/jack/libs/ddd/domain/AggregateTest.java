@@ -1,141 +1,52 @@
 package nz.geek.jack.libs.ddd.domain;
 
-import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
+import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
-class AggregateTest {
+class AggregateTest extends TestBase {
 
   @Test
-  void apply_shouldApplyEvent() {
-    var aggregate = TestAggregate.create();
+  void getId_returnsId() {
+    var id = new TestId();
+    var aggregate = new TestAggregate(id);
 
-    getOnlyEventOfType(aggregate, TestAggregateCreatedEvent.class);
-  }
-
-  @Test
-  void apply_shouldReduceState() {
-    var aggregate = TestAggregate.create();
-
-    assertThat(aggregate.getId()).isEqualTo(TestAggregate.EXPECTED_ID);
-  }
-
-  @Test()
-  void apply_throwsWhenReducerMethodIsMissing() {
-    var aggregate = TestAggregate.create();
-
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> aggregate.apply(new EventWithoutHandler(aggregate.getId())));
-  }
-
-  @Test()
-  void apply_throwsWhenReducerMethodThrows() {
-    var aggregate = TestAggregate.create();
-
-    assertThrows(
-        EventReductionException.class,
-        () -> aggregate.apply(new EventThatThrowsWhenHandled(aggregate.getId())));
+    assertThat(aggregate.getId()).isEqualTo(id);
   }
 
   @Test
-  void flushEvents_shouldClearEvents() {
-    var aggregate = TestAggregate.create();
+  void getVersion_returnsVersion() {
+    var version = randomInt();
+    var aggregate = new TestAggregate(new TestId());
+    aggregate.version = version;
 
-    var events = aggregate.flushEvents();
-    var afterFlush = aggregate.flushEvents();
-
-    assertThat(events).hasSize(1);
-    assertThat(afterFlush).hasSize(0);
+    assertThat(aggregate.getVersion()).isEqualTo(version);
   }
 
   @Test
-  void replay_throwsIfChanges() {
-    var aggregate = TestAggregate.create();
+  void domainEvents_returnsDomainEvents() {
+    var event = new Object();
+    var aggregate = new TestAggregate(new TestId());
+    aggregate.addEvent(event);
 
-    assertThrows(IllegalStateException.class, () -> aggregate.replay(List.of()));
+    assertThat(aggregate.domainEvents()).hasSize(1);
+    assertThat(aggregate.domainEvents()).contains(event);
   }
 
-  @Test
-  void replay_shouldReduceState() {
-    var aggregate = new TestAggregate();
-
-    assertThat(aggregate.getId()).isNull();
-
-    aggregate.replay(List.of(new TestAggregateCreatedEvent(TestAggregate.EXPECTED_ID)));
-
-    assertThat(aggregate.getId()).isEqualTo(TestAggregate.EXPECTED_ID);
-  }
-
-  @Test
-  void replay_shouldIncrementVersion() {
-    var aggregate = new TestAggregate();
-
-    assertThat(aggregate.getVersion()).isEqualTo(0);
-
-    aggregate.replay(
-        List.of(
-            new TestAggregateCreatedEvent(TestAggregate.EXPECTED_ID),
-            new TestAggregateEvent(TestAggregate.EXPECTED_ID),
-            new TestAggregateEvent(TestAggregate.EXPECTED_ID)));
-
-    assertThat(aggregate.getVersion()).isEqualTo(3);
-  }
-
-  static final class TestAggregate extends Aggregate<TestId> {
-    private static final TestId EXPECTED_ID = new TestId();
-
-    static TestAggregate create() {
-      var aggregate = new TestAggregate();
-      aggregate.apply(new TestAggregateCreatedEvent(EXPECTED_ID));
-      return aggregate;
+  static class TestAggregate extends Aggregate<TestId> {
+    TestAggregate(TestId id) {
+      super(id);
     }
 
-    private void on(TestAggregateCreatedEvent testAggregateCreatedEvent) {
-      id = testAggregateCreatedEvent.aggregateId;
-    }
-
-    private void on(EventThatThrowsWhenHandled eventThatThrowsWhenHandled) {
-      throw new RuntimeException("Couldn't handle it!");
-    }
-
-    private void on(TestAggregateEvent event) {
-      // do nothing
+    void addEvent(Object event) {
+      registerEvent(event);
     }
   }
 
-  static final class TestId extends AbstractId {
+  static class TestId extends AbstractId {
     TestId() {
       super();
-    }
-  }
-
-  static final class TestAggregateCreatedEvent extends DomainEvent<TestId> {
-
-    TestAggregateCreatedEvent(TestId id) {
-      super(id);
-    }
-  }
-
-  static final class TestAggregateEvent extends DomainEvent<TestId> {
-
-    TestAggregateEvent(TestId id) {
-      super(id);
-    }
-  }
-
-  static final class EventWithoutHandler extends DomainEvent<TestId> {
-    EventWithoutHandler(TestId id) {
-      super(id);
-    }
-  }
-
-  static final class EventThatThrowsWhenHandled extends DomainEvent<TestId> {
-    EventThatThrowsWhenHandled(TestId id) {
-      super(id);
     }
   }
 }

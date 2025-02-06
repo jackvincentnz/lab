@@ -1,9 +1,9 @@
 package nz.geek.jack.mops.core.domain.activity;
 
 import java.time.Instant;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 
-public final class Activity extends Aggregate<ActivityId> {
+public final class Activity extends EventSourcedAggregate<ActivityId> {
 
   private String name;
 

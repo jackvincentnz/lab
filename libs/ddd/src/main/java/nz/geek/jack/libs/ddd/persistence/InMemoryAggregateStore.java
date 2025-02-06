@@ -4,9 +4,10 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import nz.geek.jack.libs.ddd.domain.AbstractId;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
 
-public abstract class InMemoryAggregateStore<I extends AbstractId, A extends Aggregate<I>> {
+public abstract class InMemoryAggregateStore<
+    I extends AbstractId, A extends EventSourcedAggregate<I>> {
 
   protected final Map<I, A> aggregates = new ConcurrentHashMap<>();
 

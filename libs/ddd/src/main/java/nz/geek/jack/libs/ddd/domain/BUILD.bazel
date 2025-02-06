@@ -2,4 +2,7 @@ java_library(
     name = "domain",
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_springframework_data_spring_data_commons",
+    ],
 )
