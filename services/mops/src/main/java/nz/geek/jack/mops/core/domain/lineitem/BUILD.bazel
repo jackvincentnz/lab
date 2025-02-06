@@ -1,0 +1,12 @@
+java_library(
+    name = "lineitem",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//services/mops/src:__subpackages__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "@maven//:org_springframework_data_spring_data_commons",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
