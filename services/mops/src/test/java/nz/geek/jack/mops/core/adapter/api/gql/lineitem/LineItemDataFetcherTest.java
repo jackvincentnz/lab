@@ -1,6 +1,7 @@
 package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -18,16 +19,19 @@ class LineItemDataFetcherTest extends TestBase {
 
   @Mock LineItemQueryService lineItemQueryService;
 
+  @Mock LineItemMapper lineItemMapper;
+
   @InjectMocks LineItemDataFetcher dataFetcher;
 
   @Test
   void allLineItems_mapsLineItems() {
-    var lineItem = LineItem.add(randomString());
-    when(lineItemQueryService.findAll()).thenReturn(List.of(lineItem));
+    var domainLineItem = LineItem.add(randomString());
+    var graphqLineItem = mock(nz.geek.jack.mops.api.gql.types.LineItem.class);
+    when(lineItemQueryService.findAll()).thenReturn(List.of(domainLineItem));
+    when(lineItemMapper.map(domainLineItem)).thenReturn(graphqLineItem);
 
     var result = dataFetcher.allLineItems().get(0);
 
-    assertThat(result.getId()).isEqualTo(lineItem.getId().toString());
-    assertThat(result.getName()).isEqualTo(lineItem.getName());
+    assertThat(result).isEqualTo(graphqLineItem);
   }
 }

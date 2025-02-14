@@ -1,25 +1,35 @@
 package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_CREATED;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
+import static nz.geek.jack.mops.core.adapter.api.gql.ResponseMessage.CREATED_MESSAGE;
+import static nz.geek.jack.mops.core.adapter.api.gql.ResponseMessage.OK_MESSAGE;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
 import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
-import nz.geek.jack.mops.api.gql.types.LineItem;
+import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
+import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.core.application.lineitem.AddLineItemCommand;
+import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
+import nz.geek.jack.mops.core.domain.category.CategoryId;
+import nz.geek.jack.mops.core.domain.category.CategoryValueId;
+import nz.geek.jack.mops.core.domain.lineitem.LineItemId;
 
 @DgsComponent
 public class LineItemMutation {
 
-  protected static final String ADD_LINE_ITEM_SUCCESS_MESSAGE = "Line item was successfully added";
-
   private final LineItemCommandService lineItemCommandService;
 
-  public LineItemMutation(LineItemCommandService lineItemCommandService) {
+  private final LineItemMapper lineItemMapper;
+
+  public LineItemMutation(
+      LineItemCommandService lineItemCommandService, LineItemMapper lineItemMapper) {
     this.lineItemCommandService = lineItemCommandService;
+    this.lineItemMapper = lineItemMapper;
   }
 
   @DgsMutation
@@ -31,12 +41,27 @@ public class LineItemMutation {
     return AddLineItemResponse.newBuilder()
         .code(SC_CREATED)
         .success(true)
-        .message(ADD_LINE_ITEM_SUCCESS_MESSAGE)
-        .lineItem(map(lineItem))
+        .message(CREATED_MESSAGE)
+        .lineItem(lineItemMapper.map(lineItem))
         .build();
   }
 
-  private LineItem map(nz.geek.jack.mops.core.domain.lineitem.LineItem lineItem) {
-    return LineItem.newBuilder().id(lineItem.getId().toString()).name(lineItem.getName()).build();
+  @DgsMutation
+  public CategorizeLineItemResponse categorizeLineItem(
+      @InputArgument("input") CategorizeLineItemInput input) {
+    var command =
+        new CategorizeLineItemCommand(
+            LineItemId.fromString(input.getLineItemId()),
+            CategoryId.fromString(input.getCategoryId()),
+            CategoryValueId.fromString(input.getCategoryValueId()));
+
+    var lineItem = lineItemCommandService.categorize(command);
+
+    return CategorizeLineItemResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
+        .lineItem(lineItemMapper.map(lineItem))
+        .build();
   }
 }

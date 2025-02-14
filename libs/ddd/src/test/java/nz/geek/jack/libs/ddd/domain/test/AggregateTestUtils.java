@@ -1,19 +1,16 @@
 package nz.geek.jack.libs.ddd.domain.test;
 
-import nz.geek.jack.libs.ddd.domain.DomainEvent;
-import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.Aggregate;
 
 public class AggregateTestUtils {
 
-  @SuppressWarnings("unchecked")
-  public static <T extends DomainEvent> T getOnlyEventOfType(
-      EventSourcedAggregate aggregate, Class<T> clazz) {
-    var events = aggregate.flushEvents();
+  public static <T> T getLastEvent(Aggregate<?> aggregate, Class<T> clazz) {
+    var events = aggregate.domainEvents();
 
-    if (events.size() > 1) {
-      throw new RuntimeException("Expected only a single event");
-    }
+    return clazz.cast(events.toArray()[events.size() - 1]);
+  }
 
-    return clazz.cast(events.get(0));
+  public static int countEventsOfType(Aggregate<?> aggregate, Class<?> clazz) {
+    return (int) aggregate.domainEvents().stream().filter(clazz::isInstance).count();
   }
 }

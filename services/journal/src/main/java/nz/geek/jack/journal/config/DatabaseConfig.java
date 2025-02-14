@@ -17,7 +17,7 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
-@EnableJdbcRepositories(basePackages = "nz.geek.jack")
+@EnableJdbcRepositories(basePackages = "nz.geek.jack.journal")
 public class DatabaseConfig extends AbstractJdbcConfiguration {
 
   @Bean

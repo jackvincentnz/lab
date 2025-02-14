@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import nz.geek.jack.mops.core.domain.category.Category;
+import nz.geek.jack.mops.core.domain.category.CategoryRepository;
 import nz.geek.jack.mops.core.domain.lineitem.LineItem;
 import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
 import nz.geek.jack.test.TestBase;
@@ -20,6 +22,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class LineItemCommandServiceTest extends TestBase {
 
   @Mock LineItemRepository lineItemRepository;
+
+  @Mock CategoryRepository categoryRepository;
 
   @InjectMocks LineItemCommandService lineItemCommandService;
 
@@ -47,5 +51,26 @@ class LineItemCommandServiceTest extends TestBase {
     var result = lineItemCommandService.add(command);
 
     assertThat(result).isEqualTo(saved);
+  }
+
+  @Test
+  void categorize_addsCategorization() {
+    var lineItem = LineItem.add(randomString());
+    var category = Category.create(randomString());
+    var categoryValue = category.addValue(randomString());
+    when(lineItemRepository.getById(lineItem.getId())).thenReturn(lineItem);
+    when(categoryRepository.getById(category.getId())).thenReturn(category);
+    when(lineItemRepository.save(lineItem)).thenReturn(lineItem);
+
+    var result =
+        lineItemCommandService.categorize(
+            new CategorizeLineItemCommand(
+                lineItem.getId(), category.getId(), categoryValue.getId()));
+
+    var categorization = lineItem.getCategorizations().iterator().next();
+
+    assertThat(categorization.getCategoryId()).isEqualTo(category.getId());
+    assertThat(categorization.getCategoryValueId()).isEqualTo(categoryValue.getId());
+    assertThat(result).isEqualTo(lineItem);
   }
 }

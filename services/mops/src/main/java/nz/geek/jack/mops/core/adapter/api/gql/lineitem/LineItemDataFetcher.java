@@ -12,16 +12,18 @@ public class LineItemDataFetcher {
 
   private final LineItemQueryService lineItemQueryService;
 
-  public LineItemDataFetcher(LineItemQueryService lineItemQueryService) {
+  private final LineItemMapper lineItemMapper;
+
+  public LineItemDataFetcher(
+      LineItemQueryService lineItemQueryService, LineItemMapper lineItemMapper) {
     this.lineItemQueryService = lineItemQueryService;
+    this.lineItemMapper = lineItemMapper;
   }
 
   @DgsQuery
   public List<LineItem> allLineItems() {
-    return lineItemQueryService.findAll().stream().map(this::map).collect(Collectors.toList());
-  }
-
-  private LineItem map(nz.geek.jack.mops.core.domain.lineitem.LineItem lineItem) {
-    return LineItem.newBuilder().id(lineItem.getId().toString()).name(lineItem.getName()).build();
+    return lineItemQueryService.findAll().stream()
+        .map(lineItemMapper::map)
+        .collect(Collectors.toList());
   }
 }

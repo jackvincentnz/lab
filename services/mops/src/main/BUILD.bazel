@@ -6,7 +6,7 @@ java_library(
     name = "main_lib",
     resources = [
         "//services/mops/src/main/resources/schema",
-    ] + glob(["resources/db/migration/*.sql"]),
+    ] + glob(["**/*"]),
     visibility = [
         "//services/mops/src/test:__subpackages__",
     ],

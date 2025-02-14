@@ -7,12 +7,8 @@ import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
-import nz.geek.jack.mops.api.gql.client.AddLineItemGraphQLQuery;
-import nz.geek.jack.mops.api.gql.client.AddLineItemProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsProjectionRoot;
-import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
-import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.LineItem;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -21,39 +17,57 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
-@Transactional // Roll back test state to avoid database interactions between tests
+@Transactional
 class LineItemFunctionalTest extends TestBase {
 
   @Autowired DgsQueryExecutor dgsQueryExecutor;
 
+  @Autowired TestClient client;
+
   @Test
   void addLineItemReturnsAllFields() {
     var name = randomString();
-    var request =
-        new GraphQLQueryRequest(
-            AddLineItemGraphQLQuery.newRequest()
-                .input(AddLineItemInput.newBuilder().name(name).build())
-                .build(),
-            new AddLineItemProjectionRoot<>().success().code().message().lineItem().id().name());
 
-    var lineItem =
-        dgsQueryExecutor.executeAndExtractJsonPathAsObject(
-            request.serialize(), "data.addLineItem", AddLineItemResponse.class);
+    var response = client.addLineItem(name);
 
-    assertThat(lineItem.getSuccess()).isTrue();
-    assertThat(lineItem.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
-    assertThat(lineItem.getMessage()).isNotBlank();
-    assertThat(lineItem.getLineItem().getId()).isNotBlank();
-    assertThat(lineItem.getLineItem().getName()).isEqualTo(name);
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getLineItem()).isNotNull();
+  }
+
+  @Test
+  void categorizeLineItemReturnsAllFields() {
+    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+    var categoryValueId =
+        client.addCategoryValue(categoryId, randomString()).getCategoryValue().getId();
+
+    var response = client.categorizeLineItem(lineItemId, categoryId, categoryValueId);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getLineItem()).isNotNull();
   }
 
   @Test
   void allLineItemsReturnsAllFields() {
-    addLineItem();
+    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+    var categoryValueId =
+        client.addCategoryValue(categoryId, randomString()).getCategoryValue().getId();
+    client.categorizeLineItem(lineItemId, categoryId, categoryValueId);
+
     var request =
         new GraphQLQueryRequest(
             AllLineItemsGraphQLQuery.newRequest().build(),
-            new AllLineItemsProjectionRoot<>().id().name());
+            new AllLineItemsProjectionRoot<>()
+                .id()
+                .name()
+                .categorizations()
+                .categoryId()
+                .categoryValueId());
 
     var result =
         dgsQueryExecutor.executeAndExtractJsonPathAsObject(
@@ -61,13 +75,17 @@ class LineItemFunctionalTest extends TestBase {
 
     assertThat(result.getId()).isNotBlank();
     assertThat(result.getName()).isNotBlank();
+    var categorization = result.getCategorizations().get(0);
+    assertThat(categorization.getCategoryId()).isEqualTo(categoryId);
+    assertThat(categorization.getCategoryValueId()).isEqualTo(categoryValueId);
   }
 
   @Test
-  void addLineItemReturnsMultipleItems() {
-    var lineItem1 = addLineItem();
-    var lineItem2 = addLineItem();
-    var lineItem3 = addLineItem();
+  void allLineItemsReturnsMultipleItems() {
+    var lineItem1 = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItem2 = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItem3 = client.addLineItem(randomString()).getLineItem().getId();
+
     var request =
         new GraphQLQueryRequest(
             AllLineItemsGraphQLQuery.newRequest().build(), new AllLineItemsProjectionRoot<>().id());
@@ -78,17 +96,5 @@ class LineItemFunctionalTest extends TestBase {
 
     assertThat(addedIds).hasSize(3);
     addedIds.forEach(id -> assertThat(List.of(lineItem1, lineItem2, lineItem3)).contains(id));
-  }
-
-  private String addLineItem() {
-    var request =
-        new GraphQLQueryRequest(
-            AddLineItemGraphQLQuery.newRequest()
-                .input(AddLineItemInput.newBuilder().name(randomString()).build())
-                .build(),
-            new AddLineItemProjectionRoot<>().lineItem().id());
-
-    return dgsQueryExecutor.executeAndExtractJsonPath(
-        request.serialize(), "data.addLineItem.lineItem.id");
   }
 }
