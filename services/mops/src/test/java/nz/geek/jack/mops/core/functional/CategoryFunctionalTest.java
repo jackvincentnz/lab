@@ -1,0 +1,92 @@
+package nz.geek.jack.mops.core.functional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.jayway.jsonpath.TypeRef;
+import com.netflix.graphql.dgs.DgsQueryExecutor;
+import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.util.List;
+import nz.geek.jack.mops.api.gql.client.AllCategoriesGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.AllCategoriesProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.AllLineItemsProjectionRoot;
+import nz.geek.jack.mops.api.gql.types.Category;
+import nz.geek.jack.test.TestBase;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+@SpringBootTest
+@Transactional
+class CategoryFunctionalTest extends TestBase {
+
+  @Autowired DgsQueryExecutor dgsQueryExecutor;
+
+  @Autowired TestClient client;
+
+  @Test
+  void createCategoryReturnsAllFields() {
+    var name = randomString();
+
+    var response = client.createCategory(name);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getCategory()).isNotNull();
+  }
+
+  @Test
+  void addCategoryValueReturnsAllFields() {
+    var name = randomString();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+
+    var response = client.addCategoryValue(categoryId, name);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getCategoryValue()).isNotNull();
+  }
+
+  @Test
+  void allCategoriesReturnsAllFields() {
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+    client.addCategoryValue(categoryId, randomString());
+
+    var request =
+        new GraphQLQueryRequest(
+            AllCategoriesGraphQLQuery.newRequest().build(),
+            new AllCategoriesProjectionRoot<>().id().name().values().id().name());
+
+    var result =
+        dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+            request.serialize(), "data.allCategories[0]", Category.class);
+
+    assertThat(result.getId()).isNotBlank();
+    assertThat(result.getName()).isNotBlank();
+    var value = result.getValues().get(0);
+    assertThat(value.getId()).isNotBlank();
+    assertThat(value.getName()).isNotBlank();
+  }
+
+  @Test
+  void allCategoriesReturnsMultipleItems() {
+    var category1 = client.createCategory(randomString()).getCategory().getId();
+    var category2 = client.createCategory(randomString()).getCategory().getId();
+    var category3 = client.createCategory(randomString()).getCategory().getId();
+
+    var request =
+        new GraphQLQueryRequest(
+            AllCategoriesGraphQLQuery.newRequest().build(),
+            new AllLineItemsProjectionRoot<>().id());
+
+    var addedIds =
+        dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+            request.serialize(), "data.allCategories[*].id", new TypeRef<List<String>>() {});
+
+    assertThat(addedIds).hasSize(3);
+    addedIds.forEach(id -> assertThat(List.of(category1, category2, category3)).contains(id));
+  }
+}

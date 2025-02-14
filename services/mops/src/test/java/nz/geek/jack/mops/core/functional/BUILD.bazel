@@ -11,6 +11,7 @@ java_test_suite(
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
         "@maven//:org_springframework_spring_tx",
     ],
 )

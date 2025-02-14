@@ -32,6 +32,9 @@ SPRING_TEST_RUNTIME_DEPS = [
 ]
 
 def java_test_suite(name, **kwargs):
+    env = kwargs.pop("env", {})
+    env.setdefault("SPRING_PROFILES_ACTIVE", "test")
+
     _java_test_suite(
         name = name,
 
@@ -42,6 +45,7 @@ def java_test_suite(name, **kwargs):
         deps = TEST_DEPS + kwargs.pop("deps", []),
         package_prefixes = [".nz."],
         runner = "junit5",
+        env = env,
 
         # Allow anything else to be overridden
         **kwargs

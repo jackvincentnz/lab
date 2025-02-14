@@ -2,11 +2,17 @@
 
 type Query {
   allLineItems: [LineItem!]!
+  allCategories: [Category!]!
 }
 
 type Mutation {
   provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse!
   addLineItem(input: AddLineItemInput!): AddLineItemResponse!
+  createCategory(input: CreateCategoryInput!): CreateCategoryResponse!
+  addCategoryValue(input: AddCategoryValueInput!): AddCategoryValueResponse!
+  categorizeLineItem(
+    input: CategorizeLineItemInput!
+  ): CategorizeLineItemResponse!
 }
 
 # Objects
@@ -19,6 +25,23 @@ type Tenant {
 type LineItem {
   id: ID!
   name: String!
+  categorizations: [Categorization!]!
+}
+
+type Categorization {
+  categoryId: ID!
+  categoryValueId: ID!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  values: [CategoryValue!]!
+}
+
+type CategoryValue {
+  id: ID!
+  name: String!
 }
 
 # Inputs
@@ -29,6 +52,21 @@ input ProvisionTenantInput {
 
 input AddLineItemInput {
   name: String!
+}
+
+input CreateCategoryInput {
+  name: String!
+}
+
+input AddCategoryValueInput {
+  categoryId: ID!
+  name: String!
+}
+
+input CategorizeLineItemInput {
+  lineItemId: ID!
+  categoryId: ID!
+  categoryValueId: ID!
 }
 
 # Responses
@@ -45,6 +83,27 @@ type AddLineItemResponse implements MutationResponse {
   success: Boolean!
   message: String!
   lineItem: LineItem
+}
+
+type CreateCategoryResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  category: Category
+}
+
+type AddCategoryValueResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  categoryValue: CategoryValue
+}
+
+type CategorizeLineItemResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  lineItem: LineItem!
 }
 
 interface MutationResponse {

@@ -1,6 +1,6 @@
 package nz.geek.jack.libs.ddd.domain;
 
-import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getOnlyEventOfType;
+import static nz.geek.jack.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

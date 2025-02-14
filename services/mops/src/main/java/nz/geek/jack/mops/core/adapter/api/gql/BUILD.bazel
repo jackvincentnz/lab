@@ -1,0 +1,8 @@
+java_library(
+    name = "gql",
+    srcs = glob(["*.java"]),
+    visibility = [
+        ":__subpackages__",
+        "//services/mops/src/test/java/nz/geek/jack/mops/core/adapter/api/gql:__subpackages__",
+    ],
+)
