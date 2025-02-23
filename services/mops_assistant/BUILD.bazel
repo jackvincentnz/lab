@@ -1,0 +1,16 @@
+load("//tools/bazel:js.bzl", "js_binary", "js_library")
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//services/mops_assistant/src/__generated__:__pkg__"],
+)
+
+js_binary(
+    name = "mops_assistant",
+    data = [
+        ":package.json",
+        "//services/mops_assistant/src",
+    ],
+    entry_point = "//services/mops_assistant/src:main.js",
+)
