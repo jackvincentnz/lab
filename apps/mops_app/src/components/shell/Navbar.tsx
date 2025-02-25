@@ -10,6 +10,7 @@ import {
 import classes from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.png";
+import { useStatsigClient } from "@statsig/react-bindings";
 
 export const navigationItems = [
   { link: "/", label: "Home", icon: IconLayoutBoard },
@@ -55,25 +56,35 @@ export function Navbar({ opened, onCloseClick }: NavbarProps) {
         {links}
       </div>
 
-      <div className={classes["footer"]}>
-        <a
-          href="#"
-          className={classes["link"]}
-          onClick={(event) => event.preventDefault()}
-        >
-          <IconSwitchHorizontal className={classes["linkIcon"]} stroke={1.5} />
-          <span>Change account</span>
-        </a>
-
-        <a
-          href="#"
-          className={classes["link"]}
-          onClick={(event) => event.preventDefault()}
-        >
-          <IconLogout className={classes["linkIcon"]} stroke={1.5} />
-          <span>Logout</span>
-        </a>
-      </div>
+      <Footer />
     </nav>
+  );
+}
+
+function Footer() {
+  const { client } = useStatsigClient();
+
+  if (!client.checkGate("iam")) return null;
+
+  return (
+    <div className={classes["footer"]}>
+      <a
+        href="#"
+        className={classes["link"]}
+        onClick={(event) => event.preventDefault()}
+      >
+        <IconSwitchHorizontal className={classes["linkIcon"]} stroke={1.5} />
+        <span>Change account</span>
+      </a>
+
+      <a
+        href="#"
+        className={classes["link"]}
+        onClick={(event) => event.preventDefault()}
+      >
+        <IconLogout className={classes["linkIcon"]} stroke={1.5} />
+        <span>Logout</span>
+      </a>
+    </div>
   );
 }
