@@ -3,6 +3,7 @@
 type Query {
   allLineItems: [LineItem!]!
   allCategories: [Category!]!
+  clientConfiguration: ClientConfiguration!
 }
 
 type Mutation {
@@ -42,6 +43,10 @@ type Category {
 type CategoryValue {
   id: ID!
   name: String!
+}
+
+type ClientConfiguration {
+  statsigKey: String
 }
 
 # Inputs
