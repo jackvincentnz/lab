@@ -16,6 +16,19 @@ def vite_build(name, **kwargs):
         **kwargs
     )
 
+    js_run_devserver(
+        name = "preview",
+        chdir = kwargs.pop("chdir", native.package_name()),
+        data = [":%s" % name],
+        args = [
+            "preview",
+            "--strictPort",  # fail if port already in use
+            "--host",  # vite should listen to requests from container networks
+        ],
+        tool = "//tools/bazel/vite:vite_binary",
+        **kwargs
+    )
+
 def vite_dev_server(name, **kwargs):
     js_run_devserver(
         name = name,

@@ -54,6 +54,7 @@ maven.install(
         "org.springframework.boot:spring-boot-loader:3.0.12",
         "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
         "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
+        "org.springframework.boot:spring-boot-starter-security:3.0.12",
         "org.springframework.boot:spring-boot-starter-validation:3.0.12",
         "org.springframework.boot:spring-boot-starter-web:3.0.12",
         "org.springframework.boot:spring-boot-starter-webflux:3.0.12",

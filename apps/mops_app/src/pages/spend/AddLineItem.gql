@@ -1,0 +1,11 @@
+mutation AddLineItem($input: AddLineItemInput!) {
+  addLineItem(input: $input) {
+    code
+    success
+    message
+    lineItem {
+      id
+      name
+    }
+  }
+}

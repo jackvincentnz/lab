@@ -1,0 +1,20 @@
+load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel:js.bzl", "js_library")
+
+ts_project(
+    name = "src",
+    srcs = glob(["**/*.ts"]),
+    visibility = ["//services/mops_assistant:__pkg__"],
+    deps = [
+        "//:node_modules/@types/node",
+        "//:node_modules/graphql-request",
+        "//:node_modules/openai",
+        "//services/mops_assistant/src/__generated__:graphql_codegen_ts",
+    ],
+)
+
+js_library(
+    name = "gql",
+    srcs = glob(["**/*.gql"]),
+    visibility = ["//services/mops_assistant/src/__generated__:__pkg__"],
+)
