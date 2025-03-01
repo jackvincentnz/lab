@@ -1,12 +1,37 @@
 import { OpenAI } from "openai";
 import {
-  ChatCompletionTool,
   ChatCompletionMessageParam,
+  ChatCompletionTool,
   ChatCompletionToolMessageParam,
 } from "openai/resources";
 import { addLineItem, allLineItems } from "./line-items.js";
 
-const openai = new OpenAI();
+interface Provider {
+  name: string;
+  apiKey?: string;
+  baseUrl?: string;
+  model: string;
+}
+
+const PROVIDERS: Provider[] = [
+  {
+    name: "openai",
+    model: "gpt-4o-mini",
+  },
+  {
+    name: "google",
+    apiKey: process.env["GEMINI_API_KEY"],
+    baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai/",
+    model: "gemini-2.0-flash",
+  },
+];
+
+const SELECTED_PROVIDER = PROVIDERS[0];
+
+const openai = new OpenAI({
+  apiKey: SELECTED_PROVIDER.apiKey,
+  baseURL: SELECTED_PROVIDER.baseUrl,
+});
 
 const tools: ChatCompletionTool[] = [
   {
@@ -14,7 +39,7 @@ const tools: ChatCompletionTool[] = [
     function: {
       name: "get_line_items",
       description:
-        "Gets all line items, their categorizations, and the category names from a graphql api.",
+        "Gets all line items, including their names, and category names from a graphql api.",
     },
   },
   {
@@ -38,17 +63,15 @@ const tools: ChatCompletionTool[] = [
   },
 ];
 
-async function runAssistant(userPrompt: string) {
+export async function runAssistant(userPrompt: string): Promise<string> {
   const messages: ChatCompletionMessageParam[] = [
     { role: "user", content: userPrompt },
   ];
 
   let completed = false;
   while (!completed) {
-    console.log(JSON.stringify(messages) + "\n\n");
-
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: SELECTED_PROVIDER.model,
       messages,
       tools,
     });
@@ -56,12 +79,9 @@ async function runAssistant(userPrompt: string) {
     const assistantMessage = completion.choices[0].message;
 
     if (!assistantMessage.tool_calls) {
-      console.log(assistantMessage.content);
       completed = true;
-      return;
+      return assistantMessage.content as string;
     }
-
-    console.log(JSON.stringify(assistantMessage) + "\n\n");
 
     const toolResponses: ChatCompletionToolMessageParam[] = [];
     for (const toolCall of assistantMessage.tool_calls) {
@@ -82,13 +102,6 @@ async function runAssistant(userPrompt: string) {
 
     messages.push(assistantMessage, ...toolResponses);
   }
-}
 
-// Get user prompt from command-line argument
-const userPrompt = process.argv.slice(2).join(" ");
-if (!userPrompt) {
-  console.log("Please provide a prompt as a command-line argument.");
-  process.exit(1);
+  throw new Error("Completed without returning a response");
 }
-
-runAssistant(userPrompt);

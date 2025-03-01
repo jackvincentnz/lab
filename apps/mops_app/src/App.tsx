@@ -5,20 +5,25 @@ import { theme } from "./theme";
 import { Router } from "./Router";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { StatsigProvider } from "./providers/StatsigProvider";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const client = new ApolloClient({
   uri: "/graphql",
   cache: new InMemoryCache(),
 });
 
+const queryClient = new QueryClient();
+
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <StatsigProvider>
-        <MantineProvider theme={theme}>
-          <Router />
-        </MantineProvider>
-      </StatsigProvider>
+      <QueryClientProvider client={queryClient}>
+        <StatsigProvider>
+          <MantineProvider theme={theme}>
+            <Router />
+          </MantineProvider>
+        </StatsigProvider>
+      </QueryClientProvider>
     </ApolloProvider>
   );
 }

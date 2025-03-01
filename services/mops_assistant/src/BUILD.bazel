@@ -7,6 +7,7 @@ ts_project(
     visibility = ["//services/mops_assistant:__pkg__"],
     deps = [
         "//:node_modules/@types/node",
+        "//:node_modules/fastify",
         "//:node_modules/graphql-request",
         "//:node_modules/openai",
         "//services/mops_assistant/src/__generated__:graphql_codegen_ts",

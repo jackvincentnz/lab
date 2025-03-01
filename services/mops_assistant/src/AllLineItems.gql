@@ -5,7 +5,7 @@ query AllLineItems {
       category {
         name
       }
-      category {
+      categoryValue {
         name
       }
     }

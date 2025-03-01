@@ -108,16 +108,20 @@ bazel_dep(name = "contrib_rules_jvm", version = "0.27.0")
 # rules_nodejs setup
 ####################################################################################################
 
-bazel_dep(name = "rules_nodejs", version = "6.2.0")
+bazel_dep(name = "rules_nodejs", version = "6.3.0")
 
-node = use_extension("@rules_nodejs//nodejs:extensions.bzl", "node")
-node.toolchain(node_version = "18.18.0")  # keep in sync with package.json
+node = use_extension(
+    "@rules_nodejs//nodejs:extensions.bzl",
+    "node",
+    dev_dependency = True,
+)
+node.toolchain(node_version = "18.20.4")  # keep in sync with package.json
 
 ####################################################################################################
 # aspect_rules_js setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_js", version = "2.0.1")
+bazel_dep(name = "aspect_rules_js", version = "2.2.0")
 
 npm = use_extension(
     "@aspect_rules_js//npm:extensions.bzl",
@@ -200,6 +204,22 @@ oci.pull(
     tag = "stable-alpine-slim",
 )
 use_repo(oci, "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
+oci.pull(
+    name = "debian",
+    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+    image = "debian",
+    platforms = [
+        "linux/386",
+        "linux/amd64",
+        "linux/arm/v5",
+        "linux/arm/v7",
+        "linux/arm64/v8",
+        "linux/mips64le",
+        "linux/ppc64le",
+        "linux/s390x",
+    ],
+)
+use_repo(oci, "debian")
 
 # TODO: figure out why this is throwing a warning for importing from a transitive repository
 use_repo(oci, "oci_crane_toolchains")

@@ -13,7 +13,7 @@ import logo from "./logo.png";
 import { useStatsigClient } from "@statsig/react-bindings";
 
 export const navigationItems = [
-  { link: "/", label: "Home", icon: IconLayoutBoard },
+  { link: "/", label: "Chat", icon: IconLayoutBoard },
   { link: "/plan", label: "Plan", icon: IconCalendarEvent },
   { link: "/spend", label: "Spend", icon: IconCalendarDollar },
   { link: "/settings", label: "Settings", icon: IconSettings },

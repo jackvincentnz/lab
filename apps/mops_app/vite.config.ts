@@ -5,6 +5,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/graphql": "http://localhost:8080",
+      "/chat": "http://localhost:3000",
     },
   },
   test: {
