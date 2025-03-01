@@ -38,7 +38,7 @@ class LineItemMapperTest extends TestBase {
 
     var result = lineItemMapper.map(lineItem);
 
-    assertThat(result.getCategorizations().get(0).getCategoryId())
+    assertThat(result.getCategorizations().get(0).getCategory().getId())
         .isEqualTo(category.getId().toString());
   }
 
@@ -51,7 +51,7 @@ class LineItemMapperTest extends TestBase {
 
     var result = lineItemMapper.map(lineItem);
 
-    assertThat(result.getCategorizations().get(0).getCategoryValueId())
+    assertThat(result.getCategorizations().get(0).getCategoryValue().getId())
         .isEqualTo(categoryValue.getId().toString());
   }
 

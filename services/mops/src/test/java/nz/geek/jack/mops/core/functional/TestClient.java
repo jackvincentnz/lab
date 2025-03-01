@@ -39,8 +39,11 @@ public class TestClient {
                 .id()
                 .name()
                 .categorizations()
-                .categoryId()
-                .categoryValueId());
+                .category()
+                .id()
+                .parent()
+                .categoryValue()
+                .id());
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.addLineItem", AddLineItemResponse.class);
@@ -105,9 +108,11 @@ public class TestClient {
                 .id()
                 .name()
                 .categorizations()
-                .categoryId()
-                .categoryValueId()
-                .categoryValueId());
+                .category()
+                .id()
+                .parent()
+                .categoryValue()
+                .id());
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.categorizeLineItem", CategorizeLineItemResponse.class);
