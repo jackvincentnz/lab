@@ -59,10 +59,19 @@ tar(
     strip_prefix = "dist",
 )
 
+tar(
+    name = "nginx_conf_tar",
+    srcs = ["default.conf.template"],
+    package_dir = "/etc/nginx/templates",
+)
+
 oci_image(
     name = "image",
     base = "@nginx_alpine_slim",
-    tars = [":tar"],
+    tars = [
+        ":tar",
+        ":nginx_conf_tar",
+    ],
 )
 
 oci_deliver(

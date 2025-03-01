@@ -1,0 +1,30 @@
+version: "3"
+services:
+  mop-_app:
+    image: jackvincent/lab-mops-app:latest
+    hostname: mops-app
+    container_name: mops-app
+    ports:
+      - "8081:80"
+    environment:
+      NGINX_PORT: 80
+      GRAPHQL_HOST: http://mops:8080
+      CHAT_HOST: http://mops-assistant:3000
+
+  mops:
+    image: jackvincent/lab-mops:latest
+    container_name: mops
+    hostname: mops
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+
+  mops-assistant:
+    image: jackvincent/lab-mops-assistant:latest
+    hostname: mops-assistant
+    container_name: mops-assistant
+    ports:
+      - "3000:3000"
+    environment:
+      OPENAI_API_KEY: # Retrieved from open developer portal

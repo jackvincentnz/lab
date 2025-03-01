@@ -1,0 +1,16 @@
+server {
+    listen ${NGINX_PORT};
+
+    location / {
+      root /usr/share/nginx/html;
+      index index.html;
+    }
+
+    location /chat {
+        proxy_pass ${CHAT_HOST};
+    }
+
+    location /graphql {
+        proxy_pass ${GRAPHQL_HOST};
+    }
+}

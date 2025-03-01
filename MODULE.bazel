@@ -204,6 +204,22 @@ oci.pull(
     tag = "stable-alpine-slim",
 )
 use_repo(oci, "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
+oci.pull(
+    name = "debian",
+    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+    image = "debian",
+    platforms = [
+        "linux/386",
+        "linux/amd64",
+        "linux/arm/v5",
+        "linux/arm/v7",
+        "linux/arm64/v8",
+        "linux/mips64le",
+        "linux/ppc64le",
+        "linux/s390x",
+    ],
+)
+use_repo(oci, "debian")
 
 # TODO: figure out why this is throwing a warning for importing from a transitive repository
 use_repo(oci, "oci_crane_toolchains")
