@@ -1,10 +1,8 @@
 server {
     listen ${NGINX_PORT};
 
-    location / {
-      root /usr/share/nginx/html;
-      index index.html;
-    }
+    root /usr/share/nginx/html;
+    index index.html;
 
     location /chat {
         proxy_pass ${CHAT_HOST};
@@ -12,5 +10,9 @@ server {
 
     location /graphql {
         proxy_pass ${GRAPHQL_HOST};
+    }
+
+    location / {
+        try_files $uri /index.html;
     }
 }
