@@ -1,11 +1,9 @@
 import { Burger, Group, Title } from "@mantine/core";
 import {
-  IconCalendarEvent,
-  IconLogout,
-  IconSettings,
-  IconSwitchHorizontal,
-  IconLayoutBoard,
   IconCalendarDollar,
+  IconLayoutBoard,
+  IconLogout,
+  IconSwitchHorizontal,
 } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
@@ -14,9 +12,9 @@ import { useStatsigClient } from "@statsig/react-bindings";
 
 export const navigationItems = [
   { link: "/", label: "Chat", icon: IconLayoutBoard },
-  { link: "/plan", label: "Plan", icon: IconCalendarEvent },
+  // { link: "/plan", label: "Plan", icon: IconCalendarEvent },
   { link: "/spend", label: "Spend", icon: IconCalendarDollar },
-  { link: "/settings", label: "Settings", icon: IconSettings },
+  // { link: "/settings", label: "Settings", icon: IconSettings },
 ];
 
 export interface NavbarProps {
