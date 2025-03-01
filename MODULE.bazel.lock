@@ -16,8 +16,8 @@
     "https://bcr.bazel.build/modules/aspect_rules_jest/0.22.0/MODULE.bazel": "60a8ad6fe18540d2a726d34f31cf3775f00958d8cc499c588792ac26f8a6983c",
     "https://bcr.bazel.build/modules/aspect_rules_jest/0.22.0/source.json": "16dacd163b2f35c9da4e39cd16ec0b271af2539799aa4cd6dbe81b25827e4b9f",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.0.0/MODULE.bazel": "b45b507574aa60a92796e3e13c195cd5744b3b8aff516a9c0cb5ae6a048161c5",
-    "https://bcr.bazel.build/modules/aspect_rules_js/2.0.1/MODULE.bazel": "a09d32aa997ad899fcd88dc6e629188f03351994f0698bc32a9979c5bcfd5c31",
-    "https://bcr.bazel.build/modules/aspect_rules_js/2.0.1/source.json": "62bda0d34f3817af165d1903b890ecbf6e50d652492f8bb83682636e997b5619",
+    "https://bcr.bazel.build/modules/aspect_rules_js/2.2.0/MODULE.bazel": "9717953f83617605e390611bba3e1d5fbc327ded04cf0510df4dc393a0259900",
+    "https://bcr.bazel.build/modules/aspect_rules_js/2.2.0/source.json": "44f2c2ee7f6a32c3cf8a5cb370bdbb8b7f128ed9bff4f8df0e72c4a5e1a64bcc",
     "https://bcr.bazel.build/modules/aspect_rules_swc/2.0.0/MODULE.bazel": "a8c01e717e8f9a59829762fc503b050783b02b9952308ccb91cf8aecdf10f8cc",
     "https://bcr.bazel.build/modules/aspect_rules_swc/2.0.0/source.json": "a1cb7e611cd6be1acfbe1144c8876cf62dff2b935e98618296238fcb75543fd2",
     "https://bcr.bazel.build/modules/aspect_rules_ts/3.1.0/MODULE.bazel": "596ccdc1e93c860ec60d0bfce361ecbfb9ea09362d01f9d1bc5666118bcb76ab",
@@ -104,7 +104,8 @@
     "https://bcr.bazel.build/modules/rules_multirun/0.9.0/MODULE.bazel": "32d628ef586b5b23f67e55886b7bc38913ea4160420d66ae90521dda2ff37df0",
     "https://bcr.bazel.build/modules/rules_multirun/0.9.0/source.json": "e882ba77962fa6c5fe68619e5c7d0374ec9a219fb8d03c42eadaf6d0243771bd",
     "https://bcr.bazel.build/modules/rules_nodejs/6.2.0/MODULE.bazel": "ec27907f55eb34705adb4e8257952162a2d4c3ed0f0b3b4c3c1aad1fac7be35e",
-    "https://bcr.bazel.build/modules/rules_nodejs/6.2.0/source.json": "a77c307175a82982f0847fd6a8660db5b21440d8a9d073642cb4afa7a18612ff",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.3.0/MODULE.bazel": "45345e4aba35dd6e4701c1eebf5a4e67af4ed708def9ebcdc6027585b34ee52d",
+    "https://bcr.bazel.build/modules/rules_nodejs/6.3.0/source.json": "1254ffd8d0d908a19c67add7fb5e2a1f604df133bc5d206425264293e2e537fc",
     "https://bcr.bazel.build/modules/rules_oci/2.0.0/MODULE.bazel": "5d5cf1932238b009f874d5a9f214bbedf5d8cec8e5028e083f1147726876572f",
     "https://bcr.bazel.build/modules/rules_oci/2.0.0/source.json": "ea89dd54d1f473a6fb1a6c2d0660b741ee832d5141ac0b9c90d5c8fc9b5e3bb3",
     "https://bcr.bazel.build/modules/rules_pkg/0.7.0/MODULE.bazel": "df99f03fc7934a4737122518bb87e667e62d780b610910f0447665a7e2be62dc",
@@ -188,7 +189,7 @@
     "@@aspect_bazel_lib~//lib:extensions.bzl%toolchains": {
       "general": {
         "bzlTransitiveDigest": "o+c8qRBWojmxp6XnxraB8cDLR3egI6E7hjYq4t1rzM8=",
-        "usagesDigest": "ZrOxBXEmDq5j9vSd21IS4cUQZGwJyJ1UOCeHKqMzJBY=",
+        "usagesDigest": "NGjqRBXXjrw2dYiuH+knUo0rroG9C7pGOCDjuSwTz4A=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -654,8 +655,8 @@
     },
     "@@aspect_rules_js~//npm:extensions.bzl%pnpm": {
       "general": {
-        "bzlTransitiveDigest": "f59D7aDCDbDFuuus8pVXU7zTosNn77zI5/IZy2jfG9g=",
-        "usagesDigest": "ozcXv1i3VvgsFspWlX2TgB/a92lC8DI6ayZmWada80s=",
+        "bzlTransitiveDigest": "MHQansibKdttNhqQvLLGLtwu4NG+tjw4zHIehl6KifQ=",
+        "usagesDigest": "qV3TkVeB025OTFGiGPwsJ0o+b8AzFOv0SXwfg80fmho=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -681,7 +682,8 @@
               "package_visibility": [
                 "//visibility:public"
               ],
-              "replace_package": ""
+              "replace_package": "",
+              "exclude_package_contents": []
             }
           },
           "pnpm": {
@@ -1265,8 +1267,8 @@
     },
     "@@rules_nodejs~//nodejs:extensions.bzl%node": {
       "general": {
-        "bzlTransitiveDigest": "0IJr1Jg3Dns9QKY65MtauFLtHjjP3n1DgN0+ZAjFYXo=",
-        "usagesDigest": "xA5wPSs/qzKEAqCcrkIwJ3OKrdElGB8FjiwhBWBII7k=",
+        "bzlTransitiveDigest": "SqbzUarOVzAfK28Ca5+NIU3LUwnW/b3h0xXBUS97oyI=",
+        "usagesDigest": "NWzZ91EEIrMjev3rzqyoYZ35J59AnvDoapFZuxtG7iY=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1287,7 +1289,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "linux_s390x"
             }
@@ -1301,7 +1303,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "windows_amd64"
             }
@@ -1322,7 +1324,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "linux_amd64"
             }
@@ -1336,7 +1338,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "linux_ppc64le"
             }
@@ -1350,7 +1352,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "darwin_amd64"
             }
@@ -1364,7 +1366,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "linux_arm64"
             }
@@ -1385,7 +1387,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.18.0",
+              "node_version": "18.20.4",
               "include_headers": false,
               "platform": "darwin_arm64"
             }

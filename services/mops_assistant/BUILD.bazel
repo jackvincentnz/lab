@@ -12,5 +12,5 @@ js_binary(
         ":package.json",
         "//services/mops_assistant/src",
     ],
-    entry_point = "//services/mops_assistant/src:main.js",
+    entry_point = "//services/mops_assistant/src:server.js",
 )
