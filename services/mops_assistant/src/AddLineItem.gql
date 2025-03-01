@@ -4,7 +4,6 @@ mutation AddLineItem($input: AddLineItemInput!) {
     success
     message
     lineItem {
-      id
       name
     }
   }

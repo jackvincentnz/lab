@@ -30,8 +30,8 @@ type LineItem {
 }
 
 type Categorization {
-  categoryId: ID!
-  categoryValueId: ID!
+  category: Category!
+  categoryValue: CategoryValue!
 }
 
 type Category {

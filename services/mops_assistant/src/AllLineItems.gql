@@ -1,18 +1,13 @@
 query AllLineItems {
   allLineItems {
-    id
     name
     categorizations {
-      categoryId
-      categoryValueId
-    }
-  }
-  allCategories {
-    id
-    name
-    values {
-      id
-      name
+      category {
+        name
+      }
+      category {
+        name
+      }
     }
   }
 }

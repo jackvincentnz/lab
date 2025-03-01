@@ -1,6 +1,8 @@
 package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
 import nz.geek.jack.mops.api.gql.types.Categorization;
+import nz.geek.jack.mops.api.gql.types.Category;
+import nz.geek.jack.mops.api.gql.types.CategoryValue;
 import nz.geek.jack.mops.api.gql.types.LineItem;
 import org.springframework.stereotype.Component;
 
@@ -16,8 +18,12 @@ public class LineItemMapper {
                 .map(
                     c ->
                         Categorization.newBuilder()
-                            .categoryId(c.getCategoryId().toString())
-                            .categoryValueId(c.getCategoryValueId().toString())
+                            .category(
+                                Category.newBuilder().id(c.getCategoryId().toString()).build())
+                            .categoryValue(
+                                CategoryValue.newBuilder()
+                                    .id(c.getCategoryValueId().toString())
+                                    .build())
                             .build())
                 .toList())
         .build();

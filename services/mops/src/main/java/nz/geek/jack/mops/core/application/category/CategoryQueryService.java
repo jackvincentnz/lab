@@ -2,6 +2,7 @@ package nz.geek.jack.mops.core.application.category;
 
 import java.util.Collection;
 import nz.geek.jack.mops.core.domain.category.Category;
+import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,9 @@ public class CategoryQueryService {
 
   public Collection<Category> findAll() {
     return categoryRepository.findAll();
+  }
+
+  public Category getById(CategoryId id) {
+    return categoryRepository.getById(id);
   }
 }

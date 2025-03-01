@@ -66,8 +66,11 @@ class LineItemFunctionalTest extends TestBase {
                 .id()
                 .name()
                 .categorizations()
-                .categoryId()
-                .categoryValueId());
+                .category()
+                .id()
+                .parent()
+                .categoryValue()
+                .id());
 
     var result =
         dgsQueryExecutor.executeAndExtractJsonPathAsObject(
@@ -76,8 +79,8 @@ class LineItemFunctionalTest extends TestBase {
     assertThat(result.getId()).isNotBlank();
     assertThat(result.getName()).isNotBlank();
     var categorization = result.getCategorizations().get(0);
-    assertThat(categorization.getCategoryId()).isEqualTo(categoryId);
-    assertThat(categorization.getCategoryValueId()).isEqualTo(categoryValueId);
+    assertThat(categorization.getCategory().getId()).isEqualTo(categoryId);
+    assertThat(categorization.getCategoryValue().getId()).isEqualTo(categoryValueId);
   }
 
   @Test
