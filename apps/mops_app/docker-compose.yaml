@@ -28,3 +28,4 @@ services:
       - "3000:3000"
     environment:
       OPENAI_API_KEY: # Retrieved from open developer portal
+      GRAPHQL_HOST: http://mops:8080/graphql
