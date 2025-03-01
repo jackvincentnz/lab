@@ -83,7 +83,7 @@ export function Chat() {
             <TextInput
               value={input}
               onChange={(e) => setInput(e.currentTarget.value)}
-              placeholder="Type your message..."
+              placeholder="What can you do?"
               onKeyDown={(e) => e.key === "Enter" && sendMessage()}
               rightSection={
                 postChatMutation.isPending ? (
