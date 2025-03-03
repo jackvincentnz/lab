@@ -61,7 +61,7 @@ maven.install(
         "org.springframework.data:spring-data-jdbc:3.0.11",  # Managed by https://mvnrepository.com/artifact/org.springframework.data/spring-data-bom
         "org.springframework.kafka:spring-kafka:3.0.12",
         "redis.clients:jedis:5.0.0",
-        "org.postgresql:postgresql:42.7.3",
+        "org.postgresql:postgresql:42.7.5",
         "com.eventstore:db-client-java:5.0.0",
         "org.springframework.boot:spring-boot-starter-test:3.0.12",
         "org.springframework.kafka:spring-kafka-test:3.0.12",
