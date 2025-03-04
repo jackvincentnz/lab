@@ -24,8 +24,4 @@ public class CategoryQueryService {
   public Map<CategoryId, Category> mapById(Set<CategoryId> ids) {
     return categoryRepository.mapById(ids);
   }
-
-  public Category getById(CategoryId id) {
-    return categoryRepository.getById(id);
-  }
 }
