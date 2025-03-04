@@ -14,10 +14,10 @@ import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.annotation.DirtiesContext;
 
 @SpringBootTest
-@Transactional
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class LineItemFunctionalTest extends TestBase {
 
   @Autowired DgsQueryExecutor dgsQueryExecutor;
@@ -54,10 +54,10 @@ class LineItemFunctionalTest extends TestBase {
   @Test
   void allLineItemsReturnsAllFields() {
     var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
-    var categoryId = client.createCategory(randomString()).getCategory().getId();
-    var categoryValueId =
-        client.addCategoryValue(categoryId, randomString()).getCategoryValue().getId();
-    client.categorizeLineItem(lineItemId, categoryId, categoryValueId);
+    var category = client.createCategory(randomString()).getCategory();
+    var categoryValue =
+        client.addCategoryValue(category.getId(), randomString()).getCategoryValue();
+    client.categorizeLineItem(lineItemId, category.getId(), categoryValue.getId());
 
     var request =
         new GraphQLQueryRequest(
@@ -68,9 +68,11 @@ class LineItemFunctionalTest extends TestBase {
                 .categorizations()
                 .category()
                 .id()
+                .name()
                 .parent()
                 .categoryValue()
-                .id());
+                .id()
+                .name());
 
     var result =
         dgsQueryExecutor.executeAndExtractJsonPathAsObject(
@@ -79,8 +81,10 @@ class LineItemFunctionalTest extends TestBase {
     assertThat(result.getId()).isNotBlank();
     assertThat(result.getName()).isNotBlank();
     var categorization = result.getCategorizations().get(0);
-    assertThat(categorization.getCategory().getId()).isEqualTo(categoryId);
-    assertThat(categorization.getCategoryValue().getId()).isEqualTo(categoryValueId);
+    assertThat(categorization.getCategory().getId()).isEqualTo(category.getId());
+    assertThat(categorization.getCategory().getName()).isEqualTo(category.getName());
+    assertThat(categorization.getCategoryValue().getId()).isEqualTo(categoryValue.getId());
+    assertThat(categorization.getCategoryValue().getName()).isEqualTo(categoryValue.getName());
   }
 
   @Test
