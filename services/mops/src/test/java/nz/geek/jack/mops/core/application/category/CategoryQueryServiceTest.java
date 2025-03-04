@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import nz.geek.jack.mops.core.domain.category.Category;
 import nz.geek.jack.mops.core.domain.category.CategoryRepository;
 import nz.geek.jack.test.TestBase;
@@ -28,5 +30,17 @@ class CategoryQueryServiceTest extends TestBase {
     var result = categoryQueryService.findAll();
 
     assertThat(result).isEqualTo(categories);
+  }
+
+  @Test
+  void mapById_delegatesToRepository() {
+    var category = Category.create(randomString());
+    var ids = Set.of(category.getId());
+    var categoriesById = Map.of(category.getId(), category);
+    when(categoryRepository.mapById(ids)).thenReturn(categoriesById);
+
+    var result = categoryQueryService.mapById(ids);
+
+    assertThat(result).isEqualTo(categoriesById);
   }
 }
