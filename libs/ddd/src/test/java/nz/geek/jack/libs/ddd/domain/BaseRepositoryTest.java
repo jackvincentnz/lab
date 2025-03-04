@@ -1,10 +1,13 @@
 package nz.geek.jack.libs.ddd.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -20,9 +23,29 @@ class BaseRepositoryTest extends TestBase {
     assertThrows(NotFoundException.class, () -> repository.getById(id));
   }
 
+  @SuppressWarnings("unchecked")
+  @Test
+  void mapById_maps() {
+    var repository = spy(BaseRepository.class);
+    var aggregate = new TestAggregate(new TestId());
+    var ids = Set.of(aggregate.getId());
+    when(repository.findAllById(ids)).thenReturn(List.of(aggregate));
+
+    var result = repository.mapById(ids);
+
+    assertThat(result).hasSize(1);
+    assertThat(result.get(aggregate.getId())).isEqualTo(aggregate);
+  }
+
   static class TestId extends AbstractId {
     TestId() {
       super();
+    }
+  }
+
+  static class TestAggregate extends Aggregate<TestId> {
+    TestAggregate(TestId id) {
+      super(id);
     }
   }
 }
