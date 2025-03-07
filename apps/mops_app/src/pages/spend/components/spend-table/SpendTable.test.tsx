@@ -10,44 +10,68 @@ import {
   vi,
 } from "../../../../test";
 import { ADD_LINE_ITEM_BUTTON, SpendTable } from "./SpendTable";
-import { LineItem } from "./types";
+import { Column, LineItem } from "./types";
 import {
   NAME_MAX_LENGTH,
   NAME_MAX_LENGTH_ERROR,
   NAME_REQUIRED_ERROR,
 } from "./validation";
 
-const data: LineItem[] = [
+const columns: Column[] = ["column1", "column2"].map((column) => ({
+  id: column,
+  header: column,
+  options: [],
+  accessor: (lineItem) =>
+    lineItem.fields.find((attribute) => attribute.id === column)?.value,
+}));
+
+const lineItems: LineItem[] = [
   {
     id: "1",
     name: "item1",
+    fields: [
+      {
+        id: columns[0].id,
+        value: "value1",
+      },
+    ],
   },
   {
     id: "2",
     name: "item2",
-  },
-  {
-    id: "3",
-    name: "item3",
-  },
-  {
-    id: "4",
-    name: "item4",
+    fields: [
+      {
+        id: columns[1].id,
+        value: "value2",
+      },
+    ],
   },
 ];
 
 describe("SpendTable", async () => {
-  test("renders headers", async () => {
-    render(<SpendTable data={data} />);
+  test("renders static headers", async () => {
+    render(<SpendTable columns={[]} lineItems={lineItems} />);
 
     expect(screen.getByText(/Name/)).toBeInTheDocument();
   });
 
-  test("renders rows", async () => {
-    render(<SpendTable data={data} />);
+  test("renders dynamic headers", async () => {
+    render(<SpendTable columns={columns} lineItems={lineItems} />);
 
-    for (const entry of data) {
+    for (const column of columns) {
+      expect(screen.getByText(column.header)).toBeInTheDocument();
+    }
+  });
+
+  test("renders rows", async () => {
+    render(<SpendTable columns={columns} lineItems={lineItems} />);
+
+    for (const entry of lineItems) {
       expect(screen.getByText(entry.name)).toBeInTheDocument();
+
+      if (entry.fields.length > 0) {
+        expect(screen.getByText(entry.fields[0].value)).toBeInTheDocument();
+      }
     }
   });
 
@@ -55,7 +79,13 @@ describe("SpendTable", async () => {
     const name = "Added line item";
     const onAddLineItem = vi.fn();
 
-    render(<SpendTable data={data} onAddLineItem={onAddLineItem} />);
+    render(
+      <SpendTable
+        columns={columns}
+        lineItems={lineItems}
+        onAddLineItem={onAddLineItem}
+      />,
+    );
 
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
@@ -70,7 +100,7 @@ describe("SpendTable", async () => {
   });
 
   test("line item name is required", async () => {
-    render(<SpendTable data={data} />);
+    render(<SpendTable columns={columns} lineItems={lineItems} />);
 
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
@@ -87,7 +117,13 @@ describe("SpendTable", async () => {
     const name = randomString(NAME_MAX_LENGTH);
     const onAddLineItem = vi.fn();
 
-    render(<SpendTable data={data} onAddLineItem={onAddLineItem} />);
+    render(
+      <SpendTable
+        columns={columns}
+        lineItems={lineItems}
+        onAddLineItem={onAddLineItem}
+      />,
+    );
 
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
