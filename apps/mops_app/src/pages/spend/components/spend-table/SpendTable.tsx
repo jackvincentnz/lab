@@ -1,6 +1,8 @@
 import classes from "./SpendTable.module.css";
 import { useMemo } from "react";
 import {
+  createMRTColumnHelper,
+  createRow,
   MantineReactTable,
   type MRT_ColumnDef,
   useMantineReactTable,
@@ -8,18 +10,31 @@ import {
 import clsx from "clsx";
 import { Button } from "@mantine/core";
 import { useAddLineItem } from "./actions";
-import { LineItem, NewLineItem } from "./types";
+import { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
 
 export const ADD_LINE_ITEM_BUTTON = "Add Line Item";
 export const HEADER_NAME = "Name";
 
 export interface SpendTableProps {
-  data: LineItem[];
+  columns: Column[];
+  lineItems: LineItem[];
   onAddLineItem?: (lineItem: NewLineItem) => void;
 }
 
-export function SpendTable({ data, onAddLineItem }: SpendTableProps) {
+const columnHelper = createMRTColumnHelper<LineItem>();
+
+const NEW_ROW: LineItem = {
+  id: "",
+  name: "",
+  fields: [],
+};
+
+export function SpendTable({
+  columns,
+  lineItems,
+  onAddLineItem,
+}: SpendTableProps) {
   const {
     validationErrors,
     setValidationErrors,
@@ -27,38 +42,43 @@ export function SpendTable({ data, onAddLineItem }: SpendTableProps) {
     clearErrors,
   } = useLineItemValidation();
 
-  const columns = useMemo<MRT_ColumnDef<LineItem>[]>(
+  const getTextInputProps = (field: keyof LineItem) => ({
+    required: true,
+    error: validationErrors?.[field],
+    onFocus: removeErrorsFor(field),
+  });
+
+  const columnDefs = useMemo<MRT_ColumnDef<LineItem>[]>(
     () => [
-      {
-        accessorKey: "name",
+      columnHelper.accessor("name", {
         header: HEADER_NAME,
-        mantineEditTextInputProps: {
-          required: true,
-          error: validationErrors?.["name"],
-          onFocus: removeErrorsFor("name"),
-        },
-      },
+        mantineEditTextInputProps: getTextInputProps("name"),
+      }),
+      ...columns.map((column) =>
+        columnHelper.accessor((lineItem) => column.accessor(lineItem), {
+          id: column.id,
+          header: column.header,
+          editVariant: "select",
+          mantineEditSelectProps: {
+            data: column.options,
+          },
+        }),
+      ),
     ],
-    [validationErrors],
+    [validationErrors, columns],
   );
 
   const table = useMantineReactTable({
-    columns,
-    data,
+    columns: columnDefs,
+    data: lineItems,
     enableColumnActions: false,
     enableColumnFilters: false,
     enablePagination: false,
     enableSorting: false,
     onCreatingRowCancel: clearErrors,
     onCreatingRowSave: useAddLineItem(setValidationErrors, onAddLineItem),
-    renderTopToolbarCustomActions: ({ table }) => (
-      <Button
-        onClick={() => {
-          table.setCreatingRow(true);
-        }}
-      >
-        {ADD_LINE_ITEM_BUTTON}
-      </Button>
+    renderTopToolbarCustomActions: () => (
+      <Button onClick={onAddRow}>{ADD_LINE_ITEM_BUTTON}</Button>
     ),
     mantineTableProps: {
       className: clsx(classes["table"]),
@@ -69,6 +89,11 @@ export function SpendTable({ data, onAddLineItem }: SpendTableProps) {
       withTableBorder: true,
     },
   });
+
+  const onAddRow = () => {
+    const row = createRow(table, NEW_ROW);
+    table.setCreatingRow(row);
+  };
 
   return <MantineReactTable table={table} />;
 }

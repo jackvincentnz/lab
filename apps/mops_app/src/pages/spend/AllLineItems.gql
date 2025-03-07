@@ -2,5 +2,13 @@ query AllLineItems {
   allLineItems {
     id
     name
+    categorizations {
+      category {
+        id
+      }
+      categoryValue {
+        name
+      }
+    }
   }
 }

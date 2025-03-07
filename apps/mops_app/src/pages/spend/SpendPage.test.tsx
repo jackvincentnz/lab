@@ -13,10 +13,13 @@ import {
   AddLineItemDocument,
   AddLineItemMutation,
   AddLineItemMutationVariables,
+  AllCategoriesDocument,
+  AllCategoriesQuery,
   AllLineItemsDocument,
   AllLineItemsQuery,
+  Category,
+  LineItem,
 } from "../../__generated__/graphql";
-import { LineItem } from "./components/spend-table";
 import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/SpendTable";
 
 describe("SpendPage", async () => {
@@ -32,6 +35,19 @@ describe("SpendPage", async () => {
 
     expect(await screen.findByText(/Name/)).toBeInTheDocument();
     expect(await screen.findByText(name)).toBeInTheDocument();
+  });
+
+  test("renders table columns", async () => {
+    const category = "Country";
+    const categories = mockAllCategories({ names: [category] });
+
+    render(<SpendPage />, {
+      mockedProvider: {
+        mocks: [categories],
+      },
+    });
+
+    expect(await screen.findByText(category)).toBeInTheDocument();
   });
 
   test("adds line item", async () => {
@@ -98,5 +114,30 @@ function mockLineItem({ name }: Partial<LineItem>): LineItem {
   return {
     id: name ?? Date.now().toString(),
     name: name ?? Date.now().toString(),
+    categorizations: [],
+  };
+}
+
+function mockAllCategories(options?: {
+  names?: string[];
+}): MockedResponse<AllCategoriesQuery> {
+  return {
+    request: {
+      query: AllCategoriesDocument,
+    },
+    result: {
+      data: {
+        allCategories:
+          options?.names?.map((name) => mockCategory({ name })) ?? [],
+      },
+    },
+  };
+}
+
+function mockCategory({ name }: Partial<Category>): Category {
+  return {
+    id: name ?? Date.now().toString(),
+    name: name ?? Date.now().toString(),
+    values: [],
   };
 }

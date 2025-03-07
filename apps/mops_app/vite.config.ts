@@ -4,8 +4,8 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   server: {
     proxy: {
-      "/graphql": "http://localhost:8080",
-      "/chat": "http://localhost:3000",
+      "/graphql": "http://127.0.0.1:8080",
+      "/chat": "http://127.0.0.1:3000",
     },
   },
   test: {
