@@ -20,6 +20,7 @@ export interface SpendTableProps {
   columns: Column[];
   lineItems: LineItem[];
   onAddLineItem?: (lineItem: NewLineItem) => void;
+  loading?: boolean;
 }
 
 const columnHelper = createMRTColumnHelper<LineItem>();
@@ -34,6 +35,7 @@ export function SpendTable({
   columns,
   lineItems,
   onAddLineItem,
+  loading,
 }: SpendTableProps) {
   const {
     validationErrors,
@@ -71,6 +73,9 @@ export function SpendTable({
   const table = useMantineReactTable({
     columns: columnDefs,
     data: lineItems,
+    state: {
+      isLoading: loading,
+    },
     enableColumnActions: false,
     enableColumnFilters: false,
     enablePagination: false,
