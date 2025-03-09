@@ -5,8 +5,12 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import nz.geek.jack.mops.core.domain.category.Category;
 import nz.geek.jack.mops.core.domain.category.CategoryRepository;
+import nz.geek.jack.mops.core.domain.lineitem.Categorization;
 import nz.geek.jack.mops.core.domain.lineitem.LineItem;
 import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
 import nz.geek.jack.test.TestBase;
@@ -38,6 +42,24 @@ class LineItemCommandServiceTest extends TestBase {
 
     verify(lineItemRepository).save(lineItemCaptor.capture());
     assertThat(lineItemCaptor.getValue().getName()).isEqualTo(name);
+  }
+
+  @Test
+  void add_addsLineItemWithCategorization() {
+    var category = Category.create(randomString());
+    var categoryValue = category.addValue(randomString());
+    var categorization = Categorization.of(category.getId(), categoryValue.getId());
+
+    when(categoryRepository.mapById(Set.of(category.getId())))
+        .thenReturn(Map.of(category.getId(), category));
+
+    var command =
+        new AddLineItemCommand(randomString()).withCategorizations(List.of(categorization));
+
+    lineItemCommandService.add(command);
+
+    verify(lineItemRepository).save(lineItemCaptor.capture());
+    assertThat(lineItemCaptor.getValue().getCategorizations()).isEqualTo(Set.of(categorization));
   }
 
   @Test

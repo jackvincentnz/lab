@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsProjectionRoot;
+import nz.geek.jack.mops.api.gql.types.CategorizationInput;
 import nz.geek.jack.mops.api.gql.types.LineItem;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -25,15 +26,30 @@ class LineItemFunctionalTest extends TestBase {
   @Autowired TestClient client;
 
   @Test
-  void addLineItemReturnsAllFields() {
+  void addLineItemWithAllFields() {
     var name = randomString();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+    var categoryValueId =
+        client.addCategoryValue(categoryId, randomString()).getCategoryValue().getId();
 
-    var response = client.addLineItem(name);
+    var response =
+        client.addLineItem(
+            name,
+            List.of(
+                CategorizationInput.newBuilder()
+                    .categoryId(categoryId)
+                    .categoryValueId(categoryValueId)
+                    .build()));
 
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
     assertThat(response.getMessage()).isNotBlank();
-    assertThat(response.getLineItem()).isNotNull();
+    assertThat(response.getLineItem().getName()).isEqualTo(name);
+
+    var categorization = response.getLineItem().getCategorizations().get(0);
+
+    assertThat(categorization.getCategory().getId()).isEqualTo(categoryId);
+    assertThat(categorization.getCategoryValue().getId()).isEqualTo(categoryValueId);
   }
 
   @Test
