@@ -8,6 +8,7 @@ import {
   test,
   userEvent,
   vi,
+  within,
 } from "../../../../test";
 import { ADD_LINE_ITEM_BUTTON, SpendTable } from "./SpendTable";
 import { Column, LineItem } from "./types";
@@ -20,7 +21,7 @@ import {
 const columns: Column[] = ["column1", "column2"].map((column) => ({
   id: column,
   header: column,
-  options: [],
+  options: [{ value: column + "-value", label: column + "-label" }],
   accessor: (lineItem) =>
     lineItem.fields.find((attribute) => attribute.id === column)?.value,
 }));
@@ -50,13 +51,13 @@ const lineItems: LineItem[] = [
 
 describe("SpendTable", async () => {
   test("renders static headers", async () => {
-    render(<SpendTable columns={[]} lineItems={lineItems} />);
+    render(<SpendTable columns={[]} lineItems={[]} />);
 
     expect(screen.getByText(/Name/)).toBeInTheDocument();
   });
 
   test("renders dynamic headers", async () => {
-    render(<SpendTable columns={columns} lineItems={lineItems} />);
+    render(<SpendTable columns={columns} lineItems={[]} />);
 
     for (const column of columns) {
       expect(screen.getByText(column.header)).toBeInTheDocument();
@@ -82,7 +83,7 @@ describe("SpendTable", async () => {
     render(
       <SpendTable
         columns={columns}
-        lineItems={lineItems}
+        lineItems={[]}
         onAddLineItem={onAddLineItem}
       />,
     );
@@ -90,13 +91,24 @@ describe("SpendTable", async () => {
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
 
-    const input = screen.getByLabelText(/Name/);
-    fireEvent.change(input, { target: { value: name } });
+    const nameInput = screen.getByLabelText(/Name/);
+    fireEvent.change(nameInput, { target: { value: name } });
+
+    const modal = screen.getByRole("dialog");
+    const categoryInput = within(modal).getByLabelText(columns[0].header);
+
+    await userEvent.click(categoryInput);
+
+    const option = screen.getByText(columns[0].options[0].label);
+    await userEvent.click(option);
 
     const saveBtn = screen.getByText(/Save/);
     await userEvent.click(saveBtn);
 
-    expect(onAddLineItem).toHaveBeenCalledWith({ name });
+    expect(onAddLineItem).toHaveBeenCalledWith({
+      name,
+      fields: [{ id: columns[0].id, value: columns[0].options[0].value }],
+    });
   });
 
   test("line item name is required", async () => {
@@ -142,6 +154,6 @@ describe("SpendTable", async () => {
     fireEvent.change(input, { target: { value: name } });
     await userEvent.click(saveBtn);
 
-    expect(onAddLineItem).toHaveBeenCalledWith({ name });
+    expect(onAddLineItem).toHaveBeenCalledWith({ name, fields: [] });
   });
 });

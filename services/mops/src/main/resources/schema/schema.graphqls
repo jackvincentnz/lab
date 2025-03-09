@@ -57,6 +57,12 @@ input ProvisionTenantInput {
 
 input AddLineItemInput {
   name: String!
+  categorizations: [CategorizationInput!]
+}
+
+input CategorizationInput {
+  categoryId: String!
+  categoryValueId: String!
 }
 
 input CreateCategoryInput {

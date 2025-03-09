@@ -1,4 +1,4 @@
-import { LineItem, LineItemErrors } from "./types";
+import { LineItemErrors, NewLineItem } from "./types";
 import { useState } from "react";
 
 export const NAME_MAX_LENGTH = 256;
@@ -6,7 +6,7 @@ export const NAME_MAX_LENGTH = 256;
 export const NAME_REQUIRED_ERROR = "Name is Required";
 export const NAME_MAX_LENGTH_ERROR = "Max length is " + NAME_MAX_LENGTH;
 
-export function validateLineItem(lineItem: LineItem): LineItemErrors {
+export function validateLineItem(lineItem: NewLineItem): LineItemErrors {
   return {
     name: !validateRequired(lineItem.name)
       ? NAME_REQUIRED_ERROR

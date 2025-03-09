@@ -34,3 +34,15 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+
+vi.mock("@statsig/react-bindings", () => {
+  return {
+    useStatsigClient: () => ({
+      client: {
+        logEvent: () => {
+          // intentionally empty
+        },
+      },
+    }),
+  };
+});

@@ -17,6 +17,7 @@ import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
 import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryValueId;
+import nz.geek.jack.mops.core.domain.lineitem.Categorization;
 import nz.geek.jack.mops.core.domain.lineitem.LineItemId;
 
 @DgsComponent
@@ -35,6 +36,17 @@ public class LineItemMutation {
   @DgsMutation
   public AddLineItemResponse addLineItem(@InputArgument("input") AddLineItemInput input) {
     var command = new AddLineItemCommand(input.getName());
+
+    if (input.getCategorizations() != null) {
+      command.withCategorizations(
+          input.getCategorizations().stream()
+              .map(
+                  c ->
+                      Categorization.of(
+                          CategoryId.fromString(c.getCategoryId()),
+                          CategoryValueId.fromString(c.getCategoryValueId())))
+              .toList());
+    }
 
     var lineItem = lineItemCommandService.add(command);
 

@@ -9,20 +9,36 @@ export function useAddLineItem(
 ): MRT_TableOptions<LineItem>["onCreatingRowSave"] {
   const { client } = useStatsigClient();
 
-  return (props: { values: LineItem; exitCreatingMode: () => void }) => {
-    const newValidationErrors = validateLineItem(props.values);
+  return (props: {
+    values: Record<string, string>;
+    exitCreatingMode: () => void;
+  }) => {
+    const lineItem = mapToLineItem(props.values);
+
+    const newValidationErrors = validateLineItem(lineItem);
     if (Object.values(newValidationErrors).some((error) => error)) {
       onValidationErrors(newValidationErrors);
       return;
     }
     onValidationErrors({});
 
-    onAddLineItem && onAddLineItem(props.values);
+    onAddLineItem && onAddLineItem(lineItem);
 
-    client.logEvent("add_line_item", props.values.name, {
-      name: props.values.name,
+    client.logEvent("add_line_item", lineItem.name, {
+      name: lineItem.name,
     });
 
     props.exitCreatingMode();
+  };
+}
+
+function mapToLineItem(values: Record<string, string>): NewLineItem {
+  const fields = Object.entries(values)
+    .filter(([columnId, columnValue]) => columnId !== "name" && !!columnValue)
+    .map(([columnId, value]) => ({ id: columnId, value }));
+
+  return {
+    name: values["name"],
+    fields,
   };
 }

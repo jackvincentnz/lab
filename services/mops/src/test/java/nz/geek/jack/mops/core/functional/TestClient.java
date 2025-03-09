@@ -2,6 +2,7 @@ package nz.geek.jack.mops.core.functional;
 
 import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
+import java.util.List;
 import nz.geek.jack.mops.api.gql.client.AddCategoryValueGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AddCategoryValueProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.AddLineItemGraphQLQuery;
@@ -14,6 +15,7 @@ import nz.geek.jack.mops.api.gql.types.AddCategoryValueInput;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueResponse;
 import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
 import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
+import nz.geek.jack.mops.api.gql.types.CategorizationInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
@@ -26,10 +28,18 @@ public class TestClient {
   @Autowired DgsQueryExecutor dgsQueryExecutor;
 
   public AddLineItemResponse addLineItem(String name) {
+    return addLineItem(name, List.of());
+  }
+
+  public AddLineItemResponse addLineItem(String name, List<CategorizationInput> categorizations) {
     var request =
         new GraphQLQueryRequest(
             AddLineItemGraphQLQuery.newRequest()
-                .input(AddLineItemInput.newBuilder().name(name).build())
+                .input(
+                    AddLineItemInput.newBuilder()
+                        .name(name)
+                        .categorizations(categorizations)
+                        .build())
                 .build(),
             new AddLineItemProjectionRoot<>()
                 .success()

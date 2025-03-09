@@ -15,7 +15,7 @@ public final class Categorization {
     this.categoryValueId = categoryValueId;
   }
 
-  static Categorization of(CategoryId categoryId, CategoryValueId categoryValueId) {
+  public static Categorization of(CategoryId categoryId, CategoryValueId categoryValueId) {
     return new Categorization(categoryId, categoryValueId);
   }
 
