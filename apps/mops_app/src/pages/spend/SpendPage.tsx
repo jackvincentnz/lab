@@ -10,8 +10,11 @@ import { useAddLineItemMutation } from "./mutations";
 import { Field } from "./components/spend-table/types";
 
 export function SpendPage() {
-  const { data: lineItems } = useQuery(AllLineItemsDocument);
-  const { data: categories } = useQuery(AllCategoriesDocument);
+  const { data: lineItems, loading: lineItemsLoading } =
+    useQuery(AllLineItemsDocument);
+  const { data: categories, loading: categoriesLoading } = useQuery(
+    AllCategoriesDocument,
+  );
 
   const addLineItem = useAddLineItemMutation();
   const columns = mapToColumns(categories);
@@ -21,6 +24,7 @@ export function SpendPage() {
       columns={columns}
       lineItems={mapToLineItems(lineItems)}
       onAddLineItem={addLineItem}
+      loading={lineItemsLoading || categoriesLoading}
     />
   );
 }
