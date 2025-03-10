@@ -6,7 +6,10 @@ import {
   AllCategoriesQuery,
 } from "../../__generated__/graphql";
 import { Column, LineItem, Option, SpendTable } from "./components/spend-table";
-import { useAddLineItemMutation } from "./mutations";
+import {
+  useAddLineItemMutation,
+  useDeleteAllLineItemsMutation,
+} from "./mutations";
 import { Field } from "./components/spend-table/types";
 
 export function SpendPage() {
@@ -17,6 +20,7 @@ export function SpendPage() {
   );
 
   const addLineItem = useAddLineItemMutation();
+  const deleteAllLineItems = useDeleteAllLineItemsMutation();
   const columns = mapToColumns(categories);
 
   return (
@@ -24,6 +28,7 @@ export function SpendPage() {
       columns={columns}
       lineItems={mapToLineItems(lineItems)}
       onAddLineItem={addLineItem}
+      onDeleteAllLineItems={deleteAllLineItems}
       loading={lineItemsLoading || categoriesLoading}
     />
   );

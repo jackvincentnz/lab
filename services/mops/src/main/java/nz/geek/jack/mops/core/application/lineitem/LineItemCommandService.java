@@ -61,4 +61,8 @@ public class LineItemCommandService {
 
     return lineItemRepository.save(lineItem);
   }
+
+  public void deleteAll() {
+    lineItemRepository.deleteAll();
+  }
 }
