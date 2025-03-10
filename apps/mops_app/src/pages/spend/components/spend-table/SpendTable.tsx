@@ -8,7 +8,8 @@ import {
   useMantineReactTable,
 } from "mantine-react-table";
 import clsx from "clsx";
-import { Button, Group } from "@mantine/core";
+import { Button, Group, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import { useAddLineItem } from "./actions";
 import { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
@@ -108,11 +109,20 @@ export function SpendTable({
     table.setCreatingRow(row);
   };
 
-  const deleteAll = () => {
-    if (confirm("Are you sure?")) {
-      onDeleteAllLineItems && onDeleteAllLineItems();
-    }
-  };
+  const deleteAll = () =>
+    modals.openConfirmModal({
+      title: "Delete all",
+      centered: true,
+      children: (
+        <Text size="sm">
+          Are you sure you want to delete all of the line items? This item is
+          destructive and cannot be undone.
+        </Text>
+      ),
+      labels: { confirm: "Delete all", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => onDeleteAllLineItems && onDeleteAllLineItems(),
+    });
 
   return <MantineReactTable table={table} />;
 }
