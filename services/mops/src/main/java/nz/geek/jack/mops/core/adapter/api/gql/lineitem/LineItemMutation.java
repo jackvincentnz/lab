@@ -12,6 +12,7 @@ import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
 import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
+import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
 import nz.geek.jack.mops.core.application.lineitem.AddLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
@@ -74,6 +75,17 @@ public class LineItemMutation {
         .success(true)
         .message(OK_MESSAGE)
         .lineItem(lineItemMapper.map(lineItem))
+        .build();
+  }
+
+  @DgsMutation
+  public DeleteAllLineItemsResponse deleteAllLineItems() {
+    lineItemCommandService.deleteAll();
+
+    return DeleteAllLineItemsResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
         .build();
   }
 }

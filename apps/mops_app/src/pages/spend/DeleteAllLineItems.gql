@@ -1,0 +1,7 @@
+mutation DeleteAllLineItems {
+  deleteAllLineItems {
+    code
+    success
+    message
+  }
+}

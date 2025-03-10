@@ -4,6 +4,7 @@ import {
   AddLineItemDocument,
   AddLineItemInput,
   AllLineItemsDocument,
+  DeleteAllLineItemsDocument,
 } from "../../__generated__/graphql";
 
 export function useAddLineItemMutation() {
@@ -22,5 +23,15 @@ export function useAddLineItemMutation() {
     }
 
     addLineItemMutation({ variables: { input: addLineItemInput } });
+  };
+}
+
+export function useDeleteAllLineItemsMutation() {
+  const [deleteAllLineItemsMutation] = useMutation(DeleteAllLineItemsDocument, {
+    refetchQueries: [AllLineItemsDocument],
+  });
+
+  return () => {
+    deleteAllLineItemsMutation();
   };
 }

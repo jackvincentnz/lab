@@ -11,6 +11,8 @@ import nz.geek.jack.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CategorizeLineItemProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueInput;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueResponse;
 import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
@@ -20,6 +22,7 @@ import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryResponse;
+import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -126,5 +129,15 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.categorizeLineItem", CategorizeLineItemResponse.class);
+  }
+
+  public DeleteAllLineItemsResponse deleteAllLineItems() {
+    var request =
+        new GraphQLQueryRequest(
+            DeleteAllLineItemsGraphQLQuery.newRequest().build(),
+            new DeleteAllLineItemsProjectionRoot<>().success().code().message());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.deleteAllLineItems", DeleteAllLineItemsResponse.class);
   }
 }

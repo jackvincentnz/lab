@@ -8,18 +8,20 @@ import {
   useMantineReactTable,
 } from "mantine-react-table";
 import clsx from "clsx";
-import { Button } from "@mantine/core";
+import { Button, Group } from "@mantine/core";
 import { useAddLineItem } from "./actions";
 import { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
 
 export const ADD_LINE_ITEM_BUTTON = "Add Line Item";
+export const DELETE_ALL_LINE_ITEMS = "Delete All";
 export const HEADER_NAME = "Name";
 
 export interface SpendTableProps {
   columns: Column[];
   lineItems: LineItem[];
   onAddLineItem?: (lineItem: NewLineItem) => void;
+  onDeleteAllLineItems?: () => void;
   loading?: boolean;
 }
 
@@ -35,6 +37,7 @@ export function SpendTable({
   columns,
   lineItems,
   onAddLineItem,
+  onDeleteAllLineItems,
   loading,
 }: SpendTableProps) {
   const {
@@ -83,7 +86,12 @@ export function SpendTable({
     onCreatingRowCancel: clearErrors,
     onCreatingRowSave: useAddLineItem(setValidationErrors, onAddLineItem),
     renderTopToolbarCustomActions: () => (
-      <Button onClick={onAddRow}>{ADD_LINE_ITEM_BUTTON}</Button>
+      <Group gap="xs">
+        <Button onClick={onAddRow}>{ADD_LINE_ITEM_BUTTON}</Button>
+        <Button onClick={deleteAll} variant={"filled"} color={"red"}>
+          {DELETE_ALL_LINE_ITEMS}
+        </Button>
+      </Group>
     ),
     mantineTableProps: {
       className: clsx(classes["table"]),
@@ -98,6 +106,12 @@ export function SpendTable({
   const onAddRow = () => {
     const row = createRow(table, NEW_ROW);
     table.setCreatingRow(row);
+  };
+
+  const deleteAll = () => {
+    if (confirm("Are you sure?")) {
+      onDeleteAllLineItems && onDeleteAllLineItems();
+    }
   };
 
   return <MantineReactTable table={table} />;

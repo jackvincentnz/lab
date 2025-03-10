@@ -109,15 +109,31 @@ class LineItemFunctionalTest extends TestBase {
     var lineItem2 = client.addLineItem(randomString()).getLineItem().getId();
     var lineItem3 = client.addLineItem(randomString()).getLineItem().getId();
 
+    var addedIds = getAllLineItemIds();
+
+    assertThat(addedIds).hasSize(3);
+    addedIds.forEach(id -> assertThat(List.of(lineItem1, lineItem2, lineItem3)).contains(id));
+  }
+
+  @Test
+  void deleteAllLineItems_deletesAll() {
+    client.addLineItem(randomString()).getLineItem();
+    var addedIds = getAllLineItemIds();
+
+    assertThat(addedIds).hasSize(1);
+
+    client.deleteAllLineItems();
+
+    var resultIds = getAllLineItemIds();
+    assertThat(resultIds).isEmpty();
+  }
+
+  private List<String> getAllLineItemIds() {
     var request =
         new GraphQLQueryRequest(
             AllLineItemsGraphQLQuery.newRequest().build(), new AllLineItemsProjectionRoot<>().id());
 
-    var addedIds =
-        dgsQueryExecutor.executeAndExtractJsonPathAsObject(
-            request.serialize(), "data.allLineItems[*].id", new TypeRef<List<String>>() {});
-
-    assertThat(addedIds).hasSize(3);
-    addedIds.forEach(id -> assertThat(List.of(lineItem1, lineItem2, lineItem3)).contains(id));
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.allLineItems[*].id", new TypeRef<>() {});
   }
 }

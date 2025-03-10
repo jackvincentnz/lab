@@ -14,6 +14,7 @@ type Mutation {
   categorizeLineItem(
     input: CategorizeLineItemInput!
   ): CategorizeLineItemResponse!
+  deleteAllLineItems: DeleteAllLineItemsResponse!
 }
 
 # Objects
@@ -115,6 +116,12 @@ type CategorizeLineItemResponse implements MutationResponse {
   success: Boolean!
   message: String!
   lineItem: LineItem!
+}
+
+type DeleteAllLineItemsResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
 }
 
 interface MutationResponse {
