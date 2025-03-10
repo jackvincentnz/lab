@@ -6,6 +6,7 @@ import { Router } from "./Router";
 import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
 import { StatsigProvider } from "./providers/StatsigProvider";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ModalsProvider } from "@mantine/modals";
 
 const client = new ApolloClient({
   uri: "/graphql",
@@ -20,7 +21,9 @@ export default function App() {
       <QueryClientProvider client={queryClient}>
         <StatsigProvider>
           <MantineProvider theme={theme}>
-            <Router />
+            <ModalsProvider>
+              <Router />
+            </ModalsProvider>
           </MantineProvider>
         </StatsigProvider>
       </QueryClientProvider>

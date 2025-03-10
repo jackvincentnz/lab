@@ -21,6 +21,7 @@ ts_project(
         "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",
         "//:node_modules/@mantine/hooks",
+        "//:node_modules/@mantine/modals",
         "//:node_modules/@statsig/react-bindings",
         "//:node_modules/@statsig/session-replay",
         "//:node_modules/@statsig/web-analytics",

@@ -31,6 +31,9 @@ importers:
       '@mantine/hooks':
         specifier: 7.11.2
         version: 7.11.2(react@18.2.0)
+      '@mantine/modals':
+        specifier: ^7.17.1
+        version: 7.17.1(@mantine/core@7.11.2)(@mantine/hooks@7.11.2)(react-dom@18.2.0)(react@18.2.0)
       '@statsig/react-bindings':
         specifier: ^3.12.1
         version: 3.12.1(react@18.2.0)
@@ -3539,6 +3542,20 @@ packages:
       react: ^18.2.0
     dependencies:
       react: 18.2.0
+    dev: false
+
+  /@mantine/modals@7.17.1(@mantine/core@7.11.2)(@mantine/hooks@7.11.2)(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-hTgV4bfITPRo33R4a6Hp+aLN9H2leQA/ei/9cUbolURVh+4syacNtR8AoDKbRhX0vFzNHne99LJS8hlLvAYdjA==}
+    peerDependencies:
+      '@mantine/core': 7.17.1
+      '@mantine/hooks': 7.17.1
+      react: ^18.x || ^19.x
+      react-dom: ^18.x || ^19.x
+    dependencies:
+      '@mantine/core': 7.11.2(@mantine/hooks@7.11.2)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/hooks': 7.11.2(react@18.2.0)
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
     dev: false
 
   /@mdx-js/react@2.3.0(react@18.2.0):
