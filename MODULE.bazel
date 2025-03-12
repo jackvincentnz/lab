@@ -206,7 +206,7 @@ oci.pull(
 use_repo(oci, "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
 oci.pull(
     name = "debian",
-    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+    digest = "sha256:35286826a88dc879b4f438b645ba574a55a14187b483d09213a024dc0c0a64ed",
     image = "debian",
     platforms = [
         "linux/386",
