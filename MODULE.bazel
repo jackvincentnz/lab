@@ -189,7 +189,7 @@ bazel_dep(name = "rules_oci", version = "2.0.0")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:2578479b0d22bdf9dba8320de62969793b32e3226c9327b1f5e1c9f2bd3f1021",
+    digest = "sha256:7cf2e8e0b219ac40f96643fbd9fc068c75c5e3ea7396584030250f9d1581ef80",
     image = "gcr.io/distroless/java17",
 )
 use_repo(oci, "distroless_java")
