@@ -20,7 +20,12 @@ SPRING_TEST_DEPS = [
 
 DGS_TEST_DEPS = [
     "@maven//:com_netflix_graphql_dgs_graphql_dgs",
-    "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_oss_autoconfigure",
+    "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_graphql_test",
+]
+
+DGS_TEST_RUNTIME_DEPS = [
+    "@maven//:com_netflix_graphql_dgs_dgs_starter",
+    "@maven//:com_netflix_graphql_dgs_dgs_starter_test",
 ]
 
 TEST_RUNTIME_DEPS = JUNIT5_DEPS + [

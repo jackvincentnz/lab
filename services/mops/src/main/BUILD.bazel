@@ -16,7 +16,7 @@ java_library(
         "//services/mops/src/main/java/nz/geek/jack/mops/config/client",
         "//services/mops/src/main/java/nz/geek/jack/mops/core",
         "//services/mops/src/main/java/nz/geek/jack/mops/iam",
-        "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_starter",
+        "@maven//:com_netflix_graphql_dgs_dgs_starter",
         "@maven//:org_flywaydb_flyway_core",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
@@ -37,6 +37,7 @@ java_binary(
 springboot(
     name = "main_spring",
     boot_app_class = "nz.geek.jack.mops.MopsApplication",
+    boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )
 

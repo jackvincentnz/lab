@@ -16,6 +16,7 @@ java_binary(
 springboot(
     name = "main_spring",
     boot_app_class = "nz.geek.jack.autojournal.AutoJournalApplication",
+    boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )
 

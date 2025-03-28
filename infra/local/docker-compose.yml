@@ -9,10 +9,9 @@
 # 8080: proxy
 
 ---
-version: "3"
 services:
   zookeeper:
-    image: confluentinc/cp-zookeeper:7.7.0
+    image: confluentinc/cp-zookeeper:7.5.1
     hostname: zookeeper
     container_name: zookeeper
     ports:
@@ -22,7 +21,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
-    image: confluentinc/cp-kafka:7.7.0
+    image: confluentinc/cp-kafka:7.5.1
     container_name: broker
     ports:
       - "9092:9092"
@@ -43,7 +42,7 @@ services:
       retries: 10
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.7.0
+    image: confluentinc/cp-schema-registry:7.5.1
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
@@ -56,7 +55,6 @@ services:
 
   task:
     image: jackvincent/lab-task:latest
-    platform: linux/amd64
     hostname: task
     container_name: task
     depends_on:
@@ -70,7 +68,6 @@ services:
 
   journal:
     image: jackvincent/lab-journal:latest
-    platform: linux/amd64
     hostname: journal
     container_name: journal
     ports:
@@ -78,7 +75,6 @@ services:
 
   autojournal:
     image: jackvincent/lab-autojournal:latest
-    platform: linux/amd64
     hostname: autojournal
     container_name: autojournal
     depends_on:

@@ -14,6 +14,7 @@ java_binary(
 springboot(
     name = "main_spring",
     boot_app_class = "nz.geek.jack.task.TaskApplication",
+    boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )
 
@@ -25,7 +26,7 @@ java_library(
     ],
     runtime_deps = [
         "//services/task/src/main/java/nz/geek/jack/task",
-        "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_boot_starter",
+        "@maven//:com_netflix_graphql_dgs_dgs_starter",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
         "@maven//:org_springframework_boot_spring_boot_starter_web",

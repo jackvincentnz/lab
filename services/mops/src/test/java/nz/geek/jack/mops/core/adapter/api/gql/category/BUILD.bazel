@@ -12,5 +12,6 @@ java_test_suite(
         "@maven//:com_graphql_java_java_dataloader",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
     ],
 )
