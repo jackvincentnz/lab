@@ -3,8 +3,8 @@ package nz.geek.jack.journal.adapter.api.gql;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.netflix.graphql.dgs.DgsQueryExecutor;
-import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
+import com.netflix.graphql.dgs.test.EnableDgsTest;
 import nz.geek.jack.journal.adapter.gql.schema.client.AddEntryGraphQLQuery;
 import nz.geek.jack.journal.adapter.gql.schema.client.AddEntryProjectionRoot;
 import nz.geek.jack.journal.adapter.gql.schema.types.AddEntryInput;
@@ -17,13 +17,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(
     classes = {
-      DgsAutoConfiguration.class,
       EntryMutation.class,
       EntryCommandService.class,
       EntryQueryService.class,
       EntryMapper.class,
       DatabaseConfig.class
     })
+@EnableDgsTest
 class EntryMutationTest {
 
   @Autowired DgsQueryExecutor dgsQueryExecutor;

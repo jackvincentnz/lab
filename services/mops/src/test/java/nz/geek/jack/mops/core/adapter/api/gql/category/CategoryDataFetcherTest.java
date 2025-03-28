@@ -20,6 +20,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.ApplicationContext;
 
 @ExtendWith(MockitoExtension.class)
 class CategoryDataFetcherTest extends TestBase {
@@ -97,7 +98,7 @@ class CategoryDataFetcherTest extends TestBase {
   }
 
   private void mockDfe() {
-    dfe = new DgsDataFetchingEnvironment(internalDfe);
+    dfe = new DgsDataFetchingEnvironment(internalDfe, mock(ApplicationContext.class));
     when(internalDfe.getDataLoader(NAME)).thenReturn(dataLoader);
   }
 }

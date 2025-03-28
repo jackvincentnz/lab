@@ -2,6 +2,9 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "filter",
+    runtime_deps = [
+        "@maven//:org_springframework_spring_web",
+    ],
     deps = [
         "//libs/tenancy/src/main/java/nz/geek/jack/libs/tenancy",
         "//libs/tenancy/src/main/java/nz/geek/jack/libs/tenancy/filter",

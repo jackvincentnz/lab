@@ -24,78 +24,79 @@ bazel_dep(name = "rules_proto", version = "6.0.2")
 # maven setup
 ####################################################################################################
 
-bazel_dep(name = "rules_jvm_external", version = "6.2")
+bazel_dep(name = "rules_jvm_external", version = "6.7")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
 # Maven lock file will need to be updated whenever the artifacts or repositories change.
 # See: https://github.com/bazelbuild/rules_jvm_external#requiring-lock-file-repinning-when-the-list-of-artifacts-changes
 # To re-pin everything, run:
-# REPIN=1 bazel run @unpinned_maven//:pin
+# REPIN=1 bazel run @maven//:pin
 maven.install(
-    # Check the spring dependency management to see versions which work together:
-    # e.g. https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/3.0.12
     artifacts = [
-        "com.fasterxml.jackson.core:jackson-databind:2.14.3",
-        "com.h2database:h2:2.2.224",
-        "com.mysql:mysql-connector-j:8.3.0",
-        "org.apache.commons:commons-lang3:3.12.0",
-        "org.apache.kafka:kafka-clients:3.3.2",
-        "org.apache.kafka:kafka-metadata:3.3.2",
-        "org.apache.kafka:kafka-raft:3.3.2",
-        "org.apache.kafka:kafka-server-common:3.3.2",
-        "org.apache.kafka:kafka-storage:3.3.2",
-        "org.apache.kafka:kafka-storage-api:3.3.2",
-        "org.apache.kafka:kafka-streams:3.3.2",
-        "org.apache.kafka:kafka-streams-test-utils:3.3.2",
-        "org.apache.kafka:kafka_2.13:3.3.2",
-        "org.eclipse.jetty:jetty-reactive-httpclient:3.0.12",
-        "org.flywaydb:flyway-core:9.5.1",
-        "org.springframework.boot:spring-boot-loader:3.0.12",
-        "org.springframework.boot:spring-boot-starter-actuator:3.0.12",
-        "org.springframework.boot:spring-boot-starter-jdbc:3.0.12",
-        "org.springframework.boot:spring-boot-starter-security:3.0.12",
-        "org.springframework.boot:spring-boot-starter-validation:3.0.12",
-        "org.springframework.boot:spring-boot-starter-web:3.0.12",
-        "org.springframework.boot:spring-boot-starter-webflux:3.0.12",
-        "org.springframework.data:spring-data-jdbc:3.0.11",  # Managed by https://mvnrepository.com/artifact/org.springframework.data/spring-data-bom
-        "org.springframework.kafka:spring-kafka:3.0.12",
-        "redis.clients:jedis:5.0.0",
-        "org.postgresql:postgresql:42.7.3",
-        "com.eventstore:db-client-java:5.0.0",
-        "org.springframework.boot:spring-boot-starter-test:3.0.12",
-        "org.springframework.kafka:spring-kafka-test:3.0.12",
-        "org.testcontainers:testcontainers:1.18.3",
-        "org.testcontainers:junit-jupiter:1.18.3",
-        "org.testcontainers:kafka:1.18.3",
-        "org.testcontainers:postgresql:1.18.3",
-        "org.junit.platform:junit-platform-launcher:1.9.3",
-        "org.junit.platform:junit-platform-reporting:1.9.3",
-        "com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.5.1",
-        "io.confluent:kafka-protobuf-serializer:7.5.1",
-        "org.wiremock:wiremock:3.3.1",
+        "com.fasterxml.jackson.core:jackson-databind",
+        "com.h2database:h2",
+        "com.mysql:mysql-connector-j",
+        "org.apache.commons:commons-lang3",
+        "org.apache.kafka:kafka-clients",
+        "org.apache.kafka:kafka-metadata",
+        "org.apache.kafka:kafka-raft",
+        "org.apache.kafka:kafka-server-common",
+        "org.apache.kafka:kafka-storage",
+        "org.apache.kafka:kafka-storage-api",
+        "org.apache.kafka:kafka-streams",
+        "org.apache.kafka:kafka-streams-test-utils",
+        "org.apache.kafka:kafka_2.13",
+        "org.eclipse.jetty:jetty-reactive-httpclient",
+        "org.flywaydb:flyway-core",
+        "org.springframework.boot:spring-boot-loader",
+        "org.springframework.boot:spring-boot-starter-actuator",
+        "org.springframework.boot:spring-boot-starter-jdbc",
+        "org.springframework.boot:spring-boot-starter-security",
+        "org.springframework.boot:spring-boot-starter-validation",
+        "org.springframework.boot:spring-boot-starter-web",
+        "org.springframework.boot:spring-boot-starter-webflux",
+        "org.springframework.data:spring-data-jdbc",
+        "org.springframework.kafka:spring-kafka",
+        "redis.clients:jedis",
+        "org.postgresql:postgresql",
+        "org.springframework.boot:spring-boot-starter-test",
+        "org.springframework.kafka:spring-kafka-test",
+        "org.testcontainers:testcontainers",
+        "org.testcontainers:junit-jupiter",
+        "org.testcontainers:kafka",
+        "org.testcontainers:postgresql",
+        "org.junit.platform:junit-platform-launcher",
+        "org.junit.platform:junit-platform-reporting",
+        "com.netflix.graphql.dgs:dgs-starter",
+        "com.netflix.graphql.dgs:dgs-starter-test",
+        "jakarta.servlet:jakarta.servlet-api",
+        "io.confluent:kafka-protobuf-serializer:7.5.1",  # attempting to upgrade beyond this ran into serialization issues, likely due to protobuf version mismatch in the workspace
+        "org.wiremock:wiremock-jetty12:3.12.1",
+        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:7.0.3",
+        "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
     ],
-    fail_if_repin_required = True,
+    boms = [
+        "org.springframework.boot:spring-boot-dependencies:3.4.3",
+        "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.0.4",
+        "com.google.protobuf:protobuf-bom:3.25.5",
+    ],
+    # fail_if_repin_required = True, TODO: renable when fixed - https://github.com/bazel-contrib/rules_jvm_external/issues/1328
     fetch_sources = True,
     lock_file = "//:maven_install.json",
     repositories = [
         "https://repo1.maven.org/maven2",
         "https://packages.confluent.io/maven",
     ],
-    version_conflict_policy = "pinned",
 )
-maven.artifact(
-    artifact = "graphql-dgs-codegen-core",
-    exclusions = [
-        "com.graphql-java:graphql-java",
-    ],
-    group = "com.netflix.graphql.dgs.codegen",
-    version = "6.0.2",
+maven.override(
+    # bazel resolves kotlin artifact rather than jvm one which doesn't contain expected classes for gql codegen
+    coordinates = "com.github.ajalt.clikt:clikt",
+    target = "@maven//:com_github_ajalt_clikt_clikt_jvm",
 )
 use_repo(
     maven,
     "maven",
-    "unpinned_maven",
 )
 
 ####################################################################################################
@@ -189,10 +190,13 @@ bazel_dep(name = "rules_oci", version = "2.0.0")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:2578479b0d22bdf9dba8320de62969793b32e3226c9327b1f5e1c9f2bd3f1021",
-    image = "gcr.io/distroless/java17",
+    digest = "sha256:98667f976e475bcb059e256477d3c72a885ab6b26459214609c8c39e90394f5d",
+    image = "gcr.io/distroless/java17-debian12",
+    platforms = [
+        "linux/amd64",
+        "linux/arm64/v8",
+    ],
 )
-use_repo(oci, "distroless_java")
 oci.pull(
     name = "nginx_alpine_slim",
     image = "nginx",
@@ -203,26 +207,16 @@ oci.pull(
     reproducible = False,
     tag = "stable-alpine-slim",
 )
-use_repo(oci, "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
 oci.pull(
     name = "debian",
     digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
     image = "debian",
     platforms = [
-        "linux/386",
         "linux/amd64",
-        "linux/arm/v5",
-        "linux/arm/v7",
         "linux/arm64/v8",
-        "linux/mips64le",
-        "linux/ppc64le",
-        "linux/s390x",
     ],
 )
-use_repo(oci, "debian")
-
-# TODO: figure out why this is throwing a warning for importing from a transitive repository
-use_repo(oci, "oci_crane_toolchains")
+use_repo(oci, "debian", "debian_linux_amd64", "debian_linux_arm64_v8", "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8", "oci_crane_toolchains")
 
 ####################################################################################################
 # rules_multirun setup

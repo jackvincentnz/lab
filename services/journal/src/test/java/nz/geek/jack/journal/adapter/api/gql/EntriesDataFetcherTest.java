@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import com.netflix.graphql.dgs.DgsQueryExecutor;
-import com.netflix.graphql.dgs.autoconfig.DgsAutoConfiguration;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
+import com.netflix.graphql.dgs.test.EnableDgsTest;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,13 +18,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
-@SpringBootTest(classes = {DgsAutoConfiguration.class, EntriesDataFetcher.class, EntryMapper.class})
+@SpringBootTest(classes = {EntriesDataFetcher.class, EntryMapper.class})
+@EnableDgsTest
 @ExtendWith(MockitoExtension.class)
 class EntriesDataFetcherTest {
 
-  @MockBean EntryQueryService entryQueryService;
+  @MockitoBean EntryQueryService entryQueryService;
   @Autowired DgsQueryExecutor dgsQueryExecutor;
 
   private static final List<nz.geek.jack.journal.domain.Entry> ENTRIES =
