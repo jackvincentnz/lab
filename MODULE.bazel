@@ -209,7 +209,7 @@ oci.pull(
 )
 oci.pull(
     name = "debian",
-    digest = "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+    digest = "sha256:18023f131f52fc3ea21973cabffe0b216c60b417fd2478e94d9d59981ebba6af",
     image = "debian",
     platforms = [
         "linux/amd64",
