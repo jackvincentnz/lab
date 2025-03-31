@@ -49,6 +49,34 @@ class CategoryCommandServiceTest extends TestBase {
   }
 
   @Test
+  void updateCategoryName_savesCategoryWithName() {
+    var category = Category.create(randomString());
+    var command = new UpdateCategoryNameCommand(category.getId(), randomString());
+    when(categoryRepository.getById(category.getId())).thenReturn(category);
+
+    categoryCommandService.updateCategoryName(command);
+
+    verify(categoryRepository).save(categoryCaptor.capture());
+
+    var result = categoryCaptor.getValue();
+    assertThat(result.getName()).isEqualTo(command.name());
+  }
+
+  @Test
+  void updateCategoryName_returnsCategory() {
+    var category = Category.create(randomString());
+    var command = new UpdateCategoryNameCommand(category.getId(), randomString());
+    var savedCategory = mock(Category.class);
+
+    when(categoryRepository.getById(category.getId())).thenReturn(category);
+    when(categoryRepository.save(category)).thenReturn(savedCategory);
+
+    var result = categoryCommandService.updateCategoryName(command);
+
+    assertThat(result).isEqualTo(savedCategory);
+  }
+
+  @Test
   void addCategoryValue_savesValueWithName() {
     var category = Category.create(randomString());
     var command = new AddCategoryValueCommand(category.getId(), randomString());
@@ -71,5 +99,36 @@ class CategoryCommandServiceTest extends TestBase {
     var categoryValue = categoryCommandService.addCategoryValue(command);
 
     assertThat(categoryValue.getName()).isEqualTo(command.name());
+  }
+
+  @Test
+  void updateCategoryValueName_savesCategoryValueWithName() {
+    var category = Category.create(randomString());
+    var categoryValue = category.addValue(randomString());
+    var command =
+        new UpdateCategoryValueNameCommand(category.getId(), categoryValue.getId(), randomString());
+
+    when(categoryRepository.getById(category.getId())).thenReturn(category);
+
+    categoryCommandService.updateCategoryValueName(command);
+
+    verify(categoryRepository).save(categoryCaptor.capture());
+    var result = categoryCaptor.getValue().getValues().iterator().next();
+    assertThat(result.getName()).isEqualTo(command.name());
+  }
+
+  @Test
+  void updateCategoryValueName_returnsValue() {
+    var category = Category.create(randomString());
+    var categoryValue = category.addValue(randomString());
+    var command =
+        new UpdateCategoryValueNameCommand(category.getId(), categoryValue.getId(), randomString());
+
+    when(categoryRepository.getById(category.getId())).thenReturn(category);
+    when(categoryRepository.save(category)).thenReturn(category);
+
+    var result = categoryCommandService.updateCategoryValueName(command);
+
+    assertThat(result.getName()).isEqualTo(command.name());
   }
 }

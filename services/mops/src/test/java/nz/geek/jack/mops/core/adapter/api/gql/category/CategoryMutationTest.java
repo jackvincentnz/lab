@@ -1,7 +1,9 @@
 package nz.geek.jack.mops.core.adapter.api.gql.category;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_CREATED;
+import static jakarta.servlet.http.HttpServletResponse.SC_OK;
 import static nz.geek.jack.mops.core.adapter.api.gql.ResponseMessage.CREATED_MESSAGE;
+import static nz.geek.jack.mops.core.adapter.api.gql.ResponseMessage.OK_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -9,12 +11,17 @@ import static org.mockito.Mockito.when;
 
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueInput;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryNameInput;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryValueNameInput;
 import nz.geek.jack.mops.core.application.category.AddCategoryValueCommand;
 import nz.geek.jack.mops.core.application.category.CategoryCommandService;
 import nz.geek.jack.mops.core.application.category.CreateCategoryCommand;
+import nz.geek.jack.mops.core.application.category.UpdateCategoryNameCommand;
+import nz.geek.jack.mops.core.application.category.UpdateCategoryValueNameCommand;
 import nz.geek.jack.mops.core.domain.category.Category;
 import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryValue;
+import nz.geek.jack.mops.core.domain.category.CategoryValueId;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -59,6 +66,42 @@ class CategoryMutationTest extends TestBase {
   }
 
   @Test
+  void updateCategoryName_updatesName() {
+    var categoryId = CategoryId.create();
+    var name = randomString();
+
+    categoryMutation.updateCategoryName(
+        UpdateCategoryNameInput.newBuilder().categoryId(categoryId.toString()).name(name).build());
+
+    verify(categoryCommandService)
+        .updateCategoryName(new UpdateCategoryNameCommand(categoryId, name));
+  }
+
+  @Test
+  void updateCategoryName_mapsResponse() {
+    var categoryId = CategoryId.create();
+    var name = randomString();
+    var domainCategory = mock(Category.class);
+    var graphCategory = mock(nz.geek.jack.mops.api.gql.types.Category.class);
+
+    when(categoryCommandService.updateCategoryName(new UpdateCategoryNameCommand(categoryId, name)))
+        .thenReturn(domainCategory);
+    when(categoryMapper.map(domainCategory)).thenReturn(graphCategory);
+
+    var result =
+        categoryMutation.updateCategoryName(
+            UpdateCategoryNameInput.newBuilder()
+                .categoryId(categoryId.toString())
+                .name(name)
+                .build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getCategory()).isEqualTo(graphCategory);
+  }
+
+  @Test
   void addCategoryValue_adds() {
     var categoryId = CategoryId.create();
     var name = randomString();
@@ -92,5 +135,51 @@ class CategoryMutationTest extends TestBase {
     assertThat(result.getSuccess()).isTrue();
     assertThat(result.getMessage()).isEqualTo(CREATED_MESSAGE);
     assertThat(result.getCategoryValue()).isEqualTo(graphCategoryValue);
+  }
+
+  @Test
+  void updateCategoryValueName_updatesName() {
+    var categoryId = CategoryId.create();
+    var categoryValueId = CategoryValueId.create();
+    var name = randomString();
+
+    categoryMutation.updateCategoryValueName(
+        UpdateCategoryValueNameInput.newBuilder()
+            .categoryId(categoryId.toString())
+            .categoryValueId(categoryValueId.toString())
+            .name(name)
+            .build());
+
+    verify(categoryCommandService)
+        .updateCategoryValueName(
+            new UpdateCategoryValueNameCommand(categoryId, categoryValueId, name));
+  }
+
+  @Test
+  void updateCategoryValueName_mapsResponse() {
+    var categoryId = CategoryId.create();
+    var categoryValueId = CategoryValueId.create();
+    var name = randomString();
+
+    var domainValue = mock(CategoryValue.class);
+    var graphValue = mock(nz.geek.jack.mops.api.gql.types.CategoryValue.class);
+
+    when(categoryCommandService.updateCategoryValueName(
+            new UpdateCategoryValueNameCommand(categoryId, categoryValueId, name)))
+        .thenReturn(domainValue);
+    when(categoryMapper.map(domainValue)).thenReturn(graphValue);
+
+    var result =
+        categoryMutation.updateCategoryValueName(
+            UpdateCategoryValueNameInput.newBuilder()
+                .categoryId(categoryId.toString())
+                .categoryValueId(categoryValueId.toString())
+                .name(name)
+                .build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getCategoryValue()).isEqualTo(graphValue);
   }
 }

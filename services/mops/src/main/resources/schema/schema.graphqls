@@ -10,7 +10,13 @@ type Mutation {
   provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse!
   addLineItem(input: AddLineItemInput!): AddLineItemResponse!
   createCategory(input: CreateCategoryInput!): CreateCategoryResponse!
+  updateCategoryName(
+    input: UpdateCategoryNameInput!
+  ): UpdateCategoryNameResponse!
   addCategoryValue(input: AddCategoryValueInput!): AddCategoryValueResponse!
+  updateCategoryValueName(
+    input: UpdateCategoryValueNameInput!
+  ): UpdateCategoryValueNameResponse!
   categorizeLineItem(
     input: CategorizeLineItemInput!
   ): CategorizeLineItemResponse!
@@ -70,8 +76,19 @@ input CreateCategoryInput {
   name: String!
 }
 
+input UpdateCategoryNameInput {
+  categoryId: ID!
+  name: String!
+}
+
 input AddCategoryValueInput {
   categoryId: ID!
+  name: String!
+}
+
+input UpdateCategoryValueNameInput {
+  categoryId: ID!
+  categoryValueId: ID!
   name: String!
 }
 
@@ -104,7 +121,21 @@ type CreateCategoryResponse implements MutationResponse {
   category: Category
 }
 
+type UpdateCategoryNameResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  category: Category
+}
+
 type AddCategoryValueResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  categoryValue: CategoryValue
+}
+
+type UpdateCategoryValueNameResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!

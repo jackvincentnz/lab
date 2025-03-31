@@ -10,7 +10,7 @@ import nz.geek.jack.libs.ddd.domain.NotFoundException;
 
 public class Category extends Aggregate<CategoryId> {
 
-  private final String name;
+  private String name;
 
   private final Set<CategoryValue> values;
 
@@ -22,17 +22,29 @@ public class Category extends Aggregate<CategoryId> {
     this.values = values;
   }
 
-  public CategoryValue addValue(String name) {
-    var value = CategoryValue.add(name);
+  public void updateName(String name) {
+    Objects.requireNonNull(name, "Name cannot be null");
+    this.name = name;
+    registerEvent(new CategoryNameUpdatedEvent(id, name));
+  }
 
-    if (values.contains(value)) {
+  public CategoryValue addValue(String name) {
+    if (values.stream().map(CategoryValue::getName).toList().contains(name)) {
       throw new DuplicateException(CategoryValue.class);
     }
+
+    var value = CategoryValue.add(name);
 
     values.add(value);
     registerEvent(new CategoryValueAddedEvent(value.getId(), value.getName()));
 
     return value;
+  }
+
+  public void updateCategoryValueName(CategoryValueId categoryValueId, String name) {
+    var value = getValue(categoryValueId);
+    value.updateName(name);
+    registerEvent(new CategoryValueNameUpdatedEvent(id, categoryValueId, name));
   }
 
   public String getName() {

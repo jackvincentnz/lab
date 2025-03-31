@@ -6,7 +6,7 @@ public class CategoryValue {
 
   private final CategoryValueId id;
 
-  private final String name;
+  private String name;
 
   private CategoryValue(CategoryValueId id, String name) {
     Objects.requireNonNull(id, "id must not be null");
@@ -27,15 +27,8 @@ public class CategoryValue {
     return new CategoryValue(CategoryValueId.create(), name);
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (o == null || getClass() != o.getClass()) return false;
-    CategoryValue that = (CategoryValue) o;
-    return Objects.equals(name, that.name);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(name);
+  public void updateName(String name) {
+    Objects.requireNonNull(name, "name must not be null");
+    this.name = name;
   }
 }

@@ -38,6 +38,19 @@ class CategoryFunctionalTest extends TestBase {
   }
 
   @Test
+  void updateCategoryName_updatesName() {
+    var name = randomString();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+
+    var response = client.updateCategoryName(categoryId, name);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getCategory().getName()).isEqualTo(name);
+  }
+
+  @Test
   void addCategoryValueReturnsAllFields() {
     var name = randomString();
     var categoryId = client.createCategory(randomString()).getCategory().getId();
@@ -48,6 +61,20 @@ class CategoryFunctionalTest extends TestBase {
     assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
     assertThat(response.getMessage()).isNotBlank();
     assertThat(response.getCategoryValue()).isNotNull();
+  }
+
+  @Test
+  void updateCategoryValueName_updatesName() {
+    var name = randomString();
+    var categoryId = client.createCategory(randomString()).getCategory().getId();
+    var categoryValueId = client.addCategoryValue(categoryId, name).getCategoryValue().getId();
+
+    var response = client.updateCategoryValueName(categoryId, categoryValueId, name);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getCategoryValue().getName()).isEqualTo(name);
   }
 
   @Test

@@ -52,6 +52,27 @@ class CategoryTest extends TestBase {
   }
 
   @Test
+  void updateName_setsName() {
+    var category = Category.create(randomString());
+    var name = randomString();
+
+    category.updateName(name);
+
+    assertThat(category.getName()).isEqualTo(name);
+  }
+
+  @Test
+  void updateName_registersEventWithName() {
+    var category = Category.create(randomString());
+    var name = randomString();
+
+    category.updateName(name);
+
+    var event = getLastEvent(category, CategoryNameUpdatedEvent.class);
+    assertThat(event.name()).isEqualTo(name);
+  }
+
+  @Test
   void addValue_setsId() {
     var category = Category.create(randomString());
 
@@ -99,6 +120,29 @@ class CategoryTest extends TestBase {
     category.addValue(name);
 
     assertThrows(DuplicateException.class, () -> category.addValue(name));
+  }
+
+  @Test
+  void updateCategoryValueName_setsName() {
+    var name = randomString();
+    var category = Category.create(randomString());
+    var value = category.addValue(randomString());
+
+    category.updateCategoryValueName(value.getId(), name);
+
+    assertThat(value.getName()).isEqualTo(name);
+  }
+
+  @Test
+  void updateCategoryValueName_registersEventWithName() {
+    var name = randomString();
+    var category = Category.create(randomString());
+    var value = category.addValue(randomString());
+
+    category.updateCategoryValueName(value.getId(), name);
+
+    var event = getLastEvent(category, CategoryValueNameUpdatedEvent.class);
+    assertThat(event.name()).isEqualTo(name);
   }
 
   @Test
