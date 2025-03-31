@@ -13,6 +13,10 @@ import nz.geek.jack.mops.api.gql.client.CreateCategoryGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.UpdateCategoryNameGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.UpdateCategoryNameProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.UpdateCategoryValueNameGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.UpdateCategoryValueNameProjectionRoot;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueInput;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueResponse;
 import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
@@ -23,6 +27,10 @@ import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryResponse;
 import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryNameInput;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryNameResponse;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryValueNameInput;
+import nz.geek.jack.mops.api.gql.types.UpdateCategoryValueNameResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -83,6 +91,25 @@ public class TestClient {
         request.serialize(), "data.createCategory", CreateCategoryResponse.class);
   }
 
+  public UpdateCategoryNameResponse updateCategoryName(String categoryId, String name) {
+    var request =
+        new GraphQLQueryRequest(
+            UpdateCategoryNameGraphQLQuery.newRequest()
+                .input(
+                    UpdateCategoryNameInput.newBuilder().categoryId(categoryId).name(name).build())
+                .build(),
+            new UpdateCategoryNameProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .category()
+                .id()
+                .name());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.updateCategoryName", UpdateCategoryNameResponse.class);
+  }
+
   public AddCategoryValueResponse addCategoryValue(String categoryId, String name) {
     var request =
         new GraphQLQueryRequest(
@@ -99,6 +126,30 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.addCategoryValue", AddCategoryValueResponse.class);
+  }
+
+  public UpdateCategoryValueNameResponse updateCategoryValueName(
+      String categoryId, String categoryValueId, String name) {
+    var request =
+        new GraphQLQueryRequest(
+            UpdateCategoryValueNameGraphQLQuery.newRequest()
+                .input(
+                    UpdateCategoryValueNameInput.newBuilder()
+                        .categoryId(categoryId)
+                        .categoryValueId(categoryValueId)
+                        .name(name)
+                        .build())
+                .build(),
+            new UpdateCategoryValueNameProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .categoryValue()
+                .id()
+                .name());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.updateCategoryValueName", UpdateCategoryValueNameResponse.class);
   }
 
   public CategorizeLineItemResponse categorizeLineItem(

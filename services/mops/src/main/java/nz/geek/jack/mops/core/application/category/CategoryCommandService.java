@@ -20,6 +20,14 @@ public class CategoryCommandService {
     return categoryRepository.save(category);
   }
 
+  public Category updateCategoryName(UpdateCategoryNameCommand command) {
+    var category = categoryRepository.getById(command.categoryId());
+
+    category.updateName(command.name());
+
+    return categoryRepository.save(category);
+  }
+
   public CategoryValue addCategoryValue(AddCategoryValueCommand command) {
     var category = categoryRepository.getById(command.categoryId());
 
@@ -28,5 +36,15 @@ public class CategoryCommandService {
     categoryRepository.save(category);
 
     return categoryValue;
+  }
+
+  public CategoryValue updateCategoryValueName(UpdateCategoryValueNameCommand command) {
+    var category = categoryRepository.getById(command.categoryId());
+
+    category.updateCategoryValueName(command.categoryValueId(), command.name());
+
+    categoryRepository.save(category);
+
+    return category.getValue(command.categoryValueId());
   }
 }

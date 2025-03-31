@@ -27,27 +27,12 @@ class CategoryValueTest extends TestBase {
   }
 
   @Test
-  void equals_whenNameMatches() {
+  void updateName_setsName() {
     var name = randomString();
-    var a = CategoryValue.add(name);
-    var b = CategoryValue.add(name);
-
-    assertThat(a).isEqualTo(b);
-  }
-
-  @Test
-  void equals_whenDifferentObject_isFalse() {
     var value = CategoryValue.add(randomString());
 
-    assertThat(value).isNotEqualTo(new Object());
-  }
+    value.updateName(name);
 
-  @Test
-  void hashCode_whenNameMatches_isEqual() {
-    var name = randomString();
-    var a = CategoryValue.add(name);
-    var b = CategoryValue.add(name);
-
-    assertThat(a.hashCode()).isEqualTo(b.hashCode());
+    assertThat(value.getName()).isEqualTo(name);
   }
 }
