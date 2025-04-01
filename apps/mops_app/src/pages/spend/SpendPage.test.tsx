@@ -147,6 +147,7 @@ function mockLineItem({ name, categorizations }: Partial<LineItem>): LineItem {
   return {
     id: name ?? Date.now().toString(),
     name: name ?? Date.now().toString(),
+    spending: [],
     categorizations: categorizations || [],
   };
 }

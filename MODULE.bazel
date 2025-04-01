@@ -70,6 +70,7 @@ maven.install(
         "org.junit.platform:junit-platform-reporting",
         "com.netflix.graphql.dgs:dgs-starter",
         "com.netflix.graphql.dgs:dgs-starter-test",
+        "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
         "jakarta.servlet:jakarta.servlet-api",
         "io.confluent:kafka-protobuf-serializer:7.5.1",  # attempting to upgrade beyond this ran into serialization issues, likely due to protobuf version mismatch in the workspace
         "org.wiremock:wiremock-jetty12:3.12.1",
