@@ -1,9 +1,12 @@
 package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
+import java.time.LocalDate;
+import java.util.List;
 import nz.geek.jack.mops.api.gql.types.Categorization;
 import nz.geek.jack.mops.api.gql.types.Category;
 import nz.geek.jack.mops.api.gql.types.CategoryValue;
 import nz.geek.jack.mops.api.gql.types.LineItem;
+import nz.geek.jack.mops.api.gql.types.Spend;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -26,6 +29,7 @@ public class LineItemMapper {
                                     .build())
                             .build())
                 .toList())
+        .spending(List.of(Spend.newBuilder().day(LocalDate.now()).amount(10000).build()))
         .build();
   }
 }

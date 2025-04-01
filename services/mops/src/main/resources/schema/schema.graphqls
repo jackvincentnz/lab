@@ -34,6 +34,7 @@ type LineItem {
   id: ID!
   name: String!
   categorizations: [Categorization!]!
+  spending: [Spend!]!
 }
 
 type Categorization {
@@ -50,6 +51,11 @@ type Category {
 type CategoryValue {
   id: ID!
   name: String!
+}
+
+type Spend {
+  amount: Int!
+  day: Date!
 }
 
 type ClientConfiguration {
@@ -160,3 +166,7 @@ interface MutationResponse {
   success: Boolean!
   message: String!
 }
+
+# Scalars
+
+scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")

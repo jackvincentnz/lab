@@ -2,6 +2,10 @@ query AllLineItems {
   allLineItems {
     id
     name
+    spending {
+      day
+      amount
+    }
     categorizations {
       category {
         id
