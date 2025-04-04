@@ -21,6 +21,7 @@ type Mutation {
     input: CategorizeLineItemInput!
   ): CategorizeLineItemResponse!
   deleteAllLineItems: DeleteAllLineItemsResponse!
+  planSpend(input: PlanSpendInput!): PlanSpendResponse!
 }
 
 # Objects
@@ -54,7 +55,7 @@ type CategoryValue {
 }
 
 type Spend {
-  amount: Int!
+  amount: BigDecimal!
   day: Date!
 }
 
@@ -102,6 +103,16 @@ input CategorizeLineItemInput {
   lineItemId: ID!
   categoryId: ID!
   categoryValueId: ID!
+}
+
+input PlanSpendInput {
+  lineItemId: ID!
+  spendInput: SpendInput!
+}
+
+input SpendInput {
+  spendDay: Date!
+  amount: BigDecimal!
 }
 
 # Responses
@@ -161,6 +172,13 @@ type DeleteAllLineItemsResponse implements MutationResponse {
   message: String!
 }
 
+type PlanSpendResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  lineItem: LineItem
+}
+
 interface MutationResponse {
   code: Int!
   success: Boolean!
@@ -170,3 +188,5 @@ interface MutationResponse {
 # Scalars
 
 scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
+
+scalar BigDecimal
