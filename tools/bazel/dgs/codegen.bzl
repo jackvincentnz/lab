@@ -9,6 +9,7 @@ def _dgs_codegen(ctx):
     args.add("--output-dir", target_dir.path)
     args.add("--package-name", ctx.attr.package_name)
     args.add("--generate-client")
+    args.add("--type-mapping", "BigDecimal=java.math.BigDecimal")
 
     for schema in ctx.files.schemas:
         args.add(schema.path)

@@ -52,6 +52,14 @@ public class LineItemCommandService {
     return lineItemRepository.save(lineItem);
   }
 
+  public LineItem planSpend(PlanSpendCommand command) {
+    var lineItem = lineItemRepository.getById(command.lineItemId());
+
+    lineItem.planSpend(command.spend());
+
+    return lineItemRepository.save(lineItem);
+  }
+
   public LineItem categorize(CategorizeLineItemCommand command) {
     var lineItem = lineItemRepository.getById(command.lineItemId());
     var category = categoryRepository.getById(command.categoryId());

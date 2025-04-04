@@ -13,13 +13,17 @@ import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
+import nz.geek.jack.mops.api.gql.types.PlanSpendInput;
+import nz.geek.jack.mops.api.gql.types.PlanSpendResponse;
 import nz.geek.jack.mops.core.application.lineitem.AddLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
+import nz.geek.jack.mops.core.application.lineitem.PlanSpendCommand;
 import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryValueId;
 import nz.geek.jack.mops.core.domain.lineitem.Categorization;
 import nz.geek.jack.mops.core.domain.lineitem.LineItemId;
+import nz.geek.jack.mops.core.domain.lineitem.Spend;
 
 @DgsComponent
 public class LineItemMutation {
@@ -55,6 +59,23 @@ public class LineItemMutation {
         .code(SC_CREATED)
         .success(true)
         .message(CREATED_MESSAGE)
+        .lineItem(lineItemMapper.map(lineItem))
+        .build();
+  }
+
+  @DgsMutation
+  public PlanSpendResponse planSpend(@InputArgument("input") PlanSpendInput input) {
+    var command =
+        new PlanSpendCommand(
+            LineItemId.fromString(input.getLineItemId()),
+            Spend.of(input.getSpendInput().getSpendDay(), input.getSpendInput().getAmount()));
+
+    var lineItem = lineItemCommandService.planSpend(command);
+
+    return PlanSpendResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
         .lineItem(lineItemMapper.map(lineItem))
         .build();
   }

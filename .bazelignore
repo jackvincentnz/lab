@@ -17,4 +17,3 @@ bazel-testlogs
 bazel-lab
 .bazelignore
 .git
-.ijwb

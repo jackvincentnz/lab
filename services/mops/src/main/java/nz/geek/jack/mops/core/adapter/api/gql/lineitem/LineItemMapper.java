@@ -1,7 +1,5 @@
 package nz.geek.jack.mops.core.adapter.api.gql.lineitem;
 
-import java.time.LocalDate;
-import java.util.List;
 import nz.geek.jack.mops.api.gql.types.Categorization;
 import nz.geek.jack.mops.api.gql.types.Category;
 import nz.geek.jack.mops.api.gql.types.CategoryValue;
@@ -29,7 +27,10 @@ public class LineItemMapper {
                                     .build())
                             .build())
                 .toList())
-        .spending(List.of(Spend.newBuilder().day(LocalDate.now()).amount(10000).build()))
+        .spending(
+            lineItem.getSpending().stream()
+                .map(s -> Spend.newBuilder().day(s.getSpendDay()).amount(s.getAmount()).build())
+                .toList())
         .build();
   }
 }

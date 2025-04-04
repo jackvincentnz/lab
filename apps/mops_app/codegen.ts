@@ -13,6 +13,7 @@ const config: CodegenConfig = {
       config: {
         scalars: {
           Date: "string",
+          BigDecimal: "number",
         },
       },
     },

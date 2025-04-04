@@ -5,6 +5,8 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -13,6 +15,7 @@ import nz.geek.jack.mops.core.domain.category.CategoryRepository;
 import nz.geek.jack.mops.core.domain.lineitem.Categorization;
 import nz.geek.jack.mops.core.domain.lineitem.LineItem;
 import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
+import nz.geek.jack.mops.core.domain.lineitem.Spend;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -73,6 +76,21 @@ class LineItemCommandServiceTest extends TestBase {
     var result = lineItemCommandService.add(command);
 
     assertThat(result).isEqualTo(saved);
+  }
+
+  @Test
+  void planSpend_plansSpend() {
+    var lineItem = LineItem.add(randomString());
+    var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(123.456));
+    var command = new PlanSpendCommand(lineItem.getId(), spend);
+
+    when(lineItemRepository.getById(lineItem.getId())).thenReturn(lineItem);
+    when(lineItemRepository.save(lineItem)).thenReturn(lineItem);
+
+    var result = lineItemCommandService.planSpend(command);
+
+    assertThat(result.getSpending().size()).isEqualTo(1);
+    assertThat(result.getSpending().iterator().next()).isEqualTo(spend);
   }
 
   @Test
