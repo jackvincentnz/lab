@@ -13,6 +13,8 @@ import nz.geek.jack.mops.api.gql.client.CreateCategoryGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.PlanSpendGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.PlanSpendProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.UpdateCategoryNameGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.UpdateCategoryNameProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.UpdateCategoryValueNameGraphQLQuery;
@@ -27,6 +29,9 @@ import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryResponse;
 import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
+import nz.geek.jack.mops.api.gql.types.PlanSpendInput;
+import nz.geek.jack.mops.api.gql.types.PlanSpendResponse;
+import nz.geek.jack.mops.api.gql.types.SpendInput;
 import nz.geek.jack.mops.api.gql.types.UpdateCategoryNameInput;
 import nz.geek.jack.mops.api.gql.types.UpdateCategoryNameResponse;
 import nz.geek.jack.mops.api.gql.types.UpdateCategoryValueNameInput;
@@ -68,6 +73,30 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.addLineItem", AddLineItemResponse.class);
+  }
+
+  public PlanSpendResponse planSpend(String lineItemId, SpendInput spendInput) {
+    var request =
+        new GraphQLQueryRequest(
+            PlanSpendGraphQLQuery.newRequest()
+                .input(
+                    PlanSpendInput.newBuilder()
+                        .lineItemId(lineItemId)
+                        .spendInput(spendInput)
+                        .build())
+                .build(),
+            new PlanSpendProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .lineItem()
+                .id()
+                .spending()
+                .day()
+                .amount());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.planSpend", PlanSpendResponse.class);
   }
 
   public CreateCategoryResponse createCategory(String name) {

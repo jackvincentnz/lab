@@ -6,11 +6,14 @@ import com.jayway.jsonpath.TypeRef;
 import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AllLineItemsProjectionRoot;
 import nz.geek.jack.mops.api.gql.types.CategorizationInput;
 import nz.geek.jack.mops.api.gql.types.LineItem;
+import nz.geek.jack.mops.api.gql.types.SpendInput;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +53,27 @@ class LineItemFunctionalTest extends TestBase {
 
     assertThat(categorization.getCategory().getId()).isEqualTo(categoryId);
     assertThat(categorization.getCategoryValue().getId()).isEqualTo(categoryValueId);
+  }
+
+  @Test
+  void planSpend_plansSpend() {
+    var spendDay = LocalDate.now();
+    var amount = BigDecimal.valueOf(123.45);
+
+    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+
+    var response =
+        client.planSpend(
+            lineItemId, SpendInput.newBuilder().spendDay(spendDay).amount(amount).build());
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getLineItem().getSpending().size()).isEqualTo(1);
+
+    var spend = response.getLineItem().getSpending().get(0);
+    assertThat(spend.getDay()).isEqualTo(spendDay);
+    assertThat(spend.getAmount()).isEqualTo(amount);
   }
 
   @Test
