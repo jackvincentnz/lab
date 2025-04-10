@@ -9,6 +9,8 @@ import nz.geek.jack.mops.api.gql.client.AddLineItemGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AddLineItemProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CategorizeLineItemProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.CreateBudgetGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.CreateBudgetProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CreateCategoryProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
@@ -26,6 +28,8 @@ import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
 import nz.geek.jack.mops.api.gql.types.CategorizationInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
+import nz.geek.jack.mops.api.gql.types.CreateBudgetInput;
+import nz.geek.jack.mops.api.gql.types.CreateBudgetResponse;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryInput;
 import nz.geek.jack.mops.api.gql.types.CreateCategoryResponse;
 import nz.geek.jack.mops.api.gql.types.DeleteAllLineItemsResponse;
@@ -42,6 +46,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class TestClient {
   @Autowired DgsQueryExecutor dgsQueryExecutor;
+
+  public CreateBudgetResponse createBudget(String name) {
+    var request =
+        new GraphQLQueryRequest(
+            CreateBudgetGraphQLQuery.newRequest()
+                .input(CreateBudgetInput.newBuilder().name(name).build())
+                .build(),
+            new CreateBudgetProjectionRoot<>().success().code().message().budget().id().name());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.createBudget", CreateBudgetResponse.class);
+  }
 
   public AddLineItemResponse addLineItem(String name) {
     return addLineItem(name, List.of());
