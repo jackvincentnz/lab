@@ -2,7 +2,7 @@ package nz.geek.jack.mops.core.application.lineitem;
 
 import java.util.Collection;
 import java.util.Optional;
-import nz.geek.jack.mops.core.domain.lineitem.Categorization;
+import nz.geek.jack.mops.core.domain.budget.Categorization;
 
 public final class AddLineItemCommand {
 

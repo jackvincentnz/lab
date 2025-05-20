@@ -1,4 +1,4 @@
-package nz.geek.jack.mops.core.domain.lineitem;
+package nz.geek.jack.mops.core.domain.budget;
 
 import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;

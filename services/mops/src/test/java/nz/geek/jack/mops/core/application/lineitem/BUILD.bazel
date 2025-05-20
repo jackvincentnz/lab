@@ -4,7 +4,7 @@ java_test_suite(
     name = "lineitem",
     deps = [
         "//services/mops/src/main/java/nz/geek/jack/mops/core/application/lineitem",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/budget",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/category",
-        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/lineitem",
     ],
 )

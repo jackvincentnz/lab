@@ -8,8 +8,8 @@ java_library(
     deps = [
         "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/gql",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/application/lineitem",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/budget",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/category",
-        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/lineitem",
         "//services/mops/src/main/resources/schema:java",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",

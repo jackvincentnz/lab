@@ -4,9 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import nz.geek.jack.mops.core.domain.budget.LineItem;
+import nz.geek.jack.mops.core.domain.budget.Spend;
 import nz.geek.jack.mops.core.domain.category.Category;
-import nz.geek.jack.mops.core.domain.lineitem.LineItem;
-import nz.geek.jack.mops.core.domain.lineitem.Spend;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 

@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import nz.geek.jack.mops.core.domain.lineitem.LineItem;
-import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
+import nz.geek.jack.mops.core.domain.budget.LineItem;
+import nz.geek.jack.mops.core.domain.budget.LineItemRepository;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

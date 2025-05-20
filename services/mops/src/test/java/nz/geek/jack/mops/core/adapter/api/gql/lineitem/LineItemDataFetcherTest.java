@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import nz.geek.jack.mops.core.application.lineitem.LineItemQueryService;
-import nz.geek.jack.mops.core.domain.lineitem.LineItem;
+import nz.geek.jack.mops.core.domain.budget.LineItem;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
