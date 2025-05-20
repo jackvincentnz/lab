@@ -1,8 +1,8 @@
 package nz.geek.jack.mops.core.application.lineitem;
 
 import java.util.Collection;
-import nz.geek.jack.mops.core.domain.lineitem.LineItem;
-import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
+import nz.geek.jack.mops.core.domain.budget.LineItem;
+import nz.geek.jack.mops.core.domain.budget.LineItemRepository;
 import org.springframework.stereotype.Service;
 
 @Service

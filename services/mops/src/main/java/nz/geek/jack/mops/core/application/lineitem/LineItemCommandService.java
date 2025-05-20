@@ -2,10 +2,10 @@ package nz.geek.jack.mops.core.application.lineitem;
 
 import java.util.stream.Collectors;
 import nz.geek.jack.libs.ddd.domain.NotFoundException;
+import nz.geek.jack.mops.core.domain.budget.Categorization;
+import nz.geek.jack.mops.core.domain.budget.LineItem;
+import nz.geek.jack.mops.core.domain.budget.LineItemRepository;
 import nz.geek.jack.mops.core.domain.category.CategoryRepository;
-import nz.geek.jack.mops.core.domain.lineitem.Categorization;
-import nz.geek.jack.mops.core.domain.lineitem.LineItem;
-import nz.geek.jack.mops.core.domain.lineitem.LineItemRepository;
 import org.springframework.stereotype.Service;
 
 @Service

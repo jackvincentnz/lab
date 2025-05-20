@@ -1,4 +1,4 @@
-package nz.geek.jack.mops.core.domain.lineitem;
+package nz.geek.jack.mops.core.domain.budget;
 
 import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryValueId;

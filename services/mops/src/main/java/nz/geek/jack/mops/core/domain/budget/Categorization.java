@@ -1,4 +1,4 @@
-package nz.geek.jack.mops.core.domain.lineitem;
+package nz.geek.jack.mops.core.domain.budget;
 
 import java.util.Objects;
 import nz.geek.jack.mops.core.domain.category.CategoryId;

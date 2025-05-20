@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class LineItemMapper {
 
-  public LineItem map(nz.geek.jack.mops.core.domain.lineitem.LineItem lineItem) {
+  public LineItem map(nz.geek.jack.mops.core.domain.budget.LineItem lineItem) {
     return LineItem.newBuilder()
         .id(lineItem.getId().toString())
         .name(lineItem.getName())

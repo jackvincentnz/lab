@@ -19,11 +19,11 @@ import nz.geek.jack.mops.core.application.lineitem.AddLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
 import nz.geek.jack.mops.core.application.lineitem.PlanSpendCommand;
+import nz.geek.jack.mops.core.domain.budget.Categorization;
+import nz.geek.jack.mops.core.domain.budget.LineItemId;
+import nz.geek.jack.mops.core.domain.budget.Spend;
 import nz.geek.jack.mops.core.domain.category.CategoryId;
 import nz.geek.jack.mops.core.domain.category.CategoryValueId;
-import nz.geek.jack.mops.core.domain.lineitem.Categorization;
-import nz.geek.jack.mops.core.domain.lineitem.LineItemId;
-import nz.geek.jack.mops.core.domain.lineitem.Spend;
 
 @DgsComponent
 public class LineItemMutation {
