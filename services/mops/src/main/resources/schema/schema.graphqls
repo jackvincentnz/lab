@@ -1,6 +1,7 @@
 # API root
 
 type Query {
+  allBudgets: [Budget!]!
   allLineItems: [LineItem!]!
   allCategories: [Category!]!
   clientConfiguration: ClientConfiguration!

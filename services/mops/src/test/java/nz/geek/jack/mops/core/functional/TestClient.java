@@ -1,5 +1,6 @@
 package nz.geek.jack.mops.core.functional;
 
+import com.jayway.jsonpath.TypeRef;
 import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import java.util.List;
@@ -7,6 +8,8 @@ import nz.geek.jack.mops.api.gql.client.AddCategoryValueGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AddCategoryValueProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.AddLineItemGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.AddLineItemProjectionRoot;
+import nz.geek.jack.mops.api.gql.client.AllBudgetsGraphQLQuery;
+import nz.geek.jack.mops.api.gql.client.AllBudgetsProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import nz.geek.jack.mops.api.gql.client.CategorizeLineItemProjectionRoot;
 import nz.geek.jack.mops.api.gql.client.CreateBudgetGraphQLQuery;
@@ -25,6 +28,7 @@ import nz.geek.jack.mops.api.gql.types.AddCategoryValueInput;
 import nz.geek.jack.mops.api.gql.types.AddCategoryValueResponse;
 import nz.geek.jack.mops.api.gql.types.AddLineItemInput;
 import nz.geek.jack.mops.api.gql.types.AddLineItemResponse;
+import nz.geek.jack.mops.api.gql.types.Budget;
 import nz.geek.jack.mops.api.gql.types.CategorizationInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemInput;
 import nz.geek.jack.mops.api.gql.types.CategorizeLineItemResponse;
@@ -57,6 +61,16 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.createBudget", CreateBudgetResponse.class);
+  }
+
+  public List<Budget> allBudgets() {
+    var request =
+        new GraphQLQueryRequest(
+            AllBudgetsGraphQLQuery.newRequest().build(),
+            new AllBudgetsProjectionRoot<>().id().name());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.allBudgets", new TypeRef<>() {});
   }
 
   public AddLineItemResponse addLineItem(String name) {

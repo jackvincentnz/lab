@@ -27,4 +27,16 @@ class BudgetFunctionalTest extends TestBase {
     assertThat(response.getBudget().getId()).isNotBlank();
     assertThat(response.getBudget().getName()).isEqualTo(name);
   }
+
+  @Test
+  void allBudgets_returnsAllBudgets() {
+    var name = randomString();
+
+    client.createBudget(name);
+
+    var budgets = client.allBudgets();
+
+    assertThat(budgets.size()).isEqualTo(2); // Default + added
+    assertThat(budgets.get(1).getName()).isEqualTo(name);
+  }
 }
