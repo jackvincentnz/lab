@@ -9,6 +9,7 @@ type Query {
 type Mutation {
   provisionTenant(input: ProvisionTenantInput!): ProvisionTenantResponse!
   createBudget(input: CreateBudgetInput!): CreateBudgetResponse!
+  createAsset(input: CreateAssetInput!): CreateAssetResponse!
   addLineItem(input: AddLineItemInput!): AddLineItemResponse!
   createCategory(input: CreateCategoryInput!): CreateCategoryResponse!
   updateCategoryName(
@@ -28,6 +29,11 @@ type Mutation {
 # Objects
 
 type Tenant {
+  id: ID!
+  name: String!
+}
+
+type Asset {
   id: ID!
   name: String!
 }
@@ -76,6 +82,10 @@ input ProvisionTenantInput {
 }
 
 input CreateBudgetInput {
+  name: String!
+}
+
+input CreateAssetInput {
   name: String!
 }
 
@@ -139,6 +149,13 @@ type CreateBudgetResponse implements MutationResponse {
   success: Boolean!
   message: String!
   budget: Budget
+}
+
+type CreateAssetResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  asset: Asset
 }
 
 type AddLineItemResponse implements MutationResponse {
