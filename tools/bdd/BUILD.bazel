@@ -1,0 +1,4 @@
+alias(
+    name = "bdd",
+    actual = "//tools/bdd/src/main/java/nz/geek/jack/tools/bdd",
+)

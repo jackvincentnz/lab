@@ -93,6 +93,19 @@ jobs:
         if: github.ref == 'refs/heads/main'
         run: tools/bazel/deliver_changed.sh
 
+      - name: Publish dependencies
+        if: github.ref == 'refs/heads/main'
+        env:
+          REPO_ROOT_PATH: ${{ github.workspace }}
+          LOCKFILE_PATH: maven_install.json
+          SNAPSHOT_VERSION: 0
+          RUN_ID: ${{ github.run_id }}
+          CORRELATOR_ID: ${{ github.workflow }}-publish-dependencies
+          REF: ${{ github.ref }}
+          SHA: ${{ github.sha }}
+          ACCESS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bazel run //tools/bdd
+
       # TODO: Avoid rebuilding and retesting tests with coverage
       - name: Generate coverage report
         run: |

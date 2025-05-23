@@ -1,0 +1,9 @@
+java_library(
+    name = "reader",
+    srcs = glob(["*.java"]),
+    visibility = ["//tools/bdd/src/main/java/nz/geek/jack/tools/bdd:__pkg__"],
+    deps = [
+        "//tools/bdd/src/main/java/nz/geek/jack/tools/bdd/lockfile/model",
+        "@maven//:com_google_code_gson_gson",
+    ],
+)
