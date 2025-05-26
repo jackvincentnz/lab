@@ -73,6 +73,7 @@ maven.install(
         "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
         "jakarta.servlet:jakarta.servlet-api",
         "io.confluent:kafka-protobuf-serializer:7.5.1",  # attempting to upgrade beyond this ran into serialization issues, likely due to protobuf version mismatch in the workspace
+        "org.apache.avro:avro:1.11.4",  # overriding from io.confluent:kafka-protobuf-serializer to resolve vulnerability
         "org.wiremock:wiremock-jetty12:3.12.1",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:7.0.3",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
