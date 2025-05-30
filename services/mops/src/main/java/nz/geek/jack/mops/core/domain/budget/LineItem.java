@@ -10,6 +10,8 @@ import nz.geek.jack.mops.core.domain.category.CategoryValue;
 
 public class LineItem extends Aggregate<LineItemId> {
 
+  private final BudgetId budgetId;
+
   private final String name;
 
   private final Set<Spend> spending;
@@ -17,12 +19,18 @@ public class LineItem extends Aggregate<LineItemId> {
   private final Set<Categorization> categorizations;
 
   private LineItem(
-      LineItemId id, String name, Set<Spend> spending, Set<Categorization> categorizations) {
+      LineItemId id,
+      BudgetId budgetId,
+      String name,
+      Set<Spend> spending,
+      Set<Categorization> categorizations) {
     super(id);
     Objects.requireNonNull(id, "id must not be null");
+    Objects.requireNonNull(budgetId, "budgetId must not be null");
     Objects.requireNonNull(name, "name must not be null");
     Objects.requireNonNull(spending, "spending must not be null");
     Objects.requireNonNull(categorizations, "categorizations must not be null");
+    this.budgetId = budgetId;
     this.name = name;
     this.spending = spending;
     this.categorizations = categorizations;
@@ -52,6 +60,10 @@ public class LineItem extends Aggregate<LineItemId> {
     registerEvent(new LineItemCategorizedEvent(this.id, categoryId, categoryValueId));
   }
 
+  public BudgetId getBudgetId() {
+    return budgetId;
+  }
+
   public String getName() {
     return name;
   }
@@ -64,10 +76,11 @@ public class LineItem extends Aggregate<LineItemId> {
     return categorizations;
   }
 
-  public static LineItem add(String name) {
-    var lineItem = new LineItem(LineItemId.create(), name, new HashSet<>(), new HashSet<>());
+  static LineItem add(Budget budget, String name) {
+    var lineItem =
+        new LineItem(LineItemId.create(), budget.getId(), name, new HashSet<>(), new HashSet<>());
 
-    lineItem.registerEvent(new LineItemAddedEvent(lineItem.id, lineItem.getName()));
+    lineItem.registerEvent(new LineItemAddedEvent(lineItem.id, budget.getId(), lineItem.getName()));
 
     return lineItem;
   }

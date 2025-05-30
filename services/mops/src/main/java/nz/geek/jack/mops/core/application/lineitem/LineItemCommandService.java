@@ -2,6 +2,7 @@ package nz.geek.jack.mops.core.application.lineitem;
 
 import java.util.stream.Collectors;
 import nz.geek.jack.libs.ddd.domain.NotFoundException;
+import nz.geek.jack.mops.core.domain.budget.BudgetRepository;
 import nz.geek.jack.mops.core.domain.budget.Categorization;
 import nz.geek.jack.mops.core.domain.budget.LineItem;
 import nz.geek.jack.mops.core.domain.budget.LineItemRepository;
@@ -11,18 +12,25 @@ import org.springframework.stereotype.Service;
 @Service
 public class LineItemCommandService {
 
+  private final BudgetRepository budgetRepository;
+
   private final LineItemRepository lineItemRepository;
 
   private final CategoryRepository categoryRepository;
 
   public LineItemCommandService(
-      LineItemRepository lineItemRepository, CategoryRepository categoryRepository) {
+      BudgetRepository budgetRepository,
+      LineItemRepository lineItemRepository,
+      CategoryRepository categoryRepository) {
+    this.budgetRepository = budgetRepository;
     this.lineItemRepository = lineItemRepository;
     this.categoryRepository = categoryRepository;
   }
 
   public LineItem add(AddLineItemCommand command) {
-    var lineItem = LineItem.add(command.getName());
+    var budget = budgetRepository.getById(command.getBudgetId());
+
+    var lineItem = budget.addLineItem(command.getName());
 
     command
         .getCategorizations()

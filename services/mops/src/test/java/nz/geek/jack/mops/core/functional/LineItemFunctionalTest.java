@@ -30,6 +30,7 @@ class LineItemFunctionalTest extends TestBase {
 
   @Test
   void addLineItemWithAllFields() {
+    var budgetId = client.createBudget(randomString()).getBudget().getId();
     var name = randomString();
     var categoryId = client.createCategory(randomString()).getCategory().getId();
     var categoryValueId =
@@ -37,6 +38,7 @@ class LineItemFunctionalTest extends TestBase {
 
     var response =
         client.addLineItem(
+            budgetId,
             name,
             List.of(
                 CategorizationInput.newBuilder()
@@ -47,6 +49,7 @@ class LineItemFunctionalTest extends TestBase {
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
     assertThat(response.getMessage()).isNotBlank();
+    assertThat(response.getLineItem().getBudgetId()).isEqualTo(budgetId);
     assertThat(response.getLineItem().getName()).isEqualTo(name);
 
     var categorization = response.getLineItem().getCategorizations().get(0);
@@ -60,7 +63,7 @@ class LineItemFunctionalTest extends TestBase {
     var spendDay = LocalDate.now();
     var amount = BigDecimal.valueOf(123.45);
 
-    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItemId = newLineItem();
 
     var response =
         client.planSpend(
@@ -78,7 +81,7 @@ class LineItemFunctionalTest extends TestBase {
 
   @Test
   void categorizeLineItemReturnsAllFields() {
-    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItemId = newLineItem();
     var categoryId = client.createCategory(randomString()).getCategory().getId();
     var categoryValueId =
         client.addCategoryValue(categoryId, randomString()).getCategoryValue().getId();
@@ -93,7 +96,7 @@ class LineItemFunctionalTest extends TestBase {
 
   @Test
   void allLineItemsReturnsAllFields() {
-    var lineItemId = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItemId = newLineItem();
     var category = client.createCategory(randomString()).getCategory();
     var categoryValue =
         client.addCategoryValue(category.getId(), randomString()).getCategoryValue();
@@ -129,9 +132,9 @@ class LineItemFunctionalTest extends TestBase {
 
   @Test
   void allLineItemsReturnsMultipleItems() {
-    var lineItem1 = client.addLineItem(randomString()).getLineItem().getId();
-    var lineItem2 = client.addLineItem(randomString()).getLineItem().getId();
-    var lineItem3 = client.addLineItem(randomString()).getLineItem().getId();
+    var lineItem1 = newLineItem();
+    var lineItem2 = newLineItem();
+    var lineItem3 = newLineItem();
 
     var addedIds = getAllLineItemIds();
 
@@ -141,7 +144,7 @@ class LineItemFunctionalTest extends TestBase {
 
   @Test
   void deleteAllLineItems_deletesAll() {
-    client.addLineItem(randomString()).getLineItem();
+    newLineItem();
     var addedIds = getAllLineItemIds();
 
     assertThat(addedIds).hasSize(1);
@@ -159,5 +162,10 @@ class LineItemFunctionalTest extends TestBase {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.allLineItems[*].id", new TypeRef<>() {});
+  }
+
+  private String newLineItem() {
+    var budgetId = client.createBudget(randomString()).getBudget().getId();
+    return client.addLineItem(budgetId, randomString()).getLineItem().getId();
   }
 }

@@ -1,12 +1,15 @@
+INSERT INTO BUDGET (ID, VERSION, NAME) VALUES
+  ('0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'DEFAULT');
+
 -- Sample data for LINE_ITEM
-INSERT INTO LINE_ITEM (ID, VERSION, NAME) VALUES
-  ('550e8400-e29b-41d4-a716-446655440000', 1, 'Social Media Ads - Q1'),
-  ('550e8400-e29b-41d4-a716-446655440001', 1, 'TV Commercial - Spring'),
-  ('550e8400-e29b-41d4-a716-446655440002', 1, 'Print Magazine - Q2'),
-  ('550e8400-e29b-41d4-a716-446655440003', 1, 'Google Ads - Summer'),
-  ('550e8400-e29b-41d4-a716-446655440004', 1, 'Billboard - Fall'),
-  ('550e8400-e29b-41d4-a716-446655440005', 1, 'Influencer Marketing - Q3'),
-  ('550e8400-e29b-41d4-a716-446655440006', 1, 'Radio Spot - Winter');
+INSERT INTO LINE_ITEM (ID, BUDGET_ID, VERSION, NAME) VALUES
+  ('550e8400-e29b-41d4-a716-446655440000', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Social Media Ads - Q1'),
+  ('550e8400-e29b-41d4-a716-446655440001', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'TV Commercial - Spring'),
+  ('550e8400-e29b-41d4-a716-446655440002', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Print Magazine - Q2'),
+  ('550e8400-e29b-41d4-a716-446655440003', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Google Ads - Summer'),
+  ('550e8400-e29b-41d4-a716-446655440004', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Billboard - Fall'),
+  ('550e8400-e29b-41d4-a716-446655440005', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Influencer Marketing - Q3'),
+  ('550e8400-e29b-41d4-a716-446655440006', '0fc0106c-9ade-49d5-90c8-de1a927696a0', 1, 'Radio Spot - Winter');
 
 -- Sample data for CATEGORY
 INSERT INTO CATEGORY (ID, VERSION, NAME) VALUES

@@ -14,24 +14,21 @@ import {
   AddLineItemDocument,
   AddLineItemMutation,
   AddLineItemMutationVariables,
-  AllCategoriesDocument,
-  AllLineItemsDocument,
-  AllLineItemsQuery,
   Category,
   CategoryValue,
   LineItem,
+  SpendPageQueryDocument,
 } from "../../__generated__/graphql";
 import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/SpendTable";
 
 describe("SpendPage", async () => {
   test("renders table", async () => {
     const name = "My Line Item";
-    const categories = mockAllCategories();
-    const lineItems = mockAllLineItems({ names: [name] });
+    const mock = mockSpendPageQuery({ lineItemNames: [name] });
 
     render(<SpendPage />, {
       mockedProvider: {
-        mocks: [lineItems, categories],
+        mocks: [mock],
       },
     });
 
@@ -41,12 +38,11 @@ describe("SpendPage", async () => {
 
   test("renders table columns", async () => {
     const category = "Country";
-    const categories = mockAllCategories({ names: [category] });
-    const lineItems = mockAllLineItems();
+    const mock = mockSpendPageQuery({ categoryNames: [category] });
 
     render(<SpendPage />, {
       mockedProvider: {
-        mocks: [categories, lineItems],
+        mocks: [mock],
       },
     });
 
@@ -57,10 +53,8 @@ describe("SpendPage", async () => {
     const name = "My Line Item";
     const categoryName = "Country";
 
-    const categories = mockAllCategories({ names: [categoryName] });
-    const category = categories.result.data.allCategories[0];
-
-    const initial = mockAllLineItems();
+    const initial = mockSpendPageQuery({ categoryNames: [categoryName] });
+    const category = initial.result.data.allCategories[0];
 
     const mutation: MockedResponse<
       AddLineItemMutation,
@@ -71,6 +65,7 @@ describe("SpendPage", async () => {
         variables: {
           input: {
             name,
+            budgetId: "",
             categorizations: [
               {
                 categoryId: category.id,
@@ -97,11 +92,14 @@ describe("SpendPage", async () => {
       },
     };
 
-    const refetch = mockAllLineItems({ names: [name] });
+    const refetch = mockSpendPageQuery({
+      categoryNames: [categoryName],
+      lineItemNames: [name],
+    });
 
     render(<SpendPage />, {
       mockedProvider: {
-        mocks: [categories, initial, mutation, refetch],
+        mocks: [initial, mutation, refetch],
       },
     });
 
@@ -127,17 +125,21 @@ describe("SpendPage", async () => {
   });
 });
 
-function mockAllLineItems(options?: {
-  names?: string[];
-}): MockedResponse<AllLineItemsQuery> {
+function mockSpendPageQuery(options?: {
+  categoryNames?: string[];
+  lineItemNames?: string[];
+}) {
   return {
     request: {
-      query: AllLineItemsDocument,
+      query: SpendPageQueryDocument,
     },
     result: {
       data: {
+        allBudgets: [],
+        allCategories:
+          options?.categoryNames?.map((name) => mockCategory({ name })) ?? [],
         allLineItems:
-          options?.names?.map((name) => mockLineItem({ name })) ?? [],
+          options?.lineItemNames?.map((name) => mockLineItem({ name })) ?? [],
       },
     },
   };
@@ -145,38 +147,29 @@ function mockAllLineItems(options?: {
 
 function mockLineItem({ name, categorizations }: Partial<LineItem>): LineItem {
   return {
-    id: name ?? Date.now().toString(),
-    name: name ?? Date.now().toString(),
+    id: name ?? newId(),
+    budgetId: newId(),
+    name: name ?? newId(),
     spending: [],
     categorizations: categorizations || [],
   };
 }
 
-function mockAllCategories(options?: { names?: string[] }) {
-  return {
-    request: {
-      query: AllCategoriesDocument,
-    },
-    result: {
-      data: {
-        allCategories:
-          options?.names?.map((name) => mockCategory({ name })) ?? [],
-      },
-    },
-  };
-}
-
 function mockCategory({ name }: Partial<Category>): Category {
   return {
-    id: name ?? Date.now().toString(),
-    name: name ?? Date.now().toString(),
+    id: name ?? newId(),
+    name: name ?? newId(),
     values: [mockCategoryValue()],
   };
 }
 
 function mockCategoryValue(): CategoryValue {
   return {
-    id: Date.now().toString(),
-    name: Date.now().toString(),
+    id: newId(),
+    name: newId(),
   };
+}
+
+function newId() {
+  return Date.now().toString();
 }

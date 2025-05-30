@@ -3,17 +3,20 @@ import { NewLineItem } from "./components/spend-table";
 import {
   AddLineItemDocument,
   AddLineItemInput,
-  AllLineItemsDocument,
+  SpendPageQueryDocument,
   DeleteAllLineItemsDocument,
 } from "../../__generated__/graphql";
 
-export function useAddLineItemMutation() {
+export function useAddLineItemMutation(budgetId: string) {
   const [addLineItemMutation] = useMutation(AddLineItemDocument, {
-    refetchQueries: [AllLineItemsDocument],
+    refetchQueries: [SpendPageQueryDocument],
   });
 
   return function addLineItem(lineItem: NewLineItem) {
-    const addLineItemInput: AddLineItemInput = { name: lineItem.name };
+    const addLineItemInput: AddLineItemInput = {
+      budgetId,
+      name: lineItem.name,
+    };
 
     if (lineItem.fields.length > 0) {
       addLineItemInput.categorizations = lineItem.fields.map((field) => ({
@@ -28,7 +31,7 @@ export function useAddLineItemMutation() {
 
 export function useDeleteAllLineItemsMutation() {
   const [deleteAllLineItemsMutation] = useMutation(DeleteAllLineItemsDocument, {
-    refetchQueries: [AllLineItemsDocument],
+    refetchQueries: [SpendPageQueryDocument],
   });
 
   return () => {

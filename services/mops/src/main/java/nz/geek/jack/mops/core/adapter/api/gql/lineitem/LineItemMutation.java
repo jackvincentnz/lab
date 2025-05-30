@@ -19,6 +19,7 @@ import nz.geek.jack.mops.core.application.lineitem.AddLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.CategorizeLineItemCommand;
 import nz.geek.jack.mops.core.application.lineitem.LineItemCommandService;
 import nz.geek.jack.mops.core.application.lineitem.PlanSpendCommand;
+import nz.geek.jack.mops.core.domain.budget.BudgetId;
 import nz.geek.jack.mops.core.domain.budget.Categorization;
 import nz.geek.jack.mops.core.domain.budget.LineItemId;
 import nz.geek.jack.mops.core.domain.budget.Spend;
@@ -40,7 +41,7 @@ public class LineItemMutation {
 
   @DgsMutation
   public AddLineItemResponse addLineItem(@InputArgument("input") AddLineItemInput input) {
-    var command = new AddLineItemCommand(input.getName());
+    var command = new AddLineItemCommand(BudgetId.fromString(input.getBudgetId()), input.getName());
 
     if (input.getCategorizations() != null) {
       command.withCategorizations(

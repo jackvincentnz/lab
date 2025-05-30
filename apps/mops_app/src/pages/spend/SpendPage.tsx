@@ -1,9 +1,7 @@
 import { useQuery } from "@apollo/client";
 import {
-  AllLineItemsDocument,
-  AllCategoriesDocument,
-  AllLineItemsQuery,
-  AllCategoriesQuery,
+  SpendPageQueryDocument,
+  SpendPageQueryQuery,
 } from "../../__generated__/graphql";
 import { Column, LineItem, Option, SpendTable } from "./components/spend-table";
 import {
@@ -13,33 +11,31 @@ import {
 import { Field } from "./components/spend-table/types";
 
 export function SpendPage() {
-  const { data: lineItems, loading: lineItemsLoading } =
-    useQuery(AllLineItemsDocument);
-  const { data: categories, loading: categoriesLoading } = useQuery(
-    AllCategoriesDocument,
-  );
+  const { data, loading } = useQuery(SpendPageQueryDocument);
 
-  const addLineItem = useAddLineItemMutation();
+  const addLineItem = useAddLineItemMutation(data?.allBudgets[0]?.id || "");
   const deleteAllLineItems = useDeleteAllLineItemsMutation();
-  const columns = mapToColumns(categories);
+  const columns = mapToColumns(data?.allCategories);
 
   return (
     <SpendTable
       columns={columns}
-      lineItems={mapToLineItems(lineItems)}
+      lineItems={mapToLineItems(data?.allLineItems)}
       onAddLineItem={addLineItem}
       onDeleteAllLineItems={deleteAllLineItems}
-      loading={lineItemsLoading || categoriesLoading}
+      loading={loading}
     />
   );
 }
 
-function mapToLineItems(data?: AllLineItemsQuery): LineItem[] {
-  return data?.allLineItems.map(mapToLineItem) || [];
+function mapToLineItems(
+  allLineItems?: SpendPageQueryQuery["allLineItems"],
+): LineItem[] {
+  return allLineItems?.map(mapToLineItem) || [];
 }
 
 function mapToLineItem(
-  lineItem: AllLineItemsQuery["allLineItems"][number],
+  lineItem: SpendPageQueryQuery["allLineItems"][number],
 ): LineItem {
   return {
     id: lineItem.id,
@@ -49,7 +45,7 @@ function mapToLineItem(
 }
 
 function mapToField(
-  categorization: AllLineItemsQuery["allLineItems"][number]["categorizations"][number],
+  categorization: SpendPageQueryQuery["allLineItems"][number]["categorizations"][number],
 ): Field {
   return {
     id: categorization.category.id,
@@ -57,12 +53,14 @@ function mapToField(
   };
 }
 
-function mapToColumns(data?: AllCategoriesQuery): Column[] {
-  return data?.allCategories.map(mapToColumn) || [];
+function mapToColumns(
+  allCategories?: SpendPageQueryQuery["allCategories"],
+): Column[] {
+  return allCategories?.map(mapToColumn) || [];
 }
 
 function mapToColumn(
-  category: AllCategoriesQuery["allCategories"][number],
+  category: SpendPageQueryQuery["allCategories"][number],
 ): Column {
   return {
     id: category.id,
@@ -74,7 +72,7 @@ function mapToColumn(
 }
 
 function mapToOption(
-  categoryValue: AllCategoriesQuery["allCategories"][number]["values"][number],
+  categoryValue: SpendPageQueryQuery["allCategories"][number]["values"][number],
 ): Option {
   return {
     value: categoryValue.id,
