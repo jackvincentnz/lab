@@ -14,6 +14,10 @@ public class Budget extends Aggregate<BudgetId> {
     this.name = name;
   }
 
+  public LineItem addLineItem(String name) {
+    return LineItem.add(this, name);
+  }
+
   public String getName() {
     return name;
   }

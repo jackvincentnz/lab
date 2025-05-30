@@ -1,4 +1,16 @@
-query AllLineItems {
+query SpendPageQuery {
+  allBudgets {
+    id
+    name
+  }
+  allCategories {
+    id
+    name
+    values {
+      id
+      name
+    }
+  }
   allLineItems {
     id
     name

@@ -50,10 +50,22 @@ class LineItemMutationTest extends TestBase {
   @Captor ArgumentCaptor<AddLineItemCommand> addLineItemCommandCaptor;
 
   @Test
+  void addLineItem_addsLineItemToBudget() {
+    var budgetId = randomId();
+
+    lineItemMutation.addLineItem(
+        AddLineItemInput.newBuilder().budgetId(budgetId).name(randomString()).build());
+
+    verify(lineItemCommandService).add(addLineItemCommandCaptor.capture());
+    assertThat(addLineItemCommandCaptor.getValue().getBudgetId().toString()).isEqualTo(budgetId);
+  }
+
+  @Test
   void addLineItem_addsLineItemWithName() {
     var name = randomString();
 
-    lineItemMutation.addLineItem(AddLineItemInput.newBuilder().name(name).build());
+    lineItemMutation.addLineItem(
+        AddLineItemInput.newBuilder().budgetId(randomId()).name(name).build());
 
     verify(lineItemCommandService).add(addLineItemCommandCaptor.capture());
     assertThat(addLineItemCommandCaptor.getValue().getName()).isEqualTo(name);
@@ -65,6 +77,7 @@ class LineItemMutationTest extends TestBase {
     var categoryValueId = CategoryValueId.create();
     var addLineItemInput =
         AddLineItemInput.newBuilder()
+            .budgetId(randomId())
             .name(randomString())
             .categorizations(
                 List.of(
@@ -83,7 +96,7 @@ class LineItemMutationTest extends TestBase {
 
   @Test
   void addLineItem_mapsResponse() {
-    var domainLineItem = LineItem.add(randomString());
+    var domainLineItem = mock(LineItem.class);
     var graphLineItem = mock(nz.geek.jack.mops.api.gql.types.LineItem.class);
 
     when(lineItemCommandService.add(any(AddLineItemCommand.class))).thenReturn(domainLineItem);
@@ -91,7 +104,10 @@ class LineItemMutationTest extends TestBase {
 
     var result =
         lineItemMutation.addLineItem(
-            AddLineItemInput.newBuilder().name(domainLineItem.getName()).build());
+            AddLineItemInput.newBuilder()
+                .budgetId(randomId())
+                .name(domainLineItem.getName())
+                .build());
 
     assertThat(result.getCode()).isEqualTo(SC_CREATED);
     assertThat(result.getSuccess()).isTrue();

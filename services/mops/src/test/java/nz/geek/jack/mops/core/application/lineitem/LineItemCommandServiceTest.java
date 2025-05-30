@@ -10,6 +10,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import nz.geek.jack.mops.core.domain.budget.Budget;
+import nz.geek.jack.mops.core.domain.budget.BudgetRepository;
 import nz.geek.jack.mops.core.domain.budget.Categorization;
 import nz.geek.jack.mops.core.domain.budget.LineItem;
 import nz.geek.jack.mops.core.domain.budget.LineItemRepository;
@@ -28,6 +30,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class LineItemCommandServiceTest extends TestBase {
 
+  @Mock BudgetRepository budgetRepository;
+
   @Mock LineItemRepository lineItemRepository;
 
   @Mock CategoryRepository categoryRepository;
@@ -37,9 +41,25 @@ class LineItemCommandServiceTest extends TestBase {
   @Captor ArgumentCaptor<LineItem> lineItemCaptor;
 
   @Test
+  void add_addsLineItemToBudget() {
+    var budget = newBudget();
+    var command = new AddLineItemCommand(budget.getId(), randomString());
+
+    when(budgetRepository.getById(budget.getId())).thenReturn(budget);
+
+    lineItemCommandService.add(command);
+
+    verify(lineItemRepository).save(lineItemCaptor.capture());
+    assertThat(lineItemCaptor.getValue().getBudgetId()).isEqualTo(budget.getId());
+  }
+
+  @Test
   void add_addsLineItemWithName() {
+    var budget = newBudget();
     var name = randomString();
-    var command = new AddLineItemCommand(name);
+    var command = new AddLineItemCommand(budget.getId(), name);
+
+    when(budgetRepository.getById(budget.getId())).thenReturn(budget);
 
     lineItemCommandService.add(command);
 
@@ -49,15 +69,18 @@ class LineItemCommandServiceTest extends TestBase {
 
   @Test
   void add_addsLineItemWithCategorization() {
+    var budget = newBudget();
     var category = Category.create(randomString());
     var categoryValue = category.addValue(randomString());
     var categorization = Categorization.of(category.getId(), categoryValue.getId());
 
+    when(budgetRepository.getById(budget.getId())).thenReturn(budget);
     when(categoryRepository.mapById(Set.of(category.getId())))
         .thenReturn(Map.of(category.getId(), category));
 
     var command =
-        new AddLineItemCommand(randomString()).withCategorizations(List.of(categorization));
+        new AddLineItemCommand(budget.getId(), randomString())
+            .withCategorizations(List.of(categorization));
 
     lineItemCommandService.add(command);
 
@@ -67,10 +90,12 @@ class LineItemCommandServiceTest extends TestBase {
 
   @Test
   void add_returnsSavedLineItem() {
+    var budget = newBudget();
     var name = randomString();
-    var command = new AddLineItemCommand(name);
-    var saved = LineItem.add(name);
+    var command = new AddLineItemCommand(budget.getId(), name);
+    var saved = budget.addLineItem(name);
 
+    when(budgetRepository.getById(budget.getId())).thenReturn(budget);
     when(lineItemRepository.save(any(LineItem.class))).thenReturn(saved);
 
     var result = lineItemCommandService.add(command);
@@ -80,7 +105,7 @@ class LineItemCommandServiceTest extends TestBase {
 
   @Test
   void planSpend_plansSpend() {
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
     var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(123.456));
     var command = new PlanSpendCommand(lineItem.getId(), spend);
 
@@ -95,7 +120,7 @@ class LineItemCommandServiceTest extends TestBase {
 
   @Test
   void categorize_addsCategorization() {
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
     var category = Category.create(randomString());
     var categoryValue = category.addValue(randomString());
     when(lineItemRepository.getById(lineItem.getId())).thenReturn(lineItem);
@@ -112,5 +137,14 @@ class LineItemCommandServiceTest extends TestBase {
     assertThat(categorization.getCategoryId()).isEqualTo(category.getId());
     assertThat(categorization.getCategoryValueId()).isEqualTo(categoryValue.getId());
     assertThat(result).isEqualTo(lineItem);
+  }
+
+  private Budget newBudget() {
+    return Budget.create(randomString());
+  }
+
+  private LineItem newLineItem() {
+    var budget = newBudget();
+    return budget.addLineItem(randomString());
   }
 }

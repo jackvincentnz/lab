@@ -14,33 +14,54 @@ class LineItemTest extends TestBase {
 
   @Test
   void add_setsId() {
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     assertThat(lineItem.getId()).isNotNull();
   }
 
   @Test
   void add_registersEventWithId() {
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     var event = (LineItemAddedEvent) lineItem.domainEvents().iterator().next();
     assertThat(event.id()).isEqualTo(lineItem.getId());
   }
 
   @Test
+  void add_setsBudgetId() {
+    var budget = newBudget();
+
+    var lineItem = budget.addLineItem(randomString());
+
+    assertThat(lineItem.getBudgetId()).isNotNull();
+  }
+
+  @Test
+  void add_registersEventWithBudgetId() {
+    var budget = newBudget();
+
+    var lineItem = budget.addLineItem(randomString());
+
+    var event = (LineItemAddedEvent) lineItem.domainEvents().iterator().next();
+    assertThat(event.budgetId()).isEqualTo(lineItem.getBudgetId());
+  }
+
+  @Test
   void add_setsName() {
+    var budget = newBudget();
     var name = randomString();
 
-    var lineItem = LineItem.add(name);
+    var lineItem = budget.addLineItem(name);
 
     assertThat(lineItem.getName()).isEqualTo(name);
   }
 
   @Test
   void add_registersEventWithName() {
+    var budget = newBudget();
     var name = randomString();
 
-    var lineItem = LineItem.add(name);
+    var lineItem = budget.addLineItem(name);
 
     var event = (LineItemAddedEvent) lineItem.domainEvents().iterator().next();
     assertThat(event.name()).isEqualTo(lineItem.getName());
@@ -48,7 +69,7 @@ class LineItemTest extends TestBase {
 
   @Test
   void planSpend_preventsNull() {
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     assertThatThrownBy(() -> lineItem.planSpend(null)).isInstanceOf(NullPointerException.class);
   }
@@ -56,7 +77,7 @@ class LineItemTest extends TestBase {
   @Test
   void planSpend_plansSpend() {
     var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(123.456));
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     lineItem.planSpend(spend);
 
@@ -66,7 +87,7 @@ class LineItemTest extends TestBase {
   @Test
   void planSpend_registersEventWithId() {
     var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(123.456));
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     lineItem.planSpend(spend);
 
@@ -77,7 +98,7 @@ class LineItemTest extends TestBase {
   @Test
   void planSpend_registersEventWithSpend() {
     var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(123.456));
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     lineItem.planSpend(spend);
 
@@ -89,10 +110,19 @@ class LineItemTest extends TestBase {
   void planSpend_preventsOverlappingSpend() {
     var spend1 = Spend.of(LocalDate.EPOCH, BigDecimal.valueOf(123.456));
     var spend2 = Spend.of(LocalDate.EPOCH, BigDecimal.valueOf(654.321));
-    var lineItem = LineItem.add(randomString());
+    var lineItem = newLineItem();
 
     lineItem.planSpend(spend1);
 
     assertThatThrownBy(() -> lineItem.planSpend(spend2)).isInstanceOf(ValidationException.class);
+  }
+
+  private Budget newBudget() {
+    return Budget.create(randomString());
+  }
+
+  private LineItem newLineItem() {
+    var budget = newBudget();
+    return budget.addLineItem(randomString());
   }
 }

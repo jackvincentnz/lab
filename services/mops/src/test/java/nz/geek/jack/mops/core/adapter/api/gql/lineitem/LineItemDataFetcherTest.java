@@ -25,7 +25,7 @@ class LineItemDataFetcherTest extends TestBase {
 
   @Test
   void allLineItems_mapsLineItems() {
-    var domainLineItem = LineItem.add(randomString());
+    var domainLineItem = mock(LineItem.class);
     var graphqLineItem = mock(nz.geek.jack.mops.api.gql.types.LineItem.class);
     when(lineItemQueryService.findAll()).thenReturn(List.of(domainLineItem));
     when(lineItemMapper.map(domainLineItem)).thenReturn(graphqLineItem);

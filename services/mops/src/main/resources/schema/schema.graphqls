@@ -40,6 +40,7 @@ type Budget {
 
 type LineItem {
   id: ID!
+  budgetId: ID!
   name: String!
   categorizations: [Categorization!]!
   spending: [Spend!]!
@@ -81,6 +82,7 @@ input CreateBudgetInput {
 }
 
 input AddLineItemInput {
+  budgetId: ID!
   name: String!
   categorizations: [CategorizationInput!]
 }

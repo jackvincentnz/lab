@@ -13,6 +13,7 @@ public class LineItemMapper {
   public LineItem map(nz.geek.jack.mops.core.domain.budget.LineItem lineItem) {
     return LineItem.newBuilder()
         .id(lineItem.getId().toString())
+        .budgetId(lineItem.getBudgetId().toString())
         .name(lineItem.getName())
         .categorizations(
             lineItem.getCategorizations().stream()

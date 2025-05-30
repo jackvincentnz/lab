@@ -73,16 +73,18 @@ public class TestClient {
         request.serialize(), "data.allBudgets", new TypeRef<>() {});
   }
 
-  public AddLineItemResponse addLineItem(String name) {
-    return addLineItem(name, List.of());
+  public AddLineItemResponse addLineItem(String budgetId, String name) {
+    return addLineItem(budgetId, name, List.of());
   }
 
-  public AddLineItemResponse addLineItem(String name, List<CategorizationInput> categorizations) {
+  public AddLineItemResponse addLineItem(
+      String budgetId, String name, List<CategorizationInput> categorizations) {
     var request =
         new GraphQLQueryRequest(
             AddLineItemGraphQLQuery.newRequest()
                 .input(
                     AddLineItemInput.newBuilder()
+                        .budgetId(budgetId)
                         .name(name)
                         .categorizations(categorizations)
                         .build())
@@ -93,6 +95,7 @@ public class TestClient {
                 .message()
                 .lineItem()
                 .id()
+                .budgetId()
                 .name()
                 .categorizations()
                 .category()
