@@ -49,6 +49,7 @@ maven.install(
         "org.apache.kafka:kafka_2.13",
         "org.eclipse.jetty:jetty-reactive-httpclient",
         "org.flywaydb:flyway-core",
+        "org.springframework.ai:spring-ai-starter-model-openai",
         "org.springframework.boot:spring-boot-loader",
         "org.springframework.boot:spring-boot-starter-actuator",
         "org.springframework.boot:spring-boot-starter-jdbc",
@@ -82,6 +83,7 @@ maven.install(
     ],
     boms = [
         "org.springframework.boot:spring-boot-dependencies:3.4.3",
+        "org.springframework.ai:spring-ai-bom:1.0.0",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.0.4",
         "com.google.protobuf:protobuf-bom:3.25.5",
     ],
