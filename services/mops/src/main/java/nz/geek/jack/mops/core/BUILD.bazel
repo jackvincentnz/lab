@@ -4,6 +4,7 @@ java_library(
         "//services/mops/src/main:__pkg__",
     ],
     runtime_deps = [
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/ai",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/gql/budget",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/gql/category",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/adapter/api/gql/lineitem",
