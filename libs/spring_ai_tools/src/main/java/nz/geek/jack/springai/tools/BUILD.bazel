@@ -1,0 +1,9 @@
+java_library(
+    name = "tools",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "@maven//:org_springframework_ai_spring_ai_model",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
