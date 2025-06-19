@@ -81,6 +81,8 @@ maven.install(
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
         "com.squareup.okhttp3:okhttp:4.12.0",
         "com.github.package-url:packageurl-java:1.5.0",
+        "com.google.adk:google-adk:0.1.0",
+        "com.google.adk:google-adk-dev:0.1.0",
     ],
     boms = [
         "org.springframework.boot:spring-boot-dependencies:3.4.3",
