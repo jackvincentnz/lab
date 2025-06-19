@@ -7,8 +7,9 @@ import nz.geek.jack.springai.tools.DateTimeTools;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -27,14 +28,17 @@ class AiController {
     this.budgetTools = budgetTools;
   }
 
-  @GetMapping("/chat/{chatId}")
-  String chat(@PathVariable String chatId, String prompt) {
-    return this.chatClient
-        .prompt()
-        .user(prompt)
-        .advisors(a -> a.param(CONVERSATION_ID, chatId))
-        .tools(new DateTimeTools(), budgetTools)
-        .call()
-        .content();
+  @PostMapping("/chat/{chatId}")
+  ChatResponse chat(@PathVariable String chatId, @RequestBody ChatRequest request) {
+    var message =
+        this.chatClient
+            .prompt()
+            .user(request.prompt())
+            .advisors(a -> a.param(CONVERSATION_ID, chatId))
+            .tools(new DateTimeTools(), budgetTools)
+            .call()
+            .content();
+
+    return new ChatResponse(message);
   }
 }
