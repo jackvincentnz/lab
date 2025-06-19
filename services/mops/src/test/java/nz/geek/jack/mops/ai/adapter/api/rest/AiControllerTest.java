@@ -55,8 +55,8 @@ class AiControllerTest extends TestBase {
     when(requestSpec.call()).thenReturn(responseSpec);
     when(responseSpec.content()).thenReturn(expectedResponse);
 
-    String result = aiController.chat(chatId, prompt);
+    ChatResponse response = aiController.chat(chatId, new ChatRequest(prompt));
 
-    assertThat(result).isEqualTo(expectedResponse);
+    assertThat(response.message()).isEqualTo(expectedResponse);
   }
 }
