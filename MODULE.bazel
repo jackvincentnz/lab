@@ -49,6 +49,7 @@ maven.install(
         "org.apache.kafka:kafka_2.13",
         "org.eclipse.jetty:jetty-reactive-httpclient",
         "org.flywaydb:flyway-core",
+        "org.springframework.ai:spring-ai-starter-mcp-server-webmvc",
         "org.springframework.ai:spring-ai-starter-model-openai",
         "org.springframework.boot:spring-boot-loader",
         "org.springframework.boot:spring-boot-starter-actuator",
