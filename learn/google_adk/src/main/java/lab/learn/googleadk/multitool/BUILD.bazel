@@ -1,0 +1,31 @@
+java_library(
+    name = "multitool_lib",
+    srcs = glob(["*.java"]),
+    deps = [
+        "@maven//:com_google_adk_google_adk",
+        "@maven//:com_google_genai_google_genai",
+        "@maven//:io_reactivex_rxjava3_rxjava",
+    ],
+)
+
+java_binary(
+    name = "multitool",
+    env = {
+        "GOOGLE_GENAI_USE_VERTEXAI": "FALSE",
+    },
+    main_class = "lab.learn.googleadk.multitool.MultiToolAgent",
+    runtime_deps = [":multitool_lib"],
+)
+
+java_binary(
+    name = "dev",
+    args = ["--adk.agents.source-dir=learn/google_adk/src/main/java"],
+    data = glob(["*.java"]),
+    env = {
+        "GOOGLE_GENAI_USE_VERTEXAI": "FALSE",
+    },
+    main_class = "com.google.adk.web.AdkWebServer",
+    runtime_deps = [
+        "@maven//:com_google_adk_google_adk_dev",
+    ],
+)
