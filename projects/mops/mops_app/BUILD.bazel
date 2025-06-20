@@ -1,0 +1,81 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run", "vitest_watch")
+load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel:js.bzl", "js_library")
+
+alias(
+    name = "mops_app",
+    actual = ":dev",
+)
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//projects/mops/mops_app/src/__generated__:__pkg__"],
+)
+
+SRCS = [
+    "//:node_modules/vitest",
+    "//:node_modules/postcss-preset-mantine",
+    "//:node_modules/postcss-simple-vars",
+    "//projects/mops/mops_app/public",
+    "//projects/mops/mops_app/src",
+    "index.html",
+    "package.json",
+    "postcss.config.cjs",
+    "vite.config.ts",
+]
+
+TEST_SRCS = [
+    "//projects/mops/mops_app/src:test_ts",
+    "//projects/mops/mops_app/src/test",
+]
+
+vite_dev_server(
+    name = "dev",
+    data = SRCS,
+)
+
+vite_build(
+    name = "build",
+    srcs = SRCS,
+)
+
+vitest_watch(
+    name = "test",
+    data = SRCS + TEST_SRCS,
+)
+
+vitest_run(
+    name = "test_run",
+    data = SRCS + TEST_SRCS,
+)
+
+tar(
+    name = "tar",
+    srcs = [":build"],
+    package_dir = "/usr/share/nginx/html/",
+    strip_prefix = "dist",
+)
+
+tar(
+    name = "nginx_conf_tar",
+    srcs = ["default.conf.template"],
+    package_dir = "/etc/nginx/templates",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_alpine_slim",
+    tars = [
+        ":tar",
+        ":nginx_conf_tar",
+    ],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "mops-app",
+)

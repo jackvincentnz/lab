@@ -1,0 +1,69 @@
+load("@rules_spring//springboot:springboot.bzl", "springboot")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel:pkg.bzl", "tar")
+
+java_library(
+    name = "main_lib",
+    resources = [
+        "//projects/mops/mops_service/src/main/resources/schema",
+    ] + glob(["**/*"]),
+    visibility = [
+        "//projects/mops/mops_service/src/test:__subpackages__",
+    ],
+    runtime_deps = [
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/ai",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/config",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/iam",
+        "@maven//:com_netflix_graphql_dgs_dgs_starter",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs_extended_scalars",
+        "@maven//:org_flywaydb_flyway_core",
+        "@maven//:org_springframework_ai_spring_ai_starter_mcp_server_webmvc",
+        "@maven//:org_springframework_ai_spring_ai_starter_model_openai",
+        "@maven//:org_springframework_boot_spring_boot_loader",
+        "@maven//:org_springframework_boot_spring_boot_starter_actuator",
+        "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
+        "@maven//:org_springframework_boot_spring_boot_starter_web",
+    ],
+)
+
+java_binary(
+    name = "main",
+    main_class = "nz.geek.jack.mops.MopsApplication",
+    visibility = ["//projects/mops/mops_service:__pkg__"],
+    runtime_deps = [
+        ":main_lib",
+    ],
+)
+
+springboot(
+    name = "main_spring",
+    boot_app_class = "nz.geek.jack.mops.MopsApplication",
+    boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
+    java_library = ":main_lib",
+)
+
+tar(
+    name = "tar",
+    srcs = [":main_spring.jar"],
+    include_runfiles = True,
+    strip_prefix = ".",
+)
+
+oci_image(
+    name = "image",
+    base = "@distroless_java",
+    entrypoint = [
+        "java",
+        "-jar",
+        "/main_spring.jar",
+    ],
+    tars = [":tar"],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "mops",
+)

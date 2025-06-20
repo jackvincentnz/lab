@@ -1,0 +1,9 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/mops/mops_service/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS,
+)

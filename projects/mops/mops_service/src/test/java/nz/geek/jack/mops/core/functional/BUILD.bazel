@@ -1,0 +1,17 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "functional",
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/mops/mops_service/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)

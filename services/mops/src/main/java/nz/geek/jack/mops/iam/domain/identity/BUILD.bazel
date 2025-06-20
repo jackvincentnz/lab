@@ -1,9 +1,0 @@
-java_library(
-    name = "identity",
-    srcs = glob(["*.java"]),
-    visibility = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/iam:__subpackages__",
-        "//services/mops/src/test/java/nz/geek/jack/mops/iam:__subpackages__",
-    ],
-    deps = ["//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain"],
-)

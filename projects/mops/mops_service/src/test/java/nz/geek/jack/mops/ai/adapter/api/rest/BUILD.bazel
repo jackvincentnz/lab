@@ -1,0 +1,12 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "rest",
+    deps = [
+        "//libs/spring_ai_tools/src/main/java/nz/geek/jack/springai/tools",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/ai/adapter/api/rest",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/api/ai",
+        "@maven//:org_springframework_ai_spring_ai_client_chat",
+        "@maven//:org_springframework_ai_spring_ai_model",
+    ],
+)
