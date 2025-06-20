@@ -3,7 +3,7 @@ load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen_library")
 
 dgs_codegen_library(
     name = "java",
-    package_name = "nz.geek.jack.mops.api.gql",
+    package_name = "lab.mops.api.gql",
     schemas = [":schema"],
     visibility = ["//visibility:public"],
 )

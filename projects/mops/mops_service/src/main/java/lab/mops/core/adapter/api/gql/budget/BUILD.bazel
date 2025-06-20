@@ -1,0 +1,18 @@
+java_library(
+    name = "budget",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core:__pkg__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/core/adapter/api/gql/budget:__pkg__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/api/gql",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/application/budget",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/budget",
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

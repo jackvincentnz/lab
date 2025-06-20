@@ -1,0 +1,10 @@
+java_library(
+    name = "client",
+    srcs = glob(["*.java"]),
+    visibility = ["//projects/mops/mops_service/src/main/java/lab/mops/config:__pkg__"],
+    deps = [
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:org_springframework_boot_spring_boot",
+    ],
+)

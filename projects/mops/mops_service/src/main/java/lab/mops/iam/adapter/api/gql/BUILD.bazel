@@ -1,0 +1,9 @@
+java_library(
+    name = "gql",
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter/api:__pkg__",
+    ],
+    runtime_deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter/api/gql/tenant",
+    ],
+)

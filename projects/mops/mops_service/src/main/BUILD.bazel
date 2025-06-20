@@ -11,11 +11,11 @@ java_library(
         "//projects/mops/mops_service/src/test:__subpackages__",
     ],
     runtime_deps = [
-        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops",
-        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/ai",
-        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/config",
-        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core",
-        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/iam",
+        "//projects/mops/mops_service/src/main/java/lab/mops",
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai",
+        "//projects/mops/mops_service/src/main/java/lab/mops/config",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam",
         "@maven//:com_netflix_graphql_dgs_dgs_starter",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs_extended_scalars",
         "@maven//:org_flywaydb_flyway_core",
@@ -30,7 +30,7 @@ java_library(
 
 java_binary(
     name = "main",
-    main_class = "nz.geek.jack.mops.MopsApplication",
+    main_class = "lab.mops.MopsApplication",
     visibility = ["//projects/mops/mops_service:__pkg__"],
     runtime_deps = [
         ":main_lib",
@@ -39,7 +39,7 @@ java_binary(
 
 springboot(
     name = "main_spring",
-    boot_app_class = "nz.geek.jack.mops.MopsApplication",
+    boot_app_class = "lab.mops.MopsApplication",
     boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )

@@ -1,0 +1,14 @@
+java_library(
+    name = "category",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter:__subpackages__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/core/adapter:__subpackages__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/core/application/category:__pkg__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/category",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
