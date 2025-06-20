@@ -3,6 +3,7 @@ package nz.geek.jack.mops.core.domain.category;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import nz.geek.jack.libs.ddd.domain.Aggregate;
 import nz.geek.jack.libs.ddd.domain.DuplicateException;
@@ -52,12 +53,13 @@ public class Category extends Aggregate<CategoryId> {
   }
 
   public CategoryValue getValue(CategoryValueId categoryValueId) {
-    var value =
-        values.stream()
-            .filter(categoryValue -> categoryValue.getId().equals(categoryValueId))
-            .findFirst();
+    return findValue(categoryValueId).orElseThrow(() -> new NotFoundException(categoryValueId));
+  }
 
-    return value.orElseThrow(() -> new NotFoundException(categoryValueId));
+  public Optional<CategoryValue> findValue(CategoryValueId categoryValueId) {
+    return values.stream()
+        .filter(categoryValue -> categoryValue.getId().equals(categoryValueId))
+        .findFirst();
   }
 
   public Collection<CategoryValue> getValues() {

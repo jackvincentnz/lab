@@ -7,9 +7,9 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import nz.geek.jack.mops.core.application.budget.BudgetCommandService;
-import nz.geek.jack.mops.core.application.budget.BudgetQueryService;
 import nz.geek.jack.mops.core.application.budget.CreateBudgetCommand;
-import nz.geek.jack.mops.core.domain.budget.Budget;
+import nz.geek.jack.mops.core.application.budget.ResolvedBudgetQueryService;
+import nz.geek.jack.mops.core.application.budget.data.ResolvedBudget;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,9 +20,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class DefaultBudgetToolsTest extends TestBase {
 
-  @Mock AiBudgetMapper budgetMapper;
-
-  @Mock BudgetQueryService budgetQueryService;
+  @Mock ResolvedBudgetQueryService budgetQueryService;
 
   @Mock BudgetCommandService budgetCommandService;
 
@@ -39,13 +37,12 @@ class DefaultBudgetToolsTest extends TestBase {
 
   @Test
   void getAllBudgets_delegatesToQueryService() {
-    var domainBudget = mock(Budget.class);
-    var aiBudget = mock(nz.geek.jack.mops.core.api.ai.Budget.class);
-    when(budgetQueryService.findAll()).thenReturn(List.of(domainBudget));
-    when(budgetMapper.map(domainBudget)).thenReturn(aiBudget);
+    var budgets = List.of(mock(ResolvedBudget.class));
+
+    when(budgetQueryService.resolveBudgets()).thenReturn(budgets);
 
     var result = defaultBudgetTools.getAllBudgets();
 
-    assertThat(result).isEqualTo(List.of(aiBudget));
+    assertThat(result).isSameAs(budgets);
   }
 }

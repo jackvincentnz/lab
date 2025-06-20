@@ -8,7 +8,9 @@ java_library(
     ],
     deps = [
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/application/budget/data",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/budget",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/category",
         "@maven//:org_springframework_spring_context",
     ],
 )
