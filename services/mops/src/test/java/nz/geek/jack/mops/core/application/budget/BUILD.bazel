@@ -5,5 +5,6 @@ java_test_suite(
     deps = [
         "//services/mops/src/main/java/nz/geek/jack/mops/core/application/budget",
         "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/budget",
+        "//services/mops/src/main/java/nz/geek/jack/mops/core/domain/category",
     ],
 )
