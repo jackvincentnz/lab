@@ -1,0 +1,12 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter/api/gql/tenant",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/application/identity",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/domain/identity",
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+    ],
+)

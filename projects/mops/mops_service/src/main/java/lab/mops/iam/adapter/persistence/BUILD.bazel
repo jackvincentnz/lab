@@ -1,0 +1,12 @@
+java_library(
+    name = "persistence",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter:__subpackages__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/persistence",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/domain/identity",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

@@ -48,7 +48,7 @@ def java_test_suite(name, **kwargs):
         srcs = kwargs.pop("srcs", native.glob(["*.java"])),
         runtime_deps = TEST_RUNTIME_DEPS + kwargs.pop("runtime_deps", []),
         deps = TEST_DEPS + kwargs.pop("deps", []),
-        package_prefixes = [".nz."],
+        package_prefixes = [".nz.", ".lab."],
         runner = "junit5",
         env = env,
 

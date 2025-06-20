@@ -1,0 +1,13 @@
+java_library(
+    name = "core",
+    visibility = [
+        "//projects/mops/mops_service/src/main:__pkg__",
+    ],
+    runtime_deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/api/ai",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/api/gql/budget",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/api/gql/category",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/api/gql/lineitem",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter/startup",
+    ],
+)

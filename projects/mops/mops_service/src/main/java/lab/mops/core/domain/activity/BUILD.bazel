@@ -1,0 +1,9 @@
+java_library(
+    name = "activity",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core:__subpackages__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/core:__subpackages__",
+    ],
+    deps = ["//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain"],
+)
