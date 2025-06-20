@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "lineitem",
+    deps = [
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/adapter/api/gql",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/adapter/api/gql/lineitem",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/application/lineitem",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/domain/budget",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/domain/category",
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+    ],
+)

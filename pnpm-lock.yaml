@@ -217,7 +217,7 @@ importers:
 
   apps/journal_app: {}
 
-  apps/mops_app: {}
+  projects/mops/mops_app: {}
 
   apps/tasklist: {}
 

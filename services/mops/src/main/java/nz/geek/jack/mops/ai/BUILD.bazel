@@ -1,9 +1,0 @@
-java_library(
-    name = "ai",
-    visibility = [
-        "//services/mops/src/main:__pkg__",
-    ],
-    runtime_deps = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/ai/adapter/api/rest",
-    ],
-)

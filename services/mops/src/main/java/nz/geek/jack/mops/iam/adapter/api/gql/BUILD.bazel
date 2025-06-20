@@ -1,9 +1,0 @@
-java_library(
-    name = "gql",
-    visibility = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/iam/adapter/api:__pkg__",
-    ],
-    runtime_deps = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/iam/adapter/api/gql/tenant",
-    ],
-)

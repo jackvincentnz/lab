@@ -1,0 +1,4 @@
+alias(
+    name = "mops_service",
+    actual = "//projects/mops/mops_service/src/main",
+)

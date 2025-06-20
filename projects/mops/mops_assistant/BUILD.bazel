@@ -1,0 +1,68 @@
+load("//tools/bazel:js.bzl", "js_binary", "js_image_layer", "js_library")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+
+platform(
+    name = "linux_amd64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:x86_64",
+    ],
+)
+
+platform(
+    name = "linux_arm64",
+    constraint_values = [
+        "@platforms//os:linux",
+        "@platforms//cpu:arm64",
+    ],
+)
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//projects/mops/mops_assistant/src/__generated__:__pkg__"],
+)
+
+js_binary(
+    name = "bin",
+    data = [
+        ":package.json",
+        "//projects/mops/mops_assistant/src",
+    ],
+    entry_point = "//projects/mops/mops_assistant/src:server.js",
+)
+
+# FIXME: due to bzlmod Node.js toolchain issuehttps://github.com/aspect-build/rules_js/issues/1530,
+# on MacOS, this target must be built with `--extra_toolchains` to select right the linux Node.js
+# toolchain for the image layer:
+# bazel build //src:layers --extra_toolchains=@nodejs_toolchains//:linux_arm64_toolchain_target
+js_image_layer(
+    name = "layers",
+    binary = ":bin",
+    platform = select({
+        "@platforms//cpu:arm64": ":linux_arm64",
+        "@platforms//cpu:x86_64": ":linux_amd64",
+    }),
+    root = "/app",
+)
+
+oci_image(
+    name = "image",
+    # Since js_binary depends on bash we have to bring in a base image that has bash
+    base = "@debian",
+    # This is `/[js_image_layer 'root']/[package name of js_image_layer 'binary' target]/[name of js_image_layer 'binary' target]`
+    cmd = ["/app/projects/mops/mops_assistant/bin"],
+    entrypoint = ["bash"],
+    tars = [":layers"],
+    # This is `cmd` + `.runfiles/[workspace name]`
+    workdir = select({
+        "@aspect_bazel_lib//lib:bzlmod": "/app/projects/mops/mops_assistant/bin.runfiles/_main",
+        "//conditions:default": "/app/projects/mops/mops_assistant/bin.runfiles/__main__",
+    }),
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "mops-assistant",
+)

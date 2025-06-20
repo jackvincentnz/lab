@@ -1,8 +1,0 @@
-java_library(
-    name = "ai",
-    srcs = glob(["*.java"]),
-    visibility = ["//visibility:public"],
-    deps = [
-        "//services/mops/src/main/java/nz/geek/jack/mops/core/application/budget/data",
-    ],
-)

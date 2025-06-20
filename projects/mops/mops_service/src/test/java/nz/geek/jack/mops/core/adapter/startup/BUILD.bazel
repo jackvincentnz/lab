@@ -1,0 +1,10 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "startup",
+    deps = [
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/adapter/startup",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/application/budget",
+        "//projects/mops/mops_service/src/main/java/nz/geek/jack/mops/core/domain/budget",
+    ],
+)
