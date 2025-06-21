@@ -18,24 +18,3 @@ http_archive(
         "https://github.com/salesforce/rules_spring/releases/download/2.3.2/rules-spring-2.3.2.zip",
     ],
 )
-
-# To update CHROME_REVISION, use the below script
-#
-# LASTCHANGE_URL="https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2FLAST_CHANGE?alt=media"
-# CHROME_REVISION=$(curl -s -S $LASTCHANGE_URL)
-# echo "latest CHROME_REVISION_LINUX is $CHROME_REVISION"
-CHROME_REVISION_LINUX = "1072361"
-
-http_archive(
-    name = "chrome_linux",
-    build_file_content = """filegroup(
-name = "all",
-srcs = glob(["**"]),
-visibility = ["//visibility:public"],
-)""",
-    sha256 = "0df22f743facd1e090eff9b7f8d8bdc293fb4dc31ce9156d2ef19b515974a72b",
-    strip_prefix = "chrome-linux",
-    urls = [
-        "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F" + CHROME_REVISION_LINUX + "%2Fchrome-linux.zip?alt=media",
-    ],
-)
