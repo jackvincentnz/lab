@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "ibazel run //projects/mops/mops_app",
-    "build": "bazel build //projects/mops/mops_app:build"
+    "build": "bazel build //projects/mops/mops_app:build",
+    "test": "ibazel run //projects/mops/mops_app:test"
   }
 }
