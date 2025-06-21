@@ -1,0 +1,24 @@
+java_library(
+    name = "multitool_lib",
+    srcs = glob(["*.java"]),
+    deps = [
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_google_adk_google_adk",
+    ],
+)
+
+java_binary(
+    name = "multitool",
+    args = [
+        "--adk.agents.source-dir=projects/mops/mops_agent/src/main/java",
+        "--server.port=8888",
+    ],
+    data = glob(["*.java"]),
+    env = {
+        "GOOGLE_GENAI_USE_VERTEXAI": "FALSE",
+    },
+    main_class = "com.google.adk.web.AdkWebServer",
+    runtime_deps = [
+        "@maven//:com_google_adk_google_adk_dev",
+    ],
+)
