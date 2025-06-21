@@ -15,6 +15,8 @@
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.7.7/MODULE.bazel": "491f8681205e31bb57892d67442ce448cda4f472a8e6b3dc062865e29a64f89c",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/MODULE.bazel": "812d2dd42f65dca362152101fbec418029cc8fd34cbad1a2fde905383d705838",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/source.json": "95a6b56904e2d8bfea164dc6c98ccafe8cb75cb0623cb6ef5b3cfb15fdddabd6",
+    "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.0/MODULE.bazel": "9da173486afae16a7157cd182a0f876e6df44d21fb5557218a213fb47be77c52",
+    "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.0/source.json": "a9bb00a3e8536aa69ff558dbeb526d2a9f67751fd2e51acbf10a40647dfbf8c7",
     "https://bcr.bazel.build/modules/aspect_rules_jest/0.22.0/MODULE.bazel": "60a8ad6fe18540d2a726d34f31cf3775f00958d8cc499c588792ac26f8a6983c",
     "https://bcr.bazel.build/modules/aspect_rules_jest/0.22.0/source.json": "16dacd163b2f35c9da4e39cd16ec0b271af2539799aa4cd6dbe81b25827e4b9f",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.0.0/MODULE.bazel": "b45b507574aa60a92796e3e13c195cd5744b3b8aff516a9c0cb5ae6a048161c5",
@@ -658,6 +660,67 @@
             "aspect_bazel_lib~",
             "bazel_tools",
             "bazel_tools"
+          ]
+        ]
+      }
+    },
+    "@@aspect_rules_cypress~//cypress:extensions.bzl%cypress": {
+      "general": {
+        "bzlTransitiveDigest": "kjk/JXahFfmEge8+Akx16A6W6neSZdTwWeywdR0ZZKo=",
+        "usagesDigest": "HcxXYvErlCpYmi4JWQZIK++bUAoOPRKSb+BI9bl40pY=",
+        "recordedFileInputs": {},
+        "recordedDirentsInputs": {},
+        "envVariables": {},
+        "generatedRepoSpecs": {
+          "cypress_darwin-arm64": {
+            "bzlFile": "@@aspect_rules_cypress~//cypress:repositories.bzl",
+            "ruleClassName": "cypress_repositories",
+            "attributes": {
+              "version": "13.7.3",
+              "platform": "darwin-arm64",
+              "sha256": "d96a0ad65967a6c24652f7fb694a56ad593328a7b112943bfd986645577f5b0e"
+            }
+          },
+          "cypress_linux-arm64": {
+            "bzlFile": "@@aspect_rules_cypress~//cypress:repositories.bzl",
+            "ruleClassName": "cypress_repositories",
+            "attributes": {
+              "version": "13.7.3",
+              "platform": "linux-arm64",
+              "sha256": "190ea5da85d6341dde1717c49ed1c476bb34a7e1b949f00fb0ac8b244821fc68"
+            }
+          },
+          "cypress_linux-x64": {
+            "bzlFile": "@@aspect_rules_cypress~//cypress:repositories.bzl",
+            "ruleClassName": "cypress_repositories",
+            "attributes": {
+              "version": "13.7.3",
+              "platform": "linux-x64",
+              "sha256": "6a120720b12e92d427aebaa807f0460d6bac10c32120263c64684f7ff8f906f2"
+            }
+          },
+          "cypress_toolchains": {
+            "bzlFile": "@@aspect_rules_cypress~//cypress/private:toolchains_repo.bzl",
+            "ruleClassName": "toolchains_repo",
+            "attributes": {
+              "user_repository_name": "cypress"
+            }
+          },
+          "cypress_darwin-x64": {
+            "bzlFile": "@@aspect_rules_cypress~//cypress:repositories.bzl",
+            "ruleClassName": "cypress_repositories",
+            "attributes": {
+              "version": "13.7.3",
+              "platform": "darwin-x64",
+              "sha256": "d24aaadf9e7f014c137fd36efe571e7f5cae3ae0e709b79e4882913f36ac6649"
+            }
+          }
+        },
+        "recordedRepoMappingEntries": [
+          [
+            "aspect_rules_cypress~",
+            "aspect_rules_cypress",
+            "aspect_rules_cypress~"
           ]
         ]
       }
