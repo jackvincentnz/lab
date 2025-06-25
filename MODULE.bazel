@@ -214,7 +214,7 @@ bazel_dep(name = "rules_oci", version = "2.0.0")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:98667f976e475bcb059e256477d3c72a885ab6b26459214609c8c39e90394f5d",
+    digest = "sha256:eba3112cc48f46e4eac153191f229baa7bd1895f9d6219b497699b803fd4b4a2",
     image = "gcr.io/distroless/java17-debian12",
     platforms = [
         "linux/amd64",
