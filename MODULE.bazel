@@ -5,26 +5,30 @@
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
 
+bazel_dep(name = "aspect_bazel_lib", version = "2.8.1")
+bazel_dep(name = "rules_proto", version = "6.0.2")
+bazel_dep(name = "rules_jvm_external", version = "6.7")
+bazel_dep(name = "contrib_rules_jvm", version = "0.27.0")
+bazel_dep(name = "rules_nodejs", version = "6.3.0")
+bazel_dep(name = "aspect_rules_js", version = "2.2.0")
+bazel_dep(name = "aspect_rules_ts", version = "3.1.0")
+bazel_dep(name = "aspect_rules_jest", version = "0.22.0")
+bazel_dep(name = "aspect_rules_swc", version = "2.0.0")
+bazel_dep(name = "aspect_rules_cypress", version = "0.7.0")
+bazel_dep(name = "rules_pkg", version = "1.0.1")
+bazel_dep(name = "rules_oci", version = "2.0.0")
+bazel_dep(name = "rules_multirun", version = "0.9.0")
+
 ####################################################################################################
 # aspect_bazel_lib setup
 ####################################################################################################
-
-bazel_dep(name = "aspect_bazel_lib", version = "2.8.1")
 
 bazel_lib_toolchains = use_extension("@aspect_bazel_lib//lib:extensions.bzl", "toolchains")
 use_repo(bazel_lib_toolchains, "jq_toolchains")
 
 ####################################################################################################
-# rules_proto setup
-####################################################################################################
-
-bazel_dep(name = "rules_proto", version = "6.0.2")
-
-####################################################################################################
 # maven setup
 ####################################################################################################
-
-bazel_dep(name = "rules_jvm_external", version = "6.7")
 
 maven = use_extension("@rules_jvm_external//:extensions.bzl", "maven")
 
@@ -109,16 +113,8 @@ use_repo(
 )
 
 ####################################################################################################
-# contrib_rules_jvm setup
-####################################################################################################
-
-bazel_dep(name = "contrib_rules_jvm", version = "0.27.0")
-
-####################################################################################################
 # rules_nodejs setup
 ####################################################################################################
-
-bazel_dep(name = "rules_nodejs", version = "6.3.0")
 
 node = use_extension(
     "@rules_nodejs//nodejs:extensions.bzl",
@@ -130,8 +126,6 @@ node.toolchain(node_version = "18.20.4")  # keep in sync with package.json
 ####################################################################################################
 # aspect_rules_js setup
 ####################################################################################################
-
-bazel_dep(name = "aspect_rules_js", version = "2.2.0")
 
 npm = use_extension(
     "@aspect_rules_js//npm:extensions.bzl",
@@ -160,8 +154,6 @@ use_repo(pnpm, "pnpm")
 # aspect_rules_ts setup
 ####################################################################################################
 
-bazel_dep(name = "aspect_rules_ts", version = "3.1.0")
-
 rules_ts_ext = use_extension(
     "@aspect_rules_ts//ts:extensions.bzl",
     "ext",
@@ -173,22 +165,8 @@ rules_ts_ext.deps(
 use_repo(rules_ts_ext, "npm_typescript")
 
 ####################################################################################################
-# aspect_rules_jest setup
-####################################################################################################
-
-bazel_dep(name = "aspect_rules_jest", version = "0.22.0")
-
-####################################################################################################
-# aspect_rules_swc setup
-####################################################################################################
-
-bazel_dep(name = "aspect_rules_swc", version = "2.0.0")
-
-####################################################################################################
 # rules_cypress setup
 ####################################################################################################
-
-bazel_dep(name = "aspect_rules_cypress", version = "0.7.0")
 
 cypress = use_extension(
     "@aspect_rules_cypress//cypress:extensions.bzl",
@@ -199,17 +177,10 @@ cypress.toolchain(cypress_version = "13.7.3")
 use_repo(cypress, "cypress_toolchains")
 
 register_toolchains("@cypress_toolchains//:all")
-####################################################################################################
-# rules_pkg setup
-####################################################################################################
-
-bazel_dep(name = "rules_pkg", version = "1.0.1")
 
 ####################################################################################################
 # rules_oci setup
 ####################################################################################################
-
-bazel_dep(name = "rules_oci", version = "2.0.0")
 
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
@@ -241,9 +212,3 @@ oci.pull(
     ],
 )
 use_repo(oci, "debian", "debian_linux_amd64", "debian_linux_arm64_v8", "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8", "oci_crane_toolchains")
-
-####################################################################################################
-# rules_multirun setup
-####################################################################################################
-
-bazel_dep(name = "rules_multirun", version = "0.9.0")
