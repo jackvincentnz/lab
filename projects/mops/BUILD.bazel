@@ -1,0 +1,20 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+command(
+    name = "mops_service",
+    command = "//projects/mops/mops_service/src/main",
+)
+
+command(
+    name = "mops_app",
+    command = "//projects/mops/mops_app:dev",
+)
+
+multirun(
+    name = "mops",
+    commands = [
+        ":mops_service",
+        ":mops_app",
+    ],
+    jobs = 0,
+)

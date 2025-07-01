@@ -31,7 +31,10 @@ java_library(
 java_binary(
     name = "main",
     main_class = "lab.mops.MopsApplication",
-    visibility = ["//projects/mops/mops_service:__pkg__"],
+    visibility = [
+        "//projects/mops:__pkg__",
+        "//projects/mops/mops_service:__pkg__",
+    ],
     runtime_deps = [
         ":main_lib",
     ],
