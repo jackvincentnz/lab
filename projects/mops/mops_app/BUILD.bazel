@@ -35,6 +35,9 @@ TEST_SRCS = [
 vite_dev_server(
     name = "dev",
     data = SRCS,
+    visibility = [
+        "//projects/mops:__pkg__",
+    ],
 )
 
 vite_build(
