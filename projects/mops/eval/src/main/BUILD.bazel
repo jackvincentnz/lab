@@ -1,0 +1,9 @@
+java_binary(
+    name = "main",
+    main_class = "lab.mops.eval.Main",
+    resources = ["resources/evals.json"],
+    visibility = ["//projects/mops/eval:__pkg__"],
+    runtime_deps = [
+        "//projects/mops/eval/src/main/java/lab/mops/eval",
+    ],
+)

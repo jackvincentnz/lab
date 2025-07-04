@@ -1,0 +1,4 @@
+alias(
+    name = "eval",
+    actual = "//projects/mops/eval/src/main",
+)
