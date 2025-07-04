@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "question": "How many budgets do I have?",
+    "answer": "1"
+  },
+  {
+    "id": 2,
+    "question": "What is the name of my budget?",
+    "answer": "Annual Marketing Budget 2025"
+  },
+  {
+    "id": 3,
+    "question": "What is our total annual budget for all digital advertising activities?",
+    "answer": "$800,000"
+  },
+  {
+    "id": 4,
+    "question": "How much is planned to be spent in the Annual Marketing Budget 2025 in Jan?",
+    "answer": "273,500"
+  }
+]
