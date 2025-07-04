@@ -3,9 +3,7 @@ package lab.mops.agent.multitool;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.adk.agents.BaseAgent;
 import com.google.adk.agents.LlmAgent;
-import com.google.adk.tools.AgentTool;
 import com.google.adk.tools.BaseTool;
-import com.google.adk.tools.GoogleSearchTool;
 import com.google.adk.tools.mcp.McpToolset;
 import com.google.adk.tools.mcp.SseServerParameters;
 import java.util.ArrayList;
@@ -42,22 +40,7 @@ public class MultiToolAgent {
       var mcpTools = result.getTools().stream().map(mcpTool -> (BaseTool) mcpTool).toList();
       logger.info("🛠️ MCP TOOLS: " + mcpTools.toString());
 
-      // Add GoogleSearch tool - Workaround for https://github.com/google/adk-python/issues/134
-      var googleSearchAgent =
-          LlmAgent.builder()
-              .model("gemini-2.5-flash")
-              .name("google_search_agent")
-              .description("Search Google Search")
-              .instruction(
-                  """
-                You're a specialist in Google Search
-                """)
-              .tools(new GoogleSearchTool()) // Your Google search tool
-              .outputKey("google_search_result")
-              .build();
-      var searchTool = AgentTool.create(googleSearchAgent, false);
       var allTools = new ArrayList<>(mcpTools);
-      allTools.add(searchTool);
       logger.info("🌈 ALL TOOLS: " + allTools.toString());
       return LlmAgent.builder()
           .model(MODEL_NAME)
