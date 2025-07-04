@@ -1,0 +1,377 @@
+You are an expert in Marketing Finance and Operations. Your task is to generate a single, high-quality question/answer pair to evaluate an AI system designed to help marketers analyze their budgets.
+
+The AI system's users are marketers, marketing operations managers, and CMOs. The questions you generate should be plausible, realistic, and directly answerable using only the provided budget data.
+
+Your response will be based *exclusively* on the objective facts within the supplied budget context.
+
+**Context:**
+
+```json
+{
+  "budgetLineItems": [
+    {
+      "lineItem": "Salaries, Benefits, Taxes (15 FTEs)",
+      "budgetCategory": "People",
+      "activityType": "Headcount",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Salaries & Benefits",
+      "annualTotal": 1800000,
+      "monthlySpend": {
+        "jan": 150000, "feb": 150000, "mar": 150000, "apr": 150000, "may": 150000, "jun": 150000, "jul": 150000, "aug": 150000, "sep": 150000, "oct": 150000, "nov": 150000, "dec": 150000
+      }
+    },
+    {
+      "lineItem": "LinkedIn Ads",
+      "budgetCategory": "Programs",
+      "activityType": "Digital Advertising",
+      "funnelStage": "Consideration",
+      "region": "Global",
+      "expenseType": "Ad Spend",
+      "annualTotal": 400000,
+      "monthlySpend": {
+        "jan": 30000, "feb": 30000, "mar": 30000, "apr": 35000, "may": 40000, "jun": 40000, "jul": 40000, "aug": 40000, "sep": 35000, "oct": 30000, "nov": 25000, "dec": 25000
+      }
+    },
+    {
+      "lineItem": "Google Ads (Search & Display)",
+      "budgetCategory": "Programs",
+      "activityType": "Digital Advertising",
+      "funnelStage": "Consideration",
+      "region": "Global",
+      "expenseType": "Ad Spend",
+      "annualTotal": 250000,
+      "monthlySpend": {
+        "jan": 18000, "feb": 18000, "mar": 20000, "apr": 22000, "may": 25000, "jun": 25000, "jul": 25000, "aug": 22000, "sep": 20000, "oct": 20000, "nov": 18000, "dec": 17000
+      }
+    },
+    {
+      "lineItem": "Review Sites (G2, Capterra)",
+      "budgetCategory": "Programs",
+      "activityType": "Digital Advertising",
+      "funnelStage": "Conversion",
+      "region": "Global",
+      "expenseType": "Ad Spend",
+      "annualTotal": 100000,
+      "monthlySpend": {
+        "jan": 8000, "feb": 8000, "mar": 8000, "apr": 9000, "may": 9000, "jun": 9000, "jul": 9000, "aug": 9000, "sep": 9000, "oct": 8000, "nov": 7000, "dec": 7000
+      }
+    },
+    {
+      "lineItem": "Content Syndication Program",
+      "budgetCategory": "Programs",
+      "activityType": "Digital Advertising",
+      "funnelStage": "Awareness",
+      "region": "North America",
+      "expenseType": "Program Spend",
+      "annualTotal": 50000,
+      "monthlySpend": {
+        "jan": 0, "feb": 12500, "mar": 0, "apr": 12500, "may": 0, "jun": 12500, "jul": 0, "aug": 12500, "sep": 0, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "Main Conference: 'DataCon Global'",
+      "budgetCategory": "Programs",
+      "activityType": "Field Event",
+      "funnelStage": "Awareness",
+      "region": "North America",
+      "expenseType": "Sponsorship",
+      "annualTotal": 200000,
+      "monthlySpend": {
+        "jan": 0, "feb": 0, "mar": 0, "apr": 100000, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 100000, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "DataCon Global - T&E, Booth Logistics",
+      "budgetCategory": "Programs",
+      "activityType": "Field Event",
+      "funnelStage": "Awareness",
+      "region": "North America",
+      "expenseType": "T&E",
+      "annualTotal": 50000,
+      "monthlySpend": {
+        "jan": 0, "feb": 0, "mar": 0, "apr": 0, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 50000, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "EMEA Conference: 'SaaS Summit EU'",
+      "budgetCategory": "Programs",
+      "activityType": "Field Event",
+      "funnelStage": "Awareness",
+      "region": "EMEA",
+      "expenseType": "Sponsorship",
+      "annualTotal": 100000,
+      "monthlySpend": {
+        "jan": 0, "feb": 50000, "mar": 0, "apr": 0, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "SaaS Summit EU - T&E, Booth Logistics",
+      "budgetCategory": "Programs",
+      "activityType": "Field Event",
+      "funnelStage": "Awareness",
+      "region": "EMEA",
+      "expenseType": "T&E",
+      "annualTotal": 30000,
+      "monthlySpend": {
+        "jan": 0, "feb": 0, "mar": 0, "apr": 0, "may": 30000, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "Regional Executive Dinners",
+      "budgetCategory": "Programs",
+      "activityType": "Field Event",
+      "funnelStage": "Consideration",
+      "region": "North America",
+      "expenseType": "Program Spend",
+      "annualTotal": 120000,
+      "monthlySpend": {
+        "jan": 0, "feb": 20000, "mar": 20000, "apr": 0, "may": 20000, "jun": 20000, "jul": 0, "aug": 20000, "sep": 20000, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "PR & Communications Agency",
+      "budgetCategory": "Programs",
+      "activityType": "Brand",
+      "funnelStage": "Awareness",
+      "region": "Global",
+      "expenseType": "Agency Fees",
+      "annualTotal": 144000,
+      "monthlySpend": {
+        "jan": 12000, "feb": 12000, "mar": 12000, "apr": 12000, "may": 12000, "jun": 12000, "jul": 12000, "aug": 12000, "sep": 12000, "oct": 12000, "nov": 12000, "dec": 12000
+      }
+    },
+    {
+      "lineItem": "SEO Consulting Agency",
+      "budgetCategory": "Programs",
+      "activityType": "Content Creation",
+      "funnelStage": "Awareness",
+      "region": "Global",
+      "expenseType": "Agency Fees",
+      "annualTotal": 60000,
+      "monthlySpend": {
+        "jan": 5000, "feb": 5000, "mar": 5000, "apr": 5000, "may": 5000, "jun": 5000, "jul": 5000, "aug": 5000, "sep": 5000, "oct": 5000, "nov": 5000, "dec": 5000
+      }
+    },
+    {
+      "lineItem": "Content Creation (Freelance Writers)",
+      "budgetCategory": "Programs",
+      "activityType": "Content Creation",
+      "funnelStage": "Awareness",
+      "region": "Global",
+      "expenseType": "Contractor",
+      "annualTotal": 96000,
+      "monthlySpend": {
+        "jan": 8000, "feb": 8000, "mar": 8000, "apr": 8000, "may": 8000, "jun": 8000, "jul": 8000, "aug": 8000, "sep": 8000, "oct": 8000, "nov": 8000, "dec": 8000
+      }
+    },
+    {
+      "lineItem": "Video Production (Case Studies)",
+      "budgetCategory": "Programs",
+      "activityType": "Content Creation",
+      "funnelStage": "Consideration",
+      "region": "Global",
+      "expenseType": "Contractor",
+      "annualTotal": 50000,
+      "monthlySpend": {
+        "jan": 0, "feb": 0, "mar": 15000, "apr": 0, "may": 0, "jun": 15000, "jul": 0, "aug": 0, "sep": 20000, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "ABM Gifting Platform (e.g., Sendoso)",
+      "budgetCategory": "Programs",
+      "activityType": "ABM",
+      "funnelStage": "Consideration",
+      "region": "North America",
+      "expenseType": "Program Spend",
+      "annualTotal": 70000,
+      "monthlySpend": {
+        "jan": 5000, "feb": 5000, "mar": 5000, "apr": 7000, "may": 7000, "jun": 7000, "jul": 7000, "aug": 7000, "sep": 7000, "oct": 6000, "nov": 5000, "dec": 5000
+      }
+    },
+    {
+      "lineItem": "Partner Co-Marketing Funds (MDF)",
+      "budgetCategory": "Programs",
+      "activityType": "Partner Marketing",
+      "funnelStage": "Consideration",
+      "region": "Global",
+      "expenseType": "Program Spend",
+      "annualTotal": 80000,
+      "monthlySpend": {
+        "jan": 0, "feb": 10000, "mar": 10000, "apr": 10000, "may": 10000, "jun": 10000, "jul": 10000, "aug": 10000, "sep": 10000, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "Marketing Automation (Marketo)",
+      "budgetCategory": "Technology",
+      "activityType": "Marketing Ops",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Software",
+      "annualTotal": 120000,
+      "monthlySpend": {
+        "jan": 10000, "feb": 10000, "mar": 10000, "apr": 10000, "may": 10000, "jun": 10000, "jul": 10000, "aug": 10000, "sep": 10000, "oct": 10000, "nov": 10000, "dec": 10000
+      }
+    },
+    {
+      "lineItem": "CRM (Salesforce - Mktg Share)",
+      "budgetCategory": "Technology",
+      "activityType": "Marketing Ops",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Software",
+      "annualTotal": 60000,
+      "monthlySpend": {
+        "jan": 5000, "feb": 5000, "mar": 5000, "apr": 5000, "may": 5000, "jun": 5000, "jul": 5000, "aug": 5000, "sep": 5000, "oct": 5000, "nov": 5000, "dec": 5000
+      }
+    },
+    {
+      "lineItem": "ABM Platform (6sense)",
+      "budgetCategory": "Technology",
+      "activityType": "Marketing Ops",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Software",
+      "annualTotal": 72000,
+      "monthlySpend": {
+        "jan": 6000, "feb": 6000, "mar": 6000, "apr": 6000, "may": 6000, "jun": 6000, "jul": 6000, "aug": 6000, "sep": 6000, "oct": 6000, "nov": 6000, "dec": 6000
+      }
+    },
+    {
+      "lineItem": "SEO Tools (SEMrush)",
+      "budgetCategory": "Technology",
+      "activityType": "Marketing Ops",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Software",
+      "annualTotal": 6000,
+      "monthlySpend": {
+        "jan": 500, "feb": 500, "mar": 500, "apr": 500, "may": 500, "jun": 500, "jul": 500, "aug": 500, "sep": 500, "oct": 500, "nov": 500, "dec": 500
+      }
+    },
+    {
+      "lineItem": "Webinar Platform (ON24)",
+      "budgetCategory": "Technology",
+      "activityType": "Marketing Ops",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Software",
+      "annualTotal": 42000,
+      "monthlySpend": {
+        "jan": 3500, "feb": 3500, "mar": 3500, "apr": 3500, "may": 3500, "jun": 3500, "jul": 3500, "aug": 3500, "sep": 3500, "oct": 3500, "nov": 3500, "dec": 3500
+      }
+    },
+    {
+      "lineItem": "Website Hosting & Maintenance",
+      "budgetCategory": "Operations",
+      "activityType": "Website",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Service",
+      "annualTotal": 30000,
+      "monthlySpend": {
+        "jan": 2500, "feb": 2500, "mar": 2500, "apr": 2500, "may": 2500, "jun": 2500, "jul": 2500, "aug": 2500, "sep": 2500, "oct": 2500, "nov": 2500, "dec": 2500
+      }
+    },
+    {
+      "lineItem": "Promotional Items / Swag",
+      "budgetCategory": "Operations",
+      "activityType": "General",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Goods",
+      "annualTotal": 40000,
+      "monthlySpend": {
+        "jan": 10000, "feb": 0, "mar": 0, "apr": 10000, "may": 0, "jun": 0, "jul": 10000, "aug": 0, "sep": 0, "oct": 10000, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "Market Research & Analyst Reports",
+      "budgetCategory": "Operations",
+      "activityType": "General",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "Service",
+      "annualTotal": 20000,
+      "monthlySpend": {
+        "jan": 0, "feb": 0, "mar": 20000, "apr": 0, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 0, "nov": 0, "dec": 0
+      }
+    },
+    {
+      "lineItem": "Team T&E (Non-event related)",
+      "budgetCategory": "Operations",
+      "activityType": "General",
+      "funnelStage": "N/A",
+      "region": "Global",
+      "expenseType": "T&E",
+      "annualTotal": 10000,
+      "monthlySpend": {
+        "jan": 0, "feb": 2500, "mar": 0, "apr": 0, "may": 2500, "jun": 0, "jul": 0, "aug": 2500, "sep": 0, "oct": 0, "nov": 2500, "dec": 0
+      }
+    }
+  ]
+}
+```
+
+-----
+
+### **1. Question Generation Guidelines**
+
+You will generate **one** question that falls into one of the following archetypes. Frame the question from the perspective of a marketing role (e.g., a CMO, a Campaign Manager).
+
+  * **A. Simple Aggregation:** A question about a total amount for a specific category or time period.
+
+      * *Example:* "What's the total annual budget for all Field Events?"
+
+  * **B. Specific Line Item Lookup:** A question about a single line item's cost, often within a specific time frame.
+
+      * *Example:* "How much are we supposed to spend on the "DataCon Global" sponsorship in October?"
+
+  * **C. Combined Category Aggregation:** A question that requires filtering by two or more categories (e.g., Activity Type + Region, or Funnel Stage + Quarter).
+
+      * *Example:* "What is the total Q2 budget for all Awareness activities in North America?"
+
+  * **D. Comparative Analysis:** A question that asks to compare the budget of two different items.
+
+      * *Example:* "Which has a higher budget for the year, our LinkedIn Ads or our Google Ads?"
+
+  * **E. "What-If" / Re-allocation Scenario:** A question that helps a marketer think about making budget adjustments. The answer should still be a direct fact from the budget.
+
+      * *Example:* "How much is currently allocated to the Content Syndication program in Q2 that I could potentially move?"
+
+  * **F. Top/Bottom-N Identification:** A question that asks to identify the most or least expensive items in a category.
+
+      * *Example:* "What is our single most expensive MarTech software subscription annually?"
+
+**Style and Grounding Rules:**
+
+  * **Grounding:** You **must** select an objective, verifiable fact from the budget data *first*, then write a natural-language question to which that fact is the answer.
+  * **Natural Language:** Phrase questions conversationally.
+      * **Good:** "What are we planning to spend on swag this year?"
+      * **Bad:** "Calculate SUM(Spend) WHERE LineItem='Promotional Items / Swag'."
+
+### **2. Answer Generation Guidelines**
+
+  * The answer must be the direct, factual data point that answers the question.
+  * Answers must be short and to the point (1-10 words is ideal).
+  * **Never** use more than 20 words for the answer.
+  * Use appropriate formatting (e.g., currency symbols, a person's name, a date) as it appears or can be inferred from the data.
+
+### **3. Final Checklist Before Responding**
+
+1.  Is the question based *only* on the provided `<supplied_budget_context>`? (Yes/No)
+2.  Does the question fit one of the specified archetypes? (Yes/No)
+3.  Is the answer a direct, objective fact from the data? (Yes/No)
+4.  Is the answer 20 words or less? (Yes/No)
+5.  Is the final output in the correct JSON format? (Yes/No)
+
+If the provided context does not contain a suitable fact for any archetype, set the `question` and `answer` properties to empty strings.
+
+**Respond as JSON in the following form:**
+
+```json
+{
+    "question": "string",
+    "answer": "string"
+}
+```
