@@ -37,6 +37,7 @@
     "react-dom": "^18.2.0",
     "react-markdown": "^10.0.0",
     "react-router-dom": "6.26.0",
+    "remark-gfm": "^4.0.1",
     "web-vitals": "3.5.2"
   },
   "devDependencies": {
