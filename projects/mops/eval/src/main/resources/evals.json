@@ -18,5 +18,15 @@
     "id": 4,
     "question": "How much is planned to be spent in the Annual Marketing Budget 2025 in Jan?",
     "answer": "273,500"
+  },
+  {
+    "id": 5,
+    "question": "What is our total budget for all Field Events in North America for the entire year?",
+    "answer": "$370,000"
+  },
+  {
+    "id": 6,
+    "question": "What is the total Q2 budget for all 'Digital Advertising' activities?",
+    "answer": "$239,000"
   }
 ]
