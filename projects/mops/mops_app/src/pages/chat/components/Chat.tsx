@@ -32,7 +32,7 @@ export function Chat() {
 
   const postChatMutation = useMutation({
     mutationFn: (request: Request) => {
-      return fetch("/chat/1", {
+      return fetch("/chats/1", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
