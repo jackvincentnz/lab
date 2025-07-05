@@ -104,15 +104,14 @@ public class Main {
   }
 
   private static String formatAnswer(Eval eval, String answer) {
-    return String.format(
-        """
+    return """
             <question index="%d">
                 <text>%s</text>
                 <truth>%s</truth>
                 <assistantAnswer>%s</assistantAnswer>
             </question>
-        """,
-        eval.id(), eval.question(), eval.answer(), answer);
+        """
+        .formatted(eval.id(), eval.question(), eval.answer(), answer);
   }
 
   record Eval(int id, String question, String answer) {}

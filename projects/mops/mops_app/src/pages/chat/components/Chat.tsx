@@ -10,6 +10,7 @@ import {
   Loader,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { IconArrowRight } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
 
@@ -32,7 +33,7 @@ export function Chat() {
 
   const postChatMutation = useMutation({
     mutationFn: (request: Request) => {
-      return fetch("/chat/1", {
+      return fetch("/chats/1", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -66,7 +67,9 @@ export function Chat() {
       <Stack>
         <ScrollArea>
           {messages.map((msg, index) => (
-            <ReactMarkdown key={index}>{msg.content}</ReactMarkdown>
+            <ReactMarkdown remarkPlugins={[remarkGfm]} key={index}>
+              {msg.content}
+            </ReactMarkdown>
           ))}
           {postChatMutation.isPending && <Loader size="sm" />}
         </ScrollArea>
