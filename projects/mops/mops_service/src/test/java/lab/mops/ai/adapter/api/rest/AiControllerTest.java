@@ -2,13 +2,11 @@ package lab.mops.ai.adapter.api.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.function.Consumer;
 import lab.mops.core.api.ai.BudgetTools;
-import nz.geek.jack.springai.tools.DateTimeTools;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,7 +38,29 @@ class AiControllerTest extends TestBase {
   }
 
   @Test
-  void chat_returnsResponse() {
+  void createChat_returnsResponse() {
+    var prompt = randomString();
+    var expectedResponse = randomString();
+
+    var requestSpec = mock(ChatClient.ChatClientRequestSpec.class);
+    var responseSpec = mock(ChatClient.CallResponseSpec.class);
+
+    when(chatClient.prompt()).thenReturn(requestSpec);
+    when(requestSpec.system(any(String.class))).thenReturn(requestSpec);
+    when(requestSpec.user(prompt)).thenReturn(requestSpec);
+    when(requestSpec.advisors(any(Consumer.class))).thenReturn(requestSpec);
+    when(requestSpec.tools(budgetTools)).thenReturn(requestSpec);
+    when(requestSpec.call()).thenReturn(responseSpec);
+    when(responseSpec.content()).thenReturn(expectedResponse);
+
+    ChatResponse response = aiController.createChat(new ChatRequest(prompt));
+
+    assertThat(response.message()).isEqualTo(expectedResponse);
+    assertThat(response.id()).isNotBlank();
+  }
+
+  @Test
+  void continueChat_returnsResponse() {
     var chatId = randomString();
     var prompt = randomString();
     var expectedResponse = randomString();
@@ -49,14 +69,16 @@ class AiControllerTest extends TestBase {
     var responseSpec = mock(ChatClient.CallResponseSpec.class);
 
     when(chatClient.prompt()).thenReturn(requestSpec);
+    when(requestSpec.system(any(String.class))).thenReturn(requestSpec);
     when(requestSpec.user(prompt)).thenReturn(requestSpec);
     when(requestSpec.advisors(any(Consumer.class))).thenReturn(requestSpec);
-    when(requestSpec.tools(any(DateTimeTools.class), eq(budgetTools))).thenReturn(requestSpec);
+    when(requestSpec.tools(budgetTools)).thenReturn(requestSpec);
     when(requestSpec.call()).thenReturn(responseSpec);
     when(responseSpec.content()).thenReturn(expectedResponse);
 
-    ChatResponse response = aiController.chat(chatId, new ChatRequest(prompt));
+    ChatResponse response = aiController.continueChat(chatId, new ChatRequest(prompt));
 
     assertThat(response.message()).isEqualTo(expectedResponse);
+    assertThat(response.id()).isEqualTo(chatId);
   }
 }
