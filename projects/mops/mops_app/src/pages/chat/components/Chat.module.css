@@ -1,0 +1,81 @@
+/* Chat.module.css */
+.markdown table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--mantine-color-white);
+  border: 1px solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-sm);
+  overflow: hidden;
+  font-size: var(--mantine-font-size-sm);
+}
+
+.markdown th {
+  background-color: var(--mantine-color-gray-0);
+  font-weight: 600;
+  text-align: left;
+  color: var(--mantine-color-gray-7);
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--mantine-color-gray-3);
+  border-right: 1px solid var(--mantine-color-gray-3);
+}
+
+.markdown th:last-child {
+  border-right: none;
+}
+
+.markdown td {
+  padding: var(--mantine-spacing-xs) var(--mantine-spacing-md);
+  border-bottom: 1px solid var(--mantine-color-gray-2);
+  border-right: 1px solid var(--mantine-color-gray-2);
+  color: var(--mantine-color-gray-7);
+}
+
+.markdown td:last-child {
+  border-right: none;
+}
+
+.markdown tr:last-child td {
+  border-bottom: none;
+}
+
+.markdown tr:hover {
+  background-color: var(--mantine-color-gray-0);
+}
+
+/* For striped tables (optional) */
+.markdown tr:nth-child(even) {
+  background-color: var(--mantine-color-gray-0);
+}
+
+.markdown tr:nth-child(even):hover {
+  background-color: var(--mantine-color-gray-1);
+}
+
+/* Dark theme support */
+[data-mantine-color-scheme="dark"] .markdown table {
+  background-color: var(--mantine-color-dark-7);
+  border-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme="dark"] .markdown th {
+  background-color: var(--mantine-color-dark-6);
+  color: var(--mantine-color-dark-0);
+  border-color: var(--mantine-color-dark-4);
+}
+
+[data-mantine-color-scheme="dark"] .markdown td {
+  border-color: var(--mantine-color-dark-4);
+  color: var(--mantine-color-dark-0);
+}
+
+[data-mantine-color-scheme="dark"] .markdown tr:hover {
+  background-color: var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme="dark"] .markdown tr:nth-child(even) {
+  background-color: var(--mantine-color-dark-6);
+}
+
+[data-mantine-color-scheme="dark"] .markdown tr:nth-child(even):hover {
+  background-color: var(--mantine-color-dark-5);
+}

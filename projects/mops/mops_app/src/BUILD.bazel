@@ -35,6 +35,7 @@ ts_project(
         "//:node_modules/react-dom",
         "//:node_modules/react-markdown",
         "//:node_modules/react-router-dom",
+        "//:node_modules/remark-gfm",
         "//:node_modules/vite",
         "//projects/mops/mops_app/src/__generated__:graphql_codegen_ts",
     ],
