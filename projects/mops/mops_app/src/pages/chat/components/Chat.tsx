@@ -8,6 +8,7 @@ import {
   Stack,
   TextInput,
   Loader,
+  Table,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -67,7 +68,34 @@ export function Chat() {
       <Stack>
         <ScrollArea>
           {messages.map((msg, index) => (
-            <ReactMarkdown remarkPlugins={[remarkGfm]} key={index}>
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              key={index}
+              components={{
+                table: ({ children, ...props }) => (
+                  <ScrollArea>
+                    <Table striped highlightOnHover withTableBorder {...props}>
+                      {children}
+                    </Table>
+                  </ScrollArea>
+                ),
+                thead: ({ children, ...props }) => (
+                  <Table.Thead {...props}>{children}</Table.Thead>
+                ),
+                tbody: ({ children, ...props }) => (
+                  <Table.Tbody {...props}>{children}</Table.Tbody>
+                ),
+                tr: ({ children, ...props }) => (
+                  <Table.Tr {...props}>{children}</Table.Tr>
+                ),
+                th: ({ children, ...props }) => (
+                  <Table.Th {...props}>{children}</Table.Th>
+                ),
+                td: ({ children, ...props }) => (
+                  <Table.Td {...props}>{children}</Table.Td>
+                ),
+              }}
+            >
               {msg.content}
             </ReactMarkdown>
           ))}
