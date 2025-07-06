@@ -1,11 +1,12 @@
 java_library(
     name = "eval",
-    srcs = glob(["*.java"]),
+    srcs = glob(["**/*.java"]),
     visibility = ["//projects/mops/eval:__subpackages__"],
     deps = [
-        "//projects/mops/eval/src/main/java/lab/mops/eval/http",
         "@maven//:com_fasterxml_jackson_core_jackson_core",
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:com_google_code_gson_gson",
         "@maven//:com_google_genai_google_genai",
+        "@maven//:com_squareup_okhttp3_okhttp",
     ],
 )

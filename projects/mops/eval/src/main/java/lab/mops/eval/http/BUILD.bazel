@@ -1,9 +1,0 @@
-java_library(
-    name = "http",
-    srcs = glob(["*.java"]),
-    visibility = ["//projects/mops/eval:__subpackages__"],
-    deps = [
-        "@maven//:com_google_code_gson_gson",
-        "@maven//:com_squareup_okhttp3_okhttp",
-    ],
-)

@@ -17,7 +17,7 @@ public class ChatClient {
 
   private static final Gson GSON = new Gson();
 
-  public AnswerBody postQuestion(String question) {
+  public static AnswerBody postQuestion(String question) {
     var json = GSON.toJson(new QuestionBody(question));
     var body = RequestBody.create(json, JSON);
     var request = new Request.Builder().url(CHAT_URL).post(body).build();
