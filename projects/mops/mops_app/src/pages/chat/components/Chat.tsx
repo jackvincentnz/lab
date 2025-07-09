@@ -9,6 +9,8 @@ import {
   TextInput,
   Loader,
   Table,
+  Text,
+  Alert,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -67,39 +69,52 @@ export function Chat() {
     <Container>
       <Stack>
         <ScrollArea>
-          {messages.map((msg, index) => (
-            <ReactMarkdown
-              remarkPlugins={[remarkGfm]}
-              key={index}
-              components={{
-                table: ({ children, ...props }) => (
-                  <ScrollArea>
-                    <Table striped highlightOnHover withTableBorder {...props}>
-                      {children}
-                    </Table>
-                  </ScrollArea>
-                ),
-                thead: ({ children, ...props }) => (
-                  <Table.Thead {...props}>{children}</Table.Thead>
-                ),
-                tbody: ({ children, ...props }) => (
-                  <Table.Tbody {...props}>{children}</Table.Tbody>
-                ),
-                tr: ({ children, ...props }) => (
-                  <Table.Tr {...props}>{children}</Table.Tr>
-                ),
-                th: ({ children, ...props }) => (
-                  <Table.Th {...props}>{children}</Table.Th>
-                ),
-                td: ({ children, ...props }) => (
-                  <Table.Td {...props}>{children}</Table.Td>
-                ),
-              }}
-            >
-              {msg.content}
-            </ReactMarkdown>
-          ))}
-          {postChatMutation.isPending && <Loader size="sm" />}
+          {messages.map((msg, index) =>
+            msg.role === "human" ? (
+              <Group justify="flex-end" my="md" key={index}>
+                <Alert radius="lg" py={8} variant="light">
+                  {msg.content}
+                </Alert>
+              </Group>
+            ) : (
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                key={index}
+                components={{
+                  table: ({ children, ...props }) => (
+                    <ScrollArea>
+                      <Table
+                        striped
+                        highlightOnHover
+                        withTableBorder
+                        {...props}
+                      >
+                        {children}
+                      </Table>
+                    </ScrollArea>
+                  ),
+                  thead: ({ children, ...props }) => (
+                    <Table.Thead {...props}>{children}</Table.Thead>
+                  ),
+                  tbody: ({ children, ...props }) => (
+                    <Table.Tbody {...props}>{children}</Table.Tbody>
+                  ),
+                  tr: ({ children, ...props }) => (
+                    <Table.Tr {...props}>{children}</Table.Tr>
+                  ),
+                  th: ({ children, ...props }) => (
+                    <Table.Th {...props}>{children}</Table.Th>
+                  ),
+                  td: ({ children, ...props }) => (
+                    <Table.Td {...props}>{children}</Table.Td>
+                  ),
+                  p: ({ children }) => <Text my="md">{children}</Text>,
+                }}
+              >
+                {msg.content}
+              </ReactMarkdown>
+            ),
+          )}
         </ScrollArea>
 
         <Box
