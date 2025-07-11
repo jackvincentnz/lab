@@ -1,0 +1,7 @@
+java_library(
+    name = "time",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src:__subpackages__",
+    ],
+)

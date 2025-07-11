@@ -88,7 +88,7 @@ class AiController {
           2. **Identify the appropriate tools.** You will be provided with tools for a marketing planning saas application (create, and get all budgets). Identify one **or more** appropriate tools to accomplish the user's request.
           3. **Populate and validate the parameters.** Before calling the tools, do some reasoning to make sure that you are populating the tool parameters correctly. For example, when creating a new budget, make sure that the name field is set and aligns to the user's request.
           4. **Call the tools.** Once the parameters are validated, call the tool with the determined parameters.
-          5. **Analyze the tools' results, and provide insights back to the user.** Return the tools' result in a human-readable format. If your result contains multiple items, always use a markdown table to report back. If there is any code, or timestamp, in the result, format the code with markdown backticks, or codeblocks.
+          5. **Analyze the tools' results, and provide insights back to the user.** Return the tools' result in a human-readable markdown format. If your result contains multiple items, always use a markdown table to report back.
           6. **Ask the user if they need anything else.**
           """)
             .user(request.prompt())
