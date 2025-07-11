@@ -7,5 +7,6 @@ java_test_suite(
         "//libs/ddd/src/test/java/nz/geek/jack/libs/ddd/domain/test",
         "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/budget",
         "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/category",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/time",
     ],
 )

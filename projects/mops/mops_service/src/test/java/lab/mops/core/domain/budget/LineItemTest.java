@@ -117,6 +117,25 @@ class LineItemTest extends TestBase {
     assertThatThrownBy(() -> lineItem.planSpend(spend2)).isInstanceOf(ValidationException.class);
   }
 
+  @Test
+  void getSpendTotals_withNoSpend_returnsZero() {
+    var lineItem = newLineItem();
+
+    assertThat(lineItem.getSpendTotals().grandTotal()).isEqualTo(BigDecimal.ZERO);
+  }
+
+  @Test
+  void getSpendTotals_withSpend_returnsTotalSpend() {
+    var lineItem = newLineItem();
+    var spend1 = Spend.of(LocalDate.now(), BigDecimal.valueOf(100.00));
+    var spend2 = Spend.of(LocalDate.now().plusDays(1), BigDecimal.valueOf(200.00));
+
+    lineItem.planSpend(spend1);
+    lineItem.planSpend(spend2);
+
+    assertThat(lineItem.getSpendTotals().grandTotal()).isEqualTo(BigDecimal.valueOf(300.00));
+  }
+
   private Budget newBudget() {
     return Budget.create(randomString());
   }
