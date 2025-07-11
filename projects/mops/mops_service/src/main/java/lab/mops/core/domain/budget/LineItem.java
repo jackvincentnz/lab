@@ -1,5 +1,6 @@
 package lab.mops.core.domain.budget;
 
+import java.time.Month;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -70,6 +71,12 @@ public class LineItem extends Aggregate<LineItemId> {
 
   public Set<Spend> getSpending() {
     return spending;
+  }
+
+  public LineItemSpendTotals getSpendTotals() {
+    var fiscalYearStartMonth = Month.JANUARY;
+
+    return SpendingAggregator.getSpendTotals(spending, fiscalYearStartMonth);
   }
 
   public Set<Categorization> getCategorizations() {
