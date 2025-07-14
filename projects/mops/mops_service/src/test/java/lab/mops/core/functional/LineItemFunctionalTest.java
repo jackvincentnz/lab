@@ -8,6 +8,7 @@ import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import lab.mops.api.gql.client.AllLineItemsGraphQLQuery;
 import lab.mops.api.gql.client.AllLineItemsProjectionRoot;
@@ -77,6 +78,38 @@ class LineItemFunctionalTest extends TestBase {
     var spend = response.getLineItem().getSpending().get(0);
     assertThat(spend.getDay()).isEqualTo(spendDay);
     assertThat(spend.getAmount()).isEqualTo(amount);
+  }
+
+  @Test
+  void planSpend_returnsSpendTotals() {
+    var spendDay = LocalDate.of(2025, Month.JANUARY, 1);
+    var amount = BigDecimal.valueOf(123.45);
+
+    var lineItemId = newLineItem();
+
+    var response =
+        client.planSpend(
+            lineItemId, SpendInput.newBuilder().spendDay(spendDay).amount(amount).build());
+
+    var spendTotals = response.getLineItem().getSpendTotals();
+
+    assertThat(spendTotals.getMonthlyTotals().size()).isEqualTo(1);
+    var monthlyTotal = spendTotals.getMonthlyTotals().get(0);
+    assertThat(monthlyTotal.getMonth().name()).isEqualTo(spendDay.getMonth().name());
+    assertThat(monthlyTotal.getYear()).isEqualTo(spendDay.getYear());
+    assertThat(monthlyTotal.getTotal()).isEqualTo(amount);
+
+    assertThat(spendTotals.getQuarterlyTotals().size()).isEqualTo(1);
+    var quarterlyTotal = spendTotals.getQuarterlyTotals().get(0);
+    assertThat(quarterlyTotal.getFiscalYear()).isEqualTo(spendDay.getYear());
+    assertThat(quarterlyTotal.getTotal()).isEqualTo(amount);
+
+    assertThat(spendTotals.getAnnualTotals().size()).isEqualTo(1);
+    var annualTotals = spendTotals.getAnnualTotals().get(0);
+    assertThat(annualTotals.getYear()).isEqualTo(spendDay.getYear());
+    assertThat(annualTotals.getTotal()).isEqualTo(amount);
+
+    assertThat(spendTotals.getGrandTotal()).isEqualTo(amount);
   }
 
   @Test
