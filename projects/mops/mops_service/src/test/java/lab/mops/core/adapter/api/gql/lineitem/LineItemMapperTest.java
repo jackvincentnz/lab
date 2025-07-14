@@ -1,9 +1,15 @@
 package lab.mops.core.adapter.api.gql.lineitem;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import lab.mops.api.gql.types.AnnualTotal;
+import lab.mops.api.gql.types.Month;
+import lab.mops.api.gql.types.MonthlyTotal;
+import lab.mops.api.gql.types.Quarter;
+import lab.mops.api.gql.types.QuarterlyTotal;
 import lab.mops.core.domain.budget.Budget;
 import lab.mops.core.domain.budget.LineItem;
 import lab.mops.core.domain.budget.Spend;
@@ -90,6 +96,91 @@ class LineItemMapperTest extends TestBase {
 
     assertThat(result.getCategorizations().get(0).getCategoryValue().getId())
         .isEqualTo(categoryValue.getId().toString());
+  }
+
+  @Test
+  void map_mapsSpendTotals_grandTotal() {
+    var lineItem = newLineItem();
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.JANUARY, 1), BigDecimal.valueOf(100)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.FEBRUARY, 1), BigDecimal.valueOf(200)));
+
+    var result = lineItemMapper.map(lineItem);
+
+    assertThat(result.getSpendTotals().getGrandTotal()).isEqualTo(BigDecimal.valueOf(300));
+  }
+
+  @Test
+  void map_mapsSpendTotals_monthlyTotals() {
+    var lineItem = newLineItem();
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.JANUARY, 1), BigDecimal.valueOf(100)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.JANUARY, 15), BigDecimal.valueOf(50)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.JANUARY, 1), BigDecimal.valueOf(200)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.FEBRUARY, 1), BigDecimal.valueOf(300)));
+
+    var result = lineItemMapper.map(lineItem);
+
+    assertThat(result.getSpendTotals().getMonthlyTotals())
+        .extracting(MonthlyTotal::getMonth, MonthlyTotal::getYear, MonthlyTotal::getTotal)
+        .containsExactly(
+            tuple(Month.JANUARY, 2024, BigDecimal.valueOf(150)),
+            tuple(Month.JANUARY, 2025, BigDecimal.valueOf(200)),
+            tuple(Month.FEBRUARY, 2025, BigDecimal.valueOf(300)));
+  }
+
+  @Test
+  void map_mapsSpendTotals_quarterlyTotals() {
+    var lineItem = newLineItem();
+
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.JANUARY, 1), BigDecimal.valueOf(100)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.FEBRUARY, 1), BigDecimal.valueOf(50)));
+
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.JANUARY, 1), BigDecimal.valueOf(200)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.MARCH, 1), BigDecimal.valueOf(100)));
+
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.APRIL, 1), BigDecimal.valueOf(300)));
+
+    var result = lineItemMapper.map(lineItem);
+
+    assertThat(result.getSpendTotals().getQuarterlyTotals())
+        .extracting(
+            QuarterlyTotal::getQuarter, QuarterlyTotal::getFiscalYear, QuarterlyTotal::getTotal)
+        .containsExactly(
+            tuple(Quarter.Q1, 2024, BigDecimal.valueOf(150)),
+            tuple(Quarter.Q1, 2025, BigDecimal.valueOf(300)),
+            tuple(Quarter.Q2, 2025, BigDecimal.valueOf(300)));
+  }
+
+  @Test
+  void map_mapsSpendTotals_annualTotals() {
+    var lineItem = newLineItem();
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.JANUARY, 1), BigDecimal.valueOf(100)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2024, java.time.Month.DECEMBER, 31), BigDecimal.valueOf(200)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2025, java.time.Month.JANUARY, 1), BigDecimal.valueOf(300)));
+    lineItem.planSpend(
+        Spend.of(LocalDate.of(2026, java.time.Month.JANUARY, 1), BigDecimal.valueOf(400)));
+
+    var result = lineItemMapper.map(lineItem);
+
+    assertThat(result.getSpendTotals().getAnnualTotals())
+        .extracting(AnnualTotal::getYear, AnnualTotal::getTotal)
+        .containsExactly(
+            tuple(2024, BigDecimal.valueOf(300)),
+            tuple(2025, BigDecimal.valueOf(300)),
+            tuple(2026, BigDecimal.valueOf(400)));
   }
 
   private Category randomCategory() {

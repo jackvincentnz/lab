@@ -145,7 +145,10 @@ function mockSpendPageQuery(options?: {
   };
 }
 
-function mockLineItem({ name, categorizations }: Partial<LineItem>): LineItem {
+function mockLineItem({
+  name,
+  categorizations,
+}: Partial<LineItem>): Omit<LineItem, "spendTotals"> {
   return {
     id: name ?? newId(),
     budgetId: newId(),

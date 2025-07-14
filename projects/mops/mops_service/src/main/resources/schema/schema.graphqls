@@ -44,6 +44,7 @@ type LineItem {
   name: String!
   categorizations: [Categorization!]!
   spending: [Spend!]!
+  spendTotals: SpendTotals!
 }
 
 type Categorization {
@@ -65,6 +66,52 @@ type CategoryValue {
 type Spend {
   amount: BigDecimal!
   day: Date!
+}
+
+type SpendTotals {
+  monthlyTotals: [MonthlyTotal!]!
+  quarterlyTotals: [QuarterlyTotal!]!
+  annualTotals: [AnnualTotal!]!
+  grandTotal: BigDecimal!
+}
+
+type MonthlyTotal {
+  month: Month!
+  year: Int!
+  total: BigDecimal!
+}
+
+enum Month {
+  JANUARY
+  FEBRUARY
+  MARCH
+  APRIL
+  MAY
+  JUNE
+  JULY
+  AUGUST
+  SEPTEMBER
+  OCTOBER
+  NOVEMBER
+  DECEMBER
+}
+
+type QuarterlyTotal {
+  quarter: Quarter!
+  fiscalYear: Int!
+  total: BigDecimal!
+}
+
+enum Quarter {
+  Q1
+  Q2
+  Q3
+  Q4
+}
+
+type AnnualTotal {
+  year: Int!
+  total: BigDecimal!
 }
 
 type ClientConfiguration {

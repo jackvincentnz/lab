@@ -126,7 +126,26 @@ public class TestClient {
                 .id()
                 .spending()
                 .day()
-                .amount());
+                .amount()
+                .parent()
+                .spendTotals()
+                .monthlyTotals()
+                .total()
+                .year()
+                .month()
+                .parent()
+                .parent()
+                .quarterlyTotals()
+                .total()
+                .fiscalYear()
+                .quarter()
+                .parent()
+                .parent()
+                .annualTotals()
+                .total()
+                .year()
+                .parent()
+                .grandTotal());
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.planSpend", PlanSpendResponse.class);
