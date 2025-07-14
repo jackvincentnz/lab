@@ -14,6 +14,7 @@ import lab.mops.api.gql.client.AllLineItemsGraphQLQuery;
 import lab.mops.api.gql.client.AllLineItemsProjectionRoot;
 import lab.mops.api.gql.types.CategorizationInput;
 import lab.mops.api.gql.types.LineItem;
+import lab.mops.api.gql.types.Quarter;
 import lab.mops.api.gql.types.SpendInput;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -102,6 +103,7 @@ class LineItemFunctionalTest extends TestBase {
     assertThat(spendTotals.getQuarterlyTotals().size()).isEqualTo(1);
     var quarterlyTotal = spendTotals.getQuarterlyTotals().get(0);
     assertThat(quarterlyTotal.getFiscalYear()).isEqualTo(spendDay.getYear());
+    assertThat(quarterlyTotal.getQuarter()).isEqualTo(Quarter.Q1);
     assertThat(quarterlyTotal.getTotal()).isEqualTo(amount);
 
     assertThat(spendTotals.getAnnualTotals().size()).isEqualTo(1);
