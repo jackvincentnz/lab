@@ -7,4 +7,7 @@ java_library(
         "//projects/mops/mops_service/src/main/java/lab/mops/core/application/budget:__pkg__",
         "//projects/mops/mops_service/src/test/java/lab/mops/core/adapter:__subpackages__",
     ],
+    deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/budget",
+    ],
 )
