@@ -70,7 +70,11 @@ public class ResolvedBudgetQueryService {
             .toList();
 
     return new ResolvedLineItem(
-        lineItem.getId().toString(), lineItem.getName(), resolvedCategorizations, resolvedSpending);
+        lineItem.getId().toString(),
+        lineItem.getName(),
+        resolvedCategorizations,
+        resolvedSpending,
+        lineItem.getSpendTotals());
   }
 
   private boolean categoryAndValueExist(

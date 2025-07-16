@@ -72,6 +72,8 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
     var resultSpend = lineItem.getSpending().iterator().next();
     assertThat(resultSpend.getSpendDay()).isEqualTo(spend.getSpendDay());
     assertThat(resultSpend.getAmount()).isEqualTo(spend.getAmount());
+
+    assertThat(resolvedLineItem.spendTotals()).isEqualTo(lineItem.getSpendTotals());
   }
 
   @Test
