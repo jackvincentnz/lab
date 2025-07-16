@@ -77,6 +77,9 @@ export function SpendTable({
   const table = useMantineReactTable({
     columns: columnDefs,
     data: lineItems,
+    initialState: {
+      density: "xs",
+    },
     state: {
       isLoading: loading,
     },
