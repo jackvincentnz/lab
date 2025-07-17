@@ -58,6 +58,7 @@ export function SpendTable({
     () => [
       columnHelper.accessor("name", {
         header: HEADER_NAME,
+        filterVariant: "autocomplete",
         mantineEditTextInputProps: getTextInputProps("name"),
       }),
       ...columns.map((column) =>
@@ -65,6 +66,7 @@ export function SpendTable({
           id: column.id,
           header: column.header,
           editVariant: "select",
+          filterVariant: "select",
           mantineEditSelectProps: {
             data: column.options,
           },
@@ -83,10 +85,8 @@ export function SpendTable({
     state: {
       isLoading: loading,
     },
-    enableColumnActions: false,
-    enableColumnFilters: false,
+    enableFacetedValues: true,
     enablePagination: false,
-    enableSorting: false,
     onCreatingRowCancel: clearErrors,
     onCreatingRowSave: useAddLineItem(setValidationErrors, onAddLineItem),
     renderTopToolbarCustomActions: () => (

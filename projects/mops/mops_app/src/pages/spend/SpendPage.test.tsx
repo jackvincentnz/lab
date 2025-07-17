@@ -32,8 +32,10 @@ describe("SpendPage", async () => {
       },
     });
 
-    expect(await screen.findByText(/Name/)).toBeInTheDocument();
-    expect(await screen.findByText(name)).toBeInTheDocument();
+    expect(
+      await screen.findByRole("columnheader", { name: /Name/ }),
+    ).toBeInTheDocument();
+    expect(await screen.findByRole("cell", { name: name })).toBeInTheDocument();
   });
 
   test("renders table columns", async () => {
@@ -106,7 +108,7 @@ describe("SpendPage", async () => {
     const addLineItemBtn = await screen.findByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
 
-    const input = await screen.findByLabelText(/Name/);
+    const input = await screen.findByRole("textbox", { name: /Name/i });
     fireEvent.change(input, { target: { value: name } });
 
     const modal = screen.getByRole("dialog");
@@ -121,7 +123,7 @@ describe("SpendPage", async () => {
     await userEvent.click(saveBtn);
 
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(await screen.findByText(name)).toBeInTheDocument();
+    expect(await screen.findByRole("cell", { name: name })).toBeInTheDocument();
   });
 });
 
