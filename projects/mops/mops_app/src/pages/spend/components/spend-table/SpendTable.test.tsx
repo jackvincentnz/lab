@@ -68,10 +68,14 @@ describe("SpendTable", async () => {
     render(<SpendTable columns={columns} lineItems={lineItems} />);
 
     for (const entry of lineItems) {
-      expect(screen.getByText(entry.name)).toBeInTheDocument();
+      expect(
+        screen.getByRole("cell", { name: entry.name }),
+      ).toBeInTheDocument();
 
       if (entry.fields.length > 0) {
-        expect(screen.getByText(entry.fields[0].value)).toBeInTheDocument();
+        expect(
+          screen.getByRole("cell", { name: entry.fields[0].value }),
+        ).toBeInTheDocument();
       }
     }
   });
@@ -91,7 +95,7 @@ describe("SpendTable", async () => {
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
 
-    const nameInput = screen.getByLabelText(/Name/);
+    const nameInput = screen.getByRole("textbox", { name: /Name/i });
     fireEvent.change(nameInput, { target: { value: name } });
 
     const modal = screen.getByRole("dialog");
@@ -140,7 +144,7 @@ describe("SpendTable", async () => {
     const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
     await userEvent.click(addLineItemBtn);
 
-    const input = screen.getByLabelText(/Name/);
+    const input = screen.getByRole("textbox", { name: /Name/i });
     fireEvent.change(input, { target: { value: invalidName } });
 
     const saveBtn = screen.getByText(/Save/);
