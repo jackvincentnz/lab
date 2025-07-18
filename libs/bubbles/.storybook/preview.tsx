@@ -1,6 +1,9 @@
 import type { Preview } from "@storybook/react";
 import { MantineProvider } from "@mantine/core";
 
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+
 const preview: Preview = {
   parameters: {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -18,6 +21,7 @@ const preview: Preview = {
       </MantineProvider>
     ),
   ],
+  tags: ["autodocs"],
 };
 
 export default preview;
