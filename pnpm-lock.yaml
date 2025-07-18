@@ -227,12 +227,18 @@ importers:
       '@mantine/core':
         specifier: 7.17.1
         version: 7.17.1(@mantine/hooks@7.17.1)(@types/react@18.2.74)(react-dom@18.2.0)(react@18.2.0)
+      '@mantine/dates':
+        specifier: 7.17.1
+        version: 7.17.1(@mantine/core@7.17.1)(@mantine/hooks@7.17.1)(dayjs@1.11.13)(react-dom@18.2.0)(react@18.2.0)
       '@mantine/hooks':
         specifier: 7.17.1
         version: 7.17.1(react@18.2.0)
       '@tabler/icons-react':
         specifier: 3.12.0
         version: 3.12.0(react@18.2.0)
+      dayjs:
+        specifier: 1.11.13
+        version: 1.11.13
       react:
         specifier: '*'
         version: 18.2.0

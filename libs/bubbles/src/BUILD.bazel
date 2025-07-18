@@ -3,5 +3,8 @@ load("//tools/bazel:fe.bzl", "fe_library")
 fe_library(
     name = "src",
     visibility = ["//libs/bubbles:__pkg__"],
-    deps = ["//libs/bubbles/src/organisms"],
+    deps = [
+        "//libs/bubbles/src/components/MonthRangePicker",
+        "//libs/bubbles/src/organisms",
+    ],
 )
