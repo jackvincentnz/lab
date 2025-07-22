@@ -1,7 +1,6 @@
 import { Burger, Group, Title } from "@mantine/core";
 import {
   IconCalendarDollar,
-  IconLayoutBoard,
   IconLogout,
   IconSwitchHorizontal,
 } from "@tabler/icons-react";
@@ -11,7 +10,6 @@ import logo from "./logo.png";
 import { useStatsigClient } from "@statsig/react-bindings";
 
 export const navigationItems = [
-  { link: "/", label: "Chat", icon: IconLayoutBoard },
   // { link: "/plan", label: "Plan", icon: IconCalendarEvent },
   { link: "/spend", label: "Spend", icon: IconCalendarDollar },
   // { link: "/settings", label: "Settings", icon: IconSettings },
