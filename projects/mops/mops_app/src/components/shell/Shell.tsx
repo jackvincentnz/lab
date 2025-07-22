@@ -4,6 +4,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { Navbar, navigationItems } from "./Navbar";
 import { useLocation } from "react-router-dom";
 import { IconSparkles } from "@tabler/icons-react";
+import { Chat } from "../chat";
 
 const ASIDE_MIN_WIDTH = 400;
 const ASIDE_MAX_WIDTH = 1000;
@@ -103,10 +104,7 @@ export function Shell({ children }: PropsWithChildren) {
               "1px solid var(--mantine-color-gray-3)";
           }}
         />
-
-        <Box p="md" style={{ height: "100%" }}>
-          <Title order={3}>AI Chat</Title>
-        </Box>
+        <Chat />
       </AppShell.Aside>
     </AppShell>
   );

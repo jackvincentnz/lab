@@ -1,6 +1,10 @@
-import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 import { Shell } from "./components/shell";
-import { ChatPage } from "./pages/chat";
 import { PlanPage } from "./pages/plan";
 import { SpendPage } from "./pages/spend";
 import { SettingsPage } from "./pages/settings";
@@ -16,7 +20,8 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <ChatPage />,
+        index: true,
+        element: <Navigate to="/spend" replace />,
       },
       {
         path: "/plan",

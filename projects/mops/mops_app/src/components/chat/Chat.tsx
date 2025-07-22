@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   ActionIcon,
   Box,
-  Container,
   Group,
   ScrollArea,
   Stack,
@@ -11,6 +10,7 @@ import {
   Table,
   Text,
   Alert,
+  Title,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -66,12 +66,27 @@ export function Chat() {
   };
 
   return (
-    <Container>
-      <Stack>
-        <ScrollArea>
+    <Box
+      p="sm"
+      style={{
+        height: "100%",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <Title order={3} mb="md">
+        AI Chat
+      </Title>
+
+      <ScrollArea
+        style={{ flexGrow: 1, marginBottom: "1rem" }}
+        scrollbarSize={6}
+        offsetScrollbars
+      >
+        <Stack gap="md" p="xs">
           {messages.map((msg, index) =>
             msg.role === "human" ? (
-              <Group justify="flex-end" my="md" key={index}>
+              <Group justify="flex-end" key={index}>
                 <Alert radius="lg" py={8} variant="light">
                   {msg.content}
                 </Alert>
@@ -115,37 +130,30 @@ export function Chat() {
               </ReactMarkdown>
             ),
           )}
-        </ScrollArea>
+        </Stack>
+      </ScrollArea>
 
-        <Box
-          style={{
-            position: "sticky",
-            bottom: 0,
-            width: "100%",
-            backgroundColor: "white",
-          }}
-        >
-          <Group gap="xs" grow>
-            <TextInput
-              value={input}
-              onChange={(e) => setInput(e.currentTarget.value)}
-              placeholder="What can you do?"
-              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-              rightSection={
-                postChatMutation.isPending ? (
-                  <Loader size="xs" />
-                ) : (
-                  <ActionIcon onClick={sendMessage} aria-label="Send">
-                    <IconArrowRight />
-                  </ActionIcon>
-                )
-              }
-              rightSectionPointerEvents={"all"}
-              disabled={postChatMutation.isPending}
-            />
-          </Group>
-        </Box>
-      </Stack>
-    </Container>
+      <Box style={{ flexShrink: 0 }}>
+        <Group gap="xs" grow>
+          <TextInput
+            value={input}
+            onChange={(e) => setInput(e.currentTarget.value)}
+            placeholder="What can you do?"
+            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            rightSection={
+              postChatMutation.isPending ? (
+                <Loader size="xs" />
+              ) : (
+                <ActionIcon onClick={sendMessage} aria-label="Send">
+                  <IconArrowRight />
+                </ActionIcon>
+              )
+            }
+            rightSectionPointerEvents={"all"}
+            disabled={postChatMutation.isPending}
+          />
+        </Group>
+      </Box>
+    </Box>
   );
 }
