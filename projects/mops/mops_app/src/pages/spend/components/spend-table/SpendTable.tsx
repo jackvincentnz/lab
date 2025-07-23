@@ -8,14 +8,12 @@ import {
   useMantineReactTable,
 } from "mantine-react-table";
 import clsx from "clsx";
-import { Button, Group, Text } from "@mantine/core";
-import { modals } from "@mantine/modals";
+import { Button, Group } from "@mantine/core";
 import { useAddLineItem } from "./actions";
 import { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
 
 export const ADD_LINE_ITEM_BUTTON = "Add Line Item";
-export const DELETE_ALL_LINE_ITEMS = "Delete All";
 export const HEADER_NAME = "Name";
 
 export interface SpendTableProps {
@@ -38,7 +36,6 @@ export function SpendTable({
   columns,
   lineItems,
   onAddLineItem,
-  onDeleteAllLineItems,
   loading,
 }: SpendTableProps) {
   const {
@@ -92,9 +89,6 @@ export function SpendTable({
     renderTopToolbarCustomActions: () => (
       <Group gap="xs">
         <Button onClick={onAddRow}>{ADD_LINE_ITEM_BUTTON}</Button>
-        <Button onClick={deleteAll} variant={"filled"} color={"red"}>
-          {DELETE_ALL_LINE_ITEMS}
-        </Button>
       </Group>
     ),
     mantineTableProps: {
@@ -111,21 +105,6 @@ export function SpendTable({
     const row = createRow(table, NEW_ROW);
     table.setCreatingRow(row);
   };
-
-  const deleteAll = () =>
-    modals.openConfirmModal({
-      title: "Delete all",
-      centered: true,
-      children: (
-        <Text size="sm">
-          Are you sure you want to delete all of the line items? This item is
-          destructive and cannot be undone.
-        </Text>
-      ),
-      labels: { confirm: "Delete all", cancel: "Cancel" },
-      confirmProps: { color: "red" },
-      onConfirm: () => onDeleteAllLineItems && onDeleteAllLineItems(),
-    });
 
   return <MantineReactTable table={table} />;
 }

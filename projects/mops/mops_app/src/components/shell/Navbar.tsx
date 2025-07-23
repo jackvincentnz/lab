@@ -1,4 +1,5 @@
-import { Burger, Group, Title } from "@mantine/core";
+import { Burger, Button, Group, Title, Text } from "@mantine/core";
+import { modals } from "@mantine/modals";
 import {
   IconCalendarDollar,
   IconLogout,
@@ -58,12 +59,41 @@ export function Navbar({ opened, onCloseClick }: NavbarProps) {
 }
 
 function Footer() {
+  function confirmDataReset() {
+    modals.openConfirmModal({
+      title: "Reset Data",
+      centered: true,
+      children: (
+        <Text>
+          Are you sure you want to reset the data? This will restart the
+          application and wipe any data you have entered.
+        </Text>
+      ),
+      labels: { confirm: "Reset data", cancel: "Cancel" },
+      confirmProps: { color: "red" },
+      onConfirm: () => fetch("/reset"),
+    });
+  }
+
+  return (
+    <div className={classes["footer"]}>
+      <Group grow>
+        <Button variant="filled" color="red" onClick={confirmDataReset}>
+          Reset Data
+        </Button>
+      </Group>
+      <UserMenu />
+    </div>
+  );
+}
+
+function UserMenu() {
   const { client } = useStatsigClient();
 
   if (!client.checkGate("iam")) return null;
 
   return (
-    <div className={classes["footer"]}>
+    <>
       <a
         href="#"
         className={classes["link"]}
@@ -81,6 +111,6 @@ function Footer() {
         <IconLogout className={classes["linkIcon"]} stroke={1.5} />
         <span>Logout</span>
       </a>
-    </div>
+    </>
   );
 }
