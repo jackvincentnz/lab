@@ -57,7 +57,7 @@ export function Shell({ children }: PropsWithChildren) {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md" style={{ justifyContent: "space-between" }}>
+        <Group justify="space-between" h="100%" px="md">
           <Group>
             <Burger
               opened={opened}
