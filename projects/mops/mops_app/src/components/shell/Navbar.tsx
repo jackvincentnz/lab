@@ -71,7 +71,7 @@ function Footer() {
       ),
       labels: { confirm: "Reset data", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      onConfirm: () => fetch("/reset"),
+      onConfirm: () => fetch("/api/reset"),
     });
   }
 

@@ -4,9 +4,11 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   server: {
     proxy: {
-      "/graphql": "http://127.0.0.1:8080",
-      "/chat": "http://127.0.0.1:8080",
-      "/reset": "http://127.0.0.1:8080",
+      "/api": {
+        target: "http://127.0.0.1:8080",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ""),
+      },
     },
   },
   test: {
