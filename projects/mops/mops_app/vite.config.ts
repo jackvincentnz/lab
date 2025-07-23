@@ -6,6 +6,7 @@ export default defineConfig({
     proxy: {
       "/graphql": "http://127.0.0.1:8080",
       "/chat": "http://127.0.0.1:8080",
+      "/reset": "http://127.0.0.1:8080",
     },
   },
   test: {
