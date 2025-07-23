@@ -91,7 +91,7 @@ export function MonthRangePicker({
   return (
     <Popover opened={opened} onChange={handlePopoverChange} withArrow>
       <Popover.Target>
-        <Button onClick={open} variant={variant}>
+        <Button onClick={open} variant={opened ? "filled" : variant}>
           {label ? `${label}: ${buttonText}` : buttonText}
         </Button>
       </Popover.Target>
