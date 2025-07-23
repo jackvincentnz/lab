@@ -1,15 +1,14 @@
 import { useState } from "react";
 import {
   ActionIcon,
+  Alert,
   Box,
   Group,
-  ScrollArea,
-  Stack,
-  TextInput,
   Loader,
+  ScrollArea,
   Table,
   Text,
-  Alert,
+  TextInput,
   Title,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
@@ -67,7 +66,7 @@ export function Chat() {
 
   return (
     <Box
-      p="sm"
+      p="md"
       style={{
         height: "100%",
         display: "flex",
@@ -83,54 +82,51 @@ export function Chat() {
         scrollbarSize={6}
         offsetScrollbars
       >
-        <Stack gap="md" p="xs">
-          {messages.map((msg, index) =>
-            msg.role === "human" ? (
-              <Group justify="flex-end" key={index}>
-                <Alert radius="lg" py={8} variant="light">
-                  {msg.content}
-                </Alert>
-              </Group>
-            ) : (
-              <ReactMarkdown
-                remarkPlugins={[remarkGfm]}
-                key={index}
-                components={{
-                  table: ({ children, ...props }) => (
-                    <ScrollArea>
-                      <Table
-                        striped
-                        highlightOnHover
-                        withTableBorder
-                        {...props}
-                      >
-                        {children}
-                      </Table>
-                    </ScrollArea>
-                  ),
-                  thead: ({ children, ...props }) => (
-                    <Table.Thead {...props}>{children}</Table.Thead>
-                  ),
-                  tbody: ({ children, ...props }) => (
-                    <Table.Tbody {...props}>{children}</Table.Tbody>
-                  ),
-                  tr: ({ children, ...props }) => (
-                    <Table.Tr {...props}>{children}</Table.Tr>
-                  ),
-                  th: ({ children, ...props }) => (
-                    <Table.Th {...props}>{children}</Table.Th>
-                  ),
-                  td: ({ children, ...props }) => (
-                    <Table.Td {...props}>{children}</Table.Td>
-                  ),
-                  p: ({ children }) => <Text my="md">{children}</Text>,
-                }}
-              >
+        {messages.map((msg, index) =>
+          msg.role === "human" ? (
+            <Group justify="flex-end" key={index}>
+              <Alert radius="lg" py={8} variant="light">
                 {msg.content}
-              </ReactMarkdown>
-            ),
-          )}
-        </Stack>
+              </Alert>
+            </Group>
+          ) : (
+            <ReactMarkdown
+              remarkPlugins={[remarkGfm]}
+              key={index}
+              components={{
+                table: ({ children, ...props }) => (
+                  <Table
+                    my="md"
+                    striped
+                    highlightOnHover
+                    withTableBorder
+                    {...props}
+                  >
+                    {children}
+                  </Table>
+                ),
+                thead: ({ children, ...props }) => (
+                  <Table.Thead {...props}>{children}</Table.Thead>
+                ),
+                tbody: ({ children, ...props }) => (
+                  <Table.Tbody {...props}>{children}</Table.Tbody>
+                ),
+                tr: ({ children, ...props }) => (
+                  <Table.Tr {...props}>{children}</Table.Tr>
+                ),
+                th: ({ children, ...props }) => (
+                  <Table.Th {...props}>{children}</Table.Th>
+                ),
+                td: ({ children, ...props }) => (
+                  <Table.Td {...props}>{children}</Table.Td>
+                ),
+                p: ({ children }) => <Text my="md">{children}</Text>,
+              }}
+            >
+              {msg.content}
+            </ReactMarkdown>
+          ),
+        )}
       </ScrollArea>
 
       <Box style={{ flexShrink: 0 }}>
