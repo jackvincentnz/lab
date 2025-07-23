@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ModalsProvider } from "@mantine/modals";
 
 const client = new ApolloClient({
-  uri: "/graphql",
+  uri: "/api/graphql",
   cache: new InMemoryCache(),
 });
 
