@@ -8,7 +8,7 @@ import {
   ScrollArea,
   Table,
   Text,
-  TextInput,
+  Textarea,
   Title,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
@@ -131,11 +131,11 @@ export function Chat() {
 
       <Box style={{ flexShrink: 0 }}>
         <Group gap="xs" grow>
-          <TextInput
+          <Textarea
             value={input}
             onChange={(e) => setInput(e.currentTarget.value)}
             placeholder="What can you do?"
-            onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
             rightSection={
               postChatMutation.isPending ? (
                 <Loader size="xs" />
@@ -145,6 +145,9 @@ export function Chat() {
                 </ActionIcon>
               )
             }
+            autosize
+            minRows={1}
+            maxRows={10}
             rightSectionPointerEvents={"all"}
             disabled={postChatMutation.isPending}
           />
