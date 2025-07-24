@@ -1,7 +1,0 @@
-load("//tools/bazel:fe.bzl", "fe_library")
-
-fe_library(
-    name = "organisms",
-    visibility = ["//libs/bubbles/src:__pkg__"],
-    deps = ["//libs/bubbles/src/organisms/shell"],
-)

@@ -18,8 +18,7 @@ STORYBOOK_SRCS = [
 ]
 
 STORYBOOK_DEPS = [
-    "//libs/bubbles/src/organisms/shell:stories",
-    "//libs/bubbles/src/components/MonthRangePicker:stories",
+    "//libs/bubbles/src:stories",
     "//:node_modules/@mantine/core",
     "//:node_modules/@mantine/dates",
     "//:node_modules/@mantine/hooks",
