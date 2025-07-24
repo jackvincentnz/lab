@@ -86,7 +86,9 @@ export function Chat() {
           msg.role === "human" ? (
             <Group justify="flex-end" key={index}>
               <Alert radius="lg" py={8} variant="light">
-                {msg.content}
+                <Text size="sm" style={{ whiteSpace: "pre-line" }}>
+                  {msg.content}
+                </Text>
               </Alert>
             </Group>
           ) : (
