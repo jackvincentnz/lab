@@ -1,10 +1,52 @@
-load("//tools/bazel:fe.bzl", "fe_library")
+load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel:js.bzl", "js_library")
 
-fe_library(
+SRC_PATHS = [
+    "**/*.tsx",
+    "**/*.ts",
+]
+
+TEST_PATHS = [
+    "**/*.test.tsx",
+    "**/*.test.ts",
+]
+
+STORY_PATHS = [
+    "**/*.stories.ts",
+    "**/*.stories.tsx",
+]
+
+ts_project(
+    name = "src_ts",
+    srcs = glob(
+        include = SRC_PATHS,
+        exclude = TEST_PATHS + STORY_PATHS,
+    ),
+    deps = [
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/dates",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/dayjs",
+        "//:node_modules/react",
+        "//libs/packages/client",
+    ],
+)
+
+js_library(
     name = "src",
+    srcs = glob(["**/*.css"]),
+    visibility = ["//libs/bubbles:__pkg__"],
+    deps = [":src_ts"],
+)
+
+ts_project(
+    name = "stories",
+    srcs = glob(STORY_PATHS),
     visibility = ["//libs/bubbles:__pkg__"],
     deps = [
-        "//libs/bubbles/src/components/MonthRangePicker",
-        "//libs/bubbles/src/organisms",
+        ":src",
+        "//:node_modules/@storybook/react",
     ],
 )
