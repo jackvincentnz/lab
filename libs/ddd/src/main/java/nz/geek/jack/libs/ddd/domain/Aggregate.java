@@ -1,6 +1,7 @@
 package nz.geek.jack.libs.ddd.domain;
 
 import java.util.Collection;
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Version;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -13,6 +14,7 @@ public abstract class Aggregate<I extends AbstractId> extends AbstractAggregateR
   @Version protected int version;
 
   protected Aggregate(I id) {
+    Objects.requireNonNull(id, "id must not be null");
     this.id = id;
   }
 
