@@ -1,11 +1,17 @@
 package nz.geek.jack.libs.ddd.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class AggregateTest extends TestBase {
+
+  @Test
+  void constructor_preventsNullId() {
+    assertThatThrownBy(() -> new TestAggregate(null)).isInstanceOf(NullPointerException.class);
+  }
 
   @Test
   void getId_returnsId() {
