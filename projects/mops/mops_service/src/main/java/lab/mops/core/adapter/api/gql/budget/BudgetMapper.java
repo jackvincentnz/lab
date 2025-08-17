@@ -7,6 +7,11 @@ import org.springframework.stereotype.Component;
 public class BudgetMapper {
 
   public Budget map(lab.mops.core.domain.budget.Budget budget) {
-    return Budget.newBuilder().id(budget.getId().toString()).name(budget.getName()).build();
+    return Budget.newBuilder()
+        .id(budget.getId().toString())
+        .name(budget.getName())
+        .createdAt(budget.getCreatedAt().toString())
+        .updatedAt(budget.getUpdatedAt().toString())
+        .build();
   }
 }

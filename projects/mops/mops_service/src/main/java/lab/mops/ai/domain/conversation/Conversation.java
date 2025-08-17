@@ -11,14 +11,10 @@ public class Conversation extends Aggregate<ConversationId> {
 
   private final List<Message> messages;
 
-  private final Instant createdAt;
-
   private Conversation(ConversationId id, Instant createdAt) {
     super(id);
     Objects.requireNonNull(createdAt, "createdAt must not be null");
-
     this.messages = new ArrayList<>();
-    this.createdAt = createdAt;
   }
 
   public Message addMessage(MessageType type, String content) {
@@ -37,10 +33,6 @@ public class Conversation extends Aggregate<ConversationId> {
 
   public List<Message> getMessages() {
     return Collections.unmodifiableList(messages);
-  }
-
-  public Instant getCreatedAt() {
-    return createdAt;
   }
 
   public static Conversation create() {

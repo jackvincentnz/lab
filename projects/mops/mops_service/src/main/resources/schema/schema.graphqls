@@ -36,6 +36,8 @@ type Tenant {
 type Budget {
   id: ID!
   name: String!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type LineItem {
@@ -45,6 +47,8 @@ type LineItem {
   categorizations: [Categorization!]!
   spending: [Spend!]!
   spendTotals: SpendTotals!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type Categorization {
@@ -56,6 +60,8 @@ type Category {
   id: ID!
   name: String!
   values: [CategoryValue!]!
+  createdAt: String!
+  updatedAt: String!
 }
 
 type CategoryValue {

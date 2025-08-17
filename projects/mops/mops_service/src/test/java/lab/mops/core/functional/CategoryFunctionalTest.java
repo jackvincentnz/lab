@@ -85,7 +85,14 @@ class CategoryFunctionalTest extends TestBase {
     var request =
         new GraphQLQueryRequest(
             AllCategoriesGraphQLQuery.newRequest().build(),
-            new AllCategoriesProjectionRoot<>().id().name().values().id().name());
+            new AllCategoriesProjectionRoot<>()
+                .id()
+                .name()
+                .createdAt()
+                .updatedAt()
+                .values()
+                .id()
+                .name());
 
     var result =
         dgsQueryExecutor.executeAndExtractJsonPathAsObject(
@@ -93,6 +100,8 @@ class CategoryFunctionalTest extends TestBase {
 
     assertThat(result.getId()).isNotBlank();
     assertThat(result.getName()).isNotBlank();
+    assertThat(result.getCreatedAt()).isNotBlank();
+    assertThat(result.getUpdatedAt()).isNotBlank();
     var value = result.getValues().get(0);
     assertThat(value.getId()).isNotBlank();
     assertThat(value.getName()).isNotBlank();

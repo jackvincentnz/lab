@@ -31,6 +31,8 @@ public class LineItemMapper {
             lineItem.getCategorizations().stream().map(this::mapCategorization).toList())
         .spending(lineItem.getSpending().stream().map(this::mapSpend).toList())
         .spendTotals(mapSpendTotals(lineItem.getSpendTotals()))
+        .createdAt(lineItem.getCreatedAt().toString())
+        .updatedAt(lineItem.getUpdatedAt().toString())
         .build();
   }
 

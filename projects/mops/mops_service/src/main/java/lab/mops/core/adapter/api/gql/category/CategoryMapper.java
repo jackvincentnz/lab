@@ -12,6 +12,8 @@ public class CategoryMapper {
         .id(category.getId().toString())
         .name(category.getName())
         .values(category.getValues().stream().map(this::map).toList())
+        .createdAt(category.getCreatedAt().toString())
+        .updatedAt(category.getUpdatedAt().toString())
         .build();
   }
 

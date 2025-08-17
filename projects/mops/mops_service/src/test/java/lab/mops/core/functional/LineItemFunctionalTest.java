@@ -143,6 +143,8 @@ class LineItemFunctionalTest extends TestBase {
             new AllLineItemsProjectionRoot<>()
                 .id()
                 .name()
+                .createdAt()
+                .updatedAt()
                 .categorizations()
                 .category()
                 .id()
@@ -158,6 +160,8 @@ class LineItemFunctionalTest extends TestBase {
 
     assertThat(result.getId()).isNotBlank();
     assertThat(result.getName()).isNotBlank();
+    assertThat(result.getCreatedAt()).isNotBlank();
+    assertThat(result.getUpdatedAt()).isNotBlank();
     var categorization = result.getCategorizations().get(0);
     assertThat(categorization.getCategory().getId()).isEqualTo(category.getId());
     assertThat(categorization.getCategory().getName()).isEqualTo(category.getName());
