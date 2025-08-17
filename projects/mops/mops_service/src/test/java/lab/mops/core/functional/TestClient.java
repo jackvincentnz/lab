@@ -57,7 +57,15 @@ public class TestClient {
             CreateBudgetGraphQLQuery.newRequest()
                 .input(CreateBudgetInput.newBuilder().name(name).build())
                 .build(),
-            new CreateBudgetProjectionRoot<>().success().code().message().budget().id().name());
+            new CreateBudgetProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .budget()
+                .id()
+                .name()
+                .createdAt()
+                .updatedAt());
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.createBudget", CreateBudgetResponse.class);

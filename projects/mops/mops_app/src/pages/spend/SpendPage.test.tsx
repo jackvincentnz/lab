@@ -157,6 +157,8 @@ function mockLineItem({
     name: name ?? newId(),
     spending: [],
     categorizations: categorizations || [],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -165,6 +167,8 @@ function mockCategory({ name }: Partial<Category>): Category {
     id: name ?? newId(),
     name: name ?? newId(),
     values: [mockCategoryValue()],
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
   };
 }
 

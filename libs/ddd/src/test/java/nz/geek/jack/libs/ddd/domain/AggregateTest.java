@@ -3,6 +3,8 @@ package nz.geek.jack.libs.ddd.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import java.time.Clock;
+import java.time.Instant;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +13,23 @@ class AggregateTest extends TestBase {
   @Test
   void constructor_preventsNullId() {
     assertThatThrownBy(() -> new TestAggregate(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void constructor_setsCreatedAt() {
+    var clock = fixedClock();
+
+    var aggregate = new TestAggregate(new TestId(), clock);
+
+    assertThat(aggregate.getCreatedAt()).isEqualTo(clock.instant());
+  }
+
+  @Test
+  void constructor_updatedAtEqualsCreatedAt() {
+    var aggregate = new TestAggregate(new TestId());
+
+    assertThat(aggregate.getUpdatedAt()).isNotNull();
+    assertThat(aggregate.getUpdatedAt()).isEqualTo(aggregate.getCreatedAt());
   }
 
   @Test
@@ -40,9 +59,26 @@ class AggregateTest extends TestBase {
     assertThat(aggregate.domainEvents()).contains(event);
   }
 
+  @Test
+  void registerEvent_updatesUpdatedAt() {
+    var initialClock = fixedClock();
+    var updatedClock = fixedClock(Instant.MAX);
+
+    var aggregate = new TestAggregate(new TestId(), initialClock);
+
+    aggregate.setClock(updatedClock);
+    aggregate.registerEvent(new Object());
+
+    assertThat(aggregate.getUpdatedAt()).isEqualTo(updatedClock.instant());
+  }
+
   static class TestAggregate extends Aggregate<TestId> {
     TestAggregate(TestId id) {
       super(id);
+    }
+
+    TestAggregate(TestId id, Clock clock) {
+      super(id, clock);
     }
 
     void addEvent(Object event) {

@@ -18,13 +18,6 @@ class ConversationTest extends TestBase {
   }
 
   @Test
-  void create_setsCreatedAt() {
-    var conversation = Conversation.create();
-
-    assertThat(conversation.getCreatedAt()).isBefore(Instant.now().plusSeconds(1));
-  }
-
-  @Test
   void create_registersEventWithId() {
     var conversation = Conversation.create();
 

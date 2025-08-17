@@ -26,6 +26,8 @@ class BudgetFunctionalTest extends TestBase {
     assertThat(response.getMessage()).isNotBlank();
     assertThat(response.getBudget().getId()).isNotBlank();
     assertThat(response.getBudget().getName()).isEqualTo(name);
+    assertThat(response.getBudget().getCreatedAt()).isNotBlank();
+    assertThat(response.getBudget().getUpdatedAt()).isNotBlank();
   }
 
   @Test
