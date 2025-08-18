@@ -15,9 +15,9 @@ public class ActivityCommandService {
   }
 
   public ActivityId createActivity(String name) {
-    var activity = Activity.createActivity(name);
+    var activity = Activity.create(name);
 
-    activityRepository.saveActivity(activity);
+    activityRepository.save(activity);
 
     return activity.getId();
   }

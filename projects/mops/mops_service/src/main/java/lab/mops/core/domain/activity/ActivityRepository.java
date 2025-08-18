@@ -1,5 +1,7 @@
 package lab.mops.core.domain.activity;
 
-public interface ActivityRepository {
-  void saveActivity(Activity activity);
-}
+import nz.geek.jack.libs.ddd.domain.BaseRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface ActivityRepository extends BaseRepository<Activity, ActivityId> {}

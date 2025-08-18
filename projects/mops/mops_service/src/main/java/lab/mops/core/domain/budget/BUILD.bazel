@@ -8,7 +8,6 @@ java_library(
         "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
         "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/category",
         "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/time",
-        "@maven//:org_springframework_data_spring_data_commons",
         "@maven//:org_springframework_spring_context",
     ],
 )

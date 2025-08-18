@@ -1,87 +1,58 @@
 package lab.mops.core.domain.activity;
 
-import static nz.geek.jack.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
+import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.time.Instant;
+import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
-class ActivityTest {
-
-  static final String NAME = "Intro to Lab Webinar";
+class ActivityTest extends TestBase {
 
   @Test
-  void createActivity_setsName() {
-    var activity = Activity.createActivity(NAME);
-
-    assertThat(activity.getName()).isEqualTo(NAME);
+  void create_preventsNullName() {
+    assertThatThrownBy(() -> Activity.create(null)).isInstanceOf(NullPointerException.class);
   }
 
   @Test
-  void createActivity_setsId() {
-    var activity = Activity.createActivity(NAME);
+  void create_setsName() {
+    var name = randomString();
+
+    var activity = Activity.create(name);
+
+    assertThat(activity.getName()).isEqualTo(name);
+  }
+
+  @Test
+  void create_setsId() {
+    var activity = Activity.create(randomString());
 
     assertThat(activity.getId()).isNotNull();
   }
 
   @Test
-  void createActivity_setsCreatedAt() {
-    var activity = Activity.createActivity(NAME);
+  void createActivity_registersEvent_withId() {
+    var activity = Activity.create(randomString());
 
-    assertThat(activity.getCreatedAt()).isBetween(Instant.now().minusSeconds(10), Instant.now());
+    var event = getLastEvent(activity, ActivityCreatedEvent.class);
+    assertThat(event.activityId()).isEqualTo(activity.getId());
   }
 
   @Test
-  void createActivity_appliesActivityCreatedEvent_withId() {
-    var activity = Activity.createActivity(NAME);
+  void createActivity_registersEvent_withName() {
+    var name = randomString();
 
-    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
-    assertThat(event.getAggregateId()).isEqualTo(activity.getId());
+    var activity = Activity.create(name);
+
+    var event = getLastEvent(activity, ActivityCreatedEvent.class);
+    assertThat(event.name()).isEqualTo(name);
   }
 
   @Test
-  void createActivity_appliesActivityCreatedEvent_withName() {
-    var activity = Activity.createActivity(NAME);
+  void createActivity_registersEvent_withCreatedAt() {
+    var activity = Activity.create(randomString());
 
-    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
-    assertThat(event.getName()).isEqualTo(NAME);
-  }
-
-  @Test
-  void createActivity_appliesActivityCreatedEvent_withCreatedAt() {
-    var activity = Activity.createActivity(NAME);
-
-    var event = getOnlyEventOfType(activity, ActivityCreatedEvent.class);
-    assertThat(event.getCreatedAt()).isEqualTo(activity.getCreatedAt());
-  }
-
-  @Test
-  void of_setsId() {
-    var id = ActivityId.create();
-    var createdAt = Instant.now();
-
-    var activity = Activity.of(id, NAME, createdAt);
-
-    assertThat(activity.getId()).isEqualTo(id);
-  }
-
-  @Test
-  void of_setsName() {
-    var id = ActivityId.create();
-    var createdAt = Instant.now();
-
-    var activity = Activity.of(id, NAME, createdAt);
-
-    assertThat(activity.getName()).isEqualTo(NAME);
-  }
-
-  @Test
-  void of_setsCreatedAt() {
-    var id = ActivityId.create();
-    var createdAt = Instant.now();
-
-    var activity = Activity.of(id, NAME, createdAt);
-
-    assertThat(activity.getCreatedAt()).isEqualTo(createdAt);
+    var event = getLastEvent(activity, ActivityCreatedEvent.class);
+    assertThat(event.createdAt()).isEqualTo(activity.getCreatedAt());
   }
 }
