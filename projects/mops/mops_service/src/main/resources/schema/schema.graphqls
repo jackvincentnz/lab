@@ -4,6 +4,7 @@ type Query {
   allBudgets: [Budget!]!
   allLineItems: [LineItem!]!
   allCategories: [Category!]!
+  allActivities: [Activity!]!
   clientConfiguration: ClientConfiguration!
 }
 
@@ -24,6 +25,7 @@ type Mutation {
   ): CategorizeLineItemResponse!
   deleteAllLineItems: DeleteAllLineItemsResponse!
   planSpend(input: PlanSpendInput!): PlanSpendResponse!
+  createActivity(input: CreateActivityInput!): CreateActivityResponse!
 }
 
 # Objects
@@ -124,6 +126,13 @@ type ClientConfiguration {
   statsigKey: String
 }
 
+type Activity {
+  id: ID!
+  name: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
 # Inputs
 
 input ProvisionTenantInput {
@@ -179,6 +188,10 @@ input PlanSpendInput {
 input SpendInput {
   spendDay: Date!
   amount: BigDecimal!
+}
+
+input CreateActivityInput {
+  name: String!
 }
 
 # Responses
@@ -250,6 +263,13 @@ type PlanSpendResponse implements MutationResponse {
   success: Boolean!
   message: String!
   lineItem: LineItem
+}
+
+type CreateActivityResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  activity: Activity
 }
 
 interface MutationResponse {
