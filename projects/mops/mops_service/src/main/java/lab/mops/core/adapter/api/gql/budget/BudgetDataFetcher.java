@@ -3,7 +3,6 @@ package lab.mops.core.adapter.api.gql.budget;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import java.util.List;
-import java.util.stream.Collectors;
 import lab.mops.api.gql.types.Budget;
 import lab.mops.core.application.budget.BudgetQueryService;
 
@@ -21,8 +20,6 @@ public class BudgetDataFetcher {
 
   @DgsQuery
   public List<Budget> allBudgets() {
-    return budgetQueryService.findAll().stream()
-        .map(budgetMapper::map)
-        .collect(Collectors.toList());
+    return budgetQueryService.findAll().stream().map(budgetMapper::map).toList();
   }
 }

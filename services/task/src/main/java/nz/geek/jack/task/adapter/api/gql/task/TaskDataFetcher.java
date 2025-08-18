@@ -4,7 +4,6 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 import nz.geek.jack.task.adapter.gql.schema.types.Task;
 import nz.geek.jack.task.application.task.TaskQueryService;
 import nz.geek.jack.task.domain.TaskId;
@@ -28,7 +27,7 @@ public class TaskDataFetcher {
     return tasks
         .sorted(Comparator.comparing(nz.geek.jack.task.domain.Task::getCreatedAt))
         .map(taskMapper::map)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @DgsQuery

@@ -7,7 +7,6 @@ import com.netflix.graphql.dgs.DgsQuery;
 import com.netflix.graphql.dgs.InputArgument;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.stream.Collectors;
 import nz.geek.jack.journal.adapter.gql.schema.types.Author;
 import nz.geek.jack.journal.adapter.gql.schema.types.Entry;
 import nz.geek.jack.journal.application.entry.EntryQueryService;
@@ -35,7 +34,7 @@ public class EntriesDataFetcher {
     return entries
         .sorted(Comparator.comparing(nz.geek.jack.journal.domain.Entry::getCreatedAt))
         .map(entryMapper::map)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @DgsData(parentType = "Entry")

@@ -6,7 +6,6 @@ import com.netflix.graphql.dgs.DgsDataFetchingEnvironment;
 import com.netflix.graphql.dgs.DgsQuery;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 import lab.mops.api.gql.DgsConstants;
 import lab.mops.api.gql.types.Categorization;
 import lab.mops.api.gql.types.Category;
@@ -31,9 +30,7 @@ public class CategoryDataFetcher {
 
   @DgsQuery
   public List<Category> allCategories() {
-    return categoryQueryService.findAll().stream()
-        .map(categoryMapper::map)
-        .collect(Collectors.toList());
+    return categoryQueryService.findAll().stream().map(categoryMapper::map).toList();
   }
 
   @DgsData(
