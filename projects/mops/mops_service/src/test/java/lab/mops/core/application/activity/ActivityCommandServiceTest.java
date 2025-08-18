@@ -5,6 +5,7 @@ import static org.mockito.Mockito.verify;
 
 import lab.mops.core.domain.activity.Activity;
 import lab.mops.core.domain.activity.ActivityRepository;
+import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -13,9 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class ActivityCommandServiceTest {
-
-  static final String NAME = "Intro to Lab Webinar";
+class ActivityCommandServiceTest extends TestBase {
 
   @Mock ActivityRepository activityRepository;
 
@@ -23,21 +22,22 @@ class ActivityCommandServiceTest {
 
   @Test
   void createActivity_savesActivityWithName() {
+    var name = randomString();
     var activityCaptor = ArgumentCaptor.forClass(Activity.class);
 
-    activityCommandService.createActivity(NAME);
+    activityCommandService.createActivity(name);
 
-    verify(activityRepository).saveActivity(activityCaptor.capture());
-    assertThat(activityCaptor.getValue().getName()).isEqualTo(NAME);
+    verify(activityRepository).save(activityCaptor.capture());
+    assertThat(activityCaptor.getValue().getName()).isEqualTo(name);
   }
 
   @Test
   void createActivity_returnsSavedActivityId() {
     var activityCaptor = ArgumentCaptor.forClass(Activity.class);
 
-    var activityId = activityCommandService.createActivity(NAME);
+    var activityId = activityCommandService.createActivity(randomString());
 
-    verify(activityRepository).saveActivity(activityCaptor.capture());
+    verify(activityRepository).save(activityCaptor.capture());
     assertThat(activityId).isEqualTo(activityCaptor.getValue().getId());
   }
 }
