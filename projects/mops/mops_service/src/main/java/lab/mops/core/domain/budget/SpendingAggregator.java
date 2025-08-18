@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 import lab.mops.core.domain.time.Quarter;
 
 class SpendingAggregator {
@@ -50,7 +49,7 @@ class SpendingAggregator {
             .sorted(
                 Comparator.comparing(LineItemSpendMonthlyTotal::year)
                     .thenComparing(LineItemSpendMonthlyTotal::month))
-            .collect(Collectors.toList());
+            .toList();
 
     var quarterlyTotals =
         quarterlyMap.entrySet().stream()
@@ -61,13 +60,13 @@ class SpendingAggregator {
             .sorted(
                 Comparator.comparing(LineItemSpendQuarterlyTotal::fiscalYear)
                     .thenComparing(LineItemSpendQuarterlyTotal::quarter))
-            .collect(Collectors.toList());
+            .toList();
 
     var annualTotals =
         annualMap.entrySet().stream()
             .map(e -> new LineItemSpendAnnualTotal(Year.of(e.getKey()), e.getValue()))
             .sorted(Comparator.comparing(LineItemSpendAnnualTotal::year))
-            .collect(Collectors.toList());
+            .toList();
 
     return new LineItemSpendTotals(monthlyTotals, quarterlyTotals, annualTotals, grandTotal);
   }

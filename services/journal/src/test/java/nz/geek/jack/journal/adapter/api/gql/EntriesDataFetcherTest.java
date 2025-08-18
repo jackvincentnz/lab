@@ -7,7 +7,6 @@ import com.netflix.graphql.dgs.DgsQueryExecutor;
 import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import com.netflix.graphql.dgs.test.EnableDgsTest;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import nz.geek.jack.journal.adapter.gql.schema.client.AllEntriesGraphQLQuery;
 import nz.geek.jack.journal.adapter.gql.schema.client.AllEntriesProjectionRoot;
@@ -29,9 +28,7 @@ class EntriesDataFetcherTest {
   @Autowired DgsQueryExecutor dgsQueryExecutor;
 
   private static final List<nz.geek.jack.journal.domain.Entry> ENTRIES =
-      Stream.of("1", "2", "3")
-          .map(nz.geek.jack.journal.domain.Entry::newEntry)
-          .collect(Collectors.toList());
+      Stream.of("1", "2", "3").map(nz.geek.jack.journal.domain.Entry::newEntry).toList();
 
   @BeforeEach
   void init() {

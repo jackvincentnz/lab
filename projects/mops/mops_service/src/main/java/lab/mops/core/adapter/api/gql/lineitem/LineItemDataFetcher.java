@@ -3,7 +3,6 @@ package lab.mops.core.adapter.api.gql.lineitem;
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
 import java.util.List;
-import java.util.stream.Collectors;
 import lab.mops.api.gql.types.LineItem;
 import lab.mops.core.application.lineitem.LineItemQueryService;
 
@@ -22,8 +21,6 @@ public class LineItemDataFetcher {
 
   @DgsQuery
   public List<LineItem> allLineItems() {
-    return lineItemQueryService.findAll().stream()
-        .map(lineItemMapper::map)
-        .collect(Collectors.toList());
+    return lineItemQueryService.findAll().stream().map(lineItemMapper::map).toList();
   }
 }
