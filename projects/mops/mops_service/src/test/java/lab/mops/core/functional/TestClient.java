@@ -8,10 +8,14 @@ import lab.mops.api.gql.client.AddCategoryValueGraphQLQuery;
 import lab.mops.api.gql.client.AddCategoryValueProjectionRoot;
 import lab.mops.api.gql.client.AddLineItemGraphQLQuery;
 import lab.mops.api.gql.client.AddLineItemProjectionRoot;
+import lab.mops.api.gql.client.AllActivitiesGraphQLQuery;
+import lab.mops.api.gql.client.AllActivitiesProjectionRoot;
 import lab.mops.api.gql.client.AllBudgetsGraphQLQuery;
 import lab.mops.api.gql.client.AllBudgetsProjectionRoot;
 import lab.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import lab.mops.api.gql.client.CategorizeLineItemProjectionRoot;
+import lab.mops.api.gql.client.CreateActivityGraphQLQuery;
+import lab.mops.api.gql.client.CreateActivityProjectionRoot;
 import lab.mops.api.gql.client.CreateBudgetGraphQLQuery;
 import lab.mops.api.gql.client.CreateBudgetProjectionRoot;
 import lab.mops.api.gql.client.CreateCategoryGraphQLQuery;
@@ -24,6 +28,7 @@ import lab.mops.api.gql.client.UpdateCategoryNameGraphQLQuery;
 import lab.mops.api.gql.client.UpdateCategoryNameProjectionRoot;
 import lab.mops.api.gql.client.UpdateCategoryValueNameGraphQLQuery;
 import lab.mops.api.gql.client.UpdateCategoryValueNameProjectionRoot;
+import lab.mops.api.gql.types.Activity;
 import lab.mops.api.gql.types.AddCategoryValueInput;
 import lab.mops.api.gql.types.AddCategoryValueResponse;
 import lab.mops.api.gql.types.AddLineItemInput;
@@ -32,6 +37,8 @@ import lab.mops.api.gql.types.Budget;
 import lab.mops.api.gql.types.CategorizationInput;
 import lab.mops.api.gql.types.CategorizeLineItemInput;
 import lab.mops.api.gql.types.CategorizeLineItemResponse;
+import lab.mops.api.gql.types.CreateActivityInput;
+import lab.mops.api.gql.types.CreateActivityResponse;
 import lab.mops.api.gql.types.CreateBudgetInput;
 import lab.mops.api.gql.types.CreateBudgetResponse;
 import lab.mops.api.gql.types.CreateCategoryInput;
@@ -279,5 +286,35 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.deleteAllLineItems", DeleteAllLineItemsResponse.class);
+  }
+
+  public CreateActivityResponse createActivity(String name) {
+    var request =
+        new GraphQLQueryRequest(
+            CreateActivityGraphQLQuery.newRequest()
+                .input(CreateActivityInput.newBuilder().name(name).build())
+                .build(),
+            new CreateActivityProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .activity()
+                .id()
+                .name()
+                .createdAt()
+                .updatedAt());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.createActivity", CreateActivityResponse.class);
+  }
+
+  public List<Activity> allActivities() {
+    var request =
+        new GraphQLQueryRequest(
+            AllActivitiesGraphQLQuery.newRequest().build(),
+            new AllActivitiesProjectionRoot<>().id().name().createdAt().updatedAt());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.allActivities", new TypeRef<>() {});
   }
 }

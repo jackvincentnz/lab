@@ -1,21 +1,20 @@
 package lab.mops.core.application.activity;
 
+import java.util.Collection;
 import lab.mops.core.domain.activity.Activity;
 import lab.mops.core.domain.activity.ActivityRepository;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ActivityCommandService {
+public class ActivityQueryService {
 
   private final ActivityRepository activityRepository;
 
-  public ActivityCommandService(ActivityRepository activityRepository) {
+  public ActivityQueryService(ActivityRepository activityRepository) {
     this.activityRepository = activityRepository;
   }
 
-  public Activity create(CreateActivityCommand command) {
-    var activity = Activity.create(command.name());
-
-    return activityRepository.save(activity);
+  public Collection<Activity> findAll() {
+    return activityRepository.findAll();
   }
 }

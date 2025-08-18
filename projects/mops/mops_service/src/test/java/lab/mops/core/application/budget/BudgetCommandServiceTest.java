@@ -27,7 +27,7 @@ class BudgetCommandServiceTest extends TestBase {
   @Captor ArgumentCaptor<Budget> budgetCaptor;
 
   @Test
-  void create_savesCategoryWithName() {
+  void create_savesBudgetWithName() {
     var command = new CreateBudgetCommand(randomString());
 
     budgetCommandService.create(command);
@@ -37,7 +37,7 @@ class BudgetCommandServiceTest extends TestBase {
   }
 
   @Test
-  void create_returnsCategory() {
+  void create_returnsBudget() {
     var command = new CreateBudgetCommand(randomString());
     var savedBudget = mock(Budget.class);
 
