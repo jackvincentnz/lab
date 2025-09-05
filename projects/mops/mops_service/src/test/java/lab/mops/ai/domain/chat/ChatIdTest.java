@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 class ChatIdTest {
 
   @Test
-  void create_setsId() {
+  void start_setsId() {
     var id = ChatId.create();
 
     assertThat(id).isNotNull();

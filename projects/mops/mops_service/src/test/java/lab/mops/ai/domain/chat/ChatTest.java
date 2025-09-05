@@ -11,32 +11,59 @@ import org.junit.jupiter.api.Test;
 class ChatTest extends TestBase {
 
   @Test
-  void create_setsId() {
-    var chat = Chat.create();
+  void start_setsId() {
+    var chat = Chat.start(randomString());
 
     assertThat(chat.getId()).isNotNull();
   }
 
   @Test
-  void create_registersEventWithId() {
-    var chat = Chat.create();
+  void start_registersEventWithId() {
+    var chat = Chat.start(randomString());
 
-    var event = (ChatCreatedEvent) chat.domainEvents().iterator().next();
+    var event = AggregateTestUtils.getLastEvent(chat, ChatStartedEvent.class);
     assertThat(event.chatId()).isEqualTo(chat.getId());
   }
 
   @Test
+  void start_addsUserPrompt() {
+    var userPrompt = randomString();
+
+    var chat = Chat.start(userPrompt);
+
+    assertThat(chat.getMessages().get(0).getContent()).isEqualTo(userPrompt);
+  }
+
+  @Test
+  void start_registersEventWithUserPrompt() {
+    var userPrompt = randomString();
+
+    var chat = Chat.start(userPrompt);
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatStartedEvent.class);
+    assertThat(event.userPrompt()).isEqualTo(userPrompt);
+  }
+
+  @Test
+  void start_registersEventWithCreatedAt() {
+    var chat = Chat.start(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatStartedEvent.class);
+    assertThat(event.createdAt()).isEqualTo(chat.getCreatedAt());
+  }
+
+  @Test
   void addMessage_addsMessage() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
 
     var message = chat.addMessage(MessageType.USER, randomString());
 
-    assertThat(message).isSameAs(chat.getMessages().get(0));
+    assertThat(message).isSameAs(chat.getMessages().get(1));
   }
 
   @Test
   void addMessage_addsMessageWithType() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
     var type = MessageType.USER;
 
     var message = chat.addMessage(type, randomString());
@@ -46,7 +73,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_addsMessageWithContent() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
     var content = randomString();
 
     var message = chat.addMessage(MessageType.USER, content);
@@ -56,7 +83,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_addsMessageWithTimestamp() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
 
     var message = chat.addMessage(MessageType.USER, randomString());
 
@@ -64,8 +91,8 @@ class ChatTest extends TestBase {
   }
 
   @Test
-  void addMessage_registersEventWithchatId() {
-    var chat = Chat.create();
+  void addMessage_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
 
     chat.addMessage(MessageType.USER, randomString());
 
@@ -75,7 +102,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_registersEventWithContent() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
     var content = randomString();
 
     chat.addMessage(MessageType.USER, content);
@@ -86,7 +113,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_registersEventWithTimestamp() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
 
     var message = chat.addMessage(MessageType.USER, randomString());
 
@@ -96,7 +123,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_preventsNullType() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
 
     assertThatThrownBy(() -> chat.addMessage(null, randomString()))
         .isInstanceOf(NullPointerException.class);
@@ -104,7 +131,7 @@ class ChatTest extends TestBase {
 
   @Test
   void addMessage_preventsNullContent() {
-    var chat = Chat.create();
+    var chat = Chat.start(randomString());
 
     assertThatThrownBy(() -> chat.addMessage(MessageType.USER, null))
         .isInstanceOf(NullPointerException.class);
