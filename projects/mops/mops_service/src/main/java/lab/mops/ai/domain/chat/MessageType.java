@@ -1,4 +1,4 @@
-package lab.mops.ai.domain.conversation;
+package lab.mops.ai.domain.chat;
 
 public enum MessageType {
   USER,
