@@ -1,4 +1,4 @@
-package lab.mops.ai.domain.conversation;
+package lab.mops.ai.domain.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

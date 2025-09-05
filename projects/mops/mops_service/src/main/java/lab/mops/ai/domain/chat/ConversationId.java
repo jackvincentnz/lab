@@ -1,4 +1,4 @@
-package lab.mops.ai.domain.conversation;
+package lab.mops.ai.domain.chat;
 
 import java.util.UUID;
 import nz.geek.jack.libs.ddd.domain.AbstractId;
