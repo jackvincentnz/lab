@@ -7,11 +7,11 @@ import java.util.List;
 import java.util.Objects;
 import nz.geek.jack.libs.ddd.domain.Aggregate;
 
-public class Conversation extends Aggregate<ConversationId> {
+public class Chat extends Aggregate<ChatId> {
 
   private final List<Message> messages;
 
-  private Conversation(ConversationId id, Instant createdAt) {
+  private Chat(ChatId id, Instant createdAt) {
     super(id);
     Objects.requireNonNull(createdAt, "createdAt must not be null");
     this.messages = new ArrayList<>();
@@ -25,7 +25,7 @@ public class Conversation extends Aggregate<ConversationId> {
     messages.add(message);
 
     registerEvent(
-        new ConversationMessageAddedEvent(
+        new ChatMessageAddedEvent(
             this.id, message.getType(), message.getContent(), message.getTimestamp()));
 
     return message;
@@ -35,11 +35,11 @@ public class Conversation extends Aggregate<ConversationId> {
     return Collections.unmodifiableList(messages);
   }
 
-  public static Conversation create() {
-    var conversation = new Conversation(ConversationId.create(), Instant.now());
+  public static Chat create() {
+    var chat = new Chat(ChatId.create(), Instant.now());
 
-    conversation.registerEvent(new ConversationCreatedEvent(conversation.id));
+    chat.registerEvent(new ChatCreatedEvent(chat.id));
 
-    return conversation;
+    return chat;
   }
 }
