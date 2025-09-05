@@ -1,6 +1,5 @@
 package lab.mops.ai.domain.chat;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -11,9 +10,8 @@ public class Chat extends Aggregate<ChatId> {
 
   private final List<Message> messages;
 
-  private Chat(ChatId id, Instant createdAt) {
+  private Chat(ChatId id) {
     super(id);
-    Objects.requireNonNull(createdAt, "createdAt must not be null");
     this.messages = new ArrayList<>();
   }
 
@@ -35,10 +33,13 @@ public class Chat extends Aggregate<ChatId> {
     return Collections.unmodifiableList(messages);
   }
 
-  public static Chat create() {
-    var chat = new Chat(ChatId.create(), Instant.now());
+  public static Chat start(String userPrompt) {
+    Objects.requireNonNull(userPrompt, "userPrompt must not be null");
 
-    chat.registerEvent(new ChatCreatedEvent(chat.id));
+    var chat = new Chat(ChatId.create());
+    chat.messages.add(Message.create(MessageType.USER, userPrompt));
+
+    chat.registerEvent(new ChatStartedEvent(chat.getId(), chat.getCreatedAt(), userPrompt));
 
     return chat;
   }
