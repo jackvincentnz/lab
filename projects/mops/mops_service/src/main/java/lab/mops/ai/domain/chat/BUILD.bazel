@@ -1,5 +1,5 @@
 java_library(
-    name = "conversation",
+    name = "chat",
     srcs = glob(["*.java"]),
     visibility = [
         "//projects/mops/mops_service/src:__subpackages__",
