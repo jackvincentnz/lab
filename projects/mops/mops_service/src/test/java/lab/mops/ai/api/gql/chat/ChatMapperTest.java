@@ -26,7 +26,7 @@ class ChatMapperTest extends TestBase {
 
     var result = chatMapper.map(domainChat);
 
-    assertThat(result.getMessages()).hasSize(1);
+    assertThat(result.getMessages()).hasSize(2);
     var mappedMessage = result.getMessages().get(0);
     assertThat(mappedMessage.getId()).isEqualTo(message.getId().toString());
     assertThat(mappedMessage.getType().name()).isEqualTo(message.getType().name());

@@ -35,7 +35,7 @@ class ChatCommandServiceTest extends TestBase {
 
     verify(chatRepository).save(chatCaptor.capture());
     var savedChat = chatCaptor.getValue();
-    assertThat(savedChat.getMessages()).hasSize(1);
+    assertThat(savedChat.getMessages()).hasSize(2);
     assertThat(savedChat.getMessages().get(0).getType()).isEqualTo(MessageType.USER);
     assertThat(savedChat.getMessages().get(0).getContent().orElseThrow())
         .isEqualTo(command.userPrompt());
