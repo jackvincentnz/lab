@@ -1,4 +1,4 @@
-package lab.mops.ai.adapter.api.rest;
+package lab.mops.ai.api.rest;
 
 import static org.springframework.ai.chat.memory.ChatMemory.CONVERSATION_ID;
 
