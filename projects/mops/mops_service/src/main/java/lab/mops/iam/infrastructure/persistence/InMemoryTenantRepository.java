@@ -1,4 +1,4 @@
-package lab.mops.iam.adapter.persistence;
+package lab.mops.iam.infrastructure.persistence;
 
 import lab.mops.iam.domain.identity.Tenant;
 import lab.mops.iam.domain.identity.TenantId;
