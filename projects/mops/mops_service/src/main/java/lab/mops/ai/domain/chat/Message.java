@@ -2,38 +2,67 @@ package lab.mops.ai.domain.chat;
 
 import java.time.Instant;
 import java.util.Objects;
+import java.util.Optional;
 
 public class Message {
 
-  private final MessageType type;
+  private final MessageId id;
 
-  private final String content;
+  private final MessageType type;
 
   private final Instant timestamp;
 
-  private Message(MessageType type, String content, Instant timestamp) {
-    Objects.requireNonNull(type, "type must not be null");
-    Objects.requireNonNull(content, "content must not be null");
-    Objects.requireNonNull(timestamp, "timestamp must not be null");
+  private String content;
 
+  private MessageStatus status;
+
+  private Message(MessageId id, MessageType type, Instant timestamp, MessageStatus status) {
+    this(id, type, timestamp, status, null);
+  }
+
+  private Message(
+      MessageId id, MessageType type, Instant timestamp, MessageStatus status, String content) {
+    Objects.requireNonNull(id, "id must not be null");
+    Objects.requireNonNull(type, "type must not be null");
+    Objects.requireNonNull(timestamp, "timestamp must not be null");
+    Objects.requireNonNull(type, "status must not be null");
+
+    this.id = id;
     this.type = type;
-    this.content = content;
     this.timestamp = timestamp;
+    this.status = status;
+    this.content = content;
+  }
+
+  public MessageId getId() {
+    return id;
   }
 
   public MessageType getType() {
     return type;
   }
 
-  public String getContent() {
-    return content;
+  public Optional<String> getContent() {
+    return Optional.ofNullable(content);
   }
 
   public Instant getTimestamp() {
     return timestamp;
   }
 
-  public static Message create(MessageType type, String content) {
-    return new Message(type, content, Instant.now());
+  public MessageStatus getStatus() {
+    return status;
+  }
+
+  public static Message userMessage(String userPrompt) {
+    Objects.requireNonNull(userPrompt, "userPrompt must not be null");
+
+    return new Message(
+        MessageId.create(), MessageType.USER, Instant.now(), MessageStatus.COMPLETED, userPrompt);
+  }
+
+  public static Message assistantMessage() {
+    return new Message(
+        MessageId.create(), MessageType.ASSISTANT, Instant.now(), MessageStatus.PENDING);
   }
 }

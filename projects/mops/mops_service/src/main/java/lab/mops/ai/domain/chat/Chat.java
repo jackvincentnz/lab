@@ -15,16 +15,16 @@ public class Chat extends Aggregate<ChatId> {
     this.messages = new ArrayList<>();
   }
 
-  public Message addMessage(MessageType type, String content) {
-    Objects.requireNonNull(type, "type must not be null");
-    Objects.requireNonNull(content, "content must not be null");
-
-    var message = Message.create(type, content);
+  public Message addMessage(String userPrompt) {
+    var message = Message.userMessage(userPrompt);
     messages.add(message);
 
     registerEvent(
         new ChatMessageAddedEvent(
-            this.id, message.getType(), message.getContent(), message.getTimestamp()));
+            this.id,
+            message.getType(),
+            message.getContent().orElseThrow(),
+            message.getTimestamp()));
 
     return message;
   }
@@ -37,7 +37,7 @@ public class Chat extends Aggregate<ChatId> {
     Objects.requireNonNull(userPrompt, "userPrompt must not be null");
 
     var chat = new Chat(ChatId.create());
-    chat.messages.add(Message.create(MessageType.USER, userPrompt));
+    chat.messages.add(Message.userMessage(userPrompt));
 
     chat.registerEvent(new ChatStartedEvent(chat.getId(), chat.getCreatedAt(), userPrompt));
 
