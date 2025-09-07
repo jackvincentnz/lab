@@ -1,3 +1,3 @@
-package lab.mops.ai.adapter.api.rest;
+package lab.mops.ai.api.rest;
 
 public record ChatRequest(String prompt) {}
