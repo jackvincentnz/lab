@@ -1,7 +1,7 @@
 package lab.mops.core.api.gql.activity;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_CREATED;
-import static lab.mops.core.api.gql.ResponseMessage.CREATED_MESSAGE;
+import static lab.mops.common.api.gql.ResponseMessage.CREATED_MESSAGE;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;

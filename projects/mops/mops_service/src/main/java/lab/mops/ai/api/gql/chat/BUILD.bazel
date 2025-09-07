@@ -1,0 +1,17 @@
+java_library(
+    name = "chat",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai:__pkg__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/ai/api/gql/chat:__pkg__",
+    ],
+    deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai/application/chat",
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai/domain/chat",
+        "//projects/mops/mops_service/src/main/java/lab/mops/common/api/gql",
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
