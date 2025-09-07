@@ -10,38 +10,81 @@ import org.junit.jupiter.api.Test;
 class MessageTest extends TestBase {
 
   @Test
-  void create_setsType() {
-    var message = Message.create(MessageType.USER, randomString());
+  void assistantMessage_setsId() {
+    var message = Message.assistantMessage();
 
-    assertThat(message.getType()).isEqualTo(MessageType.USER);
+    assertThat(message.getId()).isNotNull();
   }
 
   @Test
-  void create_setsContent() {
-    var content = randomString();
+  void assistantMessage_setsType() {
+    var message = Message.assistantMessage();
 
-    var message = Message.create(MessageType.USER, content);
-
-    assertThat(message.getContent()).isEqualTo(content);
+    assertThat(message.getType()).isEqualTo(MessageType.ASSISTANT);
   }
 
   @Test
-  void create_setsTimestamp() {
-    var message = Message.create(MessageType.USER, randomString());
+  void assistantMessage_doesntSetContent() {
+    var message = Message.assistantMessage();
+
+    assertThat(message.getContent()).isEmpty();
+  }
+
+  @Test
+  void assistantMessage_setsTimestamp() {
+    var message = Message.assistantMessage();
 
     assertThat(message.getTimestamp()).isNotNull();
     assertThat(message.getTimestamp()).isBefore(Instant.now().plusSeconds(1));
   }
 
   @Test
-  void create_preventsNullType() {
-    assertThatThrownBy(() -> Message.create(null, randomString()))
-        .isInstanceOf(NullPointerException.class);
+  void assistantMessage_hasPendingStatus() {
+    var message = Message.assistantMessage();
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.PENDING);
   }
 
   @Test
-  void create_preventsNullContent() {
-    assertThatThrownBy(() -> Message.create(MessageType.USER, null))
-        .isInstanceOf(NullPointerException.class);
+  void userMessage_setsId() {
+    var message = Message.userMessage(randomString());
+
+    assertThat(message.getId()).isNotNull();
+  }
+
+  @Test
+  void userMessage_setsType() {
+    var message = Message.userMessage(randomString());
+
+    assertThat(message.getType()).isEqualTo(MessageType.USER);
+  }
+
+  @Test
+  void userMessage_setsContent() {
+    var content = randomString();
+
+    var message = Message.userMessage(content);
+
+    assertThat(message.getContent()).contains(content);
+  }
+
+  @Test
+  void userMessage_setsStatus() {
+    var message = Message.userMessage(randomString());
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+  }
+
+  @Test
+  void userMessage_setsTimestamp() {
+    var message = Message.userMessage(randomString());
+
+    assertThat(message.getTimestamp()).isNotNull();
+    assertThat(message.getTimestamp()).isBefore(Instant.now().plusSeconds(1));
+  }
+
+  @Test
+  void userMessage_preventsNullContent() {
+    assertThatThrownBy(() -> Message.userMessage(null)).isInstanceOf(NullPointerException.class);
   }
 }

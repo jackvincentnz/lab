@@ -31,7 +31,7 @@ class ChatTest extends TestBase {
 
     var chat = Chat.start(userPrompt);
 
-    assertThat(chat.getMessages().get(0).getContent()).isEqualTo(userPrompt);
+    assertThat(chat.getMessages().get(0).getContent().orElseThrow()).isEqualTo(userPrompt);
   }
 
   @Test
@@ -56,7 +56,7 @@ class ChatTest extends TestBase {
   void addMessage_addsMessage() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(MessageType.USER, randomString());
+    var message = chat.addMessage(randomString());
 
     assertThat(message).isSameAs(chat.getMessages().get(1));
   }
@@ -64,11 +64,10 @@ class ChatTest extends TestBase {
   @Test
   void addMessage_addsMessageWithType() {
     var chat = Chat.start(randomString());
-    var type = MessageType.USER;
 
-    var message = chat.addMessage(type, randomString());
+    var message = chat.addMessage(randomString());
 
-    assertThat(message.getType()).isEqualTo(type);
+    assertThat(message.getType()).isEqualTo(MessageType.USER);
   }
 
   @Test
@@ -76,16 +75,16 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var content = randomString();
 
-    var message = chat.addMessage(MessageType.USER, content);
+    var message = chat.addMessage(content);
 
-    assertThat(message.getContent()).isEqualTo(content);
+    assertThat(message.getContent().orElseThrow()).isEqualTo(content);
   }
 
   @Test
   void addMessage_addsMessageWithTimestamp() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(MessageType.USER, randomString());
+    var message = chat.addMessage(randomString());
 
     assertThat(message.getTimestamp()).isBefore(Instant.now().plusSeconds(1));
   }
@@ -94,7 +93,7 @@ class ChatTest extends TestBase {
   void addMessage_registersEventWithChatId() {
     var chat = Chat.start(randomString());
 
-    chat.addMessage(MessageType.USER, randomString());
+    chat.addMessage(randomString());
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.chatId()).isEqualTo(chat.getId());
@@ -105,7 +104,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var content = randomString();
 
-    chat.addMessage(MessageType.USER, content);
+    chat.addMessage(content);
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.content()).isEqualTo(content);
@@ -115,25 +114,16 @@ class ChatTest extends TestBase {
   void addMessage_registersEventWithTimestamp() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(MessageType.USER, randomString());
+    var message = chat.addMessage(randomString());
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.timestamp()).isEqualTo(message.getTimestamp());
   }
 
   @Test
-  void addMessage_preventsNullType() {
-    var chat = Chat.start(randomString());
-
-    assertThatThrownBy(() -> chat.addMessage(null, randomString()))
-        .isInstanceOf(NullPointerException.class);
-  }
-
-  @Test
   void addMessage_preventsNullContent() {
     var chat = Chat.start(randomString());
 
-    assertThatThrownBy(() -> chat.addMessage(MessageType.USER, null))
-        .isInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> chat.addMessage(null)).isInstanceOf(NullPointerException.class);
   }
 }
