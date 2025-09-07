@@ -1,4 +1,4 @@
-package lab.mops.core.api.gql;
+package lab.mops.common.api.gql;
 
 public class ResponseMessage {
   public static final String CREATED_MESSAGE = "Created";

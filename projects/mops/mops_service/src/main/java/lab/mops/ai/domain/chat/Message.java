@@ -3,7 +3,9 @@ package lab.mops.ai.domain.chat;
 import java.time.Instant;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.data.relational.core.mapping.Table;
 
+@Table("CHAT_MESSAGE")
 public class Message {
 
   private final MessageId id;

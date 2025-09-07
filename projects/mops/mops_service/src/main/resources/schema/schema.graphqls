@@ -26,6 +26,7 @@ type Mutation {
   deleteAllLineItems: DeleteAllLineItemsResponse!
   planSpend(input: PlanSpendInput!): PlanSpendResponse!
   createActivity(input: CreateActivityInput!): CreateActivityResponse!
+  startChat(input: StartChatInput!): StartChatResponse!
 }
 
 # Objects
@@ -133,6 +134,33 @@ type Activity {
   updatedAt: String!
 }
 
+type Chat {
+  id: ID!
+  messages: [ChatMessage!]!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type ChatMessage {
+  id: ID!
+  type: ChatMessageType!
+  status: ChatMessageStatus!
+  content: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+enum ChatMessageType {
+  USER
+  ASSISTANT
+}
+
+enum ChatMessageStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
+
 # Inputs
 
 input ProvisionTenantInput {
@@ -192,6 +220,10 @@ input SpendInput {
 
 input CreateActivityInput {
   name: String!
+}
+
+input StartChatInput {
+  userPrompt: String!
 }
 
 # Responses
@@ -276,6 +308,13 @@ interface MutationResponse {
   code: Int!
   success: Boolean!
   message: String!
+}
+
+type StartChatResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
 }
 
 # Scalars

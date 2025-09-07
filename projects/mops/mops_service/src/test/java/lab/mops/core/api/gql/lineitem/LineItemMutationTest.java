@@ -2,8 +2,8 @@ package lab.mops.core.api.gql.lineitem;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_CREATED;
 import static jakarta.servlet.http.HttpServletResponse.SC_OK;
-import static lab.mops.core.api.gql.ResponseMessage.CREATED_MESSAGE;
-import static lab.mops.core.api.gql.ResponseMessage.OK_MESSAGE;
+import static lab.mops.common.api.gql.ResponseMessage.CREATED_MESSAGE;
+import static lab.mops.common.api.gql.ResponseMessage.OK_MESSAGE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
