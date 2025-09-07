@@ -38,6 +38,7 @@ public class Chat extends Aggregate<ChatId> {
 
     var chat = new Chat(ChatId.create());
     chat.messages.add(Message.userMessage(userPrompt));
+    chat.messages.add(Message.assistantMessage());
 
     chat.registerEvent(new ChatStartedEvent(chat.getId(), chat.getCreatedAt(), userPrompt));
 

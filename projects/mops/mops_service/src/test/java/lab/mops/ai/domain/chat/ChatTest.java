@@ -53,12 +53,22 @@ class ChatTest extends TestBase {
   }
 
   @Test
+  void start_addsPendingAssistantMessage() {
+    var userPrompt = randomString();
+
+    var chat = Chat.start(userPrompt);
+
+    assertThat(chat.getMessages().get(1).getType()).isEqualTo(MessageType.ASSISTANT);
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.PENDING);
+  }
+
+  @Test
   void addMessage_addsMessage() {
     var chat = Chat.start(randomString());
 
     var message = chat.addMessage(randomString());
 
-    assertThat(message).isSameAs(chat.getMessages().get(1));
+    assertThat(message).isSameAs(chat.getMessages().get(2));
   }
 
   @Test
