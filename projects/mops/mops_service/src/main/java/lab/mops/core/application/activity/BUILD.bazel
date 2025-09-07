@@ -2,8 +2,8 @@ java_library(
     name = "activity",
     srcs = glob(["*.java"]),
     visibility = [
-        "//projects/mops/mops_service/src/main/java/lab/mops/core/adapter:__subpackages__",
-        "//projects/mops/mops_service/src/test/java/lab/mops/core/adapter:__subpackages__",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/api:__subpackages__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/mops_service/src/test/java/lab/mops/core/application/activity:__pkg__",
     ],
     deps = [
