@@ -2,8 +2,8 @@ java_library(
     name = "tenant",
     srcs = glob(["*.java"]),
     visibility = [
-        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter/api/gql:__pkg__",
-        "//projects/mops/mops_service/src/test/java/lab/mops/iam/adapter/api/gql/tenant:__pkg__",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam:__pkg__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/iam/api/gql/tenant:__pkg__",
     ],
     deps = [
         "//projects/mops/mops_service/src/main/java/lab/mops/iam/application/identity",

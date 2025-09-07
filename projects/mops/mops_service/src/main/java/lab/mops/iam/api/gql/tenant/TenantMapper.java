@@ -1,4 +1,4 @@
-package lab.mops.iam.adapter.api.gql.tenant;
+package lab.mops.iam.api.gql.tenant;
 
 import lab.mops.api.gql.types.Tenant;
 import org.springframework.stereotype.Component;

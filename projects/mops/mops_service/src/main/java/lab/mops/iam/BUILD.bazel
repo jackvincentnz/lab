@@ -4,6 +4,7 @@ java_library(
         "//projects/mops/mops_service/src/main:__pkg__",
     ],
     runtime_deps = [
-        "//projects/mops/mops_service/src/main/java/lab/mops/iam/adapter",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/api/gql/tenant",
+        "//projects/mops/mops_service/src/main/java/lab/mops/iam/infrastructure/persistence",
     ],
 )

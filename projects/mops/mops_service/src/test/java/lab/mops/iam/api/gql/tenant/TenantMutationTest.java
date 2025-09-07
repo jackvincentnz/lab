@@ -1,4 +1,4 @@
-package lab.mops.iam.adapter.api.gql.tenant;
+package lab.mops.iam.api.gql.tenant;
 
 import static jakarta.servlet.http.HttpServletResponse.SC_ACCEPTED;
 import static org.assertj.core.api.Assertions.assertThat;
