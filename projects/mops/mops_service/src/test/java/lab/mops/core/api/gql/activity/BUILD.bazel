@@ -1,0 +1,13 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "activity",
+    deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/api/gql",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/api/gql/activity",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/application/activity",
+        "//projects/mops/mops_service/src/main/java/lab/mops/core/domain/activity",
+        "//projects/mops/mops_service/src/main/resources/schema:java",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+    ],
+)
