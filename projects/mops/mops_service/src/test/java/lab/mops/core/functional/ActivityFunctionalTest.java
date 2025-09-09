@@ -3,6 +3,7 @@ package lab.mops.core.functional;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.servlet.http.HttpServletResponse;
+import lab.mops.client.TestClient;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
