@@ -1,4 +1,4 @@
-package lab.mops.core.functional;
+package lab.mops.client;
 
 import com.jayway.jsonpath.TypeRef;
 import com.netflix.graphql.dgs.DgsQueryExecutor;
