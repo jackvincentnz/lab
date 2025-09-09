@@ -1,0 +1,25 @@
+meta {
+  name: Chats
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/chats/2
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "prompt":"How much am I spending in Q1 in my Annual Marketing Budget 2025?"
+  }
+}
+
+settings {
+  encodeUrl: true
+}

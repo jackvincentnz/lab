@@ -63,6 +63,14 @@ class ChatTest extends TestBase {
   }
 
   @Test
+  void start_registersEventWithPendingAssistantMessageId() {
+    var chat = Chat.start(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatStartedEvent.class);
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(1).getId());
+  }
+
+  @Test
   void addMessage_addsMessage() {
     var chat = Chat.start(randomString());
 

@@ -6,6 +6,7 @@ type Query {
   allCategories: [Category!]!
   allActivities: [Activity!]!
   clientConfiguration: ClientConfiguration!
+  chat(id: ID!): Chat
 }
 
 type Mutation {

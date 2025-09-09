@@ -14,6 +14,8 @@ import lab.mops.api.gql.client.AllBudgetsGraphQLQuery;
 import lab.mops.api.gql.client.AllBudgetsProjectionRoot;
 import lab.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import lab.mops.api.gql.client.CategorizeLineItemProjectionRoot;
+import lab.mops.api.gql.client.ChatGraphQLQuery;
+import lab.mops.api.gql.client.ChatProjectionRoot;
 import lab.mops.api.gql.client.CreateActivityGraphQLQuery;
 import lab.mops.api.gql.client.CreateActivityProjectionRoot;
 import lab.mops.api.gql.client.CreateBudgetGraphQLQuery;
@@ -24,6 +26,8 @@ import lab.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
 import lab.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
 import lab.mops.api.gql.client.PlanSpendGraphQLQuery;
 import lab.mops.api.gql.client.PlanSpendProjectionRoot;
+import lab.mops.api.gql.client.StartChatGraphQLQuery;
+import lab.mops.api.gql.client.StartChatProjectionRoot;
 import lab.mops.api.gql.client.UpdateCategoryNameGraphQLQuery;
 import lab.mops.api.gql.client.UpdateCategoryNameProjectionRoot;
 import lab.mops.api.gql.client.UpdateCategoryValueNameGraphQLQuery;
@@ -37,6 +41,7 @@ import lab.mops.api.gql.types.Budget;
 import lab.mops.api.gql.types.CategorizationInput;
 import lab.mops.api.gql.types.CategorizeLineItemInput;
 import lab.mops.api.gql.types.CategorizeLineItemResponse;
+import lab.mops.api.gql.types.Chat;
 import lab.mops.api.gql.types.CreateActivityInput;
 import lab.mops.api.gql.types.CreateActivityResponse;
 import lab.mops.api.gql.types.CreateBudgetInput;
@@ -47,6 +52,8 @@ import lab.mops.api.gql.types.DeleteAllLineItemsResponse;
 import lab.mops.api.gql.types.PlanSpendInput;
 import lab.mops.api.gql.types.PlanSpendResponse;
 import lab.mops.api.gql.types.SpendInput;
+import lab.mops.api.gql.types.StartChatInput;
+import lab.mops.api.gql.types.StartChatResponse;
 import lab.mops.api.gql.types.UpdateCategoryNameInput;
 import lab.mops.api.gql.types.UpdateCategoryNameResponse;
 import lab.mops.api.gql.types.UpdateCategoryValueNameInput;
@@ -316,5 +323,53 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.allActivities", new TypeRef<>() {});
+  }
+
+  public StartChatResponse startChat(String userPrompt) {
+    var request =
+        new GraphQLQueryRequest(
+            StartChatGraphQLQuery.newRequest()
+                .input(StartChatInput.newBuilder().userPrompt(userPrompt).build())
+                .build(),
+            new StartChatProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .chat()
+                .createdAt()
+                .updatedAt()
+                .id()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.startChat", StartChatResponse.class);
+  }
+
+  public Chat chat(String chatId) {
+    var request =
+        new GraphQLQueryRequest(
+            ChatGraphQLQuery.newRequest().id(chatId).build(),
+            new ChatProjectionRoot<>()
+                .id()
+                .createdAt()
+                .updatedAt()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.chat", Chat.class);
   }
 }
