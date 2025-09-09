@@ -12,15 +12,11 @@ public class Message {
 
   private final MessageType type;
 
-  private final Instant timestamp;
-
-  private String content;
+  private Instant timestamp;
 
   private MessageStatus status;
 
-  private Message(MessageId id, MessageType type, Instant timestamp, MessageStatus status) {
-    this(id, type, timestamp, status, null);
-  }
+  private String content;
 
   private Message(
       MessageId id, MessageType type, Instant timestamp, MessageStatus status, String content) {
@@ -56,15 +52,15 @@ public class Message {
     return status;
   }
 
-  public static Message userMessage(String userPrompt) {
+  static Message userMessage(String userPrompt) {
     Objects.requireNonNull(userPrompt, "userPrompt must not be null");
 
     return new Message(
         MessageId.create(), MessageType.USER, Instant.now(), MessageStatus.COMPLETED, userPrompt);
   }
 
-  public static Message assistantMessage() {
+  static Message assistantMessage() {
     return new Message(
-        MessageId.create(), MessageType.ASSISTANT, Instant.now(), MessageStatus.PENDING);
+        MessageId.create(), MessageType.ASSISTANT, Instant.now(), MessageStatus.PENDING, null);
   }
 }
