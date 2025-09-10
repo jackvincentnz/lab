@@ -52,6 +52,12 @@ public class Message {
     return status;
   }
 
+  void complete(String content) {
+    this.status = MessageStatus.COMPLETED;
+    this.content = content;
+    this.timestamp = Instant.now();
+  }
+
   static Message userMessage(String userPrompt) {
     Objects.requireNonNull(userPrompt, "userPrompt must not be null");
 

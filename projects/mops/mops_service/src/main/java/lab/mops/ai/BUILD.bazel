@@ -6,5 +6,6 @@ java_library(
     runtime_deps = [
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/api/gql/chat",
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/api/rest",
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai/infrastructure/llm",
     ],
 )
