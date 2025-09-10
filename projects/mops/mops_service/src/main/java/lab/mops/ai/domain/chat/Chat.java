@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import nz.geek.jack.libs.ddd.domain.Aggregate;
+import nz.geek.jack.libs.ddd.domain.NotFoundException;
 
 public class Chat extends Aggregate<ChatId> {
 
@@ -27,6 +28,18 @@ public class Chat extends Aggregate<ChatId> {
             message.getTimestamp()));
 
     return message;
+  }
+
+  public void completeMessage(MessageId messageId, String content) {
+    var message =
+        messages.stream()
+            .filter(m -> m.getId().equals(messageId))
+            .findFirst()
+            .orElseThrow(() -> new NotFoundException(messageId));
+
+    message.complete(content);
+
+    registerEvent(new ChatMessageCompletedEvent(this.getId(), message.getId(), content));
   }
 
   public List<Message> getMessages() {

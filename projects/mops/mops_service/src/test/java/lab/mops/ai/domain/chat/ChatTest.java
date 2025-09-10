@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
+import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -143,5 +144,42 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
 
     assertThatThrownBy(() -> chat.addMessage(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void completeMessage_throwsNotFoundForMissingMessage() {
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(() -> chat.completeMessage(MessageId.create(), randomString()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void completeMessage_completesMessage() {
+    var chat = Chat.start(randomString());
+    var content = randomString();
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.completeMessage(assistantMessage.getId(), content);
+
+    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+    assertThat(assistantMessage.getContent()).hasValue(content);
+  }
+
+  @Test
+  void completeMessage_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
+    var content = randomString();
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.completeMessage(assistantMessage.getId(), content);
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageCompletedEvent.class);
+
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+    assertThat(event.messageId()).isEqualTo(assistantMessage.getId());
+    assertThat(event.content()).isEqualTo(content);
   }
 }

@@ -87,4 +87,25 @@ class MessageTest extends TestBase {
   void userMessage_preventsNullContent() {
     assertThatThrownBy(() -> Message.userMessage(null)).isInstanceOf(NullPointerException.class);
   }
+
+  @Test
+  void complete_setsContent() {
+    var message = Message.assistantMessage();
+    var content = randomString();
+
+    assertThat(message.getContent()).isEmpty();
+
+    message.complete(content);
+
+    assertThat(message.getContent()).hasValue(content);
+  }
+
+  @Test
+  void complete_setsCompleted() {
+    var message = Message.assistantMessage();
+
+    message.complete(randomString());
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+  }
 }
