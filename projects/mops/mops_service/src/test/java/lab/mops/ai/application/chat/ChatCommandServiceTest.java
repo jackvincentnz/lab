@@ -52,4 +52,31 @@ class ChatCommandServiceTest extends TestBase {
 
     assertThat(result).isEqualTo(savedChat);
   }
+
+  @Test
+  void addUserMessage_savesChatWithContent() {
+    var chat = mock(Chat.class);
+    var command = new AddUserMessageCommand(chat.getId(), randomString());
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatCommandService.addUserMessage(command);
+
+    verify(chat).addUserMessage(command.content());
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void addUserMessage_returnsSavedChat() {
+    var chat = mock(Chat.class);
+    var command = new AddUserMessageCommand(chat.getId(), randomString());
+    var savedChat = mock(Chat.class);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(chatRepository.save(chat)).thenReturn(savedChat);
+
+    var result = chatCommandService.addUserMessage(command);
+
+    assertThat(result).isEqualTo(savedChat);
+  }
 }
