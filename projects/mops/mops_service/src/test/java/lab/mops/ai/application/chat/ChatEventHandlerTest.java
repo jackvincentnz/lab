@@ -6,8 +6,10 @@ import static org.mockito.Mockito.when;
 
 import java.util.List;
 import lab.mops.ai.domain.chat.Chat;
+import lab.mops.ai.domain.chat.ChatMessageAddedEvent;
 import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.ai.domain.chat.ChatStartedEvent;
+import lab.mops.ai.domain.chat.Message;
 import nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -43,6 +45,26 @@ class ChatEventHandlerTest extends TestBase {
     verify(chatRepository).save(chatCaptor.capture());
 
     var message = chatCaptor.getValue().getMessages().get(1);
+    assertThat(message.getContent()).hasValue(response);
+  }
+
+  @Test
+  void onChatMessageAdded_completeMessageWithCompletionResponse() {
+    var chat = Chat.start(randomString());
+    chat.addUserMessage(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
+    var response = randomString();
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(completionService.getResponse(
+            chat.getMessages().stream().filter(Message::isCompleted).toList()))
+        .thenReturn(response);
+
+    chatEventHandler.onChatMessageAdded(event);
+
+    verify(chatRepository).save(chatCaptor.capture());
+
+    var message = chatCaptor.getValue().getMessages().get(3);
     assertThat(message.getContent()).hasValue(response);
   }
 }
