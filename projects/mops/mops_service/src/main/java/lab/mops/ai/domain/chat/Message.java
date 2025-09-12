@@ -52,6 +52,14 @@ public class Message {
     return status == MessageStatus.PENDING;
   }
 
+  public boolean isCompleted() {
+    return status == MessageStatus.COMPLETED;
+  }
+
+  public boolean isCancelled() {
+    return status == MessageStatus.CANCELLED;
+  }
+
   public MessageStatus getStatus() {
     return status;
   }
