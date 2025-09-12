@@ -65,6 +65,7 @@ public class Message {
   }
 
   void complete(String content) {
+    Objects.requireNonNull(content, "content must not be null");
     updateStatus(MessageStatus.COMPLETED);
     this.content = content;
   }
