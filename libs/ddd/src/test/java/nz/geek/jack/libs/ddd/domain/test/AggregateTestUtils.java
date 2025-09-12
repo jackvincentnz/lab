@@ -7,7 +7,13 @@ public class AggregateTestUtils {
   public static <T> T getLastEvent(Aggregate<?> aggregate, Class<T> clazz) {
     var events = aggregate.domainEvents();
 
-    return clazz.cast(events.toArray()[events.size() - 1]);
+    var matchingEvents = events.stream().filter(clazz::isInstance).toList();
+
+    if (matchingEvents.isEmpty()) {
+      throw new RuntimeException("No events of type " + clazz.getSimpleName());
+    }
+
+    return clazz.cast(matchingEvents.get(matchingEvents.size() - 1));
   }
 
   public static int countEventsOfType(Aggregate<?> aggregate, Class<?> clazz) {

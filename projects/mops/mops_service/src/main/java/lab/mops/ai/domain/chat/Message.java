@@ -48,13 +48,25 @@ public class Message {
     return timestamp;
   }
 
+  public boolean isPending() {
+    return status == MessageStatus.PENDING;
+  }
+
   public MessageStatus getStatus() {
     return status;
   }
 
   void complete(String content) {
-    this.status = MessageStatus.COMPLETED;
+    updateStatus(MessageStatus.COMPLETED);
     this.content = content;
+  }
+
+  void cancel() {
+    updateStatus(MessageStatus.CANCELLED);
+  }
+
+  private void updateStatus(MessageStatus status) {
+    this.status = status;
     this.timestamp = Instant.now();
   }
 
