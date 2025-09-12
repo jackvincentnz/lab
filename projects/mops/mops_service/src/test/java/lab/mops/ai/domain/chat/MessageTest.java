@@ -110,6 +110,13 @@ class MessageTest extends TestBase {
   }
 
   @Test
+  void complete_preventsNullContent() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.complete(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
   void cancel_setsCancelledStatus() {
     var message = Message.assistantMessage();
 
