@@ -20,9 +20,9 @@ class ChatFunctionalTest extends TestBase {
 
   @Test
   void startChat_startsChat() {
-    var userPrompt = randomString();
+    var content = randomString();
 
-    var response = client.startChat(userPrompt);
+    var response = client.startChat(content);
 
     assertThat(response.getSuccess()).isTrue();
     assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_CREATED);
@@ -33,7 +33,7 @@ class ChatFunctionalTest extends TestBase {
 
     var messages = response.getChat().getMessages();
     assertThat(messages).hasSize(2);
-    assertThat(messages.get(0).getContent()).isEqualTo(userPrompt);
+    assertThat(messages.get(0).getContent()).isEqualTo(content);
     assertThat(messages.get(0).getId()).isNotBlank();
     assertThat(messages.get(0).getCreatedAt()).isNotBlank();
     assertThat(messages.get(0).getUpdatedAt()).isNotBlank();
@@ -46,9 +46,9 @@ class ChatFunctionalTest extends TestBase {
 
   @Test
   void chat_returnsAllFields() {
-    var userPrompt = randomString();
+    var content = randomString();
 
-    var chatId = client.startChat(userPrompt).getChat().getId();
+    var chatId = client.startChat(content).getChat().getId();
 
     var chat = client.chat(chatId);
 
@@ -58,7 +58,7 @@ class ChatFunctionalTest extends TestBase {
 
     var messages = chat.getMessages();
     assertThat(messages).hasSize(2);
-    assertThat(messages.get(0).getContent()).isEqualTo(userPrompt);
+    assertThat(messages.get(0).getContent()).isEqualTo(content);
     assertThat(messages.get(0).getId()).isNotBlank();
     assertThat(messages.get(0).getCreatedAt()).isNotBlank();
     assertThat(messages.get(0).getUpdatedAt()).isNotBlank();

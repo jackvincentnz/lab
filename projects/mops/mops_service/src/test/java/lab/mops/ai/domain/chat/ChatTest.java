@@ -27,22 +27,22 @@ class ChatTest extends TestBase {
   }
 
   @Test
-  void start_addsUserPrompt() {
-    var userPrompt = randomString();
+  void start_addsContent() {
+    var content = randomString();
 
-    var chat = Chat.start(userPrompt);
+    var chat = Chat.start(content);
 
-    assertThat(chat.getMessages().get(0).getContent().orElseThrow()).isEqualTo(userPrompt);
+    assertThat(chat.getMessages().get(0).getContent().orElseThrow()).isEqualTo(content);
   }
 
   @Test
-  void start_registersEventWithUserPrompt() {
-    var userPrompt = randomString();
+  void start_registersEventWithContent() {
+    var content = randomString();
 
-    var chat = Chat.start(userPrompt);
+    var chat = Chat.start(content);
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatStartedEvent.class);
-    assertThat(event.userPrompt()).isEqualTo(userPrompt);
+    assertThat(event.content()).isEqualTo(content);
   }
 
   @Test
@@ -55,9 +55,9 @@ class ChatTest extends TestBase {
 
   @Test
   void start_addsPendingAssistantMessage() {
-    var userPrompt = randomString();
+    var content = randomString();
 
-    var chat = Chat.start(userPrompt);
+    var chat = Chat.start(content);
 
     assertThat(chat.getMessages().get(1).getType()).isEqualTo(MessageType.ASSISTANT);
     assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.PENDING);

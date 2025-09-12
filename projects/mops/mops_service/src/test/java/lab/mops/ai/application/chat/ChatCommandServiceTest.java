@@ -28,7 +28,7 @@ class ChatCommandServiceTest extends TestBase {
   @Captor ArgumentCaptor<Chat> chatCaptor;
 
   @Test
-  void startChat_startsWithUserPrompt() {
+  void startChat_startsWithContent() {
     var command = new StartChatCommand(randomString());
 
     chatCommandService.startChat(command);
@@ -38,7 +38,7 @@ class ChatCommandServiceTest extends TestBase {
     assertThat(savedChat.getMessages()).hasSize(2);
     assertThat(savedChat.getMessages().get(0).getType()).isEqualTo(MessageType.USER);
     assertThat(savedChat.getMessages().get(0).getContent().orElseThrow())
-        .isEqualTo(command.userPrompt());
+        .isEqualTo(command.content());
   }
 
   @Test

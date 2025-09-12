@@ -58,11 +58,11 @@ public class Message {
     this.timestamp = Instant.now();
   }
 
-  static Message userMessage(String userPrompt) {
-    Objects.requireNonNull(userPrompt, "userPrompt must not be null");
+  static Message userMessage(String content) {
+    Objects.requireNonNull(content, "content must not be null");
 
     return new Message(
-        MessageId.create(), MessageType.USER, Instant.now(), MessageStatus.COMPLETED, userPrompt);
+        MessageId.create(), MessageType.USER, Instant.now(), MessageStatus.COMPLETED, content);
   }
 
   static Message assistantMessage() {

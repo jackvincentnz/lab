@@ -35,8 +35,8 @@ class SpringChatClientTest extends TestBase {
 
   @Test
   void getResponse_returnsResponse() {
-    var userPrompt = randomString();
-    var chat = Chat.start(userPrompt);
+    var content = randomString();
+    var chat = Chat.start(content);
     var expectedResponse = randomString();
 
     var requestSpec = mock(ChatClient.ChatClientRequestSpec.class);

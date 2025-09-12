@@ -16,8 +16,8 @@ public class Chat extends Aggregate<ChatId> {
     this.messages = messages;
   }
 
-  public Message addMessage(String userPrompt) {
-    var message = Message.userMessage(userPrompt);
+  public Message addMessage(String content) {
+    var message = Message.userMessage(content);
     messages.add(message);
 
     registerEvent(
@@ -46,18 +46,17 @@ public class Chat extends Aggregate<ChatId> {
     return Collections.unmodifiableList(messages);
   }
 
-  public static Chat start(String userPrompt) {
-    Objects.requireNonNull(userPrompt, "userPrompt must not be null");
+  public static Chat start(String content) {
+    Objects.requireNonNull(content, "content must not be null");
 
     var chat = new Chat(ChatId.create(), new ArrayList<>());
-    chat.messages.add(Message.userMessage(userPrompt));
+    chat.messages.add(Message.userMessage(content));
 
     var assistantMessage = Message.assistantMessage();
     chat.messages.add(assistantMessage);
 
     chat.registerEvent(
-        new ChatStartedEvent(
-            chat.getId(), chat.getCreatedAt(), userPrompt, assistantMessage.getId()));
+        new ChatStartedEvent(chat.getId(), chat.getCreatedAt(), content, assistantMessage.getId()));
 
     return chat;
   }

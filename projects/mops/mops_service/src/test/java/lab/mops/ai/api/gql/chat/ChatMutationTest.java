@@ -29,23 +29,23 @@ class ChatMutationTest extends TestBase {
 
   @Test
   void startChat_starts() {
-    var userPrompt = randomString();
+    var content = randomString();
 
-    chatMutation.startChat(StartChatInput.newBuilder().userPrompt(userPrompt).build());
+    chatMutation.startChat(StartChatInput.newBuilder().content(content).build());
 
-    verify(chatCommandService).startChat(new StartChatCommand(userPrompt));
+    verify(chatCommandService).startChat(new StartChatCommand(content));
   }
 
   @Test
   void startChat_mapsResponse() {
-    var userPrompt = randomString();
+    var content = randomString();
     var domainChat = mock(Chat.class);
     var graphChat = mock(lab.mops.api.gql.types.Chat.class);
 
-    when(chatCommandService.startChat(new StartChatCommand(userPrompt))).thenReturn(domainChat);
+    when(chatCommandService.startChat(new StartChatCommand(content))).thenReturn(domainChat);
     when(chatMapper.map(domainChat)).thenReturn(graphChat);
 
-    var result = chatMutation.startChat(StartChatInput.newBuilder().userPrompt(userPrompt).build());
+    var result = chatMutation.startChat(StartChatInput.newBuilder().content(content).build());
 
     assertThat(result.getCode()).isEqualTo(SC_CREATED);
     assertThat(result.getSuccess()).isTrue();
