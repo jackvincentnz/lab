@@ -72,6 +72,48 @@ class ChatTest extends TestBase {
   }
 
   @Test
+  void addUserMessage_cancelsPendingAssistantMessage() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addUserMessage(randomString());
+
+    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.CANCELLED);
+  }
+
+  @Test
+  void addUserMessage_registersMessageCancelledEventWithChatId() {
+    var chat = Chat.start(randomString());
+
+    chat.addUserMessage(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageCancelledEvent.class);
+    assertThat(event.id()).isEqualTo(chat.getId());
+  }
+
+  @Test
+  void addUserMessage_registersMessageCancelledEventWithMessageId() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addUserMessage(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageCancelledEvent.class);
+    assertThat(event.messageId()).isEqualTo(assistantMessage.getId());
+  }
+
+  @Test
+  void addUserMessage_registersMessageCancelledEventWithTimestamp() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addUserMessage(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageCancelledEvent.class);
+    assertThat(event.timestamp()).isEqualTo(assistantMessage.getTimestamp());
+  }
+
+  @Test
   void addUserMessage_addsMessage() {
     var chat = Chat.start(randomString());
 
@@ -140,10 +182,23 @@ class ChatTest extends TestBase {
   }
 
   @Test
-  void addUserMessage_preventsNullContent() {
+  void addUserMessage_addsPendingAssistantMessage() {
     var chat = Chat.start(randomString());
 
-    assertThatThrownBy(() -> chat.addUserMessage(null)).isInstanceOf(NullPointerException.class);
+    chat.addUserMessage(randomString());
+
+    assertThat(chat.getMessages().get(3).getType()).isEqualTo(MessageType.ASSISTANT);
+    assertThat(chat.getMessages().get(3).getStatus()).isEqualTo(MessageStatus.PENDING);
+  }
+
+  @Test
+  void addUserMessage_registersEventWithPendingAssistantMessageId() {
+    var chat = Chat.start(randomString());
+
+    chat.addUserMessage(randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(3).getId());
   }
 
   @Test

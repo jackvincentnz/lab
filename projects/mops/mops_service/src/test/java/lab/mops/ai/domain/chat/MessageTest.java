@@ -108,4 +108,20 @@ class MessageTest extends TestBase {
 
     assertThat(message.getStatus()).isEqualTo(MessageStatus.COMPLETED);
   }
+
+  @Test
+  void isPending_returnsTrueForPendingMessage() {
+    var message = Message.assistantMessage();
+
+    assertThat(message.isPending()).isTrue();
+  }
+
+  @Test
+  void cancel_setsCancelledStatus() {
+    var message = Message.assistantMessage();
+
+    message.cancel();
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.CANCELLED);
+  }
 }

@@ -16,14 +16,32 @@ public class Chat extends Aggregate<ChatId> {
   }
 
   public Message addUserMessage(String content) {
+    var lastMessage = getLastMessage();
+    if (lastMessage.isPending()) {
+      lastMessage.cancel();
+      registerEvent(
+          new ChatMessageCancelledEvent(this.id, lastMessage.getId(), lastMessage.getTimestamp()));
+    }
+
     var message = Message.userMessage(content);
     messages.add(message);
 
+    var assistantMessage = Message.assistantMessage();
+    messages.add(assistantMessage);
+
     registerEvent(
         new ChatMessageAddedEvent(
-            this.id, MessageType.USER, message.getContent().orElseThrow(), message.getTimestamp()));
+            this.id,
+            MessageType.USER,
+            message.getContent().orElseThrow(),
+            message.getTimestamp(),
+            assistantMessage.getId()));
 
     return message;
+  }
+
+  private Message getLastMessage() {
+    return messages.get(messages.size() - 1);
   }
 
   public void completeMessage(MessageId messageId, String content) {
