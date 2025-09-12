@@ -72,78 +72,78 @@ class ChatTest extends TestBase {
   }
 
   @Test
-  void addMessage_addsMessage() {
+  void addUserMessage_addsMessage() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(randomString());
+    var message = chat.addUserMessage(randomString());
 
     assertThat(message).isSameAs(chat.getMessages().get(2));
   }
 
   @Test
-  void addMessage_addsMessageWithType() {
+  void addUserMessage_addsMessageWithType() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(randomString());
+    var message = chat.addUserMessage(randomString());
 
     assertThat(message.getType()).isEqualTo(MessageType.USER);
   }
 
   @Test
-  void addMessage_addsMessageWithContent() {
+  void addUserMessage_addsMessageWithContent() {
     var chat = Chat.start(randomString());
     var content = randomString();
 
-    var message = chat.addMessage(content);
+    var message = chat.addUserMessage(content);
 
     assertThat(message.getContent().orElseThrow()).isEqualTo(content);
   }
 
   @Test
-  void addMessage_addsMessageWithTimestamp() {
+  void addUserMessage_addsMessageWithTimestamp() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(randomString());
+    var message = chat.addUserMessage(randomString());
 
     assertThat(message.getTimestamp()).isBefore(Instant.now().plusSeconds(1));
   }
 
   @Test
-  void addMessage_registersEventWithChatId() {
+  void addUserMessage_registersEventWithChatId() {
     var chat = Chat.start(randomString());
 
-    chat.addMessage(randomString());
+    chat.addUserMessage(randomString());
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.chatId()).isEqualTo(chat.getId());
   }
 
   @Test
-  void addMessage_registersEventWithContent() {
+  void addUserMessage_registersEventWithContent() {
     var chat = Chat.start(randomString());
     var content = randomString();
 
-    chat.addMessage(content);
+    chat.addUserMessage(content);
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.content()).isEqualTo(content);
   }
 
   @Test
-  void addMessage_registersEventWithTimestamp() {
+  void addUserMessage_registersEventWithTimestamp() {
     var chat = Chat.start(randomString());
 
-    var message = chat.addMessage(randomString());
+    var message = chat.addUserMessage(randomString());
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.timestamp()).isEqualTo(message.getTimestamp());
   }
 
   @Test
-  void addMessage_preventsNullContent() {
+  void addUserMessage_preventsNullContent() {
     var chat = Chat.start(randomString());
 
-    assertThatThrownBy(() -> chat.addMessage(null)).isInstanceOf(NullPointerException.class);
+    assertThatThrownBy(() -> chat.addUserMessage(null)).isInstanceOf(NullPointerException.class);
   }
 
   @Test

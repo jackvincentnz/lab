@@ -16,16 +16,13 @@ public class Chat extends Aggregate<ChatId> {
     this.messages = messages;
   }
 
-  public Message addMessage(String content) {
+  public Message addUserMessage(String content) {
     var message = Message.userMessage(content);
     messages.add(message);
 
     registerEvent(
         new ChatMessageAddedEvent(
-            this.id,
-            message.getType(),
-            message.getContent().orElseThrow(),
-            message.getTimestamp()));
+            this.id, MessageType.USER, message.getContent().orElseThrow(), message.getTimestamp()));
 
     return message;
   }
