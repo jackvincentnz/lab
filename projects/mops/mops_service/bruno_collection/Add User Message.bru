@@ -1,0 +1,38 @@
+meta {
+  name: Add User Message
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: http://localhost:8080/graphql
+  body: graphql
+  auth: inherit
+}
+
+body:graphql {
+  mutation {
+    addUserMessage(input:{chatId:"{{chatId}}", content:"What budgets do I have?"}) {
+      code
+      success
+      message
+      chat {
+        id
+        messages {
+          id
+          type
+          status
+          content
+          createdAt
+          updatedAt
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+}

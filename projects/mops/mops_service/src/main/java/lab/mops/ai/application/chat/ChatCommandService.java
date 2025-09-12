@@ -18,4 +18,12 @@ public class ChatCommandService {
 
     return chatRepository.save(chat);
   }
+
+  public Chat addUserMessage(AddUserMessageCommand command) {
+    var chat = chatRepository.getById(command.chatId());
+
+    chat.addUserMessage(command.content());
+
+    return chatRepository.save(chat);
+  }
 }

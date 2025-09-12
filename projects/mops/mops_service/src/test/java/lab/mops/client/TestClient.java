@@ -8,6 +8,8 @@ import lab.mops.api.gql.client.AddCategoryValueGraphQLQuery;
 import lab.mops.api.gql.client.AddCategoryValueProjectionRoot;
 import lab.mops.api.gql.client.AddLineItemGraphQLQuery;
 import lab.mops.api.gql.client.AddLineItemProjectionRoot;
+import lab.mops.api.gql.client.AddUserMessageGraphQLQuery;
+import lab.mops.api.gql.client.AddUserMessageProjectionRoot;
 import lab.mops.api.gql.client.AllActivitiesGraphQLQuery;
 import lab.mops.api.gql.client.AllActivitiesProjectionRoot;
 import lab.mops.api.gql.client.AllBudgetsGraphQLQuery;
@@ -37,6 +39,8 @@ import lab.mops.api.gql.types.AddCategoryValueInput;
 import lab.mops.api.gql.types.AddCategoryValueResponse;
 import lab.mops.api.gql.types.AddLineItemInput;
 import lab.mops.api.gql.types.AddLineItemResponse;
+import lab.mops.api.gql.types.AddUserMessageInput;
+import lab.mops.api.gql.types.AddUserMessageResponse;
 import lab.mops.api.gql.types.Budget;
 import lab.mops.api.gql.types.CategorizationInput;
 import lab.mops.api.gql.types.CategorizeLineItemInput;
@@ -350,6 +354,33 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.startChat", StartChatResponse.class);
+  }
+
+  public AddUserMessageResponse addUserMessage(String chatId, String content) {
+    var request =
+        new GraphQLQueryRequest(
+            AddUserMessageGraphQLQuery.newRequest()
+                .input(AddUserMessageInput.newBuilder().chatId(chatId).content(content).build())
+                .build(),
+            new AddUserMessageProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .chat()
+                .createdAt()
+                .updatedAt()
+                .id()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.addUserMessage", AddUserMessageResponse.class);
   }
 
   public Chat chat(String chatId) {

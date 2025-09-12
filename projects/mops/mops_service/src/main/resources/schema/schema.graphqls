@@ -28,6 +28,7 @@ type Mutation {
   planSpend(input: PlanSpendInput!): PlanSpendResponse!
   createActivity(input: CreateActivityInput!): CreateActivityResponse!
   startChat(input: StartChatInput!): StartChatResponse!
+  addUserMessage(input: AddUserMessageInput!): AddUserMessageResponse!
 }
 
 # Objects
@@ -160,6 +161,7 @@ enum ChatMessageStatus {
   PENDING
   COMPLETED
   FAILED
+  CANCELLED
 }
 
 # Inputs
@@ -227,6 +229,10 @@ input StartChatInput {
   content: String!
 }
 
+input AddUserMessageInput {
+  chatId: ID!
+  content: String!
+}
 # Responses
 
 type ProvisionTenantResponse implements MutationResponse {
@@ -312,6 +318,13 @@ interface MutationResponse {
 }
 
 type StartChatResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
+}
+
+type AddUserMessageResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!
