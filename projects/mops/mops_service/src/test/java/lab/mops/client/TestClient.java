@@ -325,11 +325,11 @@ public class TestClient {
         request.serialize(), "data.allActivities", new TypeRef<>() {});
   }
 
-  public StartChatResponse startChat(String userPrompt) {
+  public StartChatResponse startChat(String content) {
     var request =
         new GraphQLQueryRequest(
             StartChatGraphQLQuery.newRequest()
-                .input(StartChatInput.newBuilder().userPrompt(userPrompt).build())
+                .input(StartChatInput.newBuilder().content(content).build())
                 .build(),
             new StartChatProjectionRoot<>()
                 .success()

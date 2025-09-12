@@ -24,7 +24,7 @@ public class ChatMutation {
 
   @DgsMutation
   public StartChatResponse startChat(@InputArgument("input") StartChatInput input) {
-    var command = new StartChatCommand(input.getUserPrompt());
+    var command = new StartChatCommand(input.getContent());
 
     var chat = chatCommandService.startChat(command);
 

@@ -14,7 +14,7 @@ public class ChatCommandService {
   }
 
   public Chat startChat(StartChatCommand command) {
-    var chat = Chat.start(command.userPrompt());
+    var chat = Chat.start(command.content());
 
     return chatRepository.save(chat);
   }

@@ -224,7 +224,7 @@ input CreateActivityInput {
 }
 
 input StartChatInput {
-  userPrompt: String!
+  content: String!
 }
 
 # Responses
