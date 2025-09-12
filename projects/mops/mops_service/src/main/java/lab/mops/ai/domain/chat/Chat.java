@@ -3,7 +3,6 @@ package lab.mops.ai.domain.chat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import nz.geek.jack.libs.ddd.domain.Aggregate;
 import nz.geek.jack.libs.ddd.domain.NotFoundException;
 
@@ -44,8 +43,6 @@ public class Chat extends Aggregate<ChatId> {
   }
 
   public static Chat start(String content) {
-    Objects.requireNonNull(content, "content must not be null");
-
     var chat = new Chat(ChatId.create(), new ArrayList<>());
     chat.messages.add(Message.userMessage(content));
 
