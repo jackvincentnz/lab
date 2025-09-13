@@ -1,0 +1,20 @@
+mutation AddUserMessage($input: AddUserMessageInput!) {
+  addUserMessage(input: $input) {
+    code
+    success
+    message
+    chat {
+      id
+      messages {
+        id
+        type
+        status
+        content
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
