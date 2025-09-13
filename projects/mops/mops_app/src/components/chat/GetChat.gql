@@ -1,0 +1,15 @@
+query GetChat($id: ID!) {
+  chat(id: $id) {
+    id
+    messages {
+      id
+      type
+      status
+      content
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}
