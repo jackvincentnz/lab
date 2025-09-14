@@ -92,4 +92,21 @@ class ChatFunctionalTest extends TestBase {
     assertThat(messages.get(3).getCreatedAt()).isNotBlank();
     assertThat(messages.get(3).getUpdatedAt()).isNotBlank();
   }
+
+  @Test
+  void addUserMessage_editsMessage() {
+    var content = randomString();
+    var chat = client.startChat(randomString()).getChat();
+    var messageId = chat.getMessages().get(0).getId();
+
+    var response = client.editUserMessage(chat.getId(), messageId, content);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+
+    var messages = response.getChat().getMessages();
+    assertThat(messages).hasSize(2);
+    assertThat(messages.get(0).getContent()).isEqualTo(content);
+  }
 }

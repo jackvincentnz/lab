@@ -10,10 +10,14 @@ import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import lab.mops.ai.application.chat.AddUserMessageCommand;
 import lab.mops.ai.application.chat.ChatCommandService;
+import lab.mops.ai.application.chat.EditUserMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.ChatId;
+import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.api.gql.types.AddUserMessageInput;
 import lab.mops.api.gql.types.AddUserMessageResponse;
+import lab.mops.api.gql.types.EditUserMessageInput;
+import lab.mops.api.gql.types.EditUserMessageResponse;
 import lab.mops.api.gql.types.StartChatInput;
 import lab.mops.api.gql.types.StartChatResponse;
 
@@ -50,6 +54,25 @@ public class ChatMutation {
     var chat = chatCommandService.addUserMessage(command);
 
     return AddUserMessageResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
+        .chat(chatMapper.map(chat))
+        .build();
+  }
+
+  @DgsMutation
+  public EditUserMessageResponse editUserMessage(
+      @InputArgument("input") EditUserMessageInput input) {
+    var command =
+        new EditUserMessageCommand(
+            ChatId.fromString(input.getChatId()),
+            MessageId.fromString(input.getMessageId()),
+            input.getContent());
+
+    var chat = chatCommandService.editUserMessage(command);
+
+    return EditUserMessageResponse.newBuilder()
         .code(SC_OK)
         .success(true)
         .message(OK_MESSAGE)

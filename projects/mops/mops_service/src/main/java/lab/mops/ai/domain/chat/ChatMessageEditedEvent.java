@@ -2,9 +2,9 @@ package lab.mops.ai.domain.chat;
 
 import java.time.Instant;
 
-public record ChatMessageAddedEvent(
+public record ChatMessageEditedEvent(
     ChatId chatId,
-    MessageType type,
+    MessageId messageId,
     String content,
     Instant timestamp,
     MessageId pendingAssistantMessageId)

@@ -29,6 +29,7 @@ type Mutation {
   createActivity(input: CreateActivityInput!): CreateActivityResponse!
   startChat(input: StartChatInput!): StartChatResponse!
   addUserMessage(input: AddUserMessageInput!): AddUserMessageResponse!
+  editUserMessage(input: EditUserMessageInput!): EditUserMessageResponse!
 }
 
 # Objects
@@ -233,6 +234,13 @@ input AddUserMessageInput {
   chatId: ID!
   content: String!
 }
+
+input EditUserMessageInput {
+  chatId: ID!
+  messageId: ID!
+  content: String!
+}
+
 # Responses
 
 type ProvisionTenantResponse implements MutationResponse {
@@ -325,6 +333,13 @@ type StartChatResponse implements MutationResponse {
 }
 
 type AddUserMessageResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
+}
+
+type EditUserMessageResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!

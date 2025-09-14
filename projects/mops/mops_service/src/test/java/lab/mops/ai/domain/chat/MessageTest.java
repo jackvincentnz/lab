@@ -124,4 +124,21 @@ class MessageTest extends TestBase {
 
     assertThat(message.isCancelled()).isTrue();
   }
+
+  @Test
+  void edit_preventsNullContent() {
+    var message = Message.userMessage(randomString());
+
+    assertThatThrownBy(() -> message.edit(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void edit_setsContent() {
+    var message = Message.userMessage(randomString());
+    var content = randomString();
+
+    message.edit(content);
+
+    assertThat(message.getContent()).hasValue(content);
+  }
 }

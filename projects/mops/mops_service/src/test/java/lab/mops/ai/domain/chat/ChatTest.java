@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils;
 import nz.geek.jack.test.TestBase;
@@ -199,6 +200,115 @@ class ChatTest extends TestBase {
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageAddedEvent.class);
     assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(3).getId());
+  }
+
+  @Test
+  void editUserMessage_preventsEditingAssistantMessages() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+
+    assertThatThrownBy(() -> chat.editUserMessage(assistantMessage.getId(), randomString()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void editUserMessage_editsMessage() {
+    var originalContent = randomString();
+    var editedContent = randomString();
+    var chat = Chat.start(originalContent);
+
+    var message = chat.getMessages().get(0);
+
+    chat.editUserMessage(message.getId(), editedContent);
+
+    assertThat(message.getContent()).hasValue(editedContent);
+  }
+
+  @Test
+  void editUserMessage_clearsOtherMessages() {
+    var chat = Chat.start(randomString());
+    var messages = chat.getMessages();
+
+    chat.addUserMessage(randomString());
+    var userMessage = messages.get(0);
+    var otherMessages = new ArrayList<>(messages.subList(1, messages.size()));
+
+    chat.editUserMessage(userMessage.getId(), randomString());
+
+    assertThat(chat.getMessages()).hasSize(2);
+    assertThat(chat.getMessages()).contains(userMessage);
+    assertThat(chat.getMessages()).doesNotContainAnyElementsOf(otherMessages);
+  }
+
+  @Test
+  void editUserMessage_addsPendingAssistantMessage() {
+    var chat = Chat.start(randomString());
+    var userMessage = chat.getMessages().get(0);
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.editUserMessage(userMessage.getId(), randomString());
+
+    var newAssistantMessage = chat.getMessages().get(1);
+    assertThat(newAssistantMessage.getType()).isEqualTo(MessageType.ASSISTANT);
+    assertThat(newAssistantMessage.getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(newAssistantMessage).isNotEqualTo(assistantMessage);
+  }
+
+  @Test
+  void editUserMessage_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(0);
+
+    chat.editUserMessage(message.getId(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+  }
+
+  @Test
+  void editUserMessage_registersEventWithMessageId() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(0);
+
+    chat.editUserMessage(message.getId(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
+    assertThat(event.messageId()).isEqualTo(message.getId());
+  }
+
+  @Test
+  void editUserMessage_registersEventWithContent() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(0);
+
+    chat.editUserMessage(message.getId(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
+    assertThat(event.content()).isEqualTo(message.getContent().orElseThrow());
+  }
+
+  @Test
+  void editUserMessage_registersEventWithTimestamp() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(0);
+
+    chat.editUserMessage(message.getId(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
+    assertThat(event.timestamp()).isEqualTo(message.getTimestamp());
+  }
+
+  @Test
+  void editUserMessage_registersEventWithPendingAssistantMessageId() {
+    var chat = Chat.start(randomString());
+    var userMessage = chat.getMessages().get(0);
+
+    chat.editUserMessage(userMessage.getId(), randomString());
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(assistantMessage.getId());
   }
 
   @Test
