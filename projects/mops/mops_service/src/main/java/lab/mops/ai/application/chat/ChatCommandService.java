@@ -26,4 +26,12 @@ public class ChatCommandService {
 
     return chatRepository.save(chat);
   }
+
+  public Chat editUserMessage(EditUserMessageCommand command) {
+    var chat = chatRepository.getById(command.chatId());
+
+    chat.editUserMessage(command.messageId(), command.content());
+
+    return chatRepository.save(chat);
+  }
 }

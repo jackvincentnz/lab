@@ -32,6 +32,12 @@ public class Message {
     this.content = content;
   }
 
+  void edit(String content) {
+    Objects.requireNonNull(content, "content must not be null");
+    this.content = content;
+    this.timestamp = Instant.now();
+  }
+
   public MessageId getId() {
     return id;
   }

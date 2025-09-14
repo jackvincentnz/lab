@@ -8,6 +8,7 @@ import static org.mockito.Mockito.when;
 
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatRepository;
+import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.ai.domain.chat.MessageType;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -76,6 +77,35 @@ class ChatCommandServiceTest extends TestBase {
     when(chatRepository.save(chat)).thenReturn(savedChat);
 
     var result = chatCommandService.addUserMessage(command);
+
+    assertThat(result).isEqualTo(savedChat);
+  }
+
+  @Test
+  void editUserMessage_savesChatWithContent() {
+    var chat = mock(Chat.class);
+    var messageId = mock(MessageId.class);
+    var command = new EditUserMessageCommand(chat.getId(), messageId, randomString());
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatCommandService.editUserMessage(command);
+
+    verify(chat).editUserMessage(messageId, command.content());
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void editUserMessage_returnsSavedChat() {
+    var chat = mock(Chat.class);
+    var messageId = mock(MessageId.class);
+    var command = new EditUserMessageCommand(chat.getId(), messageId, randomString());
+    var savedChat = mock(Chat.class);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(chatRepository.save(chat)).thenReturn(savedChat);
+
+    var result = chatCommandService.editUserMessage(command);
 
     assertThat(result).isEqualTo(savedChat);
   }

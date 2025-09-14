@@ -11,10 +11,13 @@ import static org.mockito.Mockito.when;
 
 import lab.mops.ai.application.chat.AddUserMessageCommand;
 import lab.mops.ai.application.chat.ChatCommandService;
+import lab.mops.ai.application.chat.EditUserMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
+import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.api.gql.types.AddUserMessageInput;
+import lab.mops.api.gql.types.EditUserMessageInput;
 import lab.mops.api.gql.types.StartChatInput;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -85,6 +88,53 @@ class ChatMutationTest extends TestBase {
     var result =
         chatMutation.addUserMessage(
             AddUserMessageInput.newBuilder().chatId(chatId).content(content).build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getChat()).isEqualTo(graphChat);
+  }
+
+  @Test
+  void editUserMessage_edits() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var content = randomString();
+
+    chatMutation.editUserMessage(
+        EditUserMessageInput.newBuilder()
+            .chatId(chatId)
+            .messageId(messageId)
+            .content(content)
+            .build());
+
+    verify(chatCommandService)
+        .editUserMessage(
+            new EditUserMessageCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), content));
+  }
+
+  @Test
+  void editUserMessage_mapsResponse() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var content = randomString();
+    var domainChat = mock(Chat.class);
+    var graphChat = mock(lab.mops.api.gql.types.Chat.class);
+
+    when(chatCommandService.editUserMessage(
+            new EditUserMessageCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), content)))
+        .thenReturn(domainChat);
+    when(chatMapper.map(domainChat)).thenReturn(graphChat);
+
+    var result =
+        chatMutation.editUserMessage(
+            EditUserMessageInput.newBuilder()
+                .chatId(chatId)
+                .messageId(messageId)
+                .content(content)
+                .build());
 
     assertThat(result.getCode()).isEqualTo(SC_OK);
     assertThat(result.getSuccess()).isTrue();

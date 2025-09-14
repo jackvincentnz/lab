@@ -44,16 +44,39 @@ public class Chat extends Aggregate<ChatId> {
     return messages.get(messages.size() - 1);
   }
 
+  public void editUserMessage(MessageId messageId, String content) {
+    var message = getMessage(messageId, MessageType.USER);
+    message.edit(content);
+
+    var messageIndex = messages.indexOf(message);
+
+    messages.subList(messageIndex + 1, messages.size()).clear();
+
+    var assistantMessage = Message.assistantMessage();
+    messages.add(assistantMessage);
+
+    registerEvent(
+        new ChatMessageEditedEvent(
+            getId(),
+            message.getId(),
+            message.getContent().orElseThrow(),
+            message.getTimestamp(),
+            assistantMessage.getId()));
+  }
+
   public void completeMessage(MessageId messageId, String content) {
-    var message =
-        messages.stream()
-            .filter(m -> m.getId().equals(messageId))
-            .findFirst()
-            .orElseThrow(() -> new NotFoundException(messageId));
+    var message = getMessage(messageId, MessageType.ASSISTANT);
 
     message.complete(content);
 
     registerEvent(new ChatMessageCompletedEvent(this.getId(), message.getId(), content));
+  }
+
+  private Message getMessage(MessageId messageId, MessageType messageType) {
+    return messages.stream()
+        .filter(m -> m.getId().equals(messageId) && m.getType().equals(messageType))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException(messageId));
   }
 
   public List<Message> getMessages() {

@@ -1,10 +1,8 @@
 package lab.mops.ai.application.chat;
 
-import lab.mops.ai.domain.chat.ChatMessageAddedEvent;
 import lab.mops.ai.domain.chat.ChatRepository;
-import lab.mops.ai.domain.chat.ChatStartedEvent;
 import lab.mops.ai.domain.chat.Message;
-import lab.mops.ai.domain.chat.MessageStatus;
+import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -24,23 +22,7 @@ public class ChatEventHandler {
 
   @Async
   @EventListener
-  public void onChatStarted(ChatStartedEvent event) {
-    var chat = chatRepository.getById(event.chatId());
-
-    var response =
-        completionService.getResponse(
-            chat.getMessages().stream()
-                .filter(m -> !m.getStatus().equals(MessageStatus.PENDING))
-                .toList());
-
-    chat.completeMessage(event.pendingAssistantMessageId(), response);
-
-    chatRepository.save(chat);
-  }
-
-  @Async
-  @EventListener
-  public void onChatMessageAdded(ChatMessageAddedEvent event) {
+  public void onPendingAssistantMessageAdded(PendingAssistantMessageAddedEvent event) {
     var chat = chatRepository.getById(event.chatId());
 
     var response =

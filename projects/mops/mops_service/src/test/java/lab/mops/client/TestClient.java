@@ -26,6 +26,7 @@ import lab.mops.api.gql.client.CreateCategoryGraphQLQuery;
 import lab.mops.api.gql.client.CreateCategoryProjectionRoot;
 import lab.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
 import lab.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
+import lab.mops.api.gql.client.EditUserMessageGraphQLQuery;
 import lab.mops.api.gql.client.PlanSpendGraphQLQuery;
 import lab.mops.api.gql.client.PlanSpendProjectionRoot;
 import lab.mops.api.gql.client.StartChatGraphQLQuery;
@@ -53,6 +54,8 @@ import lab.mops.api.gql.types.CreateBudgetResponse;
 import lab.mops.api.gql.types.CreateCategoryInput;
 import lab.mops.api.gql.types.CreateCategoryResponse;
 import lab.mops.api.gql.types.DeleteAllLineItemsResponse;
+import lab.mops.api.gql.types.EditUserMessageInput;
+import lab.mops.api.gql.types.EditUserMessageResponse;
 import lab.mops.api.gql.types.PlanSpendInput;
 import lab.mops.api.gql.types.PlanSpendResponse;
 import lab.mops.api.gql.types.SpendInput;
@@ -381,6 +384,38 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.addUserMessage", AddUserMessageResponse.class);
+  }
+
+  public EditUserMessageResponse editUserMessage(String chatId, String messageId, String content) {
+    var request =
+        new GraphQLQueryRequest(
+            EditUserMessageGraphQLQuery.newRequest()
+                .input(
+                    EditUserMessageInput.newBuilder()
+                        .chatId(chatId)
+                        .messageId(messageId)
+                        .content(content)
+                        .build())
+                .build(),
+            new AddUserMessageProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .chat()
+                .createdAt()
+                .updatedAt()
+                .id()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.editUserMessage", EditUserMessageResponse.class);
   }
 
   public Chat chat(String chatId) {
