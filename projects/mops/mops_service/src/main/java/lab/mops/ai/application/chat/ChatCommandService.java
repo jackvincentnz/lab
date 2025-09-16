@@ -34,4 +34,12 @@ public class ChatCommandService {
 
     return chatRepository.save(chat);
   }
+
+  public Chat retryAssistantMessage(RetryAssistantMessageCommand command) {
+    var chat = chatRepository.getById(command.chatId());
+
+    chat.retryAssistantMessage(command.messageId());
+
+    return chatRepository.save(chat);
+  }
 }

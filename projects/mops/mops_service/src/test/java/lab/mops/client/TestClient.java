@@ -27,8 +27,11 @@ import lab.mops.api.gql.client.CreateCategoryProjectionRoot;
 import lab.mops.api.gql.client.DeleteAllLineItemsGraphQLQuery;
 import lab.mops.api.gql.client.DeleteAllLineItemsProjectionRoot;
 import lab.mops.api.gql.client.EditUserMessageGraphQLQuery;
+import lab.mops.api.gql.client.EditUserMessageProjectionRoot;
 import lab.mops.api.gql.client.PlanSpendGraphQLQuery;
 import lab.mops.api.gql.client.PlanSpendProjectionRoot;
+import lab.mops.api.gql.client.RetryAssistantMessageGraphQLQuery;
+import lab.mops.api.gql.client.RetryAssistantMessageProjectionRoot;
 import lab.mops.api.gql.client.StartChatGraphQLQuery;
 import lab.mops.api.gql.client.StartChatProjectionRoot;
 import lab.mops.api.gql.client.UpdateCategoryNameGraphQLQuery;
@@ -58,6 +61,8 @@ import lab.mops.api.gql.types.EditUserMessageInput;
 import lab.mops.api.gql.types.EditUserMessageResponse;
 import lab.mops.api.gql.types.PlanSpendInput;
 import lab.mops.api.gql.types.PlanSpendResponse;
+import lab.mops.api.gql.types.RetryAssistantMessageInput;
+import lab.mops.api.gql.types.RetryAssistantMessageResponse;
 import lab.mops.api.gql.types.SpendInput;
 import lab.mops.api.gql.types.StartChatInput;
 import lab.mops.api.gql.types.StartChatResponse;
@@ -397,7 +402,7 @@ public class TestClient {
                         .content(content)
                         .build())
                 .build(),
-            new AddUserMessageProjectionRoot<>()
+            new EditUserMessageProjectionRoot<>()
                 .success()
                 .code()
                 .message()
@@ -416,6 +421,37 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.editUserMessage", EditUserMessageResponse.class);
+  }
+
+  public RetryAssistantMessageResponse retryAssistantMessage(String chatId, String messageId) {
+    var request =
+        new GraphQLQueryRequest(
+            RetryAssistantMessageGraphQLQuery.newRequest()
+                .input(
+                    RetryAssistantMessageInput.newBuilder()
+                        .chatId(chatId)
+                        .messageId(messageId)
+                        .build())
+                .build(),
+            new RetryAssistantMessageProjectionRoot<>()
+                .success()
+                .code()
+                .message()
+                .chat()
+                .createdAt()
+                .updatedAt()
+                .id()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.retryAssistantMessage", RetryAssistantMessageResponse.class);
   }
 
   public Chat chat(String chatId) {

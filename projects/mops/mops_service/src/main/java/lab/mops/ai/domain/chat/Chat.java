@@ -64,6 +64,21 @@ public class Chat extends Aggregate<ChatId> {
             assistantMessage.getId()));
   }
 
+  public void retryAssistantMessage(MessageId messageId) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+
+    var messageIndex = messages.indexOf(message);
+
+    messages.subList(messageIndex, messages.size()).clear();
+
+    var assistantMessage = Message.assistantMessage();
+    messages.add(assistantMessage);
+
+    registerEvent(
+        new AssistantMessageRetriedEvent(
+            getId(), message.getId(), assistantMessage.getId(), assistantMessage.getTimestamp()));
+  }
+
   public void completeMessage(MessageId messageId, String content) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 
