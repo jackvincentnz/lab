@@ -109,4 +109,22 @@ class ChatFunctionalTest extends TestBase {
     assertThat(messages).hasSize(2);
     assertThat(messages.get(0).getContent()).isEqualTo(content);
   }
+
+  @Test
+  void retryAssistantMessage_retriesMessage() {
+    var chat = client.startChat(randomString()).getChat();
+    var messageId = chat.getMessages().get(1).getId();
+
+    var response = client.retryAssistantMessage(chat.getId(), messageId);
+
+    assertThat(response.getSuccess()).isTrue();
+    assertThat(response.getCode()).isEqualTo(HttpServletResponse.SC_OK);
+    assertThat(response.getMessage()).isNotBlank();
+
+    var messages = response.getChat().getMessages();
+    assertThat(messages).hasSize(2);
+    assertThat(messages.get(1).getId()).isNotEqualTo(messageId);
+    assertThat(messages.get(1).getStatus()).isEqualTo(ChatMessageStatus.PENDING);
+    assertThat(messages.get(1).getType()).isEqualTo(ChatMessageType.ASSISTANT);
+  }
 }

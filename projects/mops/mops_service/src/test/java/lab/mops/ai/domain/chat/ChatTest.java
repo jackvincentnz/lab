@@ -347,4 +347,90 @@ class ChatTest extends TestBase {
     assertThat(event.messageId()).isEqualTo(assistantMessage.getId());
     assertThat(event.content()).isEqualTo(content);
   }
+
+  @Test
+  void retryAssistantMessage_throwsNotFoundForMissingMessage() {
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(() -> chat.retryAssistantMessage(MessageId.create()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void retryAssistantMessage_preventsRetryOfUserMessage() {
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(() -> chat.retryAssistantMessage(chat.getMessages().get(0).getId()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void retryAssistantMessage_addsNewPendingAssistantMessage() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(1);
+
+    chat.retryAssistantMessage(message.getId());
+
+    var newMessage = chat.getMessages().get(1);
+    assertThat(newMessage.getType()).isEqualTo(MessageType.ASSISTANT);
+    assertThat(newMessage.getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(newMessage.getId()).isNotEqualTo(message.getId());
+  }
+
+  @Test
+  void retryAssistantMessage_clearsOtherMessages() {
+    var chat = Chat.start(randomString());
+    chat.addUserMessage(randomString());
+    var messages = chat.getMessages();
+    var userMessage = messages.get(0);
+    var otherMessages = new ArrayList<>(messages.subList(1, messages.size()));
+
+    chat.retryAssistantMessage(messages.get(1).getId());
+
+    assertThat(chat.getMessages()).hasSize(2);
+    assertThat(chat.getMessages()).contains(userMessage);
+    assertThat(chat.getMessages()).doesNotContainAnyElementsOf(otherMessages);
+  }
+
+  @Test
+  void retryAssistantMessage_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(1);
+
+    chat.retryAssistantMessage(message.getId());
+
+    var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+  }
+
+  @Test
+  void retryAssistantMessage_registersEventWithRetriedMessageId() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(1);
+
+    chat.retryAssistantMessage(message.getId());
+
+    var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
+    assertThat(event.retriedMessageId()).isEqualTo(message.getId());
+  }
+
+  @Test
+  void retryAssistantMessage_registersEventWithPendingAssistantMessageId() {
+    var chat = Chat.start(randomString());
+
+    chat.retryAssistantMessage(chat.getMessages().get(1).getId());
+
+    var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(1).getId());
+  }
+
+  @Test
+  void retryAssistantMessage_registersEventWithTimestamp() {
+    var chat = Chat.start(randomString());
+
+    chat.retryAssistantMessage(chat.getMessages().get(1).getId());
+
+    var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
+    assertThat(event.timestamp()).isEqualTo(chat.getMessages().get(1).getTimestamp());
+  }
 }

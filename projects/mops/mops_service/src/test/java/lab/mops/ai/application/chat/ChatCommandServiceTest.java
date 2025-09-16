@@ -82,7 +82,7 @@ class ChatCommandServiceTest extends TestBase {
   }
 
   @Test
-  void editUserMessage_savesChatWithContent() {
+  void editUserMessage_savesChat() {
     var chat = mock(Chat.class);
     var messageId = mock(MessageId.class);
     var command = new EditUserMessageCommand(chat.getId(), messageId, randomString());
@@ -106,6 +106,35 @@ class ChatCommandServiceTest extends TestBase {
     when(chatRepository.save(chat)).thenReturn(savedChat);
 
     var result = chatCommandService.editUserMessage(command);
+
+    assertThat(result).isEqualTo(savedChat);
+  }
+
+  @Test
+  void retryAssistantMessage_savesChat() {
+    var chat = mock(Chat.class);
+    var messageId = mock(MessageId.class);
+    var command = new RetryAssistantMessageCommand(chat.getId(), messageId);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatCommandService.retryAssistantMessage(command);
+
+    verify(chat).retryAssistantMessage(messageId);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void retryAssistantMessage_returnsSavedChat() {
+    var chat = mock(Chat.class);
+    var messageId = mock(MessageId.class);
+    var command = new RetryAssistantMessageCommand(chat.getId(), messageId);
+    var savedChat = mock(Chat.class);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(chatRepository.save(chat)).thenReturn(savedChat);
+
+    var result = chatCommandService.retryAssistantMessage(command);
 
     assertThat(result).isEqualTo(savedChat);
   }

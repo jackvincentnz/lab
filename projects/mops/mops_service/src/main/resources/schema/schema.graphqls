@@ -30,6 +30,9 @@ type Mutation {
   startChat(input: StartChatInput!): StartChatResponse!
   addUserMessage(input: AddUserMessageInput!): AddUserMessageResponse!
   editUserMessage(input: EditUserMessageInput!): EditUserMessageResponse!
+  retryAssistantMessage(
+    input: RetryAssistantMessageInput!
+  ): RetryAssistantMessageResponse!
 }
 
 # Objects
@@ -241,6 +244,11 @@ input EditUserMessageInput {
   content: String!
 }
 
+input RetryAssistantMessageInput {
+  chatId: ID!
+  messageId: ID!
+}
+
 # Responses
 
 type ProvisionTenantResponse implements MutationResponse {
@@ -340,6 +348,13 @@ type AddUserMessageResponse implements MutationResponse {
 }
 
 type EditUserMessageResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
+}
+
+type RetryAssistantMessageResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!

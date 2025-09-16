@@ -12,12 +12,14 @@ import static org.mockito.Mockito.when;
 import lab.mops.ai.application.chat.AddUserMessageCommand;
 import lab.mops.ai.application.chat.ChatCommandService;
 import lab.mops.ai.application.chat.EditUserMessageCommand;
+import lab.mops.ai.application.chat.RetryAssistantMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.api.gql.types.AddUserMessageInput;
 import lab.mops.api.gql.types.EditUserMessageInput;
+import lab.mops.api.gql.types.RetryAssistantMessageInput;
 import lab.mops.api.gql.types.StartChatInput;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -135,6 +137,43 @@ class ChatMutationTest extends TestBase {
                 .messageId(messageId)
                 .content(content)
                 .build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getChat()).isEqualTo(graphChat);
+  }
+
+  @Test
+  void retryAssistantMessage_retries() {
+    var chatId = randomId();
+    var messageId = randomId();
+
+    chatMutation.retryAssistantMessage(
+        RetryAssistantMessageInput.newBuilder().chatId(chatId).messageId(messageId).build());
+
+    verify(chatCommandService)
+        .retryAssistantMessage(
+            new RetryAssistantMessageCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId)));
+  }
+
+  @Test
+  void retryAssistantMessage_mapsResponse() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var domainChat = mock(Chat.class);
+    var graphChat = mock(lab.mops.api.gql.types.Chat.class);
+
+    when(chatCommandService.retryAssistantMessage(
+            new RetryAssistantMessageCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId))))
+        .thenReturn(domainChat);
+    when(chatMapper.map(domainChat)).thenReturn(graphChat);
+
+    var result =
+        chatMutation.retryAssistantMessage(
+            RetryAssistantMessageInput.newBuilder().chatId(chatId).messageId(messageId).build());
 
     assertThat(result.getCode()).isEqualTo(SC_OK);
     assertThat(result.getSuccess()).isTrue();
