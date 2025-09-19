@@ -13,7 +13,13 @@ import {
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { IconArrowRight } from "@tabler/icons-react";
+import {
+  IconArrowRight,
+  IconEdit,
+  IconRefresh,
+  IconCheck,
+  IconX,
+} from "@tabler/icons-react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   ChatMessageType,
@@ -27,13 +33,86 @@ import {
   GetChatDocument,
   GetChatQuery,
   GetChatQueryVariables,
+  EditUserMessageDocument,
+  EditUserMessageMutation,
+  EditUserMessageMutationVariables,
+  RetryAssistantMessageDocument,
+  RetryAssistantMessageMutation,
+  RetryAssistantMessageMutationVariables,
 } from "../../__generated__/graphql";
 
 const POLL_INTERVAL = 500;
 
+interface MessageActionsProps {
+  messageId: string;
+  messageType: ChatMessageType;
+  messageStatus?: ChatMessageStatus;
+  content?: string;
+  align: "left" | "right";
+  onEdit?: (messageId: string, content: string) => void;
+  onRetry?: (messageId: string) => void;
+  isLoading?: boolean;
+}
+
+function MessageActions({
+  messageId,
+  messageType,
+  messageStatus,
+  content,
+  align,
+  onEdit,
+  onRetry,
+  isLoading = false,
+}: MessageActionsProps) {
+  const canEdit = messageType === ChatMessageType.User && content;
+  const canRetry =
+    messageType === ChatMessageType.Assistant &&
+    (messageStatus === ChatMessageStatus.Failed ||
+      messageStatus === ChatMessageStatus.Completed);
+
+  if (!canEdit && !canRetry) {
+    return null;
+  }
+
+  return (
+    <Group
+      gap={4}
+      justify={align === "right" ? "flex-end" : "flex-start"}
+      mt={4}
+    >
+      {canEdit && onEdit && (
+        <ActionIcon
+          size="sm"
+          variant="subtle"
+          color="gray"
+          onClick={() => onEdit(messageId, content)}
+          disabled={isLoading}
+          aria-label="Edit message"
+        >
+          <IconEdit size={14} />
+        </ActionIcon>
+      )}
+      {canRetry && onRetry && (
+        <ActionIcon
+          size="sm"
+          variant="subtle"
+          color="gray"
+          onClick={() => onRetry(messageId)}
+          disabled={isLoading}
+          aria-label="Retry message"
+        >
+          <IconRefresh size={14} />
+        </ActionIcon>
+      )}
+    </Group>
+  );
+}
+
 export function Chat() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
   const [input, setInput] = useState("");
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState("");
 
   const {
     data: chatData,
@@ -66,6 +145,30 @@ export function Chat() {
   >(AddUserMessageDocument, {
     onCompleted: (data) => {
       if (data.addUserMessage.success) {
+        startPolling(POLL_INTERVAL);
+      }
+    },
+  });
+
+  const [editUserMessage, { loading: editingMessage }] = useMutation<
+    EditUserMessageMutation,
+    EditUserMessageMutationVariables
+  >(EditUserMessageDocument, {
+    onCompleted: (data) => {
+      if (data.editUserMessage.success) {
+        setEditingMessageId(null);
+        setEditContent("");
+        startPolling(POLL_INTERVAL);
+      }
+    },
+  });
+
+  const [retryAssistantMessage, { loading: retryingMessage }] = useMutation<
+    RetryAssistantMessageMutation,
+    RetryAssistantMessageMutationVariables
+  >(RetryAssistantMessageDocument, {
+    onCompleted: (data) => {
+      if (data.retryAssistantMessage.success) {
         startPolling(POLL_INTERVAL);
       }
     },
@@ -109,7 +212,49 @@ export function Chat() {
     }
   };
 
-  const isLoading = startingChat || addingMessage || chatLoading;
+  const handleEditMessage = (messageId: string, currentContent: string) => {
+    setEditingMessageId(messageId);
+    setEditContent(currentContent);
+  };
+
+  const handleSaveEdit = async () => {
+    if (!currentChatId || !editingMessageId || !editContent.trim()) return;
+
+    await editUserMessage({
+      variables: {
+        input: {
+          chatId: currentChatId,
+          messageId: editingMessageId,
+          content: editContent.trim(),
+        },
+      },
+    });
+  };
+
+  const handleCancelEdit = () => {
+    setEditingMessageId(null);
+    setEditContent("");
+  };
+
+  const handleRetryMessage = async (messageId: string) => {
+    if (!currentChatId) return;
+
+    await retryAssistantMessage({
+      variables: {
+        input: {
+          chatId: currentChatId,
+          messageId: messageId,
+        },
+      },
+    });
+  };
+
+  const isLoading =
+    startingChat ||
+    addingMessage ||
+    chatLoading ||
+    editingMessage ||
+    retryingMessage;
   const messages = chatData?.chat?.messages || [];
 
   return (
@@ -132,15 +277,67 @@ export function Chat() {
       >
         {messages.map((msg) =>
           msg.type === ChatMessageType.User ? (
-            <Group justify="flex-end" key={msg.id}>
-              <Alert radius="lg" py={8} variant="light">
-                <Text size="sm" style={{ whiteSpace: "pre-line" }}>
-                  {msg.content}
-                </Text>
-              </Alert>
-            </Group>
+            <Box key={msg.id} mb="md">
+              <Group justify="flex-end">
+                {editingMessageId === msg.id ? (
+                  <Box style={{ maxWidth: "70%", width: "100%" }}>
+                    <Textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.currentTarget.value)}
+                      autosize
+                      minRows={2}
+                      maxRows={10}
+                      mb={8}
+                    />
+                    <Group justify="flex-end" gap={4}>
+                      <ActionIcon
+                        size="sm"
+                        variant="filled"
+                        color="green"
+                        onClick={handleSaveEdit}
+                        disabled={editingMessage || !editContent.trim()}
+                        aria-label="Save edit"
+                      >
+                        <IconCheck size={14} />
+                      </ActionIcon>
+                      <ActionIcon
+                        size="sm"
+                        variant="filled"
+                        color="red"
+                        onClick={handleCancelEdit}
+                        disabled={editingMessage}
+                        aria-label="Cancel edit"
+                      >
+                        <IconX size={14} />
+                      </ActionIcon>
+                    </Group>
+                  </Box>
+                ) : (
+                  <Alert
+                    radius="lg"
+                    py={8}
+                    variant="light"
+                    style={{ maxWidth: "70%" }}
+                  >
+                    <Text size="sm" style={{ whiteSpace: "pre-line" }}>
+                      {msg.content}
+                    </Text>
+                  </Alert>
+                )}
+              </Group>
+              {editingMessageId !== msg.id && (
+                <MessageActions
+                  messageId={msg.id}
+                  messageType={msg.type}
+                  content={msg.content || ""}
+                  align="right"
+                  onEdit={handleEditMessage}
+                  isLoading={isLoading}
+                />
+              )}
+            </Box>
           ) : (
-            <Box key={msg.id}>
+            <Box key={msg.id} mb="md">
               {msg.status === ChatMessageStatus.Pending ? (
                 <Group align="center" gap="xs">
                   <Loader size="xs" />
@@ -149,46 +346,68 @@ export function Chat() {
                   </Text>
                 </Group>
               ) : msg.status === ChatMessageStatus.Failed ? (
-                <Alert color="red" variant="light">
-                  <Text size="sm">
-                    Failed to generate response. Please try again.
-                  </Text>
-                </Alert>
+                <>
+                  <Alert color="red" variant="light">
+                    <Text size="sm">
+                      Failed to generate response. Please try again.
+                    </Text>
+                  </Alert>
+                  <MessageActions
+                    messageId={msg.id}
+                    messageType={msg.type}
+                    messageStatus={msg.status}
+                    content={msg.content || ""}
+                    align="left"
+                    onRetry={handleRetryMessage}
+                    isLoading={isLoading}
+                  />
+                </>
               ) : (
-                <ReactMarkdown
-                  remarkPlugins={[remarkGfm]}
-                  components={{
-                    table: ({ children, ...props }) => (
-                      <Table
-                        my="md"
-                        striped
-                        highlightOnHover
-                        withTableBorder
-                        {...props}
-                      >
-                        {children}
-                      </Table>
-                    ),
-                    thead: ({ children, ...props }) => (
-                      <Table.Thead {...props}>{children}</Table.Thead>
-                    ),
-                    tbody: ({ children, ...props }) => (
-                      <Table.Tbody {...props}>{children}</Table.Tbody>
-                    ),
-                    tr: ({ children, ...props }) => (
-                      <Table.Tr {...props}>{children}</Table.Tr>
-                    ),
-                    th: ({ children, ...props }) => (
-                      <Table.Th {...props}>{children}</Table.Th>
-                    ),
-                    td: ({ children, ...props }) => (
-                      <Table.Td {...props}>{children}</Table.Td>
-                    ),
-                    p: ({ children }) => <Text my="md">{children}</Text>,
-                  }}
-                >
-                  {msg.content}
-                </ReactMarkdown>
+                <>
+                  <ReactMarkdown
+                    remarkPlugins={[remarkGfm]}
+                    components={{
+                      table: ({ children, ...props }) => (
+                        <Table
+                          my="md"
+                          striped
+                          highlightOnHover
+                          withTableBorder
+                          {...props}
+                        >
+                          {children}
+                        </Table>
+                      ),
+                      thead: ({ children, ...props }) => (
+                        <Table.Thead {...props}>{children}</Table.Thead>
+                      ),
+                      tbody: ({ children, ...props }) => (
+                        <Table.Tbody {...props}>{children}</Table.Tbody>
+                      ),
+                      tr: ({ children, ...props }) => (
+                        <Table.Tr {...props}>{children}</Table.Tr>
+                      ),
+                      th: ({ children, ...props }) => (
+                        <Table.Th {...props}>{children}</Table.Th>
+                      ),
+                      td: ({ children, ...props }) => (
+                        <Table.Td {...props}>{children}</Table.Td>
+                      ),
+                      p: ({ children }) => <Text my="md">{children}</Text>,
+                    }}
+                  >
+                    {msg.content}
+                  </ReactMarkdown>
+                  <MessageActions
+                    messageId={msg.id}
+                    messageType={msg.type}
+                    messageStatus={msg.status}
+                    content={msg.content || ""}
+                    align="left"
+                    onRetry={handleRetryMessage}
+                    isLoading={isLoading}
+                  />
+                </>
               )}
             </Box>
           ),

@@ -1,0 +1,20 @@
+mutation EditUserMessage($input: EditUserMessageInput!) {
+  editUserMessage(input: $input) {
+    code
+    success
+    message
+    chat {
+      id
+      messages {
+        id
+        type
+        status
+        content
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
+    }
+  }
+}
