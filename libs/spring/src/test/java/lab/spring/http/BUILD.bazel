@@ -1,0 +1,9 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    deps = [
+        "//libs/spring/src/main/java/lab/spring/http",
+        "@maven//:org_springframework_spring_web",
+    ],
+)
