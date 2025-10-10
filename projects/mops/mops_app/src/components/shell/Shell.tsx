@@ -1,6 +1,6 @@
 import { PropsWithChildren, useState } from "react";
 import { AppShell, Burger, Group, Title, Button, Box } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
+import { useDisclosure, useSessionStorage } from "@mantine/hooks";
 import { Navbar, navigationItems } from "./Navbar";
 import { useLocation } from "react-router-dom";
 import { IconSparkles } from "@tabler/icons-react";
@@ -8,10 +8,14 @@ import { Chat } from "../chat";
 
 const ASIDE_MIN_WIDTH = 400;
 const ASIDE_MAX_WIDTH = 1000;
+const ASIDE_OPENED_KEY = "aside-opened";
 
 export function Shell({ children }: PropsWithChildren) {
   const [opened, { toggle }] = useDisclosure();
-  const [asideOpened, { toggle: toggleAside }] = useDisclosure();
+  const [asideOpened, setAsideOpened] = useSessionStorage({
+    key: ASIDE_OPENED_KEY,
+    defaultValue: false,
+  });
   const [asideWidth, setAsideWidth] = useState(ASIDE_MIN_WIDTH);
 
   const location = useLocation();
@@ -41,6 +45,10 @@ export function Shell({ children }: PropsWithChildren) {
 
     document.addEventListener("mousemove", handleMouseMove);
     document.addEventListener("mouseup", handleMouseUp);
+  }
+
+  function toggleAside() {
+    asideOpened ? setAsideOpened(false) : setAsideOpened(true);
   }
 
   return (
