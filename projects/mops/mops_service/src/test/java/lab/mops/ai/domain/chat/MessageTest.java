@@ -4,6 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -86,6 +88,34 @@ class MessageTest extends TestBase {
   @Test
   void userMessage_preventsNullContent() {
     assertThatThrownBy(() -> Message.userMessage(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void addPendingToolCalls_addsToolCalls() {
+    var message = Message.assistantMessage();
+    var toolCalls = List.of(new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL));
+
+    message.addPendingToolCalls(toolCalls);
+
+    assertThat(message.getToolCalls()).containsExactlyElementsOf(toolCalls);
+  }
+
+  @Test
+  void addPendingToolCalls_preventsNullToolCalls() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.addPendingToolCalls(null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void addPendingToolCalls_preventsNullToolCallInList() {
+    var message = Message.assistantMessage();
+    var toolCalls = new ArrayList<ToolCall>();
+    toolCalls.add(null);
+
+    assertThatThrownBy(() -> message.addPendingToolCalls(toolCalls))
+        .isInstanceOf(NullPointerException.class);
   }
 
   @Test

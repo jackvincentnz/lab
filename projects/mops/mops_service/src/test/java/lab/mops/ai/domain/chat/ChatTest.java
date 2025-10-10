@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.List;
 import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils;
 import nz.geek.jack.test.TestBase;
@@ -309,6 +310,55 @@ class ChatTest extends TestBase {
 
     var event = AggregateTestUtils.getLastEvent(chat, ChatMessageEditedEvent.class);
     assertThat(event.pendingAssistantMessageId()).isEqualTo(assistantMessage.getId());
+  }
+
+  @Test
+  void addPendingToolCalls_throwsNotFoundForMissingMessage() {
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(() -> chat.addPendingToolCalls(MessageId.create(), List.of()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void addPendingToolCalls_completesMessage() {
+    var chat = Chat.start(randomString());
+    var toolCalls = List.of(new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL));
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
+
+    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+    assertThat(assistantMessage.getToolCalls()).containsExactlyElementsOf(toolCalls);
+  }
+
+  @Test
+  void addPendingToolCalls_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
+    var toolCalls = List.of(new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL));
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
+
+    var event = AggregateTestUtils.getLastEvent(chat, PendingToolCallsAddedEvent.class);
+
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+  }
+
+  @Test
+  void addPendingToolCalls_registersEventWithToolCalls() {
+    var chat = Chat.start(randomString());
+    var toolCalls = List.of(new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL));
+
+    var assistantMessage = chat.getMessages().get(1);
+
+    chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
+
+    var event = AggregateTestUtils.getLastEvent(chat, PendingToolCallsAddedEvent.class);
+
+    assertThat(event.toolCalls()).containsExactlyElementsOf(toolCalls);
   }
 
   @Test
