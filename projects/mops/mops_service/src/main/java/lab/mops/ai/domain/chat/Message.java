@@ -1,16 +1,22 @@
 package lab.mops.ai.domain.chat;
 
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 @Table("CHAT_MESSAGE")
 public class Message {
 
-  private final MessageId id;
+  @Id private final MessageId id;
 
   private final MessageType type;
+
+  private final Set<ToolCall> toolCalls;
 
   private Instant timestamp;
 
@@ -19,17 +25,23 @@ public class Message {
   private String content;
 
   private Message(
-      MessageId id, MessageType type, Instant timestamp, MessageStatus status, String content) {
+      MessageId id,
+      MessageType type,
+      Instant timestamp,
+      MessageStatus status,
+      String content,
+      Set<ToolCall> toolCalls) {
     Objects.requireNonNull(id, "id must not be null");
     Objects.requireNonNull(type, "type must not be null");
     Objects.requireNonNull(timestamp, "timestamp must not be null");
     Objects.requireNonNull(type, "status must not be null");
-
+    Objects.requireNonNull(toolCalls, "toolCalls must not be null");
     this.id = id;
     this.type = type;
     this.timestamp = timestamp;
     this.status = status;
     this.content = content;
+    this.toolCalls = toolCalls;
   }
 
   void edit(String content) {
@@ -70,6 +82,21 @@ public class Message {
     return status;
   }
 
+  void addPendingToolCalls(List<ToolCall> toolCalls) {
+    Objects.requireNonNull(toolCalls, "toolCalls must not be null");
+
+    if (toolCalls.stream().anyMatch(Objects::isNull)) {
+      throw new NullPointerException("toolCalls must not contain null values");
+    }
+
+    this.toolCalls.addAll(toolCalls);
+    updateStatus(MessageStatus.COMPLETED);
+  }
+
+  public List<ToolCall> getToolCalls() {
+    return List.copyOf(toolCalls);
+  }
+
   void complete(String content) {
     Objects.requireNonNull(content, "content must not be null");
     updateStatus(MessageStatus.COMPLETED);
@@ -89,11 +116,21 @@ public class Message {
     Objects.requireNonNull(content, "content must not be null");
 
     return new Message(
-        MessageId.create(), MessageType.USER, Instant.now(), MessageStatus.COMPLETED, content);
+        MessageId.create(),
+        MessageType.USER,
+        Instant.now(),
+        MessageStatus.COMPLETED,
+        content,
+        new HashSet<>());
   }
 
-  static Message assistantMessage() {
+  public static Message assistantMessage() {
     return new Message(
-        MessageId.create(), MessageType.ASSISTANT, Instant.now(), MessageStatus.PENDING, null);
+        MessageId.create(),
+        MessageType.ASSISTANT,
+        Instant.now(),
+        MessageStatus.PENDING,
+        null,
+        new HashSet<>());
   }
 }

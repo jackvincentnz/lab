@@ -79,6 +79,14 @@ public class Chat extends Aggregate<ChatId> {
             getId(), message.getId(), assistantMessage.getId(), assistantMessage.getTimestamp()));
   }
 
+  public void addPendingToolCalls(MessageId messageId, List<ToolCall> toolCalls) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+
+    message.addPendingToolCalls(toolCalls);
+
+    registerEvent(new PendingToolCallsAddedEvent(getId(), Collections.unmodifiableList(toolCalls)));
+  }
+
   public void completeMessage(MessageId messageId, String content) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 
