@@ -3,6 +3,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 java_test_suite(
     name = "llm",
     deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai/application/chat/completions",
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/domain/chat",
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/infrastructure/llm",
         "//projects/mops/mops_service/src/main/java/lab/mops/core/api/ai",

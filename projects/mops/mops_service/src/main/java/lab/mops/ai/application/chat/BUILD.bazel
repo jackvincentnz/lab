@@ -8,7 +8,9 @@ java_library(
         "//projects/mops/mops_service/src/test/java/lab/mops/ai/application/chat:__pkg__",
     ],
     deps = [
+        "//projects/mops/mops_service/src/main/java/lab/mops/ai/application/chat/completions",
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/domain/chat",
+        "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_spring_context",
     ],
 )

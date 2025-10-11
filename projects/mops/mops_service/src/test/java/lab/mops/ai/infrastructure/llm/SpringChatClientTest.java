@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import lab.mops.ai.domain.chat.Chat;
+import java.util.Map;
+import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.core.api.ai.BudgetTools;
 import lab.mops.core.application.budget.data.ResolvedBudget;
 import nz.geek.jack.test.TestBase;
@@ -35,10 +38,11 @@ class SpringChatClientTest extends TestBase {
   }
 
   @Test
-  void getResponse_returnsResponse() {
+  void getResponse_returnsContentResponse() {
     var content = randomString();
-    var chat = Chat.start(content);
+    var userMessage = new UserMessage(content);
     var assistantContent = randomString();
+
     var chatResponse =
         ChatResponse.builder()
             .generations(List.of(new Generation(new AssistantMessage(assistantContent))))
@@ -46,9 +50,55 @@ class SpringChatClientTest extends TestBase {
 
     when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
 
-    var response = springChatClient.getResponse(List.of(chat.getMessages().get(0)));
+    var response = springChatClient.getResponse(List.of(userMessage));
 
-    assertThat(response).isEqualTo(assistantContent);
+    assertThat(response.getContent()).hasValue(assistantContent);
+  }
+
+  @Test
+  void getResponse_returnsToolResponse() {
+    var id = randomString();
+    var name = randomString();
+    var arguments = randomString();
+    var userMessage = new UserMessage(randomString());
+
+    var chatResponse =
+        ChatResponse.builder()
+            .generations(
+                List.of(
+                    new Generation(
+                        new AssistantMessage(
+                            null,
+                            Map.of(),
+                            List.of(
+                                new AssistantMessage.ToolCall(
+                                    id, randomString(), name, arguments))))))
+            .build();
+
+    when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+
+    var response = springChatClient.getResponse(List.of(userMessage));
+
+    assertThat(response.getToolCalls()).hasSize(1);
+    var toolCall = response.getToolCalls().stream().findFirst().orElseThrow();
+    assertThat(toolCall.id()).isEqualTo(id);
+    assertThat(toolCall.toolName()).isEqualTo(name);
+    assertThat(toolCall.arguments()).isEqualTo(arguments);
+  }
+
+  @Test
+  void getTools_returnsAvailableTools() {
+    var tools =
+        springChatClient.getTools().stream().map(t -> t.getToolDefinition().name()).toList();
+
+    assertThat(tools).hasSize(2);
+    Arrays.stream(TestTools.class.getMethods())
+        .filter(method -> method.isAnnotationPresent(Tool.class))
+        .map(Method::getName)
+        .forEach(
+            name -> {
+              assertThat(tools).contains(name);
+            });
   }
 
   static class TestTools implements BudgetTools {

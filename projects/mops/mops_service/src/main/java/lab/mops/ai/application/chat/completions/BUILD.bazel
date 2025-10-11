@@ -4,6 +4,7 @@ java_library(
     visibility = [
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/application/chat:__pkg__",
         "//projects/mops/mops_service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",
-        "//projects/mops/mops_service/src/test/java/lab/mops/ai/application/chat/completions:__pkg__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/ai/application/chat:__subpackages__",
+        "//projects/mops/mops_service/src/test/java/lab/mops/ai/infrastructure:__subpackages__",
     ],
 )
