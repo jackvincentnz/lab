@@ -11,7 +11,9 @@ java_library(
         "//projects/mops/mops_service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/mops_service/src/main/resources/schema:java",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_reactivestreams_reactive_streams",
         "@maven//:org_springframework_spring_context",
     ],
 )

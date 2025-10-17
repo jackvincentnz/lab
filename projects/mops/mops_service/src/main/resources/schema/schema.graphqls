@@ -35,6 +35,10 @@ type Mutation {
   ): RetryAssistantMessageResponse!
 }
 
+type Subscription {
+  counter: Long!
+}
+
 # Objects
 
 type Tenant {
@@ -366,3 +370,5 @@ type RetryAssistantMessageResponse implements MutationResponse {
 scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
 
 scalar BigDecimal
+
+scalar Long
