@@ -31,6 +31,7 @@
     "fastify": "^5.2.1",
     "graphql": "16.9.0",
     "graphql-request": "^7.1.2",
+    "graphql-ws": "^5.14.0",
     "mantine-react-table": "2.0.0-beta.8",
     "openai": "^4.85.3",
     "react": "^18.2.0",
