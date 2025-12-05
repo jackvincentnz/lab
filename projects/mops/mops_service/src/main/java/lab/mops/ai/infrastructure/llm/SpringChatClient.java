@@ -9,8 +9,6 @@ import lab.mops.ai.application.chat.ToolProvider;
 import lab.mops.ai.application.chat.completions.AssistantMessage;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.Message;
-import lab.mops.ai.application.chat.completions.ToolCall;
-import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.core.api.ai.BudgetTools;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.model.ChatModel;
@@ -29,7 +27,10 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   private final BudgetTools budgetTools;
 
-  SpringChatClient(ChatModel chatModel, BudgetTools budgetTools) {
+  private final SpringMessageMapper messageMapper;
+
+  SpringChatClient(
+      ChatModel chatModel, BudgetTools budgetTools, SpringMessageMapper messageMapper) {
     this.chatModel = chatModel;
     this.budgetTools = budgetTools;
     this.chatOptions =
@@ -37,6 +38,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
             .toolCallbacks(ToolCallbacks.from(budgetTools))
             .internalToolExecutionEnabled(false)
             .build();
+    this.messageMapper = messageMapper;
   }
 
   @Override
@@ -45,51 +47,14 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
     var response = chatModel.call(prompt);
 
-    return AssistantMessage.of(
-        response.getResult().getOutput().getText(),
-        response.getResult().getOutput().getToolCalls().stream()
-            .map(SpringChatClient::map)
-            .toList());
-  }
-
-  private static ToolCall map(
-      org.springframework.ai.chat.messages.AssistantMessage.ToolCall toolCall) {
-    return new ToolCall(toolCall.id(), toolCall.name(), toolCall.arguments());
+    return messageMapper.map(response);
   }
 
   private Prompt buildPrompt(List<Message> messages) {
-    var allMessages = new ArrayList<>(map(messages));
+    var allMessages = new ArrayList<>(messageMapper.map(messages));
     allMessages.add(0, new SystemMessage(Constants.SYSTEM_PROMPT));
 
     return new Prompt(allMessages, chatOptions);
-  }
-
-  private List<org.springframework.ai.chat.messages.Message> map(List<Message> messages) {
-    return messages.stream()
-        .map(
-            m ->
-                switch (m.getRole()) {
-                  case USER -> map((UserMessage) m);
-                  case ASSISTANT -> map((AssistantMessage) m);
-                  default ->
-                      throw new IllegalStateException("Unexpected message role: " + m.getRole());
-                })
-        .collect(Collectors.toList());
-  }
-
-  private static org.springframework.ai.chat.messages.UserMessage map(UserMessage m) {
-    return new org.springframework.ai.chat.messages.UserMessage(m.content());
-  }
-
-  private static org.springframework.ai.chat.messages.AssistantMessage map(
-      AssistantMessage message) {
-    return new org.springframework.ai.chat.messages.AssistantMessage(
-        message
-            .getContent()
-            .orElseThrow(
-                () ->
-                    new RuntimeException(
-                        "Assistant message missing content. Tool messages not supported.")));
   }
 
   @Override
