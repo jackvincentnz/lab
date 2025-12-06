@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import lab.mops.ai.application.chat.completions.AssistantMessage;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.ToolResultMessage;
@@ -77,12 +76,13 @@ class SpringMessageMapperTest extends TestBase {
             .generations(
                 List.of(
                     new Generation(
-                        new org.springframework.ai.chat.messages.AssistantMessage(
-                            content,
-                            Map.of(),
-                            List.of(
-                                new org.springframework.ai.chat.messages.AssistantMessage.ToolCall(
-                                    id, randomString(), toolName, arguments))))))
+                        org.springframework.ai.chat.messages.AssistantMessage.builder()
+                            .content(content)
+                            .toolCalls(
+                                List.of(
+                                    new org.springframework.ai.chat.messages.AssistantMessage
+                                        .ToolCall(id, randomString(), toolName, arguments)))
+                            .build())))
             .build();
 
     var result = messageMapper.map(chatResponse);
