@@ -1,7 +1,6 @@
 package lab.mops.ai.infrastructure.llm;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import lab.mops.ai.application.chat.completions.AssistantMessage;
 import lab.mops.ai.application.chat.completions.ToolCall;
@@ -33,10 +32,14 @@ public class SpringMessageMapper {
 
   private static org.springframework.ai.chat.messages.AssistantMessage map(
       AssistantMessage message) {
-    var content = message.getContent().orElse(null);
     var toolCalls = message.getToolCalls().stream().map(SpringMessageMapper::map).toList();
 
-    return new org.springframework.ai.chat.messages.AssistantMessage(content, Map.of(), toolCalls);
+    var builder =
+        org.springframework.ai.chat.messages.AssistantMessage.builder().toolCalls(toolCalls);
+
+    message.getContent().ifPresent(builder::content);
+
+    return builder.build();
   }
 
   private static org.springframework.ai.chat.messages.AssistantMessage.ToolCall map(ToolCall call) {
@@ -46,10 +49,12 @@ public class SpringMessageMapper {
 
   private static org.springframework.ai.chat.messages.ToolResponseMessage map(
       ToolResultMessage message) {
-    return new ToolResponseMessage(
-        List.of(
-            new ToolResponseMessage.ToolResponse(
-                message.toolCallId(), message.toolName(), message.content())));
+    return ToolResponseMessage.builder()
+        .responses(
+            List.of(
+                new ToolResponseMessage.ToolResponse(
+                    message.toolCallId(), message.toolName(), message.content())))
+        .build();
   }
 
   public AssistantMessage map(ChatResponse response) {
