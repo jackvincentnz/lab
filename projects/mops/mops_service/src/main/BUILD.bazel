@@ -20,6 +20,7 @@ java_library(
         "@maven//:com_netflix_graphql_dgs_graphql_dgs_extended_scalars",
         "@maven//:org_flywaydb_flyway_core",
         "@maven//:org_springframework_ai_spring_ai_starter_mcp_server_webmvc",
+        "@maven//:org_springframework_ai_spring_ai_starter_model_google_genai",
         "@maven//:org_springframework_ai_spring_ai_starter_model_openai",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
