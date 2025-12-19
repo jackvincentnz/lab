@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "llm",
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+        "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure/llm",
+        "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget/data",
+        "@maven//:org_springframework_ai_spring_ai_client_chat",
+        "@maven//:org_springframework_ai_spring_ai_model",
+    ],
+)

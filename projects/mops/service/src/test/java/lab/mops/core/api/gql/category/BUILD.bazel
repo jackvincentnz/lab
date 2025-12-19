@@ -1,0 +1,17 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "category",
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
+        "//projects/mops/service/src/main/java/lab/mops/core/api/gql/category",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/category",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
+        "//projects/mops/service/src/main/resources/schema:java",
+        "@maven//:com_graphql_java_graphql_java",
+        "@maven//:com_graphql_java_java_dataloader",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

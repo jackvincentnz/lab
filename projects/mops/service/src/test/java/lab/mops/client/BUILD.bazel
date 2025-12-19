@@ -1,0 +1,14 @@
+java_library(
+    name = "client",
+    testonly = True,
+    srcs = glob(["*.java"]),
+    visibility = ["//projects/mops/service/src/test:__subpackages__"],
+    deps = [
+        "//projects/mops/service/src/main/resources/schema:java",
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

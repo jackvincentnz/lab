@@ -1,0 +1,11 @@
+java_library(
+    name = "ai",
+    visibility = [
+        "//projects/mops/service/src/main:__pkg__",
+    ],
+    runtime_deps = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/api/gql/chat",
+        "//projects/mops/service/src/main/java/lab/mops/ai/api/rest",
+        "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure/llm",
+    ],
+)

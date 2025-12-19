@@ -1,0 +1,16 @@
+java_library(
+    name = "tenant",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src/main/java/lab/mops/iam:__pkg__",
+        "//projects/mops/service/src/test/java/lab/mops/iam/api/gql/tenant:__pkg__",
+    ],
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/iam/application/identity",
+        "//projects/mops/service/src/main/java/lab/mops/iam/domain/identity",
+        "//projects/mops/service/src/main/resources/schema:java",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

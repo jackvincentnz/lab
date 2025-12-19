@@ -1,0 +1,10 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "ai",
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget/data",
+    ],
+)

@@ -1,0 +1,9 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "asset",
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/core/application/asset",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/asset",
+    ],
+)

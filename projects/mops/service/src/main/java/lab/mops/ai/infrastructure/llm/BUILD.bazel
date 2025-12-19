@@ -1,0 +1,19 @@
+java_library(
+    name = "llm",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src/main/java/lab/mops/ai:__pkg__",
+        "//projects/mops/service/src/main/java/lab/mops/ai/api:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/infrastructure/llm:__pkg__",
+    ],
+    deps = [
+        "//libs/spring_ai_tools/src/main/java/nz/geek/jack/springai/tools",
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat",
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+        "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
+        "@maven//:org_springframework_ai_spring_ai_client_chat",
+        "@maven//:org_springframework_ai_spring_ai_model",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
