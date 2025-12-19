@@ -18,6 +18,7 @@ import org.springframework.ai.tool.definition.ToolDefinition;
 class SpringToolTest extends TestBase {
 
   @Mock ToolCallback toolCallback;
+  @Mock ToolApprovalPolicy approvalPolicy;
 
   ToolDefinition toolDefinition;
 
@@ -27,7 +28,7 @@ class SpringToolTest extends TestBase {
   public void setup() {
     toolDefinition = new DefaultToolDefinition(randomString(), randomString(), randomString());
     when(toolCallback.getToolDefinition()).thenReturn(toolDefinition);
-    springTool = new SpringTool(toolCallback);
+    springTool = new SpringTool(toolCallback, approvalPolicy);
   }
 
   @Test
@@ -56,6 +57,14 @@ class SpringToolTest extends TestBase {
     var result = springTool.getToolDefinition();
 
     assertThat(result.needsApproval()).isFalse();
+  }
+
+  @Test
+  void getToolDefinition_needsApprovalWhenPolicySaysSo() {
+    when(approvalPolicy.needsApproval(toolDefinition.name())).thenReturn(true);
+    var result = new SpringTool(toolCallback, approvalPolicy).getToolDefinition();
+
+    assertThat(result.needsApproval()).isTrue();
   }
 
   @Test

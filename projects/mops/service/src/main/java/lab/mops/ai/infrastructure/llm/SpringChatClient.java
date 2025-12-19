@@ -29,8 +29,13 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   private final SpringMessageMapper messageMapper;
 
+  private final ToolApprovalPolicy approvalPolicy;
+
   SpringChatClient(
-      ChatModel chatModel, BudgetTools budgetTools, SpringMessageMapper messageMapper) {
+      ChatModel chatModel,
+      BudgetTools budgetTools,
+      SpringMessageMapper messageMapper,
+      ToolApprovalPolicy approvalPolicy) {
     this.chatModel = chatModel;
     this.budgetTools = budgetTools;
     this.chatOptions =
@@ -39,6 +44,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
             .internalToolExecutionEnabled(false)
             .build();
     this.messageMapper = messageMapper;
+    this.approvalPolicy = approvalPolicy;
   }
 
   @Override
@@ -60,7 +66,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
   @Override
   public List<Tool> getTools() {
     return Arrays.stream(ToolCallbacks.from(budgetTools))
-        .map(SpringTool::new)
+        .map(cb -> new SpringTool(cb, approvalPolicy))
         .collect(Collectors.toUnmodifiableList());
   }
 }
