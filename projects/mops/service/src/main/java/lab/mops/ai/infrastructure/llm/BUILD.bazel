@@ -15,5 +15,6 @@ java_library(
         "@maven//:org_springframework_ai_spring_ai_client_chat",
         "@maven//:org_springframework_ai_spring_ai_model",
         "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_core",
     ],
 )

@@ -32,11 +32,14 @@ class SpringChatClientTest extends TestBase {
 
   @Mock SpringMessageMapper messageMapper;
 
+  @Mock ToolApprovalPolicy approvalPolicy;
+
   SpringChatClient springChatClient;
 
   @BeforeEach
   void setup() {
-    springChatClient = new SpringChatClient(chatModel, new TestTools(), messageMapper);
+    springChatClient =
+        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
   }
 
   @Test

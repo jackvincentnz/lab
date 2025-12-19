@@ -10,9 +10,9 @@ public class SpringTool implements Tool {
 
   private final ToolDefinition toolDefinition;
 
-  public SpringTool(ToolCallback delegate) {
+  public SpringTool(ToolCallback delegate, ToolApprovalPolicy approvalPolicy) {
     this.delegate = delegate;
-    this.toolDefinition = map(delegate.getToolDefinition());
+    this.toolDefinition = map(delegate.getToolDefinition(), approvalPolicy);
   }
 
   @Override
@@ -26,7 +26,8 @@ public class SpringTool implements Tool {
   }
 
   private static ToolDefinition map(
-      org.springframework.ai.tool.definition.ToolDefinition toolDefinition) {
+      org.springframework.ai.tool.definition.ToolDefinition toolDefinition,
+      ToolApprovalPolicy approvalPolicy) {
     return new ToolDefinition() {
       @Override
       public String name() {
@@ -40,7 +41,7 @@ public class SpringTool implements Tool {
 
       @Override
       public boolean needsApproval() {
-        return false;
+        return approvalPolicy.needsApproval(toolDefinition.name());
       }
 
       @Override
