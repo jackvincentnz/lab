@@ -5,22 +5,22 @@ load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 load("//tools/bazel:js.bzl", "js_library")
 
 alias(
-    name = "mops_app",
+    name = "app",
     actual = ":dev",
 )
 
 js_library(
     name = "codegen",
     srcs = ["codegen.ts"],
-    visibility = ["//projects/mops/mops_app/src/__generated__:__pkg__"],
+    visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
 )
 
 SRCS = [
     "//:node_modules/vitest",
     "//:node_modules/postcss-preset-mantine",
     "//:node_modules/postcss-simple-vars",
-    "//projects/mops/mops_app/public",
-    "//projects/mops/mops_app/src",
+    "//projects/mops/app/public",
+    "//projects/mops/app/src",
     "index.html",
     "package.json",
     "postcss.config.cjs",
@@ -28,8 +28,8 @@ SRCS = [
 ]
 
 TEST_SRCS = [
-    "//projects/mops/mops_app/src:test_ts",
-    "//projects/mops/mops_app/src/test",
+    "//projects/mops/app/src:test_ts",
+    "//projects/mops/app/src/test",
 ]
 
 vite_dev_server(

@@ -38,7 +38,7 @@ ts_project(
         "//:node_modules/react-router-dom",
         "//:node_modules/remark-gfm",
         "//:node_modules/vite",
-        "//projects/mops/mops_app/src/__generated__:graphql_codegen_ts",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
     ],
 )
 
@@ -46,12 +46,12 @@ ts_project(
     name = "test_ts",
     srcs = glob(TEST_PATHS),
     visibility = [
-        "//projects/mops/mops_app:__pkg__",
+        "//projects/mops/app:__pkg__",
     ],
     deps = [
         ":src_ts",
         "//:node_modules/@vitest/expect",
-        "//projects/mops/mops_app/src/test",
+        "//projects/mops/app/src/test",
     ],
 )
 
@@ -62,7 +62,7 @@ js_library(
         "**/*.png",
     ]),
     visibility = [
-        "//projects/mops/mops_app:__pkg__",
+        "//projects/mops/app:__pkg__",
     ],
     deps = [
         ":src_ts",
@@ -72,5 +72,5 @@ js_library(
 js_library(
     name = "gql",
     srcs = glob(["**/*.gql"]),
-    visibility = ["//projects/mops/mops_app/src/__generated__:__pkg__"],
+    visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
 )
