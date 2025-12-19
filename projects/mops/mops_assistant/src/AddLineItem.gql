@@ -1,8 +1,0 @@
-mutation AddLineItem($input: AddLineItemInput!) {
-  addLineItem(input: $input) {
-    message
-    lineItem {
-      name
-    }
-  }
-}
