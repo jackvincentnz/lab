@@ -10,7 +10,7 @@ java_library(
 java_binary(
     name = "multitool",
     args = [
-        "--adk.agents.source-dir=projects/mops/mops_agent/src/main/java",
+        "--adk.agents.source-dir=projects/mops/adk_agent/src/main/java",
         "--server.port=8888",
     ],
     data = glob(["*.java"]),

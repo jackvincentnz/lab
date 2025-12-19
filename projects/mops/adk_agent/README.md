@@ -7,7 +7,7 @@ The agent requires a `GOOGLE_API_KEY` environment variable to be set.
 ### 1. Run Dev UI
 
 ```shell
-bazel run //projects/mops/mops_agent/src/main/java/lab/mops/agent/multitool
+bazel run //projects/mops/adk_agent/src/main/java/lab/mops/agent/multitool
 ```
 
 ### 2. Talk to agent
