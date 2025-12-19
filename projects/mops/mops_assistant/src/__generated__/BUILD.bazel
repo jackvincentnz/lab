@@ -7,7 +7,7 @@ graphql_codegen_bin.graphql_codegen(
         "//:node_modules/@graphql-codegen/client-preset",
         "//projects/mops/mops_assistant:codegen",
         "//projects/mops/mops_assistant/src:gql",
-        "//projects/mops/mops_service/src/main/resources/schema",
+        "//projects/mops/service/src/main/resources/schema",
     ],
     outs = [
         "fragment-masking.ts",

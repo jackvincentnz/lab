@@ -1,0 +1,13 @@
+java_library(
+    name = "startup",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src/main/java/lab/mops/core:__pkg__",
+        "//projects/mops/service/src/test/java/lab/mops/core/infrastructure/startup:__pkg__",
+    ],
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

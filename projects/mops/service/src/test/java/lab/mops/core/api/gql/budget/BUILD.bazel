@@ -1,0 +1,13 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "budget",
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
+        "//projects/mops/service/src/main/java/lab/mops/core/api/gql/budget",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
+        "//projects/mops/service/src/main/resources/schema:java",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+    ],
+)

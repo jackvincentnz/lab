@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "chat",
+    deps = [
+        "//libs/ddd/src/test/java/nz/geek/jack/libs/ddd/domain/test",
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat",
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+    ],
+)

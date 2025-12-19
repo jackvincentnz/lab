@@ -1,0 +1,10 @@
+java_library(
+    name = "completions",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat:__pkg__",
+        "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/application/chat:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/infrastructure:__subpackages__",
+    ],
+)

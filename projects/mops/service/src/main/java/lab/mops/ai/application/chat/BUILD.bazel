@@ -1,0 +1,16 @@
+java_library(
+    name = "chat",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/api:__subpackages__",
+        "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/api:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/application/chat:__pkg__",
+    ],
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+        "@maven//:org_slf4j_slf4j_api",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

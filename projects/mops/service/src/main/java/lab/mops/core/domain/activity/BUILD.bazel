@@ -1,0 +1,11 @@
+java_library(
+    name = "activity",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/mops/service/src:__subpackages__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "@maven//:org_springframework_spring_context",
+    ],
+)
