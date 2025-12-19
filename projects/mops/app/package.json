@@ -1,0 +1,10 @@
+{
+  "name": "mops-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ibazel run //projects/mops/app",
+    "build": "bazel build //projects/mops/app:build",
+    "test": "ibazel run //projects/mops/app:test"
+  }
+}

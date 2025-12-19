@@ -6,16 +6,16 @@ command(
 )
 
 command(
-    name = "mops_app",
+    name = "app",
     args = ["--open"],
-    command = "//projects/mops/mops_app:dev",
+    command = "//projects/mops/app:dev",
 )
 
 multirun(
     name = "mops",
     commands = [
         ":mops_service",
-        ":mops_app",
+        ":app",
     ],
     jobs = 0,
 )
