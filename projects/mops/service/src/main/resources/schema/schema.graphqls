@@ -156,6 +156,7 @@ type ChatMessage {
   type: ChatMessageType!
   status: ChatMessageStatus!
   content: String
+  toolCalls: [ToolCall!]!
   createdAt: String!
   updatedAt: String!
 }
@@ -170,6 +171,19 @@ enum ChatMessageStatus {
   COMPLETED
   FAILED
   CANCELLED
+}
+
+type ToolCall {
+  id: String!
+  name: String!
+  arguments: String!
+  status: ToolCallStatus!
+}
+
+enum ToolCallStatus {
+  PENDING_APPROVAL
+  APPROVED
+  DENIED
 }
 
 # Inputs

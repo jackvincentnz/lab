@@ -2,7 +2,10 @@ package lab.mops.ai.api.gql.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import lab.mops.ai.domain.chat.Chat;
+import lab.mops.ai.domain.chat.ToolCall;
+import lab.mops.ai.domain.chat.ToolCallStatus;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -53,5 +56,30 @@ class ChatMapperTest extends TestBase {
     var result = chatMapper.map(domainChat);
 
     assertThat(result.getUpdatedAt()).isEqualTo(domainChat.getUpdatedAt().toString());
+  }
+
+  @Test
+  void map_mapsPendingApprovalToolCalls() {
+    var domainChat = Chat.start(randomString());
+    var assistantMessage = domainChat.getMessages().get(1);
+    var toolCallId = randomId();
+    var toolCallName = randomString();
+    var toolCallArguments = randomString();
+    var toolCallStatus = ToolCallStatus.PENDING_APPROVAL;
+
+    domainChat.addPendingToolCalls(
+        assistantMessage.getId(),
+        List.of(new ToolCall(toolCallId, toolCallName, toolCallArguments, toolCallStatus)));
+
+    var result = chatMapper.map(domainChat);
+
+    var mappedMessage = result.getMessages().get(1);
+    assertThat(mappedMessage.getToolCalls()).hasSize(1);
+    var mappedToolCall = mappedMessage.getToolCalls().get(0);
+    assertThat(mappedToolCall.getId()).isEqualTo(toolCallId);
+    assertThat(mappedToolCall.getName()).isEqualTo(toolCallName);
+    assertThat(mappedToolCall.getArguments()).isEqualTo(toolCallArguments);
+    assertThat(mappedToolCall.getStatus())
+        .isEqualTo(lab.mops.api.gql.types.ToolCallStatus.PENDING_APPROVAL);
   }
 }

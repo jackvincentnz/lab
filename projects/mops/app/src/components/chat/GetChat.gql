@@ -6,6 +6,12 @@ query GetChat($id: ID!) {
       type
       status
       content
+      toolCalls {
+        id
+        name
+        arguments
+        status
+      }
       createdAt
       updatedAt
     }
