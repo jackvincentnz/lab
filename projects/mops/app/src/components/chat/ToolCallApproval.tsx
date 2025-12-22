@@ -1,5 +1,5 @@
 import { Box, Button, Card, Code, Group, Stack, Text } from "@mantine/core";
-import { IconCheck, IconTool, IconX } from "@tabler/icons-react";
+import { IconCheck, IconDatabaseEdit, IconX } from "@tabler/icons-react";
 
 interface ToolCallApprovalProps {
   toolCall: {
@@ -26,7 +26,7 @@ export function ToolCallApproval({
     <Card withBorder shadow="sm" p="md" radius="md">
       <Stack gap="sm">
         <Group gap="xs">
-          <IconTool size={18} />
+          <IconDatabaseEdit size={18} />
           <Text fw={600} size="sm">
             Proposed Changes
           </Text>
