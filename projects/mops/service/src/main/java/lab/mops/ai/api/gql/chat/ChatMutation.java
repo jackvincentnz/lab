@@ -17,6 +17,7 @@ import lab.mops.ai.application.chat.RetryAssistantMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.MessageId;
+import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.api.gql.types.AddUserMessageInput;
 import lab.mops.api.gql.types.AddUserMessageResponse;
 import lab.mops.api.gql.types.ApproveToolCallInput;
@@ -113,7 +114,7 @@ public class ChatMutation {
         new ApproveToolCallCommand(
             ChatId.fromString(input.getChatId()),
             MessageId.fromString(input.getMessageId()),
-            input.getToolCallId());
+            ToolCallId.of(input.getToolCallId()));
 
     var chat = chatCommandService.approveToolCall(command);
 
@@ -131,7 +132,7 @@ public class ChatMutation {
         new RejectToolCallCommand(
             ChatId.fromString(input.getChatId()),
             MessageId.fromString(input.getMessageId()),
-            input.getToolCallId());
+            ToolCallId.of(input.getToolCallId()));
 
     var chat = chatCommandService.rejectToolCall(command);
 

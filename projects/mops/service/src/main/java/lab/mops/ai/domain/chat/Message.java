@@ -94,7 +94,7 @@ public class Message {
     updateStatus(MessageStatus.COMPLETED);
   }
 
-  void approveToolCall(String toolCallId) {
+  void approveToolCall(ToolCallId toolCallId) {
     Objects.requireNonNull(toolCallId, "toolCallId must not be null");
 
     var toolCall = getToolCall(toolCallId);
@@ -106,7 +106,7 @@ public class Message {
     toolCalls.add(newToolCall);
   }
 
-  void rejectToolCall(String toolCallId) {
+  void rejectToolCall(ToolCallId toolCallId) {
     Objects.requireNonNull(toolCallId, "toolCallId must not be null");
 
     var toolCall = getToolCall(toolCallId);
@@ -118,11 +118,11 @@ public class Message {
     toolCalls.add(newToolCall);
   }
 
-  private ToolCall getToolCall(String toolCallId) {
+  private ToolCall getToolCall(ToolCallId toolCallId) {
     return toolCalls.stream()
         .filter(t -> t.id().equals(toolCallId))
         .findFirst()
-        .orElseThrow(() -> new NotFoundException("toolCallId", toolCallId));
+        .orElseThrow(() -> new NotFoundException(toolCallId));
   }
 
   public List<ToolCall> getToolCalls() {

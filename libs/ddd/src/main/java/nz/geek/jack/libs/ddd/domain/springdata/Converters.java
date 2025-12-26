@@ -9,6 +9,8 @@ public class Converters {
         new InternalIdToUUIDConverter(),
         new UUIDToInternalIdConverterFactory(),
         new StringValueToStringConverter(),
-        new StringToStringValueConverterFactory());
+        new StringToStringValueConverterFactory(),
+        new ExternalIdToStringConverter(),
+        new StringToExternalIdConverterFactory());
   }
 }

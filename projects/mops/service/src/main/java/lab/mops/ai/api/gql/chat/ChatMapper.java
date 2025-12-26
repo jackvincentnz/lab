@@ -34,7 +34,7 @@ public class ChatMapper {
 
   private static ToolCall map(lab.mops.ai.domain.chat.ToolCall toolCall) {
     return ToolCall.newBuilder()
-        .id(toolCall.id())
+        .id(toolCall.id().toString())
         .name(toolCall.name())
         .arguments(toolCall.arguments())
         .status(ToolCallStatus.valueOf(toolCall.status().name()))
