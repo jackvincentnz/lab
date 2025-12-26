@@ -3,6 +3,7 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "@maven//:org_apache_commons_commons_lang3",
         "@maven//:org_springframework_data_spring_data_commons",
     ],
 )

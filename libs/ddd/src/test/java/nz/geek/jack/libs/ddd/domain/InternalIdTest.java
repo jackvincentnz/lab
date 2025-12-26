@@ -1,6 +1,7 @@
 package nz.geek.jack.libs.ddd.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,11 @@ class InternalIdTest {
     var id2 = new TestId();
 
     assertThat(id1.toString()).isNotEqualTo(id2.toString());
+  }
+
+  @Test
+  void new_throwsWhenNull() {
+    assertThatThrownBy(() -> new TestId(null)).isInstanceOf(NullPointerException.class);
   }
 
   @Test
