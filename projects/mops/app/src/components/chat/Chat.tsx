@@ -37,6 +37,12 @@ import {
   RetryAssistantMessageDocument,
   RetryAssistantMessageMutation,
   RetryAssistantMessageMutationVariables,
+  ApproveToolCallDocument,
+  ApproveToolCallMutation,
+  ApproveToolCallMutationVariables,
+  RejectToolCallDocument,
+  RejectToolCallMutation,
+  RejectToolCallMutationVariables,
   StartChatDocument,
   StartChatMutation,
   StartChatMutationVariables,
@@ -177,6 +183,28 @@ export function Chat() {
     },
   });
 
+  const [approveToolCall, { loading: approvingToolCall }] = useMutation<
+    ApproveToolCallMutation,
+    ApproveToolCallMutationVariables
+  >(ApproveToolCallDocument, {
+    onCompleted: (data) => {
+      if (data.approveToolCall.success) {
+        startPolling(POLL_INTERVAL);
+      }
+    },
+  });
+
+  const [rejectToolCall, { loading: rejectingToolCall }] = useMutation<
+    RejectToolCallMutation,
+    RejectToolCallMutationVariables
+  >(RejectToolCallDocument, {
+    onCompleted: (data) => {
+      if (data.rejectToolCall.success) {
+        startPolling(POLL_INTERVAL);
+      }
+    },
+  });
+
   useEffect(() => {
     if (chatData?.chat?.messages) {
       const hasPendingAssistantMessages = chatData.chat.messages.some(
@@ -258,14 +286,32 @@ export function Chat() {
   ) => {
     if (!currentChatId) return;
 
-    alert(`Approve: ${currentChatId} ${messageId} ${toolCallId}`);
+    await approveToolCall({
+      variables: {
+        input: {
+          chatId: currentChatId,
+          messageId,
+          toolCallId,
+        },
+      },
+    });
   };
 
   const handleRejectToolCall = async (
     messageId: string,
     toolCallId: string,
   ) => {
-    alert(`Reject: ${currentChatId} ${messageId} ${toolCallId}`);
+    if (!currentChatId) return;
+
+    await rejectToolCall({
+      variables: {
+        input: {
+          chatId: currentChatId,
+          messageId,
+          toolCallId,
+        },
+      },
+    });
   };
 
   const isLoading =
@@ -273,7 +319,9 @@ export function Chat() {
     addingMessage ||
     chatLoading ||
     editingMessage ||
-    retryingMessage;
+    retryingMessage ||
+    approvingToolCall ||
+    rejectingToolCall;
   const messages = chatData?.chat?.messages || [];
 
   return (

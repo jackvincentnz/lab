@@ -33,6 +33,8 @@ type Mutation {
   retryAssistantMessage(
     input: RetryAssistantMessageInput!
   ): RetryAssistantMessageResponse!
+  approveToolCall(input: ApproveToolCallInput!): ApproveToolCallResponse!
+  rejectToolCall(input: RejectToolCallInput!): RejectToolCallResponse!
 }
 
 type Subscription {
@@ -183,7 +185,7 @@ type ToolCall {
 enum ToolCallStatus {
   PENDING_APPROVAL
   APPROVED
-  DENIED
+  REJECTED
 }
 
 # Inputs
@@ -265,6 +267,18 @@ input EditUserMessageInput {
 input RetryAssistantMessageInput {
   chatId: ID!
   messageId: ID!
+}
+
+input ApproveToolCallInput {
+  chatId: ID!
+  messageId: ID!
+  toolCallId: ID!
+}
+
+input RejectToolCallInput {
+  chatId: ID!
+  messageId: ID!
+  toolCallId: ID!
 }
 
 # Responses
@@ -373,6 +387,20 @@ type EditUserMessageResponse implements MutationResponse {
 }
 
 type RetryAssistantMessageResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
+}
+
+type ApproveToolCallResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  chat: Chat
+}
+
+type RejectToolCallResponse implements MutationResponse {
   code: Int!
   success: Boolean!
   message: String!

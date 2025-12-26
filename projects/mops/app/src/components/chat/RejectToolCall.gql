@@ -1,0 +1,5 @@
+mutation RejectToolCall($input: RejectToolCallInput!) {
+  rejectToolCall(input: $input) {
+    success
+  }
+}

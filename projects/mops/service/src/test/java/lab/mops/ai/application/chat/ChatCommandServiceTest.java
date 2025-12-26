@@ -138,4 +138,70 @@ class ChatCommandServiceTest extends TestBase {
 
     assertThat(result).isEqualTo(savedChat);
   }
+
+  @Test
+  void approveToolCall_savesChat() {
+    var chat = mock(Chat.class);
+    var toolCallId = randomId();
+    var messageId = mock(MessageId.class);
+    var command = new ApproveToolCallCommand(chat.getId(), messageId, toolCallId);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatCommandService.approveToolCall(command);
+
+    verify(chat).approveToolCall(messageId, toolCallId);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void approveToolCall_returnsSavedChat() {
+    var chat = mock(Chat.class);
+    var toolCallId = randomId();
+    var messageId = mock(MessageId.class);
+    var command = new ApproveToolCallCommand(chat.getId(), messageId, toolCallId);
+    var savedChat = mock(Chat.class);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(chatRepository.save(chat)).thenReturn(savedChat);
+
+    var result = chatCommandService.approveToolCall(command);
+
+    assertThat(result).isEqualTo(savedChat);
+    verify(chat).approveToolCall(messageId, toolCallId);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void rejectToolCall_savesChat() {
+    var chat = mock(Chat.class);
+    var toolCallId = randomId();
+    var messageId = mock(MessageId.class);
+    var command = new RejectToolCallCommand(chat.getId(), messageId, toolCallId);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatCommandService.rejectToolCall(command);
+
+    verify(chat).rejectToolCall(messageId, toolCallId);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void rejectToolCall_returnsSavedChat() {
+    var chat = mock(Chat.class);
+    var toolCallId = randomId();
+    var messageId = mock(MessageId.class);
+    var command = new RejectToolCallCommand(chat.getId(), messageId, toolCallId);
+    var savedChat = mock(Chat.class);
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(chatRepository.save(chat)).thenReturn(savedChat);
+
+    var result = chatCommandService.rejectToolCall(command);
+
+    assertThat(result).isEqualTo(savedChat);
+    verify(chat).rejectToolCall(messageId, toolCallId);
+    verify(chatRepository).save(chat);
+  }
 }

@@ -42,4 +42,20 @@ public class ChatCommandService {
 
     return chatRepository.save(chat);
   }
+
+  public Chat approveToolCall(ApproveToolCallCommand command) {
+    var chat = chatRepository.getById(command.chatId());
+
+    chat.approveToolCall(command.messageId(), command.toolCallId());
+
+    return chatRepository.save(chat);
+  }
+
+  public Chat rejectToolCall(RejectToolCallCommand command) {
+    var chat = chatRepository.getById(command.chatId());
+
+    chat.rejectToolCall(command.messageId(), command.toolCallId());
+
+    return chatRepository.save(chat);
+  }
 }
