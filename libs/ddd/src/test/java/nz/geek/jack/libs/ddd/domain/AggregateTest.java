@@ -86,7 +86,7 @@ class AggregateTest extends TestBase {
     }
   }
 
-  static class TestId extends AbstractId {
+  static class TestId extends InternalId {
     TestId() {
       super();
     }

@@ -3,15 +3,15 @@ package nz.geek.jack.libs.ddd.domain;
 import java.util.Objects;
 import java.util.UUID;
 
-public abstract class AbstractId {
+public abstract class InternalId {
 
   private final UUID id;
 
-  protected AbstractId() {
+  protected InternalId() {
     this(UUID.randomUUID());
   }
 
-  protected AbstractId(UUID id) {
+  protected InternalId(UUID id) {
     this.id = id;
   }
 
@@ -32,8 +32,8 @@ public abstract class AbstractId {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    AbstractId abstractId = (AbstractId) o;
-    return id.equals(abstractId.id);
+    InternalId internalId = (InternalId) o;
+    return id.equals(internalId.id);
   }
 
   @Override

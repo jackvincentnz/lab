@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public abstract class EventSourcedAggregate<I extends AbstractId> {
+public abstract class EventSourcedAggregate<I extends InternalId> {
 
   private static final String REDUCER_METHOD_NAME = "on";
 

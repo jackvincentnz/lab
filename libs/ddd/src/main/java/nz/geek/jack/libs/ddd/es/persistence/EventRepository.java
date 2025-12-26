@@ -11,8 +11,8 @@ import java.sql.Types;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.postgresql.util.PGobject;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -125,13 +125,13 @@ public class EventRepository {
         this::toEvent);
   }
 
-  private DomainEvent<AbstractId> toEvent(ResultSet rs, int rowNum) {
+  private DomainEvent<InternalId> toEvent(ResultSet rs, int rowNum) {
     try {
       String eventType = rs.getString("EVENT_TYPE");
       PGobject jsonObj = (PGobject) rs.getObject("JSON_DATA");
       String json = jsonObj.getValue();
-      Class<DomainEvent<AbstractId>> clazz =
-          (Class<DomainEvent<AbstractId>>) Class.forName(eventType);
+      Class<DomainEvent<InternalId>> clazz =
+          (Class<DomainEvent<InternalId>>) Class.forName(eventType);
       return objectMapper.readValue(json, clazz);
     } catch (SQLException | ClassNotFoundException | JsonProcessingException e) {
       throw new RuntimeException(e);

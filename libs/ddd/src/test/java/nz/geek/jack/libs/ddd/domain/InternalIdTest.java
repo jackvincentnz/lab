@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-class AbstractIdTest {
+class InternalIdTest {
 
   @Test
   void new_createsUniqueId() {
@@ -85,7 +85,7 @@ class AbstractIdTest {
     assertThat(result).isEqualTo(uuid);
   }
 
-  static class TestId extends AbstractId {
+  static class TestId extends InternalId {
     TestId() {
       super();
     }
@@ -95,7 +95,7 @@ class AbstractIdTest {
     }
   }
 
-  static class AnotherTestId extends AbstractId {
+  static class AnotherTestId extends InternalId {
     AnotherTestId(UUID id) {
       super(id);
     }

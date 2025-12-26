@@ -1,6 +1,6 @@
 package nz.geek.jack.libs.ddd.domain;
 
-public abstract class DomainEvent<A extends AbstractId> {
+public abstract class DomainEvent<A extends InternalId> {
 
   protected final A aggregateId;
 

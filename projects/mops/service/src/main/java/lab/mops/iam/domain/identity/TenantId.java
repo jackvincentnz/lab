@@ -1,9 +1,9 @@
 package lab.mops.iam.domain.identity;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public class TenantId extends AbstractId {
+public class TenantId extends InternalId {
 
   private TenantId() {
     super();

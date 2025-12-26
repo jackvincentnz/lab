@@ -1,7 +1,7 @@
 package nz.geek.jack.libs.ddd.es.persistence;
 
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -25,7 +25,7 @@ public class AggregateStore {
   }
 
   public <A extends EventSourcedAggregate<?>> A get(
-      AbstractId aggregateId, Class<A> aggregateClass) {
+      InternalId aggregateId, Class<A> aggregateClass) {
     var events = eventRepository.readEvents(aggregateId.toUUID());
 
     var aggregate = aggregateFactory.forClass(aggregateClass);

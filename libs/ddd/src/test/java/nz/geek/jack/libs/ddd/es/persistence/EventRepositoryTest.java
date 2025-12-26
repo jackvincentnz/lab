@@ -7,8 +7,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -92,7 +92,7 @@ class EventRepositoryTest {
     }
   }
 
-  static class TestId extends AbstractId {
+  static class TestId extends InternalId {
     TestId(@JsonProperty("id") UUID streamId) {
       super(streamId);
     }

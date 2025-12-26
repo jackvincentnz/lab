@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 
 class InMemoryAggregateStoreTest {
@@ -51,7 +51,7 @@ class InMemoryAggregateStoreTest {
     }
   }
 
-  static final class TestId extends AbstractId {
+  static final class TestId extends InternalId {
     TestId() {
       super();
     }

@@ -37,7 +37,7 @@ class BaseRepositoryTest extends TestBase {
     assertThat(result.get(aggregate.getId())).isEqualTo(aggregate);
   }
 
-  static class TestId extends AbstractId {
+  static class TestId extends InternalId {
     TestId() {
       super();
     }

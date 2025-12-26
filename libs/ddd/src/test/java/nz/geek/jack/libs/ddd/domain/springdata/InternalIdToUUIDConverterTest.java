@@ -3,15 +3,15 @@ package nz.geek.jack.libs.ddd.domain.springdata;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 
-class AbstractIdToUUIDConverterTest {
+class InternalIdToUUIDConverterTest {
 
   @Test
   void convert_convertsToUUID() {
     var id = new TestId();
-    var converter = new AbstractIdToUUIDConverter();
+    var converter = new InternalIdToUUIDConverter();
 
     var uuid = converter.convert(id);
 
@@ -19,7 +19,7 @@ class AbstractIdToUUIDConverterTest {
     assertThat(uuid).isEqualTo(id.toUUID());
   }
 
-  static class TestId extends AbstractId {
+  static class TestId extends InternalId {
     TestId() {
       super();
     }

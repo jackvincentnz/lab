@@ -107,7 +107,7 @@ class EventSourcedAggregateTest {
     }
   }
 
-  static final class TestId extends AbstractId {
+  static final class TestId extends InternalId {
     TestId() {
       super();
     }

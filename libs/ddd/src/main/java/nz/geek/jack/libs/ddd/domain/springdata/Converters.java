@@ -6,8 +6,8 @@ public class Converters {
 
   public static List<?> allConverters() {
     return List.of(
-        new AbstractIdToUUIDConverter(),
-        new UUIDToAbstractIdConverterFactory(),
+        new InternalIdToUUIDConverter(),
+        new UUIDToInternalIdConverterFactory(),
         new StringValueToStringConverter(),
         new StringToStringValueConverterFactory());
   }
