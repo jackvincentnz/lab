@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ToolCall;
+import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -62,7 +63,7 @@ class ChatMapperTest extends TestBase {
   void map_mapsPendingApprovalToolCalls() {
     var domainChat = Chat.start(randomString());
     var assistantMessage = domainChat.getMessages().get(1);
-    var toolCallId = randomId();
+    var toolCallId = ToolCallId.of(randomId());
     var toolCallName = randomString();
     var toolCallArguments = randomString();
     var toolCallStatus = ToolCallStatus.PENDING_APPROVAL;
@@ -76,7 +77,7 @@ class ChatMapperTest extends TestBase {
     var mappedMessage = result.getMessages().get(1);
     assertThat(mappedMessage.getToolCalls()).hasSize(1);
     var mappedToolCall = mappedMessage.getToolCalls().get(0);
-    assertThat(mappedToolCall.getId()).isEqualTo(toolCallId);
+    assertThat(mappedToolCall.getId()).isEqualTo(toolCallId.toString());
     assertThat(mappedToolCall.getName()).isEqualTo(toolCallName);
     assertThat(mappedToolCall.getArguments()).isEqualTo(toolCallArguments);
     assertThat(mappedToolCall.getStatus())

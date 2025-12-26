@@ -10,6 +10,7 @@ import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.ai.domain.chat.MessageType;
+import lab.mops.ai.domain.chat.ToolCallId;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -142,7 +143,7 @@ class ChatCommandServiceTest extends TestBase {
   @Test
   void approveToolCall_savesChat() {
     var chat = mock(Chat.class);
-    var toolCallId = randomId();
+    var toolCallId = mock(ToolCallId.class);
     var messageId = mock(MessageId.class);
     var command = new ApproveToolCallCommand(chat.getId(), messageId, toolCallId);
 
@@ -157,7 +158,7 @@ class ChatCommandServiceTest extends TestBase {
   @Test
   void approveToolCall_returnsSavedChat() {
     var chat = mock(Chat.class);
-    var toolCallId = randomId();
+    var toolCallId = mock(ToolCallId.class);
     var messageId = mock(MessageId.class);
     var command = new ApproveToolCallCommand(chat.getId(), messageId, toolCallId);
     var savedChat = mock(Chat.class);
@@ -175,7 +176,7 @@ class ChatCommandServiceTest extends TestBase {
   @Test
   void rejectToolCall_savesChat() {
     var chat = mock(Chat.class);
-    var toolCallId = randomId();
+    var toolCallId = mock(ToolCallId.class);
     var messageId = mock(MessageId.class);
     var command = new RejectToolCallCommand(chat.getId(), messageId, toolCallId);
 
@@ -190,7 +191,7 @@ class ChatCommandServiceTest extends TestBase {
   @Test
   void rejectToolCall_returnsSavedChat() {
     var chat = mock(Chat.class);
-    var toolCallId = randomId();
+    var toolCallId = mock(ToolCallId.class);
     var messageId = mock(MessageId.class);
     var command = new RejectToolCallCommand(chat.getId(), messageId, toolCallId);
     var savedChat = mock(Chat.class);

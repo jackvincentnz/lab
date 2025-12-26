@@ -19,6 +19,7 @@ import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.MessageId;
+import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.api.gql.types.AddUserMessageInput;
 import lab.mops.api.gql.types.ApproveToolCallInput;
 import lab.mops.api.gql.types.EditUserMessageInput;
@@ -201,7 +202,9 @@ class ChatMutationTest extends TestBase {
     verify(chatCommandService)
         .approveToolCall(
             new ApproveToolCallCommand(
-                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId));
+                ChatId.fromString(chatId),
+                MessageId.fromString(messageId),
+                ToolCallId.of(toolCallId)));
   }
 
   @Test
@@ -214,7 +217,9 @@ class ChatMutationTest extends TestBase {
 
     when(chatCommandService.approveToolCall(
             new ApproveToolCallCommand(
-                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId)))
+                ChatId.fromString(chatId),
+                MessageId.fromString(messageId),
+                ToolCallId.of(toolCallId))))
         .thenReturn(domainChat);
     when(chatMapper.map(domainChat)).thenReturn(graphChat);
 
@@ -248,7 +253,9 @@ class ChatMutationTest extends TestBase {
     verify(chatCommandService)
         .rejectToolCall(
             new RejectToolCallCommand(
-                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId));
+                ChatId.fromString(chatId),
+                MessageId.fromString(messageId),
+                ToolCallId.of(toolCallId)));
   }
 
   @Test
@@ -261,7 +268,9 @@ class ChatMutationTest extends TestBase {
 
     when(chatCommandService.rejectToolCall(
             new RejectToolCallCommand(
-                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId)))
+                ChatId.fromString(chatId),
+                MessageId.fromString(messageId),
+                ToolCallId.of(toolCallId))))
         .thenReturn(domainChat);
     when(chatMapper.map(domainChat)).thenReturn(graphChat);
 

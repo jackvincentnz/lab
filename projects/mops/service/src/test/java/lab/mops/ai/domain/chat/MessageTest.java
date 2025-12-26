@@ -94,7 +94,10 @@ class MessageTest extends TestBase {
   @Test
   void addPendingToolCalls_addsToolCalls() {
     var message = Message.assistantMessage();
-    var toolCalls = List.of(new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL));
+    var toolCalls =
+        List.of(
+            new ToolCall(
+                ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     message.addPendingToolCalls(toolCalls);
 
@@ -122,7 +125,8 @@ class MessageTest extends TestBase {
   @Test
   void approveToolCall_approves() {
     var message = Message.assistantMessage();
-    var toolCall = new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL);
+    var toolCall =
+        new ToolCall(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.approveToolCall(toolCall.id());
@@ -142,14 +146,15 @@ class MessageTest extends TestBase {
   void approveToolCall_throwsNotFoundForMissingToolCall() {
     var message = Message.assistantMessage();
 
-    assertThatThrownBy(() -> message.approveToolCall(randomId()))
+    assertThatThrownBy(() -> message.approveToolCall(ToolCallId.of(randomId())))
         .isInstanceOf(NotFoundException.class);
   }
 
   @Test
   void rejectToolCall_rejects() {
     var message = Message.assistantMessage();
-    var toolCall = new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL);
+    var toolCall =
+        new ToolCall(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.rejectToolCall(toolCall.id());
@@ -168,7 +173,7 @@ class MessageTest extends TestBase {
   void rejectToolCall_throwsNotFoundForMissingToolCall() {
     var message = Message.assistantMessage();
 
-    assertThatThrownBy(() -> message.rejectToolCall(randomId()))
+    assertThatThrownBy(() -> message.rejectToolCall(ToolCallId.of(randomId())))
         .isInstanceOf(NotFoundException.class);
   }
 

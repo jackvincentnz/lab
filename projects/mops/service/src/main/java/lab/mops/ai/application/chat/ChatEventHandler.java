@@ -10,6 +10,7 @@ import lab.mops.ai.application.chat.completions.ToolResultMessage;
 import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.ai.domain.chat.Message;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
+import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -143,7 +144,7 @@ public class ChatEventHandler {
                               new RuntimeException(
                                   "Tool [%s] not available".formatted(toolCall.toolName())));
               return new lab.mops.ai.domain.chat.ToolCall(
-                  toolCall.id(),
+                  ToolCallId.of(toolCall.id()),
                   toolCall.toolName(),
                   toolCall.arguments(),
                   tool.getToolDefinition().needsApproval()

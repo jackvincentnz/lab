@@ -87,7 +87,7 @@ public class Chat extends Aggregate<ChatId> {
     registerEvent(new PendingToolCallsAddedEvent(getId(), Collections.unmodifiableList(toolCalls)));
   }
 
-  public void approveToolCall(MessageId messageId, String toolCallId) {
+  public void approveToolCall(MessageId messageId, ToolCallId toolCallId) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 
     message.approveToolCall(toolCallId);
@@ -95,7 +95,7 @@ public class Chat extends Aggregate<ChatId> {
     registerEvent(new ToolCallApprovedEvent(getId(), messageId, toolCallId));
   }
 
-  public void rejectToolCall(MessageId messageId, String toolCallId) {
+  public void rejectToolCall(MessageId messageId, ToolCallId toolCallId) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 
     message.rejectToolCall(toolCallId);
