@@ -3,11 +3,11 @@ package nz.geek.jack.libs.ddd.persistence;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
 public abstract class InMemoryAggregateStore<
-    I extends AbstractId, A extends EventSourcedAggregate<I>> {
+    I extends InternalId, A extends EventSourcedAggregate<I>> {
 
   protected final Map<I, A> aggregates = new ConcurrentHashMap<>();
 

@@ -6,9 +6,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
 import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -96,5 +96,5 @@ class AggregateStoreTest {
     }
   }
 
-  static class TestId extends AbstractId {}
+  static class TestId extends InternalId {}
 }

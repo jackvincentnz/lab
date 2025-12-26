@@ -1,9 +1,9 @@
 package lab.mops.ai.domain.chat;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class ChatId extends AbstractId {
+public final class ChatId extends InternalId {
 
   private ChatId() {
     super();

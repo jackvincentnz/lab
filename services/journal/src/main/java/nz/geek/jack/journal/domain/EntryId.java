@@ -1,9 +1,9 @@
 package nz.geek.jack.journal.domain;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class EntryId extends AbstractId {
+public final class EntryId extends InternalId {
 
   private EntryId() {
     super();

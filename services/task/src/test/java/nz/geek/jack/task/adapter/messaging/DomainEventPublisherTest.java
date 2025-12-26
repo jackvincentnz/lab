@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -58,7 +58,7 @@ class DomainEventPublisherTest {
     return Stream.of(events).map(TestEvent::new).collect(Collectors.toList());
   }
 
-  static class TestEvent extends DomainEvent<AbstractId> {
+  static class TestEvent extends DomainEvent<InternalId> {
     private final boolean content;
 
     TestEvent(boolean content) {

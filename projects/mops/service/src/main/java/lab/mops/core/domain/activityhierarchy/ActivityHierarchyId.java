@@ -1,9 +1,9 @@
 package lab.mops.core.domain.activityhierarchy;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class ActivityHierarchyId extends AbstractId {
+public final class ActivityHierarchyId extends InternalId {
 
   private ActivityHierarchyId() {
     super();

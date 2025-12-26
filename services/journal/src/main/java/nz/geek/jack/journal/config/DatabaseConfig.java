@@ -3,8 +3,8 @@ package nz.geek.jack.journal.config;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
-import nz.geek.jack.libs.ddd.domain.springdata.AbstractIdToUUIDConverter;
-import nz.geek.jack.libs.ddd.domain.springdata.UUIDToAbstractIdConverterFactory;
+import nz.geek.jack.libs.ddd.domain.springdata.InternalIdToUUIDConverter;
+import nz.geek.jack.libs.ddd.domain.springdata.UUIDToInternalIdConverterFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
@@ -41,6 +41,6 @@ public class DatabaseConfig extends AbstractJdbcConfiguration {
 
   @Override
   protected List<?> userConverters() {
-    return Arrays.asList(new AbstractIdToUUIDConverter(), new UUIDToAbstractIdConverterFactory());
+    return Arrays.asList(new InternalIdToUUIDConverter(), new UUIDToInternalIdConverterFactory());
   }
 }

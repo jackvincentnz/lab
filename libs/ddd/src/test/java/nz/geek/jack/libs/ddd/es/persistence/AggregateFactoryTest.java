@@ -3,8 +3,8 @@ package nz.geek.jack.libs.ddd.es.persistence;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import nz.geek.jack.libs.ddd.domain.AbstractId;
 import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.junit.jupiter.api.Test;
 
 class AggregateFactoryTest {
@@ -31,5 +31,5 @@ class AggregateFactoryTest {
     private TestAggregateWithNoConstructor(String something) {}
   }
 
-  static class TestId extends AbstractId {}
+  static class TestId extends InternalId {}
 }

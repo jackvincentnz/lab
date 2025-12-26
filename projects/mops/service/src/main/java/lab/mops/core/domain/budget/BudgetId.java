@@ -1,9 +1,9 @@
 package lab.mops.core.domain.budget;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class BudgetId extends AbstractId {
+public final class BudgetId extends InternalId {
 
   private BudgetId() {
     super();

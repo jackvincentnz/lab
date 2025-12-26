@@ -1,9 +1,9 @@
 package lab.mops.core.domain.asset;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class AssetId extends AbstractId {
+public final class AssetId extends InternalId {
 
   private AssetId() {
     super();

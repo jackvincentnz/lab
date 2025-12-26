@@ -1,9 +1,9 @@
 package lab.mops.core.domain.activity;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class ActivityId extends AbstractId {
+public final class ActivityId extends InternalId {
 
   private ActivityId() {
     super();

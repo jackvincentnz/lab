@@ -1,21 +1,21 @@
 package nz.geek.jack.libs.ddd.domain.springdata;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.convert.ReadingConverter;
 
 @ReadingConverter
-public class UUIDToAbstractIdConverter<T extends AbstractId> implements Converter<UUID, T> {
+public class UUIDToInternalIdConverter<T extends InternalId> implements Converter<UUID, T> {
 
   private final Class<? extends T> clazz;
 
-  private UUIDToAbstractIdConverter(Class<T> clazz) {
+  private UUIDToInternalIdConverter(Class<T> clazz) {
     this.clazz = clazz;
   }
 
-  public static <T extends AbstractId> UUIDToAbstractIdConverter<T> of(Class<T> clazz) {
-    return new UUIDToAbstractIdConverter<>(clazz);
+  public static <T extends InternalId> UUIDToInternalIdConverter<T> of(Class<T> clazz) {
+    return new UUIDToInternalIdConverter<>(clazz);
   }
 
   @Override

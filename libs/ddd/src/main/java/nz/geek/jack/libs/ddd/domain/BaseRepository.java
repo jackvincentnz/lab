@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import org.springframework.data.repository.CrudRepository;
 
-public interface BaseRepository<T extends Aggregate<ID>, ID extends AbstractId>
+public interface BaseRepository<T extends Aggregate<ID>, ID extends InternalId>
     extends CrudRepository<T, ID> {
 
   @Override

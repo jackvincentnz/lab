@@ -10,7 +10,7 @@ import org.springframework.data.annotation.Version;
 import org.springframework.data.domain.AbstractAggregateRoot;
 import org.springframework.data.domain.DomainEvents;
 
-public abstract class Aggregate<I extends AbstractId> extends AbstractAggregateRoot<Aggregate<I>> {
+public abstract class Aggregate<I extends InternalId> extends AbstractAggregateRoot<Aggregate<I>> {
 
   @Id protected final I id;
 

@@ -1,9 +1,9 @@
 package lab.mops.core.domain.category;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.AbstractId;
+import nz.geek.jack.libs.ddd.domain.InternalId;
 
-public final class CategoryId extends AbstractId {
+public final class CategoryId extends InternalId {
 
   private CategoryId() {
     super();
