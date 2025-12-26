@@ -87,6 +87,22 @@ public class Chat extends Aggregate<ChatId> {
     registerEvent(new PendingToolCallsAddedEvent(getId(), Collections.unmodifiableList(toolCalls)));
   }
 
+  public void approveToolCall(MessageId messageId, String toolCallId) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+
+    message.approveToolCall(toolCallId);
+
+    registerEvent(new ToolCallApprovedEvent(getId(), messageId, toolCallId));
+  }
+
+  public void rejectToolCall(MessageId messageId, String toolCallId) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+
+    message.rejectToolCall(toolCallId);
+
+    registerEvent(new ToolCallRejectedEvent(getId(), messageId, toolCallId));
+  }
+
   public void completeMessage(MessageId messageId, String content) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 

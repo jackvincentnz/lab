@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -116,6 +117,59 @@ class MessageTest extends TestBase {
 
     assertThatThrownBy(() -> message.addPendingToolCalls(toolCalls))
         .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void approveToolCall_approves() {
+    var message = Message.assistantMessage();
+    var toolCall = new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL);
+    message.addPendingToolCalls(List.of(toolCall));
+
+    message.approveToolCall(toolCall.id());
+
+    assertThat(message.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.APPROVED);
+  }
+
+  @Test
+  void approveToolCall_preventsNullToolCallId() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.approveToolCall(null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void approveToolCall_throwsNotFoundForMissingToolCall() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.approveToolCall(randomId()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void rejectToolCall_rejects() {
+    var message = Message.assistantMessage();
+    var toolCall = new ToolCall("id", "name", "args", ToolCallStatus.PENDING_APPROVAL);
+    message.addPendingToolCalls(List.of(toolCall));
+
+    message.rejectToolCall(toolCall.id());
+
+    assertThat(message.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.REJECTED);
+  }
+
+  @Test
+  void rejectToolCall_preventsNullToolCallId() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.rejectToolCall(null)).isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void rejectToolCall_throwsNotFoundForMissingToolCall() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.rejectToolCall(randomId()))
+        .isInstanceOf(NotFoundException.class);
   }
 
   @Test

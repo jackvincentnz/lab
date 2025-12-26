@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
+import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -91,6 +92,37 @@ public class Message {
 
     this.toolCalls.addAll(toolCalls);
     updateStatus(MessageStatus.COMPLETED);
+  }
+
+  void approveToolCall(String toolCallId) {
+    Objects.requireNonNull(toolCallId, "toolCallId must not be null");
+
+    var toolCall = getToolCall(toolCallId);
+
+    var newToolCall =
+        new ToolCall(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.APPROVED);
+
+    toolCalls.remove(toolCall);
+    toolCalls.add(newToolCall);
+  }
+
+  void rejectToolCall(String toolCallId) {
+    Objects.requireNonNull(toolCallId, "toolCallId must not be null");
+
+    var toolCall = getToolCall(toolCallId);
+
+    var newToolCall =
+        new ToolCall(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.REJECTED);
+
+    toolCalls.remove(toolCall);
+    toolCalls.add(newToolCall);
+  }
+
+  private ToolCall getToolCall(String toolCallId) {
+    return toolCalls.stream()
+        .filter(t -> t.id().equals(toolCallId))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException("toolCallId", toolCallId));
   }
 
   public List<ToolCall> getToolCalls() {

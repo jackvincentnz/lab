@@ -1,0 +1,5 @@
+mutation ApproveToolCall($input: ApproveToolCallInput!) {
+  approveToolCall(input: $input) {
+    success
+  }
+}

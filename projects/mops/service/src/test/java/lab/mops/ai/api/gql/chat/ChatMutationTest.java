@@ -10,15 +10,19 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import lab.mops.ai.application.chat.AddUserMessageCommand;
+import lab.mops.ai.application.chat.ApproveToolCallCommand;
 import lab.mops.ai.application.chat.ChatCommandService;
 import lab.mops.ai.application.chat.EditUserMessageCommand;
+import lab.mops.ai.application.chat.RejectToolCallCommand;
 import lab.mops.ai.application.chat.RetryAssistantMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.api.gql.types.AddUserMessageInput;
+import lab.mops.api.gql.types.ApproveToolCallInput;
 import lab.mops.api.gql.types.EditUserMessageInput;
+import lab.mops.api.gql.types.RejectToolCallInput;
 import lab.mops.api.gql.types.RetryAssistantMessageInput;
 import lab.mops.api.gql.types.StartChatInput;
 import nz.geek.jack.test.TestBase;
@@ -174,6 +178,100 @@ class ChatMutationTest extends TestBase {
     var result =
         chatMutation.retryAssistantMessage(
             RetryAssistantMessageInput.newBuilder().chatId(chatId).messageId(messageId).build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getChat()).isEqualTo(graphChat);
+  }
+
+  @Test
+  void approveToolCall_approves() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var toolCallId = randomId();
+
+    chatMutation.approveToolCall(
+        ApproveToolCallInput.newBuilder()
+            .chatId(chatId)
+            .messageId(messageId)
+            .toolCallId(toolCallId)
+            .build());
+
+    verify(chatCommandService)
+        .approveToolCall(
+            new ApproveToolCallCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId));
+  }
+
+  @Test
+  void approveToolCall_mapsResponse() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var toolCallId = randomId();
+    var domainChat = mock(Chat.class);
+    var graphChat = mock(lab.mops.api.gql.types.Chat.class);
+
+    when(chatCommandService.approveToolCall(
+            new ApproveToolCallCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId)))
+        .thenReturn(domainChat);
+    when(chatMapper.map(domainChat)).thenReturn(graphChat);
+
+    var result =
+        chatMutation.approveToolCall(
+            ApproveToolCallInput.newBuilder()
+                .chatId(chatId)
+                .messageId(messageId)
+                .toolCallId(toolCallId)
+                .build());
+
+    assertThat(result.getCode()).isEqualTo(SC_OK);
+    assertThat(result.getSuccess()).isTrue();
+    assertThat(result.getMessage()).isEqualTo(OK_MESSAGE);
+    assertThat(result.getChat()).isEqualTo(graphChat);
+  }
+
+  @Test
+  void rejectToolCall_rejects() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var toolCallId = randomId();
+
+    chatMutation.rejectToolCall(
+        RejectToolCallInput.newBuilder()
+            .chatId(chatId)
+            .messageId(messageId)
+            .toolCallId(toolCallId)
+            .build());
+
+    verify(chatCommandService)
+        .rejectToolCall(
+            new RejectToolCallCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId));
+  }
+
+  @Test
+  void rejectToolCall_mapsResponse() {
+    var chatId = randomId();
+    var messageId = randomId();
+    var toolCallId = randomId();
+    var domainChat = mock(Chat.class);
+    var graphChat = mock(lab.mops.api.gql.types.Chat.class);
+
+    when(chatCommandService.rejectToolCall(
+            new RejectToolCallCommand(
+                ChatId.fromString(chatId), MessageId.fromString(messageId), toolCallId)))
+        .thenReturn(domainChat);
+    when(chatMapper.map(domainChat)).thenReturn(graphChat);
+
+    var result =
+        chatMutation.rejectToolCall(
+            RejectToolCallInput.newBuilder()
+                .chatId(chatId)
+                .messageId(messageId)
+                .toolCallId(toolCallId)
+                .build());
 
     assertThat(result.getCode()).isEqualTo(SC_OK);
     assertThat(result.getSuccess()).isTrue();

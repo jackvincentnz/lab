@@ -9,16 +9,22 @@ import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsMutation;
 import com.netflix.graphql.dgs.InputArgument;
 import lab.mops.ai.application.chat.AddUserMessageCommand;
+import lab.mops.ai.application.chat.ApproveToolCallCommand;
 import lab.mops.ai.application.chat.ChatCommandService;
 import lab.mops.ai.application.chat.EditUserMessageCommand;
+import lab.mops.ai.application.chat.RejectToolCallCommand;
 import lab.mops.ai.application.chat.RetryAssistantMessageCommand;
 import lab.mops.ai.application.chat.StartChatCommand;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.api.gql.types.AddUserMessageInput;
 import lab.mops.api.gql.types.AddUserMessageResponse;
+import lab.mops.api.gql.types.ApproveToolCallInput;
+import lab.mops.api.gql.types.ApproveToolCallResponse;
 import lab.mops.api.gql.types.EditUserMessageInput;
 import lab.mops.api.gql.types.EditUserMessageResponse;
+import lab.mops.api.gql.types.RejectToolCallInput;
+import lab.mops.api.gql.types.RejectToolCallResponse;
 import lab.mops.api.gql.types.RetryAssistantMessageInput;
 import lab.mops.api.gql.types.RetryAssistantMessageResponse;
 import lab.mops.api.gql.types.StartChatInput;
@@ -93,6 +99,43 @@ public class ChatMutation {
     var chat = chatCommandService.retryAssistantMessage(command);
 
     return RetryAssistantMessageResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
+        .chat(chatMapper.map(chat))
+        .build();
+  }
+
+  @DgsMutation
+  public ApproveToolCallResponse approveToolCall(
+      @InputArgument("input") ApproveToolCallInput input) {
+    var command =
+        new ApproveToolCallCommand(
+            ChatId.fromString(input.getChatId()),
+            MessageId.fromString(input.getMessageId()),
+            input.getToolCallId());
+
+    var chat = chatCommandService.approveToolCall(command);
+
+    return ApproveToolCallResponse.newBuilder()
+        .code(SC_OK)
+        .success(true)
+        .message(OK_MESSAGE)
+        .chat(chatMapper.map(chat))
+        .build();
+  }
+
+  @DgsMutation
+  public RejectToolCallResponse rejectToolCall(@InputArgument("input") RejectToolCallInput input) {
+    var command =
+        new RejectToolCallCommand(
+            ChatId.fromString(input.getChatId()),
+            MessageId.fromString(input.getMessageId()),
+            input.getToolCallId());
+
+    var chat = chatCommandService.rejectToolCall(command);
+
+    return RejectToolCallResponse.newBuilder()
         .code(SC_OK)
         .success(true)
         .message(OK_MESSAGE)
