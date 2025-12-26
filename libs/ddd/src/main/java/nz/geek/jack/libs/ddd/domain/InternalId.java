@@ -12,6 +12,7 @@ public abstract class InternalId {
   }
 
   protected InternalId(UUID id) {
+    Objects.requireNonNull(id);
     this.id = id;
   }
 
