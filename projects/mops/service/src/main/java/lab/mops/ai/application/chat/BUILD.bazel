@@ -10,6 +10,7 @@ java_library(
     deps = [
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
         "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+        "@maven//:org_apache_commons_commons_lang3",
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_spring_context",
     ],

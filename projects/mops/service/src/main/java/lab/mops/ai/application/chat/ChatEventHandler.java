@@ -3,6 +3,7 @@ package lab.mops.ai.application.chat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.ToolCall;
@@ -12,6 +13,7 @@ import lab.mops.ai.domain.chat.Message;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
@@ -143,8 +145,12 @@ public class ChatEventHandler {
                           () ->
                               new RuntimeException(
                                   "Tool [%s] not available".formatted(toolCall.toolName())));
+
+              var toolCallId =
+                  StringUtils.isBlank(toolCall.id()) ? UUID.randomUUID().toString() : toolCall.id();
+
               return new lab.mops.ai.domain.chat.ToolCall(
-                  ToolCallId.of(toolCall.id()),
+                  ToolCallId.of(toolCallId),
                   toolCall.toolName(),
                   toolCall.arguments(),
                   tool.getToolDefinition().needsApproval()
