@@ -55,6 +55,7 @@ maven.install(
         "org.flywaydb:flyway-core",
         "org.springframework.ai:spring-ai-starter-mcp-server-webmvc",
         "org.springframework.ai:spring-ai-starter-model-google-genai",
+        "org.springframework.ai:spring-ai-starter-model-ollama",
         "org.springframework.ai:spring-ai-starter-model-openai",
         "org.springframework.boot:spring-boot-loader",
         "org.springframework.boot:spring-boot-starter-actuator",
