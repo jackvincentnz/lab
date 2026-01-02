@@ -149,7 +149,7 @@ public class ChatEventHandler {
               var toolCallId =
                   StringUtils.isBlank(toolCall.id()) ? UUID.randomUUID().toString() : toolCall.id();
 
-              return new lab.mops.ai.domain.chat.ToolCall(
+              return lab.mops.ai.domain.chat.ToolCall.of(
                   ToolCallId.of(toolCallId),
                   toolCall.toolName(),
                   toolCall.arguments(),

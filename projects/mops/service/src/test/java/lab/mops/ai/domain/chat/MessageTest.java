@@ -96,7 +96,7 @@ class MessageTest extends TestBase {
     var message = Message.assistantMessage();
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     message.addPendingToolCalls(toolCalls);
@@ -126,7 +126,7 @@ class MessageTest extends TestBase {
   void approveToolCall_approves() {
     var message = Message.assistantMessage();
     var toolCall =
-        new ToolCall(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
+        ToolCall.of(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.approveToolCall(toolCall.id());
@@ -154,7 +154,7 @@ class MessageTest extends TestBase {
   void rejectToolCall_rejects() {
     var message = Message.assistantMessage();
     var toolCall =
-        new ToolCall(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
+        ToolCall.of(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.rejectToolCall(toolCall.id());

@@ -70,7 +70,7 @@ class ChatMapperTest extends TestBase {
 
     domainChat.addPendingToolCalls(
         assistantMessage.getId(),
-        List.of(new ToolCall(toolCallId, toolCallName, toolCallArguments, toolCallStatus)));
+        List.of(ToolCall.of(toolCallId, toolCallName, toolCallArguments, toolCallStatus)));
 
     var result = chatMapper.map(domainChat);
 
