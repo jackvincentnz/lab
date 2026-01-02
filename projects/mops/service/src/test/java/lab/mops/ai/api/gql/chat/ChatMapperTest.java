@@ -63,7 +63,7 @@ class ChatMapperTest extends TestBase {
   void map_mapsPendingApprovalToolCalls() {
     var domainChat = Chat.start(randomString());
     var assistantMessage = domainChat.getMessages().get(1);
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var toolCallName = randomString();
     var toolCallArguments = randomString();
     var toolCallStatus = ToolCallStatus.PENDING_APPROVAL;

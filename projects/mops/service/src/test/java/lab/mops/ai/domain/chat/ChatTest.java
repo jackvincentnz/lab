@@ -324,9 +324,7 @@ class ChatTest extends TestBase {
   void addPendingToolCalls_completesMessage() {
     var chat = Chat.start(randomString());
     var toolCalls =
-        List.of(
-            ToolCall.of(
-                ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
+        List.of(ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
 
@@ -340,9 +338,7 @@ class ChatTest extends TestBase {
   void addPendingToolCalls_registersEventWithChatId() {
     var chat = Chat.start(randomString());
     var toolCalls =
-        List.of(
-            ToolCall.of(
-                ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
+        List.of(ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
 
@@ -357,9 +353,7 @@ class ChatTest extends TestBase {
   void addPendingToolCalls_registersEventWithToolCalls() {
     var chat = Chat.start(randomString());
     var toolCalls =
-        List.of(
-            ToolCall.of(
-                ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
+        List.of(ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
 
@@ -374,13 +368,13 @@ class ChatTest extends TestBase {
   void approveToolCall_throwsNotFoundForMissingMessage() {
     var chat = Chat.start(randomString());
 
-    assertThatThrownBy(() -> chat.approveToolCall(MessageId.create(), ToolCallId.of(randomId())))
+    assertThatThrownBy(() -> chat.approveToolCall(MessageId.create(), ToolCallId.create()))
         .isInstanceOf(NotFoundException.class);
   }
 
   @Test
   void approveToolCall_approves() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -396,7 +390,7 @@ class ChatTest extends TestBase {
 
   @Test
   void approveToolCall_registersEventWithChatId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -414,7 +408,7 @@ class ChatTest extends TestBase {
 
   @Test
   void approveToolCall_registersEventWithMessageId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -432,7 +426,7 @@ class ChatTest extends TestBase {
 
   @Test
   void approveToolCall_registersEventWithToolCallId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -452,13 +446,13 @@ class ChatTest extends TestBase {
   void rejectToolCall_throwsNotFoundForMissingMessage() {
     var chat = Chat.start(randomString());
 
-    assertThatThrownBy(() -> chat.rejectToolCall(MessageId.create(), ToolCallId.of(randomId())))
+    assertThatThrownBy(() -> chat.rejectToolCall(MessageId.create(), ToolCallId.create()))
         .isInstanceOf(NotFoundException.class);
   }
 
   @Test
   void rejectToolCall_rejects() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -474,7 +468,7 @@ class ChatTest extends TestBase {
 
   @Test
   void rejectToolCall_registersEventWithChatId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -492,7 +486,7 @@ class ChatTest extends TestBase {
 
   @Test
   void rejectToolCall_registersEventWithMessageId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
@@ -510,7 +504,7 @@ class ChatTest extends TestBase {
 
   @Test
   void rejectToolCall_registersEventWithToolCallId() {
-    var toolCallId = ToolCallId.of(randomId());
+    var toolCallId = ToolCallId.create();
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(

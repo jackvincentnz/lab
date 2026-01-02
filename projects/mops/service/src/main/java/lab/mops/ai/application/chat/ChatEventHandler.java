@@ -3,7 +3,6 @@ package lab.mops.ai.application.chat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.ToolCall;
@@ -147,10 +146,12 @@ public class ChatEventHandler {
                                   "Tool [%s] not available".formatted(toolCall.toolName())));
 
               var toolCallId =
-                  StringUtils.isBlank(toolCall.id()) ? UUID.randomUUID().toString() : toolCall.id();
+                  StringUtils.isBlank(toolCall.id())
+                      ? ToolCallId.create()
+                      : ToolCallId.of(toolCall.id());
 
               return lab.mops.ai.domain.chat.ToolCall.of(
-                  ToolCallId.of(toolCallId),
+                  toolCallId,
                   toolCall.toolName(),
                   toolCall.arguments(),
                   tool.getToolDefinition().needsApproval()

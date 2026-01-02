@@ -95,9 +95,7 @@ class MessageTest extends TestBase {
   void addPendingToolCalls_addsToolCalls() {
     var message = Message.assistantMessage();
     var toolCalls =
-        List.of(
-            ToolCall.of(
-                ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
+        List.of(ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     message.addPendingToolCalls(toolCalls);
 
@@ -126,7 +124,7 @@ class MessageTest extends TestBase {
   void approveToolCall_approves() {
     var message = Message.assistantMessage();
     var toolCall =
-        ToolCall.of(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
+        ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.approveToolCall(toolCall.id());
@@ -146,7 +144,7 @@ class MessageTest extends TestBase {
   void approveToolCall_throwsNotFoundForMissingToolCall() {
     var message = Message.assistantMessage();
 
-    assertThatThrownBy(() -> message.approveToolCall(ToolCallId.of(randomId())))
+    assertThatThrownBy(() -> message.approveToolCall(ToolCallId.create()))
         .isInstanceOf(NotFoundException.class);
   }
 
@@ -154,7 +152,7 @@ class MessageTest extends TestBase {
   void rejectToolCall_rejects() {
     var message = Message.assistantMessage();
     var toolCall =
-        ToolCall.of(ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL);
+        ToolCall.of(ToolCallId.create(), "name", "args", ToolCallStatus.PENDING_APPROVAL);
     message.addPendingToolCalls(List.of(toolCall));
 
     message.rejectToolCall(toolCall.id());
@@ -173,7 +171,7 @@ class MessageTest extends TestBase {
   void rejectToolCall_throwsNotFoundForMissingToolCall() {
     var message = Message.assistantMessage();
 
-    assertThatThrownBy(() -> message.rejectToolCall(ToolCallId.of(randomId())))
+    assertThatThrownBy(() -> message.rejectToolCall(ToolCallId.create()))
         .isInstanceOf(NotFoundException.class);
   }
 
