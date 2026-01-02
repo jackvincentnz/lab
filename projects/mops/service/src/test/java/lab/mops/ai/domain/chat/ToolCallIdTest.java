@@ -16,8 +16,15 @@ class ToolCallIdTest extends TestBase {
   }
 
   @Test
+  void create_setsId() {
+    var id = ToolCallId.create();
+
+    assertThat(id.toString()).isNotBlank();
+  }
+
+  @Test
   void equals_trueForSameId() {
-    var id1 = ToolCallId.of(randomId());
+    var id1 = ToolCallId.create();
     var id2 = ToolCallId.of(id1.toString());
 
     assertThat(id1).isEqualTo(id2);
@@ -25,15 +32,15 @@ class ToolCallIdTest extends TestBase {
 
   @Test
   void equals_falseForDifferentIds() {
-    var id1 = ToolCallId.of(randomId());
-    var id2 = ToolCallId.of(randomId());
+    var id1 = ToolCallId.create();
+    var id2 = ToolCallId.create();
 
     assertThat(id1).isNotEqualTo(id2);
   }
 
   @Test
   void hashCode_sameForEqualIds() {
-    var id = ToolCallId.of(randomId());
+    var id = ToolCallId.create();
     var another = ToolCallId.of(id.toString());
 
     assertThat(id.hashCode()).isEqualTo(another.hashCode());
