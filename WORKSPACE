@@ -5,7 +5,7 @@ workspace(
     name = "lab",
 )
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_jar")
 
 ####################################################################################################
 # rules_spring setup
@@ -17,4 +17,10 @@ http_archive(
     urls = [
         "https://github.com/salesforce/rules_spring/releases/download/2.3.2/rules-spring-2.3.2.zip",
     ],
+)
+
+http_jar(
+    name = "opentelemetry-javaagent",
+    sha256 = "b23e5ab7f5fb4f58826c6d2c31ea637825c7190652a9d47d86692e37e615a0d5",
+    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.23.0/opentelemetry-javaagent.jar",
 )
