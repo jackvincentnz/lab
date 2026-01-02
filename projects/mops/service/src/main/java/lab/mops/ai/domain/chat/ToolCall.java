@@ -10,13 +10,21 @@ public final class ToolCall {
 
   private final String arguments;
 
-  private final ToolCallStatus status;
+  private ToolCallStatus status;
 
   private ToolCall(ToolCallId id, String name, String arguments, ToolCallStatus status) {
     this.id = id;
     this.name = name;
     this.arguments = arguments;
     this.status = status;
+  }
+
+  void approve() {
+    this.status = ToolCallStatus.APPROVED;
+  }
+
+  void reject() {
+    this.status = ToolCallStatus.REJECTED;
   }
 
   public ToolCallId id() {

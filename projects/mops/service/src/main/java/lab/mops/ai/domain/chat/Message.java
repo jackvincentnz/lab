@@ -96,26 +96,14 @@ public class Message {
 
   void approveToolCall(ToolCallId toolCallId) {
     Objects.requireNonNull(toolCallId, "toolCallId must not be null");
-
     var toolCall = getToolCall(toolCallId);
-
-    var newToolCall =
-        ToolCall.of(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.APPROVED);
-
-    toolCalls.remove(toolCall);
-    toolCalls.add(newToolCall);
+    toolCall.approve();
   }
 
   void rejectToolCall(ToolCallId toolCallId) {
     Objects.requireNonNull(toolCallId, "toolCallId must not be null");
-
     var toolCall = getToolCall(toolCallId);
-
-    var newToolCall =
-        ToolCall.of(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.REJECTED);
-
-    toolCalls.remove(toolCall);
-    toolCalls.add(newToolCall);
+    toolCall.reject();
   }
 
   private ToolCall getToolCall(ToolCallId toolCallId) {
