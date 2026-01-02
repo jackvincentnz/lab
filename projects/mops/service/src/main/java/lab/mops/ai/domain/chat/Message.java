@@ -100,7 +100,7 @@ public class Message {
     var toolCall = getToolCall(toolCallId);
 
     var newToolCall =
-        new ToolCall(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.APPROVED);
+        ToolCall.of(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.APPROVED);
 
     toolCalls.remove(toolCall);
     toolCalls.add(newToolCall);
@@ -112,7 +112,7 @@ public class Message {
     var toolCall = getToolCall(toolCallId);
 
     var newToolCall =
-        new ToolCall(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.REJECTED);
+        ToolCall.of(toolCall.id(), toolCall.name(), toolCall.arguments(), ToolCallStatus.REJECTED);
 
     toolCalls.remove(toolCall);
     toolCalls.add(newToolCall);

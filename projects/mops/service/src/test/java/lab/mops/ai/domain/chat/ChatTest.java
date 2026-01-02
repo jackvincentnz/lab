@@ -325,7 +325,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
@@ -341,7 +341,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
@@ -358,7 +358,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 ToolCallId.of(randomId()), "name", "args", ToolCallStatus.PENDING_APPROVAL));
 
     var assistantMessage = chat.getMessages().get(1);
@@ -384,7 +384,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -400,7 +400,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -418,7 +418,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -436,7 +436,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -462,7 +462,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -478,7 +478,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -496,7 +496,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
@@ -514,7 +514,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(randomString());
     var toolCalls =
         List.of(
-            new ToolCall(
+            ToolCall.of(
                 toolCallId, randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL));
     var assistantMessage = chat.getMessages().get(1);
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
