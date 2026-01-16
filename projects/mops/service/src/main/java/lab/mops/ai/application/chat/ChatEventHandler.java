@@ -10,6 +10,7 @@ import lab.mops.ai.application.chat.completions.ToolResultMessage;
 import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.ai.domain.chat.Message;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
+import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
 import org.apache.commons.lang3.StringUtils;
@@ -74,7 +75,7 @@ public class ChatEventHandler {
 
       conversationHistory.add(response);
 
-      var toolResults = executeToolCalls(tools, response.getToolCalls());
+      var toolResults = executeToolCalls(response.getToolCalls());
       conversationHistory.addAll(toolResults);
 
       response = completionService.getResponse(conversationHistory);
@@ -104,26 +105,11 @@ public class ChatEventHandler {
                     && t.getToolDefinition().needsApproval());
   }
 
-  private List<ToolResultMessage> executeToolCalls(
-      Collection<Tool> tools, Collection<ToolCall> toolCalls) {
+  private List<ToolResultMessage> executeToolCalls(Collection<ToolCall> toolCalls) {
     var toolResults = new ArrayList<ToolResultMessage>();
 
     for (var toolCall : toolCalls) {
-      var tool =
-          tools.stream()
-              .filter(t -> toolCall.toolName().equals(t.getToolDefinition().name()))
-              .findFirst()
-              .orElseThrow(
-                  () ->
-                      new RuntimeException(
-                          "Tool [%s] not available".formatted(toolCall.toolName())));
-
-      LOG.debug(
-          "Executing tool [{}] with arguments [{}]", toolCall.toolName(), toolCall.arguments());
-
-      var result = tool.call(toolCall.arguments());
-
-      LOG.debug("Tool [{}] returned [{}]", toolCall.toolName(), result);
+      var result = executeToolCall(toolCall);
 
       toolResults.add(new ToolResultMessage(result, toolCall.id(), toolCall.toolName()));
     }
@@ -159,5 +145,40 @@ public class ChatEventHandler {
                       : ToolCallStatus.APPROVED);
             })
         .toList();
+  }
+
+  @Async
+  @EventListener
+  public void onToolCallApproved(ToolCallApprovedEvent event) {
+    var chat = chatRepository.getById(event.chatId());
+    var toolCall = chat.getToolCallById(event.messageId(), event.toolCallId());
+
+    var result =
+        executeToolCall(
+            new ToolCall(toolCall.id().toString(), toolCall.name(), toolCall.arguments()));
+
+    chat.recordToolResult(event.messageId(), event.toolCallId(), result);
+
+    chatRepository.save(chat);
+  }
+
+  private String executeToolCall(ToolCall toolCall) {
+    var tool = getToolByName(toolCall.toolName());
+
+    LOG.debug("Executing tool [{}] with arguments [{}]", toolCall.toolName(), toolCall.arguments());
+
+    var result = tool.call(toolCall.arguments());
+
+    LOG.debug("Tool [{}] returned [{}]", toolCall.toolName(), result);
+
+    return result;
+  }
+
+  // TODO: check lookup performance -> move to interface that does exactly what we need
+  private Tool getToolByName(String name) {
+    return toolProvider.getTools().stream()
+        .filter(t -> name.equals(t.getToolDefinition().name()))
+        .findFirst()
+        .orElseThrow(() -> new RuntimeException("Tool [%s] not available".formatted(name)));
   }
 }

@@ -12,7 +12,7 @@ post {
 
 body:graphql {
   mutation {
-    startChat(input:{content:"How much am I spending in Q1 in my Annual Marketing Budget 2025?"}) {
+    startChat(input:{content:"Create a budget FY29"}) {
       code
       success
       message
@@ -39,4 +39,5 @@ script:post-response {
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

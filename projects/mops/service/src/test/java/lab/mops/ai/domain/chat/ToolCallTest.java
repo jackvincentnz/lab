@@ -19,6 +19,17 @@ class ToolCallTest extends TestBase {
   }
 
   @Test
+  void recordResult_records() {
+    var result = randomString();
+    var toolCall =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+
+    toolCall.recordResult(result);
+
+    assertThat(toolCall.result()).isEqualTo(result);
+  }
+
+  @Test
   void reject_rejects() {
     var toolCall =
         ToolCall.of(
