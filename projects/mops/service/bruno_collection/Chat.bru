@@ -19,15 +19,18 @@ body:graphql {
         type
         status
         content
-        createdAt
-        updatedAt
+        toolCalls {
+          id
+          name
+          arguments
+          status
+        }
       }
-      createdAt
-      updatedAt
     }
   }
 }
 
 settings {
   encodeUrl: true
+  timeout: 0
 }

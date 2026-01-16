@@ -149,6 +149,44 @@ class MessageTest extends TestBase {
   }
 
   @Test
+  void recordToolResult_records() {
+    var result = randomString();
+    var message = Message.assistantMessage();
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    message.addPendingToolCalls(List.of(toolCall));
+
+    message.recordToolResult(toolCall.id(), result);
+
+    assertThat(message.getToolCalls().get(0).result()).isEqualTo(result);
+  }
+
+  @Test
+  void recordToolResult_preventsNullToolCallId() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.recordToolResult(null, randomString()))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void recordToolResult_preventsNullResult() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.recordToolResult(ToolCallId.create(), null))
+        .isInstanceOf(NullPointerException.class);
+  }
+
+  @Test
+  void recordToolResult_throwsNotFoundForMissingToolCall() {
+    var message = Message.assistantMessage();
+
+    assertThatThrownBy(() -> message.recordToolResult(ToolCallId.create(), randomString()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
   void rejectToolCall_rejects() {
     var message = Message.assistantMessage();
     var toolCall =

@@ -365,6 +365,27 @@ class ChatTest extends TestBase {
   }
 
   @Test
+  void getToolCallById_returnsToolCall() {
+    var toolCallId = ToolCallId.create();
+    var toolCall = ToolCall.of(toolCallId, "name", "args", ToolCallStatus.PENDING_APPROVAL);
+    var chat = Chat.start(randomString());
+    chat.addPendingToolCalls(chat.getMessages().get(1).getId(), List.of(toolCall));
+
+    var found = chat.getToolCallById(chat.getMessages().get(1).getId(), toolCallId);
+
+    assertThat(found).isEqualTo(toolCall);
+  }
+
+  @Test
+  void getToolCallById_throwsForMissingToolCall() {
+    var toolCallId = ToolCallId.create();
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(() -> chat.getToolCallById(chat.getMessages().get(1).getId(), toolCallId))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
   void approveToolCall_throwsNotFoundForMissingMessage() {
     var chat = Chat.start(randomString());
 
@@ -440,6 +461,127 @@ class ChatTest extends TestBase {
     var event = AggregateTestUtils.getLastEvent(chat, ToolCallApprovedEvent.class);
 
     assertThat(event.toolCallId()).isEqualTo(toolCallId);
+  }
+
+  @Test
+  void recordToolResult_records() {
+    var result = randomString();
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), result);
+
+    assertThat(toolCall.result()).isEqualTo(result);
+  }
+
+  @Test
+  void recordToolResult_registersEventWithChatId() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ToolExecutedEvent.class);
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+  }
+
+  @Test
+  void recordToolResult_registersEventWithMessageId() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ToolExecutedEvent.class);
+    assertThat(event.messageId()).isEqualTo(assistantMessage.getId());
+  }
+
+  @Test
+  void recordToolResult_registersEventWithToolCallId() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, ToolExecutedEvent.class);
+    assertThat(event.toolCallId()).isEqualTo(toolCall.id());
+  }
+
+  @Test
+  void recordToolResult_registersEventWithResult() {
+    var result = randomString();
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), result);
+
+    var event = AggregateTestUtils.getLastEvent(chat, ToolExecutedEvent.class);
+    assertThat(event.result()).isEqualTo(result);
+  }
+
+  @Test
+  void recordToolResult_throwsNotFoundForMissingMessage() {
+    var chat = Chat.start(randomString());
+
+    assertThatThrownBy(
+            () -> chat.recordToolResult(MessageId.create(), ToolCallId.create(), randomString()))
+        .isInstanceOf(NotFoundException.class);
+  }
+
+  @Test
+  void recordToolResult_addsPendingAssistantMessageWhenToolsCompleted() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+    chat.approveToolCall(assistantMessage.getId(), toolCall.id());
+
+    assertThat(chat.getMessages()).hasSize(2);
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), randomString());
+
+    assertThat(chat.getMessages()).hasSize(3);
+    var newAssistantMessage = chat.getMessages().get(2);
+    assertThat(newAssistantMessage.getType()).isEqualTo(MessageType.ASSISTANT);
+  }
+
+  @Test
+  void recordToolResult_registersPendingToolsCompletedEventWhenToolsCompleted() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+    chat.approveToolCall(assistantMessage.getId(), toolCall.id());
+
+    chat.recordToolResult(assistantMessage.getId(), toolCall.id(), randomString());
+
+    var event = AggregateTestUtils.getLastEvent(chat, PendingToolsCompletedEvent.class);
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(2).getId());
   }
 
   @Test

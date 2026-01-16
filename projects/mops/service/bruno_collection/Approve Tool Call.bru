@@ -1,7 +1,7 @@
 meta {
-  name: Add User Message
+  name: Approve Tool Call
   type: graphql
-  seq: 6
+  seq: 4
 }
 
 post {
@@ -12,22 +12,19 @@ post {
 
 body:graphql {
   mutation {
-    addUserMessage(input:{chatId:"{{chatId}}", content:"What budgets do I have?"}) {
-      code
-      success
-      message
+    approveToolCall(input:{chatId:"{{chatId}}", messageId:"a9cb4b8b-0a79-42de-886a-043eba4f0b82", toolCallId:"qIhalC8mF"}) {
       chat {
         id
         messages {
           id
           type
-          status
           content
-          createdAt
-          updatedAt
+          status
+          toolCalls {
+            id
+            status
+          }
         }
-        createdAt
-        updatedAt
       }
     }
   }

@@ -95,6 +95,21 @@ public class Chat extends Aggregate<ChatId> {
     registerEvent(new ToolCallApprovedEvent(getId(), messageId, toolCallId));
   }
 
+  public void recordToolResult(MessageId messageId, ToolCallId toolCallId, String result) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+
+    message.recordToolResult(toolCallId, result);
+
+    registerEvent(new ToolExecutedEvent(getId(), messageId, toolCallId, result));
+
+    if (message.getToolCalls().stream()
+        .noneMatch(t -> t.status() == ToolCallStatus.PENDING_APPROVAL)) {
+      var assistantMessage = Message.assistantMessage();
+      messages.add(assistantMessage);
+      registerEvent(new PendingToolsCompletedEvent(getId(), assistantMessage.getId()));
+    }
+  }
+
   public void rejectToolCall(MessageId messageId, ToolCallId toolCallId) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
 
@@ -120,6 +135,13 @@ public class Chat extends Aggregate<ChatId> {
 
   public List<Message> getMessages() {
     return Collections.unmodifiableList(messages);
+  }
+
+  public ToolCall getToolCallById(MessageId messageId, ToolCallId toolCallId) {
+    return getMessage(messageId, MessageType.ASSISTANT).getToolCalls().stream()
+        .filter(t -> t.id().equals(toolCallId))
+        .findFirst()
+        .orElseThrow(() -> new NotFoundException(toolCallId));
   }
 
   public static Chat start(String content) {

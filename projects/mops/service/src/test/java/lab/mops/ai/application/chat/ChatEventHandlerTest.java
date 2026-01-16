@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -12,8 +13,12 @@ import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.ai.domain.chat.Chat;
+import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
+import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
+import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
+import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
 import nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils;
 import nz.geek.jack.test.TestBase;
@@ -35,12 +40,6 @@ class ChatEventHandlerTest extends TestBase {
   @Mock ToolProvider toolProvider;
 
   @Mock MessageMapper messageMapper;
-
-  @Mock Chat chat;
-
-  @Mock Tool tool;
-
-  @Mock ToolDefinition toolDefinition;
 
   @InjectMocks ChatEventHandler chatEventHandler;
 
@@ -146,11 +145,50 @@ class ChatEventHandlerTest extends TestBase {
     assertThat(toolCall.status()).isEqualTo(ToolCallStatus.PENDING_APPROVAL);
   }
 
+  @Test
+  void onToolCallApproved_shouldExecuteToolCallAndRecordResult() {
+    var chatId = ChatId.create();
+    var messageId = MessageId.create();
+    var toolCallId = ToolCallId.create();
+    var event = new ToolCallApprovedEvent(chatId, messageId, toolCallId);
+
+    var chat = mock(Chat.class);
+    when(chatRepository.getById(chatId)).thenReturn(chat);
+
+    var toolCall = mock(lab.mops.ai.domain.chat.ToolCall.class);
+    var toolName = randomString();
+    var toolCallArgs = randomString();
+    when(toolCall.id()).thenReturn(toolCallId);
+    when(toolCall.name()).thenReturn(toolName);
+    when(toolCall.arguments()).thenReturn(toolCallArgs);
+
+    when(chat.getToolCallById(event.messageId(), event.toolCallId())).thenReturn(toolCall);
+
+    var tool = mockTool(toolName);
+    when(toolProvider.getTools()).thenReturn(List.of(tool));
+
+    var toolCallResult = randomString();
+    when(tool.call(toolCallArgs)).thenReturn(toolCallResult);
+
+    chatEventHandler.onToolCallApproved(event);
+
+    verify(chat).recordToolResult(messageId, toolCallId, toolCallResult);
+    verify(chatRepository).save(chat);
+  }
+
   Tool mockTool(String name, boolean needsApproval) {
     var mockTool = mock(Tool.class);
     var mockToolDef = mock(ToolDefinition.class);
     when(mockToolDef.name()).thenReturn(name);
     when(mockToolDef.needsApproval()).thenReturn(needsApproval);
+    when(mockTool.getToolDefinition()).thenReturn(mockToolDef);
+    return mockTool;
+  }
+
+  Tool mockTool(String name) {
+    var mockTool = mock(Tool.class);
+    var mockToolDef = mock(ToolDefinition.class);
+    when(mockToolDef.name()).thenReturn(name);
     when(mockTool.getToolDefinition()).thenReturn(mockToolDef);
     return mockTool;
   }

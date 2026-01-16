@@ -100,6 +100,15 @@ public class Message {
     toolCall.approve();
   }
 
+  void recordToolResult(ToolCallId toolCallId, String result) {
+    Objects.requireNonNull(toolCallId, "toolCallId must not be null");
+    Objects.requireNonNull(result, "result must not be null");
+
+    var toolCall = getToolCall(toolCallId);
+
+    toolCall.recordResult(result);
+  }
+
   void rejectToolCall(ToolCallId toolCallId) {
     Objects.requireNonNull(toolCallId, "toolCallId must not be null");
     var toolCall = getToolCall(toolCallId);
