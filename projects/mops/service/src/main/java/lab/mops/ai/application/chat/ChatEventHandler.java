@@ -3,12 +3,10 @@ package lab.mops.ai.application.chat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.ToolResultMessage;
 import lab.mops.ai.domain.chat.ChatRepository;
-import lab.mops.ai.domain.chat.Message;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
@@ -34,17 +32,17 @@ public class ChatEventHandler {
 
   private final ToolProvider toolProvider;
 
-  private final MessageMapper messageMapper;
+  private final ChatContextBuilder chatContextBuilder;
 
   public ChatEventHandler(
       ChatRepository chatRepository,
       CompletionService completionService,
       ToolProvider toolProvider,
-      MessageMapper messageMapper) {
+      ChatContextBuilder chatContextBuilder) {
     this.chatRepository = chatRepository;
     this.completionService = completionService;
     this.toolProvider = toolProvider;
-    this.messageMapper = messageMapper;
+    this.chatContextBuilder = chatContextBuilder;
   }
 
   @Async
@@ -57,12 +55,7 @@ public class ChatEventHandler {
 
     var chat = chatRepository.getById(event.chatId());
     var tools = toolProvider.getTools();
-
-    var conversationHistory =
-        chat.getMessages().stream()
-            .filter(Message::isCompleted)
-            .map(messageMapper::map)
-            .collect(Collectors.toList());
+    var conversationHistory = new ArrayList<>(chatContextBuilder.buildHistory(chat));
 
     var completionCounter = 0;
     var response = completionService.getResponse(conversationHistory);

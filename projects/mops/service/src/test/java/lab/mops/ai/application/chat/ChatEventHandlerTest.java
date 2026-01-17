@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import lab.mops.ai.application.chat.completions.AssistantMessage;
 import lab.mops.ai.application.chat.completions.CompletionService;
+import lab.mops.ai.application.chat.completions.Message;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.ai.domain.chat.Chat;
@@ -39,7 +40,7 @@ class ChatEventHandlerTest extends TestBase {
 
   @Mock ToolProvider toolProvider;
 
-  @Mock MessageMapper messageMapper;
+  @Mock ChatContextBuilder chatContextBuilder;
 
   @InjectMocks ChatEventHandler chatEventHandler;
 
@@ -52,13 +53,14 @@ class ChatEventHandlerTest extends TestBase {
     var chat = Chat.start(randomString());
     var userMessage = chat.getMessages().get(0);
     var completionsUserMessage = new UserMessage(userMessage.getContent().orElseThrow());
+    List<Message> chatHistory = List.of(completionsUserMessage);
     var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
     var completion = AssistantMessage.of(randomString());
 
     when(chatRepository.getById(chat.getId())).thenReturn(chat);
     when(toolProvider.getTools()).thenReturn(List.of());
-    when(messageMapper.map(userMessage)).thenReturn(completionsUserMessage);
-    when(completionService.getResponse(List.of(completionsUserMessage))).thenReturn(completion);
+    when(chatContextBuilder.buildHistory(chat)).thenReturn(chatHistory);
+    when(completionService.getResponse(chatHistory)).thenReturn(completion);
 
     chatEventHandler.onPendingAssistantMessageAdded(event);
 
@@ -72,6 +74,7 @@ class ChatEventHandlerTest extends TestBase {
     var chat = Chat.start(randomString());
     var userMessage = chat.getMessages().get(0);
     var completionsUserMessage = new UserMessage(userMessage.getContent().orElseThrow());
+    List<Message> chatHistory = List.of(completionsUserMessage);
     var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
 
     var toolName = randomString();
@@ -82,7 +85,7 @@ class ChatEventHandlerTest extends TestBase {
 
     when(chatRepository.getById(chat.getId())).thenReturn(chat);
     when(toolProvider.getTools()).thenReturn(List.of(mockTool));
-    when(messageMapper.map(userMessage)).thenReturn(completionsUserMessage);
+    when(chatContextBuilder.buildHistory(chat)).thenReturn(chatHistory);
     when(completionService.getResponse(anyList()))
         .thenReturn(toolCompletion)
         .thenReturn(finalCompletion);
@@ -99,6 +102,7 @@ class ChatEventHandlerTest extends TestBase {
     var chat = Chat.start(randomString());
     var userMessage = chat.getMessages().get(0);
     var completionsUserMessage = new UserMessage(userMessage.getContent().orElseThrow());
+    List<Message> chatHistory = List.of(completionsUserMessage);
     var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
 
     var toolName = randomString();
@@ -110,7 +114,7 @@ class ChatEventHandlerTest extends TestBase {
 
     when(chatRepository.getById(chat.getId())).thenReturn(chat);
     when(toolProvider.getTools()).thenReturn(List.of(mockTool));
-    when(messageMapper.map(userMessage)).thenReturn(completionsUserMessage);
+    when(chatContextBuilder.buildHistory(chat)).thenReturn(chatHistory);
     when(completionService.getResponse(anyList()))
         .thenReturn(toolCompletion)
         .thenReturn(finalCompletion);
@@ -124,6 +128,7 @@ class ChatEventHandlerTest extends TestBase {
     var chat = Chat.start(randomString());
     var userMessage = chat.getMessages().get(0);
     var completionsUserMessage = new UserMessage(userMessage.getContent().orElseThrow());
+    List<Message> chatHistory = List.of(completionsUserMessage);
     var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
 
     var toolName = randomString();
@@ -133,7 +138,7 @@ class ChatEventHandlerTest extends TestBase {
 
     when(chatRepository.getById(chat.getId())).thenReturn(chat);
     when(toolProvider.getTools()).thenReturn(List.of(mockTool));
-    when(messageMapper.map(userMessage)).thenReturn(completionsUserMessage);
+    when(chatContextBuilder.buildHistory(chat)).thenReturn(chatHistory);
     when(completionService.getResponse(List.of(completionsUserMessage))).thenReturn(completion);
 
     chatEventHandler.onPendingAssistantMessageAdded(event);
