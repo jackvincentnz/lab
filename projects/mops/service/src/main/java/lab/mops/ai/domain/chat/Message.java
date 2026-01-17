@@ -153,7 +153,7 @@ public class Message {
         new HashSet<>());
   }
 
-  public static Message assistantMessage() {
+  static Message assistantMessage() {
     return new Message(
         MessageId.create(),
         MessageType.ASSISTANT,
