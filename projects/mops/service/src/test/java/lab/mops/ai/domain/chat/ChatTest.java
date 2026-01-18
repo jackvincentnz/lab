@@ -663,6 +663,38 @@ class ChatTest extends TestBase {
   }
 
   @Test
+  void rejectToolCall_addsPendingAssistantMessageWhenToolsCompleted() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.rejectToolCall(assistantMessage.getId(), toolCall.id());
+
+    assertThat(chat.getMessages()).hasSize(3);
+    var newAssistantMessage = chat.getMessages().get(2);
+    assertThat(newAssistantMessage.getType()).isEqualTo(MessageType.ASSISTANT);
+  }
+
+  @Test
+  void rejectToolCall_registersPendingToolsCompletedEventWhenToolsCompleted() {
+    var chat = Chat.start(randomString());
+    var assistantMessage = chat.getMessages().get(1);
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(assistantMessage.getId(), List.of(toolCall));
+
+    chat.rejectToolCall(assistantMessage.getId(), toolCall.id());
+
+    var event = AggregateTestUtils.getLastEvent(chat, PendingToolsCompletedEvent.class);
+    assertThat(event.chatId()).isEqualTo(chat.getId());
+    assertThat(event.pendingAssistantMessageId()).isEqualTo(chat.getMessages().get(2).getId());
+  }
+
+  @Test
   void completeMessage_throwsNotFoundForMissingMessage() {
     var chat = Chat.start(randomString());
 
