@@ -1,5 +1,6 @@
 package lab.mops.ai.application.chat;
 
+import static lab.mops.ai.application.chat.ChatContextBuilder.REJECTED_TOOL_CALL_RESULT;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -11,6 +12,7 @@ import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.MessageType;
 import lab.mops.ai.domain.chat.ToolCall;
 import lab.mops.ai.domain.chat.ToolCallId;
+import lab.mops.ai.domain.chat.ToolCallStatus;
 import nz.geek.jack.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -70,5 +72,33 @@ class ChatContextBuilderTest extends TestBase {
     assertThat(toolResult.toolCallId()).isEqualTo(toolCall.id().toString());
     assertThat(toolResult.toolName()).isEqualTo(toolCall.name());
     assertThat(toolResult.content()).isEqualTo(toolCall.result());
+  }
+
+  @Test
+  void buildHistory_shouldAddRejectedToolCalls() {
+    var chat = mock(Chat.class);
+    var assistantMessage = mock(lab.mops.ai.domain.chat.Message.class);
+
+    when(assistantMessage.isCompleted()).thenReturn(true);
+    when(assistantMessage.getType()).thenReturn(MessageType.ASSISTANT);
+
+    var toolCall = mock(ToolCall.class);
+    when(toolCall.id()).thenReturn(ToolCallId.create());
+    when(toolCall.name()).thenReturn(randomString());
+    when(toolCall.status()).thenReturn(ToolCallStatus.REJECTED);
+    when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
+
+    when(chat.getMessages()).thenReturn(List.of(assistantMessage));
+
+    var mapped = mock(Message.class);
+    when(messageMapper.map(assistantMessage)).thenReturn(mapped);
+
+    var history = chatContextBuilder.buildHistory(chat);
+
+    assertThat(history).hasSize(2);
+    var toolResult = (ToolResultMessage) history.get(1);
+    assertThat(toolResult.toolCallId()).isEqualTo(toolCall.id().toString());
+    assertThat(toolResult.toolName()).isEqualTo(toolCall.name());
+    assertThat(toolResult.content()).isEqualTo(REJECTED_TOOL_CALL_RESULT);
   }
 }
