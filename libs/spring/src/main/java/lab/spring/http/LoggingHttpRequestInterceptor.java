@@ -47,6 +47,8 @@ public class LoggingHttpRequestInterceptor implements ClientHttpRequestIntercept
 
   private void logResponse(BufferedResponseReader response) throws IOException {
     LOGGER.trace(
-        "Response Status: {}, Body: {}", response.getStatusCode(), response.getBodyAsString());
+        "Response Status: {}, Body: {}",
+        response.getStatusCode(),
+        response.getBodyAsString().trim());
   }
 }
