@@ -430,75 +430,80 @@ export function Chat() {
                       isLoading={isLoading}
                     />
                   </>
-                ) : msg.toolCalls?.some(
-                    (tc) => tc.status === ToolCallStatus.PendingApproval,
-                  ) ? (
-                  <Stack gap="md">
-                    <Text size="sm" c="dimmed">
-                      The assistant wants to make the following change(s):
-                    </Text>
-                    {msg.toolCalls
-                      ?.filter(
-                        (tc) => tc.status === ToolCallStatus.PendingApproval,
-                      )
-                      .map((toolCall) => (
-                        <ToolCallApproval
-                          key={toolCall.id}
-                          toolCall={toolCall}
-                          onApprove={() =>
-                            handleApproveToolCall(msg.id, toolCall.id)
-                          }
-                          onReject={() =>
-                            handleRejectToolCall(msg.id, toolCall.id)
-                          }
-                        />
-                      ))}
-                  </Stack>
                 ) : (
                   <>
-                    <ReactMarkdown
-                      remarkPlugins={[remarkGfm]}
-                      components={{
-                        table: ({ children, ...props }) => (
-                          <Table
-                            my="md"
-                            striped
-                            highlightOnHover
-                            withTableBorder
-                            {...props}
-                          >
-                            {children}
-                          </Table>
-                        ),
-                        thead: ({ children, ...props }) => (
-                          <Table.Thead {...props}>{children}</Table.Thead>
-                        ),
-                        tbody: ({ children, ...props }) => (
-                          <Table.Tbody {...props}>{children}</Table.Tbody>
-                        ),
-                        tr: ({ children, ...props }) => (
-                          <Table.Tr {...props}>{children}</Table.Tr>
-                        ),
-                        th: ({ children, ...props }) => (
-                          <Table.Th {...props}>{children}</Table.Th>
-                        ),
-                        td: ({ children, ...props }) => (
-                          <Table.Td {...props}>{children}</Table.Td>
-                        ),
-                        p: ({ children }) => <Text my="md">{children}</Text>,
-                      }}
-                    >
-                      {msg.content}
-                    </ReactMarkdown>
-                    <MessageActions
-                      messageId={msg.id}
-                      messageType={msg.type}
-                      messageStatus={msg.status}
-                      content={msg.content || ""}
-                      align="left"
-                      onRetry={handleRetryMessage}
-                      isLoading={isLoading}
-                    />
+                    {msg.toolCalls && msg.toolCalls.length > 0 && (
+                      <Stack gap="md" mb="md">
+                        {msg.toolCalls.some(
+                          (tc) => tc.status === ToolCallStatus.PendingApproval,
+                        ) && (
+                          <Text size="sm" c="dimmed">
+                            The assistant wants to make the following change(s):
+                          </Text>
+                        )}
+                        {msg.toolCalls.map((toolCall) => (
+                          <ToolCallApproval
+                            key={toolCall.id}
+                            toolCall={toolCall}
+                            onApprove={() =>
+                              handleApproveToolCall(msg.id, toolCall.id)
+                            }
+                            onReject={() =>
+                              handleRejectToolCall(msg.id, toolCall.id)
+                            }
+                          />
+                        ))}
+                      </Stack>
+                    )}
+                    {msg.content && (
+                      <>
+                        <ReactMarkdown
+                          remarkPlugins={[remarkGfm]}
+                          components={{
+                            table: ({ children, ...props }) => (
+                              <Table
+                                my="md"
+                                striped
+                                highlightOnHover
+                                withTableBorder
+                                {...props}
+                              >
+                                {children}
+                              </Table>
+                            ),
+                            thead: ({ children, ...props }) => (
+                              <Table.Thead {...props}>{children}</Table.Thead>
+                            ),
+                            tbody: ({ children, ...props }) => (
+                              <Table.Tbody {...props}>{children}</Table.Tbody>
+                            ),
+                            tr: ({ children, ...props }) => (
+                              <Table.Tr {...props}>{children}</Table.Tr>
+                            ),
+                            th: ({ children, ...props }) => (
+                              <Table.Th {...props}>{children}</Table.Th>
+                            ),
+                            td: ({ children, ...props }) => (
+                              <Table.Td {...props}>{children}</Table.Td>
+                            ),
+                            p: ({ children }) => (
+                              <Text my="md">{children}</Text>
+                            ),
+                          }}
+                        >
+                          {msg.content}
+                        </ReactMarkdown>
+                        <MessageActions
+                          messageId={msg.id}
+                          messageType={msg.type}
+                          messageStatus={msg.status}
+                          content={msg.content || ""}
+                          align="left"
+                          onRetry={handleRetryMessage}
+                          isLoading={isLoading}
+                        />
+                      </>
+                    )}
                   </>
                 )}
               </Box>
