@@ -2,8 +2,10 @@ package lab.mops.ai.application.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
@@ -29,5 +31,15 @@ class ChatQueryServiceTest extends TestBase {
     when(chatRepository.getById(id)).thenReturn(chat);
 
     assertThat(chatQueryService.getById(id)).isEqualTo(chat);
+  }
+
+  @Test
+  void findAll_delegatesToRepository() {
+    var chats = List.of(Chat.start(randomString()));
+    when(chatRepository.findAll()).thenReturn(chats);
+
+    chatQueryService.findAll();
+
+    verify(chatRepository).findAll();
   }
 }

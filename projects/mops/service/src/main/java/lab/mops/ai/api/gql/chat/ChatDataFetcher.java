@@ -2,6 +2,7 @@ package lab.mops.ai.api.gql.chat;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
+import java.util.List;
 import lab.mops.ai.application.chat.ChatQueryService;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.api.gql.types.Chat;
@@ -23,5 +24,10 @@ public class ChatDataFetcher {
     var chat = chatQueryService.getById(ChatId.fromString(id));
 
     return chatMapper.map(chat);
+  }
+
+  @DgsQuery
+  public List<Chat> allChats() {
+    return chatQueryService.findAll().stream().map(chatMapper::map).toList();
   }
 }

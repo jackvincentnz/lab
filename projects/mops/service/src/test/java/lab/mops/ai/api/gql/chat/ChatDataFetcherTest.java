@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.List;
 import lab.mops.ai.application.chat.ChatQueryService;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
@@ -35,5 +36,17 @@ class ChatDataFetcherTest extends TestBase {
     var chat = chatDataFetcher.chat(chatId);
 
     assertThat(chat).isEqualTo(graphChat);
+  }
+
+  @Test
+  void allChats_mapsChats() {
+    var domainChat = mock(Chat.class);
+    var graphChat = mock(lab.mops.api.gql.types.Chat.class);
+    when(chatQueryService.findAll()).thenReturn(List.of(domainChat));
+    when(chatMapper.map(domainChat)).thenReturn(graphChat);
+
+    var result = chatDataFetcher.allChats();
+
+    assertThat(result).contains(graphChat);
   }
 }

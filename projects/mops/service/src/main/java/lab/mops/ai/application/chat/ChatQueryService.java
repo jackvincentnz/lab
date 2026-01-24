@@ -1,5 +1,6 @@
 package lab.mops.ai.application.chat;
 
+import java.util.Collection;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
@@ -16,5 +17,9 @@ public class ChatQueryService {
 
   public Chat getById(ChatId chatId) {
     return chatRepository.getById(chatId);
+  }
+
+  public Collection<Chat> findAll() {
+    return chatRepository.findAll();
   }
 }

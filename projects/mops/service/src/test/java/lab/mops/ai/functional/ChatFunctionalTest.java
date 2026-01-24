@@ -70,6 +70,33 @@ class ChatFunctionalTest extends TestBase {
   }
 
   @Test
+  void allChats_returnsAllChats() {
+    var content = randomString();
+    client.startChat(content).getChat().getId();
+
+    var chats = client.allChats();
+
+    assertThat(chats.size()).isEqualTo(1);
+
+    var chat = chats.get(0);
+    assertThat(chat.getId()).isNotBlank();
+    assertThat(chat.getCreatedAt()).isNotBlank();
+    assertThat(chat.getUpdatedAt()).isNotBlank();
+
+    var messages = chat.getMessages();
+    assertThat(messages).hasSize(2);
+    assertThat(messages.get(0).getContent()).isEqualTo(content);
+    assertThat(messages.get(0).getId()).isNotBlank();
+    assertThat(messages.get(0).getCreatedAt()).isNotBlank();
+    assertThat(messages.get(0).getUpdatedAt()).isNotBlank();
+    assertThat(messages.get(1).getId()).isNotBlank();
+    assertThat(messages.get(1).getType()).isEqualTo(ChatMessageType.ASSISTANT);
+    assertThat(messages.get(1).getStatus()).isEqualTo(ChatMessageStatus.PENDING);
+    assertThat(messages.get(1).getCreatedAt()).isNotBlank();
+    assertThat(messages.get(1).getUpdatedAt()).isNotBlank();
+  }
+
+  @Test
   void addUserMessage_addsMessage() {
     var content = randomString();
     var chatId = client.startChat(content).getChat().getId();
