@@ -14,6 +14,8 @@ import lab.mops.api.gql.client.AllActivitiesGraphQLQuery;
 import lab.mops.api.gql.client.AllActivitiesProjectionRoot;
 import lab.mops.api.gql.client.AllBudgetsGraphQLQuery;
 import lab.mops.api.gql.client.AllBudgetsProjectionRoot;
+import lab.mops.api.gql.client.AllChatsGraphQLQuery;
+import lab.mops.api.gql.client.AllChatsProjectionRoot;
 import lab.mops.api.gql.client.CategorizeLineItemGraphQLQuery;
 import lab.mops.api.gql.client.CategorizeLineItemProjectionRoot;
 import lab.mops.api.gql.client.ChatGraphQLQuery;
@@ -473,5 +475,26 @@ public class TestClient {
 
     return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
         request.serialize(), "data.chat", Chat.class);
+  }
+
+  public List<Chat> allChats() {
+    var request =
+        new GraphQLQueryRequest(
+            AllChatsGraphQLQuery.newRequest().build(),
+            new AllChatsProjectionRoot<>()
+                .id()
+                .createdAt()
+                .updatedAt()
+                .messages()
+                .id()
+                .content()
+                .createdAt()
+                .updatedAt()
+                .type()
+                .parent()
+                .status());
+
+    return dgsQueryExecutor.executeAndExtractJsonPathAsObject(
+        request.serialize(), "data.allChats", new TypeRef<>() {});
   }
 }
