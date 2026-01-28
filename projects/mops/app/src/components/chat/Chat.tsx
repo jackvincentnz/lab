@@ -11,6 +11,7 @@ import {
   Text,
   Textarea,
   Title,
+  Tooltip,
 } from "@mantine/core";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -18,6 +19,8 @@ import {
   IconArrowRight,
   IconCheck,
   IconEdit,
+  IconHistory,
+  IconPlus,
   IconRefresh,
   IconX,
 } from "@tabler/icons-react";
@@ -26,6 +29,9 @@ import {
   AddUserMessageDocument,
   AddUserMessageMutation,
   AddUserMessageMutationVariables,
+  ApproveToolCallDocument,
+  ApproveToolCallMutation,
+  ApproveToolCallMutationVariables,
   ChatMessageStatus,
   ChatMessageType,
   EditUserMessageDocument,
@@ -34,23 +40,24 @@ import {
   GetChatDocument,
   GetChatQuery,
   GetChatQueryVariables,
-  RetryAssistantMessageDocument,
-  RetryAssistantMessageMutation,
-  RetryAssistantMessageMutationVariables,
-  ApproveToolCallDocument,
-  ApproveToolCallMutation,
-  ApproveToolCallMutationVariables,
   RejectToolCallDocument,
   RejectToolCallMutation,
   RejectToolCallMutationVariables,
+  RetryAssistantMessageDocument,
+  RetryAssistantMessageMutation,
+  RetryAssistantMessageMutationVariables,
   StartChatDocument,
   StartChatMutation,
   StartChatMutationVariables,
   ToolCallStatus,
 } from "../../__generated__/graphql";
 import { ToolCallApproval } from "./ToolCallApproval";
+import { ChatHistory } from "./ChatHistory";
 
 const POLL_INTERVAL = 500;
+
+const CHAT_VIEW = "chat";
+const CHAT_HISTORY_VIEW = "history";
 
 interface MessageActionsProps {
   messageId: string;
@@ -119,9 +126,30 @@ function MessageActions({
 
 export function Chat() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
+  const [view, setView] = useState<typeof CHAT_VIEW | typeof CHAT_HISTORY_VIEW>(
+    CHAT_VIEW,
+  );
   const [input, setInput] = useState("");
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState("");
+
+  const handleNewChat = () => {
+    setCurrentChatId(null);
+    setView(CHAT_VIEW);
+  };
+
+  const handleShowChats = () => {
+    setView(CHAT_HISTORY_VIEW);
+  };
+
+  const handleSelectChat = (selectedChatId: string) => {
+    setCurrentChatId(selectedChatId);
+    setView(CHAT_VIEW);
+  };
+
+  const handleBackToChat = () => {
+    setView(CHAT_VIEW);
+  };
 
   const {
     data: chatData,
@@ -333,166 +361,115 @@ export function Chat() {
         flexDirection: "column",
       }}
     >
-      <Title order={3} mb="md">
-        AI Chat
-      </Title>
+      <Group justify="space-between" align="center" mb="md">
+        <Title order={3}>AI Chat</Title>
 
-      <ScrollArea
-        style={{ flexGrow: 1, marginBottom: "1rem" }}
-        scrollbarSize={6}
-        offsetScrollbars
-      >
-        {currentChatId &&
-          messages.map((msg) =>
-            msg.type === ChatMessageType.User ? (
-              <Box key={msg.id} mb="md">
-                <Group justify="flex-end">
-                  {editingMessageId === msg.id ? (
-                    <Box style={{ maxWidth: "70%", width: "100%" }}>
-                      <Textarea
-                        value={editContent}
-                        onChange={(e) => setEditContent(e.currentTarget.value)}
-                        autosize
-                        minRows={2}
-                        maxRows={10}
-                        mb={8}
-                      />
-                      <Group justify="flex-end" gap={4}>
-                        <ActionIcon
-                          size="sm"
-                          variant="filled"
-                          color="green"
-                          onClick={handleSaveEdit}
-                          disabled={editingMessage || !editContent.trim()}
-                          aria-label="Save edit"
-                        >
-                          <IconCheck size={14} />
-                        </ActionIcon>
-                        <ActionIcon
-                          size="sm"
-                          variant="filled"
-                          color="red"
-                          onClick={handleCancelEdit}
-                          disabled={editingMessage}
-                          aria-label="Cancel edit"
-                        >
-                          <IconX size={14} />
-                        </ActionIcon>
-                      </Group>
-                    </Box>
-                  ) : (
-                    <Alert
-                      radius="lg"
-                      py={8}
-                      variant="light"
-                      style={{ maxWidth: "70%" }}
-                    >
-                      <Text size="sm" style={{ whiteSpace: "pre-line" }}>
-                        {msg.content}
-                      </Text>
-                    </Alert>
-                  )}
-                </Group>
-                {editingMessageId !== msg.id && (
-                  <MessageActions
-                    messageId={msg.id}
-                    messageType={msg.type}
-                    content={msg.content || ""}
-                    align="right"
-                    onEdit={handleEditMessage}
-                    isLoading={isLoading}
-                  />
-                )}
-              </Box>
-            ) : (
-              <Box key={msg.id} mb="md">
-                {msg.status === ChatMessageStatus.Pending ? (
-                  <Group align="center" gap="xs">
-                    <Loader size="xs" />
-                    <Text size="sm" c="dimmed">
-                      Assistant is thinking...
-                    </Text>
-                  </Group>
-                ) : msg.status === ChatMessageStatus.Failed ? (
-                  <>
-                    <Alert color="red" variant="light">
-                      <Text size="sm">
-                        Failed to generate response. Please try again.
-                      </Text>
-                    </Alert>
-                    <MessageActions
-                      messageId={msg.id}
-                      messageType={msg.type}
-                      messageStatus={msg.status}
-                      content={msg.content || ""}
-                      align="left"
-                      onRetry={handleRetryMessage}
-                      isLoading={isLoading}
-                    />
-                  </>
-                ) : (
-                  <>
-                    {msg.toolCalls && msg.toolCalls.length > 0 && (
-                      <Stack gap="md" mb="md">
-                        {msg.toolCalls.some(
-                          (tc) => tc.status === ToolCallStatus.PendingApproval,
-                        ) && (
-                          <Text size="sm" c="dimmed">
-                            The assistant wants to make the following change(s):
-                          </Text>
-                        )}
-                        {msg.toolCalls.map((toolCall) => (
-                          <ToolCallApproval
-                            key={toolCall.id}
-                            toolCall={toolCall}
-                            onApprove={() =>
-                              handleApproveToolCall(msg.id, toolCall.id)
+        <Group gap="xs">
+          <Tooltip label="New Chat">
+            <ActionIcon variant="subtle" onClick={handleNewChat}>
+              <IconPlus size={18} />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label="Previous Chats">
+            <ActionIcon variant="subtle" onClick={handleShowChats}>
+              <IconHistory size={18} />
+            </ActionIcon>
+          </Tooltip>
+        </Group>
+      </Group>
+
+      {view === CHAT_HISTORY_VIEW ? (
+        <ChatHistory
+          onSelectChat={handleSelectChat}
+          onBack={handleBackToChat}
+        />
+      ) : (
+        <>
+          <ScrollArea
+            style={{ flexGrow: 1, marginBottom: "1rem" }}
+            scrollbarSize={6}
+            offsetScrollbars
+          >
+            {currentChatId &&
+              messages.map((msg) =>
+                msg.type === ChatMessageType.User ? (
+                  <Box key={msg.id} mb="md">
+                    <Group justify="flex-end">
+                      {editingMessageId === msg.id ? (
+                        <Box style={{ maxWidth: "70%", width: "100%" }}>
+                          <Textarea
+                            value={editContent}
+                            onChange={(e) =>
+                              setEditContent(e.currentTarget.value)
                             }
-                            onReject={() =>
-                              handleRejectToolCall(msg.id, toolCall.id)
-                            }
+                            autosize
+                            minRows={2}
+                            maxRows={10}
+                            mb={8}
                           />
-                        ))}
-                      </Stack>
-                    )}
-                    {msg.content && (
-                      <>
-                        <ReactMarkdown
-                          remarkPlugins={[remarkGfm]}
-                          components={{
-                            table: ({ children, ...props }) => (
-                              <Table
-                                my="md"
-                                striped
-                                highlightOnHover
-                                withTableBorder
-                                {...props}
-                              >
-                                {children}
-                              </Table>
-                            ),
-                            thead: ({ children, ...props }) => (
-                              <Table.Thead {...props}>{children}</Table.Thead>
-                            ),
-                            tbody: ({ children, ...props }) => (
-                              <Table.Tbody {...props}>{children}</Table.Tbody>
-                            ),
-                            tr: ({ children, ...props }) => (
-                              <Table.Tr {...props}>{children}</Table.Tr>
-                            ),
-                            th: ({ children, ...props }) => (
-                              <Table.Th {...props}>{children}</Table.Th>
-                            ),
-                            td: ({ children, ...props }) => (
-                              <Table.Td {...props}>{children}</Table.Td>
-                            ),
-                            p: ({ children }) => (
-                              <Text my="md">{children}</Text>
-                            ),
-                          }}
+                          <Group justify="flex-end" gap={4}>
+                            <ActionIcon
+                              size="sm"
+                              variant="filled"
+                              color="green"
+                              onClick={handleSaveEdit}
+                              disabled={editingMessage || !editContent.trim()}
+                              aria-label="Save edit"
+                            >
+                              <IconCheck size={14} />
+                            </ActionIcon>
+                            <ActionIcon
+                              size="sm"
+                              variant="filled"
+                              color="red"
+                              onClick={handleCancelEdit}
+                              disabled={editingMessage}
+                              aria-label="Cancel edit"
+                            >
+                              <IconX size={14} />
+                            </ActionIcon>
+                          </Group>
+                        </Box>
+                      ) : (
+                        <Alert
+                          radius="lg"
+                          py={8}
+                          variant="light"
+                          style={{ maxWidth: "70%" }}
                         >
-                          {msg.content}
-                        </ReactMarkdown>
+                          <Text size="sm" style={{ whiteSpace: "pre-line" }}>
+                            {msg.content}
+                          </Text>
+                        </Alert>
+                      )}
+                    </Group>
+                    {editingMessageId !== msg.id && (
+                      <MessageActions
+                        messageId={msg.id}
+                        messageType={msg.type}
+                        content={msg.content || ""}
+                        align="right"
+                        onEdit={handleEditMessage}
+                        isLoading={isLoading}
+                      />
+                    )}
+                  </Box>
+                ) : (
+                  <Box key={msg.id} mb="md">
+                    {msg.status === ChatMessageStatus.Pending ? (
+                      <Group align="center" gap="xs">
+                        <Loader size="xs" />
+                        <Text size="sm" c="dimmed">
+                          Assistant is thinking...
+                        </Text>
+                      </Group>
+                    ) : msg.status === ChatMessageStatus.Failed ? (
+                      <>
+                        <Alert color="red" variant="light">
+                          <Text size="sm">
+                            Failed to generate response. Please try again.
+                          </Text>
+                        </Alert>
                         <MessageActions
                           messageId={msg.id}
                           messageType={msg.type}
@@ -503,38 +480,121 @@ export function Chat() {
                           isLoading={isLoading}
                         />
                       </>
+                    ) : (
+                      <>
+                        {msg.toolCalls && msg.toolCalls.length > 0 && (
+                          <Stack gap="md" mb="md">
+                            {msg.toolCalls.some(
+                              (tc) =>
+                                tc.status === ToolCallStatus.PendingApproval,
+                            ) && (
+                              <Text size="sm" c="dimmed">
+                                The assistant wants to make the following
+                                change(s):
+                              </Text>
+                            )}
+                            {msg.toolCalls.map((toolCall) => (
+                              <ToolCallApproval
+                                key={toolCall.id}
+                                toolCall={toolCall}
+                                onApprove={() =>
+                                  handleApproveToolCall(msg.id, toolCall.id)
+                                }
+                                onReject={() =>
+                                  handleRejectToolCall(msg.id, toolCall.id)
+                                }
+                              />
+                            ))}
+                          </Stack>
+                        )}
+                        {msg.content && (
+                          <>
+                            <ReactMarkdown
+                              remarkPlugins={[remarkGfm]}
+                              components={{
+                                table: ({ children, ...props }) => (
+                                  <Table
+                                    my="md"
+                                    striped
+                                    highlightOnHover
+                                    withTableBorder
+                                    {...props}
+                                  >
+                                    {children}
+                                  </Table>
+                                ),
+                                thead: ({ children, ...props }) => (
+                                  <Table.Thead {...props}>
+                                    {children}
+                                  </Table.Thead>
+                                ),
+                                tbody: ({ children, ...props }) => (
+                                  <Table.Tbody {...props}>
+                                    {children}
+                                  </Table.Tbody>
+                                ),
+                                tr: ({ children, ...props }) => (
+                                  <Table.Tr {...props}>{children}</Table.Tr>
+                                ),
+                                th: ({ children, ...props }) => (
+                                  <Table.Th {...props}>{children}</Table.Th>
+                                ),
+                                td: ({ children, ...props }) => (
+                                  <Table.Td {...props}>{children}</Table.Td>
+                                ),
+                                p: ({ children }) => (
+                                  <Text my="md">{children}</Text>
+                                ),
+                              }}
+                            >
+                              {msg.content}
+                            </ReactMarkdown>
+                            <MessageActions
+                              messageId={msg.id}
+                              messageType={msg.type}
+                              messageStatus={msg.status}
+                              content={msg.content || ""}
+                              align="left"
+                              onRetry={handleRetryMessage}
+                              isLoading={isLoading}
+                            />
+                          </>
+                        )}
+                      </>
                     )}
-                  </>
-                )}
-              </Box>
-            ),
-          )}
-      </ScrollArea>
+                  </Box>
+                ),
+              )}
+          </ScrollArea>
 
-      <Box style={{ flexShrink: 0 }}>
-        <Group gap="xs" grow>
-          <Textarea
-            value={input}
-            onChange={(e) => setInput(e.currentTarget.value)}
-            placeholder="What can you do?"
-            onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && sendMessage()}
-            rightSection={
-              isLoading ? (
-                <Loader size="xs" />
-              ) : (
-                <ActionIcon onClick={sendMessage} aria-label="Send">
-                  <IconArrowRight />
-                </ActionIcon>
-              )
-            }
-            autosize
-            minRows={1}
-            maxRows={10}
-            rightSectionPointerEvents={"all"}
-            disabled={isLoading}
-          />
-        </Group>
-      </Box>
+          <Box style={{ flexShrink: 0 }}>
+            <Group gap="xs" grow>
+              <Textarea
+                value={input}
+                onChange={(e) => setInput(e.currentTarget.value)}
+                placeholder="What can you do?"
+                onKeyDown={(e) =>
+                  e.key === "Enter" && !e.shiftKey && sendMessage()
+                }
+                rightSection={
+                  isLoading ? (
+                    <Loader size="xs" />
+                  ) : (
+                    <ActionIcon onClick={sendMessage} aria-label="Send">
+                      <IconArrowRight />
+                    </ActionIcon>
+                  )
+                }
+                autosize
+                minRows={1}
+                maxRows={10}
+                rightSectionPointerEvents={"all"}
+                disabled={isLoading}
+              />
+            </Group>
+          </Box>
+        </>
+      )}
     </Box>
   );
 }

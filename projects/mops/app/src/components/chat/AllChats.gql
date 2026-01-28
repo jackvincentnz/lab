@@ -1,0 +1,10 @@
+query AllChats {
+  allChats {
+    id
+    createdAt
+    messages {
+      id
+      content
+    }
+  }
+}
