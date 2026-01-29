@@ -389,19 +389,47 @@ INSERT INTO SPEND (LINE_ITEM, SPEND_DAY, AMOUNT) VALUES ('98fffcde-60a6-4560-b85
 INSERT INTO SPEND (LINE_ITEM, SPEND_DAY, AMOUNT) VALUES ('98fffcde-60a6-4560-b855-02c7dc07dd7e', '2026-08-31', 2500);
 INSERT INTO SPEND (LINE_ITEM, SPEND_DAY, AMOUNT) VALUES ('98fffcde-60a6-4560-b855-02c7dc07dd7e', '2026-11-30', 2500);
 
-INSERT INTO CHAT (ID, VERSION) VALUES ('03a4f607-4654-41bc-a5ff-a9e0df28f411', 1);
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('3bafbdfd-9e6e-4625-b8eb-d12721224f8c', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 0, 'USER', 'COMPLETED', 'Create 2 budgets FY26 and FY27');
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('4cf2261c-9626-429e-9451-f4080bdb14bc', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 1, 'ASSISTANT', 'COMPLETED', NULL);
-INSERT INTO TOOL_CALL (ID, CHAT_MESSAGE, NAME, STATUS, ARGUMENTS, RESULT) VALUES ('7c7a07c1-0a18-4883-8e96-f1c479922417', '4cf2261c-9626-429e-9451-f4080bdb14bc', 'createBudget', 'APPROVED', '{"name":"FY26"}', NULL);
-INSERT INTO TOOL_CALL (ID, CHAT_MESSAGE, NAME, STATUS, ARGUMENTS, RESULT) VALUES ('31f12df9-63b7-4d54-a025-e2f43d1c4725', '4cf2261c-9626-429e-9451-f4080bdb14bc', 'createBudget', 'REJECTED', '{"name":"FY27"}', NULL);
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('16f6d0fe-c55f-4865-807e-d60e1fa0e2b4', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 2, 'ASSISTANT', 'COMPLETED', 'I''ve created the FY26 budget, but the FY27 creation was rejected. What should I do next?');
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('103e7a0b-f333-40ac-8e4f-054138faa939', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 3, 'USER', 'COMPLETED', 'Create the FY27 budget now');
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('1fc07ea1-3855-4740-bdbf-1a7ae9afd44d', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 4, 'ASSISTANT', 'COMPLETED', NULL);
-INSERT INTO TOOL_CALL (ID, CHAT_MESSAGE, NAME, STATUS, ARGUMENTS, RESULT) VALUES ('b835aee0-247f-4922-a087-5431cca39ad8', '1fc07ea1-3855-4740-bdbf-1a7ae9afd44d', 'createBudget', 'APPROVED', '{"name":"FY27"}', NULL);
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('c8c219a2-f39b-40ba-aa5e-271c1255a6ca', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 5, 'ASSISTANT', 'COMPLETED', 'I have now created the FY27 budget.');
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('3e833349-0898-4016-8c0b-c8eeb3474416', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 6, 'USER', 'COMPLETED', 'What budgets do I have?');
-INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES ('8111a08b-6a50-479d-a7c6-cd55b5f464de', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 7, 'ASSISTANT', 'COMPLETED', 'You have the following budgets:
+INSERT INTO CHAT (ID, VERSION) VALUES
+('03a4f607-4654-41bc-a5ff-a9e0df28f411', 1),
+('9931c4f8-71d1-4a20-beef-eb16b96f5e57', 13);
+
+INSERT INTO CHAT_MESSAGE (ID, CHAT, CHAT_KEY, TYPE, STATUS, CONTENT) VALUES
+('3bafbdfd-9e6e-4625-b8eb-d12721224f8c', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 0, 'USER', 'COMPLETED', 'Create 2 budgets FY26 and FY27'),
+('4cf2261c-9626-429e-9451-f4080bdb14bc', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 1, 'ASSISTANT', 'COMPLETED', NULL),
+('16f6d0fe-c55f-4865-807e-d60e1fa0e2b4', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 2, 'ASSISTANT', 'COMPLETED', 'I''ve created the FY26 budget, but the FY27 creation was rejected. What should I do next?'),
+('103e7a0b-f333-40ac-8e4f-054138faa939', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 3, 'USER', 'COMPLETED', 'Create the FY27 budget now'),
+('1fc07ea1-3855-4740-bdbf-1a7ae9afd44d', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 4, 'ASSISTANT', 'COMPLETED', NULL),
+('c8c219a2-f39b-40ba-aa5e-271c1255a6ca', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 5, 'ASSISTANT', 'COMPLETED', 'I have now created the FY27 budget.'),
+('3e833349-0898-4016-8c0b-c8eeb3474416', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 6, 'USER', 'COMPLETED', 'What budgets do I have?'),
+('8111a08b-6a50-479d-a7c6-cd55b5f464de', '03a4f607-4654-41bc-a5ff-a9e0df28f411', 7, 'ASSISTANT', 'COMPLETED', 'You have the following budgets:
 
 * FY25
 * FY26
-* FY27');
+* FY27'),
+('9aab4c14-0596-476a-b5cf-a6adff74e337', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 0, 'USER', 'COMPLETED', 'What can you do?'),
+('72e59b81-b314-42bb-b459-d8ffe6d1b1e8', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 1, 'ASSISTANT', 'COMPLETED', 'I can help you plan and budget for your marketing campaigns. I can also provide insights into your planned spending across different categories and time periods.
+
+Here are some of the things I can do:
+
+*   **Create new budgets:** I can help you set up new budgets for your marketing campaigns.
+*   **Analyze existing budgets:** I can retrieve and analyze all your existing budgets, including line items, categorizations, and planned spending over time.
+*   **Provide spending insights:** I can answer questions about your planned spending, such as how much is allocated to specific categories, months, quarters, or years.
+
+How can I help you with your marketing planning and budgeting today?'),
+('40fc988a-597b-4371-ac12-3ab5848b2275', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 2, 'USER', 'COMPLETED', 'What budgets do I have?'),
+('65b995ba-a332-4a83-b716-c2362552fc50', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 3, 'ASSISTANT', 'COMPLETED', 'I found one budget: "FY26".
+
+Would you like to know more about this budget, such as its line items or planned spending?'),
+('7c01f835-bb3f-4ce8-ba82-0cff1f8cf13e', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 4, 'USER', 'COMPLETED', 'Create a budget named FY27'),
+('e289c9d8-0db8-49ae-a343-eb10fd86ccff', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 5, 'ASSISTANT', 'COMPLETED', NULL),
+('59aefdc8-bd53-44c5-8b63-70db3f6a84ae', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 6, 'ASSISTANT', 'COMPLETED', 'I have created a budget named FY27.'),
+('73836134-ca2e-4068-9aa6-ae7e1ba295a4', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 7, 'USER', 'COMPLETED', 'Create a budget named FY28'),
+('b1dab1cc-14a7-43a8-952a-a60d649b51f1', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 8, 'ASSISTANT', 'COMPLETED', NULL),
+('76cea7ef-36cf-42fe-9d49-3e604dfd04d0', '9931c4f8-71d1-4a20-beef-eb16b96f5e57', 9, 'ASSISTANT', 'COMPLETED', 'Creating the budget was rejected. What would you like to do now?');
+
+INSERT INTO TOOL_CALL (ID, CHAT_MESSAGE, NAME, STATUS, ARGUMENTS, RESULT) VALUES
+('7c7a07c1-0a18-4883-8e96-f1c479922417', '4cf2261c-9626-429e-9451-f4080bdb14bc', 'createBudget', 'APPROVED', '{"name":"FY26"}', NULL),
+('31f12df9-63b7-4d54-a025-e2f43d1c4725', '4cf2261c-9626-429e-9451-f4080bdb14bc', 'createBudget', 'REJECTED', '{"name":"FY27"}', NULL),
+('b835aee0-247f-4922-a087-5431cca39ad8', '1fc07ea1-3855-4740-bdbf-1a7ae9afd44d', 'createBudget', 'APPROVED', '{"name":"FY27"}', NULL),
+('b8f6c4be-9eff-423e-b23b-7cdabf1afb9a', 'e289c9d8-0db8-49ae-a343-eb10fd86ccff', 'createBudget', 'APPROVED', '{"name":"FY27"}', '"Done"'),
+('783d5e39-e4e6-4ba4-baaa-b287ce8d3ab4', 'b1dab1cc-14a7-43a8-952a-a60d649b51f1', 'createBudget', 'REJECTED', '{"name":"FY28"}', NULL);
