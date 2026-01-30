@@ -1,0 +1,4 @@
+alias(
+    name = "autojournal",
+    actual = "//projects/organizer/autojournal/src/main",
+)

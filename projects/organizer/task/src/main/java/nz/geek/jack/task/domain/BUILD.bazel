@@ -1,0 +1,9 @@
+java_library(
+    name = "domain",
+    srcs = glob(["*.java"]),
+    visibility = ["//projects/organizer/task/src:__subpackages__"],
+    deps = [
+        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "@maven//:org_slf4j_slf4j_api",
+    ],
+)

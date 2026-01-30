@@ -1,0 +1,7 @@
+load("//tools/bazel:js.bzl", "js_library")
+
+js_library(
+    name = "public",
+    srcs = glob(["**"]),
+    visibility = ["//projects/organizer/tasklist:__pkg__"],
+)

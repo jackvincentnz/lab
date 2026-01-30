@@ -1,0 +1,61 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//projects/organizer/tasklist/src/__generated__:__pkg__"],
+)
+
+SRCS = [
+    "index.html",
+    "package.json",
+    "vite.config.ts",
+]
+
+DEPS = [
+    "//projects/organizer/tasklist/src",
+    "//projects/organizer/tasklist/public",
+    "//:node_modules/@vitejs/plugin-react",
+    "//:node_modules/vite",
+]
+
+vite_build(
+    name = "build",
+    srcs = SRCS + DEPS,
+)
+
+vite_dev_server(
+    name = "tasklist",
+    data = SRCS + DEPS,
+)
+
+tar(
+    name = "tar",
+    srcs = [":build"],
+    # The vite devserver needs to make requests to "base: /task/" when behind the
+    # proxy since the $http_referer can't be used to identify the right app to proxy to.
+    # Keep aligned with:
+    # - projects/organizer/tasklist/vite.config.ts: "base"
+    # - infra/local/proxy/nginx.conf: "proxy_pass"
+    package_dir = "/usr/share/nginx/html/task",
+    strip_prefix = "dist",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_alpine_slim",
+    tars = [":tar"],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "tasklist",
+    visibility = [
+        "//:__pkg__",
+        "//projects/organizer/e2e:__pkg__",
+    ],
+)

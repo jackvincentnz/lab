@@ -1,0 +1,4 @@
+alias(
+    name = "task",
+    actual = "//projects/organizer/task/src/main",
+)

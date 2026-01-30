@@ -1,0 +1,10 @@
+load("//tools/bazel:fe.bzl", "fe_library")
+
+fe_library(
+    name = "app",
+    visibility = ["//projects/organizer/tasklist/src:__pkg__"],
+    deps = [
+        "//:node_modules/@lab/bubbles",
+        "//projects/organizer/tasklist/src/tasks",
+    ],
+)

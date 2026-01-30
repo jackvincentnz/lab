@@ -1,9 +1,0 @@
-java_library(
-    name = "application",
-    visibility = [
-        "//services/journal/src/main/java/nz/geek/jack/journal:__pkg__",
-    ],
-    runtime_deps = [
-        "//services/journal/src/main/java/nz/geek/jack/journal/application/entry",
-    ],
-)

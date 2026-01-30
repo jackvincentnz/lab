@@ -73,27 +73,27 @@ tsconfig_to_swcconfig.t2s(
 
 command(
     name = "tag_task_image",
-    command = "//services/task/src/main:deliver",
+    command = "//projects/organizer/task/src/main:deliver",
 )
 
 command(
     name = "tag_journal_image",
-    command = "//services/journal/src/main:deliver",
+    command = "//projects/organizer/journal/src/main:deliver",
 )
 
 command(
     name = "tag_autojournal_image",
-    command = "//services/autojournal/src/main:deliver",
+    command = "//projects/organizer/autojournal/src/main:deliver",
 )
 
 command(
     name = "tag_tasklist_image",
-    command = "//apps/tasklist:deliver",
+    command = "//projects/organizer/tasklist:deliver",
 )
 
 command(
     name = "tag_journal_app_image",
-    command = "//apps/journal_app:deliver",
+    command = "//projects/organizer/journal_app:deliver",
 )
 
 command(

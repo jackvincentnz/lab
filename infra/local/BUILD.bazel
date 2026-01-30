@@ -6,7 +6,7 @@ copy_to_bin(
         "router/config/router.conf",
         "router/schema/supergraph.graphql",
     ],
-    visibility = ["//apps/organizer/e2e:__pkg__"],
+    visibility = ["//projects/organizer/e2e:__pkg__"],
 )
 
 sh_binary(

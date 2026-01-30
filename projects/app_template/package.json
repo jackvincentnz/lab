@@ -1,0 +1,9 @@
+{
+  "name": "app-template",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ibazel run //projects/app_template",
+    "build": "bazel build //projects/app_template:build"
+  }
+}

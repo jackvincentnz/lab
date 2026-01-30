@@ -1,0 +1,14 @@
+load("//tools/bazel:fe.bzl", "fe_library")
+
+fe_library(
+    name = "entries",
+    visibility = [
+        "//projects/organizer/journal_app/src:__pkg__",
+        "//projects/organizer/journal_app/src/__generated__:__pkg__",
+    ],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//projects/organizer/journal_app/src/__generated__:graphql_codegen_ts",
+    ],
+)

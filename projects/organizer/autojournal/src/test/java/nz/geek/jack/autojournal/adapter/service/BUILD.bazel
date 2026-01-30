@@ -1,0 +1,15 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    tags = ["requires-network"],
+    runtime_deps = [
+        "@maven//:org_eclipse_jetty_jetty_reactive_httpclient",  # wiremock adds jetty to classpath so we need this for WebClient
+        "@maven//:org_wiremock_wiremock_jetty12",
+    ],
+    deps = [
+        "//projects/organizer/autojournal/src/main/java/nz/geek/jack/autojournal/adapter/service",
+        "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:org_wiremock_wiremock",
+    ],
+)

@@ -1,0 +1,61 @@
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel:js.bzl", "js_library")
+
+js_library(
+    name = "codegen",
+    srcs = ["codegen.ts"],
+    visibility = ["//projects/organizer/journal_app/src/__generated__:__pkg__"],
+)
+
+SRCS = [
+    "public/vite.svg",
+    "index.html",
+    "package.json",
+    "vite.config.ts",
+]
+
+DEPS = [
+    "//projects/organizer/journal_app/src",
+    "//:node_modules/@vitejs/plugin-react",
+    "//:node_modules/vite",
+]
+
+vite_build(
+    name = "build",
+    srcs = SRCS + DEPS,
+)
+
+vite_dev_server(
+    name = "journal_app",
+    data = SRCS + DEPS,
+)
+
+tar(
+    name = "tar",
+    srcs = [":build"],
+    # The vite devserver needs to make requests to "base: /journal/" when behind the
+    # proxy since the $http_referer can't be used to identify the right app to proxy to.
+    # Keep aligned with:
+    # - projects/organizer/journal_app/vite.config.ts: "base"
+    # - infra/local/proxy/nginx.conf: "proxy_pass"
+    package_dir = "/usr/share/nginx/html/journal",
+    strip_prefix = "dist",
+)
+
+oci_image(
+    name = "image",
+    base = "@nginx_alpine_slim",
+    tars = [":tar"],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "journal-app",
+    visibility = [
+        "//:__pkg__",
+        "//projects/organizer/e2e:__pkg__",
+    ],
+)

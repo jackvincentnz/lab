@@ -1,0 +1,8 @@
+{
+  "name": "journal",
+  "type": "module",
+  "scripts": {
+    "dev": "ibazel run //projects/organizer/journal_app",
+    "build": "bazel build //projects/organizer/journal_app:build"
+  }
+}

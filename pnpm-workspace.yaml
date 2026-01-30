@@ -1,4 +1,5 @@
 packages:
-  - "apps/**"
   - "libs/bubbles"
   - "projects/mops/mops_app"
+  - "projects/organizer/tasklist"
+  - "projects/organizer/journal_app"

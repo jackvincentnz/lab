@@ -1,0 +1,11 @@
+load("//tools/bazel:fe.bzl", "fe_library")
+
+fe_library(
+    name = "src",
+    visibility = ["//projects/organizer/tasklist:__pkg__"],
+    deps = [
+        "//:node_modules/vite",
+        "//:node_modules/web-vitals",
+        "//projects/organizer/tasklist/src/app",
+    ],
+)

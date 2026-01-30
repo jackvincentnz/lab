@@ -1,0 +1,13 @@
+load("//tools/bazel:fe.bzl", "fe_library")
+
+fe_library(
+    name = "src",
+    visibility = [
+        "//projects/organizer/journal_app:__pkg__",
+    ],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@lab/bubbles",
+        "//projects/organizer/journal_app/src/entries",
+    ],
+)
