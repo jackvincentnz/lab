@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class SpendTest extends TestBase {

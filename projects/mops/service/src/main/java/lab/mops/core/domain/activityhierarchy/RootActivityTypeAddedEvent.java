@@ -1,6 +1,6 @@
 package lab.mops.core.domain.activityhierarchy;
 
-import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import lab.libs.ddd.domain.DomainEvent;
 
 public final class RootActivityTypeAddedEvent extends DomainEvent<ActivityHierarchyId> {
 

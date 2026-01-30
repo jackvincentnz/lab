@@ -1,8 +1,0 @@
-java_library(
-    name = "adapter",
-    visibility = ["//projects/organizer/autojournal/src/main/java/nz/geek/jack/autojournal:__pkg__"],
-    runtime_deps = [
-        "//projects/organizer/autojournal/src/main/java/nz/geek/jack/autojournal/adapter/messaging",
-        "//projects/organizer/autojournal/src/main/java/nz/geek/jack/autojournal/adapter/service",
-    ],
-)

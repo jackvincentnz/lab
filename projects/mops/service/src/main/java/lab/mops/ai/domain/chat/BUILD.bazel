@@ -5,7 +5,7 @@ java_library(
         "//projects/mops/service/src:__subpackages__",
     ],
     deps = [
-        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "@maven//:org_springframework_data_spring_data_commons",
         "@maven//:org_springframework_data_spring_data_relational",
         "@maven//:org_springframework_spring_context",

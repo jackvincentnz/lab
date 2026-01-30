@@ -1,0 +1,7 @@
+java_library(
+    name = "adapter",
+    visibility = ["//projects/organizer/journal/src/main/java/lab/journal:__pkg__"],
+    runtime_deps = [
+        "//projects/organizer/journal/src/main/java/lab/journal/adapter/api",
+    ],
+)

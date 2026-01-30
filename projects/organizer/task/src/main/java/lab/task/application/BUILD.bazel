@@ -1,0 +1,10 @@
+java_library(
+    name = "application",
+    visibility = [
+        "//projects/organizer/task/src/main/java/lab/task:__pkg__",
+        "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
+    ],
+    runtime_deps = [
+        "//projects/organizer/task/src/main/java/lab/task/application/task",
+    ],
+)

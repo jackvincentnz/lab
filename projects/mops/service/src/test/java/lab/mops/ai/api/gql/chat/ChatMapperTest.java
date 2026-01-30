@@ -7,7 +7,7 @@ import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ToolCall;
 import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class ChatMapperTest extends TestBase {

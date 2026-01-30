@@ -5,5 +5,5 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/core:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core:__subpackages__",
     ],
-    deps = ["//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain"],
+    deps = ["//libs/ddd/src/main/java/lab/libs/ddd/domain"],
 )

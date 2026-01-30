@@ -13,7 +13,7 @@ import lab.mops.api.gql.types.Categorization;
 import lab.mops.api.gql.types.Category;
 import lab.mops.api.gql.types.CategoryValue;
 import lab.mops.core.application.category.CategoryQueryService;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.dataloader.DataLoader;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

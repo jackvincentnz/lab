@@ -1,0 +1,10 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    resources = ["//projects/organizer/journal/src/main/resources"],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
+    deps = [
+        "//projects/organizer/journal/src/main/java/lab/journal",
+    ] + SPRING_TEST_DEPS,
+)

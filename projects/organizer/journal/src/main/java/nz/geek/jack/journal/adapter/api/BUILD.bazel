@@ -1,9 +1,0 @@
-java_library(
-    name = "api",
-    visibility = [
-        "//projects/organizer/journal/src/main/java/nz/geek/jack/journal/adapter:__pkg__",
-    ],
-    runtime_deps = [
-        "//projects/organizer/journal/src/main/java/nz/geek/jack/journal/adapter/api/gql",
-    ],
-)

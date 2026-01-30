@@ -8,7 +8,7 @@ import static org.mockito.Mockito.when;
 
 import lab.mops.core.domain.activity.Activity;
 import lab.mops.core.domain.activity.ActivityRepository;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

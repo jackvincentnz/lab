@@ -3,7 +3,7 @@ syntax = "proto3";
 package task;
 
 option java_multiple_files = true;
-option java_package = "nz.geek.jack.task.api";
+option java_package = "lab.task.api";
 option java_outer_classname = "TaskApiProto";
 
 message TaskAddedEvent {

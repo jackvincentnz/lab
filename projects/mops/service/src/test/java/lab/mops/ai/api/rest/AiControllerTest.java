@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.function.Consumer;
 import lab.mops.core.api.ai.BudgetTools;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

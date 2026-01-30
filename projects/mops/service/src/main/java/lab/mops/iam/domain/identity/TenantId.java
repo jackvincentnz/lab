@@ -1,7 +1,7 @@
 package lab.mops.iam.domain.identity;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.InternalId;
+import lab.libs.ddd.domain.InternalId;
 
 public class TenantId extends InternalId {
 

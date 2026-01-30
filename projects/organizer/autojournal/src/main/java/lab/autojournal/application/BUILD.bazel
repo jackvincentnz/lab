@@ -1,0 +1,13 @@
+java_library(
+    name = "application",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/organizer/autojournal/src/main/java/lab/autojournal:__pkg__",
+        "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter:__subpackages__",
+        "//projects/organizer/autojournal/src/test/java/lab/autojournal:__subpackages__",
+    ],
+    deps = [
+        "//projects/organizer/autojournal/src/main/java/lab/autojournal/domain",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

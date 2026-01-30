@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 import java.util.List;
 import lab.mops.core.domain.budget.Budget;
 import lab.mops.core.domain.budget.BudgetRepository;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

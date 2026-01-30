@@ -12,7 +12,7 @@ import java.util.List;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.core.api.ai.BudgetTools;
 import lab.mops.core.application.budget.data.ResolvedBudget;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

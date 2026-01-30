@@ -9,7 +9,7 @@ import java.util.List;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

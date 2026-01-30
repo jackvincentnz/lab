@@ -1,0 +1,15 @@
+java_library(
+    name = "task",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter:__pkg__",
+        "//projects/organizer/task/src/test/java/lab/task/adapter/api/gql/task:__pkg__",
+    ],
+    deps = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema",
+        "//projects/organizer/task/src/main/java/lab/task/application/task",
+        "//projects/organizer/task/src/main/java/lab/task/domain",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

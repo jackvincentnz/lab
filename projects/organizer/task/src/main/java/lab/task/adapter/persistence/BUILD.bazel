@@ -1,0 +1,14 @@
+java_library(
+    name = "persistence",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
+        "//projects/organizer/task/src/test/java/lab/task/adapter/persistence:__pkg__",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/lab/libs/ddd/persistence",
+        "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",
+        "//projects/organizer/task/src/main/java/lab/task/domain",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

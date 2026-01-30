@@ -2,7 +2,7 @@ package lab.mops.ai.application.chat.completions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class UserMessageTest extends TestBase {

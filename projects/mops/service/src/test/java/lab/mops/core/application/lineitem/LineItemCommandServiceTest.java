@@ -18,7 +18,7 @@ import lab.mops.core.domain.budget.LineItemRepository;
 import lab.mops.core.domain.budget.Spend;
 import lab.mops.core.domain.category.Category;
 import lab.mops.core.domain.category.CategoryRepository;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

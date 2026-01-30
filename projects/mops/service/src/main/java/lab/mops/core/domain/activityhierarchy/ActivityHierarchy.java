@@ -2,7 +2,7 @@ package lab.mops.core.domain.activityhierarchy;
 
 import java.util.HashMap;
 import java.util.Optional;
-import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import lab.libs.ddd.domain.EventSourcedAggregate;
 
 public final class ActivityHierarchy extends EventSourcedAggregate<ActivityHierarchyId> {
 

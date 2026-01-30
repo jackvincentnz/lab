@@ -1,12 +1,12 @@
 package lab.mops.core.application.lineitem;
 
 import java.util.stream.Collectors;
+import lab.libs.ddd.domain.NotFoundException;
 import lab.mops.core.domain.budget.BudgetRepository;
 import lab.mops.core.domain.budget.Categorization;
 import lab.mops.core.domain.budget.LineItem;
 import lab.mops.core.domain.budget.LineItemRepository;
 import lab.mops.core.domain.category.CategoryRepository;
-import nz.geek.jack.libs.ddd.domain.NotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -29,7 +29,7 @@ import lab.mops.core.domain.budget.LineItemId;
 import lab.mops.core.domain.budget.Spend;
 import lab.mops.core.domain.category.CategoryId;
 import lab.mops.core.domain.category.CategoryValueId;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

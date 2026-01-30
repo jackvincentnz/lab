@@ -3,7 +3,7 @@ syntax = "proto3";
 package kafka;
 
 option java_multiple_files = true;
-option java_package = "nz.geek.jack.learn.kafka";
+option java_package = "lab.learn.kafka";
 option java_outer_classname = "KafkaProto";
 
 message SimpleMessage {

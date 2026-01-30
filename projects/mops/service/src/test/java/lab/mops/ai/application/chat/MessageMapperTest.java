@@ -13,7 +13,7 @@ import lab.mops.ai.domain.chat.MessageType;
 import lab.mops.ai.domain.chat.ToolCall;
 import lab.mops.ai.domain.chat.ToolCallId;
 import lab.mops.ai.domain.chat.ToolCallStatus;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

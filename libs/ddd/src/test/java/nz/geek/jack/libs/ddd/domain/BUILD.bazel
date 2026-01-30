@@ -1,9 +1,0 @@
-load("//tools/bazel:java.bzl", "java_test_suite")
-
-java_test_suite(
-    name = "tests",
-    deps = [
-        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain",
-        "//libs/ddd/src/test/java/nz/geek/jack/libs/ddd/domain/test",
-    ],
-)

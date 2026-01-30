@@ -10,7 +10,7 @@ import java.time.Year;
 import java.util.ArrayList;
 import java.util.Set;
 import lab.mops.core.domain.time.Quarter;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class SpendingAggregatorTest extends TestBase {

@@ -1,6 +1,6 @@
 package lab.mops.iam.domain.identity;
 
-import static nz.geek.jack.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
+import static lab.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.UUID;

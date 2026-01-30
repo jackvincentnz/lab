@@ -4,7 +4,7 @@ load("//tools/bazel:pkg.bzl", "tar")
 
 java_binary(
     name = "main",
-    main_class = "nz.geek.jack.task.TaskApplication",
+    main_class = "lab.task.TaskApplication",
     visibility = ["//projects/organizer/task:__pkg__"],
     runtime_deps = [
         ":main_lib",
@@ -13,7 +13,7 @@ java_binary(
 
 springboot(
     name = "main_spring",
-    boot_app_class = "nz.geek.jack.task.TaskApplication",
+    boot_app_class = "lab.task.TaskApplication",
     boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )
@@ -25,7 +25,7 @@ java_library(
         "//projects/organizer/task/src/main/resources/schema",
     ],
     runtime_deps = [
-        "//projects/organizer/task/src/main/java/nz/geek/jack/task",
+        "//projects/organizer/task/src/main/java/lab/task",
         "@maven//:com_netflix_graphql_dgs_dgs_starter",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",

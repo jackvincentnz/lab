@@ -10,7 +10,7 @@ import lab.mops.ai.application.chat.completions.ToolResultMessage;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.core.api.ai.BudgetTools;
 import lab.mops.core.application.budget.data.ResolvedBudget;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.tool.annotation.Tool;

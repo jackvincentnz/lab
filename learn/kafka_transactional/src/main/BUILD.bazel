@@ -1,12 +1,12 @@
 java_library(
     name = "main_lib",
     resources = ["resources/application.properties"],
-    runtime_deps = ["//learn/kafka_transactional/src/main/java/nz/geek/jack/learn/kafka_transactional"],
+    runtime_deps = ["//learn/kafka_transactional/src/main/java/lab/learn/kafka_transactional"],
 )
 
 java_binary(
     name = "main",
-    main_class = "nz.geek.jack.learn.kafka_transactional.Application",
+    main_class = "lab.learn.kafka_transactional.Application",
     visibility = ["//learn/kafka_transactional:__pkg__"],
     runtime_deps = [
         ":main_lib",

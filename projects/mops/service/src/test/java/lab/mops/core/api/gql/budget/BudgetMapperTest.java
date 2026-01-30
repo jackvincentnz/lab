@@ -3,7 +3,7 @@ package lab.mops.core.api.gql.budget;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lab.mops.core.domain.budget.Budget;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class BudgetMapperTest extends TestBase {

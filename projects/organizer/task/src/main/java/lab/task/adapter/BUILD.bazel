@@ -1,0 +1,8 @@
+java_library(
+    name = "adapter",
+    visibility = ["//projects/organizer/task/src/main/java/lab/task:__pkg__"],
+    runtime_deps = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/task",
+        "//projects/organizer/task/src/main/java/lab/task/adapter/persistence",
+    ],
+)

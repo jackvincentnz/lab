@@ -2,7 +2,7 @@ spring:
   kafka:
     properties:
       schema.registry.url: mock://
-      specific.protobuf.value.type: nz.geek.jack.learn.kafka.SimpleMessage
+      specific.protobuf.value.type: lab.learn.kafka.SimpleMessage
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: io.confluent.kafka.serializers.protobuf.KafkaProtobufSerializer

@@ -3,7 +3,7 @@ package lab.mops.core.api.gql.activity;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lab.mops.core.domain.activity.Activity;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class ActivityMapperTest extends TestBase {
