@@ -28,7 +28,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     For example:
     ```shell
-    bazel query "//apps/tasklist/src/tasks/..."
+    bazel query "//projects/organizer/tasklist/src/tasks/..."
     ```
 
     #### Build targets
@@ -42,7 +42,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Type check and transpile whole package including test sources.
 
-    bazel build //apps/tasklist/src/tasks/...
+    bazel build //projects/organizer/tasklist/src/tasks/...
     ```
 
     #### Test targets
@@ -54,7 +54,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Run tests as a single cacheable run.
 
-    bazel test //apps/tasklist/src/tasks:test
+    bazel test //projects/organizer/tasklist/src/tasks:test
     ```
 
     #### Run targets
@@ -67,7 +67,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Run tests in watch mode.
 
-    ibazel run //apps/tasklist/src/tasks:test_watch
+    ibazel run //projects/organizer/tasklist/src/tasks:test_watch
     ```
 
     Args:

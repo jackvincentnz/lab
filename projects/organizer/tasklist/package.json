@@ -1,0 +1,8 @@
+{
+  "name": "tasklist",
+  "type": "module",
+  "scripts": {
+    "start": "ibazel run //projects/organizer/tasklist",
+    "build": "bazel build //projects/organizer/tasklist:build"
+  }
+}

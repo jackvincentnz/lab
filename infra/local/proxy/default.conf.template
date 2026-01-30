@@ -9,8 +9,8 @@ server {
         # The vite devserver needs to make requests to "base: /task/" when behind the
         # proxy since the $http_referer can't be used to identify the right app to proxy to.
         # Keep aligned with:
-        # - apps/tasklist/vite.config.ts: "base"
-        # - //apps/tasklist:tar: "package_dir"
+        # - projects/organizer/tasklist/vite.config.ts: "base"
+        # - //projects/organizer/tasklist:tar: "package_dir"
         proxy_pass ${TASK_APP_HOST}/task/;
     }
 
@@ -18,8 +18,8 @@ server {
         # The vite devserver needs to make requests to "base: /journal/" when behind the
         # proxy since the $http_referer can't be used to identify the right app to proxy to.
         # Keep aligned with:
-        # - apps/journal_app/vite.config.ts: "base"
-        # - //apps/journal_app:tar: "package_dir"
+        # - projects/organizer/journal_app/vite.config.ts: "base"
+        # - //projects/organizer/journal_app:tar: "package_dir"
         proxy_pass ${JOURNAL_APP_HOST}/journal/;
     }
 

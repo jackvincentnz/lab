@@ -2,7 +2,7 @@
   "name": "lab",
   "private": true,
   "engines": {
-    "pnpm": ">=8.11.0 <9",
+    "pnpm": ">=8.6.7 <9",
     "node": ">=18.20.4"
   },
   "scripts": {
@@ -11,7 +11,7 @@
     "lint": "pre-commit run eslint --all-files",
     "format": "pre-commit run prettier --all-files",
     "start": "bazel run //:start",
-    "e2e": "bazel test //apps/organizer/e2e"
+    "e2e": "bazel test //projects/organizer/e2e"
   },
   "dependencies": {
     "@apollo/client": "3.12.8",

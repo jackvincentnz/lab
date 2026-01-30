@@ -1,0 +1,14 @@
+java_library(
+    name = "task",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/organizer/task/src/main/java/nz/geek/jack/task/adapter:__subpackages__",
+        "//projects/organizer/task/src/main/java/nz/geek/jack/task/application:__pkg__",
+        "//projects/organizer/task/src/test/java/nz/geek/jack/task/adapter:__subpackages__",
+        "//projects/organizer/task/src/test/java/nz/geek/jack/task/application/task:__pkg__",
+    ],
+    deps = [
+        "//projects/organizer/task/src/main/java/nz/geek/jack/task/domain",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

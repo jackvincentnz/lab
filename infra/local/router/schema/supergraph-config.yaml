@@ -5,8 +5,8 @@ subgraphs:
   task:
     routing_url: http://host.docker.internal:3001/graphql
     schema:
-      file: ../../../../services/task/src/main/resources/schema/schema.graphqls
+      file: ../../../../projects/organizer/task/src/main/resources/schema/schema.graphqls
   journal:
     routing_url: http://host.docker.internal:3003/graphql
     schema:
-      file: ../../../../services/journal/src/main/resources/schema/schema.graphqls
+      file: ../../../../projects/organizer/journal/src/main/resources/schema/schema.graphqls

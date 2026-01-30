@@ -2,11 +2,10 @@
 # see https://github.com/bazelbuild/bazel/issues/8106
 # For example, every nested node_modules directory needs to be listed here.
 node_modules
-apps/app_template/node_modules
-apps/cra/node_modules
-apps/journal_app/node_modules
+projects/app_template/node_modules
 projects/mops/mops_app/node_modules
-apps/tasklist/node_modules
+projects/organizer/journal_app/node_modules
+projects/organizer/tasklist/node_modules
 learn/cypress/node_modules
 libs/bubbles/node_modules
 dist

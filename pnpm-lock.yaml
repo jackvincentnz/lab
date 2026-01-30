@@ -219,12 +219,6 @@ importers:
         specifier: 2.1.9
         version: 2.1.9(@types/node@18.19.50)(@vitest/ui@2.1.9)(jsdom@24.1.3)
 
-  apps/app_template: {}
-
-  apps/journal_app: {}
-
-  apps/tasklist: {}
-
   libs/bubbles:
     dependencies:
       '@mantine/core':
@@ -246,7 +240,9 @@ importers:
         specifier: '*'
         version: 18.2.0
 
-  projects/mops/mops_app: {}
+  projects/organizer/journal_app: {}
+
+  projects/organizer/tasklist: {}
 
 packages:
 

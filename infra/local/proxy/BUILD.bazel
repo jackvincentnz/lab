@@ -29,5 +29,5 @@ filegroup(
     name = "tarball.tar",
     srcs = [":load"],
     output_group = "tarball",
-    visibility = ["//apps/organizer/e2e:__pkg__"],
+    visibility = ["//projects/organizer/e2e:__pkg__"],
 )
