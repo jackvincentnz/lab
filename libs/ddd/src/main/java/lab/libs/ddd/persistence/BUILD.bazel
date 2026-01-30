@@ -1,0 +1,6 @@
+java_library(
+    name = "persistence",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    deps = ["//libs/ddd/src/main/java/lab/libs/ddd/domain"],
+)

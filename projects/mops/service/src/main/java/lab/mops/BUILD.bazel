@@ -5,7 +5,7 @@ java_library(
         "//projects/mops/service/src/main:__pkg__",
     ],
     deps = [
-        "//libs/tenancy/src/main/java/nz/geek/jack/libs/tenancy/filter",
+        "//libs/tenancy/src/main/java/lab/libs/tenancy/filter",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
         "@maven//:org_springframework_spring_context",

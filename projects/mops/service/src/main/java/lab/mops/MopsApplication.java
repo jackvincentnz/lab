@@ -1,6 +1,6 @@
 package lab.mops;
 
-import nz.geek.jack.libs.tenancy.filter.TenantFilter;
+import lab.libs.tenancy.filter.TenantFilter;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

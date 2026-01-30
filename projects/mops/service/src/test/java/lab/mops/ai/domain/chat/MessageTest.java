@@ -6,8 +6,8 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import nz.geek.jack.libs.ddd.domain.NotFoundException;
-import nz.geek.jack.test.TestBase;
+import lab.libs.ddd.domain.NotFoundException;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class MessageTest extends TestBase {

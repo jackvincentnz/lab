@@ -7,7 +7,7 @@ java_library(
         "@maven//:com_h2database_h2",
     ],
     deps = [
-        "//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/domain/springdata",
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain/springdata",
         "//libs/spring/src/main/java/lab/spring/http",
         "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
         "@maven//:org_springframework_ai_spring_ai_model",

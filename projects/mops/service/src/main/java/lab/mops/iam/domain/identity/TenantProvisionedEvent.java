@@ -1,6 +1,6 @@
 package lab.mops.iam.domain.identity;
 
-import nz.geek.jack.libs.ddd.domain.DomainEvent;
+import lab.libs.ddd.domain.DomainEvent;
 
 public class TenantProvisionedEvent extends DomainEvent<TenantId> {
 

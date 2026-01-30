@@ -1,11 +1,11 @@
 package lab.mops.core.domain.activityhierarchy;
 
-import static nz.geek.jack.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
+import static lab.libs.ddd.domain.test.ESAggregateTestUtils.getOnlyEventOfType;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.EventReductionException;
+import lab.libs.ddd.domain.EventReductionException;
 import org.junit.jupiter.api.Test;
 
 class ActivityHierarchyTest {

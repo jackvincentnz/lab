@@ -3,7 +3,7 @@ syntax = "proto3";
 package iam.api.kafka;
 
 option java_multiple_files = true;
-option java_package = "nz.geek.jack.iam.api.kafka";
+option java_package = "lab.iam.api.kafka";
 option java_outer_classname = "TenantApiProto";
 
 message TenantProvisionedEvent {

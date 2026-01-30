@@ -1,7 +1,7 @@
 package lab.mops.core.domain.budget;
 
 import java.util.Collection;
-import nz.geek.jack.libs.ddd.domain.BaseRepository;
+import lab.libs.ddd.domain.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

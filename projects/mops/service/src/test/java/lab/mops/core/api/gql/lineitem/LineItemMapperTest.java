@@ -14,7 +14,7 @@ import lab.mops.core.domain.budget.Budget;
 import lab.mops.core.domain.budget.LineItem;
 import lab.mops.core.domain.budget.Spend;
 import lab.mops.core.domain.category.Category;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class LineItemMapperTest extends TestBase {

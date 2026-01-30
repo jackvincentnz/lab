@@ -1,7 +1,7 @@
 package lab.mops.ai.domain.chat;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.ExternalId;
+import lab.libs.ddd.domain.ExternalId;
 
 public final class ToolCallId extends ExternalId {
 

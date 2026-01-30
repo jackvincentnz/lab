@@ -1,7 +1,7 @@
 package lab.mops.core.domain.category;
 
 import java.util.UUID;
-import nz.geek.jack.libs.ddd.domain.InternalId;
+import lab.libs.ddd.domain.InternalId;
 
 public final class CategoryId extends InternalId {
 

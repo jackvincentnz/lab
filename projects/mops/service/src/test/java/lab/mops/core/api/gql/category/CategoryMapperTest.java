@@ -3,7 +3,7 @@ package lab.mops.core.api.gql.category;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import lab.mops.core.domain.category.Category;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class CategoryMapperTest extends TestBase {

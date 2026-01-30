@@ -4,7 +4,7 @@ load("//tools/bazel:pkg.bzl", "tar")
 
 java_binary(
     name = "main",
-    main_class = "nz.geek.jack.autojournal.AutoJournalApplication",
+    main_class = "lab.autojournal.AutoJournalApplication",
     visibility = [
         "//projects/organizer/autojournal:__pkg__",
     ],
@@ -15,7 +15,7 @@ java_binary(
 
 springboot(
     name = "main_spring",
-    boot_app_class = "nz.geek.jack.autojournal.AutoJournalApplication",
+    boot_app_class = "lab.autojournal.AutoJournalApplication",
     boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
     java_library = ":main_lib",
 )
@@ -26,7 +26,7 @@ java_library(
         "//projects/organizer/autojournal/src/main/resources",
     ],
     runtime_deps = [
-        "//projects/organizer/autojournal/src/main/java/nz/geek/jack/autojournal",
+        "//projects/organizer/autojournal/src/main/java/lab/autojournal",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],

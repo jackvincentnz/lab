@@ -1,6 +1,6 @@
 package lab.mops.iam.domain.identity;
 
-import nz.geek.jack.libs.ddd.domain.EventSourcedAggregate;
+import lab.libs.ddd.domain.EventSourcedAggregate;
 
 public class Tenant extends EventSourcedAggregate<TenantId> {
 

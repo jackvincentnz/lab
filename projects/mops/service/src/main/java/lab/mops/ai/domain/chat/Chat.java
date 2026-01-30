@@ -3,8 +3,8 @@ package lab.mops.ai.domain.chat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
-import nz.geek.jack.libs.ddd.domain.NotFoundException;
+import lab.libs.ddd.domain.Aggregate;
+import lab.libs.ddd.domain.NotFoundException;
 
 public class Chat extends Aggregate<ChatId> {
 

@@ -4,10 +4,10 @@ import java.time.Month;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import lab.libs.ddd.domain.Aggregate;
+import lab.libs.ddd.domain.ValidationException;
 import lab.mops.core.domain.category.Category;
 import lab.mops.core.domain.category.CategoryValue;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
-import nz.geek.jack.libs.ddd.domain.ValidationException;
 
 public class LineItem extends Aggregate<LineItemId> {
 

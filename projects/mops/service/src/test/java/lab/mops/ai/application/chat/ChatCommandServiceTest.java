@@ -11,7 +11,7 @@ import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.ai.domain.chat.MessageType;
 import lab.mops.ai.domain.chat.ToolCallId;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;

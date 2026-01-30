@@ -1,7 +1,7 @@
 package lab.mops.config;
 
 import java.util.List;
-import nz.geek.jack.libs.ddd.domain.springdata.Converters;
+import lab.libs.ddd.domain.springdata.Converters;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
 

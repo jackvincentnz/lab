@@ -1,6 +1,6 @@
 package lab.mops.ai.domain.chat;
 
-import nz.geek.jack.libs.ddd.domain.BaseRepository;
+import lab.libs.ddd.domain.BaseRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository

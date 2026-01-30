@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
-import nz.geek.jack.libs.ddd.domain.DuplicateException;
-import nz.geek.jack.libs.ddd.domain.NotFoundException;
+import lab.libs.ddd.domain.Aggregate;
+import lab.libs.ddd.domain.DuplicateException;
+import lab.libs.ddd.domain.NotFoundException;
 
 public class Category extends Aggregate<CategoryId> {
 

@@ -2,7 +2,7 @@ package lab.mops.ai.domain.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class ToolCallTest extends TestBase {

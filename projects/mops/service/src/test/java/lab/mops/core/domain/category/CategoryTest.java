@@ -1,11 +1,11 @@
 package lab.mops.core.domain.category;
 
-import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
+import static lab.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import nz.geek.jack.libs.ddd.domain.DuplicateException;
-import nz.geek.jack.test.TestBase;
+import lab.libs.ddd.domain.DuplicateException;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class CategoryTest extends TestBase {

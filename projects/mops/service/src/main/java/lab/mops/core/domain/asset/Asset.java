@@ -1,7 +1,7 @@
 package lab.mops.core.domain.asset;
 
 import java.util.Objects;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import lab.libs.ddd.domain.Aggregate;
 
 public class Asset extends Aggregate<AssetId> {
 

@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import lab.mops.core.domain.category.Category;
 import lab.mops.core.domain.category.CategoryRepository;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -11,7 +11,7 @@ import lab.mops.api.gql.types.CreateActivityInput;
 import lab.mops.core.application.activity.ActivityCommandService;
 import lab.mops.core.application.activity.CreateActivityCommand;
 import lab.mops.core.domain.activity.Activity;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

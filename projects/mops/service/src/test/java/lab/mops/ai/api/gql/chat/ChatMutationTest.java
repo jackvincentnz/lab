@@ -26,7 +26,7 @@ import lab.mops.api.gql.types.EditUserMessageInput;
 import lab.mops.api.gql.types.RejectToolCallInput;
 import lab.mops.api.gql.types.RetryAssistantMessageInput;
 import lab.mops.api.gql.types.StartChatInput;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

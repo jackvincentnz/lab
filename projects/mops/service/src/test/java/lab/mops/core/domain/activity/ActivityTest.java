@@ -1,10 +1,10 @@
 package lab.mops.core.domain.activity;
 
-import static nz.geek.jack.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
+import static lab.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
 class ActivityTest extends TestBase {

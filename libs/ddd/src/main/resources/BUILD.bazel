@@ -1,5 +1,5 @@
 java_library(
     name = "resources",
     resources = glob(["*.sql"]),
-    visibility = ["//libs/ddd/src/main/java/nz/geek/jack/libs/ddd/es/persistence:__pkg__"],
+    visibility = ["//libs/ddd/src/main/java/lab/libs/ddd/es/persistence:__pkg__"],
 )

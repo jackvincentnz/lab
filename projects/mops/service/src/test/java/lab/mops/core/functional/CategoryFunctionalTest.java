@@ -12,7 +12,7 @@ import lab.mops.api.gql.client.AllCategoriesProjectionRoot;
 import lab.mops.api.gql.client.AllLineItemsProjectionRoot;
 import lab.mops.api.gql.types.Category;
 import lab.mops.client.TestClient;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

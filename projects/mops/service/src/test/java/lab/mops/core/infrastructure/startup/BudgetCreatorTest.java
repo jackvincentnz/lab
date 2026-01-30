@@ -11,7 +11,7 @@ import lab.mops.core.application.budget.BudgetCommandService;
 import lab.mops.core.application.budget.BudgetQueryService;
 import lab.mops.core.application.budget.CreateBudgetCommand;
 import lab.mops.core.domain.budget.Budget;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

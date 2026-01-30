@@ -1,0 +1,23 @@
+java_library(
+    name = "messaging",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
+        "//projects/organizer/task/src/test/java/lab/task:__pkg__",
+        "//projects/organizer/task/src/test/java/lab/task/adapter:__subpackages__",
+    ],
+    runtime_deps = [
+        "@maven//:io_confluent_kafka_protobuf_serializer",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
+        "//projects/organizer/task/src/main/java/lab/task/domain",
+        "//projects/organizer/task/src/main/proto:task_api_java",
+        "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_slf4j_slf4j_api",
+        "@maven//:org_springframework_kafka_spring_kafka",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

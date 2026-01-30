@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "filter",
+    runtime_deps = [
+        "@maven//:org_springframework_spring_web",
+    ],
+    deps = [
+        "//libs/tenancy/src/main/java/lab/libs/tenancy",
+        "//libs/tenancy/src/main/java/lab/libs/tenancy/filter",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_test",
+    ],
+)

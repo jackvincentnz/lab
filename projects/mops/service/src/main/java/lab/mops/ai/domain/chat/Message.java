@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
-import nz.geek.jack.libs.ddd.domain.NotFoundException;
+import lab.libs.ddd.domain.NotFoundException;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 

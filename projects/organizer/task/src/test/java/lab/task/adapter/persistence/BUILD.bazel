@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    deps = [
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
+        "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",
+        "//projects/organizer/task/src/main/java/lab/task/adapter/persistence",
+        "//projects/organizer/task/src/main/java/lab/task/domain",
+    ],
+)

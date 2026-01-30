@@ -1,9 +1,0 @@
-java_library(
-    name = "filter",
-    srcs = glob(["*.java"]),
-    visibility = ["//visibility:public"],
-    deps = [
-        "//libs/tenancy/src/main/java/nz/geek/jack/libs/tenancy",
-        "@maven//:jakarta_servlet_jakarta_servlet_api",
-    ],
-)

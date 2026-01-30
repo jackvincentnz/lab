@@ -17,7 +17,7 @@ import lab.mops.api.gql.types.LineItem;
 import lab.mops.api.gql.types.Quarter;
 import lab.mops.api.gql.types.SpendInput;
 import lab.mops.client.TestClient;
-import nz.geek.jack.test.TestBase;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

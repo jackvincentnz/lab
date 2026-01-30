@@ -1,7 +1,7 @@
 package lab.mops.core.domain.budget;
 
 import java.util.Objects;
-import nz.geek.jack.libs.ddd.domain.Aggregate;
+import lab.libs.ddd.domain.Aggregate;
 
 public class Budget extends Aggregate<BudgetId> {
 
