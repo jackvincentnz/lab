@@ -59,6 +59,8 @@ const POLL_INTERVAL = 500;
 const CHAT_VIEW = "chat";
 const CHAT_HISTORY_VIEW = "history";
 
+type ViewType = typeof CHAT_VIEW | typeof CHAT_HISTORY_VIEW;
+
 interface MessageActionsProps {
   messageId: string;
   messageType: ChatMessageType;
@@ -126,14 +128,19 @@ function MessageActions({
 
 export function Chat() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
-  const [view, setView] = useState<typeof CHAT_VIEW | typeof CHAT_HISTORY_VIEW>(
-    CHAT_VIEW,
-  );
+  const [view, setView] = useState<ViewType>(CHAT_VIEW);
   const [input, setInput] = useState("");
   const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
   const [editContent, setEditContent] = useState("");
 
+  const reset = () => {
+    setInput("");
+    setEditingMessageId(null);
+    setEditContent("");
+  };
+
   const handleNewChat = () => {
+    reset();
     setCurrentChatId(null);
     setView(CHAT_VIEW);
   };
@@ -143,6 +150,7 @@ export function Chat() {
   };
 
   const handleSelectChat = (selectedChatId: string) => {
+    reset();
     setCurrentChatId(selectedChatId);
     setView(CHAT_VIEW);
   };
@@ -366,12 +374,20 @@ export function Chat() {
 
         <Group gap="xs">
           <Tooltip label="New Chat">
-            <ActionIcon variant="subtle" onClick={handleNewChat}>
+            <ActionIcon
+              variant="subtle"
+              onClick={handleNewChat}
+              aria-label="New Chat"
+            >
               <IconPlus size={18} />
             </ActionIcon>
           </Tooltip>
           <Tooltip label="Previous Chats">
-            <ActionIcon variant="subtle" onClick={handleShowChats}>
+            <ActionIcon
+              variant="subtle"
+              onClick={handleShowChats}
+              aria-label="Previous Chats"
+            >
               <IconHistory size={18} />
             </ActionIcon>
           </Tooltip>
