@@ -1,7 +1,16 @@
 import { useQuery } from "@apollo/client";
-import { Stack, Text, Paper, Group, ActionIcon, Loader } from "@mantine/core";
-import { IconArrowLeft } from "@tabler/icons-react";
+import {
+  Stack,
+  Text,
+  Paper,
+  Group,
+  ActionIcon,
+  Loader,
+  Alert,
+} from "@mantine/core";
+import { IconArrowLeft, IconExclamationCircle } from "@tabler/icons-react";
 import { AllChatsDocument, AllChatsQuery } from "../../__generated__/graphql";
+import dayjs from "dayjs";
 
 export interface ChatHistoryProps {
   onSelectChat: (chatId: string) => void;
@@ -9,10 +18,23 @@ export interface ChatHistoryProps {
 }
 
 export function ChatHistory({ onSelectChat, onBack }: ChatHistoryProps) {
-  const { data, loading } = useQuery<AllChatsQuery>(AllChatsDocument);
+  const { data, loading, error } = useQuery<AllChatsQuery>(AllChatsDocument);
 
   if (loading) {
     return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Alert
+        variant="light"
+        color="red"
+        title="Error"
+        icon={<IconExclamationCircle />}
+      >
+        Something went wrong. Please try again.
+      </Alert>
+    );
   }
 
   return (
@@ -36,7 +58,7 @@ export function ChatHistory({ onSelectChat, onBack }: ChatHistoryProps) {
               {chat.messages?.[0]?.content || "Empty chat"}
             </Text>
             <Text size="xs" c="dimmed">
-              {chat.createdAt}
+              {dayjs(chat.createdAt).format("MMM D, YYYY h:mm A")}
             </Text>
           </Paper>
         ))}
