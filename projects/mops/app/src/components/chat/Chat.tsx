@@ -7,14 +7,11 @@ import {
   Loader,
   ScrollArea,
   Stack,
-  Table,
   Text,
   Textarea,
   Title,
   Tooltip,
 } from "@mantine/core";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
 import {
   IconArrowRight,
   IconCheck,
@@ -53,6 +50,7 @@ import {
 } from "../../__generated__/graphql";
 import { ToolCallApproval } from "./ToolCallApproval";
 import { ChatHistory } from "./ChatHistory";
+import { MarkdownContent } from "./MarkdownContent";
 
 const POLL_INTERVAL = 500;
 
@@ -525,46 +523,7 @@ export function Chat() {
                         )}
                         {msg.content && (
                           <>
-                            <ReactMarkdown
-                              remarkPlugins={[remarkGfm]}
-                              components={{
-                                table: ({ children, ...props }) => (
-                                  <Table
-                                    my="md"
-                                    striped
-                                    highlightOnHover
-                                    withTableBorder
-                                    {...props}
-                                  >
-                                    {children}
-                                  </Table>
-                                ),
-                                thead: ({ children, ...props }) => (
-                                  <Table.Thead {...props}>
-                                    {children}
-                                  </Table.Thead>
-                                ),
-                                tbody: ({ children, ...props }) => (
-                                  <Table.Tbody {...props}>
-                                    {children}
-                                  </Table.Tbody>
-                                ),
-                                tr: ({ children, ...props }) => (
-                                  <Table.Tr {...props}>{children}</Table.Tr>
-                                ),
-                                th: ({ children, ...props }) => (
-                                  <Table.Th {...props}>{children}</Table.Th>
-                                ),
-                                td: ({ children, ...props }) => (
-                                  <Table.Td {...props}>{children}</Table.Td>
-                                ),
-                                p: ({ children }) => (
-                                  <Text my="md">{children}</Text>
-                                ),
-                              }}
-                            >
-                              {msg.content}
-                            </ReactMarkdown>
+                            <MarkdownContent content={msg.content} />
                             <MessageActions
                               messageId={msg.id}
                               messageType={msg.type}
