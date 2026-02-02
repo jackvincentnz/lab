@@ -58,7 +58,7 @@
     "@testing-library/react": "16.0.0",
     "@testing-library/user-event": "14.5.2",
     "@types/dockerode": "3.3.31",
-    "@types/node": "18.19.50",
+    "@types/node": "18.19.130",
     "@types/react": "18.2.74",
     "@types/react-dom": "18.2.24",
     "@typescript-eslint/eslint-plugin": "7.18.0",
