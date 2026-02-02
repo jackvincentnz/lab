@@ -13,7 +13,6 @@ import {
   Tooltip,
 } from "@mantine/core";
 import {
-  IconArrowRight,
   IconCheck,
   IconEdit,
   IconHistory,
@@ -51,6 +50,7 @@ import {
 import { ToolCallApproval } from "./ToolCallApproval";
 import { ChatHistory } from "./ChatHistory";
 import { MarkdownContent } from "./MarkdownContent";
+import { ChatInput } from "./ChatInput";
 
 const POLL_INTERVAL = 500;
 
@@ -542,32 +542,12 @@ export function Chat() {
               )}
           </ScrollArea>
 
-          <Box style={{ flexShrink: 0 }}>
-            <Group gap="xs" grow>
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.currentTarget.value)}
-                placeholder="What can you do?"
-                onKeyDown={(e) =>
-                  e.key === "Enter" && !e.shiftKey && sendMessage()
-                }
-                rightSection={
-                  isLoading ? (
-                    <Loader size="xs" />
-                  ) : (
-                    <ActionIcon onClick={sendMessage} aria-label="Send">
-                      <IconArrowRight />
-                    </ActionIcon>
-                  )
-                }
-                autosize
-                minRows={1}
-                maxRows={10}
-                rightSectionPointerEvents={"all"}
-                disabled={isLoading}
-              />
-            </Group>
-          </Box>
+          <ChatInput
+            value={input}
+            onChange={setInput}
+            onSend={sendMessage}
+            isLoading={isLoading}
+          />
         </>
       )}
     </Box>
