@@ -60,7 +60,7 @@ oci_deliver(
     image = ":image",
     repo_suffix = "task",
     visibility = [
-        "//:__pkg__",
+        "//projects/organizer:__pkg__",
         "//projects/organizer/e2e:__pkg__",
     ],
 )

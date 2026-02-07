@@ -49,3 +49,7 @@ Use this file to capture working notes, conventions, and repo-specific gotchas. 
 - 2026-02-07: Replaced organizer-specific Bazel examples with the `//<PATH_TO_PROJECT>:<TARGETS>` pattern.
 - 2026-02-07: Removed pnpm command wrappers in favor of Bazel-only build/test/run usage.
 - 2026-02-07: Added formatting guidance to reduce Prettier-only diffs.
+- 2026-02-07: Moved organizer local-environment targets and docs into `projects/organizer/`.
+- 2026-02-07: Granted organizer package visibility to shared deliver/load targets for local environment runs.
+- 2026-02-07: Set organizer e2e and task test suite timeouts to `short` to match observed runtimes.
+- 2026-02-07: Removed root `//:__pkg__` visibility from organizer-local targets after hoisting.
