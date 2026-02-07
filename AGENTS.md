@@ -53,3 +53,4 @@ Use this file to capture working notes, conventions, and repo-specific gotchas. 
 - 2026-02-07: Granted organizer package visibility to shared deliver/load targets for local environment runs.
 - 2026-02-07: Set organizer e2e and task test suite timeouts to `short` to match observed runtimes.
 - 2026-02-07: Removed root `//:__pkg__` visibility from organizer-local targets after hoisting.
+- 2026-02-07: Added `projects/mops/README.md` with Mops quickstart commands and agent-focused project map.
