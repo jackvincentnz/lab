@@ -22,7 +22,9 @@ oci_load(
     name = "load",
     image = ":image",
     repo_tags = ["lab/proxy:latest"],
-    visibility = ["//:__pkg__"],
+    visibility = [
+        "//projects/organizer:__pkg__",
+    ],
 )
 
 filegroup(

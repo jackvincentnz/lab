@@ -9,9 +9,7 @@
     "build": "bazel build //...",
     "test": "bazel test //...",
     "lint": "pre-commit run eslint --all-files",
-    "format": "pre-commit run prettier --all-files",
-    "start": "bazel run //:start",
-    "e2e": "bazel test //projects/organizer/e2e"
+    "format": "pre-commit run prettier --all-files"
   },
   "dependencies": {
     "@apollo/client": "3.12.8",

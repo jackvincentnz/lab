@@ -18,5 +18,7 @@ sh_binary(
         "router/schema/supergraph.graphql",
         "@bazel_tools//tools/bash/runfiles",
     ],
-    visibility = ["//:__pkg__"],
+    visibility = [
+        "//projects/organizer:__pkg__",
+    ],
 )

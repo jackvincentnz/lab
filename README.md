@@ -32,17 +32,8 @@ Test solution with:
 bazel test //...
 ```
 
-Run the whole local environment in docker with:
-
-```zsh
-bazel run //:start
-```
-
-Run e2e tests with:
-
-```zsh
-bazel test //projects/organizer/e2e
-```
+Project-specific setup and commands live in each project README (for example,
+`projects/organizer/README.md`).
 
 ## Tooling
 

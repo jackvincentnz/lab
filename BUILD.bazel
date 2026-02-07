@@ -1,6 +1,5 @@
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bazel:ts.bzl", "ts_config")
-load("@rules_multirun//:defs.bzl", "command", "multirun")
 load("@npm//:tsconfig-to-swcconfig/package_json.bzl", tsconfig_to_swcconfig = "bin")
 
 npm_link_all_packages(name = "node_modules")
@@ -69,64 +68,4 @@ tsconfig_to_swcconfig.t2s(
     ],
     stdout = ".swcrc.node",
     visibility = [":__subpackages__"],
-)
-
-command(
-    name = "tag_task_image",
-    command = "//projects/organizer/task/src/main:deliver",
-)
-
-command(
-    name = "tag_journal_image",
-    command = "//projects/organizer/journal/src/main:deliver",
-)
-
-command(
-    name = "tag_autojournal_image",
-    command = "//projects/organizer/autojournal/src/main:deliver",
-)
-
-command(
-    name = "tag_tasklist_image",
-    command = "//projects/organizer/tasklist:deliver",
-)
-
-command(
-    name = "tag_journal_app_image",
-    command = "//projects/organizer/journal_app:deliver",
-)
-
-command(
-    name = "tag_proxy_image",
-    command = "//infra/local/proxy:load",
-)
-
-# Builds and tags local environment images, and then pushes to the local docker repository.
-multirun(
-    name = "tag_images",
-    commands = [
-        "tag_task_image",
-        "tag_journal_image",
-        "tag_autojournal_image",
-        "tag_tasklist_image",
-        "tag_journal_app_image",
-        "tag_proxy_image",
-    ],
-    jobs = 0,  # Set to 0 to run in parallel, defaults to sequential
-)
-
-# Builds and tags local environment images with Bazel, and then runs with Docker.
-multirun(
-    name = "start",
-    commands = [
-        "tag_images",
-        "local_environment",
-    ],
-)
-
-# Runs local environment with Docker using existing images, without building and tagging changes with Bazel first.
-# Note: depends on configured images existing in the docker repository.
-command(
-    name = "local_environment",
-    command = "//infra/local",
 )
