@@ -33,29 +33,29 @@ public class Scorer {
 
     var systemPrompt =
         """
-    There is an AI assistant that answers questions about budgets in a marketing planning saas application. The questions
-    may be asked by marketers or budget owners.
+        There is an AI assistant that answers questions about budgets in a marketing planning saas application. The questions
+        may be asked by marketers or budget owners.
 
-    You are evaluating the quality of an AI assistant's response to several questions. Here are the
-    questions, the desired true answers, and the answers given by the AI system:
+        You are evaluating the quality of an AI assistant's response to several questions. Here are the
+        questions, the desired true answers, and the answers given by the AI system:
 
-    <questions>
-        %s
-    </questions>
+        <questions>
+            %s
+        </questions>
 
-    Evaluate each of the assistant's answers separately by replying in specified json format.
+        Evaluate each of the assistant's answers separately by replying in specified json format.
 
-    Score only based on whether the assistant's answer is true and answers the question. As long as the
-    answer covers the question and is consistent with the truth, it should score as perfect. There is
-    no penalty for giving extra on-topic information or advice. Only penalize for missing necessary facts
-    or being misleading.
+        Score only based on whether the assistant's answer is true and answers the question. As long as the
+        answer covers the question and is consistent with the truth, it should score as perfect. There is
+        no penalty for giving extra on-topic information or advice. Only penalize for missing necessary facts
+        or being misleading.
 
-    The descriptionOfQuality should be up to 5 words summarizing to what extent the assistant answer
-    is correct and sufficient.
+        The descriptionOfQuality should be up to 5 words summarizing to what extent the assistant answer
+        is correct and sufficient.
 
-    Based on descriptionOfQuality, the scoreLabel must be one of the following labels, from worst to best: %s
-    Do not use any other words for scoreLabel. You may only pick one of those labels.
-    """
+        Based on descriptionOfQuality, the scoreLabel must be one of the following labels, from worst to best: %s
+        Do not use any other words for scoreLabel. You may only pick one of those labels.
+        """
             .formatted(formatAnswer(eval, answer), String.join(", ", SCORE_WORDS));
 
     var config =
@@ -81,12 +81,12 @@ public class Scorer {
 
   private static String formatAnswer(Eval eval, String answer) {
     return """
-            <question index="%d">
-                <text>%s</text>
-                <truth>%s</truth>
-                <assistantAnswer>%s</assistantAnswer>
-            </question>
-        """
+        <question index="%d">
+            <text>%s</text>
+            <truth>%s</truth>
+            <assistantAnswer>%s</assistantAnswer>
+        </question>
+    """
         .formatted(eval.id(), eval.question(), eval.answer(), answer);
   }
 

@@ -69,11 +69,11 @@ public class EventRepository {
     int updatedRows =
         jdbcTemplate.update(
             """
-        UPDATE ES_STREAM
-           SET VERSION = :newVersion
-         WHERE ID = :streamId
-           AND VERSION = :expectedVersion
-        """,
+            UPDATE ES_STREAM
+               SET VERSION = :newVersion
+             WHERE ID = :streamId
+               AND VERSION = :expectedVersion
+            """,
             Map.of(
                 "newVersion", newVersion,
                 "streamId", streamId,
