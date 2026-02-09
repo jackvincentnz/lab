@@ -1,3 +1,5 @@
 build --bes_results_url=https://app.buildbuddy.io/invocation/
 build --bes_backend=grpcs://remote.buildbuddy.io
 build --remote_cache=grpcs://remote.buildbuddy.io
+# Keep CI runners small; local dev enables disk cache in .bazelrc.
+build --disk_cache=
