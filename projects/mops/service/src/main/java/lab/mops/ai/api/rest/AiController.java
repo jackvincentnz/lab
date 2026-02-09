@@ -43,7 +43,7 @@ class AiController {
         this.chatClient
             .prompt()
             .system(
-                """
+"""
 You are a skilled expert in planning and budgeting for marketing campaigns.
 
 You will be asked questions about data with the following model:

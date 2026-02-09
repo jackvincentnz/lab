@@ -32,16 +32,16 @@ public class DefaultBudgetTools implements BudgetTools {
   @Tool(
       description =
           """
-    Returns all budgets, their line items, how they are categorized, and how much is planned to be spent when.
+          Returns all budgets, their line items, how they are categorized, and how much is planned to be spent when.
 
-    You can use this tool to answer most questions about budgets and their contents.
+          You can use this tool to answer most questions about budgets and their contents.
 
-    For example, to answer the question: How much is planned to be spent in the Annual Marketing Budget 2025 in Jan?
+          For example, to answer the question: How much is planned to be spent in the Annual Marketing Budget 2025 in Jan?
 
-    1. Get all budgets.
-    2. Identify the planned spending in January for the budget named: Annual Marketing Budget.
-    3. Sum up the planned spend amounts.
-    """)
+          1. Get all budgets.
+          2. Identify the planned spending in January for the budget named: Annual Marketing Budget.
+          3. Sum up the planned spend amounts.
+          """)
   public Collection<ResolvedBudget> getAllBudgets() {
     // FIXME: Avoid context window overflow
     return budgetQueryService.resolveBudgets();

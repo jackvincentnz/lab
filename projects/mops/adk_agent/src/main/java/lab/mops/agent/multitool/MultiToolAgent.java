@@ -47,7 +47,7 @@ public class MultiToolAgent {
           .name("MarketingOperationsAssistant")
           .description("Helps marketers plan, budget, execute, and analyze in marketing campaigns")
           .instruction(
-              """
+"""
 You are a skilled expert in planning and budgeting for marketing campaigns.
 
 You will be asked questions about data with the following model:

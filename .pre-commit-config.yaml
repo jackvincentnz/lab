@@ -36,11 +36,11 @@ repos:
       - id: prettier
 
   # Format java source files
-  - repo: https://github.com/jackvincentnz/language-formatters-pre-commit-hooks
-    rev: 2664e6558f31bf73cb8f8a6558f33f4ba22e82a1
+  - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+    rev: cdf3a1c9de7de58714ef10a37e47c157c58c26b7
     hooks:
       - id: pretty-format-java
-        args: [--autofix]
+        args: [--autofix, --google-java-formatter-version=1.28.0]
 
   # Check commit message meets requirements
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook

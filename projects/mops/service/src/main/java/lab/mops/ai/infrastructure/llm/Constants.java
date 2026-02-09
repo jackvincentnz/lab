@@ -3,7 +3,7 @@ package lab.mops.ai.infrastructure.llm;
 public class Constants {
 
   public static final String SYSTEM_PROMPT =
-      """
+"""
 You are a skilled expert in planning and budgeting for marketing campaigns.
 
 You will be asked questions about data with the following model:
