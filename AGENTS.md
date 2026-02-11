@@ -55,3 +55,8 @@ Use this file to capture working notes, conventions, and repo-specific gotchas. 
 - 2026-02-07: Removed root `//:__pkg__` visibility from organizer-local targets after hoisting.
 - 2026-02-07: Added `projects/mops/README.md` with Mops quickstart commands and agent-focused project map.
 - 2026-02-09: Enabled local Bazel disk cache by default with CI explicitly disabling it.
+- 2026-02-10: Updated `tools/bazel/dgs/codegen.bzl` to buffer DgsCodegen stdout/stderr and only print on failures for silent successful Bazel runs.
+- 2026-02-10: Updated Dgs srcjar zipping in `tools/bazel/dgs/codegen.bzl` to suppress success output and print zip logs only on failures.
+- 2026-02-11: Switched DGS srcjar creation in `tools/bazel/dgs/codegen.bzl` from host `zip` to Bazel `@bazel_tools//tools/zip:zipper` for hermetic archive creation.
+- 2026-02-11: DGS srcjar creation now uses `ctx.actions.run` with zipper and `Args.add_all(..., expand_directories=True, map_each=...)`; `map_each` must be a top-level Starlark function.
+- 2026-02-11: For validation, run standard Bazel commands first (for example `bazel test //<PATH>/...`) with the default output base; only use debug flags or custom `--output_base` after a reproducible failure and note why.

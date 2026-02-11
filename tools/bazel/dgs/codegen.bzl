@@ -2,6 +2,14 @@
 Rule for generate dgs java types from a graphql schema
 """
 
+def _zipper_input_path(file):
+    marker = "_generated/"
+    marker_index = file.path.find(marker)
+    if marker_index == -1:
+        fail("expected generated file path to include '%s': %s" % (marker, file.path))
+    zip_path = file.path[marker_index + len(marker):]
+    return "{}={}".format(zip_path, file.path)
+
 def _dgs_codegen(ctx):
     target_dir = ctx.actions.declare_directory(ctx.attr.name + "_generated")
 
@@ -14,27 +22,45 @@ def _dgs_codegen(ctx):
     for schema in ctx.files.schemas:
         args.add(schema.path)
 
-    ctx.actions.run(
+    ctx.actions.run_shell(
         mnemonic = "DgsCodegen",
-        executable = ctx.executable._codegen_binary,
+        command = """
+set +e
+output="$({codegen} \"$@\" 2>&1)"
+exit_code=$?
+if [ "$exit_code" -ne 0 ]; then
+    printf '%s\n' "$output" >&2
+fi
+exit "$exit_code"
+""".format(
+            codegen = ctx.executable._codegen_binary.path,
+        ),
         arguments = [args],
         inputs = ctx.files.schemas,
+        tools = [ctx.executable._codegen_binary],
         outputs = [target_dir],
     )
 
     srcjar = ctx.actions.declare_file(ctx.attr.name + "_generated.srcjar")
 
-    ctx.actions.run_shell(
+    zipper_args = ctx.actions.args()
+    zipper_args.add("cC")
+    zipper_args.add(srcjar.path)
+
+    zipper_inputs = ctx.actions.args()
+    zipper_inputs.add_all(
+        [target_dir],
+        expand_directories = True,
+        map_each = _zipper_input_path,
+    )
+
+    ctx.actions.run(
         inputs = [target_dir],
         tools = [ctx.executable._zipper],
         outputs = [srcjar],
-        command = "pushd {dir}; zip -X -q {compress} -r ../{outname} .".format(
-            outname = srcjar.basename,
-            dir = target_dir.path,
-            zipper = ctx.executable._zipper.path,
-            compress = "-0",
-        ),
-        use_default_shell_env = False,
+        executable = ctx.executable._zipper,
+        arguments = [zipper_args, zipper_inputs],
+        mnemonic = "ZipSrcjar",
         progress_message = "Zipping %s ..." % ctx.attr.name,
     )
 
@@ -61,10 +87,9 @@ dgs_codegen = rule(
             cfg = "exec",
         ),
         "_zipper": attr.label(
+            default = Label("@bazel_tools//tools/zip:zipper"),
             executable = True,
             cfg = "exec",
-            default = Label("@bazel_tools//tools/zip:zipper"),
-            allow_files = True,
         ),
     },
     output_to_genfiles = True,
