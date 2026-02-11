@@ -60,3 +60,4 @@ Use this file to capture working notes, conventions, and repo-specific gotchas. 
 - 2026-02-11: Switched DGS srcjar creation in `tools/bazel/dgs/codegen.bzl` from host `zip` to Bazel `@bazel_tools//tools/zip:zipper` for hermetic archive creation.
 - 2026-02-11: DGS srcjar creation now uses `ctx.actions.run` with zipper and `Args.add_all(..., expand_directories=True, map_each=...)`; `map_each` must be a top-level Starlark function.
 - 2026-02-11: For validation, run standard Bazel commands first (for example `bazel test //<PATH>/...`) with the default output base; only use debug flags or custom `--output_base` after a reproducible failure and note why.
+- 2026-02-11: Configured `renovate.json` to group all minor and patch dependency updates into a single non-major PR stream.
