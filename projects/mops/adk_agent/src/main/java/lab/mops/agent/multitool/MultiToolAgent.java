@@ -1,12 +1,9 @@
 package lab.mops.agent.multitool;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.adk.agents.BaseAgent;
 import com.google.adk.agents.LlmAgent;
-import com.google.adk.tools.BaseTool;
 import com.google.adk.tools.mcp.McpToolset;
 import com.google.adk.tools.mcp.SseServerParameters;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
 public class MultiToolAgent {
@@ -32,16 +29,8 @@ public class MultiToolAgent {
       var params = SseServerParameters.builder().url(mcpServerUrl).build();
       logger.info("🕰️ Initializing MCP toolset with params" + params);
 
-      var result = McpToolset.fromServer(params, new ObjectMapper()).get();
-      logger.info("⭐ MCP Toolset initialized: " + result.toString());
-      if (result.getTools() != null && !result.getTools().isEmpty()) {
-        logger.info("⭐ MCP Tools loaded: " + result.getTools().size());
-      }
-      var mcpTools = result.getTools().stream().map(mcpTool -> (BaseTool) mcpTool).toList();
-      logger.info("🛠️ MCP TOOLS: " + mcpTools.toString());
-
-      var allTools = new ArrayList<>(mcpTools);
-      logger.info("🌈 ALL TOOLS: " + allTools.toString());
+      var mcpToolset = new McpToolset(params);
+      logger.info("⭐ MCP Toolset initialized");
       return LlmAgent.builder()
           .model(MODEL_NAME)
           .name("MarketingOperationsAssistant")
@@ -142,7 +131,7 @@ Your general process is as follows:
 5. **Analyze the tools' results, and provide insights back to the user.** Return the tools' result in a human-readable markdown format. If your result contains multiple items, always use a markdown table to report back.
 6. **Ask the user if they need anything else.**
 """)
-          .tools(allTools)
+          .tools(mcpToolset)
           .outputKey("mops_assistant_result")
           .build();
     } catch (Exception e) {

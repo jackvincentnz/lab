@@ -21,6 +21,7 @@ jobs:
     env:
       BAZELISK_HOME: ~/.cache/bazel-repo
       BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
+      ANDROID_HOME: ""
     steps:
       - name: Free Disk Space
         uses: jlumbroso/free-disk-space@v1.3.1
@@ -98,7 +99,7 @@ jobs:
         run: tools/bazel/deliver_changed.sh
 
       - name: Submit dependencies
-        uses: jackvincentnz/bazel-dependency-detector@v0.3
+        uses: jackvincentnz/bazel-dependency-detector@v0.4.1
 
       # TODO: Avoid rebuilding and retesting tests with coverage
       - name: Generate coverage report

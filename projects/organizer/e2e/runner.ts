@@ -27,6 +27,8 @@ const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/sr
 const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_TAG = "lab/proxy:latest";
+const KAFKA_IMAGE = "confluentinc/cp-kafka:7.9.5";
+const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:7.9.5";
 
 const DOCKER = new Dockerode();
 
@@ -118,7 +120,7 @@ async function main() {
 }
 
 async function startKafka(network: StartedNetwork) {
-  return new KafkaContainer()
+  return new KafkaContainer(KAFKA_IMAGE)
     .withNetworkAliases("broker")
     .withNetwork(network)
     .start();
@@ -130,7 +132,7 @@ async function startSchemaRegistry(network: StartedNetwork) {
     SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:9092",
   };
 
-  return new GenericContainer("confluentinc/cp-schema-registry:7.5.1")
+  return new GenericContainer(SCHEMA_REGISTRY_IMAGE)
     .withNetwork(network)
     .withNetworkAliases("schema-registry")
     .withEnvironment(environment)
