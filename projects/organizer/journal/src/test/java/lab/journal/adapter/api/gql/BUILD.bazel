@@ -1,12 +1,19 @@
 load("//tools/bazel:java.bzl", "DGS_TEST_DEPS", "DGS_TEST_RUNTIME_DEPS", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
-java_test_suite(
-    name = "tests",
+# TODO: We should hoist these resources to common package for integration tests to avoid this in each package
+java_library(
+    name = "test_resources",
+    testonly = True,
     resources = [
         "//projects/organizer/journal/src/main/resources",
         "//projects/organizer/journal/src/main/resources/schema",
     ],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + DGS_TEST_RUNTIME_DEPS,
+    visibility = ["//visibility:private"],
+)
+
+java_test_suite(
+    name = "tests",
+    runtime_deps = [":test_resources"] + SPRING_TEST_RUNTIME_DEPS + DGS_TEST_RUNTIME_DEPS,
     deps = [
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql",
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema",

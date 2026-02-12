@@ -3,7 +3,7 @@
 # For example, every nested node_modules directory needs to be listed here.
 node_modules
 projects/app_template/node_modules
-projects/mops/mops_app/node_modules
+projects/mops/app/node_modules
 projects/organizer/journal_app/node_modules
 projects/organizer/tasklist/node_modules
 learn/cypress/node_modules

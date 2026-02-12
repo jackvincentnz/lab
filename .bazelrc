@@ -3,6 +3,7 @@ import %workspace%/.aspect/bazelrc/bazel7.bazelrc
 import %workspace%/.aspect/bazelrc/convenience.bazelrc
 import %workspace%/.aspect/bazelrc/correctness.bazelrc
 import %workspace%/.aspect/bazelrc/debug.bazelrc
+import %workspace%/.aspect/bazelrc/java.bazelrc
 import %workspace%/.aspect/bazelrc/javascript.bazelrc
 import %workspace%/.aspect/bazelrc/performance.bazelrc
 
@@ -19,11 +20,9 @@ build --disk_cache=~/.cache/bazel-disk-cache
 # Other directories will be created like "dist/testlogs"
 build --symlink_prefix=dist/
 
-# Force same java version for build, test and tools.
-build --java_language_version=17
-build --java_runtime_version=remotejdk_17
-build --tool_java_language_version=17
-build --tool_java_runtime_version=remotejdk_17
+# Use Bazel's proto toolchain resolution and prefer prebuilt protoc binaries.
+common --incompatible_enable_proto_toolchain_resolution
+common --@protobuf//bazel/toolchains:prefer_prebuilt_protoc
 
 # passes an argument `--skipLibCheck` to *every* spawn of tsc
 build --@aspect_rules_ts//ts:skipLibCheck=always
