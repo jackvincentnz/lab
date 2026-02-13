@@ -10,8 +10,8 @@
     "https://bcr.bazel.build/modules/abseil-cpp/20230802.1/source.json": "035b6f1911e17340db722bbc9158f830ee6d5dedba4cb3bcb9e25e590808a32c",
     "https://bcr.bazel.build/modules/apple_rules_lint/0.3.2/MODULE.bazel": "025c849b118da09af75afe0785bade64f082d27bb6aa1e078bfcbd1dc5a5bb26",
     "https://bcr.bazel.build/modules/apple_rules_lint/0.3.2/source.json": "eea39d44eba88408573363151dfe63a01be1229d463dff18b9fbb412589e79f2",
-    "https://bcr.bazel.build/modules/apple_support/1.5.0/MODULE.bazel": "50341a62efbc483e8a2a6aec30994a58749bd7b885e18dd96aa8c33031e558ef",
-    "https://bcr.bazel.build/modules/apple_support/1.5.0/source.json": "eb98a7627c0bc486b57f598ad8da50f6625d974c8f723e9ea71bd39f709c9862",
+    "https://bcr.bazel.build/modules/apple_support/1.23.1/MODULE.bazel": "53763fed456a968cf919b3240427cf3a9d5481ec5466abc9d5dc51bc70087442",
+    "https://bcr.bazel.build/modules/apple_support/1.23.1/source.json": "d888b44312eb0ad2c21a91d026753f330caa48a25c9b2102fae75eb2b0dcfdd2",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.7.2/MODULE.bazel": "780d1a6522b28f5edb7ea09630748720721dfe27690d65a2d33aa7509de77e07",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.7.7/MODULE.bazel": "491f8681205e31bb57892d67442ce448cda4f472a8e6b3dc062865e29a64f89c",
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/MODULE.bazel": "812d2dd42f65dca362152101fbec418029cc8fd34cbad1a2fde905383d705838",
@@ -33,7 +33,8 @@
     "https://bcr.bazel.build/modules/bazel_features/1.11.0/MODULE.bazel": "f9382337dd5a474c3b7d334c2f83e50b6eaedc284253334cf823044a26de03e8",
     "https://bcr.bazel.build/modules/bazel_features/1.17.0/MODULE.bazel": "039de32d21b816b47bd42c778e0454217e9c9caac4a3cf8e15c7231ee3ddee4d",
     "https://bcr.bazel.build/modules/bazel_features/1.18.0/MODULE.bazel": "1be0ae2557ab3a72a57aeb31b29be347bcdc5d2b1eb1e70f39e3851a7e97041a",
-    "https://bcr.bazel.build/modules/bazel_features/1.18.0/source.json": "cde886d88c8164b50b9b97dba7c0a64ca24d257b72ca3a2fcb06bee1fdb47ee4",
+    "https://bcr.bazel.build/modules/bazel_features/1.27.0/MODULE.bazel": "621eeee06c4458a9121d1f104efb80f39d34deff4984e778359c60eaf1a8cb65",
+    "https://bcr.bazel.build/modules/bazel_features/1.27.0/source.json": "ed8cf0ef05c858dce3661689d0a2b110ff398e63994e178e4f1f7555a8067fed",
     "https://bcr.bazel.build/modules/bazel_features/1.4.1/MODULE.bazel": "e45b6bb2350aff3e442ae1111c555e27eac1d915e77775f6fdc4b351b758b5d7",
     "https://bcr.bazel.build/modules/bazel_features/1.9.0/MODULE.bazel": "885151d58d90d8d9c811eb75e3288c11f850e1d6b481a8c9f766adee4712358b",
     "https://bcr.bazel.build/modules/bazel_features/1.9.1/MODULE.bazel": "8f679097876a9b609ad1f60249c49d68bfab783dd9be012faf9d82547b14815a",
@@ -78,7 +79,8 @@
     "https://bcr.bazel.build/modules/rules_android/0.1.1/source.json": "e6986b41626ee10bdc864937ffb6d6bf275bb5b9c65120e6137d56e6331f089e",
     "https://bcr.bazel.build/modules/rules_cc/0.0.1/MODULE.bazel": "cb2aa0747f84c6c3a78dad4e2049c154f08ab9d166b1273835a8174940365647",
     "https://bcr.bazel.build/modules/rules_cc/0.0.10/MODULE.bazel": "ec1705118f7eaedd6e118508d3d26deba2a4e76476ada7e0e3965211be012002",
-    "https://bcr.bazel.build/modules/rules_cc/0.0.10/source.json": "90310b16e0e7df0cf40f8d1dccd7d373360f42419a6bfbbf5bb013182dd70e84",
+    "https://bcr.bazel.build/modules/rules_cc/0.0.11/MODULE.bazel": "9f249c5624a4788067b96b8b896be10c7e8b4375dc46f6d8e1e51100113e0992",
+    "https://bcr.bazel.build/modules/rules_cc/0.0.11/source.json": "4616b48edd4d735f2effe7f5a05ec20c7fa5f46270a145e1365652d8a0faca58",
     "https://bcr.bazel.build/modules/rules_cc/0.0.2/MODULE.bazel": "6915987c90970493ab97393024c156ea8fb9f3bea953b2f3ec05c34f19b5695c",
     "https://bcr.bazel.build/modules/rules_cc/0.0.6/MODULE.bazel": "abf360251023dfe3efcef65ab9d56beefa8394d4176dd29529750e1c57eaa33f",
     "https://bcr.bazel.build/modules/rules_cc/0.0.8/MODULE.bazel": "964c85c82cfeb6f3855e6a07054fdb159aced38e99a5eecf7bce9d53990afa3e",
@@ -176,37 +178,9 @@
         "recordedRepoMappingEntries": []
       }
     },
-    "@@apple_support~//crosstool:setup.bzl%apple_cc_configure_extension": {
-      "general": {
-        "bzlTransitiveDigest": "PjIds3feoYE8SGbbIq2SFTZy3zmxeO2tQevJZNDo7iY=",
-        "usagesDigest": "+hz7IHWN6A1oVJJWNDB6yZRG+RYhF76wAYItpAeIUIg=",
-        "recordedFileInputs": {},
-        "recordedDirentsInputs": {},
-        "envVariables": {},
-        "generatedRepoSpecs": {
-          "local_config_apple_cc_toolchains": {
-            "bzlFile": "@@apple_support~//crosstool:setup.bzl",
-            "ruleClassName": "_apple_cc_autoconf_toolchains",
-            "attributes": {}
-          },
-          "local_config_apple_cc": {
-            "bzlFile": "@@apple_support~//crosstool:setup.bzl",
-            "ruleClassName": "_apple_cc_autoconf",
-            "attributes": {}
-          }
-        },
-        "recordedRepoMappingEntries": [
-          [
-            "apple_support~",
-            "bazel_tools",
-            "bazel_tools"
-          ]
-        ]
-      }
-    },
     "@@aspect_bazel_lib~//lib:extensions.bzl%toolchains": {
       "general": {
-        "bzlTransitiveDigest": "7dUTNg3iBL3n4jGiBJEkQIvlejRjH/FAR+4XLx1N6Ug=",
+        "bzlTransitiveDigest": "+ph3jBt71yM0gRiKmIwcwQoccvf94KB0AhYoi8+C4S8=",
         "usagesDigest": "zcrUIKU6ysRU6ymb8ij+l9kDmS+ixWenPF3dRhbccc8=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -921,7 +895,7 @@
     },
     "@@aspect_rules_ts~//ts:extensions.bzl%ext": {
       "general": {
-        "bzlTransitiveDigest": "nHINgcihDnQeI8Ls1EXcikQMq7o7NK2Ek4s+UFzogUY=",
+        "bzlTransitiveDigest": "sM77rA7dsTaMf9YoWKw2SWC3v5LiikUOSTzKGBx0es8=",
         "usagesDigest": "/z4ca+1z/VCydEk0MwLyKPL107p9F5XvIgbvZZhwt3Y=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -974,7 +948,7 @@
     },
     "@@protobuf~//:non_module_deps.bzl%non_module_deps": {
       "general": {
-        "bzlTransitiveDigest": "n42CE1R95fa5ddK2PVwgWYAZfG476FzMuRvz0zo5gs8=",
+        "bzlTransitiveDigest": "w5JFGAujfTIG8urv5+XMxEmlkJFz9VvcHuM1ZwkQz3M=",
         "usagesDigest": "1JwsUDre7ljlZoaD2WfcvUlKnXUonmxIKAVBQ82j6Ig=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -1003,7 +977,7 @@
     },
     "@@rules_go~//go:extensions.bzl%go_sdk": {
       "os:osx,arch:aarch64": {
-        "bzlTransitiveDigest": "CId4OOEKdgNHrzKzXgPycjvythNPxxAtxmDCSlNzI9k=",
+        "bzlTransitiveDigest": "FmlUwf2XAPfIU/14WyO0ObfV+J24a+dj1jitYV/7zpg=",
         "usagesDigest": "EFh8HpuUtHLvbopBU3HKOZrEIk682UKE1zrvxN/EaNU=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -1313,7 +1287,7 @@
     },
     "@@rules_kotlin~//src/main/starlark/core/repositories:bzlmod_setup.bzl%rules_kotlin_extensions": {
       "general": {
-        "bzlTransitiveDigest": "fus14IFJ/1LGWWGKPH/U18VnJCoMjfDt1ckahqCnM0A=",
+        "bzlTransitiveDigest": "eecmTsmdIQveoA97hPtH3/Ej/kugbdCI24bhXIXaly8=",
         "usagesDigest": "aJF6fLy82rR95Ff5CZPAqxNoFgOMLMN5ImfBS0nhnkg=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -1513,7 +1487,7 @@
     },
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
-        "bzlTransitiveDigest": "PfPMP8U8fxEATFui5AGZFcWokgjUjwhVmrNpVbblMAk=",
+        "bzlTransitiveDigest": "gmO29ZPMKBlIci2qZhYLgc6k0Gw28zfCldQULIyc6gY=",
         "usagesDigest": "kS/v9MaeIN574VuVgIci0WsGF/GtnJs8ajMh1BMUjYU=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
@@ -1658,9 +1632,12 @@
             "ruleClassName": "globals_repo",
             "attributes": {
               "globals": {
-                "CcSharedLibraryInfo": "7.0.0",
+                "CcSharedLibraryInfo": "6.0.0-pre.20220630.1",
+                "CcSharedLibraryHintInfo": "7.0.0-pre.20230316.2",
+                "macro": "8.0.0",
                 "PackageSpecificationInfo": "6.4.0",
                 "RunEnvironmentInfo": "5.3.0",
+                "subrule": "7.0.0",
                 "DefaultInfo": "0.0.1",
                 "__TestingOnly_NeverAvailable": "1000000000.0.0"
               },
@@ -1670,7 +1647,8 @@
                 "ProtoInfo": "8.0.0",
                 "PyCcLinkParamsProvider": "8.0.0",
                 "PyInfo": "8.0.0",
-                "PyRuntimeInfo": "8.0.0"
+                "PyRuntimeInfo": "8.0.0",
+                "cc_proto_aspect": "8.0.0"
               }
             }
           },
