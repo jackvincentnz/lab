@@ -374,7 +374,7 @@
     "@@aspect_rules_js~//npm:extensions.bzl%pnpm": {
       "general": {
         "bzlTransitiveDigest": "vf3Jqp8ZDL82PR4WVjbfTYc2NgZqQoLwYXBgP3MnQeQ=",
-        "usagesDigest": "IiXP9coV27eZiCxAlPKsjfbVH+6l4IP5SD61jEjDwWE=",
+        "usagesDigest": "O+urR3AX3ByONy5zeSJ7R16soy07/k1uiXvbRgigcg0=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -384,11 +384,11 @@
             "ruleClassName": "npm_import_rule",
             "attributes": {
               "package": "pnpm",
-              "version": "8.15.9",
+              "version": "9.15.9",
               "root_package": "",
               "link_workspace": "",
               "link_packages": {},
-              "integrity": "sha512-SZQ0ydj90aJ5Tr9FUrOyXApjOrzuW7Fee13pDzL0e1E6ypjNXP0AHDHw20VLw4BO3M1XhQHkyik6aBYWa72fgQ==",
+              "integrity": "sha512-aARhQYk8ZvrQHAeSMRKOmvuJ74fiaR1p5NQO7iKJiClf1GghgbrlW1hBjDolO95lpQXsfF+UA+zlzDzTfc8lMQ==",
               "url": "",
               "commit": "",
               "patch_args": [
@@ -412,7 +412,7 @@
             "ruleClassName": "npm_import_links",
             "attributes": {
               "package": "pnpm",
-              "version": "8.15.9",
+              "version": "9.15.9",
               "dev": false,
               "root_package": "",
               "link_packages": {},
@@ -654,7 +654,7 @@
         "bzlTransitiveDigest": "kk/beMVvm+mOi14PFpsoXz9UL71yTqQ7mhiRGz6QIno=",
         "usagesDigest": "/z4ca+1z/VCydEk0MwLyKPL107p9F5XvIgbvZZhwt3Y=",
         "recordedFileInputs": {
-          "@@//package.json": "7d49c63e89b31a4cc3f6d443fba31e764b866f124d0da5f30e603223c9107dcb"
+          "@@//package.json": "502dc966d2fcc7a3f41715c8d2faf7c4ecc0374eb3a1419d7aea0d9da2370afd"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -830,7 +830,7 @@
     "@@rules_nodejs~//nodejs:extensions.bzl%node": {
       "general": {
         "bzlTransitiveDigest": "4pUxCNc22K4I+6+4Nxu52Hur12tFRfa1JMsN5mdDv60=",
-        "usagesDigest": "HAxhfhKQplUpoSoC5F+3PAtDet1oxYK6aPBNJBcILgc=",
+        "usagesDigest": "CqugvKdcRYX6rawKmDl92uEqdH6XhVs4t2+MW8qvnIk=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -844,7 +844,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "linux_amd64"
             }
@@ -858,7 +858,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "linux_arm64"
             }
@@ -872,7 +872,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "linux_s390x"
             }
@@ -886,7 +886,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "linux_ppc64le"
             }
@@ -900,7 +900,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "darwin_amd64"
             }
@@ -914,7 +914,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "darwin_arm64"
             }
@@ -928,7 +928,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "windows_amd64"
             }
@@ -942,7 +942,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "18.20.4",
+              "node_version": "20.20.0",
               "include_headers": false,
               "platform": "windows_arm64"
             }
@@ -975,7 +975,7 @@
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "nJRIEv8hyrB94Y/Mjp6cgbWI4I+pDjtOUttg9vmSL4I=",
-        "usagesDigest": "ug2lMSMTD4w4YIteLrlvqrFzNzTKiSoa9eCvaBj37CQ=",
+        "usagesDigest": "fhMh+dgkylznf9J584sjEro0LcRrJeERtJ8RHUx/vgk=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1080,7 +1080,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
               "platform": "linux/amd64",
               "target_name": "debian_linux_amd64",
               "bazel_tags": []
@@ -1094,7 +1094,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
               "platform": "linux/arm64/v8",
               "target_name": "debian_linux_arm64_v8",
               "bazel_tags": []
@@ -1109,7 +1109,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:3d868b5eb908155f3784317b3dda2941df87bbbbaa4608f84881de66d9bb297b",
+              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
               "platforms": {
                 "@@platforms//cpu:x86_64": "@debian_linux_amd64",
                 "@@platforms//cpu:arm64": "@debian_linux_arm64_v8"

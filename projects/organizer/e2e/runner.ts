@@ -32,91 +32,122 @@ const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:7.9.5";
 
 const DOCKER = new Dockerode();
 
+interface Stoppable {
+  stop: () => Promise<unknown>;
+}
+
 async function main() {
-  const startedNetwork = new Network().start();
+  let exitCode = 0;
+  let cleanupTargets: Stoppable[] = [];
 
-  const startedKafka = startedNetwork.then((startedNetwork) =>
-    startKafka(startedNetwork),
-  );
+  try {
+    const startedNetwork = await new Network().start();
 
-  const startedSchemaRegistry = Promise.all([
-    startedNetwork,
-    startedKafka,
-  ]).then(([startedNetwork]) => startSchemaRegistry(startedNetwork));
+    const startedKafkaPromise = startKafka(startedNetwork);
+    const startedSchemaRegistryPromise = startedKafkaPromise.then(() =>
+      startSchemaRegistry(startedNetwork),
+    );
 
-  const {
-    loadedTask,
-    loadedJournal,
-    loadedAutojournal,
-    loadedTasklist,
-    loadedJournalApp,
-    loadedProxy,
-  } = loadContainers();
+    const {
+      loadedTask,
+      loadedJournal,
+      loadedAutojournal,
+      loadedTasklist,
+      loadedJournalApp,
+      loadedProxy,
+    } = loadContainers();
 
-  const startedTask = Promise.all([
-    loadedTask,
-    startedNetwork,
-    startedKafka,
-  ]).then(([loadedTask, startedNetwork]) =>
-    startTask(loadedTask, startedNetwork),
-  );
+    const startedTaskPromise = Promise.all([
+      loadedTask,
+      startedKafkaPromise,
+    ]).then(([loadedTask]) => startTask(loadedTask, startedNetwork));
 
-  const startedJournal = Promise.all([loadedJournal, startedNetwork]).then(
-    ([loadedJournal, startedNetwork]) =>
+    const startedJournalPromise = loadedJournal.then((loadedJournal) =>
       startJournal(loadedJournal, startedNetwork),
-  );
+    );
 
-  const startedAutojournal = Promise.all([
-    loadedAutojournal,
-    startedNetwork,
-    startedKafka,
-  ]).then(([loadedAutojournal, startedNetwork]) =>
-    startAutojournal(loadedAutojournal, startedNetwork),
-  );
+    const startedAutojournalPromise = Promise.all([
+      loadedAutojournal,
+      startedKafkaPromise,
+    ]).then(([loadedAutojournal]) =>
+      startAutojournal(loadedAutojournal, startedNetwork),
+    );
 
-  const startedRouter = startedNetwork.then((startedNetwork) =>
-    startRouter(startedNetwork),
-  );
+    const startedRouterPromise = startRouter(startedNetwork);
 
-  const startedTasklist = Promise.all([loadedTasklist, startedNetwork]).then(
-    ([loadedTasklist, startedNetwork]) =>
+    const startedTasklistPromise = loadedTasklist.then((loadedTasklist) =>
       startTasklist(loadedTasklist, startedNetwork),
-  );
-  const startedJournalApp = Promise.all([
-    loadedJournalApp,
-    startedNetwork,
-  ]).then(([loadedJournalApp, startedNetwork]) =>
-    startJournalApp(loadedJournalApp, startedNetwork),
-  );
+    );
+    const startedJournalAppPromise = loadedJournalApp.then((loadedJournalApp) =>
+      startJournalApp(loadedJournalApp, startedNetwork),
+    );
 
-  const proxyPort = findUnusedPort(5000);
+    const proxyPort = await findUnusedPort(5000);
 
-  const startedProxy = Promise.all([
-    loadedProxy,
-    proxyPort,
-    startedNetwork,
-    startedTasklist,
-    startedJournalApp,
-    startedRouter,
-  ]).then(([loadedProxy, proxyPort, startedNetwork]) =>
-    startProxy(loadedProxy, proxyPort, startedNetwork),
-  );
+    const startedProxyPromise = Promise.all([
+      loadedProxy,
+      startedTasklistPromise,
+      startedJournalAppPromise,
+      startedRouterPromise,
+    ]).then(([loadedProxy]) =>
+      startProxy(loadedProxy, proxyPort, startedNetwork),
+    );
 
-  Promise.all([
-    startedProxy,
-    startedKafka,
-    startedSchemaRegistry,
-    startedTask,
-    startedJournal,
-    startedAutojournal,
-    startedRouter,
-    startedTasklist,
-    startedJournalApp,
-  ]).then(([startedProxy]) =>
-    runCypressAgainstUrl(
+    const [
+      startedProxy,
+      startedKafka,
+      startedSchemaRegistry,
+      startedTask,
+      startedJournal,
+      startedAutojournal,
+      startedRouter,
+      startedTasklist,
+      startedJournalApp,
+    ] = await Promise.all([
+      startedProxyPromise,
+      startedKafkaPromise,
+      startedSchemaRegistryPromise,
+      startedTaskPromise,
+      startedJournalPromise,
+      startedAutojournalPromise,
+      startedRouterPromise,
+      startedTasklistPromise,
+      startedJournalAppPromise,
+    ]);
+
+    cleanupTargets = [
+      startedNetwork,
+      startedKafka,
+      startedSchemaRegistry,
+      startedTask,
+      startedJournal,
+      startedAutojournal,
+      startedRouter,
+      startedTasklist,
+      startedJournalApp,
+      startedProxy,
+    ];
+
+    exitCode = await runCypressAgainstUrl(
       `http://localhost:${startedProxy.getFirstMappedPort()}`,
-    ),
-  );
+    );
+  } catch (e) {
+    console.error("E2E runner encountered unexpected exception. Exiting.", e);
+    exitCode = 3;
+  } finally {
+    for (const target of cleanupTargets.reverse()) {
+      try {
+        await target.stop();
+      } catch (e) {
+        console.error("Failed to stop test resource cleanly.", e);
+        if (exitCode === 0) {
+          exitCode = 4;
+        }
+      }
+    }
+  }
+
+  process.exit(exitCode);
 }
 
 async function startKafka(network: StartedNetwork) {
@@ -278,7 +309,7 @@ async function startProxy(
     .start();
 }
 
-async function runCypressAgainstUrl(baseUrl: string) {
+async function runCypressAgainstUrl(baseUrl: string): Promise<number> {
   try {
     const result = await cypress.run({
       headless: true,
@@ -292,15 +323,16 @@ async function runCypressAgainstUrl(baseUrl: string) {
     if (isFailedRunResult(result)) {
       console.error("Cypress tests failed with status", result.status);
       console.error(result.message);
-      process.exit(2);
+      return 2;
     }
     if (result.totalFailed !== 0) {
       console.error("One or more cypress tests have failed");
-      process.exit(1);
+      return 1;
     }
+    return 0;
   } catch (e) {
     console.error("Cypress encountered unexpected exception. Exiting.", e);
-    process.exit(3);
+    return 3;
   }
 }
 

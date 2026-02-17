@@ -121,7 +121,7 @@ node = use_extension(
     "node",
     dev_dependency = True,
 )
-node.toolchain(node_version = "18.20.4")  # keep in sync with package.json
+node.toolchain(node_version = "20.20.0")  # keep compatible with package.json engines
 
 ####################################################################################################
 # aspect_rules_js setup
@@ -145,6 +145,9 @@ npm.npm_translate_lock(
 use_repo(npm, "npm")
 
 pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
+pnpm.pnpm(
+    pnpm_version = "9.15.9",
+)
 
 # Allows developers to use the matching pnpm version, for example:
 # bazel run -- @pnpm --dir /home/runner/work/rules_js/rules_js install

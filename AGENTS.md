@@ -20,7 +20,7 @@ Keep this file focused on actionable context that improves execution quality and
 
 - Monorepo using Bazel (`MODULE.bazel`, `WORKSPACE`).
 - Primary stacks: Java (Spring Boot 3) and Vite + React + TypeScript.
-- Node/pnpm versions: Node `>=18.20.4`, pnpm `>=8.6.7 <9` (from `package.json`).
+- Node/pnpm versions: Node `>=20.20.0`, pnpm `>=9 <10` (from `package.json`).
 - CI avoids transitive `rules_android` host SDK checks by setting `ANDROID_HOME` to an empty value in `.github/workflows/main.yml` `common_ci` job env.
 - CI keeps `jlumbroso/free-disk-space` `android: false` to avoid deleting Android tooling unexpectedly on runner images.
 - Local Bazel disk cache is enabled by default; CI explicitly disables disk cache.
@@ -73,3 +73,4 @@ Keep this file focused on actionable context that improves execution quality and
 - 2026-02-13: Refactored `AGENTS.md` from timeline notes into a compact playbook (`Hard rules`, `Invariants`, `Failure modes`, `Execution defaults`).
 - 2026-02-13: Documented CI Android handling: keep `android: false` and set `ANDROID_HOME` empty for non-Android Bazel runs.
 - 2026-02-13: Documented Bazel sandbox/escalation command policy.
+- 2026-02-17: Migrated Jest to v30, removed Node 20 workaround patch/env guidance, and documented pnpm v9 `onlyBuiltDependencies` + Cypress/Testcontainers teardown guidance.
