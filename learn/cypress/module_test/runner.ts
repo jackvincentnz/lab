@@ -1,7 +1,7 @@
 import cypress from "cypress";
 import fs from "fs";
 import dockerode from "dockerode";
-import { GenericContainer } from "testcontainers";
+import { GenericContainer, type StartedTestContainer } from "testcontainers";
 
 const docker = new dockerode();
 
@@ -11,16 +11,19 @@ const NGINX_TAR_PATH =
 const NGINX_IMAGE_TAG = "lab/learn/cypress/module_test/nginx:latest";
 
 async function main() {
-  const data = fs.createReadStream(NGINX_TAR_PATH);
-  await docker.loadImage(data);
-
-  const container = await new GenericContainer(NGINX_IMAGE_TAG)
-    .withExposedPorts(80)
-    .start();
-
-  const port = container.getFirstMappedPort();
+  let exitCode = 0;
+  let container: StartedTestContainer | undefined;
 
   try {
+    const data = fs.createReadStream(NGINX_TAR_PATH);
+    await docker.loadImage(data);
+
+    container = await new GenericContainer(NGINX_IMAGE_TAG)
+      .withExposedPorts(80)
+      .start();
+
+    const port = container.getFirstMappedPort();
+
     const result = await cypress.run({
       headless: true,
       config: {
@@ -33,16 +36,29 @@ async function main() {
     if (isFailedRunResult(result)) {
       console.error("Cypress tests failed with status", result.status);
       console.error(result.message);
-      process.exit(2);
+      exitCode = 2;
     }
-    if (result.totalFailed !== 0) {
+    if (!isFailedRunResult(result) && result.totalFailed !== 0) {
       console.error("One or more cypress tests have failed");
-      process.exit(1);
+      exitCode = 1;
     }
   } catch (e) {
     console.error("Cypress encountered unexpected exception. Exiting.", e);
-    process.exit(3);
+    exitCode = 3;
+  } finally {
+    if (container) {
+      try {
+        await container.stop();
+      } catch (e) {
+        console.error("Failed to stop test container cleanly.", e);
+        if (exitCode === 0) {
+          exitCode = 4;
+        }
+      }
+    }
   }
+
+  process.exit(exitCode);
 }
 
 function isFailedRunResult(
