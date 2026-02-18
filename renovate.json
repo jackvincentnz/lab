@@ -6,6 +6,12 @@
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates"
+    },
+    {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["confluentinc/cp-*"],
+      "groupName": "confluentinc/cp-* docker images",
+      "groupSlug": "confluentinc-docker-images"
     }
   ]
 }
