@@ -133,7 +133,7 @@ jobs:
           java-version: 17
 
       - name: Setup python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
 
       - name: Check format, linting and style
         uses: pre-commit/action@v3.0.1
