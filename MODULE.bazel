@@ -90,11 +90,11 @@ maven.install(
     ],
     boms = [
         "org.springframework.boot:spring-boot-dependencies:3.5.10",
-        "org.springframework.ai:spring-ai-bom:1.1.1",
+        "org.springframework.ai:spring-ai-bom:1.1.2",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.2.4",
         "com.google.protobuf:protobuf-bom:4.33.4",
     ],
-    # fail_if_repin_required = True, TODO: renable when fixed - https://github.com/bazel-contrib/rules_jvm_external/issues/1328
+    fail_if_repin_required = True,
     fetch_sources = True,
     lock_file = "//:maven_install.json",
     repositories = [

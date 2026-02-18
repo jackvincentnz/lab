@@ -37,7 +37,7 @@
     "org.junit.platform:junit-platform-launcher": -354104948,
     "org.junit.platform:junit-platform-reporting": 1896713402,
     "org.postgresql:postgresql": -253651910,
-    "org.springframework.ai:spring-ai-bom": -1602135119,
+    "org.springframework.ai:spring-ai-bom": -1602105328,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 741804729,
     "org.springframework.ai:spring-ai-starter-model-google-genai": 1893382336,
     "org.springframework.ai:spring-ai-starter-model-ollama": 1768708354,
@@ -816,54 +816,54 @@
     "org.slf4j:slf4j-api:jar:sources": 273168258,
     "org.springaicommunity:mcp-annotations": -17867589,
     "org.springaicommunity:mcp-annotations:jar:sources": 2105239351,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": 1936251871,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common:jar:sources": -2005462092,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": 2006181499,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc:jar:sources": -905582960,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": 363998099,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client:jar:sources": 1779262859,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": 1428197768,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory:jar:sources": 1373279031,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": 1074675983,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation:jar:sources": 359229770,
-    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": 137347461,
-    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation:jar:sources": -1308708126,
-    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": 840869025,
-    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai:jar:sources": -1307807481,
-    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": 996520133,
-    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation:jar:sources": -576463408,
-    "org.springframework.ai:spring-ai-autoconfigure-model-ollama": 1353843301,
-    "org.springframework.ai:spring-ai-autoconfigure-model-ollama:jar:sources": 409540707,
-    "org.springframework.ai:spring-ai-autoconfigure-model-openai": -955675533,
-    "org.springframework.ai:spring-ai-autoconfigure-model-openai:jar:sources": -2090267413,
-    "org.springframework.ai:spring-ai-autoconfigure-model-tool": -1807834077,
-    "org.springframework.ai:spring-ai-autoconfigure-model-tool:jar:sources": 1143087497,
-    "org.springframework.ai:spring-ai-autoconfigure-retry": 750708615,
-    "org.springframework.ai:spring-ai-autoconfigure-retry:jar:sources": 169847248,
-    "org.springframework.ai:spring-ai-client-chat": -542586794,
-    "org.springframework.ai:spring-ai-client-chat:jar:sources": -1948067556,
-    "org.springframework.ai:spring-ai-commons": 592181955,
-    "org.springframework.ai:spring-ai-commons:jar:sources": -832691356,
-    "org.springframework.ai:spring-ai-google-genai": -2004187250,
-    "org.springframework.ai:spring-ai-google-genai:jar:sources": -732905171,
-    "org.springframework.ai:spring-ai-mcp": -978851082,
-    "org.springframework.ai:spring-ai-mcp-annotations": -1207549329,
-    "org.springframework.ai:spring-ai-mcp-annotations:jar:sources": -2093749220,
-    "org.springframework.ai:spring-ai-mcp:jar:sources": -1952980164,
-    "org.springframework.ai:spring-ai-model": -1853421454,
-    "org.springframework.ai:spring-ai-model:jar:sources": -305003677,
-    "org.springframework.ai:spring-ai-ollama": -1568969285,
-    "org.springframework.ai:spring-ai-ollama:jar:sources": -1771176996,
-    "org.springframework.ai:spring-ai-openai": -578531795,
-    "org.springframework.ai:spring-ai-openai:jar:sources": -572439535,
-    "org.springframework.ai:spring-ai-retry": 1177056669,
-    "org.springframework.ai:spring-ai-retry:jar:sources": 1118678999,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 1634593050,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": -929067696,
-    "org.springframework.ai:spring-ai-starter-model-ollama": 433945445,
-    "org.springframework.ai:spring-ai-starter-model-openai": -723157419,
-    "org.springframework.ai:spring-ai-template-st": 549321135,
-    "org.springframework.ai:spring-ai-template-st:jar:sources": -1752128657,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": -1771741679,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common:jar:sources": 2034490437,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": 745413669,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc:jar:sources": 1895386169,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": -97952766,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client:jar:sources": -521792860,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": -1258663312,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory:jar:sources": -1268338142,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": -14454021,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation:jar:sources": 1844591195,
+    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": -1274059244,
+    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation:jar:sources": 1139582021,
+    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": -2060331076,
+    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai:jar:sources": 1451732921,
+    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": 801054705,
+    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation:jar:sources": 939157394,
+    "org.springframework.ai:spring-ai-autoconfigure-model-ollama": 2003445423,
+    "org.springframework.ai:spring-ai-autoconfigure-model-ollama:jar:sources": 1484437178,
+    "org.springframework.ai:spring-ai-autoconfigure-model-openai": 1317161448,
+    "org.springframework.ai:spring-ai-autoconfigure-model-openai:jar:sources": -1766796639,
+    "org.springframework.ai:spring-ai-autoconfigure-model-tool": -1281301251,
+    "org.springframework.ai:spring-ai-autoconfigure-model-tool:jar:sources": 500065859,
+    "org.springframework.ai:spring-ai-autoconfigure-retry": 860490394,
+    "org.springframework.ai:spring-ai-autoconfigure-retry:jar:sources": -1183112212,
+    "org.springframework.ai:spring-ai-client-chat": -1196513875,
+    "org.springframework.ai:spring-ai-client-chat:jar:sources": -539266155,
+    "org.springframework.ai:spring-ai-commons": -354971090,
+    "org.springframework.ai:spring-ai-commons:jar:sources": -375547259,
+    "org.springframework.ai:spring-ai-google-genai": -1974865602,
+    "org.springframework.ai:spring-ai-google-genai:jar:sources": -563309610,
+    "org.springframework.ai:spring-ai-mcp": 297229213,
+    "org.springframework.ai:spring-ai-mcp-annotations": 1281052598,
+    "org.springframework.ai:spring-ai-mcp-annotations:jar:sources": 1974097659,
+    "org.springframework.ai:spring-ai-mcp:jar:sources": 775217056,
+    "org.springframework.ai:spring-ai-model": -472280612,
+    "org.springframework.ai:spring-ai-model:jar:sources": 1989650547,
+    "org.springframework.ai:spring-ai-ollama": 1378302000,
+    "org.springframework.ai:spring-ai-ollama:jar:sources": -1410423743,
+    "org.springframework.ai:spring-ai-openai": -64496695,
+    "org.springframework.ai:spring-ai-openai:jar:sources": -617368097,
+    "org.springframework.ai:spring-ai-retry": -1814870765,
+    "org.springframework.ai:spring-ai-retry:jar:sources": -313191265,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1704134944,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": -680247648,
+    "org.springframework.ai:spring-ai-starter-model-ollama": -1029868284,
+    "org.springframework.ai:spring-ai-starter-model-openai": -1676886069,
+    "org.springframework.ai:spring-ai-template-st": -380899217,
+    "org.springframework.ai:spring-ai-template-st:jar:sources": 1977413657,
     "org.springframework.boot:spring-boot": 562767181,
     "org.springframework.boot:spring-boot-actuator": 821330604,
     "org.springframework.boot:spring-boot-actuator-autoconfigure": -916178924,
@@ -1024,10 +1024,10 @@
     "org.junit.platform:junit-platform-launcher": "org.junit.platform:junit-platform-launcher:1.12.2",
     "org.junit.platform:junit-platform-reporting": "org.junit.platform:junit-platform-reporting:1.12.2",
     "org.postgresql:postgresql": "org.postgresql:postgresql:42.7.9",
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": "org.springframework.ai:spring-ai-starter-mcp-server-webmvc:1.1.1",
-    "org.springframework.ai:spring-ai-starter-model-google-genai": "org.springframework.ai:spring-ai-starter-model-google-genai:1.1.1",
-    "org.springframework.ai:spring-ai-starter-model-ollama": "org.springframework.ai:spring-ai-starter-model-ollama:1.1.1",
-    "org.springframework.ai:spring-ai-starter-model-openai": "org.springframework.ai:spring-ai-starter-model-openai:1.1.1",
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": "org.springframework.ai:spring-ai-starter-mcp-server-webmvc:1.1.2",
+    "org.springframework.ai:spring-ai-starter-model-google-genai": "org.springframework.ai:spring-ai-starter-model-google-genai:1.1.2",
+    "org.springframework.ai:spring-ai-starter-model-ollama": "org.springframework.ai:spring-ai-starter-model-ollama:1.1.2",
+    "org.springframework.ai:spring-ai-starter-model-openai": "org.springframework.ai:spring-ai-starter-model-openai:1.1.2",
     "org.springframework.boot:spring-boot-loader": "org.springframework.boot:spring-boot-loader:3.5.10",
     "org.springframework.boot:spring-boot-starter-actuator": "org.springframework.boot:spring-boot-starter-actuator:3.5.10",
     "org.springframework.boot:spring-boot-starter-jdbc": "org.springframework.boot:spring-boot-starter-jdbc:3.5.10",
@@ -3681,181 +3681,181 @@
     },
     "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": {
       "shasums": {
-        "jar": "fec205d4817b65c5e5cbe74d31e3561bdfccd1a62b42846b383558999d5e060e",
-        "sources": "e40b56041ffda828b9903c0034e39d8406fe19a92ba537b5fe9cd6ef007a5b19"
+        "jar": "9b395ae55027b4ed8b0ab9162739dbfb81b72a63b2049102f4dc900bcb42a14c",
+        "sources": "750cf996daaf950e8b706ee43a8c8d938469e852a37e2e57bc4015539b9bc8a6"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": {
       "shasums": {
-        "jar": "a52ba5004f61b75bb2af79e06672ea30f51ba9577f46b6d5b9788cd6d7f89d33",
-        "sources": "e26737a1febd0f161019fa7ded39fe3d31275b04bd2167e89fe80487391e13ba"
+        "jar": "a32492f4b96bad3dd635a32406e6bfe2752b1125d36f81bc587dcf9ce6c811e9",
+        "sources": "f182e037f732d23c80079d570713ff569a838ac0a37abac7ab9eb0bb0124e7a0"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": {
       "shasums": {
-        "jar": "850b49fbaf82d9ed4f7312fcd22fc0ed86a30e03c8b38db32d761e59ee74de2c",
-        "sources": "161b3e07a061159792534a6e0c8a7aa64a4aa3aa33112abb5248b3ecf3ff0b94"
+        "jar": "9a747ccc9c7eebbc641cf0dc38147d2e15208cf576ea7bec041e96054b536b1e",
+        "sources": "0397b7714bf2b7fa999b503908c9130b1e6d2155da614593497c23c9b0f9efee"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": {
       "shasums": {
-        "jar": "729c7c55c2d346bde0c2e59a38f493e7936b4d0be11164b1dfaf682cb3663c22",
-        "sources": "50bac619f6542636b0c3ed58ce4d774fc6f2e32aea74cf28945dba935662cdd8"
+        "jar": "0684b421a4487f23b2682bb403ca7e9b579da0888fccb1dbc2ab1ecfced3bd3b",
+        "sources": "6388652118cf108de0ba73050afe94d8d0510f0584a1a45005bdcc7732868388"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": {
       "shasums": {
-        "jar": "3f100134aaa2512cdaac584b2aa5f2c70b3bb1cf7d85bbc203bd70277e62cb54",
-        "sources": "5b70e9f9a85aaa974c5aed7e1282d758fab13c4df7e5752cff3eac5b9d378534"
+        "jar": "a53d4b493668dcd4ff0051ca36c03262e5cdab8a58d8fe8967b5795598f8dc8d",
+        "sources": "a1d4d0f46a964bda7813045d439b29696d46fdc629f0266d527b3bafc3f669af"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": {
       "shasums": {
-        "jar": "31959e1a90dfe37c6b5db36fa4687eaeb2a6625a047a65fde628c534eba39a42",
-        "sources": "43b27ad22706f2010c2ba3586254415afb9270044998054dc26d58e532a3950d"
+        "jar": "536d24e6b38ceb3946b408e51d93457b512ba1b07e703a36d6a3b49e1c3a37dc",
+        "sources": "4b9e1631aea17dec282c86b7f3f1aeaa1e6c808519d4405bb254214bb5ae8708"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": {
       "shasums": {
-        "jar": "19606449fdc8f7f4e52f61bdd9bdf8759fedf35eff2406e12e134e797f9731f3",
-        "sources": "9a79002306caea4a259ab50548a7ac12249dfcac3fcf7f205f4f826d60220ec4"
+        "jar": "d00c5337e9fcb004f8e290b8918da68f25f604701ac19fd88f5c7be1def04a89",
+        "sources": "105c987abf03c166b7f81a033e988799ca2831b5c615e52ee36c6e38597c7476"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": {
       "shasums": {
-        "jar": "d472ecf6483367dab6cbaed17155c3f6fd968a9b6993a148b37901701d9c7647",
-        "sources": "5e9a4cf2295089574e9f7b747ce85957b0b217e99b8dad6a0f26b1672709ae7f"
+        "jar": "35a86f4b946032f8d5f01c74f6b742b370fe191a4ada8f5971e8ec6c65539ecb",
+        "sources": "7e9bfe47a81905381ccff5263d7a45c19bb53b96398024d5b70dfd6c8295b364"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-ollama": {
       "shasums": {
-        "jar": "7455155eec79921fdfbd29418987e4bc0f9b2139a6ab080a3d320d37425fd32b",
-        "sources": "2efeec63dac39f7cbcc07b0e72131633b897fbdac455702ad62230bc9a144d24"
+        "jar": "879bbc5ff8a80ebc9cc160eeea6428eb6fada8fe6c292e7273cc769167d62404",
+        "sources": "5ae11cfbd4a460958a5831106343b35a42d7a9684759147d62ccea799f0059a1"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-openai": {
       "shasums": {
-        "jar": "50f3afe30f9981530fae4c435e17c130989f61a9fea7880786ce2349d626d3b2",
-        "sources": "da31834f2704a28ca2509d8ef6461bdf9d9fd444995346c47e3eb905cbd578b4"
+        "jar": "a4955204d2502f471e3752bdd05eea4d086c104fd741c41892690b46cb6d5649",
+        "sources": "f6397db9db78a7bf724cf35e025685227c85c51509d087cb2ed08b1a3c957926"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-tool": {
       "shasums": {
-        "jar": "48856c9bfcdc5f20ba49af089614982f169f334f847d9ef0bdc19a3bd699adcc",
-        "sources": "15abb779ca17513ef3e636aff262d8357bb740aa1c5c0195732f3ba214fe11e8"
+        "jar": "fb600d482bdc56711eff01fd7f73e3680f21e3408b876db2c4a695ac1c7f6f0b",
+        "sources": "9e153422937c14b57e8d5a9a432a8c71575c28d775eb11692785b201f2e576c5"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-autoconfigure-retry": {
       "shasums": {
-        "jar": "f487abc47e26cd82b8bcfe20762624df27d08a0e577b39b9e83123517bf731f5",
-        "sources": "388fc11f00fcbb17a393be6da44eb2506929cb177f8c3c0c5ffd492776c81639"
+        "jar": "ab92334f326ffaedb7cee9d9116f8792da98de8edfd2be22095397cfb261230e",
+        "sources": "a82a9655c0345084daa3ec0ac990ca50d37d9a642c33bf83e75e043597419a14"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-client-chat": {
       "shasums": {
-        "jar": "048a0cee503e54873fa995c0ce83bd3ed77cd2c01ae16ae5ad23129db5fc9f93",
-        "sources": "f2cbff9b6bf6e1975c79e245abff161b5c2b0d0a75f5f08b80b89a342064c516"
+        "jar": "79661d5aacfdff6031bfc0c6eeb877feb471338483e0c996f6b24c74d5506fc7",
+        "sources": "bbb0495e591bc11f1700314c328141fefb45d9739a785a9976a9ba08dc9c8076"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-commons": {
       "shasums": {
-        "jar": "df5edc9814c87aab9d2a3bc64e2c9b701d85e02d53278992c73a52176bebff92",
-        "sources": "59ddf71c4b2322f23fcde5cb5a33a4d8a6d33d9e3f44a022d5e4948f74cb891e"
+        "jar": "3494d17c564705d3c9928af036cb9cb92d1d04ea15a377c1b09133c663902118",
+        "sources": "9e23312a1e21f24661250f463e32d8099747a98a2c83eb066fc8091d2c541c44"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-google-genai": {
       "shasums": {
-        "jar": "a2ed41c74b5540a5e42312097c460b475fa7b3c40cdf1fa3d7ef727822d0e56f",
-        "sources": "e77085413770a74a20f53a08686362c2f5b2981b53e8689d64a777f03010289f"
+        "jar": "272878d075712b68213e771689135d73a0cca5f027c7a6fbff816c8bff9e918d",
+        "sources": "e9948b2651a9e326499f4f2bb87503574b2b24785498b4aea46aae8596e830b3"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-mcp": {
       "shasums": {
-        "jar": "1afc00bee961ddcb9c9e9aca65974adae40f8034b57e735193cfc178c562fff3",
-        "sources": "c8e4b7d743eafa2c45f5ce5b16bc5270e39c79dc77c20741a7cac970b470cf1c"
+        "jar": "cae245b1aaafe9c97912fcaa0dfddf72b57738ecc64fcaa84c9081033de1bc14",
+        "sources": "77b0b11bb260a10ecb71a2127162f91819b95458a3d1eea469435301ee9589e4"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-mcp-annotations": {
       "shasums": {
-        "jar": "1b84be350cd78ea77c8ec28a969210a1437670fdb325d96661e3f8d2f5ab31b2",
-        "sources": "3027007349a4c6d074a64731e9b65b6face0b3fe3802c85ee8882b9da73e21f8"
+        "jar": "e9452f2c9759d768cce8143765605da93da439cad12deecd8a7f8fbdc6e629a4",
+        "sources": "4d720e2d6c68df04cd2198d162e06c532ceea5e085aff9859a7fa8e8b1a3064b"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-model": {
       "shasums": {
-        "jar": "11eb9f0850df49d16e4199f682da65b57e55f8c5a693d5cfb8279314e4d478e9",
-        "sources": "c0c3e5f19e43b2121eac94b8e22bf8cd92f3774f13042a3b319a909afa06a8e7"
+        "jar": "694d972dea31846bbb0b1f0a50cb72309681c3396a8e520da213323779a1406c",
+        "sources": "45fe3a25e7959ec91cd712daf8a17dd3d2cad4a3e173e1362ff5479843ae1a17"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-ollama": {
       "shasums": {
-        "jar": "398229b9416b5773f1aa12e087973f306db26c361e2325c535aad163f7992732",
-        "sources": "abf6a0f0cbae55079d3cc6ba1049049d953b98c0940358e502fc0137c87e82cc"
+        "jar": "21265b2e9a557535127eb62a2df786b58c74006283c7e3a1fd04e53671c9cccc",
+        "sources": "e9b4a9389862c0cc9bd868fb04390ad1834b4c13419ab7c54b03d7019f67796d"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-openai": {
       "shasums": {
-        "jar": "31513bc323e9713adc8ebfcc38b6d8cb90ce6d17550c14f32a840d647c035587",
-        "sources": "5963917e6962986076f9cde8955023519f43480c5cb013efada9473b75430245"
+        "jar": "e6e30985ae9f11f5db01310740dd872774e656788f10be25de271807b102c8b3",
+        "sources": "ce30e59ad31e54e1448cea1d065a49679f1d39e0d59aa5feb6ef6dacc51961e0"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-retry": {
       "shasums": {
-        "jar": "0f665edde6ffd5bb0171148b3f3405944c59789dc1759ff3b2cb084299630a37",
-        "sources": "2d63efd20d91635b21548a2d77d30029cdbb7975931893f6ae446c1d37b56be1"
+        "jar": "0ab66fc155c5853384d8e4fef90d40740e3d5b12dccd137c4fdb20403ccbf345",
+        "sources": "ef08f91af49235d802e0cd3ae356e6198ca867fca777d41d59b6edb8bd3018cc"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": {
       "shasums": {
-        "jar": "da45b9cd6a9158fd000ec1c2596b637055fe7d5f42c20d3669a5cb4c503f8f06"
+        "jar": "634bc7559deef458ed71daafe2ba850a57eca92efbac225900b01b905e1c521e"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-starter-model-google-genai": {
       "shasums": {
-        "jar": "5a44e8fd452c74e809ebee7e54b08cecd9ede244dd7baba64d72629f58d82063"
+        "jar": "03e585efe9323f3a479a706f2e3724afa6934efad082e058cde09a67488bd67e"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-starter-model-ollama": {
       "shasums": {
-        "jar": "a07e2c9290cde294d994aac1cafbc453897943862e6f222998d914d36dcbe41b"
+        "jar": "2506f7e3380d9f4fdc2447ccef47ede272b4bc663ffc0a85d7bcdea047b7ef61"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-starter-model-openai": {
       "shasums": {
-        "jar": "627d806c1a46d1d73208aa154eff78ed08c9c836f34a7bc857c2dacebe5fc8fe"
+        "jar": "ce530edfe012c233b6bb71ceafffe74405cc1d60a88dd91c67d0169405c0f1ba"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.ai:spring-ai-template-st": {
       "shasums": {
-        "jar": "67abd77d0f53b99e3d33d26c5fa0eead3c0e4b283167f22674916cf21cd06f9c",
-        "sources": "fdf606204c37d164c7223abfe352455449745434115d044bea10c822b89759ec"
+        "jar": "4962bb252d545f4bc6c1ebbdfb202b753901c7f8a902f35f4928955ce7618a12",
+        "sources": "9aec57e972cef320b7019e0cf60e3201529204943e7d6115ecc51fc7ebd5a41e"
       },
-      "version": "1.1.1"
+      "version": "1.1.2"
     },
     "org.springframework.boot:spring-boot": {
       "shasums": {
