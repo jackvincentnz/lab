@@ -76,7 +76,7 @@
     "postcss-preset-mantine": "1.18.0",
     "postcss-simple-vars": "7.0.1",
     "prettier": "3.8.1",
-    "storybook": "7.6.20",
+    "storybook": "7.6.21",
     "testcontainers": "10.28.0",
     "tsconfig-to-swcconfig": "2.8.1",
     "typescript": "5.9.3",
