@@ -15,6 +15,7 @@ Keep this file focused on actionable context that improves execution quality and
 - If sandbox blocks a needed command, request escalation approval; do not rewrite command shape to bypass sandbox limits.
 - Use default Bazel settings first; use debug flags or custom output roots only after reproducing a failure, and note why.
 - Prefer Bazel-driven build/test flows over ad-hoc package-manager wrappers.
+- If macros reference crane toolchains directly, configure root `oci.toolchains(name = "...")` with a unique name and import that repo (for example `@lab_oci_crane_toolchains`) to avoid both `bazel mod tidy` warnings and extension repo-name collisions.
 
 ## Current repo invariants
 
@@ -75,3 +76,4 @@ Keep this file focused on actionable context that improves execution quality and
 - 2026-02-13: Documented Bazel sandbox/escalation command policy.
 - 2026-02-17: Migrated Jest to v30, removed Node 20 workaround patch/env guidance, and documented pnpm v9 `onlyBuiltDependencies` + Cypress/Testcontainers teardown guidance.
 - 2026-02-18: Migrated `@opentelemetry-javaagent` from `WORKSPACE` to `MODULE.bazel` and removed `WORKSPACE` for Bazel 8 readiness.
+- 2026-02-18: Added root `oci.toolchains(name = "lab_oci")` and switched macros to `@lab_oci_crane_toolchains` to keep `bazel mod tidy` warning-free without custom resolver rules.

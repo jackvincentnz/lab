@@ -218,4 +218,5 @@ oci.pull(
         "linux/arm64/v8",
     ],
 )
-use_repo(oci, "debian", "debian_linux_amd64", "debian_linux_arm64_v8", "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8", "oci_crane_toolchains")
+oci.toolchains(name = "lab_oci")
+use_repo(oci, "debian", "debian_linux_amd64", "debian_linux_arm64_v8", "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
