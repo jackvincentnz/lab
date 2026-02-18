@@ -64,7 +64,7 @@ jobs:
           path: |
             ~/.cache/bazel
             ${{ env.BAZELISK_HOME }}
-          key: bazel-cache-${{ hashFiles('**/BUILD.bazel', '**/*.bzl', 'WORKSPACE') }}
+          key: bazel-cache-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '**/BUILD.bazel', '**/*.bzl') }}
           restore-keys: bazel-cache-
 
       - name: Build & test

@@ -1,9 +1,4 @@
-###############################################################################
-# Bazel now uses Bzlmod by default to manage external dependencies.
-# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
-#
-# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
-###############################################################################
+module(name = "lab")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "rules_proto", version = "6.0.2")
@@ -19,6 +14,15 @@ bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.2.0")
 bazel_dep(name = "rules_oci", version = "2.2.7")
 bazel_dep(name = "rules_multirun", version = "0.13.0")
+bazel_dep(name = "rules_spring", version = "2.6.3")
+
+http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_jar")
+
+http_jar(
+    name = "opentelemetry-javaagent",
+    sha256 = "b23e5ab7f5fb4f58826c6d2c31ea637825c7190652a9d47d86692e37e615a0d5",
+    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.23.0/opentelemetry-javaagent.jar",
+)
 
 ####################################################################################################
 # aspect_bazel_lib setup

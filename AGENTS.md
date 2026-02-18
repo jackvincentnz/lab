@@ -18,7 +18,7 @@ Keep this file focused on actionable context that improves execution quality and
 
 ## Current repo invariants
 
-- Monorepo using Bazel (`MODULE.bazel`, `WORKSPACE`).
+- Monorepo using Bazel with Bzlmod (`MODULE.bazel`) and no `WORKSPACE`.
 - Primary stacks: Java (Spring Boot 3) and Vite + React + TypeScript.
 - Node/pnpm versions: Node `>=20.20.0`, pnpm `>=9 <10` (from `package.json`).
 - CI avoids transitive `rules_android` host SDK checks by setting `ANDROID_HOME` to an empty value in `.github/workflows/main.yml` `common_ci` job env.
@@ -74,3 +74,4 @@ Keep this file focused on actionable context that improves execution quality and
 - 2026-02-13: Documented CI Android handling: keep `android: false` and set `ANDROID_HOME` empty for non-Android Bazel runs.
 - 2026-02-13: Documented Bazel sandbox/escalation command policy.
 - 2026-02-17: Migrated Jest to v30, removed Node 20 workaround patch/env guidance, and documented pnpm v9 `onlyBuiltDependencies` + Cypress/Testcontainers teardown guidance.
+- 2026-02-18: Migrated `@opentelemetry-javaagent` from `WORKSPACE` to `MODULE.bazel` and removed `WORKSPACE` for Bazel 8 readiness.
