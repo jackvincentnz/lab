@@ -654,7 +654,7 @@
         "bzlTransitiveDigest": "kk/beMVvm+mOi14PFpsoXz9UL71yTqQ7mhiRGz6QIno=",
         "usagesDigest": "/z4ca+1z/VCydEk0MwLyKPL107p9F5XvIgbvZZhwt3Y=",
         "recordedFileInputs": {
-          "@@//package.json": "502dc966d2fcc7a3f41715c8d2faf7c4ecc0374eb3a1419d7aea0d9da2370afd"
+          "@@//package.json": "609ebe8c58e98a236dcb84e60f053dd470a91d56c673c2dcc1fae8658c9a848d"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -975,7 +975,7 @@
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "nJRIEv8hyrB94Y/Mjp6cgbWI4I+pDjtOUttg9vmSL4I=",
-        "usagesDigest": "fhMh+dgkylznf9J584sjEro0LcRrJeERtJ8RHUx/vgk=",
+        "usagesDigest": "3sKFX8KY1R1XNyH0gFsVwJItZxztwmRU42DOhWsGQa0=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -988,7 +988,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:98667f976e475bcb059e256477d3c72a885ab6b26459214609c8c39e90394f5d",
+              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
               "platform": "linux/amd64",
               "target_name": "distroless_java_linux_amd64",
               "bazel_tags": []
@@ -1002,7 +1002,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:98667f976e475bcb059e256477d3c72a885ab6b26459214609c8c39e90394f5d",
+              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
               "platform": "linux/arm64/v8",
               "target_name": "distroless_java_linux_arm64_v8",
               "bazel_tags": []
@@ -1017,7 +1017,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:98667f976e475bcb059e256477d3c72a885ab6b26459214609c8c39e90394f5d",
+              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
               "platforms": {
                 "@@platforms//cpu:x86_64": "@distroless_java_linux_amd64",
                 "@@platforms//cpu:arm64": "@distroless_java_linux_arm64_v8"
