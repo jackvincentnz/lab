@@ -19,7 +19,7 @@
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -343102663,
-    "com.squareup.okhttp3:okhttp": 916942239,
+    "com.squareup.okhttp3:okhttp-jvm": -258632569,
     "io.confluent:kafka-protobuf-serializer": -2003338147,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
@@ -67,8 +67,8 @@
     "ch.qos.logback:logback-classic:jar:sources": 1309650192,
     "ch.qos.logback:logback-core": -768781434,
     "ch.qos.logback:logback-core:jar:sources": 960078262,
-    "com.anthropic:anthropic-java": 1925803346,
-    "com.anthropic:anthropic-java-client-okhttp": 118037519,
+    "com.anthropic:anthropic-java": -1279864997,
+    "com.anthropic:anthropic-java-client-okhttp": 276609602,
     "com.anthropic:anthropic-java-client-okhttp:jar:sources": 670350943,
     "com.anthropic:anthropic-java-core": 2081840780,
     "com.anthropic:anthropic-java-core:jar:sources": -274221873,
@@ -155,8 +155,8 @@
     "com.github.victools:jsonschema-module-jackson:jar:sources": 656580748,
     "com.github.victools:jsonschema-module-swagger-2": -1971626592,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -776422092,
-    "com.google.adk:google-adk": 1455036911,
-    "com.google.adk:google-adk-dev": -1045402417,
+    "com.google.adk:google-adk": -254250487,
+    "com.google.adk:google-adk-dev": 1499827500,
     "com.google.adk:google-adk-dev:jar:sources": 1572478460,
     "com.google.adk:google-adk:jar:sources": -186408532,
     "com.google.android:annotations": 1863337959,
@@ -227,7 +227,7 @@
     "com.google.code.gson:gson:jar:sources": 442399522,
     "com.google.errorprone:error_prone_annotations": 1600457208,
     "com.google.errorprone:error_prone_annotations:jar:sources": 1368164148,
-    "com.google.genai:google-genai": -58605741,
+    "com.google.genai:google-genai": -1506956545,
     "com.google.genai:google-genai:jar:sources": -47879031,
     "com.google.guava:failureaccess": 312664885,
     "com.google.guava:failureaccess:jar:sources": 1950591706,
@@ -300,17 +300,19 @@
     "com.networknt:json-schema-validator:jar:sources": 1807352147,
     "com.palantir.javapoet:javapoet": 568086874,
     "com.palantir.javapoet:javapoet:jar:sources": 2072570326,
-    "com.squareup.okhttp3:logging-interceptor": 621492752,
+    "com.squareup.okhttp3:logging-interceptor": -1072033422,
     "com.squareup.okhttp3:logging-interceptor:jar:sources": -222774957,
-    "com.squareup.okhttp3:okhttp": 1691033127,
+    "com.squareup.okhttp3:okhttp": 340578523,
+    "com.squareup.okhttp3:okhttp-jvm": -80995066,
+    "com.squareup.okhttp3:okhttp-jvm:jar:sources": 2075515091,
     "com.squareup.okhttp3:okhttp:jar:sources": 2084377380,
-    "com.squareup.okio:okio": -317483483,
-    "com.squareup.okio:okio-jvm": -1427730221,
-    "com.squareup.okio:okio-jvm:jar:sources": -963747680,
+    "com.squareup.okio:okio": -1688932194,
+    "com.squareup.okio:okio-jvm": 1019782803,
+    "com.squareup.okio:okio-jvm:jar:sources": 609761854,
     "com.squareup.okio:okio:jar:sources": 1933825344,
-    "com.squareup.wire:wire-runtime-jvm": -957563918,
+    "com.squareup.wire:wire-runtime-jvm": 1477008689,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 1071474835,
-    "com.squareup.wire:wire-schema-jvm": -231789164,
+    "com.squareup.wire:wire-schema-jvm": -1466757277,
     "com.squareup.wire:wire-schema-jvm:jar:sources": 743940102,
     "com.squareup:javapoet": 1685340005,
     "com.squareup:javapoet:jar:sources": -1449372676,
@@ -353,9 +355,9 @@
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
     "io.confluent:common-utils": 693109155,
     "io.confluent:common-utils:jar:sources": -213672237,
-    "io.confluent:kafka-protobuf-provider": 94927502,
+    "io.confluent:kafka-protobuf-provider": 1138085448,
     "io.confluent:kafka-protobuf-provider:jar:sources": -1587753731,
-    "io.confluent:kafka-protobuf-serializer": -127217422,
+    "io.confluent:kafka-protobuf-serializer": 449798806,
     "io.confluent:kafka-protobuf-serializer:jar:sources": 1410155075,
     "io.confluent:kafka-protobuf-types": 1986304588,
     "io.confluent:kafka-protobuf-types:jar:sources": -15393445,
@@ -473,11 +475,11 @@
     "io.opentelemetry:opentelemetry-context:jar:sources": -1775898747,
     "io.opentelemetry:opentelemetry-exporter-common": -2089381655,
     "io.opentelemetry:opentelemetry-exporter-common:jar:sources": -1662689552,
-    "io.opentelemetry:opentelemetry-exporter-otlp": -859098728,
+    "io.opentelemetry:opentelemetry-exporter-otlp": -1597501745,
     "io.opentelemetry:opentelemetry-exporter-otlp-common": 53905844,
     "io.opentelemetry:opentelemetry-exporter-otlp-common:jar:sources": -314754287,
     "io.opentelemetry:opentelemetry-exporter-otlp:jar:sources": -1399666631,
-    "io.opentelemetry:opentelemetry-exporter-sender-okhttp": -626305111,
+    "io.opentelemetry:opentelemetry-exporter-sender-okhttp": 823335773,
     "io.opentelemetry:opentelemetry-exporter-sender-okhttp:jar:sources": -175219883,
     "io.opentelemetry:opentelemetry-sdk": 2064149230,
     "io.opentelemetry:opentelemetry-sdk-common": 1354057699,
@@ -844,7 +846,7 @@
     "org.springframework.ai:spring-ai-client-chat:jar:sources": -539266155,
     "org.springframework.ai:spring-ai-commons": -354971090,
     "org.springframework.ai:spring-ai-commons:jar:sources": -375547259,
-    "org.springframework.ai:spring-ai-google-genai": -1974865602,
+    "org.springframework.ai:spring-ai-google-genai": 200502900,
     "org.springframework.ai:spring-ai-google-genai:jar:sources": -563309610,
     "org.springframework.ai:spring-ai-mcp": 297229213,
     "org.springframework.ai:spring-ai-mcp-annotations": 1281052598,
@@ -859,7 +861,7 @@
     "org.springframework.ai:spring-ai-retry": -1814870765,
     "org.springframework.ai:spring-ai-retry:jar:sources": -313191265,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1704134944,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": -680247648,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": 477626559,
     "org.springframework.ai:spring-ai-starter-model-ollama": -1029868284,
     "org.springframework.ai:spring-ai-starter-model-openai": -1676886069,
     "org.springframework.ai:spring-ai-template-st": -380899217,
@@ -1892,6 +1894,13 @@
       },
       "version": "4.12.0"
     },
+    "com.squareup.okhttp3:okhttp-jvm": {
+      "shasums": {
+        "jar": "4d6ff6aea0fc7c6b8182d26340216040af0e2186e317305d899f8d324faa8a4a",
+        "sources": "50adbc6f5d54c1fab1423c8be1188c6142ab20adc3cba1471e91c94c906bd282"
+      },
+      "version": "5.0.0"
+    },
     "com.squareup.okio:okio": {
       "shasums": {
         "jar": "8e63292e5c53bb93c4a6b0c213e79f15990fed250c1340f1c343880e1c9c39b5",
@@ -1901,10 +1910,10 @@
     },
     "com.squareup.okio:okio-jvm": {
       "shasums": {
-        "jar": "67543f0736fc422ae927ed0e504b98bc5e269fda0d3500579337cb713da28412",
-        "sources": "870a42a7b468af8fd24d67b7b62e5861aab398c56f15a80b10642e7001564e2f"
+        "jar": "483dc383b1049d220892322a0d6a4308425f09bb05b48c43d4eaa9ff82b1cd16",
+        "sources": "eca487c49a4905a89556ce413ea198f40f20bb2dc6249d916b3917913bd6dbab"
       },
-      "version": "3.6.0"
+      "version": "3.15.0"
     },
     "com.squareup.wire:wire-runtime-jvm": {
       "shasums": {
@@ -5015,12 +5024,15 @@
       "com.squareup.okio:okio",
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     ],
+    "com.squareup.okhttp3:okhttp-jvm": [
+      "com.squareup.okio:okio-jvm",
+      "org.jetbrains.kotlin:kotlin-stdlib"
+    ],
     "com.squareup.okio:okio": [
       "com.squareup.okio:okio-jvm"
     ],
     "com.squareup.okio:okio-jvm": [
-      "org.jetbrains.kotlin:kotlin-stdlib-common",
-      "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+      "org.jetbrains.kotlin:kotlin-stdlib"
     ],
     "com.squareup.wire:wire-runtime-jvm": [
       "com.squareup.okio:okio-jvm"
@@ -7440,6 +7452,27 @@
       "okhttp3.internal.proxy",
       "okhttp3.internal.publicsuffix",
       "okhttp3.internal.tls",
+      "okhttp3.internal.ws"
+    ],
+    "com.squareup.okhttp3:okhttp-jvm": [
+      "okhttp3",
+      "okhttp3.internal",
+      "okhttp3.internal.authenticator",
+      "okhttp3.internal.cache",
+      "okhttp3.internal.cache2",
+      "okhttp3.internal.concurrent",
+      "okhttp3.internal.connection",
+      "okhttp3.internal.graal",
+      "okhttp3.internal.http",
+      "okhttp3.internal.http1",
+      "okhttp3.internal.http2",
+      "okhttp3.internal.http2.flowcontrol",
+      "okhttp3.internal.idn",
+      "okhttp3.internal.platform",
+      "okhttp3.internal.proxy",
+      "okhttp3.internal.publicsuffix",
+      "okhttp3.internal.tls",
+      "okhttp3.internal.url",
       "okhttp3.internal.ws"
     ],
     "com.squareup.okio:okio-jvm": [
@@ -12775,6 +12808,8 @@
       "com.squareup.okhttp3:logging-interceptor",
       "com.squareup.okhttp3:logging-interceptor:jar:sources",
       "com.squareup.okhttp3:okhttp",
+      "com.squareup.okhttp3:okhttp-jvm",
+      "com.squareup.okhttp3:okhttp-jvm:jar:sources",
       "com.squareup.okhttp3:okhttp:jar:sources",
       "com.squareup.okio:okio",
       "com.squareup.okio:okio-jvm",
@@ -13708,6 +13743,8 @@
       "com.squareup.okhttp3:logging-interceptor",
       "com.squareup.okhttp3:logging-interceptor:jar:sources",
       "com.squareup.okhttp3:okhttp",
+      "com.squareup.okhttp3:okhttp-jvm",
+      "com.squareup.okhttp3:okhttp-jvm:jar:sources",
       "com.squareup.okhttp3:okhttp:jar:sources",
       "com.squareup.okio:okio",
       "com.squareup.okio:okio-jvm",
