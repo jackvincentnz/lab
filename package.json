@@ -64,7 +64,7 @@
     "@vitest/ui": "2.1.9",
     "cypress": "15.10.0",
     "dockerode": "4.0.9",
-    "eslint": "8.57.1",
+    "eslint": "10.0.1",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-react": "7.37.5",
     "jest-cli": "30.2.0",
