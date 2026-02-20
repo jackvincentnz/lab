@@ -60,7 +60,7 @@
     "@types/react-dom": "18.3.7",
     "@typescript-eslint/eslint-plugin": "7.18.0",
     "@typescript-eslint/parser": "7.18.0",
-    "@vitejs/plugin-react": "4.7.0",
+    "@vitejs/plugin-react": "5.1.4",
     "@vitest/ui": "2.1.9",
     "cypress": "15.10.0",
     "dockerode": "4.0.9",
@@ -85,7 +85,7 @@
   "pnpm": {
     "onlyBuiltDependencies": [],
     "overrides": {
-      "@vitejs/plugin-react": "4.7.0"
+      "@vitejs/plugin-react": "5.1.4"
     },
     "packageExtensions": {
       "@mantine/styles": {
