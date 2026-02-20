@@ -7,6 +7,6 @@ java_library(
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
         "@maven//:com_google_code_gson_gson",
         "@maven//:com_google_genai_google_genai",
-        "@maven//:com_squareup_okhttp3_okhttp",
+        "@maven//:com_squareup_okhttp3_okhttp_jvm",
     ],
 )
