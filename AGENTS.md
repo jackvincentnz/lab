@@ -27,6 +27,7 @@ Keep this file focused on actionable context that improves execution quality and
 - Local Bazel disk cache is enabled by default; CI explicitly disables disk cache.
 - Protobuf alignment is pinned: `protobuf@33.4`, runtime `protobuf-java`/`protobuf-java-util` `4.33.4`, protobuf BOM `4.33.4`.
 - `.bazelrc` enables proto toolchain resolution and prefers prebuilt protoc (`--incompatible_enable_proto_toolchain_resolution`, `--@protobuf//bazel/toolchains:prefer_prebuilt_protoc`).
+- Weekly git version tags use non-zero-padded ISO week format (`%G.%-V`), and `tools/bazel/output_workspace_status.sh` matches both historical zero-padded and current non-padded week tags.
 
 ## Solution layout
 
@@ -77,3 +78,4 @@ Keep this file focused on actionable context that improves execution quality and
 - 2026-02-17: Migrated Jest to v30, removed Node 20 workaround patch/env guidance, and documented pnpm v9 `onlyBuiltDependencies` + Cypress/Testcontainers teardown guidance.
 - 2026-02-18: Migrated `@opentelemetry-javaagent` from `WORKSPACE` to `MODULE.bazel` and removed `WORKSPACE` for Bazel 8 readiness.
 - 2026-02-18: Added root `oci.toolchains(name = "lab_oci")` and switched macros to `@lab_oci_crane_toolchains` to keep `bazel mod tidy` warning-free without custom resolver rules.
+- 2026-02-20: Updated weekly tagging to emit non-zero-padded ISO weeks (`%G.%-V`) and made workspace status matching compatible with both legacy and new tags.
