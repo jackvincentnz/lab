@@ -2,7 +2,7 @@ module(name = "lab")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "rules_proto", version = "6.0.2")
-bazel_dep(name = "protobuf", version = "33.4")
+bazel_dep(name = "protobuf", version = "33.5")
 bazel_dep(name = "rules_jvm_external", version = "6.10")
 bazel_dep(name = "contrib_rules_jvm", version = "0.32.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.3")
@@ -89,8 +89,8 @@ maven.install(
         "org.wiremock:wiremock-jetty12:3.13.2",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:7.0.3",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
-        "com.squareup.okhttp3:okhttp-jvm:5.0.0",
-        "com.google.adk:google-adk-dev:0.5.0",
+        "com.squareup.okhttp3:okhttp-jvm:5.3.2",
+        "com.google.adk:google-adk-dev:0.6.0",
     ],
     boms = [
         "org.springframework.boot:spring-boot-dependencies:3.5.10",
