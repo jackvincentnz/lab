@@ -88,7 +88,7 @@ maven.install(
         "io.confluent:kafka-protobuf-serializer:8.1.1",
         "org.wiremock:wiremock-jetty12:3.13.2",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:7.0.3",
-        "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
+        "com.github.ajalt.clikt:clikt-jvm:5.1.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
         "com.squareup.okhttp3:okhttp-jvm:5.0.0",
         "com.google.adk:google-adk-dev:0.5.0",
     ],
