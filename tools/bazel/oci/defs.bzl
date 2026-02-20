@@ -104,7 +104,7 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         srcs = ["//tools/bazel/oci:check_then_push.sh"],
         args = [
             "--crane_path $(location @lab_oci_crane_toolchains//:current_toolchain)",
-            "--yq_path $(location @jq_toolchains//:resolved_toolchain)",
+            "--jq_path $(location @jq_toolchains//:resolved_toolchain)",
             "--image_dir $(location %s)" % image,
             "--repository %s" % repository,
             "--pusher_path $(location :push)",
