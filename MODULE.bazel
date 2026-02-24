@@ -93,7 +93,7 @@ maven.install(
         "com.google.adk:google-adk-dev:0.5.0",
     ],
     boms = [
-        "org.springframework.boot:spring-boot-dependencies:3.5.10",
+        "org.springframework.boot:spring-boot-dependencies:3.5.11",
         "org.springframework.ai:spring-ai-bom:1.1.2",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.2.4",
         "com.google.protobuf:protobuf-bom:4.33.4",
