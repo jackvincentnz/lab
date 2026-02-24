@@ -14,7 +14,7 @@
     "com.google.protobuf:protobuf-java-util": -1033086717,
     "com.h2database:h2": -1982770052,
     "com.mysql:mysql-connector-j": 1083076608,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 259679845,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -2213850,
     "com.netflix.graphql.dgs:dgs-starter": -1261092832,
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
@@ -272,10 +272,10 @@
     "com.kohlschutter.junixsocket:junixsocket-native-common:jar:sources": 690588207,
     "com.mysql:mysql-connector-j": -2026244280,
     "com.mysql:mysql-connector-j:jar:sources": -1812041397,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 795629934,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": 921477691,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": 1854541367,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": -1611682397,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -335230752,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": -1807303241,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": 288062683,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": 416967858,
     "com.netflix.graphql.dgs:dgs-starter": 1545653162,
     "com.netflix.graphql.dgs:dgs-starter-test": -952313127,
     "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -1223446095,
@@ -298,8 +298,8 @@
     "com.netflix.graphql.dgs:graphql-error-types:jar:sources": -998750997,
     "com.networknt:json-schema-validator": 1867491844,
     "com.networknt:json-schema-validator:jar:sources": 1807352147,
-    "com.palantir.javapoet:javapoet": 568086874,
-    "com.palantir.javapoet:javapoet:jar:sources": 2072570326,
+    "com.palantir.javapoet:javapoet": -933682252,
+    "com.palantir.javapoet:javapoet:jar:sources": -962647633,
     "com.squareup.okhttp3:logging-interceptor": -1072033422,
     "com.squareup.okhttp3:logging-interceptor:jar:sources": -222774957,
     "com.squareup.okhttp3:okhttp": 340578523,
@@ -312,10 +312,8 @@
     "com.squareup.okio:okio:jar:sources": 1933825344,
     "com.squareup.wire:wire-runtime-jvm": 1477008689,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 1071474835,
-    "com.squareup.wire:wire-schema-jvm": -1466757277,
+    "com.squareup.wire:wire-schema-jvm": 1384276348,
     "com.squareup.wire:wire-schema-jvm:jar:sources": 743940102,
-    "com.squareup:javapoet": 1685340005,
-    "com.squareup:javapoet:jar:sources": -1449372676,
     "com.squareup:kotlinpoet": 57732952,
     "com.squareup:kotlinpoet-jvm": -560427609,
     "com.squareup:kotlinpoet-jvm:jar:sources": -7070784,
@@ -355,9 +353,9 @@
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
     "io.confluent:common-utils": 693109155,
     "io.confluent:common-utils:jar:sources": -213672237,
-    "io.confluent:kafka-protobuf-provider": 1138085448,
+    "io.confluent:kafka-protobuf-provider": -379506731,
     "io.confluent:kafka-protobuf-provider:jar:sources": -1587753731,
-    "io.confluent:kafka-protobuf-serializer": 449798806,
+    "io.confluent:kafka-protobuf-serializer": -978575868,
     "io.confluent:kafka-protobuf-serializer:jar:sources": 1410155075,
     "io.confluent:kafka-protobuf-types": 1986304588,
     "io.confluent:kafka-protobuf-types:jar:sources": -15393445,
@@ -1784,17 +1782,17 @@
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": {
       "shasums": {
-        "jar": "47ba4cafac107b41655f089b376f347690187db1e2cfd8b068e193ca69fdd622",
-        "sources": "6f5532f07ef10c1a56ccf463029a4e550420e0adf96cdf34c0ac8bb270b80a98"
+        "jar": "e4502e4f0db44dae42a969a408c66d2ca14084484e9fdcf4c70f61cdd2ad4088",
+        "sources": "338b8803dd95d4e422f79798a52a258e7601ca72a74581ceaca7a0e274b71144"
       },
-      "version": "7.0.3"
+      "version": "8.3.0"
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": {
       "shasums": {
-        "jar": "0a5ec388cdb18f77020886b0bd33cd22561b2732f5b1894961ef8e03a5ff67d7",
-        "sources": "ee5000ead7154fe84dc4e0350598ba32a25643af9b6ef12332c3c5aa0f8e11b0"
+        "jar": "1b4ed656f78c4c74abf8b5fb99e44000481bac963521bbd241754b60a66a1736",
+        "sources": "ca5d0c1a2046b3f663bd6ac727a308096a440f0f5238bccb58deda072d4b604a"
       },
-      "version": "7.0.3"
+      "version": "8.3.0"
     },
     "com.netflix.graphql.dgs:dgs-starter": {
       "shasums": {
@@ -1875,10 +1873,10 @@
     },
     "com.palantir.javapoet:javapoet": {
       "shasums": {
-        "jar": "66cf4c43ae54c8e8ab10770ba318cdfea755efa631b5ad98f32da2e38fba326a",
-        "sources": "d21fed2b053366b7fa0f0918b01ac2a103e78d8ebc9e618745693427cb3777b5"
+        "jar": "1fd424dc74c68db898a9ad016f3badadb9d6cb7990d3f04adcb850149328c2fd",
+        "sources": "f658b89a966c33a78b0497df0543d0898140db02f02e5448e6af623c0b31f256"
       },
-      "version": "0.7.0"
+      "version": "0.9.0"
     },
     "com.squareup.okhttp3:logging-interceptor": {
       "shasums": {
@@ -1928,13 +1926,6 @@
         "sources": "4daed48765a1d032a630fe2d50e35246189716f46f4afa81abd41952136dd747"
       },
       "version": "5.4.0"
-    },
-    "com.squareup:javapoet": {
-      "shasums": {
-        "jar": "4c7517e848a71b36d069d12bb3bf46a70fd4cda3105d822b0ed2e19c00b69291",
-        "sources": "d1699067787846453fdcc104aeba3946f070fb2c167cfb3445838e4c86bb1f11"
-      },
-      "version": "1.13.0"
     },
     "com.squareup:kotlinpoet": {
       "shasums": {
@@ -4892,10 +4883,9 @@
       "com.fasterxml.jackson.core:jackson-annotations",
       "com.fasterxml.jackson.core:jackson-databind",
       "com.github.ajalt.clikt:clikt",
-      "com.graphql-java:graphql-java",
       "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core",
       "com.netflix.graphql.dgs:graphql-dgs",
-      "com.squareup:javapoet",
+      "com.palantir.javapoet:javapoet",
       "com.squareup:kotlinpoet",
       "jakarta.annotation:jakarta.annotation-api",
       "org.jetbrains.kotlin:kotlin-stdlib",
@@ -7486,9 +7476,6 @@
       "com.squareup.wire.schema",
       "com.squareup.wire.schema.internal",
       "com.squareup.wire.schema.internal.parser"
-    ],
-    "com.squareup:javapoet": [
-      "com.squareup.javapoet"
     ],
     "com.squareup:kotlinpoet-jvm": [
       "com.squareup.kotlinpoet",
@@ -12817,8 +12804,6 @@
       "com.squareup.wire:wire-runtime-jvm:jar:sources",
       "com.squareup.wire:wire-schema-jvm",
       "com.squareup.wire:wire-schema-jvm:jar:sources",
-      "com.squareup:javapoet",
-      "com.squareup:javapoet:jar:sources",
       "com.squareup:kotlinpoet",
       "com.squareup:kotlinpoet-jvm",
       "com.squareup:kotlinpoet-jvm:jar:sources",
@@ -13752,8 +13737,6 @@
       "com.squareup.wire:wire-runtime-jvm:jar:sources",
       "com.squareup.wire:wire-schema-jvm",
       "com.squareup.wire:wire-schema-jvm:jar:sources",
-      "com.squareup:javapoet",
-      "com.squareup:javapoet:jar:sources",
       "com.squareup:kotlinpoet",
       "com.squareup:kotlinpoet-jvm",
       "com.squareup:kotlinpoet-jvm:jar:sources",
