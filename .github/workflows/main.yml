@@ -1,9 +1,5 @@
 name: Build
 
-permissions:
-  contents: write
-  checks: write
-
 on:
   push:
     branches: [main]
@@ -18,6 +14,9 @@ concurrency:
 jobs:
   common_ci:
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: write
     env:
       BAZELISK_HOME: ~/.cache/bazel-repo
       BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
@@ -37,7 +36,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
-          token: ${{ secrets.REPIN_PUSH_TOKEN || github.token }}
           # Increase fetch-depth if checkout is taking a long time.
           # Depth 0 defaults to fetching all history.
           # We need at least enough history to contain the most recent weekly-tag for versioning purposes commits per week.
@@ -67,46 +65,6 @@ jobs:
             ${{ env.BAZELISK_HOME }}
           key: bazel-cache-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '**/BUILD.bazel', '**/*.bzl') }}
           restore-keys: bazel-cache-
-
-      - name: Repin Maven lockfile (Renovate PRs)
-        if: >-
-          ${{
-            github.event_name == 'pull_request' &&
-            (github.actor == 'renovate[bot]' || startsWith(github.head_ref, 'renovate/'))
-          }}
-        env:
-          ANDROID_HOME: ""
-          IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
-        run: |
-          REPIN=1 bazel run @maven//:pin
-
-          if git diff --quiet -- maven_install.json; then
-            exit 0
-          fi
-
-          if [[ "${IS_FORK}" == "true" ]]; then
-            echo "Repin required but this PR comes from a fork, so CI cannot push maven_install.json." >&2
-            exit 1
-          fi
-
-          git checkout -- .
-          git fetch origin "${GITHUB_HEAD_REF}"
-          git checkout -B "${GITHUB_HEAD_REF}" "origin/${GITHUB_HEAD_REF}"
-          REPIN=1 bazel run @maven//:pin
-
-          if git diff --quiet -- maven_install.json; then
-            echo "Repin required on the merge commit but source branch has no repin diff. Rebase/refresh the PR branch." >&2
-            exit 1
-          fi
-
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git status
-          git add maven_install.json
-          git commit -m "chore: repin maven_install.json"
-          git push origin "HEAD:${GITHUB_HEAD_REF}"
-          echo "Repin changes were pushed; failing this run so the follow-up run on new HEAD is required." >&2
-          exit 1
 
       - name: Build & test
         run: |
