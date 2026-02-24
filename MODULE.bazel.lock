@@ -317,7 +317,7 @@
     "@@aspect_rules_cypress~//cypress:extensions.bzl%cypress": {
       "general": {
         "bzlTransitiveDigest": "e0RkofYqW8yToEql5hhe+WYWUpksBe5tSfGzau9gUQI=",
-        "usagesDigest": "v7PfDLq9C+ODmqYBpLqTvGU/psmBflM9TvBclpSPSGk=",
+        "usagesDigest": "rC0XDBL5DB4vFH0mCbIxp9AObb1mr6CtlF6B0J040jE=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -658,7 +658,7 @@
         "bzlTransitiveDigest": "kk/beMVvm+mOi14PFpsoXz9UL71yTqQ7mhiRGz6QIno=",
         "usagesDigest": "r4NUgxQE957p2kkhVEgIoSH0kfzVEyFLLzN40ra5yJw=",
         "recordedFileInputs": {
-          "@@//package.json": "8426daaf1c45ce39d1ff5f8616dbcfb3ed4414e70c669f7e3147b6eccce7e788"
+          "@@//package.json": "44cdb3f502999ae4ad3c86ab99a9c00a962e17b42585dc7e045cb29399182992"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1014,7 +1014,7 @@
     "@@rules_nodejs~//nodejs:extensions.bzl%node": {
       "general": {
         "bzlTransitiveDigest": "4pUxCNc22K4I+6+4Nxu52Hur12tFRfa1JMsN5mdDv60=",
-        "usagesDigest": "9L85kpqvsPDMXtBQg74yJEgXZcO5et2XHeGM3HmAOOs=",
+        "usagesDigest": "Te5oKJ05hJU0hA9slK5PBFE27z0PKTY2k/jCVHpuhL4=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1028,7 +1028,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "linux_amd64"
             }
@@ -1042,7 +1042,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "linux_arm64"
             }
@@ -1056,7 +1056,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "linux_s390x"
             }
@@ -1070,7 +1070,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "linux_ppc64le"
             }
@@ -1084,7 +1084,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "darwin_amd64"
             }
@@ -1098,7 +1098,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "darwin_arm64"
             }
@@ -1112,7 +1112,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "windows_amd64"
             }
@@ -1126,7 +1126,7 @@
               "node_urls": [
                 "https://nodejs.org/dist/v{version}/{filename}"
               ],
-              "node_version": "20.20.0",
+              "node_version": "24.13.0",
               "include_headers": false,
               "platform": "windows_arm64"
             }
@@ -1159,7 +1159,7 @@
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "nJRIEv8hyrB94Y/Mjp6cgbWI4I+pDjtOUttg9vmSL4I=",
-        "usagesDigest": "YWYiTL/B/nt3G91wXkJgC2qakopMOQJG1TGOnu3u5mw=",
+        "usagesDigest": "LWZL7jbH5zWdmmPqQZCirmesN4MFeB8JvS/hKP4CRNg=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1172,7 +1172,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
+              "identifier": "sha256:0210d5b77dfbe851916184405ddfc8297e7bc652029f7a485274cb71ea2462bc",
               "platform": "linux/amd64",
               "target_name": "distroless_java_linux_amd64",
               "bazel_tags": []
@@ -1186,7 +1186,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
+              "identifier": "sha256:0210d5b77dfbe851916184405ddfc8297e7bc652029f7a485274cb71ea2462bc",
               "platform": "linux/arm64/v8",
               "target_name": "distroless_java_linux_arm64_v8",
               "bazel_tags": []
@@ -1201,7 +1201,7 @@
               "scheme": "https",
               "registry": "gcr.io",
               "repository": "distroless/java17-debian12",
-              "identifier": "sha256:a876fd2238eca746b793a53b8f2cd14b7af784e3076c83aa0529949472c054a8",
+              "identifier": "sha256:0210d5b77dfbe851916184405ddfc8297e7bc652029f7a485274cb71ea2462bc",
               "platforms": {
                 "@@platforms//cpu:x86_64": "@distroless_java_linux_amd64",
                 "@@platforms//cpu:arm64": "@distroless_java_linux_arm64_v8"

@@ -125,7 +125,7 @@ node = use_extension(
     "node",
     dev_dependency = True,
 )
-node.toolchain(node_version = "20.20.0")  # keep compatible with package.json engines
+node.toolchain(node_version = "24.13.0")  # keep compatible with package.json engines
 
 ####################################################################################################
 # aspect_rules_js setup
