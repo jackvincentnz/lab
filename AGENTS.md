@@ -21,7 +21,7 @@ Keep this file focused on actionable context that improves execution quality and
 
 - Monorepo using Bazel with Bzlmod (`MODULE.bazel`) and no `WORKSPACE`.
 - Primary stacks: Java (Spring Boot 3) and Vite + React + TypeScript.
-- Node/pnpm versions: Node `>=20.20.0`, pnpm `>=9 <10` (from `package.json`).
+- Node/pnpm versions: Node `>=24.13.0 <25`, pnpm `>=9 <10` (from `package.json`).
 - CI avoids transitive `rules_android` host SDK checks by setting `ANDROID_HOME` to an empty value in `.github/workflows/main.yml` `common_ci` job env.
 - CI keeps `jlumbroso/free-disk-space` `android: false` to avoid deleting Android tooling unexpectedly on runner images.
 - Local Bazel disk cache is enabled by default; CI explicitly disables disk cache.
