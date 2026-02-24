@@ -1,0 +1,32 @@
+name: Renovate Repin
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - MODULE.bazel
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  repin:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    if: ${{ github.actor == 'renovate[bot]' || startsWith(github.head_ref, 'renovate/') }}
+    env:
+      ANDROID_HOME: ""
+      IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
+      REPIN_PUSH_TOKEN: ${{ secrets.REPIN_PUSH_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          token: ${{ secrets.REPIN_PUSH_TOKEN || github.token }}
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Repin and push lockfile when needed
+        run: tools/ci/renovate_repin.sh
