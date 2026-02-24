@@ -4,6 +4,7 @@
   "packageRules": [
     {
       "matchUpdateTypes": ["minor", "patch"],
+      "excludePackageNames": ["protobuf"],
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates"
     },
