@@ -16,6 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       checks: write
+      contents: write
     env:
       BAZELISK_HOME: ~/.cache/bazel-repo
       BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
