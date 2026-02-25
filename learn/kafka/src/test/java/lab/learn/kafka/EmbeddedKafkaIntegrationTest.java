@@ -19,7 +19,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 @DirtiesContext
 @EmbeddedKafka(
     partitions = 1,
-    brokerProperties = {"listeners=PLAINTEXT://localhost:9092", "port=9092"})
+    brokerProperties = {"listeners=PLAINTEXT://localhost:0", "port=0"})
 public class EmbeddedKafkaIntegrationTest {
 
   @MockitoBean private MessageHandler mockHandler;
