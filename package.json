@@ -40,8 +40,8 @@
   },
   "devDependencies": {
     "@apollo/rover": "^0.37.0",
-    "@graphql-codegen/cli": "5.0.7",
-    "@graphql-codegen/client-preset": "4.8.3",
+    "@graphql-codegen/cli": "6.1.2",
+    "@graphql-codegen/client-preset": "5.2.3",
     "@jest/globals": "30.2.0",
     "@storybook/addon-docs": "7.6.23",
     "@storybook/addon-essentials": "7.6.23",
