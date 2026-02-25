@@ -33,15 +33,15 @@
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/MODULE.bazel": "812d2dd42f65dca362152101fbec418029cc8fd34cbad1a2fde905383d705838",
     "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.2/MODULE.bazel": "6ea99980c4b80bd7c71b6e748dfc2bb46d5a7b7b03c9975b8fe7c8b9fd7e724f",
     "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.2/source.json": "1ab4266290f60274835908edbc990dcf6d38e17bb932f3d36ca822c6025db2a9",
-    "https://bcr.bazel.build/modules/aspect_rules_jest/0.24.3/MODULE.bazel": "afbea085483cdc8a014cef6d2ee44793aeb4e9fec95f030f7c0cb35bf624abaf",
-    "https://bcr.bazel.build/modules/aspect_rules_jest/0.24.3/source.json": "d81b26aed4f566a9e099e8ccfc1d6be909f5047b01a94e237425403efe229b53",
+    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.1/MODULE.bazel": "3d26a67737e4613cc6d366ab1ab6ccf9ca089b421eeddafd34b5142f7d2fc082",
+    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.1/source.json": "acc5a52a7bda7cd6dfb983e50a376bb94e83ea63d7375b80af484e6345ea431c",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.0.0/MODULE.bazel": "b45b507574aa60a92796e3e13c195cd5744b3b8aff516a9c0cb5ae6a048161c5",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.9.2/MODULE.bazel": "93fd5b85e6e912fb0712cbab453c43271d4ea33a093f84fd587638fbc9f8c145",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.9.2/source.json": "4bff7c03ab387b60deb15649ba575688e62f2a71a7544cbc7a660b19ec473808",
     "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.1/MODULE.bazel": "8ba8d18e45389a5724c05ac4eeb9313c505720430a466ff11e7f4cdce9b19ff3",
     "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.1/source.json": "e665df7497a87ee0d77cabb051844efc9cd2d52eb328a6ce37f8522eac43998f",
-    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.4/MODULE.bazel": "a50254ac3add6232d0f9f93103836f9afaf614315589a13abf74183982c4101d",
-    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.4/source.json": "f786e0763f3ea5de7ea6d4c4e38fccb48bf4d9c5eafaf95091c0e1590502510e",
+    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.5/MODULE.bazel": "bcf8f0b6b9375f0f74451e2f70671efae9bb366acef8fdc04675305eaf137f06",
+    "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.5/source.json": "fa35e43f6359f654e4b70ce55efdf280d0b06c0b3ef9fc0b06ba52327a0e6311",
     "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.2.6/MODULE.bazel": "cafb8781ad591bc57cc765dca5fefab08cf9f65af363d162b79d49205c7f8af7",
     "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.2.8/MODULE.bazel": "aa975a83e72bcaac62ee61ab12b788ea324a1d05c4aab28aadb202f647881679",
     "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.3.3/MODULE.bazel": "37c764292861c2f70314efa9846bb6dbb44fc0308903b3285da6528305450183",
@@ -655,10 +655,10 @@
     },
     "@@aspect_rules_ts~//ts:extensions.bzl%ext": {
       "general": {
-        "bzlTransitiveDigest": "kk/beMVvm+mOi14PFpsoXz9UL71yTqQ7mhiRGz6QIno=",
+        "bzlTransitiveDigest": "4u3D2Q8KMDICnG3iuTymzgYbT7m2jCBOpw/XEDnM+jM=",
         "usagesDigest": "r4NUgxQE957p2kkhVEgIoSH0kfzVEyFLLzN40ra5yJw=",
         "recordedFileInputs": {
-          "@@//package.json": "44cdb3f502999ae4ad3c86ab99a9c00a962e17b42585dc7e045cb29399182992"
+          "@@//package.json": "a342abc43366d140ad6e1bead51e18bc1fe71648329435da50bc79ae8b99a8d5"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -693,7 +693,7 @@
     "@@aspect_tools_telemetry~//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "cl5A2O84vDL6Tt+Qga8FCj1DUDGqn+e7ly5rZ+4xvcc=",
-        "usagesDigest": "JspNWDljyk4UC+7fO8Nl+oPPAJQ96KPLTnwZaIrS6Ws=",
+        "usagesDigest": "syqRU5RdnFZsCBoYRZKjuxdBsNJYODDcBm69DPVJx1U=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -704,8 +704,8 @@
             "attributes": {
               "deps": {
                 "aspect_rules_js": "2.9.2",
-                "aspect_rules_ts": "3.8.4",
-                "aspect_rules_jest": "0.24.3",
+                "aspect_rules_ts": "3.8.5",
+                "aspect_rules_jest": "0.25.1",
                 "aspect_rules_swc": "2.6.1",
                 "aspect_tools_telemetry": "0.3.3"
               }
@@ -1159,7 +1159,7 @@
     "@@rules_oci~//oci:extensions.bzl%oci": {
       "general": {
         "bzlTransitiveDigest": "nJRIEv8hyrB94Y/Mjp6cgbWI4I+pDjtOUttg9vmSL4I=",
-        "usagesDigest": "LWZL7jbH5zWdmmPqQZCirmesN4MFeB8JvS/hKP4CRNg=",
+        "usagesDigest": "hAcgB/SJl4OT/1pwDoboRBg1dKEqTs9LMkwunITLeyg=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1264,7 +1264,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
+              "identifier": "sha256:3615a749858a1cba49b408fb49c37093db813321355a9ab7c1f9f4836341e9db",
               "platform": "linux/amd64",
               "target_name": "debian_linux_amd64",
               "bazel_tags": []
@@ -1278,7 +1278,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
+              "identifier": "sha256:3615a749858a1cba49b408fb49c37093db813321355a9ab7c1f9f4836341e9db",
               "platform": "linux/arm64/v8",
               "target_name": "debian_linux_arm64_v8",
               "bazel_tags": []
@@ -1293,7 +1293,7 @@
               "scheme": "https",
               "registry": "index.docker.io",
               "repository": "library/debian",
-              "identifier": "sha256:2c91e484d93f0830a7e05a2b9d92a7b102be7cab562198b984a84fdbc7806d91",
+              "identifier": "sha256:3615a749858a1cba49b408fb49c37093db813321355a9ab7c1f9f4836341e9db",
               "platforms": {
                 "@@platforms//cpu:x86_64": "@debian_linux_amd64",
                 "@@platforms//cpu:arm64": "@debian_linux_arm64_v8"
