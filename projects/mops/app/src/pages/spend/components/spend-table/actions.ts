@@ -22,7 +22,9 @@ export function useAddLineItem(
     }
     onValidationErrors({});
 
-    onAddLineItem && onAddLineItem(lineItem);
+    if (onAddLineItem) {
+      onAddLineItem(lineItem);
+    }
 
     client.logEvent("add_line_item", lineItem.name, {
       name: lineItem.name,
