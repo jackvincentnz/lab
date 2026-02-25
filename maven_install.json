@@ -3,7 +3,7 @@
   "__INPUT_ARTIFACTS_HASH": {
     "com.fasterxml.jackson.core:jackson-databind": 1925127134,
     "com.github.ajalt.clikt:clikt-jvm": 357911058,
-    "com.google.adk:google-adk-dev": 61787965,
+    "com.google.adk:google-adk-dev": -1735163394,
     "com.google.code.findbugs:jsr305": 495355163,
     "com.google.code.gson:gson": -1146526807,
     "com.google.errorprone:error_prone_annotations": -571311395,
@@ -19,7 +19,7 @@
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -343102663,
-    "com.squareup.okhttp3:okhttp-jvm": -258632569,
+    "com.squareup.okhttp3:okhttp-jvm": -674460980,
     "io.confluent:kafka-protobuf-serializer": -2003338147,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
@@ -67,8 +67,8 @@
     "ch.qos.logback:logback-classic:jar:sources": -954700656,
     "ch.qos.logback:logback-core": 1385501171,
     "ch.qos.logback:logback-core:jar:sources": -726475229,
-    "com.anthropic:anthropic-java": -1279864997,
-    "com.anthropic:anthropic-java-client-okhttp": 276609602,
+    "com.anthropic:anthropic-java": -1919788270,
+    "com.anthropic:anthropic-java-client-okhttp": -1071258121,
     "com.anthropic:anthropic-java-client-okhttp:jar:sources": 670350943,
     "com.anthropic:anthropic-java-core": 2081840780,
     "com.anthropic:anthropic-java-core:jar:sources": -274221873,
@@ -155,10 +155,10 @@
     "com.github.victools:jsonschema-module-jackson:jar:sources": 656580748,
     "com.github.victools:jsonschema-module-swagger-2": -1971626592,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -776422092,
-    "com.google.adk:google-adk": -239515448,
-    "com.google.adk:google-adk-dev": -1191262219,
-    "com.google.adk:google-adk-dev:jar:sources": 1572478460,
-    "com.google.adk:google-adk:jar:sources": -186408532,
+    "com.google.adk:google-adk": -741198346,
+    "com.google.adk:google-adk-dev": 1817853615,
+    "com.google.adk:google-adk-dev:jar:sources": -566463604,
+    "com.google.adk:google-adk:jar:sources": 385290803,
     "com.google.android:annotations": 1863337959,
     "com.google.android:annotations:jar:sources": -1341146294,
     "com.google.api-client:google-api-client": 1830724447,
@@ -171,8 +171,8 @@
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1:jar:sources": 609718313,
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1": 1064091149,
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1:jar:sources": -1824896276,
-    "com.google.api.grpc:proto-google-cloud-monitoring-v3": -674000402,
-    "com.google.api.grpc:proto-google-cloud-monitoring-v3:jar:sources": -235062729,
+    "com.google.api.grpc:proto-google-cloud-monitoring-v3": -1923784596,
+    "com.google.api.grpc:proto-google-cloud-monitoring-v3:jar:sources": -1590142755,
     "com.google.api.grpc:proto-google-cloud-speech-v1": -1437798210,
     "com.google.api.grpc:proto-google-cloud-speech-v1:jar:sources": -342211890,
     "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1": 941271550,
@@ -215,11 +215,11 @@
     "com.google.cloud:google-cloud-core-http": 898682225,
     "com.google.cloud:google-cloud-core-http:jar:sources": 130631957,
     "com.google.cloud:google-cloud-core:jar:sources": 1807961190,
-    "com.google.cloud:google-cloud-monitoring": 748285632,
-    "com.google.cloud:google-cloud-monitoring:jar:sources": 648118523,
+    "com.google.cloud:google-cloud-monitoring": 2043430803,
+    "com.google.cloud:google-cloud-monitoring:jar:sources": -941353932,
     "com.google.cloud:google-cloud-speech": 1311614589,
     "com.google.cloud:google-cloud-speech:jar:sources": -92574989,
-    "com.google.cloud:google-cloud-storage": -1797238461,
+    "com.google.cloud:google-cloud-storage": 1711821854,
     "com.google.cloud:google-cloud-storage:jar:sources": -2072210761,
     "com.google.code.findbugs:jsr305": -1935781704,
     "com.google.code.findbugs:jsr305:jar:sources": 549635129,
@@ -227,7 +227,7 @@
     "com.google.code.gson:gson:jar:sources": 442399522,
     "com.google.errorprone:error_prone_annotations": 1600457208,
     "com.google.errorprone:error_prone_annotations:jar:sources": 1368164148,
-    "com.google.genai:google-genai": -1506956545,
+    "com.google.genai:google-genai": -1772837526,
     "com.google.genai:google-genai:jar:sources": -47879031,
     "com.google.guava:failureaccess": 312664885,
     "com.google.guava:failureaccess:jar:sources": 1950591706,
@@ -300,19 +300,19 @@
     "com.networknt:json-schema-validator:jar:sources": 1807352147,
     "com.palantir.javapoet:javapoet": 568086874,
     "com.palantir.javapoet:javapoet:jar:sources": 2072570326,
-    "com.squareup.okhttp3:logging-interceptor": -1072033422,
+    "com.squareup.okhttp3:logging-interceptor": -253381219,
     "com.squareup.okhttp3:logging-interceptor:jar:sources": -222774957,
-    "com.squareup.okhttp3:okhttp": 340578523,
-    "com.squareup.okhttp3:okhttp-jvm": -80995066,
-    "com.squareup.okhttp3:okhttp-jvm:jar:sources": 2075515091,
+    "com.squareup.okhttp3:okhttp": 700545801,
+    "com.squareup.okhttp3:okhttp-jvm": -950550383,
+    "com.squareup.okhttp3:okhttp-jvm:jar:sources": 350471291,
     "com.squareup.okhttp3:okhttp:jar:sources": 2084377380,
-    "com.squareup.okio:okio": -1688932194,
-    "com.squareup.okio:okio-jvm": 1019782803,
-    "com.squareup.okio:okio-jvm:jar:sources": 609761854,
+    "com.squareup.okio:okio": -47178611,
+    "com.squareup.okio:okio-jvm": 1885705569,
+    "com.squareup.okio:okio-jvm:jar:sources": -800640846,
     "com.squareup.okio:okio:jar:sources": 1933825344,
-    "com.squareup.wire:wire-runtime-jvm": 1477008689,
+    "com.squareup.wire:wire-runtime-jvm": -1176205024,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 1071474835,
-    "com.squareup.wire:wire-schema-jvm": -1466757277,
+    "com.squareup.wire:wire-schema-jvm": -96092081,
     "com.squareup.wire:wire-schema-jvm:jar:sources": 743940102,
     "com.squareup:javapoet": 1685340005,
     "com.squareup:javapoet:jar:sources": -1449372676,
@@ -355,9 +355,9 @@
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
     "io.confluent:common-utils": 693109155,
     "io.confluent:common-utils:jar:sources": -213672237,
-    "io.confluent:kafka-protobuf-provider": 1138085448,
+    "io.confluent:kafka-protobuf-provider": 41710923,
     "io.confluent:kafka-protobuf-provider:jar:sources": -1587753731,
-    "io.confluent:kafka-protobuf-serializer": 449798806,
+    "io.confluent:kafka-protobuf-serializer": -540882747,
     "io.confluent:kafka-protobuf-serializer:jar:sources": 1410155075,
     "io.confluent:kafka-protobuf-types": 1986304588,
     "io.confluent:kafka-protobuf-types:jar:sources": -15393445,
@@ -475,11 +475,11 @@
     "io.opentelemetry:opentelemetry-context:jar:sources": -1775898747,
     "io.opentelemetry:opentelemetry-exporter-common": -2089381655,
     "io.opentelemetry:opentelemetry-exporter-common:jar:sources": -1662689552,
-    "io.opentelemetry:opentelemetry-exporter-otlp": -1597501745,
+    "io.opentelemetry:opentelemetry-exporter-otlp": 787623857,
     "io.opentelemetry:opentelemetry-exporter-otlp-common": 53905844,
     "io.opentelemetry:opentelemetry-exporter-otlp-common:jar:sources": -314754287,
     "io.opentelemetry:opentelemetry-exporter-otlp:jar:sources": -1399666631,
-    "io.opentelemetry:opentelemetry-exporter-sender-okhttp": 823335773,
+    "io.opentelemetry:opentelemetry-exporter-sender-okhttp": 1105717128,
     "io.opentelemetry:opentelemetry-exporter-sender-okhttp:jar:sources": -175219883,
     "io.opentelemetry:opentelemetry-sdk": 2064149230,
     "io.opentelemetry:opentelemetry-sdk-common": 1354057699,
@@ -846,7 +846,7 @@
     "org.springframework.ai:spring-ai-client-chat:jar:sources": -539266155,
     "org.springframework.ai:spring-ai-commons": 1107838054,
     "org.springframework.ai:spring-ai-commons:jar:sources": -375547259,
-    "org.springframework.ai:spring-ai-google-genai": 736198294,
+    "org.springframework.ai:spring-ai-google-genai": -166710738,
     "org.springframework.ai:spring-ai-google-genai:jar:sources": -563309610,
     "org.springframework.ai:spring-ai-mcp": 585445456,
     "org.springframework.ai:spring-ai-mcp-annotations": -492012841,
@@ -861,7 +861,7 @@
     "org.springframework.ai:spring-ai-retry": 1373292657,
     "org.springframework.ai:spring-ai-retry:jar:sources": -313191265,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1688823302,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": 913842681,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": 300040688,
     "org.springframework.ai:spring-ai-starter-model-ollama": 560463718,
     "org.springframework.ai:spring-ai-starter-model-openai": -1678733985,
     "org.springframework.ai:spring-ai-template-st": -1508030513,
@@ -1372,17 +1372,17 @@
     },
     "com.google.adk:google-adk": {
       "shasums": {
-        "jar": "b6c53323164a90c4491bc3e37183394f0d6a4fafd38910e456dc7b527271fd2c",
-        "sources": "105206ba61b3d1f028c28eca926df2c3ace388fcce26f9a3b4adfe3ff449efd5"
+        "jar": "cc6a193175402d7ea1e62bd3b996e3d5f7d79df8edc037cf676cdef74ccadea4",
+        "sources": "5db50c8c200c0ff835ac1ad7247db1fd0a255c347791dadd9cd96cad4ddcefc3"
       },
-      "version": "0.5.0"
+      "version": "0.6.0"
     },
     "com.google.adk:google-adk-dev": {
       "shasums": {
-        "jar": "143ed6ece6a30ee3a86ea630b11db4a38ba477f21a56fd462cdfd14051dd22af",
-        "sources": "fda5bfd15f603be6c30cddedaca2d1c25e438084c9db843511dbcf35183621fa"
+        "jar": "8abc79118cfcb0ebdd9514c4531cf43e0a52c02da3e3e693e1f5566f88e4b0b5",
+        "sources": "24edde3ffd1e4645823b53cd8ddb4f1f4a6be72f45e1eac724824e564c52aef3"
       },
-      "version": "0.5.0"
+      "version": "0.6.0"
     },
     "com.google.android:annotations": {
       "shasums": {
@@ -1428,10 +1428,10 @@
     },
     "com.google.api.grpc:proto-google-cloud-monitoring-v3": {
       "shasums": {
-        "jar": "eb01d969d61634f46e49527401baa5166f6415dac6baff30096c4d140a16c5cf",
-        "sources": "5771b5a10ad2d9b68be46cf0e042baea158450215a29a186a8ae5d18927bfe35"
+        "jar": "8238b3216aa59ffeed9a157833d7fcc844a7dc9f101b23d728f1cdec6c5c3ba2",
+        "sources": "2d4bf6619df590be4904c3e7dfe763b32f559dd53251211e0a64f708c0ddff6b"
       },
-      "version": "3.57.0"
+      "version": "3.52.0"
     },
     "com.google.api.grpc:proto-google-cloud-speech-v1": {
       "shasums": {
@@ -1582,10 +1582,10 @@
     },
     "com.google.cloud:google-cloud-monitoring": {
       "shasums": {
-        "jar": "2efe1e5c0031d74c44b61cee75f1928c7857b2f5dc7de164297e2dcedf62defb",
-        "sources": "58b44b3531d58270f7d1fbcf31b3b4fec51566da97384d0cc1fcbdd6411d9de6"
+        "jar": "9727aa7d94d8dd036bffccf9abc5d18970b1e5e9827896f9907f7450ed10f5e6",
+        "sources": "5671d4d59e5d22f4a4905d1cb1e8425c89860b30bbb49a9d8730bffb3b78a503"
       },
-      "version": "3.57.0"
+      "version": "3.52.0"
     },
     "com.google.cloud:google-cloud-speech": {
       "shasums": {
@@ -1896,10 +1896,10 @@
     },
     "com.squareup.okhttp3:okhttp-jvm": {
       "shasums": {
-        "jar": "4d6ff6aea0fc7c6b8182d26340216040af0e2186e317305d899f8d324faa8a4a",
-        "sources": "50adbc6f5d54c1fab1423c8be1188c6142ab20adc3cba1471e91c94c906bd282"
+        "jar": "c771f48075b763f6c322055e21129a94b7de4c1faf3f8f58ace320b0c9517a30",
+        "sources": "c44c549707d30d56084d0bc1bc00f36c7c326e30664b40c20c1ff8ab657afa5b"
       },
-      "version": "5.0.0"
+      "version": "5.3.2"
     },
     "com.squareup.okio:okio": {
       "shasums": {
@@ -1910,10 +1910,10 @@
     },
     "com.squareup.okio:okio-jvm": {
       "shasums": {
-        "jar": "483dc383b1049d220892322a0d6a4308425f09bb05b48c43d4eaa9ff82b1cd16",
-        "sources": "eca487c49a4905a89556ce413ea198f40f20bb2dc6249d916b3917913bd6dbab"
+        "jar": "2196b993cd34dbbd919e7e01f57a4781b58bee80f86106163e287c20343a96a7",
+        "sources": "834d0ba65168b5314f447bd2403d134423c42ad1927fdcd24473b20c4fd5a7d8"
       },
-      "version": "3.15.0"
+      "version": "3.16.4"
     },
     "com.squareup.wire:wire-runtime-jvm": {
       "shasums": {
@@ -6843,6 +6843,7 @@
     "com.google.adk:google-adk": [
       "com.google.adk",
       "com.google.adk.agents",
+      "com.google.adk.apps",
       "com.google.adk.artifacts",
       "com.google.adk.codeexecutors",
       "com.google.adk.events",
@@ -6855,6 +6856,8 @@
       "com.google.adk.plugins",
       "com.google.adk.runner",
       "com.google.adk.sessions",
+      "com.google.adk.summarizer",
+      "com.google.adk.telemetry",
       "com.google.adk.tools",
       "com.google.adk.tools.applicationintegrationtoolset",
       "com.google.adk.tools.mcp",
@@ -14579,6 +14582,16 @@
     "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources": {
       "com.fasterxml.jackson.databind.Module": [
         "com.fasterxml.jackson.module.scala.DefaultScalaModule"
+      ]
+    },
+    "com.google.adk:google-adk": {
+      "com.google.adk.utils.AdkComponentProvider": [
+        "com.google.adk.utils.AdditionalAdkComponentProvider"
+      ]
+    },
+    "com.google.adk:google-adk:jar:sources": {
+      "com.google.adk.utils.AdkComponentProvider": [
+        "com.google.adk.utils.AdditionalAdkComponentProvider"
       ]
     },
     "com.h2database:h2": {
