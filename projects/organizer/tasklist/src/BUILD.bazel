@@ -5,7 +5,6 @@ fe_library(
     visibility = ["//projects/organizer/tasklist:__pkg__"],
     deps = [
         "//:node_modules/vite",
-        "//:node_modules/web-vitals",
         "//projects/organizer/tasklist/src/app",
     ],
 )
