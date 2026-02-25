@@ -22,7 +22,7 @@
     "@mantine/dates": "7.17.8",
     "@mantine/hooks": "7.17.8",
     "dayjs": "1.11.19",
-    "@tabler/icons-react": "3.36.1",
+    "@tabler/icons-react": "3.37.1",
     "react": "18.3.1",
     "react-dom": "18.3.1"
   }
