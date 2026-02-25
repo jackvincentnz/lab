@@ -37,7 +37,7 @@ interface Stoppable {
 }
 
 async function main() {
-  let exitCode = 0;
+  let exitCode;
   let cleanupTargets: Stoppable[] = [];
 
   try {

@@ -48,7 +48,11 @@ export function Shell({ children }: PropsWithChildren) {
   }
 
   function toggleAside() {
-    asideOpened ? setAsideOpened(false) : setAsideOpened(true);
+    if (asideOpened) {
+      setAsideOpened(false);
+    } else {
+      setAsideOpened(true);
+    }
   }
 
   return (

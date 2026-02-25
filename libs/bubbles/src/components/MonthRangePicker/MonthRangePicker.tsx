@@ -75,7 +75,9 @@ export function MonthRangePicker({
       setValidValue([start, end]);
       close();
 
-      onChange && onChange([dateToMonthYear(start), dateToMonthYear(end)]);
+      if (onChange) {
+        onChange([dateToMonthYear(start), dateToMonthYear(end)]);
+      }
     }
   }
 
