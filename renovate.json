@@ -1,17 +1,29 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended", ":dependencyDashboard"],
+  "extends": [
+    "config:recommended",
+    ":dependencyDashboard"
+  ],
   "packageRules": [
     {
-      "matchUpdateTypes": ["minor", "patch"],
-      "excludePackageNames": ["protobuf"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
-      "schedule": "* * * * 0,6"
+      "schedule": "* * * * 0,6",
+      "matchPackageNames": [
+        "!protobuf"
+      ]
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["confluentinc/cp-*"],
+      "matchDatasources": [
+        "docker"
+      ],
+      "matchPackageNames": [
+        "confluentinc/cp-*"
+      ],
       "groupName": "confluentinc/cp-* docker images",
       "groupSlug": "confluentinc-docker-images"
     }
