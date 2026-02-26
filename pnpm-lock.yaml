@@ -15,7 +15,7 @@ importers:
     dependencies:
       '@apollo/client':
         specifier: 3.14.0
-        version: 3.14.0(@types/react@18.3.28)(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.18.0))(graphql@16.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        version: 3.14.0(@types/react@18.3.28)(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.19.0))(graphql@16.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@graphql-typed-document-node/core':
         specifier: ^3.2.0
         version: 3.2.0(graphql@16.13.0)
@@ -63,7 +63,7 @@ importers:
         version: 7.4.0(graphql@16.13.0)
       graphql-ws:
         specifier: ^6.0.0
-        version: 6.0.7(graphql@16.13.0)(ws@8.18.0)
+        version: 6.0.7(graphql@16.13.0)(ws@8.19.0)
       mantine-react-table:
         specifier: 2.0.0-beta.9
         version: 2.0.0-beta.9(@mantine/core@7.17.8(@mantine/hooks@7.17.8(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/dates@7.17.8(@mantine/core@7.17.8(@mantine/hooks@7.17.8(react@18.3.1))(@types/react@18.3.28)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.17.8(react@18.3.1))(dayjs@1.11.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(@mantine/hooks@7.17.8(react@18.3.1))(@tabler/icons-react@3.37.1(react@18.3.1))(clsx@2.1.1)(dayjs@1.11.19)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -83,8 +83,8 @@ importers:
         specifier: ^4.0.1
         version: 4.0.1
       web-vitals:
-        specifier: 3.5.2
-        version: 3.5.2
+        specifier: 5.1.0
+        version: 5.1.0
     devDependencies:
       '@apollo/rover':
         specifier: ^0.37.0
@@ -7802,11 +7802,11 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
-  web-vitals@3.5.2:
-    resolution: {integrity: sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==}
-
   web-vitals@5.0.3:
     resolution: {integrity: sha512-4KmOFYxj7qT6RAdCH0SWwq8eKeXNhAFXR4PmgF6nrWFmrJ41n7lq3UCA6UK0GebQ4uu+XP8e8zGjaDO3wZlqTg==}
+
+  web-vitals@5.1.0:
+    resolution: {integrity: sha512-ArI3kx5jI0atlTtmV0fWU3fjpLmq/nD3Zr1iFFlJLaqa5wLBkUSzINwBPySCX/8jRyjlmy1Volw1kz1g9XE4Jg==}
 
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
@@ -8037,7 +8037,7 @@ snapshots:
 
   '@adobe/css-tools@4.4.0': {}
 
-  '@apollo/client@3.14.0(@types/react@18.3.28)(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.18.0))(graphql@16.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@apollo/client@3.14.0(@types/react@18.3.28)(graphql-ws@6.0.7(graphql@16.13.0)(ws@8.19.0))(graphql@16.13.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@graphql-typed-document-node/core': 3.2.0(graphql@16.13.0)
       '@wry/caches': 1.0.1
@@ -8054,7 +8054,7 @@ snapshots:
       tslib: 2.6.2
       zen-observable-ts: 1.2.5
     optionalDependencies:
-      graphql-ws: 6.0.7(graphql@16.13.0)(ws@8.18.0)
+      graphql-ws: 6.0.7(graphql@16.13.0)(ws@8.19.0)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
     transitivePeerDependencies:
@@ -13790,12 +13790,6 @@ snapshots:
     dependencies:
       graphql: 16.13.0
 
-  graphql-ws@6.0.7(graphql@16.13.0)(ws@8.18.0):
-    dependencies:
-      graphql: 16.13.0
-    optionalDependencies:
-      ws: 8.18.0
-
   graphql-ws@6.0.7(graphql@16.13.0)(ws@8.19.0):
     dependencies:
       graphql: 16.13.0
@@ -17247,9 +17241,9 @@ snapshots:
 
   web-streams-polyfill@3.3.3: {}
 
-  web-vitals@3.5.2: {}
-
   web-vitals@5.0.3: {}
+
+  web-vitals@5.1.0: {}
 
   webidl-conversions@3.0.1: {}
 

@@ -35,7 +35,7 @@
     "react-markdown": "^10.0.0",
     "react-router-dom": "7.13.1",
     "remark-gfm": "^4.0.1",
-    "web-vitals": "3.5.2"
+    "web-vitals": "5.1.0"
   },
   "devDependencies": {
     "@apollo/rover": "^0.37.0",
