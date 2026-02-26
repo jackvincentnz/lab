@@ -378,7 +378,7 @@
     "@@aspect_rules_js~//npm:extensions.bzl%pnpm": {
       "general": {
         "bzlTransitiveDigest": "vf3Jqp8ZDL82PR4WVjbfTYc2NgZqQoLwYXBgP3MnQeQ=",
-        "usagesDigest": "g7XXZdMLNe93kQz22sx7R7kKz2xFZcJN6aG/tKKuB1E=",
+        "usagesDigest": "nTFJ5zGnx6Y0egMXd24VdeA1weZDnmeWA4aQF3T6/dA=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -388,11 +388,11 @@
             "ruleClassName": "npm_import_rule",
             "attributes": {
               "package": "pnpm",
-              "version": "9.15.9",
+              "version": "10.30.2",
               "root_package": "",
               "link_workspace": "",
               "link_packages": {},
-              "integrity": "sha512-aARhQYk8ZvrQHAeSMRKOmvuJ74fiaR1p5NQO7iKJiClf1GghgbrlW1hBjDolO95lpQXsfF+UA+zlzDzTfc8lMQ==",
+              "integrity": "sha512-Ns3HB+e3lAqYjJwez4jQhPhRS1w/CF9TouJEwpIdOyVFvCDdTr4fwkX+7EY7spiuzqemPtH3aAuHfcY3nY0MtA==",
               "url": "",
               "commit": "",
               "patch_args": [
@@ -416,7 +416,7 @@
             "ruleClassName": "npm_import_links",
             "attributes": {
               "package": "pnpm",
-              "version": "9.15.9",
+              "version": "10.30.2",
               "dev": false,
               "root_package": "",
               "link_packages": {},
