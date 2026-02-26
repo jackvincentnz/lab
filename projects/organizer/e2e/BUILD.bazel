@@ -33,6 +33,7 @@ cypress_module_test(
     runner = "runner.js",
     tags = [
         "exclusive",  # TODO: see if this can be removed if all ports are dynamically allocated
+        "no-coverage",
         "requires-docker",
         "requires-network",
     ],

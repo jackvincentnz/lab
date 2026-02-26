@@ -35,13 +35,24 @@ jobs:
       - name: Print build version
         run: tools/bazel/output_workspace_status.sh
 
-      - name: Build & test
+      - name: Build & test (no-coverage targets)
         run: |
           bazel \
             --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
             --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
             test \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            --test_tag_filters=no-coverage \
+            //...
+
+      - name: Coverage
+        run: |
+          bazel \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
+            coverage \
+            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            --combined_report=lcov \
             //...
 
       - name: Copy test reports out of symlink forest
@@ -68,17 +79,6 @@ jobs:
 
       - name: Submit dependencies
         uses: jackvincentnz/bazel-dependency-detector@v0.4.1
-
-      # TODO: Avoid rebuilding and retesting tests with coverage
-      - name: Generate coverage report
-        run: |
-          bazel \
-            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
-            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
-            coverage \
-            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
-            --combined_report=lcov \
-            $(bazel query 'kind("java_test", //...)')
 
       - name: Upload coverage report
         uses: codecov/codecov-action@v5
