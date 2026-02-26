@@ -22,17 +22,6 @@ jobs:
       BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
       ANDROID_HOME: ""
     steps:
-      - name: Free Disk Space
-        uses: jlumbroso/free-disk-space@v1.3.1
-        with:
-          tool-cache: true
-          android: true
-          dotnet: true
-          haskell: true
-          large-packages: false # this slows down build by ~1.5 minutes due to apt-get interactions
-          docker-images: true
-          swap-storage: true
-
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
@@ -45,26 +34,6 @@ jobs:
 
       - name: Print build version
         run: tools/bazel/output_workspace_status.sh
-
-      # Cache build and external artifacts so that the next ci build is incremental.
-      # Because github action caches cannot be updated after a build, we need to
-      # store the contents of each build in a unique cache key, then fall back to loading
-      # it on the next ci run. We use hashFiles(...) in the key and restore-keys- with
-      # the prefix to load the most recent cache for the branch on a cache miss. You
-      # should customize the contents of hashFiles to capture any bazel input sources,
-      # although this doesn't need to be perfect. If none of the input sources change
-      # then a cache hit will load an existing cache and bazel won't have to do any work.
-      # In the case of a cache miss, you want the fallback cache to contain most of the
-      # previously built artifacts to minimize build time. The more precise you are with
-      # hashFiles sources the less work bazel will have to do.
-      - name: Mount caches
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/.cache/bazel
-            ${{ env.BAZELISK_HOME }}
-          key: bazel-cache-${{ hashFiles('MODULE.bazel', 'MODULE.bazel.lock', '**/BUILD.bazel', '**/*.bzl') }}
-          restore-keys: bazel-cache-
 
       - name: Build & test
         run: |
