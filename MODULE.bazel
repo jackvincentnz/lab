@@ -187,7 +187,7 @@ cypress.toolchain(
         "linux-arm64": "86475069d2edbacabc692d1fd6f1ec308c9e310feb7492c0cb9bf51955a056ad",
         "linux-x64": "9bcd452ee3c47324f647ad99d14883f65661c8c2d1f7c9cddec5eb94700fb682",
     },
-    cypress_version = "15.10.0",
+    cypress_version = "15.11.0",
 )
 use_repo(cypress, "cypress_toolchains")
 
