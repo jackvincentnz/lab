@@ -3,7 +3,7 @@
   "__INPUT_ARTIFACTS_HASH": {
     "com.fasterxml.jackson.core:jackson-databind": 1925127134,
     "com.github.ajalt.clikt:clikt-jvm": 357911058,
-    "com.google.adk:google-adk-dev": -1735163394,
+    "com.google.adk:google-adk-dev": 762852543,
     "com.google.code.findbugs:jsr305": 495355163,
     "com.google.code.gson:gson": -1146526807,
     "com.google.errorprone:error_prone_annotations": -571311395,
@@ -67,12 +67,12 @@
     "ch.qos.logback:logback-classic:jar:sources": -954700656,
     "ch.qos.logback:logback-core": 1385501171,
     "ch.qos.logback:logback-core:jar:sources": -726475229,
-    "com.anthropic:anthropic-java": -1919788270,
-    "com.anthropic:anthropic-java-client-okhttp": -1071258121,
+    "com.anthropic:anthropic-java": -634544294,
+    "com.anthropic:anthropic-java-client-okhttp": -1542504465,
     "com.anthropic:anthropic-java-client-okhttp:jar:sources": 670350943,
-    "com.anthropic:anthropic-java-core": 2081840780,
+    "com.anthropic:anthropic-java-core": -631780464,
     "com.anthropic:anthropic-java-core:jar:sources": -274221873,
-    "com.anthropic:anthropic-java-vertex": -1167453055,
+    "com.anthropic:anthropic-java-vertex": 1795981096,
     "com.anthropic:anthropic-java-vertex:jar:sources": 1703387765,
     "com.anthropic:anthropic-java:jar:sources": -1400652721,
     "com.apollographql.federation:federation-graphql-java-support": 1373528128,
@@ -89,6 +89,8 @@
     "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:jar:sources": 1418204274,
     "com.fasterxml.jackson.dataformat:jackson-dataformat-toml": -301295255,
     "com.fasterxml.jackson.dataformat:jackson-dataformat-toml:jar:sources": -1694780255,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml": 1255293330,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:sources": -567079795,
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": -1041007109,
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:sources": 1008235195,
     "com.fasterxml.jackson.datatype:jackson-datatype-jdk8": -1637022847,
@@ -109,6 +111,8 @@
     "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources": -840883881,
     "com.fasterxml.jackson.module:jackson-module-scala_2.13": -1453121878,
     "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources": -410991946,
+    "com.fasterxml.woodstox:woodstox-core": 1328379846,
+    "com.fasterxml.woodstox:woodstox-core:jar:sources": -206033117,
     "com.fasterxml:classmate": 405668678,
     "com.fasterxml:classmate:jar:sources": -384045981,
     "com.flipkart.zjsonpatch:zjsonpatch": -1558538245,
@@ -125,19 +129,19 @@
     "com.github.ajalt.mordant:mordant-jvm": 1773298576,
     "com.github.ajalt.mordant:mordant-jvm:jar:sources": 1119046692,
     "com.github.ajalt.mordant:mordant:jar:sources": 40804520,
-    "com.github.ben-manes.caffeine:caffeine": 333555018,
+    "com.github.ben-manes.caffeine:caffeine": 1152040452,
     "com.github.ben-manes.caffeine:caffeine:jar:sources": -1279088346,
-    "com.github.docker-java:docker-java": -1162929464,
+    "com.github.docker-java:docker-java": -431739608,
     "com.github.docker-java:docker-java-api": -1001794504,
     "com.github.docker-java:docker-java-api:jar:sources": -959227011,
-    "com.github.docker-java:docker-java-core": -1743393104,
+    "com.github.docker-java:docker-java-core": -1122731151,
     "com.github.docker-java:docker-java-core:jar:sources": 1727307073,
     "com.github.docker-java:docker-java-transport": -1105018298,
     "com.github.docker-java:docker-java-transport-httpclient5": -947987046,
     "com.github.docker-java:docker-java-transport-httpclient5:jar:sources": -1944452608,
-    "com.github.docker-java:docker-java-transport-jersey": 349807483,
+    "com.github.docker-java:docker-java-transport-jersey": -2076553325,
     "com.github.docker-java:docker-java-transport-jersey:jar:sources": -1179752580,
-    "com.github.docker-java:docker-java-transport-netty": 539912884,
+    "com.github.docker-java:docker-java-transport-netty": 1072001545,
     "com.github.docker-java:docker-java-transport-netty:jar:sources": 922698597,
     "com.github.docker-java:docker-java-transport-zerodep": -778811668,
     "com.github.docker-java:docker-java-transport-zerodep:jar:sources": -1837817285,
@@ -155,50 +159,50 @@
     "com.github.victools:jsonschema-module-jackson:jar:sources": 656580748,
     "com.github.victools:jsonschema-module-swagger-2": -1971626592,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -776422092,
-    "com.google.adk:google-adk": -741198346,
-    "com.google.adk:google-adk-dev": 1817853615,
-    "com.google.adk:google-adk-dev:jar:sources": -566463604,
-    "com.google.adk:google-adk:jar:sources": 385290803,
+    "com.google.adk:google-adk": -620516450,
+    "com.google.adk:google-adk-dev": 1960476275,
+    "com.google.adk:google-adk-dev:jar:sources": 1470566881,
+    "com.google.adk:google-adk:jar:sources": 406327095,
     "com.google.android:annotations": 1863337959,
     "com.google.android:annotations:jar:sources": -1341146294,
-    "com.google.api-client:google-api-client": 1830724447,
-    "com.google.api-client:google-api-client:jar:sources": -1532636471,
-    "com.google.api.grpc:gapic-google-cloud-storage-v2": 728819542,
-    "com.google.api.grpc:gapic-google-cloud-storage-v2:jar:sources": -772346866,
-    "com.google.api.grpc:grpc-google-cloud-storage-v2": -435422582,
-    "com.google.api.grpc:grpc-google-cloud-storage-v2:jar:sources": 926131465,
-    "com.google.api.grpc:proto-google-cloud-aiplatform-v1": 1630535521,
-    "com.google.api.grpc:proto-google-cloud-aiplatform-v1:jar:sources": 609718313,
-    "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1": 1064091149,
-    "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1:jar:sources": -1824896276,
+    "com.google.api-client:google-api-client": 1352524033,
+    "com.google.api-client:google-api-client:jar:sources": -1802956102,
+    "com.google.api.grpc:gapic-google-cloud-storage-v2": -1404749794,
+    "com.google.api.grpc:gapic-google-cloud-storage-v2:jar:sources": 980526684,
+    "com.google.api.grpc:grpc-google-cloud-storage-v2": 948115975,
+    "com.google.api.grpc:grpc-google-cloud-storage-v2:jar:sources": -1399031098,
+    "com.google.api.grpc:proto-google-cloud-aiplatform-v1": 2118014459,
+    "com.google.api.grpc:proto-google-cloud-aiplatform-v1:jar:sources": -576613666,
+    "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1": 1996602046,
+    "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1:jar:sources": -995408977,
     "com.google.api.grpc:proto-google-cloud-monitoring-v3": -1923784596,
     "com.google.api.grpc:proto-google-cloud-monitoring-v3:jar:sources": -1590142755,
-    "com.google.api.grpc:proto-google-cloud-speech-v1": -1437798210,
-    "com.google.api.grpc:proto-google-cloud-speech-v1:jar:sources": -342211890,
-    "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1": 941271550,
-    "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1:jar:sources": -609383137,
-    "com.google.api.grpc:proto-google-cloud-speech-v2": -234375999,
-    "com.google.api.grpc:proto-google-cloud-speech-v2:jar:sources": 383499672,
-    "com.google.api.grpc:proto-google-cloud-storage-v2": -901680362,
-    "com.google.api.grpc:proto-google-cloud-storage-v2:jar:sources": 787736756,
-    "com.google.api.grpc:proto-google-common-protos": -405399017,
-    "com.google.api.grpc:proto-google-common-protos:jar:sources": 317949584,
-    "com.google.api.grpc:proto-google-iam-v1": -1567302539,
-    "com.google.api.grpc:proto-google-iam-v1:jar:sources": -760278512,
-    "com.google.api:api-common": 1661864125,
-    "com.google.api:api-common:jar:sources": 171080426,
-    "com.google.api:gax": -127246045,
-    "com.google.api:gax-grpc": 2014609546,
-    "com.google.api:gax-grpc:jar:sources": -1967577765,
-    "com.google.api:gax-httpjson": -1129830903,
-    "com.google.api:gax-httpjson:jar:sources": 685730462,
-    "com.google.api:gax:jar:sources": 1585782707,
-    "com.google.apis:google-api-services-storage": 1822376046,
-    "com.google.apis:google-api-services-storage:jar:sources": 724028820,
-    "com.google.auth:google-auth-library-credentials": 1226478298,
-    "com.google.auth:google-auth-library-credentials:jar:sources": -1442558596,
-    "com.google.auth:google-auth-library-oauth2-http": 832565536,
-    "com.google.auth:google-auth-library-oauth2-http:jar:sources": 1821366508,
+    "com.google.api.grpc:proto-google-cloud-speech-v1": 274281066,
+    "com.google.api.grpc:proto-google-cloud-speech-v1:jar:sources": 16593321,
+    "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1": -923350103,
+    "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1:jar:sources": -577405508,
+    "com.google.api.grpc:proto-google-cloud-speech-v2": 805245051,
+    "com.google.api.grpc:proto-google-cloud-speech-v2:jar:sources": 888852008,
+    "com.google.api.grpc:proto-google-cloud-storage-v2": -405540536,
+    "com.google.api.grpc:proto-google-cloud-storage-v2:jar:sources": -490955386,
+    "com.google.api.grpc:proto-google-common-protos": 895914113,
+    "com.google.api.grpc:proto-google-common-protos:jar:sources": -919794957,
+    "com.google.api.grpc:proto-google-iam-v1": -1344531766,
+    "com.google.api.grpc:proto-google-iam-v1:jar:sources": -365483317,
+    "com.google.api:api-common": 580211448,
+    "com.google.api:api-common:jar:sources": 1853901135,
+    "com.google.api:gax": -578826878,
+    "com.google.api:gax-grpc": 847841299,
+    "com.google.api:gax-grpc:jar:sources": 1394930321,
+    "com.google.api:gax-httpjson": -933828336,
+    "com.google.api:gax-httpjson:jar:sources": 956161438,
+    "com.google.api:gax:jar:sources": 386617901,
+    "com.google.apis:google-api-services-storage": -676310565,
+    "com.google.apis:google-api-services-storage:jar:sources": -1983215990,
+    "com.google.auth:google-auth-library-credentials": -1777501039,
+    "com.google.auth:google-auth-library-credentials:jar:sources": -1015377706,
+    "com.google.auth:google-auth-library-oauth2-http": 1170547423,
+    "com.google.auth:google-auth-library-oauth2-http:jar:sources": 1565820129,
     "com.google.auto.value:auto-value-annotations": -1728502598,
     "com.google.auto.value:auto-value-annotations:jar:sources": 76266867,
     "com.google.cloud.opentelemetry:detector-resources-support": 2059110902,
@@ -207,53 +211,53 @@
     "com.google.cloud.opentelemetry:exporter-metrics:jar:sources": 550370236,
     "com.google.cloud.opentelemetry:shared-resourcemapping": -1094272174,
     "com.google.cloud.opentelemetry:shared-resourcemapping:jar:sources": -701044096,
-    "com.google.cloud:google-cloud-aiplatform": 596199705,
-    "com.google.cloud:google-cloud-aiplatform:jar:sources": 1803785107,
-    "com.google.cloud:google-cloud-core": 1395700443,
-    "com.google.cloud:google-cloud-core-grpc": 519905088,
-    "com.google.cloud:google-cloud-core-grpc:jar:sources": -407700115,
-    "com.google.cloud:google-cloud-core-http": 898682225,
-    "com.google.cloud:google-cloud-core-http:jar:sources": 130631957,
-    "com.google.cloud:google-cloud-core:jar:sources": 1807961190,
+    "com.google.cloud:google-cloud-aiplatform": -606871682,
+    "com.google.cloud:google-cloud-aiplatform:jar:sources": -1636465611,
+    "com.google.cloud:google-cloud-core": -595196009,
+    "com.google.cloud:google-cloud-core-grpc": 767963050,
+    "com.google.cloud:google-cloud-core-grpc:jar:sources": 215345636,
+    "com.google.cloud:google-cloud-core-http": 66231201,
+    "com.google.cloud:google-cloud-core-http:jar:sources": 2128816670,
+    "com.google.cloud:google-cloud-core:jar:sources": -1606100743,
     "com.google.cloud:google-cloud-monitoring": 2043430803,
     "com.google.cloud:google-cloud-monitoring:jar:sources": -941353932,
-    "com.google.cloud:google-cloud-speech": 1311614589,
-    "com.google.cloud:google-cloud-speech:jar:sources": -92574989,
-    "com.google.cloud:google-cloud-storage": 1711821854,
-    "com.google.cloud:google-cloud-storage:jar:sources": -2072210761,
+    "com.google.cloud:google-cloud-speech": -1016242765,
+    "com.google.cloud:google-cloud-speech:jar:sources": 1701762463,
+    "com.google.cloud:google-cloud-storage": 1776052710,
+    "com.google.cloud:google-cloud-storage:jar:sources": -817570301,
     "com.google.code.findbugs:jsr305": -1935781704,
     "com.google.code.findbugs:jsr305:jar:sources": 549635129,
-    "com.google.code.gson:gson": 2081904776,
+    "com.google.code.gson:gson": 2085278932,
     "com.google.code.gson:gson:jar:sources": 442399522,
-    "com.google.errorprone:error_prone_annotations": 1600457208,
-    "com.google.errorprone:error_prone_annotations:jar:sources": 1368164148,
-    "com.google.genai:google-genai": -1772837526,
-    "com.google.genai:google-genai:jar:sources": -47879031,
+    "com.google.errorprone:error_prone_annotations": -1220470015,
+    "com.google.errorprone:error_prone_annotations:jar:sources": -475654914,
+    "com.google.genai:google-genai": 134537427,
+    "com.google.genai:google-genai:jar:sources": -1304768731,
     "com.google.guava:failureaccess": 312664885,
     "com.google.guava:failureaccess:jar:sources": 1950591706,
-    "com.google.guava:guava": -1352321731,
+    "com.google.guava:guava": -2037575695,
     "com.google.guava:guava:jar:sources": 936526678,
     "com.google.guava:listenablefuture": 1058472346,
-    "com.google.http-client:google-http-client": 2129818006,
-    "com.google.http-client:google-http-client-apache-v2": 2056691118,
-    "com.google.http-client:google-http-client-apache-v2:jar:sources": 1297088234,
-    "com.google.http-client:google-http-client-appengine": 1341386937,
-    "com.google.http-client:google-http-client-appengine:jar:sources": -1559335568,
-    "com.google.http-client:google-http-client-gson": -129314235,
-    "com.google.http-client:google-http-client-gson:jar:sources": -1722338139,
-    "com.google.http-client:google-http-client-jackson2": -1647629830,
-    "com.google.http-client:google-http-client-jackson2:jar:sources": 1078097646,
-    "com.google.http-client:google-http-client:jar:sources": -1838453317,
+    "com.google.http-client:google-http-client": 1707614507,
+    "com.google.http-client:google-http-client-apache-v2": 1944910571,
+    "com.google.http-client:google-http-client-apache-v2:jar:sources": -1107048453,
+    "com.google.http-client:google-http-client-appengine": 35489354,
+    "com.google.http-client:google-http-client-appengine:jar:sources": -432827444,
+    "com.google.http-client:google-http-client-gson": -2083512202,
+    "com.google.http-client:google-http-client-gson:jar:sources": 502769285,
+    "com.google.http-client:google-http-client-jackson2": 1303723170,
+    "com.google.http-client:google-http-client-jackson2:jar:sources": -48849783,
+    "com.google.http-client:google-http-client:jar:sources": 1982161672,
     "com.google.j2objc:j2objc-annotations": 247563902,
     "com.google.j2objc:j2objc-annotations:jar:sources": -1228829399,
-    "com.google.oauth-client:google-oauth-client": 721766797,
-    "com.google.oauth-client:google-oauth-client:jar:sources": -219827868,
+    "com.google.oauth-client:google-oauth-client": -753513110,
+    "com.google.oauth-client:google-oauth-client:jar:sources": -841854483,
     "com.google.protobuf:protobuf-java": 1182538605,
-    "com.google.protobuf:protobuf-java-util": -826082110,
+    "com.google.protobuf:protobuf-java-util": -471394982,
     "com.google.protobuf:protobuf-java-util:jar:sources": 215164913,
     "com.google.protobuf:protobuf-java:jar:sources": -1509822553,
-    "com.google.re2j:re2j": -706735465,
-    "com.google.re2j:re2j:jar:sources": -2075637888,
+    "com.google.re2j:re2j": -1778615040,
+    "com.google.re2j:re2j:jar:sources": 1394806681,
     "com.graphql-java:graphql-java": -331868850,
     "com.graphql-java:graphql-java-extended-scalars": -985036281,
     "com.graphql-java:graphql-java-extended-scalars:jar:sources": -891413703,
@@ -312,7 +316,7 @@
     "com.squareup.okio:okio:jar:sources": 1933825344,
     "com.squareup.wire:wire-runtime-jvm": -1176205024,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 1071474835,
-    "com.squareup.wire:wire-schema-jvm": -96092081,
+    "com.squareup.wire:wire-schema-jvm": 773855632,
     "com.squareup.wire:wire-schema-jvm:jar:sources": 743940102,
     "com.squareup:javapoet": 1685340005,
     "com.squareup:javapoet:jar:sources": -1449372676,
@@ -355,52 +359,52 @@
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
     "io.confluent:common-utils": 693109155,
     "io.confluent:common-utils:jar:sources": -213672237,
-    "io.confluent:kafka-protobuf-provider": 41710923,
+    "io.confluent:kafka-protobuf-provider": 1740908737,
     "io.confluent:kafka-protobuf-provider:jar:sources": -1587753731,
-    "io.confluent:kafka-protobuf-serializer": -540882747,
+    "io.confluent:kafka-protobuf-serializer": -2125993628,
     "io.confluent:kafka-protobuf-serializer:jar:sources": 1410155075,
-    "io.confluent:kafka-protobuf-types": 1986304588,
+    "io.confluent:kafka-protobuf-types": -1267360427,
     "io.confluent:kafka-protobuf-types:jar:sources": -15393445,
-    "io.confluent:kafka-schema-registry-client": -410958069,
+    "io.confluent:kafka-schema-registry-client": -559231126,
     "io.confluent:kafka-schema-registry-client:jar:sources": -230243041,
-    "io.confluent:kafka-schema-serializer": -1895128795,
+    "io.confluent:kafka-schema-serializer": -559768263,
     "io.confluent:kafka-schema-serializer:jar:sources": 2057845140,
     "io.dropwizard.metrics:metrics-core": -1163050132,
     "io.dropwizard.metrics:metrics-core:jar:sources": 2118762524,
-    "io.grpc:grpc-alts": 1886097592,
-    "io.grpc:grpc-alts:jar:sources": 1120668659,
-    "io.grpc:grpc-api": -128453606,
-    "io.grpc:grpc-api:jar:sources": 854779764,
-    "io.grpc:grpc-auth": 605733869,
-    "io.grpc:grpc-auth:jar:sources": -2126764952,
-    "io.grpc:grpc-context": 704782821,
-    "io.grpc:grpc-context:jar:sources": -210163538,
-    "io.grpc:grpc-core": 1943191779,
-    "io.grpc:grpc-core:jar:sources": -1932441862,
-    "io.grpc:grpc-googleapis": 919035162,
-    "io.grpc:grpc-googleapis:jar:sources": -410435775,
-    "io.grpc:grpc-grpclb": 1392321506,
-    "io.grpc:grpc-grpclb:jar:sources": -1439013360,
-    "io.grpc:grpc-inprocess": 416663831,
-    "io.grpc:grpc-inprocess:jar:sources": -214910119,
-    "io.grpc:grpc-netty-shaded": -647016361,
-    "io.grpc:grpc-netty-shaded:jar:sources": -1672542255,
-    "io.grpc:grpc-opentelemetry": -741831576,
-    "io.grpc:grpc-opentelemetry:jar:sources": 1807167967,
-    "io.grpc:grpc-protobuf": 1401502071,
-    "io.grpc:grpc-protobuf-lite": 936521262,
-    "io.grpc:grpc-protobuf-lite:jar:sources": 1041066938,
-    "io.grpc:grpc-protobuf:jar:sources": -1936218055,
-    "io.grpc:grpc-rls": 1119323351,
-    "io.grpc:grpc-rls:jar:sources": -369574028,
-    "io.grpc:grpc-services": 87375777,
-    "io.grpc:grpc-services:jar:sources": 253754662,
-    "io.grpc:grpc-stub": 1175772518,
-    "io.grpc:grpc-stub:jar:sources": -1680427334,
-    "io.grpc:grpc-util": -1460942654,
-    "io.grpc:grpc-util:jar:sources": -1905065339,
-    "io.grpc:grpc-xds": -2000849315,
-    "io.grpc:grpc-xds:jar:sources": 2068311315,
+    "io.grpc:grpc-alts": 1109695342,
+    "io.grpc:grpc-alts:jar:sources": 1430999350,
+    "io.grpc:grpc-api": -2066365478,
+    "io.grpc:grpc-api:jar:sources": 1469413147,
+    "io.grpc:grpc-auth": 122411384,
+    "io.grpc:grpc-auth:jar:sources": -38924357,
+    "io.grpc:grpc-context": 191766513,
+    "io.grpc:grpc-context:jar:sources": -75029375,
+    "io.grpc:grpc-core": -1258262742,
+    "io.grpc:grpc-core:jar:sources": 1264152253,
+    "io.grpc:grpc-googleapis": -137618316,
+    "io.grpc:grpc-googleapis:jar:sources": -380916503,
+    "io.grpc:grpc-grpclb": -360640726,
+    "io.grpc:grpc-grpclb:jar:sources": -1678015397,
+    "io.grpc:grpc-inprocess": 1356434391,
+    "io.grpc:grpc-inprocess:jar:sources": 1886536881,
+    "io.grpc:grpc-netty-shaded": 1141827787,
+    "io.grpc:grpc-netty-shaded:jar:sources": -75029375,
+    "io.grpc:grpc-opentelemetry": 937340025,
+    "io.grpc:grpc-opentelemetry:jar:sources": 1586054161,
+    "io.grpc:grpc-protobuf": 114536500,
+    "io.grpc:grpc-protobuf-lite": 973569555,
+    "io.grpc:grpc-protobuf-lite:jar:sources": -1995392457,
+    "io.grpc:grpc-protobuf:jar:sources": 1178190811,
+    "io.grpc:grpc-rls": -1419292441,
+    "io.grpc:grpc-rls:jar:sources": 1965511351,
+    "io.grpc:grpc-services": -1276210001,
+    "io.grpc:grpc-services:jar:sources": 381037864,
+    "io.grpc:grpc-stub": 1955380658,
+    "io.grpc:grpc-stub:jar:sources": 1759611572,
+    "io.grpc:grpc-util": 2028752994,
+    "io.grpc:grpc-util:jar:sources": -1946328284,
+    "io.grpc:grpc-xds": 373034505,
+    "io.grpc:grpc-xds:jar:sources": 1582820658,
     "io.micrometer:context-propagation": 373897676,
     "io.micrometer:context-propagation:jar:sources": 1658806760,
     "io.micrometer:micrometer-commons": -1129664850,
@@ -459,17 +463,15 @@
     "io.netty:netty-transport-native-unix-common": -1698825726,
     "io.netty:netty-transport-native-unix-common:jar:sources": -727819889,
     "io.netty:netty-transport:jar:sources": 192379442,
-    "io.opencensus:opencensus-api": 407420308,
+    "io.opencensus:opencensus-api": 294679228,
     "io.opencensus:opencensus-api:jar:sources": -1395704587,
-    "io.opencensus:opencensus-contrib-http-util": 478304749,
+    "io.opencensus:opencensus-contrib-http-util": 72706263,
     "io.opencensus:opencensus-contrib-http-util:jar:sources": 286136358,
     "io.opentelemetry.contrib:opentelemetry-gcp-resources": 1145619546,
     "io.opentelemetry.contrib:opentelemetry-gcp-resources:jar:sources": 506600272,
-    "io.opentelemetry.semconv:opentelemetry-semconv": -2000854661,
-    "io.opentelemetry.semconv:opentelemetry-semconv:jar:sources": 870374127,
+    "io.opentelemetry.semconv:opentelemetry-semconv": 1354546525,
+    "io.opentelemetry.semconv:opentelemetry-semconv:jar:sources": -609926056,
     "io.opentelemetry:opentelemetry-api": -823570425,
-    "io.opentelemetry:opentelemetry-api-incubator": 1150102837,
-    "io.opentelemetry:opentelemetry-api-incubator:jar:sources": 1370554189,
     "io.opentelemetry:opentelemetry-api:jar:sources": -769209131,
     "io.opentelemetry:opentelemetry-context": 1627397114,
     "io.opentelemetry:opentelemetry-context:jar:sources": -1775898747,
@@ -575,14 +577,14 @@
     "org.apache.httpcomponents.core5:httpcore5-h2": -1457615791,
     "org.apache.httpcomponents.core5:httpcore5-h2:jar:sources": 1262927734,
     "org.apache.httpcomponents.core5:httpcore5:jar:sources": 41215013,
-    "org.apache.httpcomponents:httpclient": -839977538,
+    "org.apache.httpcomponents:httpclient": 1815139252,
     "org.apache.httpcomponents:httpclient:jar:sources": 1744256738,
     "org.apache.httpcomponents:httpcore": -666739616,
     "org.apache.httpcomponents:httpcore:jar:sources": 349132993,
     "org.apache.kafka:kafka-clients": 2031412650,
     "org.apache.kafka:kafka-clients:jar:sources": -27610761,
     "org.apache.kafka:kafka-clients:jar:test": 1262280379,
-    "org.apache.kafka:kafka-group-coordinator": -1134265420,
+    "org.apache.kafka:kafka-group-coordinator": -2124063108,
     "org.apache.kafka:kafka-group-coordinator-api": 892824256,
     "org.apache.kafka:kafka-group-coordinator-api:jar:sources": 1712679593,
     "org.apache.kafka:kafka-group-coordinator:jar:sources": 437153045,
@@ -590,12 +592,12 @@
     "org.apache.kafka:kafka-metadata:jar:sources": -1554719559,
     "org.apache.kafka:kafka-raft": 1660552091,
     "org.apache.kafka:kafka-raft:jar:sources": -1161530699,
-    "org.apache.kafka:kafka-server": 1361415629,
+    "org.apache.kafka:kafka-server": 714634784,
     "org.apache.kafka:kafka-server-common": -1037124339,
     "org.apache.kafka:kafka-server-common:jar:sources": 1699700865,
     "org.apache.kafka:kafka-server-common:jar:test": 1616351186,
     "org.apache.kafka:kafka-server:jar:sources": 2035555256,
-    "org.apache.kafka:kafka-storage": 612089478,
+    "org.apache.kafka:kafka-storage": -1370790823,
     "org.apache.kafka:kafka-storage-api": 479554438,
     "org.apache.kafka:kafka-storage-api:jar:sources": 588857490,
     "org.apache.kafka:kafka-storage:jar:sources": 847366258,
@@ -607,9 +609,9 @@
     "org.apache.kafka:kafka-tools-api:jar:sources": 969284040,
     "org.apache.kafka:kafka-transaction-coordinator": 1521386151,
     "org.apache.kafka:kafka-transaction-coordinator:jar:sources": 1921175787,
-    "org.apache.kafka:kafka_2.13": 1244128818,
+    "org.apache.kafka:kafka_2.13": 2051124241,
     "org.apache.kafka:kafka_2.13:jar:sources": 1420074905,
-    "org.apache.kafka:kafka_2.13:jar:test": -1654577053,
+    "org.apache.kafka:kafka_2.13:jar:test": -1909411840,
     "org.apache.logging.log4j:log4j-api": 121420808,
     "org.apache.logging.log4j:log4j-api:jar:sources": 1606955537,
     "org.apache.logging.log4j:log4j-to-slf4j": -1125122335,
@@ -644,6 +646,8 @@
     "org.checkerframework:checker-qual:jar:sources": 2079289346,
     "org.codehaus.mojo:animal-sniffer-annotations": 1413693024,
     "org.codehaus.mojo:animal-sniffer-annotations:jar:sources": -1301629381,
+    "org.codehaus.woodstox:stax2-api": 882341404,
+    "org.codehaus.woodstox:stax2-api:jar:sources": -2591837,
     "org.conscrypt:conscrypt-openjdk-uber": -1372416256,
     "org.conscrypt:conscrypt-openjdk-uber:jar:sources": -1128203622,
     "org.eclipse.jdt:ecj": 1077244452,
@@ -702,7 +706,7 @@
     "org.glassfish.hk2:hk2-utils:jar:sources": -1712073765,
     "org.glassfish.hk2:osgi-resource-locator": 1561414656,
     "org.glassfish.hk2:osgi-resource-locator:jar:sources": -1293899293,
-    "org.glassfish.jersey.connectors:jersey-apache-connector": 81556331,
+    "org.glassfish.jersey.connectors:jersey-apache-connector": 1898552796,
     "org.glassfish.jersey.connectors:jersey-apache-connector:jar:sources": 1625805335,
     "org.glassfish.jersey.core:jersey-client": 480034807,
     "org.glassfish.jersey.core:jersey-client:jar:sources": -792558565,
@@ -846,7 +850,7 @@
     "org.springframework.ai:spring-ai-client-chat:jar:sources": -539266155,
     "org.springframework.ai:spring-ai-commons": 1107838054,
     "org.springframework.ai:spring-ai-commons:jar:sources": -375547259,
-    "org.springframework.ai:spring-ai-google-genai": -166710738,
+    "org.springframework.ai:spring-ai-google-genai": 1388472309,
     "org.springframework.ai:spring-ai-google-genai:jar:sources": -563309610,
     "org.springframework.ai:spring-ai-mcp": 585445456,
     "org.springframework.ai:spring-ai-mcp-annotations": -492012841,
@@ -861,7 +865,7 @@
     "org.springframework.ai:spring-ai-retry": 1373292657,
     "org.springframework.ai:spring-ai-retry:jar:sources": -313191265,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1688823302,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": 300040688,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": 1899260107,
     "org.springframework.ai:spring-ai-starter-model-ollama": 560463718,
     "org.springframework.ai:spring-ai-starter-model-openai": -1678733985,
     "org.springframework.ai:spring-ai-template-st": -1508030513,
@@ -919,7 +923,7 @@
     "org.springframework.graphql:spring-graphql-test:jar:sources": -1702844387,
     "org.springframework.graphql:spring-graphql:jar:sources": -510413470,
     "org.springframework.kafka:spring-kafka": -389704920,
-    "org.springframework.kafka:spring-kafka-test": -902355749,
+    "org.springframework.kafka:spring-kafka-test": 1290980142,
     "org.springframework.kafka:spring-kafka-test:jar:sources": -1350383790,
     "org.springframework.kafka:spring-kafka:jar:sources": -1196364769,
     "org.springframework.retry:spring-retry": 225785555,
@@ -978,8 +982,8 @@
     "org.threeten:threetenbp:jar:sources": 459919875,
     "org.webjars.npm:viz.js-graphviz-java": 353306320,
     "org.webjars.npm:viz.js-graphviz-java:jar:sources": -969737868,
-    "org.wiremock:wiremock": -811399248,
-    "org.wiremock:wiremock-jetty12": -1114628070,
+    "org.wiremock:wiremock": -1065784433,
+    "org.wiremock:wiremock-jetty12": 376012672,
     "org.wiremock:wiremock-jetty12:jar:sources": 582929114,
     "org.wiremock:wiremock:jar:sources": -771466901,
     "org.xerial.snappy:snappy-java": 326062264,
@@ -994,13 +998,13 @@
     "org.yaml:snakeyaml:jar:sources": -539890373,
     "redis.clients.authentication:redis-authx-core": 989503573,
     "redis.clients.authentication:redis-authx-core:jar:sources": -77358075,
-    "redis.clients:jedis": -1733447112,
+    "redis.clients:jedis": -2016035864,
     "redis.clients:jedis:jar:sources": -796079391
   },
   "conflict_resolution": {
     "com.fasterxml.jackson.core:jackson-databind": "com.fasterxml.jackson.core:jackson-databind:2.19.4",
     "com.google.code.gson:gson:2.10.1": "com.google.code.gson:gson:2.13.2",
-    "com.google.errorprone:error_prone_annotations:2.23.0": "com.google.errorprone:error_prone_annotations:2.43.0",
+    "com.google.errorprone:error_prone_annotations:2.23.0": "com.google.errorprone:error_prone_annotations:2.47.0",
     "com.google.guava:guava:33.0.0-jre": "com.google.guava:guava:33.5.0-jre",
     "com.google.j2objc:j2objc-annotations:2.8": "com.google.j2objc:j2objc-annotations:3.1",
     "com.google.protobuf:protobuf-java-util:4.27.2": "com.google.protobuf:protobuf-java-util:4.33.4",
@@ -1139,6 +1143,13 @@
       },
       "version": "2.19.4"
     },
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml": {
+      "shasums": {
+        "jar": "645d831848f950b47e2c72053e448179faec68e8d1683e4c273a346b83247feb",
+        "sources": "edbaac3c18e3c4f4bd4681717e87fc95bbd49afb54a864b5ec6a6ff420178a50"
+      },
+      "version": "2.19.4"
+    },
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": {
       "shasums": {
         "jar": "998e652806c49ca59e2b6432c4edc37580c4702cb6189d10e6053d0b7982c2e7",
@@ -1208,6 +1219,13 @@
         "sources": "a829320030f5e12f6c6104a7cc3e1c7d9d484926c46049fa6203330369661131"
       },
       "version": "2.19.4"
+    },
+    "com.fasterxml.woodstox:woodstox-core": {
+      "shasums": {
+        "jar": "eeb3853282c24964a93a6eb4c1bbcb60c8d09fd8e0ffc75ab64ad21045a1fa78",
+        "sources": "bb0c2fe977bdf779a1301d94ef6cf156a1bc43706671ead5b1e6798dee7f4d6f"
+      },
+      "version": "7.0.0"
     },
     "com.fasterxml:classmate": {
       "shasums": {
@@ -1372,17 +1390,17 @@
     },
     "com.google.adk:google-adk": {
       "shasums": {
-        "jar": "cc6a193175402d7ea1e62bd3b996e3d5f7d79df8edc037cf676cdef74ccadea4",
-        "sources": "5db50c8c200c0ff835ac1ad7247db1fd0a255c347791dadd9cd96cad4ddcefc3"
+        "jar": "c6240172c1bb5cc334ec54ad74bf479995910155e656f41ff852cb85854b0356",
+        "sources": "72a697222c8528f11a0c4c49fde6bd2bdc58fe7927f8d9596e1bbd6f66342d78"
       },
-      "version": "0.6.0"
+      "version": "0.7.0"
     },
     "com.google.adk:google-adk-dev": {
       "shasums": {
-        "jar": "8abc79118cfcb0ebdd9514c4531cf43e0a52c02da3e3e693e1f5566f88e4b0b5",
-        "sources": "24edde3ffd1e4645823b53cd8ddb4f1f4a6be72f45e1eac724824e564c52aef3"
+        "jar": "cc7126a1d28008b51e2679c7275a910960fa8807b23f22e81732dc7110071453",
+        "sources": "1df66f1a9ac5caa71fa6b0e1a57d883826e43325fbab2701b4f1cb814f71e21c"
       },
-      "version": "0.6.0"
+      "version": "0.7.0"
     },
     "com.google.android:annotations": {
       "shasums": {
@@ -1393,38 +1411,38 @@
     },
     "com.google.api-client:google-api-client": {
       "shasums": {
-        "jar": "c0b85baef6bd4e0ff11c87e40b808c490cad7a31f7943463016088d7dbc48400",
-        "sources": "deeb331c0bb7661da40a3d7afb03fe844a89eb3ea486c10e7d8a82adab746307"
+        "jar": "63b754b7c4a92347c4992c42d295812f8d2ed6b9e8743edba4a8c98b92e9ca9b",
+        "sources": "12f803cfdc8a0f4109d5f4e61938c4488b27519689e285d11ace3b7ab4bf637a"
       },
-      "version": "2.7.1"
+      "version": "2.7.2"
     },
     "com.google.api.grpc:gapic-google-cloud-storage-v2": {
       "shasums": {
-        "jar": "57a0425735b9fb14a3f8d7a0b85a6496b2b79795dd4e44ca370840a775a853bb",
-        "sources": "cdab870d1201ba37fbc2f92a451b9b90d63f0142347cbfb397fc4f6a7af2ed18"
+        "jar": "08102445ba64c14484339ac8a13070e7cf75a1614957b2318097c93ea47ea86b",
+        "sources": "05fc495d5df5602158cc5a9bcfb2b2d514964fc826ddf2a9c437bd358194391a"
       },
-      "version": "2.47.0"
+      "version": "2.63.0"
     },
     "com.google.api.grpc:grpc-google-cloud-storage-v2": {
       "shasums": {
-        "jar": "6fa55401b11816bb6f93cbb88e1530788ec3961f19900fb24dcacccb8eacfd40",
-        "sources": "7ba3ee006b8f13a570177e57c020a849cd5e7afcfa6f7f893e7427b99c3f5010"
+        "jar": "e8f0ae5930ab9860e83bd822d9f5f9e9528dafb5237d6b271cf2e4caf77d9663",
+        "sources": "795c6ac42d3da8f990c61f0cac207e4aefaecca1a72254443655126276a86023"
       },
-      "version": "2.47.0"
+      "version": "2.63.0"
     },
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1": {
       "shasums": {
-        "jar": "713d6962ed9b4afcf42113ee64a9c2d52d4a3965cadeab1747b7862398d57b01",
-        "sources": "5e2d57cf3044d6be1ffaf066ce5cf4e381c25b17045a22c54a6a9651d4144064"
+        "jar": "4fc38fde17b0daf3f19d49bc712a9e2d581a3f6b03ce3d4b0915bd21ba1dd380",
+        "sources": "50c741b9915e8aa7b5b722b907aed70f19bae857baf78f058f23a71a089a704c"
       },
-      "version": "3.57.0"
+      "version": "3.86.0"
     },
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1": {
       "shasums": {
-        "jar": "92cee1f4b82b6a25ccc09c178d22dbb468c1c866f521dced795b04e536894df1",
-        "sources": "76c28f2e1858a09d01bba3ebfc64dbd5ed6b6543effd6a694ab90819c7204eee"
+        "jar": "6f6745d0d57f40c7e8e26425ddbb8534c716862665b5b354b881d12eb939402d",
+        "sources": "023588613ee50dd0d866abec2ff39945f2e9b8a0087a1614313684eab68c1be1"
       },
-      "version": "0.73.0"
+      "version": "0.102.0"
     },
     "com.google.api.grpc:proto-google-cloud-monitoring-v3": {
       "shasums": {
@@ -1435,94 +1453,94 @@
     },
     "com.google.api.grpc:proto-google-cloud-speech-v1": {
       "shasums": {
-        "jar": "38f5a5bf4452966341f4c5cc03d714ed86c4d7fa28b1b4cdcde9b8d2af3c0a8d",
-        "sources": "16eb99ff04a315b9032119745d12ba2551a0fa614aa3644e47f4cc1ba638908f"
+        "jar": "442a32ee6cf7f3856c880b528b64fc4e6ee6c1f7c8d03345e138b86cfcbd8aee",
+        "sources": "e797f3dd208144d954c50e4993af45281b6554373009720b78e41ccba09a97b1"
       },
-      "version": "4.51.0"
+      "version": "4.80.0"
     },
     "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1": {
       "shasums": {
-        "jar": "747d04a1a45d94af08795bfef5aec0cb23db77a7e3f42808ebe949672011a37b",
-        "sources": "56ecd70bcbb2f316365e64bc9799794b514ca8836dd2223140843106b775df40"
+        "jar": "7c3c2ec5c7c8228becbbb26ed1d6a5cdaca28450b25df8bb043fd0e4a181df38",
+        "sources": "b7857caf87f2bc629d7c81c6844cded29d72ecf8ea145e8d3d4b54e02e2b923e"
       },
-      "version": "2.51.0"
+      "version": "2.80.0"
     },
     "com.google.api.grpc:proto-google-cloud-speech-v2": {
       "shasums": {
-        "jar": "7b7baa654e640606a2b306b3f32183cbfa7f5a829c8db3b1c91e1d9fecb6552f",
-        "sources": "07d5cc196db88bd877e4af5b8667428572e95957560252659d63fdfbad7e4c32"
+        "jar": "0225170bf4c6e9a4b998902f788b611f3aae3f3fd9c8fe66b3f1d501bc0d730e",
+        "sources": "609ee0c3fc25a632bf108cf007c63219988b351a570d4e7cea16b94a717312b0"
       },
-      "version": "4.51.0"
+      "version": "4.80.0"
     },
     "com.google.api.grpc:proto-google-cloud-storage-v2": {
       "shasums": {
-        "jar": "fbec187ceb351aab248164c7bc56ef172826cc144259eccc9682ff714d961bfb",
-        "sources": "9d961f9af1bbc4f55e22a3f9c8deb7909a15e044f758ecfb27a3f3f82dbfbc0d"
+        "jar": "c9d6a4eb068b5430054791e9cddad7a195453fc62be4739eb8688654d07f4a65",
+        "sources": "90ece93ed556ece920c69263b6ba1815ef98c6c9721bb10571e4b418c45e6a39"
       },
-      "version": "2.47.0"
+      "version": "2.63.0"
     },
     "com.google.api.grpc:proto-google-common-protos": {
       "shasums": {
-        "jar": "61ac7fbd31a9f604890d22330a6f94b3f410ea2d7247e0f5f11a87ae34087385",
-        "sources": "736c912f7477663288f22e85fabe4c3c5fc05e9d4d0fd8362b94f62d59f9a377"
+        "jar": "a37b117a271adc145c67c7de40f1fd62621e6398c22217c942ce26b618a93adf",
+        "sources": "7a6a73ae143ccb5507dac5b65a61b55a4cd547c100828a9f7d6deecf0b7e9983"
       },
-      "version": "2.53.0"
+      "version": "2.65.1"
     },
     "com.google.api.grpc:proto-google-iam-v1": {
       "shasums": {
-        "jar": "c5b4c91c715108d85d67a4399da82bb5a5ddc94fab9058352cc9a6ffc7bf410f",
-        "sources": "bd602e8aef681b95c08f936d5cc12549f100571a3e7a269ae9e414c28dff6f6b"
+        "jar": "560ca1d0e61f95a8d7c9931d15911fc814b278a50274f2bbb775e9ce32cb1187",
+        "sources": "2b5b4e2f11ee31b1540096208345ac99d43b9970d6da2fad20a70ef44eb8c1e1"
       },
-      "version": "1.45.1"
+      "version": "1.60.1"
     },
     "com.google.api:api-common": {
       "shasums": {
-        "jar": "335933f1043d3b4022e301a7bba2a5614bbd59df88e6eb7e311d780669d55c20",
-        "sources": "48911d85a7145c42304c71ce9940f994a5987ef53317ac2bcae902b653e37f7b"
+        "jar": "d9f5f9f16d045e08bb5d2fc0648d73716eb7f5d5985601563376e0dc03c4f28c",
+        "sources": "cce4ff59c4a1db60417582777b4d4300bb3efaca9cfed06ee62bc3ac0b4db720"
       },
-      "version": "2.45.0"
+      "version": "2.57.1"
     },
     "com.google.api:gax": {
       "shasums": {
-        "jar": "01a7383c6f6269a937f53d451ff49a52572d1cc508fe271d1aaf0fe1510c6225",
-        "sources": "2966505226519129f9ba56ba31ea280547147f216a22eefee5fcf026c641235b"
+        "jar": "e8d42d4ac4f3fe1f13f5d7ff866536a6cf834762eba86976623c0a866056d662",
+        "sources": "39d5abf0f235492aee4f0b5ae9a926f91043a6297fdc21edf4733a244845ffeb"
       },
-      "version": "2.59.1"
+      "version": "2.74.1"
     },
     "com.google.api:gax-grpc": {
       "shasums": {
-        "jar": "28f90ee37d982e2ffcd9a706c7c01608f6178fd748ee99d10988cdfa70bda97a",
-        "sources": "f20e7268e0a1cad0d0176cfea03c007ca1cc45a28c8626181d8ca0d606544684"
+        "jar": "7aea2cb1004fa151da6451d7e484a4e2b92646461a5032f5773f6a00c562dec8",
+        "sources": "11b8144bd1601c4e122eb14e8617f6dc8a43957298de98d0384c5ae6b9878ffd"
       },
-      "version": "2.59.1"
+      "version": "2.74.1"
     },
     "com.google.api:gax-httpjson": {
       "shasums": {
-        "jar": "9c808b2482b406207135dc729bdb2a1656330b3cfe24c798800f808dc2bad466",
-        "sources": "535d69300c2dea278a6db0774376d61f6389cb16a71c215f1efef6576f263eed"
+        "jar": "38df47e2ed3ddc4ed74228578b095106ffcb405cc31ec7d27bbc2aaed776a684",
+        "sources": "5e1f557cdf930b64098f11f44061fdf352234fe1e8c12636a6203759feb5b6fe"
       },
-      "version": "2.59.1"
+      "version": "2.74.1"
     },
     "com.google.apis:google-api-services-storage": {
       "shasums": {
-        "jar": "551cd561d024c1711a9f43411988f68b73d653e47dbe4a66f551640dbb7e8977",
-        "sources": "6975ba3c5890e29feaf58c6ad85843f17f451cf96b6b5802e9c645ab41e8cafd"
+        "jar": "5b43beab740db6a583fe1868168f91a20a1a0aed4bda4570f74185ba63663f6c",
+        "sources": "08c829f67390260b91bf583cccf3f4b60b815b081c556d423079f7a1b9a7312d"
       },
-      "version": "v1-rev20241206-2.0.0"
+      "version": "v1-rev20251118-2.0.0"
     },
     "com.google.auth:google-auth-library-credentials": {
       "shasums": {
-        "jar": "96085f0600537e7d91c2eba9dfe2cc0b171031f8ae821027e3713d32074ccbe8",
-        "sources": "f34105b14d1f64398a5d33167a2c28755e24021e97880f43f66ec2bfdcb64e3f"
+        "jar": "d29934610c3e9eb6c60e95ad05ca34ce486c3867c2f3689548b4aa2c2dd6ec52",
+        "sources": "1bcd7b60b9edac12243b022d82441e24160e86fea82545e5f4f4da60fdf2a71e"
       },
-      "version": "1.33.0"
+      "version": "1.42.1"
     },
     "com.google.auth:google-auth-library-oauth2-http": {
       "shasums": {
-        "jar": "6ef8d2cfad3396d8bda0178dbde06cb162c1f27665a28e1202f4058b49db5438",
-        "sources": "75c5b2cf4b124b146bc3759c7195a172ab8da0f72c651a9a1be39c22f0363799"
+        "jar": "fb54ada3c0223ffb4470fb6d8fbd55f764588dbd244dc7c05caaf4ab62977898",
+        "sources": "a0b5b496d40483a896cfcc9ff000edf0b8a7e365d68803eb18916e5e0aef00e6"
       },
-      "version": "1.33.0"
+      "version": "1.42.1"
     },
     "com.google.auto.value:auto-value-annotations": {
       "shasums": {
@@ -1554,31 +1572,31 @@
     },
     "com.google.cloud:google-cloud-aiplatform": {
       "shasums": {
-        "jar": "46de00c7cd9ff9104e108c77c5fe955cb3758350e6bb2a32c4d2b81caabe078d",
-        "sources": "4d6f35f251c24939063747a3390a99b52021133f13d84e6e0249726b0d76bb93"
+        "jar": "ae1ef7723f749c68dbfd076034490b929507c42bf52ed451def583805f28bdfe",
+        "sources": "4e4d1b28cce7a9a7d7b793f1eae860f723f7a392af5e8330818faeb4e04ae702"
       },
-      "version": "3.57.0"
+      "version": "3.86.0"
     },
     "com.google.cloud:google-cloud-core": {
       "shasums": {
-        "jar": "3076e6b0dc9939f1a450c1363947dbfa05b2b54a16406a1ec5fad2252810be40",
-        "sources": "ce98cd13e364ab512a462ea3955a186571b43a5df7c0f39d92e71696444f6906"
+        "jar": "31aa0f2a40198cc2c53cb767cd95aaf077aba756564b13f2918bc93164631b90",
+        "sources": "6386fc3833695689eee77cd46fa2f21fc534c1bfb0a7db8f6056860a45cfbe1e"
       },
-      "version": "2.49.1"
+      "version": "2.64.1"
     },
     "com.google.cloud:google-cloud-core-grpc": {
       "shasums": {
-        "jar": "861c1417205a8517cedd3bcf90814eb30b713adb0f709047494cb5085f64ed2f",
-        "sources": "fec9e372be6b5a65e87ec6eee23a697286d68646143ec319ae30371bfcd6c195"
+        "jar": "fdca3d5819dbea79b85827551a3a4c96617ffac5dbe80828ae00c63a12971248",
+        "sources": "7e6133d32ff8db86d27c77c70895fc4dd0fd10a27069179e0c55eaa119897384"
       },
-      "version": "2.49.1"
+      "version": "2.64.1"
     },
     "com.google.cloud:google-cloud-core-http": {
       "shasums": {
-        "jar": "9c722b5b6de61decb531e3c09fa3b721cdb218756f99635b69211252ba36338b",
-        "sources": "1b78a274a7a44ed4f6859789ddba129ea67f98d4ff63804098fdc3420dce7966"
+        "jar": "1580f1427fd77eb2d5a5dcbabf5f856ce2276a447e89832c8ee59e09c30a4d57",
+        "sources": "109599cb89133f24a66cd2a77637f32609f655b7e9e3af58d46d8af91803cdca"
       },
-      "version": "2.49.1"
+      "version": "2.64.1"
     },
     "com.google.cloud:google-cloud-monitoring": {
       "shasums": {
@@ -1589,17 +1607,17 @@
     },
     "com.google.cloud:google-cloud-speech": {
       "shasums": {
-        "jar": "e51ce45676682cbef1f3582354b7c6ebdaab6ff9d7e6220022ef6e076f51ab5f",
-        "sources": "3f6fe81edf74703a1f4d51c9a1e99cbeddb8f899e6300793a560bf8915da1e44"
+        "jar": "400eebde89478ee3f239f559b9db3304df291c7101ee862c08422943f81acb9c",
+        "sources": "9be8b188ddbd0ce38d6466d1cffc9748be2be277522c4d49045e377d42c8f6da"
       },
-      "version": "4.51.0"
+      "version": "4.80.0"
     },
     "com.google.cloud:google-cloud-storage": {
       "shasums": {
-        "jar": "1cb9df5f7f8cea38348dc6d22bc8cf129badaa13c5c555650756426d5ce30646",
-        "sources": "a5b9b37cda6636aa13c258d8a9986c9af859a5b006de741bd19dded7d7141d8d"
+        "jar": "174ad1e7a58909b446822a3bd9b53715b2ffd6d59b1da904caa5608302f009c1",
+        "sources": "97defececc46cf510b56e6d258ae57ec1d23e986e8009eee7ff0874f972a316f"
       },
-      "version": "2.47.0"
+      "version": "2.63.0"
     },
     "com.google.code.findbugs:jsr305": {
       "shasums": {
@@ -1617,17 +1635,17 @@
     },
     "com.google.errorprone:error_prone_annotations": {
       "shasums": {
-        "jar": "48272e75c16e1f7bdc7bd19529ccacd5ee170404701d7f5a23441bb5847957f5",
-        "sources": "458c91db60611551ede96c331c0632ee6d6cb0e5fcf1793d73017207530ebb52"
+        "jar": "5364bc6f22e72e98195e406a58d3ba1c09ffa11dea0729592cb870dc2de4056d",
+        "sources": "a253b9fee9e23bce516f5edc45849fb7d13f8dac04b961a95bac6f0c71fdd066"
       },
-      "version": "2.43.0"
+      "version": "2.47.0"
     },
     "com.google.genai:google-genai": {
       "shasums": {
-        "jar": "8d090285eca1f1a810be98c88f86924cac616cfacfedc62bd7b47109a16fd028",
-        "sources": "ddea8efea74d574ec85c5ac1fceb4ee9fbeb82ed7de251e23942b198efc95324"
+        "jar": "ba681fb4f96ef380e22a439bfa19989aaf290b0c4712fc598d5c566d4e65e8ac",
+        "sources": "9a08dd37272c1187e1536ea3538ad575b83cdad7c0954b793a2d8d2e50f49ee9"
       },
-      "version": "1.32.0"
+      "version": "1.41.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -1651,38 +1669,38 @@
     },
     "com.google.http-client:google-http-client": {
       "shasums": {
-        "jar": "850e0b401961fd047a7cab760d25cbb01bbee4d0c69a8a4817d4ac732d0c335b",
-        "sources": "6bab0c315edb7ce5b56adaab80adfb38988567e5b5ebe479815b465ccb9fded7"
+        "jar": "20aa0948f6ceb5cfa9b2b3adddd9b7e990ab40230e084081642cbb81235d3eef",
+        "sources": "a366b408d17c526613745c8cc7a6d330de3daa3884e585b68ba4a42b6a022b3d"
       },
-      "version": "1.46.2"
+      "version": "2.1.0"
     },
     "com.google.http-client:google-http-client-apache-v2": {
       "shasums": {
-        "jar": "39ded69dfbd8b8297b81050193dfb80862338a32aeeecaa135d7759631e4955b",
-        "sources": "3ef05c0b775db83fbf3bd95dec67548c264b293474a5a7dba61606671813ed70"
+        "jar": "8bc85182d22bf5ea39a33c6b5e4cf38c0bc3166a47d64879de117a5eadb4439b",
+        "sources": "ad5dce1325daf9887a9bde8f89b5e46137fdc606747b2b8c2b8cb4e995ba9400"
       },
-      "version": "1.45.3"
+      "version": "2.1.0"
     },
     "com.google.http-client:google-http-client-appengine": {
       "shasums": {
-        "jar": "f6d908317e0ad50a055c3b616ff55ec05ae3fcf831333f2adce7a0f1ca688f65",
-        "sources": "8e7cd4bcdadabe408bd920df7faa6f2c325d189419f8671c44c7a082d6fd22f9"
+        "jar": "75daee37c354c87c40c32453e8be942597ecaf3b38b7ac4974312f8ce4b3d207",
+        "sources": "4f5f71656b59376fafde991297fd7051be6f8900655cbb546198e72a61c3a396"
       },
-      "version": "1.45.3"
+      "version": "2.1.0"
     },
     "com.google.http-client:google-http-client-gson": {
       "shasums": {
-        "jar": "15fcfb1d628a27d0a2ac648ae99320fd8e698ec47c1af750ea6f6e078e682726",
-        "sources": "3016dcede60940bd5ffe344ea27786b82e99661ff64f7904806ee6a87fe76683"
+        "jar": "3cf72c7b88375a34bf721c664f42edc8e096e2370e4126c9b8933c3c92e591f3",
+        "sources": "55deaa874da64a88362f9df5da2f02f2c45040db40101a3293e435b04a809937"
       },
-      "version": "1.46.2"
+      "version": "2.1.0"
     },
     "com.google.http-client:google-http-client-jackson2": {
       "shasums": {
-        "jar": "fffd2009eac7bcf8440cbc2e095daf8c1458b5097d273a06dfcc65fe190ea91b",
-        "sources": "c72937225f3567f40ef17db07481dd14d1f327c3531ef3e9dd1abad177ef3110"
+        "jar": "369a3a9ff7254869da24a6d259ee49e1425f6294186ee3cba3fb7980d117f59e",
+        "sources": "a3a5ace4feb091cc0c649a82dbe0aa5f71e967067115839848ff997bee548d11"
       },
-      "version": "1.45.3"
+      "version": "2.1.0"
     },
     "com.google.j2objc:j2objc-annotations": {
       "shasums": {
@@ -1693,10 +1711,10 @@
     },
     "com.google.oauth-client:google-oauth-client": {
       "shasums": {
-        "jar": "ea6402c6c9acfba158c64f080529e92492fa5d994cb7b1bb62e4cd9f125c04e0",
-        "sources": "06e59460d42830379d08a67dc7d5e134c3b821da19063847cb0c5d5349098d12"
+        "jar": "27fc61ee2d526e33d31350b5ea383091c0879345e261f9b2e6fcc97a20c86f88",
+        "sources": "bbd916c52b4206f8b571c803f5c28791ba53271a8c848f49cb350f7306adf37f"
       },
-      "version": "1.37.0"
+      "version": "1.39.0"
     },
     "com.google.protobuf:protobuf-java": {
       "shasums": {
@@ -1714,10 +1732,10 @@
     },
     "com.google.re2j:re2j": {
       "shasums": {
-        "jar": "4f657af51ab8bb0909bcc3eb40862d26125af8cbcf92aaaba595fed77f947bc0",
-        "sources": "ddc3b47bb1e556ac4c0d02c9d8ff18f3260198b76b720567a70eed0a03d3fed6"
+        "jar": "7b52c72156dd7f98b3237a5b35c1d34fba381b21048c89208913ad80a45dfbd7",
+        "sources": "4378db846db2d91c8028fe32efcb183a1f1b4157339d0a3b4c46b2c6b0655d7c"
       },
-      "version": "1.7"
+      "version": "1.8"
     },
     "com.graphql-java:graphql-java": {
       "shasums": {
@@ -2119,122 +2137,122 @@
     },
     "io.grpc:grpc-alts": {
       "shasums": {
-        "jar": "9c9b3e6455ee4568a62cce4d0a251121fbb59ff22974acbf16f3b2cdea0c0d43",
-        "sources": "18a601dcf0be61d6901e84f42493c35d17fb3e9ad3e20668b61f0e1c81998974"
+        "jar": "b53bfb144def7803317ddf6ff4318fdafff7092f0e17a0826ddf085b8e113fd7",
+        "sources": "c9c27915cc0d4e4aca8504517c3ea6686e39387debfb63a3c6694c440c050caa"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-api": {
       "shasums": {
-        "jar": "45faf2ac1bf2791e8fdabce53684a86b62c99b84cba26fb13a5ba3f4abf80d6c",
-        "sources": "4797fb5b5fb495df9da6995792167862cef60ed2e392776c434d5df4098f1168"
+        "jar": "04f718dfb9b232bb6b7800dbb133f6c62c7d7c9bf27c4086f3fc523d7bb905be",
+        "sources": "95f195e5990eb07eddcfa07ff372151930774cb38b5b4f4ce5be9df6e3ed4222"
       },
-      "version": "1.70.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-auth": {
       "shasums": {
-        "jar": "06577b8c390991b196000153b80fd67861fb98906be26547183df171306dcde8",
-        "sources": "e68f638adb62e075bdd77c37e1d6b47979f211d1184fcb7b6fcadb3e28ea5de1"
+        "jar": "66928fb5388e4d9d0ace7617d5fc82208ecb8bbdd2453c6039c0c46909253ca2",
+        "sources": "edcbfe3eb2a1d019d71969c454071c2978dbd91bf275a9f363452c08a931afe5"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-context": {
       "shasums": {
-        "jar": "eb2824831c0ac03e741efda86b141aa863a481ebc4aaf5a5c1f13a481dbb40ff",
-        "sources": "419603fecc423fb2704c67dd7ad91fdf51637f004fc114dfb9f42d225e8ce40b"
+        "jar": "081bd69e944477ca0a90a440b197739220015493f6e9d17ed736bcb47e834c52",
+        "sources": "075de85416d2576c35685150fd60776b162830711dd30d6abcb8d5b502d9d8c2"
       },
-      "version": "1.70.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-core": {
       "shasums": {
-        "jar": "817fbb87f8119c40f2b276f49340effd880e7e574095d3a8fb798a94e3f66652",
-        "sources": "a5de00973cc68fcbb0a79d50f7bc4d19c6846c6eb5bf9082b8a5cf1615992349"
+        "jar": "e75f3f22125724d9a6a62e6a4a8472e42663613978c5782359e3f8277c6e059f",
+        "sources": "66756b3c670581888a8d0b218aee21818f6f187d553dc94c56e32a49c3c19445"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-googleapis": {
       "shasums": {
-        "jar": "4b5fd5861f07104f71709db0e3942db84493590b387f27ac889b3682a1027d75",
-        "sources": "e0344b0b4fc48ec3e9336da212d8c4d78af8f7b2bd9c164bd0c867fd22554aba"
+        "jar": "6372ddbcd3a2aa53753ab18d067e1d0a0841eb486af4a5ac3e4d7864f7cc6c37",
+        "sources": "87126ad0b0b292baee46890ec41a01eddcd8eeaf5a2696849c3f99f19d401895"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-grpclb": {
       "shasums": {
-        "jar": "0c3c99aa353386cf0e03eb1aab913efe939a14cc92483e899f4677b859916e26",
-        "sources": "59cac706c0a84ae2c9c8bcdd79a00a58cd6586605e1bb510b32778e7869cc271"
+        "jar": "e9efb20aea79b58bedb81da3e0ddee2be1f13ce99dfc443e4ba8fe2f6dca6065",
+        "sources": "c871491b25d9586731ef2d28515813c7a906f4bce7e6b904097e7e55f9c28e61"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-inprocess": {
       "shasums": {
-        "jar": "d057ecd320020baad0f672d1ca80e354d7769960f81c6a094f1399085c93911f",
-        "sources": "3336e47ecd05bd0a4a7f188cfbfb9affed511be4bc5ae3a617eebb911aeae462"
+        "jar": "261bdb1a71ecf7454898edda41981a15929cc43379a31f4c4d4c3c9710975e09",
+        "sources": "e90c79b19d8da94b7fc3962090bf9b1d9560dc964048a556254241c032b84fc5"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-netty-shaded": {
       "shasums": {
-        "jar": "958a6b82350ff808d289603eba8f0847dc35f236d109fdfe3c8e5295687e387b",
-        "sources": "a2ac5373e3f1021ec3f936b7c994b5fb94b391a8db24333825a0c081163d9efd"
+        "jar": "9314d5c863999698e11a9772e2582e356a209e0807838204486e95b4d9ae9e53",
+        "sources": "075de85416d2576c35685150fd60776b162830711dd30d6abcb8d5b502d9d8c2"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-opentelemetry": {
       "shasums": {
-        "jar": "233cfe9548d10759fdf320def3cf8e49608dbba3f73e2610a086049a99b33a8f",
-        "sources": "4f4a416bf6a0508ac602c33e65bff6c93fca7d75ac060d0ade604bfce4b38a64"
+        "jar": "3c2fee12c7cbae2aa5b3d064d41a0ae3b0cc6c7a4539ba3557f49c1ab030a2da",
+        "sources": "21fc51acb2d2b375148e0a10af1f80c8954ae07d682cd5c1bc398319f1c3e440"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-protobuf": {
       "shasums": {
-        "jar": "999fa3b9baf4b5e361c91641dcca7594fefcef01bff65d4fe505fa8285dc3600",
-        "sources": "bcfef6b2ba34ad80d0d1effba2b0937c0ccb1cebebcb6e840d8e43e79bfdb2aa"
+        "jar": "722498ce847b9b8ca490b5c62edbe99d4a13acd4ae59e1ea12a66e725842f96f",
+        "sources": "0dcde670e62d7c118ad09e49e4a117a1023ab209ac83be9e37fbe77f0cf2e394"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-protobuf-lite": {
       "shasums": {
-        "jar": "5d0ded291edbb4820209a78786b39646c9c6ca3a89f169e92382bbe5d29d43df",
-        "sources": "76f96be071e5c86f88217174293576ab5a64b8b531b468c26edd1c81efd385e9"
+        "jar": "52a054f7f9e43ea33935dcb25e66598c6c9b79d1d555e8a5dc42a0edbaad4b76",
+        "sources": "7a5a0dd54be4ab9edf2b41ac4be6c9e2bec80d5b925c1a7a46bc0c7ca900a28f"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-rls": {
       "shasums": {
-        "jar": "a7cca3feda9504872bc7f19bd9b3eb4f6986fc04eb015da1448c29c404f86ec5",
-        "sources": "bfa75c775e81a71a0c7771ab6004a75f1444f9f21cf7f6afca1039d3e094fde7"
+        "jar": "f9dda6e7c948000d5895fe6fd5c2aa4603141225d8a1fbfedfeff95ec59f9e9b",
+        "sources": "5418111d2a285a0733ca579352765bfc87c148db18a0902329f8b033324b0290"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-services": {
       "shasums": {
-        "jar": "5b855f3820f6578f28bf306482e6b00715743e757bde9c9223444cb7d9b4444d",
-        "sources": "9e01205d8c8e166a3cea9323eaa266806c79c188e142df62eafd9c5cd1163c0c"
+        "jar": "d97b1b96576db7c1a9be4f671990f1163de03fcf34110c36c4f2796a540650bd",
+        "sources": "ebac4e925d150c33ab43e2ced8a98d3d68e57c96f5d7a72b68f72a5531ab2a66"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-stub": {
       "shasums": {
-        "jar": "d515b3680ddc5dd7a25b0db3a72ced719a9a6006dca7810afe354069cc5908fe",
-        "sources": "23c093d06b35c3d4325538e533986331c0fab1352694ab5cf907be35f22d88b4"
+        "jar": "943908f32686879ee50e29c4a9acad97d4af9bf7e89f2d2eaf350d0cc3df5ea2",
+        "sources": "d2ba2aeec10a76a541346bf10b1b8c0fa265879bf0e0cb46c0c6f3f706e0ba6a"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-util": {
       "shasums": {
-        "jar": "22b47e755dc271c1738327162366599c4faf25ae1d1356455d6191d472841b94",
-        "sources": "89aaa0fcadd5ebdb423a75c1efad108301a772ab4173da64f5be4f91d3b77812"
+        "jar": "dc019ed85f444c0576eab221be659861ff3a3653354627155bc5dff4dd9393b8",
+        "sources": "35ca3c9df683385f4e587001c516d3bfe6032feeb1051ba95b1d7e90ae62acca"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.grpc:grpc-xds": {
       "shasums": {
-        "jar": "6edabf669e3b4d2ef694b27a5acb8656ca165e9823535c8a32b10e06bc849243",
-        "sources": "5282391a7d8b1c58821cc791a0aafdea34663b812bdd08ff3a9077e5b23ec1e2"
+        "jar": "16fd53a43872d8fc1771c854ac42408422a4b270ca260a75cb47dc5b6ee6f4ed",
+        "sources": "6ee0afd7804b9b9be06f71abb6313cce87bfe4953d956a87aec406089147f90f"
       },
-      "version": "1.69.0"
+      "version": "1.76.2"
     },
     "io.micrometer:context-propagation": {
       "shasums": {
@@ -2462,10 +2480,10 @@
     },
     "io.opentelemetry.semconv:opentelemetry-semconv": {
       "shasums": {
-        "jar": "9d63590c51a3455f440841e149b132bfd4d46eccbff9823d10211c1cec3e97f0",
-        "sources": "b5f779fefc7577d10bb35c92567b35063e24c4e56d113d100eecc1742aee65c7"
+        "jar": "a95f1aed7e3f64353ec625c6def72a0caaf06b6c53970f578fdd513dafd995fd",
+        "sources": "da83091e8f820a56844a25879fbf924cc1b6797efcf155f0bb1a688c079f469b"
       },
-      "version": "1.27.0-alpha"
+      "version": "1.29.0-alpha"
     },
     "io.opentelemetry:opentelemetry-api": {
       "shasums": {
@@ -2473,13 +2491,6 @@
         "sources": "45ce4df9b8157e57e07dbd68784d3877474bd2fc2291954ef32b5666845d5c7f"
       },
       "version": "1.49.0"
-    },
-    "io.opentelemetry:opentelemetry-api-incubator": {
-      "shasums": {
-        "jar": "4a664ae100e727c42d22b099b168cdd4f43ed6fec9dc152f2e3afc6aa1143b03",
-        "sources": "8f4fee25d463fc255763b755e36e792b2737cd2c5f7f2a2a89069634677427d4"
-      },
-      "version": "1.45.0-alpha"
     },
     "io.opentelemetry:opentelemetry-context": {
       "shasums": {
@@ -3078,6 +3089,13 @@
         "sources": "4270ce5531ed0f12e4234e08f240ef3b45ee3ceeb16e28d44abc61c12cf522ca"
       },
       "version": "1.24"
+    },
+    "org.codehaus.woodstox:stax2-api": {
+      "shasums": {
+        "jar": "a61c48d553efad78bc01fffc4ac528bebbae64cbaec170b2a5e39cf61eb51abe",
+        "sources": "d20d4c7af14adf8025f719f8e6255659495e4836256b5b1b816be30b5e76f1b7"
+      },
+      "version": "4.2.2"
     },
     "org.conscrypt:conscrypt-openjdk-uber": {
       "shasums": {
@@ -4578,7 +4596,7 @@
       "com.google.guava:listenablefuture",
       "com.google.j2objc:j2objc-annotations",
       "javax.annotation:javax.annotation-api",
-      "org.checkerframework:checker-qual"
+      "org.jspecify:jspecify"
     ],
     "com.google.api.grpc:proto-google-cloud-aiplatform-v1beta1": [
       "com.google.auto.value:auto-value-annotations",
@@ -4588,7 +4606,7 @@
       "com.google.guava:listenablefuture",
       "com.google.j2objc:j2objc-annotations",
       "javax.annotation:javax.annotation-api",
-      "org.checkerframework:checker-qual"
+      "org.jspecify:jspecify"
     ],
     "com.google.api.grpc:proto-google-cloud-speech-v1": [
       "com.google.auto.value:auto-value-annotations",
@@ -4598,7 +4616,7 @@
       "com.google.guava:listenablefuture",
       "com.google.j2objc:j2objc-annotations",
       "javax.annotation:javax.annotation-api",
-      "org.checkerframework:checker-qual"
+      "org.jspecify:jspecify"
     ],
     "com.google.api.grpc:proto-google-cloud-speech-v1p1beta1": [
       "com.google.auto.value:auto-value-annotations",
@@ -4608,7 +4626,7 @@
       "com.google.guava:listenablefuture",
       "com.google.j2objc:j2objc-annotations",
       "javax.annotation:javax.annotation-api",
-      "org.checkerframework:checker-qual"
+      "org.jspecify:jspecify"
     ],
     "com.google.api.grpc:proto-google-cloud-speech-v2": [
       "com.google.auto.value:auto-value-annotations",
@@ -4618,7 +4636,7 @@
       "com.google.guava:listenablefuture",
       "com.google.j2objc:j2objc-annotations",
       "javax.annotation:javax.annotation-api",
-      "org.checkerframework:checker-qual"
+      "org.jspecify:jspecify"
     ],
     "com.google.api.grpc:proto-google-common-protos": [
       "com.google.protobuf:protobuf-java"
@@ -4632,6 +4650,7 @@
       "javax.annotation:javax.annotation-api"
     ],
     "com.google.auth:google-auth-library-oauth2-http": [
+      "com.google.api:api-common",
       "com.google.auth:google-auth-library-credentials",
       "com.google.auto.value:auto-value-annotations",
       "com.google.code.findbugs:jsr305",
@@ -4687,9 +4706,9 @@
       "javax.annotation:javax.annotation-api",
       "org.apache.httpcomponents:httpclient",
       "org.apache.httpcomponents:httpcore",
-      "org.checkerframework:checker-qual",
       "org.codehaus.mojo:animal-sniffer-annotations",
       "org.conscrypt:conscrypt-openjdk-uber",
+      "org.jspecify:jspecify",
       "org.threeten:threetenbp"
     ],
     "com.google.cloud:google-cloud-speech": [
@@ -4740,13 +4759,18 @@
       "javax.annotation:javax.annotation-api",
       "org.apache.httpcomponents:httpclient",
       "org.apache.httpcomponents:httpcore",
-      "org.checkerframework:checker-qual",
       "org.codehaus.mojo:animal-sniffer-annotations",
       "org.conscrypt:conscrypt-openjdk-uber",
+      "org.jspecify:jspecify",
       "org.threeten:threetenbp"
     ],
     "com.google.cloud:google-cloud-storage": [
+      "com.fasterxml.jackson.core:jackson-annotations",
       "com.fasterxml.jackson.core:jackson-core",
+      "com.fasterxml.jackson.core:jackson-databind",
+      "com.fasterxml.jackson.dataformat:jackson-dataformat-xml",
+      "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
+      "com.fasterxml.woodstox:woodstox-core",
       "com.google.android:annotations",
       "com.google.api-client:google-api-client",
       "com.google.api.grpc:gapic-google-cloud-storage-v2",
@@ -4809,7 +4833,6 @@
       "io.opentelemetry.contrib:opentelemetry-gcp-resources",
       "io.opentelemetry.semconv:opentelemetry-semconv",
       "io.opentelemetry:opentelemetry-api",
-      "io.opentelemetry:opentelemetry-api-incubator",
       "io.opentelemetry:opentelemetry-context",
       "io.opentelemetry:opentelemetry-sdk",
       "io.opentelemetry:opentelemetry-sdk-common",
@@ -4821,7 +4844,9 @@
       "javax.annotation:javax.annotation-api",
       "org.checkerframework:checker-qual",
       "org.codehaus.mojo:animal-sniffer-annotations",
+      "org.codehaus.woodstox:stax2-api",
       "org.conscrypt:conscrypt-openjdk-uber",
+      "org.jspecify:jspecify",
       "org.slf4j:slf4j-api",
       "org.threeten:threetenbp"
     ],
@@ -4836,7 +4861,6 @@
       "com.google.auth:google-auth-library-oauth2-http",
       "com.google.protobuf:protobuf-java",
       "com.squareup.okhttp3:okhttp",
-      "org.apache.httpcomponents:httpclient",
       "org.java-websocket:Java-WebSocket",
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
       "org.jspecify:jspecify"
@@ -5406,7 +5430,6 @@
     ],
     "org.apache.httpcomponents:httpclient": [
       "commons-codec:commons-codec",
-      "commons-logging:commons-logging",
       "org.apache.httpcomponents:httpcore"
     ],
     "org.apache.kafka:kafka-clients": [
@@ -6568,6 +6591,14 @@
     "com.fasterxml.jackson.dataformat:jackson-dataformat-toml": [
       "com.fasterxml.jackson.dataformat.toml"
     ],
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml": [
+      "com.fasterxml.jackson.dataformat.xml",
+      "com.fasterxml.jackson.dataformat.xml.annotation",
+      "com.fasterxml.jackson.dataformat.xml.deser",
+      "com.fasterxml.jackson.dataformat.xml.jaxb",
+      "com.fasterxml.jackson.dataformat.xml.ser",
+      "com.fasterxml.jackson.dataformat.xml.util"
+    ],
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": [
       "com.fasterxml.jackson.dataformat.yaml",
       "com.fasterxml.jackson.dataformat.yaml.snakeyaml.error",
@@ -6623,6 +6654,85 @@
       "com.fasterxml.jackson.module.scala.modifiers",
       "com.fasterxml.jackson.module.scala.ser",
       "com.fasterxml.jackson.module.scala.util"
+    ],
+    "com.fasterxml.woodstox:woodstox-core": [
+      "com.ctc.wstx.api",
+      "com.ctc.wstx.cfg",
+      "com.ctc.wstx.dom",
+      "com.ctc.wstx.dtd",
+      "com.ctc.wstx.ent",
+      "com.ctc.wstx.evt",
+      "com.ctc.wstx.exc",
+      "com.ctc.wstx.io",
+      "com.ctc.wstx.msv",
+      "com.ctc.wstx.osgi",
+      "com.ctc.wstx.sax",
+      "com.ctc.wstx.shaded.msv.org_isorelax.catalog",
+      "com.ctc.wstx.shaded.msv.org_isorelax.dispatcher",
+      "com.ctc.wstx.shaded.msv.org_isorelax.dispatcher.impl",
+      "com.ctc.wstx.shaded.msv.org_isorelax.jaxp",
+      "com.ctc.wstx.shaded.msv.org_isorelax.verifier",
+      "com.ctc.wstx.shaded.msv.org_isorelax.verifier.impl",
+      "com.ctc.wstx.shaded.msv.org_jp_gr_xml.dom",
+      "com.ctc.wstx.shaded.msv.org_jp_gr_xml.sax",
+      "com.ctc.wstx.shaded.msv.org_jp_gr_xml.xml",
+      "com.ctc.wstx.shaded.msv.relaxng_datatype",
+      "com.ctc.wstx.shaded.msv.relaxng_datatype.helpers",
+      "com.ctc.wstx.shaded.msv.xsd_util",
+      "com.ctc.wstx.shaded.msv_core.datatype",
+      "com.ctc.wstx.shaded.msv_core.datatype.regexp",
+      "com.ctc.wstx.shaded.msv_core.datatype.xsd",
+      "com.ctc.wstx.shaded.msv_core.datatype.xsd.datetime",
+      "com.ctc.wstx.shaded.msv_core.datatype.xsd.ngimpl",
+      "com.ctc.wstx.shaded.msv_core.datatype.xsd.regex",
+      "com.ctc.wstx.shaded.msv_core.driver.textui",
+      "com.ctc.wstx.shaded.msv_core.grammar",
+      "com.ctc.wstx.shaded.msv_core.grammar.dtd",
+      "com.ctc.wstx.shaded.msv_core.grammar.relax",
+      "com.ctc.wstx.shaded.msv_core.grammar.relaxng",
+      "com.ctc.wstx.shaded.msv_core.grammar.relaxng.datatype",
+      "com.ctc.wstx.shaded.msv_core.grammar.trex",
+      "com.ctc.wstx.shaded.msv_core.grammar.trex.typed",
+      "com.ctc.wstx.shaded.msv_core.grammar.util",
+      "com.ctc.wstx.shaded.msv_core.grammar.xmlschema",
+      "com.ctc.wstx.shaded.msv_core.reader",
+      "com.ctc.wstx.shaded.msv_core.reader.datatype",
+      "com.ctc.wstx.shaded.msv_core.reader.datatype.xsd",
+      "com.ctc.wstx.shaded.msv_core.reader.dtd",
+      "com.ctc.wstx.shaded.msv_core.reader.relax",
+      "com.ctc.wstx.shaded.msv_core.reader.relax.core",
+      "com.ctc.wstx.shaded.msv_core.reader.relax.core.checker",
+      "com.ctc.wstx.shaded.msv_core.reader.trex",
+      "com.ctc.wstx.shaded.msv_core.reader.trex.classic",
+      "com.ctc.wstx.shaded.msv_core.reader.trex.ng",
+      "com.ctc.wstx.shaded.msv_core.reader.trex.ng.comp",
+      "com.ctc.wstx.shaded.msv_core.reader.trex.typed",
+      "com.ctc.wstx.shaded.msv_core.reader.util",
+      "com.ctc.wstx.shaded.msv_core.reader.xmlschema",
+      "com.ctc.wstx.shaded.msv_core.relaxns.grammar",
+      "com.ctc.wstx.shaded.msv_core.relaxns.grammar.relax",
+      "com.ctc.wstx.shaded.msv_core.relaxns.grammar.trex",
+      "com.ctc.wstx.shaded.msv_core.relaxns.reader",
+      "com.ctc.wstx.shaded.msv_core.relaxns.reader.relax",
+      "com.ctc.wstx.shaded.msv_core.relaxns.reader.trex",
+      "com.ctc.wstx.shaded.msv_core.relaxns.verifier",
+      "com.ctc.wstx.shaded.msv_core.scanner.dtd",
+      "com.ctc.wstx.shaded.msv_core.util",
+      "com.ctc.wstx.shaded.msv_core.util.xml",
+      "com.ctc.wstx.shaded.msv_core.verifier",
+      "com.ctc.wstx.shaded.msv_core.verifier.identity",
+      "com.ctc.wstx.shaded.msv_core.verifier.jarv",
+      "com.ctc.wstx.shaded.msv_core.verifier.jaxp",
+      "com.ctc.wstx.shaded.msv_core.verifier.psvi",
+      "com.ctc.wstx.shaded.msv_core.verifier.regexp",
+      "com.ctc.wstx.shaded.msv_core.verifier.regexp.xmlschema",
+      "com.ctc.wstx.shaded.msv_core.verifier.util",
+      "com.ctc.wstx.shaded.msv_core.writer",
+      "com.ctc.wstx.shaded.msv_core.writer.relaxng",
+      "com.ctc.wstx.sr",
+      "com.ctc.wstx.stax",
+      "com.ctc.wstx.sw",
+      "com.ctc.wstx.util"
     ],
     "com.fasterxml:classmate": [
       "com.fasterxml.classmate",
@@ -6860,6 +6970,7 @@
       "com.google.adk.telemetry",
       "com.google.adk.tools",
       "com.google.adk.tools.applicationintegrationtoolset",
+      "com.google.adk.tools.computeruse",
       "com.google.adk.tools.mcp",
       "com.google.adk.tools.retrieval",
       "com.google.adk.utils"
@@ -6963,6 +7074,7 @@
     "com.google.api:gax": [
       "com.google.api.gax.batching",
       "com.google.api.gax.core",
+      "com.google.api.gax.logging",
       "com.google.api.gax.longrunning",
       "com.google.api.gax.nativeimage",
       "com.google.api.gax.paging",
@@ -6997,6 +7109,7 @@
     ],
     "com.google.auth:google-auth-library-oauth2-http": [
       "com.google.auth.http",
+      "com.google.auth.mtls",
       "com.google.auth.oauth2"
     ],
     "com.google.auto.value:auto-value-annotations": [
@@ -7047,6 +7160,7 @@
     ],
     "com.google.cloud:google-cloud-storage": [
       "com.google.cloud.storage",
+      "com.google.cloud.storage.multipartupload.model",
       "com.google.cloud.storage.spi",
       "com.google.cloud.storage.spi.v1",
       "com.google.cloud.storage.testing",
@@ -7778,8 +7892,12 @@
       "io.grpc.netty.shaded.io.netty.util.concurrent",
       "io.grpc.netty.shaded.io.netty.util.internal",
       "io.grpc.netty.shaded.io.netty.util.internal.logging",
+      "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.counters",
+      "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.maps",
       "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues",
       "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic",
+      "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.unpadded",
+      "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.unpadded",
       "io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util",
       "io.grpc.netty.shaded.io.netty.util.internal.svm"
     ],
@@ -7860,6 +7978,7 @@
       "io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.load_balancing_policies.ring_hash.v3",
       "io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.load_balancing_policies.round_robin.v3",
       "io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.load_balancing_policies.wrr_locality.v3",
+      "io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.http_11_proxy.v3",
       "io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3",
       "io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3",
       "io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3",
@@ -8109,13 +8228,6 @@
       "io.opentelemetry.api.trace",
       "io.opentelemetry.api.trace.propagation",
       "io.opentelemetry.api.trace.propagation.internal"
-    ],
-    "io.opentelemetry:opentelemetry-api-incubator": [
-      "io.opentelemetry.api.incubator.events",
-      "io.opentelemetry.api.incubator.logs",
-      "io.opentelemetry.api.incubator.metrics",
-      "io.opentelemetry.api.incubator.propagation",
-      "io.opentelemetry.api.incubator.trace"
     ],
     "io.opentelemetry:opentelemetry-context": [
       "io.opentelemetry.context",
@@ -9661,6 +9773,19 @@
     ],
     "org.codehaus.mojo:animal-sniffer-annotations": [
       "org.codehaus.mojo.animal_sniffer"
+    ],
+    "org.codehaus.woodstox:stax2-api": [
+      "org.codehaus.stax2",
+      "org.codehaus.stax2.evt",
+      "org.codehaus.stax2.io",
+      "org.codehaus.stax2.osgi",
+      "org.codehaus.stax2.ri",
+      "org.codehaus.stax2.ri.dom",
+      "org.codehaus.stax2.ri.evt",
+      "org.codehaus.stax2.ri.typed",
+      "org.codehaus.stax2.typed",
+      "org.codehaus.stax2.util",
+      "org.codehaus.stax2.validation"
     ],
     "org.conscrypt:conscrypt-openjdk-uber": [
       "org.conscrypt",
@@ -12595,6 +12720,8 @@
       "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:jar:sources",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-toml",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-toml:jar:sources",
+      "com.fasterxml.jackson.dataformat:jackson-dataformat-xml",
+      "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:sources",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:sources",
       "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
@@ -12615,6 +12742,8 @@
       "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources",
+      "com.fasterxml.woodstox:woodstox-core",
+      "com.fasterxml.woodstox:woodstox-core:jar:sources",
       "com.fasterxml:classmate",
       "com.fasterxml:classmate:jar:sources",
       "com.flipkart.zjsonpatch:zjsonpatch",
@@ -12974,8 +13103,6 @@
       "io.opentelemetry.semconv:opentelemetry-semconv",
       "io.opentelemetry.semconv:opentelemetry-semconv:jar:sources",
       "io.opentelemetry:opentelemetry-api",
-      "io.opentelemetry:opentelemetry-api-incubator",
-      "io.opentelemetry:opentelemetry-api-incubator:jar:sources",
       "io.opentelemetry:opentelemetry-api:jar:sources",
       "io.opentelemetry:opentelemetry-context",
       "io.opentelemetry:opentelemetry-context:jar:sources",
@@ -13150,6 +13277,8 @@
       "org.checkerframework:checker-qual:jar:sources",
       "org.codehaus.mojo:animal-sniffer-annotations",
       "org.codehaus.mojo:animal-sniffer-annotations:jar:sources",
+      "org.codehaus.woodstox:stax2-api",
+      "org.codehaus.woodstox:stax2-api:jar:sources",
       "org.conscrypt:conscrypt-openjdk-uber",
       "org.conscrypt:conscrypt-openjdk-uber:jar:sources",
       "org.eclipse.jdt:ecj",
@@ -13530,6 +13659,8 @@
       "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:jar:sources",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-toml",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-toml:jar:sources",
+      "com.fasterxml.jackson.dataformat:jackson-dataformat-xml",
+      "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:sources",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml",
       "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:sources",
       "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
@@ -13550,6 +13681,8 @@
       "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources",
+      "com.fasterxml.woodstox:woodstox-core",
+      "com.fasterxml.woodstox:woodstox-core:jar:sources",
       "com.fasterxml:classmate",
       "com.fasterxml:classmate:jar:sources",
       "com.flipkart.zjsonpatch:zjsonpatch",
@@ -13909,8 +14042,6 @@
       "io.opentelemetry.semconv:opentelemetry-semconv",
       "io.opentelemetry.semconv:opentelemetry-semconv:jar:sources",
       "io.opentelemetry:opentelemetry-api",
-      "io.opentelemetry:opentelemetry-api-incubator",
-      "io.opentelemetry:opentelemetry-api-incubator:jar:sources",
       "io.opentelemetry:opentelemetry-api:jar:sources",
       "io.opentelemetry:opentelemetry-context",
       "io.opentelemetry:opentelemetry-context:jar:sources",
@@ -14085,6 +14216,8 @@
       "org.checkerframework:checker-qual:jar:sources",
       "org.codehaus.mojo:animal-sniffer-annotations",
       "org.codehaus.mojo:animal-sniffer-annotations:jar:sources",
+      "org.codehaus.woodstox:stax2-api",
+      "org.codehaus.woodstox:stax2-api:jar:sources",
       "org.conscrypt:conscrypt-openjdk-uber",
       "org.conscrypt:conscrypt-openjdk-uber:jar:sources",
       "org.eclipse.jdt:ecj",
@@ -14492,6 +14625,22 @@
         "com.fasterxml.jackson.dataformat.csv.CsvMapper"
       ]
     },
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml": {
+      "com.fasterxml.jackson.core.JsonFactory": [
+        "com.fasterxml.jackson.dataformat.xml.XmlFactory"
+      ],
+      "com.fasterxml.jackson.core.ObjectCodec": [
+        "com.fasterxml.jackson.dataformat.xml.XmlMapper"
+      ]
+    },
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-xml:jar:sources": {
+      "com.fasterxml.jackson.core.JsonFactory": [
+        "com.fasterxml.jackson.dataformat.xml.XmlFactory"
+      ],
+      "com.fasterxml.jackson.core.ObjectCodec": [
+        "com.fasterxml.jackson.dataformat.xml.XmlMapper"
+      ]
+    },
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": {
       "com.fasterxml.jackson.core.JsonFactory": [
         "com.fasterxml.jackson.dataformat.yaml.YAMLFactory"
@@ -14582,6 +14731,59 @@
     "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources": {
       "com.fasterxml.jackson.databind.Module": [
         "com.fasterxml.jackson.module.scala.DefaultScalaModule"
+      ]
+    },
+    "com.fasterxml.woodstox:woodstox-core": {
+      "com.ctc.wstx.shaded.msv.relaxng_datatype.DatatypeLibraryFactory": [
+        "com.ctc.wstx.shaded.msv_core.datatype.xsd.ngimpl.DataTypeLibraryImpl"
+      ],
+      "javax.xml.stream.XMLEventFactory": [
+        "com.ctc.wstx.stax.WstxEventFactory"
+      ],
+      "javax.xml.stream.XMLInputFactory": [
+        "com.ctc.wstx.stax.WstxInputFactory"
+      ],
+      "javax.xml.stream.XMLOutputFactory": [
+        "com.ctc.wstx.stax.WstxOutputFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory": [
+        "com.ctc.wstx.dtd.DTDSchemaFactory",
+        "com.ctc.wstx.msv.RelaxNGSchemaFactory",
+        "com.ctc.wstx.msv.W3CSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.dtd": [
+        "com.ctc.wstx.dtd.DTDSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.relaxng": [
+        "com.ctc.wstx.msv.RelaxNGSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.w3c": [
+        "com.ctc.wstx.msv.W3CSchemaFactory"
+      ]
+    },
+    "com.fasterxml.woodstox:woodstox-core:jar:sources": {
+      "javax.xml.stream.XMLEventFactory": [
+        "com.ctc.wstx.stax.WstxEventFactory"
+      ],
+      "javax.xml.stream.XMLInputFactory": [
+        "com.ctc.wstx.stax.WstxInputFactory"
+      ],
+      "javax.xml.stream.XMLOutputFactory": [
+        "com.ctc.wstx.stax.WstxOutputFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory": [
+        "com.ctc.wstx.dtd.DTDSchemaFactory",
+        "com.ctc.wstx.msv.RelaxNGSchemaFactory",
+        "com.ctc.wstx.msv.W3CSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.dtd": [
+        "com.ctc.wstx.dtd.DTDSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.relaxng": [
+        "com.ctc.wstx.msv.RelaxNGSchemaFactory"
+      ],
+      "org.codehaus.stax2.validation.XMLValidationSchemaFactory.w3c": [
+        "com.ctc.wstx.msv.W3CSchemaFactory"
       ]
     },
     "com.google.adk:google-adk": {
