@@ -20,7 +20,7 @@
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -343102663,
     "com.squareup.okhttp3:okhttp-jvm": -674460980,
-    "io.confluent:kafka-protobuf-serializer": -2003338147,
+    "io.confluent:kafka-protobuf-serializer": -1992835043,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
     "org.apache.kafka:kafka-clients": -1662559649,
@@ -314,10 +314,10 @@
     "com.squareup.okio:okio-jvm": 1885705569,
     "com.squareup.okio:okio-jvm:jar:sources": -800640846,
     "com.squareup.okio:okio:jar:sources": 1933825344,
-    "com.squareup.wire:wire-runtime-jvm": -1176205024,
-    "com.squareup.wire:wire-runtime-jvm:jar:sources": 1071474835,
-    "com.squareup.wire:wire-schema-jvm": 773855632,
-    "com.squareup.wire:wire-schema-jvm:jar:sources": 743940102,
+    "com.squareup.wire:wire-runtime-jvm": 1921078903,
+    "com.squareup.wire:wire-runtime-jvm:jar:sources": -230672920,
+    "com.squareup.wire:wire-schema-jvm": -1332192447,
+    "com.squareup.wire:wire-schema-jvm:jar:sources": 1938285478,
     "com.squareup:javapoet": 1685340005,
     "com.squareup:javapoet:jar:sources": -1449372676,
     "com.squareup:kotlinpoet": 57732952,
@@ -357,18 +357,18 @@
     "guru.nidi.com.kitfox:svgSalamander:jar:sources": -582112426,
     "guru.nidi:graphviz-java": 628901442,
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
-    "io.confluent:common-utils": 693109155,
-    "io.confluent:common-utils:jar:sources": -213672237,
-    "io.confluent:kafka-protobuf-provider": 1740908737,
-    "io.confluent:kafka-protobuf-provider:jar:sources": -1587753731,
-    "io.confluent:kafka-protobuf-serializer": -2125993628,
-    "io.confluent:kafka-protobuf-serializer:jar:sources": 1410155075,
-    "io.confluent:kafka-protobuf-types": -1267360427,
-    "io.confluent:kafka-protobuf-types:jar:sources": -15393445,
-    "io.confluent:kafka-schema-registry-client": -559231126,
-    "io.confluent:kafka-schema-registry-client:jar:sources": -230243041,
-    "io.confluent:kafka-schema-serializer": -559768263,
-    "io.confluent:kafka-schema-serializer:jar:sources": 2057845140,
+    "io.confluent:common-utils": -94112330,
+    "io.confluent:common-utils:jar:sources": 1180652762,
+    "io.confluent:kafka-protobuf-provider": -352319858,
+    "io.confluent:kafka-protobuf-provider:jar:sources": -1940808940,
+    "io.confluent:kafka-protobuf-serializer": 494661869,
+    "io.confluent:kafka-protobuf-serializer:jar:sources": 1453538367,
+    "io.confluent:kafka-protobuf-types": -555090050,
+    "io.confluent:kafka-protobuf-types:jar:sources": 1233857851,
+    "io.confluent:kafka-schema-registry-client": 2070559791,
+    "io.confluent:kafka-schema-registry-client:jar:sources": -1685048376,
+    "io.confluent:kafka-schema-serializer": -568683977,
+    "io.confluent:kafka-schema-serializer:jar:sources": 1073439344,
     "io.dropwizard.metrics:metrics-core": -1163050132,
     "io.dropwizard.metrics:metrics-core:jar:sources": 2118762524,
     "io.grpc:grpc-alts": 1109695342,
@@ -1935,17 +1935,17 @@
     },
     "com.squareup.wire:wire-runtime-jvm": {
       "shasums": {
-        "jar": "4a99d8a8b51615d06bfd5acea0900f130f3ec684005d487c94c412fe2d907a34",
-        "sources": "d897875715d5b68218d22018c4ae3f1722fb72abe39cd5b06a6c3ca4d28b8987"
+        "jar": "af030ffd368d08235061fe74d905cb127b08f31e0f80a26a8fd8f61472847a11",
+        "sources": "b8ebe500a91ca82babf6ba6d699a1d021a4b8c2bc46965a3b5e6a4cd33e480fa"
       },
-      "version": "5.4.0"
+      "version": "5.5.0"
     },
     "com.squareup.wire:wire-schema-jvm": {
       "shasums": {
-        "jar": "24598bec069e070b42c2c780d0abe223afb8f8255448a1b5f0561cf3a6c7814b",
-        "sources": "4daed48765a1d032a630fe2d50e35246189716f46f4afa81abd41952136dd747"
+        "jar": "19957b7ad5a35cbf883c48cb5ddfd88cef06702ac1b85000fa462ce10fb1b25e",
+        "sources": "c7ace3ae8bb2c4009275dc4e288bde130b23dc8bf34f071b5dc24d9085275989"
       },
-      "version": "5.4.0"
+      "version": "5.5.0"
     },
     "com.squareup:javapoet": {
       "shasums": {
@@ -2088,45 +2088,45 @@
     },
     "io.confluent:common-utils": {
       "shasums": {
-        "jar": "03d618dcd3b538ea92be9e607f987b4bcdd8780890d796400d305ebb8b2200e5",
-        "sources": "ac35d842b92988f5b07649b427ab3ae6f23c5b73e5a5ec8323243c4feed785fb"
+        "jar": "c5828ad798d06005becd79bb7e6eb848357a8e1833f2487cc796621853e61564",
+        "sources": "d211a20c9221404ec7ebb6c4467cbbacc3795bde6f7b73701275d5ca3c8cfc38"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.confluent:kafka-protobuf-provider": {
       "shasums": {
-        "jar": "d35818ed6235d7b76875d47a060e7b737135656cfb551648a54e2c71d8659f6e",
-        "sources": "0f0870c206c8ea07c9fcdd17cc6d5bc3aa191adb52400011dec487414340bd0c"
+        "jar": "1f9344ce2b8a0e76868976d26355c717d9b99f11eb6c14575f8b84ef4365cab4",
+        "sources": "03bc022f1df4517488ea3964ef0b35974074d61573a7e31e016f7f0b87e4079f"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.confluent:kafka-protobuf-serializer": {
       "shasums": {
-        "jar": "3b79d2112106d4ae049572843843e8ce9b4f5b76b75746f95cddfbda43f6076b",
-        "sources": "26127a0b54b3e7b591872ea23e61514d8d96f3f0203f1747d75373c399ca2ade"
+        "jar": "d57d87b00ae21a5174779a2cd06a0a7224bcf16ac21089fe27f770299cb317e7",
+        "sources": "5c7152c5297b646004e0f0c15129b10073d70a60e9371fe09c9621af13e2cf8b"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.confluent:kafka-protobuf-types": {
       "shasums": {
-        "jar": "20ccd4756423bfead1cdd99eded0faba6dfcc4cad2814a732d1a2d0426174583",
-        "sources": "309df5ccf170f8e68749110315a64550362357547fe541f6054ae1c313498a6d"
+        "jar": "4d5b3f898f81fb576113d2cd36689bb8f60f831be2a7469526c75af37358a3ae",
+        "sources": "00e0215457403556cb2cb6cc055fd6eacb6b211e7a7244a96e2ae069c6b3bb82"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.confluent:kafka-schema-registry-client": {
       "shasums": {
-        "jar": "5ec3911e3f47be2e7ecbe49249a15cdcbe6f423755b008c0a2aa818024d576b6",
-        "sources": "18294af9af7753ff09d75d4e904a488936e9ed3cd4ab69c50eadcf0c539ab2d1"
+        "jar": "cb3d90a3867a2e5052ada7a9cb64883e48d7ca2048accc10457f5deb421c5b80",
+        "sources": "d16e4623076d0a3e021ee97816da59f22af2a769aa298d24f794812a23fbfbdd"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.confluent:kafka-schema-serializer": {
       "shasums": {
-        "jar": "e11892c1e603bac0a3c6b2b47a4473bfb14bf317767e0e0c21d6eee26cbca3ee",
-        "sources": "ea96e4a85e659af23c9a12898c05f640a55aa71736e7d319d681fcf9ccd50baa"
+        "jar": "2116d7542590bb2d760e02d72ea3ff9c986a86b239301fc467d8ac80d82f8454",
+        "sources": "403b14dbf93be5db664361be3763a4cc00f57a7c4a20aaa31937ebdb42080732"
       },
-      "version": "8.1.1"
+      "version": "8.2.0"
     },
     "io.dropwizard.metrics:metrics-core": {
       "shasums": {
