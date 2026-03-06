@@ -33,13 +33,13 @@
     "https://bcr.bazel.build/modules/aspect_bazel_lib/2.8.1/MODULE.bazel": "812d2dd42f65dca362152101fbec418029cc8fd34cbad1a2fde905383d705838",
     "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.2/MODULE.bazel": "6ea99980c4b80bd7c71b6e748dfc2bb46d5a7b7b03c9975b8fe7c8b9fd7e724f",
     "https://bcr.bazel.build/modules/aspect_rules_cypress/0.7.2/source.json": "1ab4266290f60274835908edbc990dcf6d38e17bb932f3d36ca822c6025db2a9",
-    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.1/MODULE.bazel": "3d26a67737e4613cc6d366ab1ab6ccf9ca089b421eeddafd34b5142f7d2fc082",
-    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.1/source.json": "acc5a52a7bda7cd6dfb983e50a376bb94e83ea63d7375b80af484e6345ea431c",
+    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.2/MODULE.bazel": "d2f4a782e8296a0358a66a2fd20326fa3bba993c1791c2aee7da804231a06995",
+    "https://bcr.bazel.build/modules/aspect_rules_jest/0.25.2/source.json": "733d8dec9c826eee6f23141d662ca89c1c395241564adf5ef6a72057ac4c90ea",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.0.0/MODULE.bazel": "b45b507574aa60a92796e3e13c195cd5744b3b8aff516a9c0cb5ae6a048161c5",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.9.2/MODULE.bazel": "93fd5b85e6e912fb0712cbab453c43271d4ea33a093f84fd587638fbc9f8c145",
     "https://bcr.bazel.build/modules/aspect_rules_js/2.9.2/source.json": "4bff7c03ab387b60deb15649ba575688e62f2a71a7544cbc7a660b19ec473808",
-    "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.1/MODULE.bazel": "8ba8d18e45389a5724c05ac4eeb9313c505720430a466ff11e7f4cdce9b19ff3",
-    "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.1/source.json": "e665df7497a87ee0d77cabb051844efc9cd2d52eb328a6ce37f8522eac43998f",
+    "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.2/MODULE.bazel": "4ce939429dfb5fa4317862ece399151bd2e65369084fba85df4a3201ae7be26d",
+    "https://bcr.bazel.build/modules/aspect_rules_swc/2.6.2/source.json": "f19b5055c46f5d35b4b2edf0800230784193c863e1575a2d3424c4ec11df75d8",
     "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.5/MODULE.bazel": "bcf8f0b6b9375f0f74451e2f70671efae9bb366acef8fdc04675305eaf137f06",
     "https://bcr.bazel.build/modules/aspect_rules_ts/3.8.5/source.json": "fa35e43f6359f654e4b70ce55efdf280d0b06c0b3ef9fc0b06ba52327a0e6311",
     "https://bcr.bazel.build/modules/aspect_tools_telemetry/0.2.6/MODULE.bazel": "cafb8781ad591bc57cc765dca5fefab08cf9f65af363d162b79d49205c7f8af7",
@@ -533,8 +533,8 @@
     },
     "@@aspect_rules_swc~//swc:extensions.bzl%swc": {
       "general": {
-        "bzlTransitiveDigest": "Qx9HF9IyA7ELCK8heZlGHEirIa5eLZEuHK+vISNgjx8=",
-        "usagesDigest": "mWVxrBcc9UIP1npg/JmJJac37LByeaH369hsWq9zUl0=",
+        "bzlTransitiveDigest": "CGzAZSRWTFRCz1WyC5BsBU152PMX5ODQCILl1YJnkxY=",
+        "usagesDigest": "MUiDEqvG0NVNnnJs97qbXjEhtywLwc/mhBMX7Q4SwR4=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -693,7 +693,7 @@
     "@@aspect_tools_telemetry~//:extension.bzl%telemetry": {
       "general": {
         "bzlTransitiveDigest": "cl5A2O84vDL6Tt+Qga8FCj1DUDGqn+e7ly5rZ+4xvcc=",
-        "usagesDigest": "syqRU5RdnFZsCBoYRZKjuxdBsNJYODDcBm69DPVJx1U=",
+        "usagesDigest": "o0HZ7OsC+RLHbJNvKmJqX9f/PWfmbfoddCLpy8oV0cE=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -705,8 +705,8 @@
               "deps": {
                 "aspect_rules_js": "2.9.2",
                 "aspect_rules_ts": "3.8.5",
-                "aspect_rules_jest": "0.25.1",
-                "aspect_rules_swc": "2.6.1",
+                "aspect_rules_jest": "0.25.2",
+                "aspect_rules_swc": "2.6.2",
                 "aspect_tools_telemetry": "0.3.3"
               }
             }
