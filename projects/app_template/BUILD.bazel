@@ -25,6 +25,10 @@ TEST_SRCS = [
     "//projects/app_template/src/test",
 ]
 
+TEST_RUN_SRCS = TEST_SRCS + [
+    "//projects/app_template/src:source_files",
+]
+
 vite_dev_server(
     name = "dev",
     data = SRCS,
@@ -42,7 +46,7 @@ vitest_watch(
 
 vitest_run(
     name = "test_run",
-    data = SRCS + TEST_SRCS,
+    data = SRCS + TEST_RUN_SRCS,
 )
 
 tar(

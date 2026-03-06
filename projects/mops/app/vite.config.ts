@@ -21,5 +21,11 @@ export default defineConfig({
     setupFiles: "./src/test/setup.js",
     // parsing CSS is slow, if you don't have tests that rely on CSS disable it
     css: false,
+    coverage: {
+      provider: "v8",
+      reporter: ["text-summary", "html", "lcov"],
+      reportsDirectory: "./coverage",
+      exclude: ["src/__generated__/**", "src/test/**"],
+    },
   },
 });

@@ -4,6 +4,8 @@ load("//tools/bazel:js.bzl", "js_library")
 
 package(default_visibility = ["//visibility:public"])
 
+exports_files(["coverage_runner.sh"])
+
 vitest_bin.vitest_binary(
     name = "vitest_binary",
 )
