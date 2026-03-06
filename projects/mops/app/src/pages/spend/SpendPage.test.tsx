@@ -19,7 +19,7 @@ import {
   LineItem,
   SpendPageQueryDocument,
 } from "../../__generated__/graphql";
-import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/SpendTable";
+import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/columns";
 
 describe("SpendPage", async () => {
   test("renders table", async () => {
@@ -54,8 +54,12 @@ describe("SpendPage", async () => {
   test("adds line item", async () => {
     const name = "My Line Item";
     const categoryName = "Country";
+    const categoryValueName = "New Zealand";
 
-    const initial = mockSpendPageQuery({ categoryNames: [categoryName] });
+    const initial = mockSpendPageQuery({
+      categoryNames: [categoryName],
+      categoryValueNames: [categoryValueName],
+    });
     const category = initial.result.data.allCategories[0];
 
     const mutation: MockedResponse<
@@ -116,7 +120,7 @@ describe("SpendPage", async () => {
 
     await userEvent.click(categoryInput);
 
-    const option = screen.getByText(category.values[0].name);
+    const option = screen.getByText(categoryValueName);
     await userEvent.click(option);
 
     const saveBtn = await screen.findByText(/Save/);
@@ -129,6 +133,7 @@ describe("SpendPage", async () => {
 
 function mockSpendPageQuery(options?: {
   categoryNames?: string[];
+  categoryValueNames?: string[];
   lineItemNames?: string[];
 }) {
   return {
@@ -139,7 +144,16 @@ function mockSpendPageQuery(options?: {
       data: {
         allBudgets: [],
         allCategories:
-          options?.categoryNames?.map((name) => mockCategory({ name })) ?? [],
+          options?.categoryNames?.map((name, index) =>
+            mockCategory({
+              name,
+              values: [
+                mockCategoryValue({
+                  name: options?.categoryValueNames?.[index],
+                }),
+              ],
+            }),
+          ) ?? [],
         allLineItems:
           options?.lineItemNames?.map((name) => mockLineItem({ name })) ?? [],
       },
@@ -162,20 +176,20 @@ function mockLineItem({
   };
 }
 
-function mockCategory({ name }: Partial<Category>): Category {
+function mockCategory({ name, values }: Partial<Category>): Category {
   return {
     id: name ?? newId(),
     name: name ?? newId(),
-    values: [mockCategoryValue()],
+    values: values ?? [mockCategoryValue({})],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   };
 }
 
-function mockCategoryValue(): CategoryValue {
+function mockCategoryValue(overrides: Partial<CategoryValue>): CategoryValue {
   return {
-    id: newId(),
-    name: newId(),
+    id: overrides.id ?? newId(),
+    name: overrides.name ?? newId(),
   };
 }
 

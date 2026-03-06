@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
+import { PropsWithChildren } from "react";
+import { statsigClient } from "./statsig";
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
@@ -35,14 +37,30 @@ class ResizeObserver {
 
 window.ResizeObserver = ResizeObserver;
 
+const consoleError = console.error;
+vi.spyOn(console, "error").mockImplementation((...args) => {
+  const message = args.join(" ");
+
+  if (message.includes("InMemoryCache") && message.includes("addTypename")) {
+    return;
+  }
+
+  if (message.includes("cache.diff") && message.includes("canonizeResults")) {
+    return;
+  }
+
+  consoleError(...args);
+});
+
 vi.mock("@statsig/react-bindings", () => {
   return {
+    StatsigProvider: ({ children }: PropsWithChildren<{ client?: unknown }>) =>
+      children,
+    useClientAsyncInit: () => ({
+      client: statsigClient,
+    }),
     useStatsigClient: () => ({
-      client: {
-        logEvent: () => {
-          // intentionally empty
-        },
-      },
+      client: statsigClient,
     }),
   };
 });

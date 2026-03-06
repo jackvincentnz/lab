@@ -13,7 +13,7 @@ export function useAddLineItem(
     values: Record<string, string>;
     exitCreatingMode: () => void;
   }) => {
-    const lineItem = mapToLineItem(props.values);
+    const lineItem = mapValuesToLineItem(props.values);
 
     const newValidationErrors = validateLineItem(lineItem);
     if (Object.values(newValidationErrors).some((error) => error)) {
@@ -34,7 +34,9 @@ export function useAddLineItem(
   };
 }
 
-function mapToLineItem(values: Record<string, string>): NewLineItem {
+export function mapValuesToLineItem(
+  values: Record<string, string>,
+): NewLineItem {
   const fields = Object.entries(values)
     .filter(([columnId, columnValue]) => columnId !== "name" && !!columnValue)
     .map(([columnId, value]) => ({ id: columnId, value }));

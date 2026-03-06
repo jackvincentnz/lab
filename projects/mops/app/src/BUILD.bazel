@@ -11,6 +11,17 @@ TEST_PATHS = [
     "**/*.test.ts",
 ]
 
+filegroup(
+    name = "source_files",
+    srcs = glob(
+        include = SRC_PATHS,
+        exclude = TEST_PATHS,
+    ),
+    visibility = [
+        "//projects/mops/app:__pkg__",
+    ],
+)
+
 ts_project(
     name = "src_ts",
     srcs = glob(

@@ -2,16 +2,25 @@
 This module contains common vitest macros.
 """
 
-load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
 load("//tools/bazel:js.bzl", "js_run_devserver")
 
 def vitest_run(name, **kwargs):
-    vitest_bin.vitest_test(
+    chdir = kwargs.pop("chdir", native.package_name())
+    data = kwargs.pop("data", [])
+
+    native.sh_test(
         name = name,
         testonly = True,
-        args = ["run"] + kwargs.pop("args", []),
+        srcs = ["//tools/bazel/vitest:coverage_runner.sh"],
+        args = [
+            "$(rootpath //tools/bazel/vitest:vitest_binary)",
+            chdir if chdir != None else ".",
+        ] + kwargs.pop("args", []),
         size = kwargs.pop("size", "small"),
-        chdir = kwargs.pop("chdir", native.package_name()),
+        data = data + [
+            "//tools/bazel/vitest:vitest_binary",
+            "//:node_modules/@vitest/coverage-v8",
+        ],
         **kwargs
     )
 

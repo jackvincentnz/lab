@@ -10,7 +10,8 @@ import {
   vi,
   within,
 } from "../../../../test";
-import { ADD_LINE_ITEM_BUTTON, SpendTable } from "./SpendTable";
+import { SpendTable } from "./SpendTable";
+import { ADD_LINE_ITEM_BUTTON } from "./columns";
 import { Column, LineItem } from "./types";
 import {
   NAME_MAX_LENGTH,

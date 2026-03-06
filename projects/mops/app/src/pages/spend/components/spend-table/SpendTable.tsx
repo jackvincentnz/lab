@@ -1,20 +1,15 @@
 import classes from "./SpendTable.module.css";
 import { useMemo } from "react";
 import {
-  createMRTColumnHelper,
   createRow,
   MantineReactTable,
-  type MRT_ColumnDef,
   useMantineReactTable,
 } from "mantine-react-table";
 import clsx from "clsx";
-import { Button, Group } from "@mantine/core";
 import { useAddLineItem } from "./actions";
 import { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
-
-export const ADD_LINE_ITEM_BUTTON = "Add Line Item";
-export const HEADER_NAME = "Name";
+import { AddLineItemToolbar, createSpendTableColumns } from "./columns";
 
 export interface SpendTableProps {
   columns: Column[];
@@ -23,8 +18,6 @@ export interface SpendTableProps {
   onDeleteAllLineItems?: () => void;
   loading?: boolean;
 }
-
-const columnHelper = createMRTColumnHelper<LineItem>();
 
 const NEW_ROW: LineItem = {
   id: "",
@@ -45,32 +38,9 @@ export function SpendTable({
     clearErrors,
   } = useLineItemValidation();
 
-  const getTextInputProps = (field: keyof LineItem) => ({
-    required: true,
-    error: validationErrors?.[field],
-    onFocus: removeErrorsFor(field),
-  });
-
-  const columnDefs = useMemo<MRT_ColumnDef<LineItem>[]>(
-    () => [
-      columnHelper.accessor("name", {
-        header: HEADER_NAME,
-        filterVariant: "autocomplete",
-        mantineEditTextInputProps: getTextInputProps("name"),
-      }),
-      ...columns.map((column) =>
-        columnHelper.accessor((lineItem) => column.accessor(lineItem), {
-          id: column.id,
-          header: column.header,
-          editVariant: "select",
-          filterVariant: "select",
-          mantineEditSelectProps: {
-            data: column.options,
-          },
-        }),
-      ),
-    ],
-    [validationErrors, columns],
+  const columnDefs = useMemo(
+    () => createSpendTableColumns(columns, validationErrors, removeErrorsFor),
+    [columns, removeErrorsFor, validationErrors],
   );
 
   const table = useMantineReactTable({
@@ -87,9 +57,7 @@ export function SpendTable({
     onCreatingRowCancel: clearErrors,
     onCreatingRowSave: useAddLineItem(setValidationErrors, onAddLineItem),
     renderTopToolbarCustomActions: () => (
-      <Group gap="xs">
-        <Button onClick={onAddRow}>{ADD_LINE_ITEM_BUTTON}</Button>
-      </Group>
+      <AddLineItemToolbar onAddRow={onAddRow} />
     ),
     mantineTableProps: {
       className: clsx(classes["table"]),
