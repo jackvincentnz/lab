@@ -2,7 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "tests",
-    tags = ["requires-network"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
     deps = [
         "@maven//:org_testcontainers_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers",

@@ -45,6 +45,10 @@ coverage --test_tag_filters=-no-coverage
 # Only build what is needed for coverage
 coverage --build_tests_only
 
+# Remote Codex cloud environments run without Docker access.
+test:codex-cloud --test_tag_filters=-requires-docker
+coverage:codex-cloud --test_tag_filters=-requires-docker,-no-coverage
+
 ### NO MORE PROJECT SPECIFIC OPTIONS AFTER HERE ###
 
 # Load any settings & overrides specific to the current user from `.aspect/bazelrc/user.bazelrc`.

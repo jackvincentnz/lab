@@ -2,7 +2,10 @@ load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "
 
 java_test_suite(
     name = "persistence",
-    tags = ["requires-network"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "@maven//:org_postgresql_postgresql",
         "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
