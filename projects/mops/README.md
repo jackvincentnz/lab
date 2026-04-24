@@ -67,7 +67,7 @@ ibazel run //projects/mops/app:test
 ## Local endpoints
 
 - Service base URL: `http://localhost:8080`
-- AI REST endpoints: `POST /chats`, `POST /chats/{chatId}`
+- MCP streamable HTTP endpoint: `/sse`
 - GraphQL HTTP + WS: `/graphql`
 - App dev server (Vite default): `http://localhost:5173` (proxies `/api` and `/ws` to the service)
 
