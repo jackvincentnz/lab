@@ -67,6 +67,7 @@ Keep this file focused on actionable context that improves execution quality and
 
 - Common command: `bazel build //...`.
 - Common command: `bazel test //...`.
+- Remote Codex cloud command: `bazel test --config=codex-cloud //...` to exclude Docker-dependent tests.
 - Target pattern: `bazel <command> //<PATH_TO_PROJECT>:<TARGETS>`.
 - Commit messages follow Conventional Commits (`docs/style.md`).
 
