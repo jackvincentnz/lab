@@ -19,6 +19,7 @@ export interface ChatHistoryProps {
 
 export function ChatHistory({ onSelectChat, onBack }: ChatHistoryProps) {
   const { data, loading, error } = useQuery<AllChatsQuery>(AllChatsDocument);
+  const chats = data?.allChats ?? [];
 
   if (loading) {
     return <Loader />;
@@ -46,7 +47,7 @@ export function ChatHistory({ onSelectChat, onBack }: ChatHistoryProps) {
         <Text fw={500}>Previous Chats</Text>
       </Group>
       <Stack gap="sm">
-        {data?.allChats?.map((chat) => (
+        {chats.map((chat) => (
           <Paper
             key={chat.id}
             p="md"
@@ -62,9 +63,7 @@ export function ChatHistory({ onSelectChat, onBack }: ChatHistoryProps) {
             </Text>
           </Paper>
         ))}
-        {(!data?.allChats || data.allChats.length === 0) && (
-          <Text c="dimmed">No previous chats</Text>
-        )}
+        {chats.length === 0 && <Text c="dimmed">No previous chats</Text>}
       </Stack>
     </Stack>
   );
