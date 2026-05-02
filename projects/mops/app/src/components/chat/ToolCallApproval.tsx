@@ -24,6 +24,7 @@ export type ToolCallStatus = GToolCallStatus;
 
 export interface ToolCallApprovalProps {
   toolCall: {
+    id: string;
     name: string;
     arguments: string;
     status: ToolCallStatus;

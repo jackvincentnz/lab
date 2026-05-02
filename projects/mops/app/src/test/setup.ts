@@ -1,5 +1,7 @@
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
+import { PropsWithChildren } from "react";
+import { statsigClient } from "./statsig";
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);
@@ -37,12 +39,13 @@ window.ResizeObserver = ResizeObserver;
 
 vi.mock("@statsig/react-bindings", () => {
   return {
+    StatsigProvider: ({ children }: PropsWithChildren<{ client?: unknown }>) =>
+      children,
+    useClientAsyncInit: () => ({
+      client: statsigClient,
+    }),
     useStatsigClient: () => ({
-      client: {
-        logEvent: () => {
-          // intentionally empty
-        },
-      },
+      client: statsigClient,
     }),
   };
 });

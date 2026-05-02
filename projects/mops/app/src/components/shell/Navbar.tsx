@@ -1,20 +1,11 @@
 import { Burger, Button, Group, Title, Text } from "@mantine/core";
 import { modals } from "@mantine/modals";
-import {
-  IconCalendarDollar,
-  IconLogout,
-  IconSwitchHorizontal,
-} from "@tabler/icons-react";
+import { IconLogout, IconSwitchHorizontal } from "@tabler/icons-react";
 import classes from "./Navbar.module.css";
 import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.png";
 import { useStatsigClient } from "@statsig/react-bindings";
-
-export const navigationItems = [
-  // { link: "/plan", label: "Plan", icon: IconCalendarEvent },
-  { link: "/spend", label: "Spend", icon: IconCalendarDollar },
-  // { link: "/settings", label: "Settings", icon: IconSettings },
-];
+import { navigationItems } from "./navigation";
 
 export interface NavbarProps {
   opened: boolean;
@@ -69,7 +60,7 @@ function Footer() {
           application and wipe any data you have entered.
         </Text>
       ),
-      labels: { confirm: "Reset data", cancel: "Cancel" },
+      labels: { confirm: "Confirm Data Reset", cancel: "Cancel" },
       confirmProps: { color: "red" },
       onConfirm: () => fetch("/api/reset"),
     });
