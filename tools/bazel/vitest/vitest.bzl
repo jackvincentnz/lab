@@ -19,6 +19,7 @@ def vitest_watch(name, **kwargs):
     js_run_devserver(
         name = name,
         testonly = True,
+        args = ["watch"] + kwargs.pop("args", []),
         tool = "//tools/bazel/vitest:vitest_binary",
         chdir = kwargs.pop("chdir", native.package_name()),
         **kwargs
