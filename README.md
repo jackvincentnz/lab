@@ -33,7 +33,7 @@ to get setup.
 Install Docker:
 
 ```zsh
-brew cask install docker
+brew install --cask docker
 ```
 
 Build solution with:
