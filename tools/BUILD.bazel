@@ -1,0 +1,14 @@
+load("@bazel_env.bzl", "bazel_env")
+load("@multitool//:tools.bzl", MULTITOOL_TOOLS = "TOOLS")
+
+bazel_env(
+    name = "bazel_env",
+    toolchains = {
+        "jdk": "@rules_java//toolchains:current_host_java_runtime",
+    },
+    tools = {
+        "jar": "$(JAVABASE)/bin/jar",
+        "java": "$(JAVA)",
+        "pnpm": "@pnpm",
+    } | MULTITOOL_TOOLS,
+)

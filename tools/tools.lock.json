@@ -1,0 +1,78 @@
+{
+  "$schema": "https://raw.githubusercontent.com/theoremlp/rules_multitool/main/lockfile.schema.json",
+  "aspect": {
+    "binaries": [
+      {
+        "kind": "file",
+        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.7.2/aspect-cli-x86_64-unknown-linux-musl",
+        "sha256": "52529361675caef2e28602c1e0c43143c0a4b7b243d3ce868c3e2115940fbe91",
+        "os": "linux",
+        "cpu": "x86_64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.7.2/aspect-cli-aarch64-apple-darwin",
+        "sha256": "f0a7ee971571280ebbaf845d4c38585d5e230976e2b4343afdb9854a82b2c546",
+        "os": "macos",
+        "cpu": "arm64"
+      }
+    ]
+  },
+  "buildozer": {
+    "binaries": [
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v8.5.1/buildozer-linux-arm64",
+        "sha256": "87ee1d2d81d08ccae8f9147fc58503967c85878279e892f2990912412feef1a1",
+        "os": "linux",
+        "cpu": "arm64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v8.5.1/buildozer-linux-amd64",
+        "sha256": "2b745ca2ad41f1e01673fb59ac50af6b45ca26105c1d20fad64c3d05a95522f5",
+        "os": "linux",
+        "cpu": "x86_64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v8.5.1/buildozer-darwin-arm64",
+        "sha256": "d0cf2f6e11031d62bfd4584e46eb6bb708a883ff948be76538b34b83de833262",
+        "os": "macos",
+        "cpu": "arm64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v8.5.1/buildozer-darwin-amd64",
+        "sha256": "b85b9ad59c1543999a5d8bc8bee6e42b9f025be3ff520bc2d090213698850b43",
+        "os": "macos",
+        "cpu": "x86_64"
+      }
+    ]
+  },
+  "ibazel": {
+    "binaries": [
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/bazel-watcher/releases/download/v0.28.0/ibazel_linux_arm64",
+        "sha256": "85ef4c7a9a1429e1b3d17ba4f6702e61acb24e5510d006e1fd99d0de4bcd07c0",
+        "os": "linux",
+        "cpu": "arm64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/bazel-watcher/releases/download/v0.28.0/ibazel_linux_amd64",
+        "sha256": "17d412c34afeba69f9d05b6d1ea44848ffd4fdc18ebcd1f524b3699d1de0630e",
+        "os": "linux",
+        "cpu": "x86_64"
+      },
+      {
+        "kind": "file",
+        "url": "https://github.com/bazelbuild/bazel-watcher/releases/download/v0.28.0/ibazel_darwin_arm64",
+        "sha256": "5dddbfe170ab2063d1517fea526b27731893ed561c78776c9bea20b4caafa11e",
+        "os": "macos",
+        "cpu": "arm64"
+      }
+    ]
+  }
+}
