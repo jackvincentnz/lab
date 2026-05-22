@@ -1,4 +1,4 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-vite";
 import { MantineProvider } from "@mantine/core";
 
 import "@mantine/core/styles.css";
@@ -6,7 +6,6 @@ import "@mantine/dates/styles.css";
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,
@@ -21,7 +20,6 @@ const preview: Preview = {
       </MantineProvider>
     ),
   ],
-  tags: ["autodocs"],
 };
 
 export default preview;
