@@ -17,7 +17,7 @@ Setup build environment with:
 
 ```zsh
 brew install bazelisk
-brew cask install docker
+brew install --cask docker
 ```
 
 Build solution with:
