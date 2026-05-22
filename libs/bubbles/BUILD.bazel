@@ -23,14 +23,10 @@ STORYBOOK_DEPS = [
     "//:node_modules/@mantine/dates",
     "//:node_modules/@mantine/hooks",
     "//:node_modules/@tabler/icons-react",
-    "//:node_modules/@storybook/addon-essentials",
-    "//:node_modules/@storybook/addon-interactions",
-    "//:node_modules/@storybook/addon-links",
-    "//:node_modules/@storybook/blocks",
-    "//:node_modules/@storybook/react",
     "//:node_modules/@storybook/react-vite",
     "//:node_modules/react",
     "//:node_modules/react-dom",
+    "//:node_modules/storybook",
     "//:node_modules/vite",
 ]
 

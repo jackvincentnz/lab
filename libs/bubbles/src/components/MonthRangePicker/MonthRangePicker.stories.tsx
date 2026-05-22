@@ -5,7 +5,6 @@ import { MonthRangePicker, MonthRangePickerProps } from "./MonthRangePicker";
 const meta: Meta<typeof MonthRangePicker> = {
   title: "Components/MonthRangePicker",
   component: MonthRangePicker,
-  tags: ["autodocs"],
   argTypes: {
     label: {
       control: { type: "text" },
