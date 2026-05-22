@@ -13,10 +13,26 @@ Monorepo for experimenting with Bazel, Typescript, Java etc.
 
 ## Getting started
 
-Setup build environment with:
+Install Bazelisk to automatically use the repo-pinned Bazel version:
 
 ```zsh
 brew install bazelisk
+```
+
+Set up the repository-local development tools:
+
+```zsh
+bazel run tools:bazel_env
+```
+
+The `tools:bazel_env` target uses
+[buildbuddy-io/bazel_env.bzl](https://github.com/buildbuddy-io/bazel_env.bzl)
+to build a consistent tool environment for this repo. Follow the tool prompts
+to get setup.
+
+Install Docker:
+
+```zsh
 brew cask install docker
 ```
 
@@ -42,6 +58,8 @@ This repository includes multiple tools to improve consistency, maintainability 
 ### Build
 
 - [Bazel](https://bazel.build): Fast, multi-language, reproducible, incremental build system.
+- [bazel_env.bzl](https://github.com/buildbuddy-io/bazel_env.bzl): Enables
+  consistent development tools when working in this repo.
 
 ### Style
 

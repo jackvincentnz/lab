@@ -15,6 +15,12 @@ bazel_dep(name = "rules_pkg", version = "1.2.0")
 bazel_dep(name = "rules_oci", version = "2.2.7")
 bazel_dep(name = "rules_multirun", version = "0.13.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
+bazel_dep(name = "rules_multitool", version = "1.11.1")
+bazel_dep(name = "bazel_env.bzl", version = "0.7.2")
+
+multitool = use_extension("@rules_multitool//multitool:extension.bzl", "multitool")
+multitool.hub(lockfile = "//tools:tools.lock.json")
+use_repo(multitool, "multitool")
 
 http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_jar")
 
