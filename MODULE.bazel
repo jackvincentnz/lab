@@ -90,7 +90,7 @@ maven.install(
         "com.netflix.graphql.dgs:dgs-starter-test",
         "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
         "jakarta.servlet:jakarta.servlet-api",
-        "io.confluent:kafka-protobuf-serializer:8.2.0",
+        "io.confluent:kafka-protobuf-serializer:8.2.1",
         "org.wiremock:wiremock-jetty12:3.13.2",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:7.0.3",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core

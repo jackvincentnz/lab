@@ -27,8 +27,8 @@ const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/sr
 const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_TAG = "lab/proxy:latest";
-const KAFKA_IMAGE = "confluentinc/cp-kafka:7.9.5";
-const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:7.9.5";
+const KAFKA_IMAGE = "confluentinc/cp-kafka:8.2.1";
+const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.2.1";
 
 const DOCKER = new Dockerode();
 

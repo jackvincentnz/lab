@@ -20,7 +20,7 @@
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -343102663,
     "com.squareup.okhttp3:okhttp-jvm": -674460980,
-    "io.confluent:kafka-protobuf-serializer": -1992835043,
+    "io.confluent:kafka-protobuf-serializer": 494677790,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
     "org.apache.kafka:kafka-clients": -1662559649,
@@ -160,7 +160,7 @@
     "com.github.victools:jsonschema-module-swagger-2": -1971626592,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -776422092,
     "com.google.adk:google-adk": -620516450,
-    "com.google.adk:google-adk-dev": 1960476275,
+    "com.google.adk:google-adk-dev": -1370599652,
     "com.google.adk:google-adk-dev:jar:sources": 1470566881,
     "com.google.adk:google-adk:jar:sources": 406327095,
     "com.google.android:annotations": 1863337959,
@@ -352,23 +352,23 @@
     "commons-logging:commons-logging:jar:sources": 368136215,
     "commons-validator:commons-validator": 1603929829,
     "commons-validator:commons-validator:jar:sources": 1817682945,
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": -183445712,
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": 668869089,
     "guru.nidi.com.kitfox:svgSalamander": 600393034,
     "guru.nidi.com.kitfox:svgSalamander:jar:sources": -582112426,
-    "guru.nidi:graphviz-java": 628901442,
+    "guru.nidi:graphviz-java": -452118542,
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
-    "io.confluent:common-utils": -94112330,
-    "io.confluent:common-utils:jar:sources": 1180652762,
-    "io.confluent:kafka-protobuf-provider": -352319858,
-    "io.confluent:kafka-protobuf-provider:jar:sources": -1940808940,
-    "io.confluent:kafka-protobuf-serializer": 494661869,
-    "io.confluent:kafka-protobuf-serializer:jar:sources": 1453538367,
-    "io.confluent:kafka-protobuf-types": -555090050,
-    "io.confluent:kafka-protobuf-types:jar:sources": 1233857851,
-    "io.confluent:kafka-schema-registry-client": 2070559791,
-    "io.confluent:kafka-schema-registry-client:jar:sources": -1685048376,
-    "io.confluent:kafka-schema-serializer": -568683977,
-    "io.confluent:kafka-schema-serializer:jar:sources": 1073439344,
+    "io.confluent:common-utils": -887925531,
+    "io.confluent:common-utils:jar:sources": 86133313,
+    "io.confluent:kafka-protobuf-provider": -288796949,
+    "io.confluent:kafka-protobuf-provider:jar:sources": -201417505,
+    "io.confluent:kafka-protobuf-serializer": -223972168,
+    "io.confluent:kafka-protobuf-serializer:jar:sources": 1978064227,
+    "io.confluent:kafka-protobuf-types": -1202994179,
+    "io.confluent:kafka-protobuf-types:jar:sources": 777640027,
+    "io.confluent:kafka-schema-registry-client": 556760819,
+    "io.confluent:kafka-schema-registry-client:jar:sources": 1457677488,
+    "io.confluent:kafka-schema-serializer": -1362268322,
+    "io.confluent:kafka-schema-serializer:jar:sources": -2071364373,
     "io.dropwizard.metrics:metrics-core": -1163050132,
     "io.dropwizard.metrics:metrics-core:jar:sources": 2118762524,
     "io.grpc:grpc-alts": 1109695342,
@@ -2066,9 +2066,9 @@
       },
       "version": "1.7"
     },
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": {
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": {
       "shasums": {
-        "jar": "3bd4786967f454bfa3a44dfda0ef33222665b7cefcea67dee5edef45f4e3cc08"
+        "jar": "832e5fc5fcce69e2b30e8dfaa767ac7ff7b019239beaf97214e0ebf68bff9b2e"
       },
       "version": "4.6.0"
     },
@@ -2088,45 +2088,45 @@
     },
     "io.confluent:common-utils": {
       "shasums": {
-        "jar": "c5828ad798d06005becd79bb7e6eb848357a8e1833f2487cc796621853e61564",
-        "sources": "d211a20c9221404ec7ebb6c4467cbbacc3795bde6f7b73701275d5ca3c8cfc38"
+        "jar": "3c1326d4020cb7693346ebdd2d8886c1dbabc902c8a333644b4b796049be32d9",
+        "sources": "14d77e68d21fecec7792223e18f8107026698ceaed793776f607575db332cf13"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.confluent:kafka-protobuf-provider": {
       "shasums": {
-        "jar": "1f9344ce2b8a0e76868976d26355c717d9b99f11eb6c14575f8b84ef4365cab4",
-        "sources": "03bc022f1df4517488ea3964ef0b35974074d61573a7e31e016f7f0b87e4079f"
+        "jar": "654cddf16f136f3083cd33b8f33036b457d30b6e27bdefb9d29e92709fc1e894",
+        "sources": "7347ea894cfb224b6adb29280b40864c8805e8f1331df773e89277338df76721"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.confluent:kafka-protobuf-serializer": {
       "shasums": {
-        "jar": "d57d87b00ae21a5174779a2cd06a0a7224bcf16ac21089fe27f770299cb317e7",
-        "sources": "5c7152c5297b646004e0f0c15129b10073d70a60e9371fe09c9621af13e2cf8b"
+        "jar": "bea9b255f31c00ae5c60647982c0f29756b718c87e1db9079717af490c5ef3a3",
+        "sources": "b6eb656ab7c2a28f6a3ea8f5cd9c84c0a825210b41472eef05eca5dfd946bf06"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.confluent:kafka-protobuf-types": {
       "shasums": {
-        "jar": "4d5b3f898f81fb576113d2cd36689bb8f60f831be2a7469526c75af37358a3ae",
-        "sources": "00e0215457403556cb2cb6cc055fd6eacb6b211e7a7244a96e2ae069c6b3bb82"
+        "jar": "f719da893b23a0e7aff3f5143d19168622de3e16f8c4c3443f68e8f4c6998493",
+        "sources": "4fda8f762ac4795c5a6663b95b08d4c55bcdbef445a42189601edfd546373af1"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.confluent:kafka-schema-registry-client": {
       "shasums": {
-        "jar": "cb3d90a3867a2e5052ada7a9cb64883e48d7ca2048accc10457f5deb421c5b80",
-        "sources": "d16e4623076d0a3e021ee97816da59f22af2a769aa298d24f794812a23fbfbdd"
+        "jar": "de1d7ef36edfee26db66abe3611170dd7d19d26089016f2b0943d2268dc8d455",
+        "sources": "a3f2210455241070a9fc2a984f75b7095adcf39535f5ef37d4f9336faa8641eb"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.confluent:kafka-schema-serializer": {
       "shasums": {
-        "jar": "2116d7542590bb2d760e02d72ea3ff9c986a86b239301fc467d8ac80d82f8454",
-        "sources": "403b14dbf93be5db664361be3763a4cc00f57a7c4a20aaa31937ebdb42080732"
+        "jar": "bebb9cdf5772a5aa64cd46fde1839a6f901af3908c17ba7dee3b70cf0f0d4d23",
+        "sources": "96f2ebc8428c20d7f067c58c9411a8c0af7d0a6722c512cf90fb2153b2daddc6"
       },
-      "version": "8.2.0"
+      "version": "8.2.1"
     },
     "io.dropwizard.metrics:metrics-core": {
       "shasums": {
@@ -5100,7 +5100,7 @@
     ],
     "guru.nidi:graphviz-java": [
       "com.google.code.findbugs:jsr305",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "net.arnx:nashorn-promise",
       "org.apache.commons:commons-exec",
@@ -7722,7 +7722,7 @@
       "org.apache.commons.validator.routines.checkdigit",
       "org.apache.commons.validator.util"
     ],
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": [
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": [
       "com.eclipsesource.v8",
       "com.eclipsesource.v8.debug",
       "com.eclipsesource.v8.debug.mirror",
@@ -12983,7 +12983,7 @@
       "commons-logging:commons-logging:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "guru.nidi.com.kitfox:svgSalamander:jar:sources",
       "guru.nidi:graphviz-java",
@@ -13922,7 +13922,7 @@
       "commons-logging:commons-logging:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "guru.nidi.com.kitfox:svgSalamander:jar:sources",
       "guru.nidi:graphviz-java",

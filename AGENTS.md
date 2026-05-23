@@ -50,9 +50,6 @@ Keep this file focused on actionable context that improves execution quality and
 - Symptom: `bazel run @pnpm//:pnpm ... install --lockfile-only` updates files outside workspace.
   Cause: pnpm runs in Bazel execroot by default.
   Fix: Always pass `--dir $PWD` for lockfile operations.
-- Symptom: `VerifyError` in `ProtobufSchema.toProtoFile` with `kafka-protobuf-serializer`.
-  Cause: `io.confluent:kafka-protobuf-serializer:7.9.5` incompatible with protobuf runtime `4.33.4`.
-  Fix: Use `io.confluent:kafka-protobuf-serializer:8.0.0`.
 - Symptom: DGS schema/resource duplication in test runtime classpath.
   Cause: `contrib_rules_jvm` `java_test_suite` propagates `resources` through generated helper libs.
   Fix: Move schema files to a dedicated `test_resources` `java_library` in `runtime_deps`, not suite-level `resources`.
