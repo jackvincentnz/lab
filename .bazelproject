@@ -26,4 +26,3 @@ ts_config_rules:
   //:tsconfig
   //:tsconfig_base
   //:tsconfig_node
-  //:tsconfig_react

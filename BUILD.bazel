@@ -29,27 +29,6 @@ tsconfig_to_swcconfig.t2s(
 )
 
 ts_config(
-    name = "tsconfig_react",
-    src = "tsconfig.react.json",
-    visibility = [":__subpackages__"],
-    deps = [":tsconfig_base"],
-)
-
-tsconfig_to_swcconfig.t2s(
-    name = "write_swcrc_react",
-    srcs = [
-        "tsconfig.base.json",
-        "tsconfig.react.json",
-    ],
-    args = [
-        "--filename",
-        "$(location tsconfig.react.json)",
-    ],
-    stdout = ".swcrc.react",
-    visibility = [":__subpackages__"],
-)
-
-ts_config(
     name = "tsconfig_node",
     src = "tsconfig.node.json",
     visibility = [":__subpackages__"],

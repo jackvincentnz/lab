@@ -8,7 +8,6 @@ bazel_dep(name = "contrib_rules_jvm", version = "0.32.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.3")
 bazel_dep(name = "aspect_rules_js", version = "2.9.2")
 bazel_dep(name = "aspect_rules_ts", version = "3.8.5")
-bazel_dep(name = "aspect_rules_jest", version = "0.25.2")
 bazel_dep(name = "aspect_rules_swc", version = "2.6.2")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.2.0")
@@ -148,7 +147,6 @@ npm.npm_translate_lock(
     pnpm_lock = "//:pnpm-lock.yaml",
     public_hoist_packages = {
         "@vitest/expect@4.0.18": [""],
-        "@jest/expect": [""],
     },
     verify_node_modules_ignored = "//:.bazelignore",
 )

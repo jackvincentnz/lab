@@ -1,7 +1,7 @@
 /**
  * Based on https://mantine.dev/app-shell/?e=AltLayout&s=code
  */
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
