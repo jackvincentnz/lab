@@ -5,7 +5,7 @@ import {
   GenericContainer,
   Wait,
   Network,
-  StartedNetwork,
+  type StartedNetwork,
   type PortWithOptionalBinding,
 } from "testcontainers";
 import { KafkaContainer } from "@testcontainers/kafka";

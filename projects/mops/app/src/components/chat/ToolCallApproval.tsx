@@ -18,7 +18,7 @@ import {
   IconX,
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
-import { ToolCallStatus as GToolCallStatus } from "../../__generated__/graphql";
+import { type ToolCallStatus as GToolCallStatus } from "../../__generated__/graphql";
 
 export type ToolCallStatus = GToolCallStatus;
 

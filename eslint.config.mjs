@@ -45,6 +45,24 @@ export default defineConfig(
   tseslint.configs.recommended,
   tseslint.configs.stylistic,
   {
+    rules: {
+      "@typescript-eslint/consistent-type-imports": [
+        "error",
+        {
+          prefer: "type-imports",
+          fixStyle: "inline-type-imports",
+        },
+      ],
+      "no-duplicate-imports": [
+        "error",
+        {
+          allowSeparateTypeImports: false,
+          includeExports: true,
+        },
+      ],
+    },
+  },
+  {
     files: ["**/*.{js,cjs}"],
     languageOptions: {
       globals: globals.node,
