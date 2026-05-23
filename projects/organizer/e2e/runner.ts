@@ -6,12 +6,12 @@ import {
   Wait,
   Network,
   StartedNetwork,
+  type PortWithOptionalBinding,
 } from "testcontainers";
 import { KafkaContainer } from "@testcontainers/kafka";
-import { ContentToCopy, Environment } from "testcontainers/build/types";
-import { PortWithOptionalBinding } from "testcontainers/build/utils/port";
+import type { ContentToCopy, Environment } from "testcontainers/build/types";
 
-import { findUnusedPort } from "../../../libs/utils/ts/find-port";
+import { findUnusedPort } from "../../../libs/utils/ts/find-port.js";
 
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 

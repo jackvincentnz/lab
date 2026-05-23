@@ -1,6 +1,7 @@
 {
   "name": "lab",
   "private": true,
+  "type": "module",
   "engines": {
     "pnpm": ">=9 <11",
     "node": ">=24.13.0 <25"
