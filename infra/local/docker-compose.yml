@@ -127,7 +127,7 @@ services:
       - "host.docker.internal:host-gateway"
 
   router:
-    image: ghcr.io/apollographql/router:v1.61.12
+    image: ghcr.io/apollographql/router:v1.61.12@sha256:1b771b95d0111dd864b7291828434ed1bac8bf3e7752dde9349777c44e165a93
     hostname: router
     container_name: router
     depends_on:
