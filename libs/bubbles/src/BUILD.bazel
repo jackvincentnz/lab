@@ -1,4 +1,4 @@
-load("//tools/bazel:ts.bzl", "ts_config", "ts_project")
+load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel:js.bzl", "js_library")
 
 SRC_PATHS = [
@@ -41,16 +41,9 @@ js_library(
     deps = [":src_ts"],
 )
 
-ts_config(
-    name = "tsconfig_stories",
-    src = "tsconfig.stories.json",
-    deps = ["//:tsconfig_base"],
-)
-
 ts_project(
     name = "stories",
     srcs = glob(STORY_PATHS),
-    tsconfig = ":tsconfig_stories",
     visibility = ["//libs/bubbles:__pkg__"],
     deps = [
         ":src",

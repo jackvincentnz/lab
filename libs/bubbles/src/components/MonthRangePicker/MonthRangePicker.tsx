@@ -3,7 +3,7 @@ import { MonthPicker } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import dayjs from "dayjs";
-import { ButtonVariant as MButtonVariant } from "@mantine/core";
+import type { ButtonVariant as MButtonVariant } from "@mantine/core";
 
 export type ButtonVariant = MButtonVariant;
 

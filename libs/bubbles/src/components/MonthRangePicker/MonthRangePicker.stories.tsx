@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import type { MonthRangePickerProps } from "./MonthRangePicker";
 
-import { MonthRangePicker, MonthRangePickerProps } from "./MonthRangePicker";
+import { MonthRangePicker } from "./MonthRangePicker";
 
 const meta: Meta<typeof MonthRangePicker> = {
   title: "Components/MonthRangePicker",

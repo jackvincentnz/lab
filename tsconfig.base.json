@@ -1,12 +1,12 @@
-// General options for all TypeScript, client, server etc.
+// General options for browser-first TypeScript.
 {
   "compileOnSave": false,
 
   "compilerOptions": {
     "target": "es2022",
-    "module": "es2022",
-    "moduleResolution": "node",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "lib": ["es2022", "dom", "dom.iterable"],
 
     "baseUrl": "./",
 
@@ -22,6 +22,7 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "moduleDetection": "force",
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -37,6 +38,11 @@
   },
 
   // potentially reduce this to purely source directories
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/.storybook/**/*.ts",
+    "**/.storybook/**/*.tsx"
+  ],
   "exclude": ["node_modules", "dist"]
 }
