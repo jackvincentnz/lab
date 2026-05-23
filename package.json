@@ -38,7 +38,7 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
-    "@apollo/rover": "^0.37.0",
+    "@apollo/rover": "0.37.0",
     "@eslint/js": "10.0.1",
     "@graphql-codegen/cli": "6.1.2",
     "@graphql-codegen/client-preset": "5.2.3",
