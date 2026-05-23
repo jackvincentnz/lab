@@ -1,6 +1,6 @@
-import { LineItem, LineItemErrors, NewLineItem } from "./types";
+import type { LineItem, LineItemErrors, NewLineItem } from "./types";
 import { validateLineItem } from "./validation";
-import { MRT_TableOptions } from "mantine-react-table";
+import type { MRT_TableOptions } from "mantine-react-table";
 import { useStatsigClient } from "@statsig/react-bindings";
 
 export function useAddLineItem(

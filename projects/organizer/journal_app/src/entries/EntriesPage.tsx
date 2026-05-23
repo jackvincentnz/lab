@@ -1,7 +1,7 @@
 import { useQuery } from "@apollo/client";
-import { Timeline, TimelineItemProps } from "./Timeline";
+import { Timeline, type TimelineItemProps } from "./Timeline";
 
-import { Entry, GetEntriesDocument } from "../__generated__/graphql";
+import { GetEntriesDocument, type Entry } from "../__generated__/graphql";
 
 export function EntriesPage() {
   const { data } = useQuery(GetEntriesDocument, { pollInterval: 500 });

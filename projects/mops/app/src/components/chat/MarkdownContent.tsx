@@ -1,5 +1,5 @@
 import { Table, Text } from "@mantine/core";
-import ReactMarkdown, { Components } from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 interface MarkdownContentProps {

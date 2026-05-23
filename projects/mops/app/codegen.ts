@@ -1,4 +1,4 @@
-import { CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from "@graphql-codegen/cli";
 
 const config: CodegenConfig = {
   schema: "../service/src/main/resources/schema/schema.graphqls",
@@ -11,6 +11,7 @@ const config: CodegenConfig = {
         gqlTagName: "gql",
       },
       config: {
+        useTypeImports: true,
         scalars: {
           Date: "string",
           BigDecimal: "number",

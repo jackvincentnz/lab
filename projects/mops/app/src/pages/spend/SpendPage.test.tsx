@@ -1,4 +1,4 @@
-import { MockedResponse } from "@apollo/client/testing";
+import type { MockedResponse } from "@apollo/client/testing";
 import {
   describe,
   expect,
@@ -12,12 +12,12 @@ import {
 import { SpendPage } from "./SpendPage";
 import {
   AddLineItemDocument,
-  AddLineItemMutation,
-  AddLineItemMutationVariables,
-  Category,
-  CategoryValue,
-  LineItem,
   SpendPageQueryDocument,
+  type AddLineItemMutation,
+  type AddLineItemMutationVariables,
+  type Category,
+  type CategoryValue,
+  type LineItem,
 } from "../../__generated__/graphql";
 import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/columns";
 

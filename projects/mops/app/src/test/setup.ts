@@ -1,6 +1,6 @@
 import "@testing-library/jest-dom/vitest";
 import { vi } from "vitest";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { statsigClient } from "./statsig";
 
 const { getComputedStyle } = window;

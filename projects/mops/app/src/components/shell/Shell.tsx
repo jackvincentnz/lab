@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react";
+import { useState, type PropsWithChildren } from "react";
 import { AppShell } from "@mantine/core";
 import { useDisclosure, useSessionStorage } from "@mantine/hooks";
 import { Navbar } from "./Navbar";

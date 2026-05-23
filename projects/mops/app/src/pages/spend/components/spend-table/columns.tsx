@@ -1,6 +1,6 @@
 import { Button, Group } from "@mantine/core";
 import { createMRTColumnHelper, type MRT_ColumnDef } from "mantine-react-table";
-import { Column, LineItem } from "./types";
+import type { Column, LineItem } from "./types";
 
 export const ADD_LINE_ITEM_BUTTON = "Add Line Item";
 export const HEADER_NAME = "Name";

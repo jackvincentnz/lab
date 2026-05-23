@@ -1,6 +1,6 @@
-import { SpendPageQueryQuery } from "../../__generated__/graphql";
-import { Column, LineItem, Option } from "./components/spend-table";
-import { Field } from "./components/spend-table/types";
+import type { SpendPageQueryQuery } from "../../__generated__/graphql";
+import type { Column, LineItem, Option } from "./components/spend-table";
+import type { Field } from "./components/spend-table/types";
 
 export function mapToLineItems(
   allLineItems?: SpendPageQueryQuery["allLineItems"],
