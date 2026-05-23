@@ -1,9 +1,0 @@
-load("//tools/bazel:fe.bzl", "fe_library")
-
-fe_library(
-    name = "src",
-    visibility = ["//learn/vite:__pkg__"],
-    deps = [
-        "//:node_modules/vite",  # TODO: move out to common dep for vite packages? It is used for asset types
-    ],
-)
