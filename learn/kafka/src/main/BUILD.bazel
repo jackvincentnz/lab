@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_binary")
+
 java_binary(
     name = "main",
     main_class = "lab.learn.kafka.KafkaApplication",

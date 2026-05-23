@@ -1,6 +1,7 @@
 load("@rules_spring//springboot:springboot.bzl", "springboot")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 load("//tools/bazel:pkg.bzl", "tar")
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 
 java_library(
     name = "main_lib",

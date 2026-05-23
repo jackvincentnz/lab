@@ -5,6 +5,7 @@ This module contains common oci macros.
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
 load("@rules_oci//oci:defs.bzl", "oci_load", "oci_push", _oci_image = "oci_image")
+load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
 def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
     """Bazel macro for delivering oci images to a local and remote repository.
@@ -99,7 +100,7 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
 
     # First checks if a manifest has been previously pushed before executing :push above.
     # Useful to avoid re-tagging images that haven't changed.
-    native.sh_binary(
+    sh_binary(
         name = "check_then_push",
         srcs = ["//tools/bazel/oci:check_then_push.sh"],
         args = [
