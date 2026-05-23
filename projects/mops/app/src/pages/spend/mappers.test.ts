@@ -1,5 +1,9 @@
 import { describe, expect, test } from "../../test";
-import { Category, CategoryValue, LineItem } from "../../__generated__/graphql";
+import type {
+  Category,
+  CategoryValue,
+  LineItem,
+} from "../../__generated__/graphql";
 import { mapToColumns, mapToLineItems } from "./mappers";
 
 describe("spend mappers", () => {

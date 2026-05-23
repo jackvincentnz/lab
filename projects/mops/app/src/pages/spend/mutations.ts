@@ -1,10 +1,10 @@
 import { useMutation } from "@apollo/client";
-import { NewLineItem } from "./components/spend-table";
+import type { NewLineItem } from "./components/spend-table";
 import {
   AddLineItemDocument,
-  AddLineItemInput,
   SpendPageQueryDocument,
   DeleteAllLineItemsDocument,
+  type AddLineItemInput,
 } from "../../__generated__/graphql";
 
 export function useAddLineItemMutation(budgetId: string) {

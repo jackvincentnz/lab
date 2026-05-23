@@ -1,16 +1,16 @@
 import {
-  RenderResult,
   render as testingLibraryRender,
+  type RenderResult,
 } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
 import { MantineProvider } from "@mantine/core";
 import { MockedProvider } from "@apollo/client/testing";
-import { MockedProviderProps } from "@apollo/client/testing/react/MockedProvider";
+import type { MockedProviderProps } from "@apollo/client/testing/react/MockedProvider";
 import { ModalsProvider } from "@mantine/modals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { StatsigProvider } from "@statsig/react-bindings";
-import { PropsWithChildren } from "react";
+import type { PropsWithChildren } from "react";
 import { statsigClient } from "./statsig";
 
 export interface Options {

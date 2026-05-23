@@ -14,8 +14,8 @@ import { useEffect, useState } from "react";
 import {
   ChatMessageStatus,
   ChatMessageType,
-  GetChatQuery,
   ToolCallStatus,
+  type GetChatQuery,
 } from "../../__generated__/graphql";
 import { ToolCallApproval } from "./ToolCallApproval";
 import { MarkdownContent } from "./MarkdownContent";

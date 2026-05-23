@@ -9,7 +9,10 @@ import {
   Alert,
 } from "@mantine/core";
 import { IconArrowLeft, IconExclamationCircle } from "@tabler/icons-react";
-import { AllChatsDocument, AllChatsQuery } from "../../__generated__/graphql";
+import {
+  AllChatsDocument,
+  type AllChatsQuery,
+} from "../../__generated__/graphql";
 import dayjs from "dayjs";
 
 export interface ChatHistoryProps {

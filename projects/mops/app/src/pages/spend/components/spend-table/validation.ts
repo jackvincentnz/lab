@@ -1,4 +1,4 @@
-import { LineItemErrors, NewLineItem } from "./types";
+import type { LineItemErrors, NewLineItem } from "./types";
 import { useState } from "react";
 
 export const NAME_MAX_LENGTH = 256;

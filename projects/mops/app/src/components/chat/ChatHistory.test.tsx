@@ -1,4 +1,4 @@
-import { MockedResponse } from "@apollo/client/testing";
+import type { MockedResponse } from "@apollo/client/testing";
 import {
   describe,
   expect,
@@ -8,7 +8,10 @@ import {
   userEvent,
   vi,
 } from "../../test";
-import { AllChatsDocument, AllChatsQuery } from "../../__generated__/graphql";
+import {
+  AllChatsDocument,
+  type AllChatsQuery,
+} from "../../__generated__/graphql";
 import { ChatHistory } from "./ChatHistory";
 
 describe("ChatHistory", () => {

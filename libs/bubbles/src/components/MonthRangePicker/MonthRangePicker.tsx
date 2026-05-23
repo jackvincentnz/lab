@@ -1,9 +1,12 @@
-import { Popover, Button } from "@mantine/core";
+import {
+  Popover,
+  Button,
+  type ButtonVariant as MButtonVariant,
+} from "@mantine/core";
 import { MonthPicker } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import dayjs from "dayjs";
-import type { ButtonVariant as MButtonVariant } from "@mantine/core";
 
 export type ButtonVariant = MButtonVariant;
 

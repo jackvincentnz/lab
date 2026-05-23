@@ -1,7 +1,10 @@
 import { MantineProvider } from "@mantine/core";
-import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+import { MockedProvider, type MockedResponse } from "@apollo/client/testing";
 
-import { GetTasksDocument, GetTasksQuery } from "../../__generated__/graphql";
+import {
+  GetTasksDocument,
+  type GetTasksQuery,
+} from "../../__generated__/graphql";
 import {
   expect,
   it,

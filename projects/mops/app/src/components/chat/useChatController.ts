@@ -2,30 +2,30 @@ import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 import {
   AddUserMessageDocument,
-  AddUserMessageMutation,
-  AddUserMessageMutationVariables,
   ApproveToolCallDocument,
-  ApproveToolCallMutation,
-  ApproveToolCallMutationVariables,
   ChatMessageStatus,
   ChatMessageType,
   EditUserMessageDocument,
-  EditUserMessageMutation,
-  EditUserMessageMutationVariables,
   GetChatDocument,
-  GetChatQuery,
-  GetChatQueryVariables,
   RejectToolCallDocument,
-  RejectToolCallMutation,
-  RejectToolCallMutationVariables,
   RetryAssistantMessageDocument,
-  RetryAssistantMessageMutation,
-  RetryAssistantMessageMutationVariables,
   StartChatDocument,
-  StartChatMutation,
-  StartChatMutationVariables,
+  type AddUserMessageMutation,
+  type AddUserMessageMutationVariables,
+  type ApproveToolCallMutation,
+  type ApproveToolCallMutationVariables,
+  type EditUserMessageMutation,
+  type EditUserMessageMutationVariables,
+  type GetChatQuery,
+  type GetChatQueryVariables,
+  type RejectToolCallMutation,
+  type RejectToolCallMutationVariables,
+  type RetryAssistantMessageMutation,
+  type RetryAssistantMessageMutationVariables,
+  type StartChatMutation,
+  type StartChatMutationVariables,
 } from "../../__generated__/graphql";
-import { CHAT_HISTORY_VIEW, CHAT_VIEW, ViewType } from "./chatView";
+import { CHAT_HISTORY_VIEW, CHAT_VIEW, type ViewType } from "./chatView";
 
 const POLL_INTERVAL = 500;
 

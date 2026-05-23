@@ -1,4 +1,4 @@
-import { CodegenConfig } from "@graphql-codegen/cli";
+import type { CodegenConfig } from "@graphql-codegen/cli";
 
 // TODO: generate this or extract to common config?
 const config: CodegenConfig = {
@@ -10,6 +10,9 @@ const config: CodegenConfig = {
       plugins: [],
       presetConfig: {
         gqlTagName: "gql",
+      },
+      config: {
+        useTypeImports: true,
       },
     },
   },

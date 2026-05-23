@@ -7,7 +7,7 @@ import {
 } from "mantine-react-table";
 import clsx from "clsx";
 import { useAddLineItem } from "./actions";
-import { Column, LineItem, NewLineItem } from "./types";
+import type { Column, LineItem, NewLineItem } from "./types";
 import { useLineItemValidation } from "./validation";
 import { AddLineItemToolbar, createSpendTableColumns } from "./columns";
 
