@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "adapter",
     visibility = ["//projects/organizer/autojournal/src/main/java/lab/autojournal:__pkg__"],

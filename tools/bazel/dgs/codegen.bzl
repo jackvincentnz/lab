@@ -2,6 +2,8 @@
 Rule for generate dgs java types from a graphql schema
 """
 
+load("@rules_java//java:defs.bzl", "java_library")
+
 def _zipper_input_path(file):
     marker = "_generated/"
     marker_index = file.path.find(marker)
@@ -103,7 +105,7 @@ def dgs_codegen_library(name, **kwargs):
         **kwargs
     )
 
-    native.java_library(
+    java_library(
         name = name,
         srcs = [":" + name + "_srcs"],
         deps = [
