@@ -1,5 +1,0 @@
-load("//tools/bazel:react.bzl", "react_lib")
-
-react_lib(
-    name = "tic_tac_toe",
-)
