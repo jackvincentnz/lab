@@ -21,7 +21,7 @@ services:
       ZOOKEEPER_TICK_TIME: 2000
 
   broker:
-    image: confluentinc/cp-kafka:7.9.5
+    image: confluentinc/cp-kafka:8.2.1@sha256:68cf7eb0d994f9c94206a0cca751abbb491ab1f308d4580debbfcdc5b45ee4fc
     container_name: broker
     ports:
       - "9092:9092"
@@ -42,7 +42,7 @@ services:
       retries: 10
 
   schema-registry:
-    image: confluentinc/cp-schema-registry:7.9.5
+    image: confluentinc/cp-schema-registry:8.2.1@sha256:43ffd53d147353c97d1f98c5c9777c70919dd86cf141b42aaa94bb552a875b42
     hostname: schema-registry
     container_name: schema-registry
     depends_on:
