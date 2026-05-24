@@ -53,9 +53,6 @@ Keep this file focused on actionable context that improves execution quality and
 - Symptom: DGS schema/resource duplication in test runtime classpath.
   Cause: `contrib_rules_jvm` `java_test_suite` propagates `resources` through generated helper libs.
   Fix: Move schema files to a dedicated `test_resources` `java_library` in `runtime_deps`, not suite-level `resources`.
-- Symptom: Missing `McpToolset.fromServer(...)` at compile time.
-  Cause: `com.google.adk:google-adk(-dev):0.5.0` does not provide that API.
-  Fix: Use `new McpToolset(SseServerParameters...)` and pass toolset to `LlmAgent.builder().tools(...)`.
 - Symptom: Starlark error when using `Args.add_all(..., map_each=...)`.
   Cause: `map_each` is not a top-level function.
   Fix: Define `map_each` as a top-level Starlark function.
