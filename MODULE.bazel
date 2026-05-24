@@ -5,17 +5,17 @@ bazel_dep(name = "bazel_skylib", version = "1.8.2")
 bazel_dep(name = "bazelrc-preset.bzl", version = "1.8.0")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "33.4")
-bazel_dep(name = "rules_java", version = "9.0.3")
+bazel_dep(name = "rules_java", version = "9.3.0")
 bazel_dep(name = "rules_jvm_external", version = "7.0")
-bazel_dep(name = "contrib_rules_jvm", version = "0.32.0")
-bazel_dep(name = "rules_nodejs", version = "6.7.3")
+bazel_dep(name = "contrib_rules_jvm", version = "0.33.0")
+bazel_dep(name = "rules_nodejs", version = "6.7.4")
 bazel_dep(name = "aspect_rules_js", version = "3.1.2")
-bazel_dep(name = "aspect_rules_ts", version = "3.8.5")
-bazel_dep(name = "aspect_rules_swc", version = "2.6.2")
+bazel_dep(name = "aspect_rules_ts", version = "3.8.10")
+bazel_dep(name = "aspect_rules_swc", version = "2.7.2")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.2.0")
 bazel_dep(name = "rules_shell", version = "0.6.1")
-bazel_dep(name = "rules_oci", version = "2.2.7")
+bazel_dep(name = "rules_oci", version = "2.3.0")
 bazel_dep(name = "rules_multirun", version = "0.13.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
@@ -148,9 +148,6 @@ npm.npm_translate_lock(
     name = "npm",
     npmrc = "//:.npmrc",
     pnpm_lock = "//:pnpm-lock.yaml",
-    public_hoist_packages = {
-        "@vitest/expect@4.0.18": [""],
-    },
 )
 use_repo(npm, "npm")
 
@@ -191,13 +188,13 @@ cypress = use_extension(
 cypress.toolchain(
     # Generate with: bazel run @aspect_rules_cypress//scripts:mirror_releases <VERSION_NUMBER>
     cypress_integrity = {
-        "darwin-x64": "ee0daab58922b786d21dc899c1564e60e1dd1be36557e8e3ef6e67bbbc930675",
-        "darwin-arm64": "ef5712ec9a43db3274e1722ef08a02feb3bb001625c19e9867da5baada9b5ec8",
-        "linux-x64": "f6f6a5b894c1c9bb53e48b7119749dd6d3ecf49b42dc908dec670409be6d24a3",
-        "linux-arm64": "47d0bc1d943bce2d54a29feb24c27bc6f0c387b06c839ab0cab4a8ff1cc60a8d",
-        "win32-x64": "bcb5a381a93c010b40278764230834aa6ee77dbed906cca7c13d5645f0df2528",
+        "darwin-x64": "959ea5ab54592689fcfbbd12f530258dcaadcf9c952b946ed6be662b36ce43e7",
+        "darwin-arm64": "4a54a623664eecb5b6eb553718d9e6dc33bfef21e713fd33c703521d0a66dc9e",
+        "linux-x64": "7a415af513bcbc2712121947587c3bfeec082e67d24b8a321622565389169507",
+        "linux-arm64": "f4e42449ec02b4f4e141c239b61f43f0415e9630febf4ca9a147cd6233e1f4b6",
+        "win32-x64": "19e619807aa24ec1acef65147de70cce2c71aa134442cd76123885ccf1ab3280",
     },
-    cypress_version = "15.11.0",
+    cypress_version = "15.15.0",
 )
 use_repo(cypress, "cypress_toolchains")
 

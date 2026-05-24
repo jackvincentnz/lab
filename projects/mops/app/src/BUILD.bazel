@@ -51,7 +51,6 @@ ts_project(
     ],
     deps = [
         ":src_ts",
-        "//:node_modules/@vitest/expect",
         "//projects/mops/app/src/test",
     ],
 )
