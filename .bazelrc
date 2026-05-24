@@ -1,6 +1,6 @@
 import %workspace%/tools/preset.bazelrc
 
-### YOUR PROJECT SPECIFIC OPTIONS GO HERE ###
+### PROJECT SPECIFIC OPTIONS GO HERE ###
 
 # The full list of Bazel options: https://docs.bazel.build/versions/master/command-line-reference.html
 
@@ -51,8 +51,8 @@ coverage:codex-cloud --test_tag_filters=-requires-docker,-no-coverage
 
 ### NO MORE PROJECT SPECIFIC OPTIONS AFTER HERE ###
 
-# Load any settings & overrides specific to the current user from `.aspect/bazelrc/user.bazelrc`.
-# This file should appear in `.gitignore` so that settings are not shared with team members. This
-# should be last statement in this config so the user configuration is able to overwrite flags from
-# this file. See https://bazel.build/configure/best-practices#bazelrc-file.
-try-import %workspace%/.aspect/bazelrc/user.bazelrc
+# User Preferences
+# Load any settings & overrides specific to the current user from `user.bazelrc`.
+# This file should appear in `.gitignore` so that settings are not shared with team members.
+# This should be last statement in this config so the user configuration overrides anything above.
+try-import %workspace%/user.bazelrc

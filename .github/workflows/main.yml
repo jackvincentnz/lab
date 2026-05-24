@@ -38,9 +38,9 @@ jobs:
       - name: Build & test (no-coverage targets)
         run: |
           bazel \
-            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
             --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
             test \
+            --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --test_tag_filters=no-coverage \
             //...
@@ -48,9 +48,9 @@ jobs:
       - name: Coverage
         run: |
           bazel \
-            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.aspect/bazelrc/ci.bazelrc \
             --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
             coverage \
+            --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --combined_report=lcov \
             //...
