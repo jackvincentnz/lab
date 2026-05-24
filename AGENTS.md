@@ -25,7 +25,7 @@ Keep this file focused on actionable context that improves execution quality and
 - CI avoids transitive `rules_android` host SDK checks by setting `ANDROID_HOME` to an empty value in `.github/workflows/main.yml` `common_ci` job env.
 - CI keeps `jlumbroso/free-disk-space` `android: false` to avoid deleting Android tooling unexpectedly on runner images.
 - Local Bazel disk cache is enabled by default; CI explicitly disables disk cache.
-- Protobuf alignment is pinned: `protobuf@33.4`, runtime `protobuf-java`/`protobuf-java-util` `4.33.4`, protobuf BOM `4.33.4`.
+- Protobuf alignment is pinned: `protobuf@34.1`, runtime `protobuf-java`/`protobuf-java-util` `4.34.1`, protobuf BOM `4.34.1`.
 - `.bazelrc` enables proto toolchain resolution and prefers prebuilt protoc (`--incompatible_enable_proto_toolchain_resolution`, `--@protobuf//bazel/toolchains:prefer_prebuilt_protoc`).
 - Weekly git version tags use non-zero-padded ISO week format (`%G.%-V`), and `tools/bazel/output_workspace_status.sh` matches both historical zero-padded and current non-padded week tags.
 
