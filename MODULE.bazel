@@ -152,7 +152,6 @@ npm.npm_translate_lock(
     public_hoist_packages = {
         "@vitest/expect@4.0.18": [""],
     },
-    verify_node_modules_ignored = "//:.bazelignore",
 )
 use_repo(npm, "npm")
 
