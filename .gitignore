@@ -2,8 +2,7 @@
 
 # Bazel
 dist
-bazel-out
-.bazelrc.user
+user.bazelrc
 
 # Node
 node_modules
