@@ -36,7 +36,6 @@ The service expects an AI provider API key. By default it uses Gemini.
 - `GEMINI_API_KEY`: required for the default `spring.ai.model.chat=google-genai` configuration.
 - `OPENROUTER_API_KEY`: required if you switch to the OpenRouter config in `projects/mops/service/src/main/resources/application.properties`.
 - `OPENAI_API_KEY`: required if you switch to the OpenAI config in `projects/mops/service/src/main/resources/application.properties`.
-- `GOOGLE_API_KEY`: required for the ADK agent UI in `projects/mops/adk_agent`.
 
 ## Tests
 
@@ -82,4 +81,3 @@ ibazel run //projects/mops/app:test
 ## Related docs
 
 - `projects/mops/app/README.md`
-- `projects/mops/adk_agent/README.md`
