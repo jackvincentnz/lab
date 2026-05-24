@@ -160,7 +160,7 @@
     "com.github.victools:jsonschema-module-swagger-2": -1971626592,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -776422092,
     "com.google.adk:google-adk": -620516450,
-    "com.google.adk:google-adk-dev": -1370599652,
+    "com.google.adk:google-adk-dev": 1960476275,
     "com.google.adk:google-adk-dev:jar:sources": 1470566881,
     "com.google.adk:google-adk:jar:sources": 406327095,
     "com.google.android:annotations": 1863337959,
@@ -352,10 +352,10 @@
     "commons-logging:commons-logging:jar:sources": 368136215,
     "commons-validator:commons-validator": 1603929829,
     "commons-validator:commons-validator:jar:sources": 1817682945,
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": 668869089,
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": -183445712,
     "guru.nidi.com.kitfox:svgSalamander": 600393034,
     "guru.nidi.com.kitfox:svgSalamander:jar:sources": -582112426,
-    "guru.nidi:graphviz-java": -452118542,
+    "guru.nidi:graphviz-java": 628901442,
     "guru.nidi:graphviz-java:jar:sources": 1548030905,
     "io.confluent:common-utils": -887925531,
     "io.confluent:common-utils:jar:sources": 86133313,
@@ -2066,9 +2066,9 @@
       },
       "version": "1.7"
     },
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": {
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": {
       "shasums": {
-        "jar": "832e5fc5fcce69e2b30e8dfaa767ac7ff7b019239beaf97214e0ebf68bff9b2e"
+        "jar": "3bd4786967f454bfa3a44dfda0ef33222665b7cefcea67dee5edef45f4e3cc08"
       },
       "version": "4.6.0"
     },
@@ -5100,7 +5100,7 @@
     ],
     "guru.nidi:graphviz-java": [
       "com.google.code.findbugs:jsr305",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "net.arnx:nashorn-promise",
       "org.apache.commons:commons-exec",
@@ -7722,7 +7722,7 @@
       "org.apache.commons.validator.routines.checkdigit",
       "org.apache.commons.validator.util"
     ],
-    "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64": [
+    "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64": [
       "com.eclipsesource.v8",
       "com.eclipsesource.v8.debug",
       "com.eclipsesource.v8.debug.mirror",
@@ -12983,7 +12983,7 @@
       "commons-logging:commons-logging:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "guru.nidi.com.kitfox:svgSalamander:jar:sources",
       "guru.nidi:graphviz-java",
@@ -13922,7 +13922,7 @@
       "commons-logging:commons-logging:jar:sources",
       "commons-validator:commons-validator",
       "commons-validator:commons-validator:jar:sources",
-      "guru.nidi.com.eclipsesource.j2v8:j2v8_macosx_x86_64",
+      "guru.nidi.com.eclipsesource.j2v8:j2v8_linux_x86_64",
       "guru.nidi.com.kitfox:svgSalamander",
       "guru.nidi.com.kitfox:svgSalamander:jar:sources",
       "guru.nidi:graphviz-java",
