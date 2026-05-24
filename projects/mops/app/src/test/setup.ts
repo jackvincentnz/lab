@@ -1,7 +1,13 @@
 import "@testing-library/jest-dom/vitest";
-import { vi } from "vitest";
+import { cleanup } from "@testing-library/react";
+import { afterEach, vi } from "vitest";
 import type { PropsWithChildren } from "react";
-import { statsigClient } from "./statsig";
+import { resetStatsigMock, statsigClient } from "./statsig";
+
+afterEach(() => {
+  cleanup();
+  resetStatsigMock();
+});
 
 const { getComputedStyle } = window;
 window.getComputedStyle = (elt) => getComputedStyle(elt);

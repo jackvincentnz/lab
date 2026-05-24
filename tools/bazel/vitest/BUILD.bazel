@@ -18,7 +18,6 @@ ts_project(
         "//:node_modules/@testing-library/jest-dom",
         "//:node_modules/@testing-library/react",
         "//:node_modules/@testing-library/user-event",
-        "//:node_modules/@vitest/expect",
         "//:node_modules/vitest",
     ],
 )
