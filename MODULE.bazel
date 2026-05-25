@@ -2,7 +2,7 @@ module(name = "lab")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
-bazel_dep(name = "bazelrc-preset.bzl", version = "1.8.0")
+bazel_dep(name = "bazelrc-preset.bzl", version = "1.9.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "35.0")
 bazel_dep(name = "rules_java", version = "9.3.0")
