@@ -432,7 +432,7 @@
         "bzlTransitiveDigest": "iSTT2Cf1ed8ku80yZFxvYxZB6Lpy6M8zJBz98hxdxcU=",
         "usagesDigest": "FHaHzPrU0SIBK2K87gK29uxk7CbQpx01JCklDWu7csM=",
         "recordedFileInputs": {
-          "@@//package.json": "4599c574e9f51541293af0730db05da8a99e91a01e2b6e5b287ab26bab29242e"
+          "@@//package.json": "3481bb0adb3f9439bb13fb3669ae91a3c9e900768d8d61e1e517c0dd2b5de425"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -1940,6 +1940,9 @@
     }
   },
   "facts": {
+    "@@aspect_rules_js+//npm:extensions.bzl%pnpm": {
+      "11.3.0": "sha512-LEA9ZZRScodnKx9wVjQ6H3w2NANqZ/+r/MKz11ldhDdo+HhxSNG1fPeVbJBga70ZKFfDY68Z6W0tDsnsV0HSFQ=="
+    },
     "@@rules_go+//go:extensions.bzl%go_sdk": {
       "1.22.4": {
         "aix_ppc64": [
