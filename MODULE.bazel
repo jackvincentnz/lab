@@ -147,16 +147,13 @@ npm = use_extension(
 )
 npm.npm_translate_lock(
     name = "npm",
-    npmrc = "//:.npmrc",
     pnpm_lock = "//:pnpm-lock.yaml",
 )
 use_repo(npm, "npm")
 
 pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
 pnpm.pnpm(
-    pnpm_version = "10.30.2",
-    # Get optional integrity with: curl --silent https://registry.npmjs.org/pnpm | jq '.versions["<VERSION>"].dist.integrity'
-    pnpm_version_integrity = "sha512-Ns3HB+e3lAqYjJwez4jQhPhRS1w/CF9TouJEwpIdOyVFvCDdTr4fwkX+7EY7spiuzqemPtH3aAuHfcY3nY0MtA==",
+    pnpm_version = "11.3.0",
 )
 
 # Allows developers to use the matching pnpm version, for example:

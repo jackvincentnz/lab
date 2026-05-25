@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "pnpm": ">=9 <11",
+    "pnpm": ">=10 <12",
     "node": ">=24.13.0 <25"
   },
   "scripts": {
@@ -69,22 +69,5 @@
     "typescript-eslint": "8.59.4",
     "vite": "7.3.3",
     "vitest": "4.1.7"
-  },
-  "pnpm": {
-    "onlyBuiltDependencies": [],
-    "packageExtensions": {
-      "@mantine/styles": {
-        "peerDependencies": {
-          "@emotion/cache": "*",
-          "@emotion/serialize": "*",
-          "@emotion/utils": "*"
-        }
-      },
-      "cpu-features": {
-        "peerDependencies": {
-          "node-gyp": "*"
-        }
-      }
-    }
   }
 }
