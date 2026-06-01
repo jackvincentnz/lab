@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { SpendPageQueryDocument } from "../../__generated__/graphql";
 import { SpendTable } from "./components/spend-table";
 import {

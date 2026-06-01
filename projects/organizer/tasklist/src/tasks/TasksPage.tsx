@@ -1,9 +1,10 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import DisplayTasks from "./DisplayTasks";
 import AddTask from "./AddTask";
 
 const client = new ApolloClient({
-  uri: "/graphql",
+  link: new HttpLink({ uri: "/graphql" }),
   cache: new InMemoryCache(),
 });
 

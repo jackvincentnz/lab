@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import type { NewLineItem } from "./components/spend-table";
 import {
   AddLineItemDocument,

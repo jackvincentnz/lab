@@ -3,13 +3,8 @@ import "mantine-react-table/styles.css";
 import { MantineProvider } from "@mantine/core";
 import { theme } from "./theme";
 import { Router } from "./Router";
-import {
-  ApolloClient,
-  ApolloProvider,
-  InMemoryCache,
-  split,
-  HttpLink,
-} from "@apollo/client";
+import { ApolloClient, InMemoryCache, split, HttpLink } from "@apollo/client";
+import { ApolloProvider } from "@apollo/client/react";
 import { getMainDefinition } from "@apollo/client/utilities";
 import { GraphQLWsLink } from "@apollo/client/link/subscriptions";
 import { StatsigProvider } from "./providers/StatsigProvider";

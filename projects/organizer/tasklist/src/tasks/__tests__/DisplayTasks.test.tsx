@@ -1,5 +1,6 @@
 import { MantineProvider } from "@mantine/core";
-import { MockedProvider, type MockedResponse } from "@apollo/client/testing";
+import type { MockLink } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
   GetTasksDocument,
@@ -14,7 +15,7 @@ import {
 import DisplayTasks from "../DisplayTasks";
 
 const title = "My Task";
-const mocks: readonly MockedResponse<GetTasksQuery>[] = [
+const mocks: readonly MockLink.MockedResponse<GetTasksQuery>[] = [
   {
     request: {
       query: GetTasksDocument,
@@ -31,7 +32,7 @@ it("renders without error", async () => {
   render(
     // FIXME: move providers into custom render
     <MantineProvider>
-      <MockedProvider mocks={mocks} addTypename={false}>
+      <MockedProvider mocks={mocks}>
         <DisplayTasks />
       </MockedProvider>
     </MantineProvider>,

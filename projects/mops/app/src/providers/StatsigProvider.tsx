@@ -7,7 +7,7 @@ import { StatsigAutoCapturePlugin } from "@statsig/web-analytics";
 import { StatsigSessionReplayPlugin } from "@statsig/session-replay";
 
 import { ClientConfigurationDocument } from "../__generated__/graphql";
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 
 export function StatsigProvider({ children }: PropsWithChildren) {
   const { data } = useQuery(ClientConfigurationDocument);

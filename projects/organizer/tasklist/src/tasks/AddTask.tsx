@@ -1,4 +1,4 @@
-import { useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client/react";
 import { Button, Group, TextInput } from "@mantine/core";
 import { useRef } from "react";
 import { AddTaskDocument, GetTasksDocument } from "../__generated__/graphql";
