@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client/react";
 import { List } from "@mantine/core";
 import { IconCircle, IconCircleCheck } from "@tabler/icons-react";
 

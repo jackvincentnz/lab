@@ -1,4 +1,4 @@
-import type { MockedResponse } from "@apollo/client/testing";
+import type { MockLink } from "@apollo/client/testing";
 import {
   describe,
   expect,
@@ -54,7 +54,7 @@ describe("ChatHistory", () => {
   });
 
   test("renders an error state", async () => {
-    const errorMock: MockedResponse<AllChatsQuery> = {
+    const errorMock: MockLink.MockedResponse<AllChatsQuery> = {
       request: {
         query: AllChatsDocument,
       },
@@ -76,7 +76,7 @@ describe("ChatHistory", () => {
 
 function mockAllChats(
   chats: AllChatsQuery["allChats"],
-): MockedResponse<AllChatsQuery> {
+): MockLink.MockedResponse<AllChatsQuery> {
   return {
     request: {
       query: AllChatsDocument,

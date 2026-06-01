@@ -1,4 +1,4 @@
-import type { MockedResponse } from "@apollo/client/testing";
+import type { MockLink } from "@apollo/client/testing";
 import {
   describe,
   expect,
@@ -62,7 +62,7 @@ describe("SpendPage", async () => {
     });
     const category = initial.result.data.allCategories[0];
 
-    const mutation: MockedResponse<
+    const mutation: MockLink.MockedResponse<
       AddLineItemMutation,
       AddLineItemMutationVariables
     > = {

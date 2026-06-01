@@ -4,8 +4,10 @@ import {
 } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
 import { MantineProvider } from "@mantine/core";
-import { MockedProvider } from "@apollo/client/testing";
-import type { MockedProviderProps } from "@apollo/client/testing/react/MockedProvider";
+import {
+  MockedProvider,
+  type MockedProviderProps,
+} from "@apollo/client/testing/react";
 import { ModalsProvider } from "@mantine/modals";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter, Route, Routes } from "react-router-dom";

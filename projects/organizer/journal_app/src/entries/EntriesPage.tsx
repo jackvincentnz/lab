@@ -1,4 +1,4 @@
-import { useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client/react";
 import { Timeline, type TimelineItemProps } from "./Timeline";
 
 import { GetEntriesDocument, type Entry } from "../__generated__/graphql";

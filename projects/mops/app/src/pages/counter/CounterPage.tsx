@@ -1,4 +1,4 @@
-import { useSubscription } from "@apollo/client";
+import { useSubscription } from "@apollo/client/react";
 import { CounterPageSubscriptionDocument } from "../../__generated__/graphql";
 
 export function CounterPage() {

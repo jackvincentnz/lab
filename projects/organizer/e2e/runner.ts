@@ -254,7 +254,9 @@ async function startRouter(network: StartedNetwork) {
     JOURNAL_ROUTING_URL: "http://journal:3003/graphql",
   };
 
-  return new GenericContainer("ghcr.io/apollographql/router:v1.38.0")
+  return new GenericContainer(
+    "ghcr.io/apollographql/router:v2.15.0@sha256:598598716308e0001bb353eb971a00b93f50a7d9e9a820a008b147bde54573d6",
+  )
     .withCopyContentToContainer(contentToCopy)
     .withEnvironment(environment)
     .withNetworkAliases("router")

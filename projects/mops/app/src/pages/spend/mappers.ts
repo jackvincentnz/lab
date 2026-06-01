@@ -41,7 +41,7 @@ function mapToColumn(
     header: category.name,
     options: category.values.map(mapToOption),
     accessor: (lineItem) =>
-      lineItem.fields.find((attribute) => attribute.id === category.id)?.value,
+      lineItem.fields?.find((attribute) => attribute.id === category.id)?.value,
   };
 }
 
