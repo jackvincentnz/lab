@@ -14,20 +14,21 @@ repos:
 
   # Lint FE source files
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v10.0.2
+    rev: v10.4.0
     hooks:
       - id: eslint
         args: [--fix]
         files: "[jt]sx?$" # *.js, *.jsx, *.ts and *.tsx
+        language: node
         types: [file]
         verbose: true # ensure warnings are output from eslint
         additional_dependencies:
           # Keep versions in sync with package.json so that IDE/CLI tooling works
           - "@eslint/js@10.0.1"
-          - "eslint@10.0.2"
+          - "eslint@10.4.1"
           - "eslint-config-prettier@10.1.8"
-          - "globals@17.3.0"
-          - "typescript-eslint@8.56.1"
+          - "globals@17.6.0"
+          - "typescript-eslint@8.60.0"
 
   # Format FE source files
   - repo: https://github.com/pre-commit/mirrors-prettier
