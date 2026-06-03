@@ -186,13 +186,13 @@ cypress = use_extension(
 cypress.toolchain(
     # Generate with: bazel run @aspect_rules_cypress//scripts:mirror_releases <VERSION_NUMBER>
     cypress_integrity = {
-        "darwin-x64": "959ea5ab54592689fcfbbd12f530258dcaadcf9c952b946ed6be662b36ce43e7",
-        "darwin-arm64": "4a54a623664eecb5b6eb553718d9e6dc33bfef21e713fd33c703521d0a66dc9e",
-        "linux-x64": "7a415af513bcbc2712121947587c3bfeec082e67d24b8a321622565389169507",
-        "linux-arm64": "f4e42449ec02b4f4e141c239b61f43f0415e9630febf4ca9a147cd6233e1f4b6",
-        "win32-x64": "19e619807aa24ec1acef65147de70cce2c71aa134442cd76123885ccf1ab3280",
+        "darwin-x64": "5f4fdc7c5c2d234c2bf8718f409b9821079e2997fa97adda9c0031686c5f60f3",
+        "darwin-arm64": "f5cf03f6dd4b830cf0fa9972fae9027b6343123a3a7de7d7d6e12f9679bde76e",
+        "linux-x64": "aa288c21e4b690ed2eb77dab3870e2cab3cd9d42bea4b166d4f87d046312c8bd",
+        "linux-arm64": "4f5ca55cadf25c088b5ad5bbcb29966ddebb81c916185733c99ed5eea56b93f0",
+        "win32-x64": "b23aad6717057712aea82a8d1b34e48f5565aedfbc03a5ab1d4e51f4c13d5d30",
     },
-    cypress_version = "15.15.0",
+    cypress_version = "15.16.0",
 )
 use_repo(cypress, "cypress_toolchains")
 

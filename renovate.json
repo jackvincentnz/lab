@@ -1,6 +1,9 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": ["config:best-practices"],
+  "pre-commit": {
+    "enabled": true
+  },
   "customManagers": [
     {
       "customType": "regex",
@@ -17,7 +20,7 @@
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
       "schedule": "* * * * 0,6",
-      "matchPackageNames": ["!protobuf"]
+      "matchPackageNames": ["!cypress", "!protobuf"]
     },
     {
       "matchDatasources": ["docker"],

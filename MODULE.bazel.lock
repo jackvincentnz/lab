@@ -382,7 +382,7 @@
     "@@aspect_rules_cypress+//cypress:extensions.bzl%cypress": {
       "general": {
         "bzlTransitiveDigest": "e0RkofYqW8yToEql5hhe+WYWUpksBe5tSfGzau9gUQI=",
-        "usagesDigest": "2NK+cwhM/NClFkxKZe9OCydjvbm3gbfMsO9py1/mcL0=",
+        "usagesDigest": "3cUZdG0DrRWF1Mib9VModW86LEckzSbn6oh6lciN7H4=",
         "recordedFileInputs": {},
         "recordedDirentsInputs": {},
         "envVariables": {},
@@ -390,33 +390,33 @@
           "cypress_darwin-x64": {
             "repoRuleId": "@@aspect_rules_cypress+//cypress:repositories.bzl%cypress_repositories",
             "attributes": {
-              "version": "15.15.0",
+              "version": "15.16.0",
               "platform": "darwin-x64",
-              "sha256": "959ea5ab54592689fcfbbd12f530258dcaadcf9c952b946ed6be662b36ce43e7"
+              "sha256": "5f4fdc7c5c2d234c2bf8718f409b9821079e2997fa97adda9c0031686c5f60f3"
             }
           },
           "cypress_darwin-arm64": {
             "repoRuleId": "@@aspect_rules_cypress+//cypress:repositories.bzl%cypress_repositories",
             "attributes": {
-              "version": "15.15.0",
+              "version": "15.16.0",
               "platform": "darwin-arm64",
-              "sha256": "4a54a623664eecb5b6eb553718d9e6dc33bfef21e713fd33c703521d0a66dc9e"
+              "sha256": "f5cf03f6dd4b830cf0fa9972fae9027b6343123a3a7de7d7d6e12f9679bde76e"
             }
           },
           "cypress_linux-x64": {
             "repoRuleId": "@@aspect_rules_cypress+//cypress:repositories.bzl%cypress_repositories",
             "attributes": {
-              "version": "15.15.0",
+              "version": "15.16.0",
               "platform": "linux-x64",
-              "sha256": "7a415af513bcbc2712121947587c3bfeec082e67d24b8a321622565389169507"
+              "sha256": "aa288c21e4b690ed2eb77dab3870e2cab3cd9d42bea4b166d4f87d046312c8bd"
             }
           },
           "cypress_linux-arm64": {
             "repoRuleId": "@@aspect_rules_cypress+//cypress:repositories.bzl%cypress_repositories",
             "attributes": {
-              "version": "15.15.0",
+              "version": "15.16.0",
               "platform": "linux-arm64",
-              "sha256": "f4e42449ec02b4f4e141c239b61f43f0415e9630febf4ca9a147cd6233e1f4b6"
+              "sha256": "4f5ca55cadf25c088b5ad5bbcb29966ddebb81c916185733c99ed5eea56b93f0"
             }
           },
           "cypress_toolchains": {
@@ -440,7 +440,7 @@
         "bzlTransitiveDigest": "iSTT2Cf1ed8ku80yZFxvYxZB6Lpy6M8zJBz98hxdxcU=",
         "usagesDigest": "FHaHzPrU0SIBK2K87gK29uxk7CbQpx01JCklDWu7csM=",
         "recordedFileInputs": {
-          "@@//package.json": "1af1bc39c9ba845c1dbfb9b5c133a844e750eb57c9f32783cf958c973be13da6"
+          "@@//package.json": "f5aee5ba45d5fda0058a90ecb5265e1fd27170f604afd5585c5a51e6343e4a37"
         },
         "recordedDirentsInputs": {},
         "envVariables": {},
