@@ -1,3 +1,4 @@
+import { isAbsolute } from "node:path";
 import { defineConfig, type PluginOption } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -11,7 +12,11 @@ export default defineConfig({
     - //projects/organizer/journal_app:tar: "package_dir"
   */
   base: "/journal/",
-  plugins: [watchNodeModules(["@lab/bubbles"]), react()],
+  plugins: [
+    preserveHtmlEntrySymlinks(),
+    watchNodeModules(["@lab/bubbles"]),
+    react(),
+  ],
   server: {
     port: 3004,
     proxy: {
@@ -19,6 +24,21 @@ export default defineConfig({
     },
   },
 });
+
+function preserveHtmlEntrySymlinks(): PluginOption {
+  return {
+    name: "preserve-html-entry-symlinks",
+    apply: "build",
+    enforce: "pre",
+    resolveId(id) {
+      // Vite 8 realpaths Bazel's HTML input outside config.root unless this entry stays symlinked.
+      // TODO: Remove when https://github.com/jackvincentnz/lab/issues/771 is resolved.
+      if (isAbsolute(id) && id.endsWith(".html")) {
+        return id;
+      }
+    },
+  };
+}
 
 // https://github.com/vitejs/vite/issues/8619
 
