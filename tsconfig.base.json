@@ -6,9 +6,8 @@
     "target": "es2022",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "lib": ["es2022", "dom", "dom.iterable"],
-
-    "baseUrl": "./",
+    "lib": ["es2022", "dom"],
+    "types": [],
 
     "strict": true,
 
@@ -16,7 +15,6 @@
     "declaration": true,
     "declarationMap": true,
 
-    "downlevelIteration": true,
     "experimentalDecorators": true,
 
     "skipLibCheck": true,
