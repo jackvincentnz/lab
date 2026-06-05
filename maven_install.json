@@ -15,7 +15,7 @@
     "com.netflix.graphql.dgs:dgs-starter": -1261092832,
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
-    "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -343102663,
+    "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -1209796964,
     "com.squareup.okhttp3:okhttp-jvm": -674460980,
     "io.confluent:kafka-protobuf-serializer": 494677790,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
@@ -64,7 +64,7 @@
     "ch.qos.logback:logback-classic:jar:sources": 1985074007,
     "ch.qos.logback:logback-core": -1295639532,
     "ch.qos.logback:logback-core:jar:sources": -622497308,
-    "com.apollographql.federation:federation-graphql-java-support": -516535989,
+    "com.apollographql.federation:federation-graphql-java-support": -1464808693,
     "com.apollographql.federation:federation-graphql-java-support:jar:sources": 1980874549,
     "com.ethlo.time:itu": -908980983,
     "com.ethlo.time:itu:jar:sources": 649236868,
@@ -86,24 +86,22 @@
     "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources": -409052995,
     "com.fasterxml.jackson.module:jackson-module-jsonSchema": -731137532,
     "com.fasterxml.jackson.module:jackson-module-jsonSchema:jar:sources": 1434005734,
-    "com.fasterxml.jackson.module:jackson-module-kotlin": -116519883,
-    "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources": 1414885812,
     "com.fasterxml.jackson.module:jackson-module-parameter-names": -1580089670,
     "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources": -2122383824,
     "com.fasterxml.jackson.module:jackson-module-scala_2.13": -59605645,
     "com.fasterxml.jackson.module:jackson-module-scala_2.13:jar:sources": 1856617841,
     "com.fasterxml:classmate": 381313761,
     "com.fasterxml:classmate:jar:sources": -1810072668,
-    "com.github.ajalt.clikt:clikt": -1496408163,
-    "com.github.ajalt.clikt:clikt-jvm": 622167810,
+    "com.github.ajalt.clikt:clikt": 1113273403,
+    "com.github.ajalt.clikt:clikt-jvm": 1285699780,
     "com.github.ajalt.clikt:clikt-jvm:jar:sources": -838446743,
     "com.github.ajalt.clikt:clikt:jar:sources": -318737285,
-    "com.github.ajalt.colormath:colormath": 1904418461,
-    "com.github.ajalt.colormath:colormath-jvm": 1292594037,
+    "com.github.ajalt.colormath:colormath": -1645736303,
+    "com.github.ajalt.colormath:colormath-jvm": -1942567239,
     "com.github.ajalt.colormath:colormath-jvm:jar:sources": 1560893232,
     "com.github.ajalt.colormath:colormath:jar:sources": 1560893232,
-    "com.github.ajalt.mordant:mordant": -1690370071,
-    "com.github.ajalt.mordant:mordant-jvm": -942197017,
+    "com.github.ajalt.mordant:mordant": 92999108,
+    "com.github.ajalt.mordant:mordant-jvm": 757436023,
     "com.github.ajalt.mordant:mordant-jvm:jar:sources": 1298564931,
     "com.github.ajalt.mordant:mordant:jar:sources": -666800065,
     "com.github.ben-manes.caffeine:caffeine": -507898286,
@@ -142,7 +140,7 @@
     "com.google.code.gson:gson:jar:sources": 907899269,
     "com.google.errorprone:error_prone_annotations": -274565905,
     "com.google.errorprone:error_prone_annotations:jar:sources": 1566089779,
-    "com.google.genai:google-genai": 1807113439,
+    "com.google.genai:google-genai": 600155451,
     "com.google.genai:google-genai:jar:sources": 2120182176,
     "com.google.guava:failureaccess": 1715931538,
     "com.google.guava:failureaccess:jar:sources": 1303858893,
@@ -159,12 +157,12 @@
     "com.google.protobuf:protobuf-java-util": 2024936404,
     "com.google.protobuf:protobuf-java-util:jar:sources": 1458132512,
     "com.google.protobuf:protobuf-java:jar:sources": 133270104,
-    "com.graphql-java:graphql-java": -944144848,
-    "com.graphql-java:graphql-java-extended-scalars": -341926534,
+    "com.graphql-java:graphql-java": 239872145,
+    "com.graphql-java:graphql-java-extended-scalars": -1154176172,
     "com.graphql-java:graphql-java-extended-scalars:jar:sources": 1377951502,
     "com.graphql-java:graphql-java:jar:sources": 956117743,
-    "com.graphql-java:java-dataloader": 234677653,
-    "com.graphql-java:java-dataloader:jar:sources": -1301547853,
+    "com.graphql-java:java-dataloader": 2017773771,
+    "com.graphql-java:java-dataloader:jar:sources": -1676833358,
     "com.h2database:h2": 453335481,
     "com.h2database:h2:jar:sources": -513777040,
     "com.jayway.jsonpath:json-path": 1948360529,
@@ -173,48 +171,50 @@
     "com.knuddels:jtokkit:jar:sources": 1741515621,
     "com.mysql:mysql-connector-j": 1835954191,
     "com.mysql:mysql-connector-j:jar:sources": 396658108,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -1961590671,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 1808334181,
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": -615713111,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": 756894693,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": 1452363065,
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": 448579447,
-    "com.netflix.graphql.dgs:dgs-starter": -1296221389,
-    "com.netflix.graphql.dgs:dgs-starter-test": -1471241949,
-    "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -17425002,
-    "com.netflix.graphql.dgs:dgs-starter:jar:sources": -17425002,
-    "com.netflix.graphql.dgs:graphql-dgs": -1776790823,
-    "com.netflix.graphql.dgs:graphql-dgs-client": -784573232,
-    "com.netflix.graphql.dgs:graphql-dgs-client:jar:sources": 1263605391,
-    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": -1220496022,
-    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:jar:sources": -749343837,
-    "com.netflix.graphql.dgs:graphql-dgs-reactive": -1136126589,
-    "com.netflix.graphql.dgs:graphql-dgs-reactive:jar:sources": -1695699145,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": 1143123525,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test": -883329931,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test:jar:sources": 1154668446,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql:jar:sources": 1054774991,
-    "com.netflix.graphql.dgs:graphql-dgs-subscription-types": 624606146,
-    "com.netflix.graphql.dgs:graphql-dgs-subscription-types:jar:sources": 1873483044,
-    "com.netflix.graphql.dgs:graphql-dgs:jar:sources": -2013862869,
-    "com.netflix.graphql.dgs:graphql-error-types": -1694538340,
-    "com.netflix.graphql.dgs:graphql-error-types:jar:sources": -1174606308,
+    "com.netflix.graphql.dgs:dgs-starter": -1761059352,
+    "com.netflix.graphql.dgs:dgs-starter-test": 62753123,
+    "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -90305005,
+    "com.netflix.graphql.dgs:dgs-starter:jar:sources": -90305005,
+    "com.netflix.graphql.dgs:graphql-dgs": -1749529598,
+    "com.netflix.graphql.dgs:graphql-dgs-client": 2048964962,
+    "com.netflix.graphql.dgs:graphql-dgs-client:jar:sources": 85188281,
+    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": -87964764,
+    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:jar:sources": -1060923273,
+    "com.netflix.graphql.dgs:graphql-dgs-json-api": 187191167,
+    "com.netflix.graphql.dgs:graphql-dgs-json-api:jar:sources": -129046666,
+    "com.netflix.graphql.dgs:graphql-dgs-reactive": -1283056510,
+    "com.netflix.graphql.dgs:graphql-dgs-reactive:jar:sources": -111219698,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": 10217918,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test": 1562347456,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test:jar:sources": 347183046,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql:jar:sources": 412702585,
+    "com.netflix.graphql.dgs:graphql-dgs-subscription-types": -1653878358,
+    "com.netflix.graphql.dgs:graphql-dgs-subscription-types:jar:sources": 1800603041,
+    "com.netflix.graphql.dgs:graphql-dgs:jar:sources": -460871097,
+    "com.netflix.graphql.dgs:graphql-error-types": 2046305999,
+    "com.netflix.graphql.dgs:graphql-error-types:jar:sources": -1247486311,
     "com.networknt:json-schema-validator": 1984581747,
     "com.networknt:json-schema-validator:jar:sources": 425791668,
     "com.palantir.javapoet:javapoet": 1329345971,
     "com.palantir.javapoet:javapoet:jar:sources": -721215784,
-    "com.squareup.okhttp3:okhttp": -1906137578,
-    "com.squareup.okhttp3:okhttp-jvm": -1568354311,
+    "com.squareup.okhttp3:okhttp": 751782184,
+    "com.squareup.okhttp3:okhttp-jvm": -838144089,
     "com.squareup.okhttp3:okhttp-jvm:jar:sources": -433851252,
     "com.squareup.okhttp3:okhttp:jar:sources": 412901443,
-    "com.squareup.okio:okio": -1354815320,
-    "com.squareup.okio:okio-jvm": 437853695,
+    "com.squareup.okio:okio": -997237112,
+    "com.squareup.okio:okio-jvm": 1354996463,
     "com.squareup.okio:okio-jvm:jar:sources": -992116235,
     "com.squareup.okio:okio:jar:sources": 410238119,
-    "com.squareup.wire:wire-runtime-jvm": -522937838,
+    "com.squareup.wire:wire-runtime-jvm": -978838946,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 983012095,
-    "com.squareup.wire:wire-schema-jvm": -1089782195,
+    "com.squareup.wire:wire-schema-jvm": -1262634697,
     "com.squareup.wire:wire-schema-jvm:jar:sources": -1743927679,
-    "com.squareup:kotlinpoet": 333260200,
-    "com.squareup:kotlinpoet-jvm": -810138259,
+    "com.squareup:kotlinpoet": -33850842,
+    "com.squareup:kotlinpoet-jvm": 1769096713,
     "com.squareup:kotlinpoet-jvm:jar:sources": -944675289,
     "com.squareup:kotlinpoet:jar:sources": -1571729273,
     "com.thoughtworks.paranamer:paranamer": -1233040102,
@@ -247,9 +247,9 @@
     "commons-validator:commons-validator:jar:sources": 603453766,
     "io.confluent:common-utils": -1683601754,
     "io.confluent:common-utils:jar:sources": -668046586,
-    "io.confluent:kafka-protobuf-provider": -413629013,
+    "io.confluent:kafka-protobuf-provider": -281737740,
     "io.confluent:kafka-protobuf-provider:jar:sources": 1530162600,
-    "io.confluent:kafka-protobuf-serializer": 1079896394,
+    "io.confluent:kafka-protobuf-serializer": 1495077090,
     "io.confluent:kafka-protobuf-serializer:jar:sources": -1635849564,
     "io.confluent:kafka-protobuf-types": -921536894,
     "io.confluent:kafka-protobuf-types:jar:sources": 1718154412,
@@ -504,34 +504,32 @@
     "org.java-websocket:Java-WebSocket:jar:sources": -685191494,
     "org.jboss.logging:jboss-logging": -509243987,
     "org.jboss.logging:jboss-logging:jar:sources": 902500087,
-    "org.jetbrains.kotlin:kotlin-reflect": 1980328032,
+    "org.jetbrains.kotlin:kotlin-reflect": -396361618,
     "org.jetbrains.kotlin:kotlin-reflect:jar:sources": -21340481,
-    "org.jetbrains.kotlin:kotlin-stdlib": -1598507513,
+    "org.jetbrains.kotlin:kotlin-stdlib": 1777467486,
     "org.jetbrains.kotlin:kotlin-stdlib-common": 1478298381,
     "org.jetbrains.kotlin:kotlin-stdlib-common:jar:sources": -1862431737,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk7": -1305440048,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk7": -1887827458,
     "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:sources": 741020931,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk8": 1598540862,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk8": -193836095,
     "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:sources": 1292673838,
     "org.jetbrains.kotlin:kotlin-stdlib:jar:sources": -1428596594,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core": 1902948531,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": -598796062,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": -982198561,
     "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:jar:sources": -2001721599,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core:jar:sources": -1327552216,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-reactive": -772499107,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-reactive": 377261006,
     "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:jar:sources": 1188907381,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-reactor": 1476247613,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-reactor": -1750862189,
     "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:jar:sources": -567902682,
-    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm": -308719190,
+    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm": 1136975664,
     "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:jar:sources": -857300873,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json": -376783746,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm": 1329642287,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json": 379361755,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm": 779726368,
     "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:jar:sources": 235096767,
     "org.jetbrains.kotlinx:kotlinx-serialization-json:jar:sources": -1307224576,
-    "org.jetbrains:annotations": 1790698553,
-    "org.jetbrains:annotations:jar:sources": -1529940378,
-    "org.jetbrains:markdown": -1883027984,
-    "org.jetbrains:markdown-jvm": 118078967,
+    "org.jetbrains:annotations": -1687668980,
+    "org.jetbrains:annotations:jar:sources": 381604573,
+    "org.jetbrains:markdown": -936628002,
+    "org.jetbrains:markdown-jvm": -1010623497,
     "org.jetbrains:markdown-jvm:jar:sources": -1893283916,
     "org.jetbrains:markdown:jar:sources": -1310283335,
     "org.json:json": -1501897552,
@@ -576,7 +574,7 @@
     "org.postgresql:postgresql:jar:sources": 115218962,
     "org.reactivestreams:reactive-streams": 1281941191,
     "org.reactivestreams:reactive-streams:jar:sources": -1454226778,
-    "org.rnorth.duct-tape:duct-tape": -1790097261,
+    "org.rnorth.duct-tape:duct-tape": 133152594,
     "org.rnorth.duct-tape:duct-tape:jar:sources": -1798015648,
     "org.rocksdb:rocksdbjni": 1921343400,
     "org.rocksdb:rocksdbjni:jar:sources": -1517249905,
@@ -624,7 +622,7 @@
     "org.springframework.ai:spring-ai-client-chat:jar:sources": 290307378,
     "org.springframework.ai:spring-ai-commons": 610173626,
     "org.springframework.ai:spring-ai-commons:jar:sources": 699072578,
-    "org.springframework.ai:spring-ai-google-genai": -1728300072,
+    "org.springframework.ai:spring-ai-google-genai": -1685280952,
     "org.springframework.ai:spring-ai-google-genai:jar:sources": -1482180527,
     "org.springframework.ai:spring-ai-mcp": -1495299627,
     "org.springframework.ai:spring-ai-mcp-annotations": -697725485,
@@ -639,7 +637,7 @@
     "org.springframework.ai:spring-ai-retry": -715671808,
     "org.springframework.ai:spring-ai-retry:jar:sources": 807542248,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1643185927,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": -1814384998,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": -868206608,
     "org.springframework.ai:spring-ai-starter-model-ollama": 667405201,
     "org.springframework.ai:spring-ai-starter-model-openai": -1120185235,
     "org.springframework.ai:spring-ai-template-st": -458529162,
@@ -651,13 +649,25 @@
     "org.springframework.boot:spring-boot-actuator:jar:sources": -26389171,
     "org.springframework.boot:spring-boot-autoconfigure": 1320941984,
     "org.springframework.boot:spring-boot-autoconfigure:jar:sources": -279187470,
+    "org.springframework.boot:spring-boot-http-client": 707251308,
+    "org.springframework.boot:spring-boot-http-client:jar:sources": -992730485,
+    "org.springframework.boot:spring-boot-http-converter": 1970575064,
+    "org.springframework.boot:spring-boot-http-converter:jar:sources": -1289764785,
+    "org.springframework.boot:spring-boot-jackson": -1344591320,
+    "org.springframework.boot:spring-boot-jackson:jar:sources": -105941459,
     "org.springframework.boot:spring-boot-loader": 916118467,
     "org.springframework.boot:spring-boot-loader:jar:sources": -1592827272,
+    "org.springframework.boot:spring-boot-restclient": 910787997,
+    "org.springframework.boot:spring-boot-restclient:jar:sources": -452224129,
+    "org.springframework.boot:spring-boot-servlet": 1956940692,
+    "org.springframework.boot:spring-boot-servlet:jar:sources": -867984728,
     "org.springframework.boot:spring-boot-starter": -1578061094,
     "org.springframework.boot:spring-boot-starter-actuator": -534692890,
     "org.springframework.boot:spring-boot-starter-actuator:jar:sources": 1007055108,
-    "org.springframework.boot:spring-boot-starter-graphql": 1783963228,
+    "org.springframework.boot:spring-boot-starter-graphql": -994259100,
     "org.springframework.boot:spring-boot-starter-graphql:jar:sources": -633051086,
+    "org.springframework.boot:spring-boot-starter-jackson": 250937671,
+    "org.springframework.boot:spring-boot-starter-jackson:jar:sources": 934641399,
     "org.springframework.boot:spring-boot-starter-jdbc": -583899886,
     "org.springframework.boot:spring-boot-starter-jdbc:jar:sources": -2032502484,
     "org.springframework.boot:spring-boot-starter-json": 1626822903,
@@ -666,6 +676,8 @@
     "org.springframework.boot:spring-boot-starter-logging:jar:sources": 994367074,
     "org.springframework.boot:spring-boot-starter-reactor-netty": -919825377,
     "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": 25122202,
+    "org.springframework.boot:spring-boot-starter-restclient": -2030373915,
+    "org.springframework.boot:spring-boot-starter-restclient:jar:sources": -820109147,
     "org.springframework.boot:spring-boot-starter-security": -1396798350,
     "org.springframework.boot:spring-boot-starter-security:jar:sources": -79932856,
     "org.springframework.boot:spring-boot-starter-test": -2081336973,
@@ -683,6 +695,12 @@
     "org.springframework.boot:spring-boot-test-autoconfigure": 421970315,
     "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources": -762611948,
     "org.springframework.boot:spring-boot-test:jar:sources": -532861705,
+    "org.springframework.boot:spring-boot-web-server": -259723339,
+    "org.springframework.boot:spring-boot-web-server:jar:sources": 235564649,
+    "org.springframework.boot:spring-boot-webmvc": -493247854,
+    "org.springframework.boot:spring-boot-webmvc-test": 46202260,
+    "org.springframework.boot:spring-boot-webmvc-test:jar:sources": 1793129530,
+    "org.springframework.boot:spring-boot-webmvc:jar:sources": -469116548,
     "org.springframework.boot:spring-boot:jar:sources": 140809630,
     "org.springframework.data:spring-data-commons": 22052765,
     "org.springframework.data:spring-data-commons:jar:sources": -1475235763,
@@ -690,8 +708,8 @@
     "org.springframework.data:spring-data-jdbc:jar:sources": -1055214981,
     "org.springframework.data:spring-data-relational": -528489794,
     "org.springframework.data:spring-data-relational:jar:sources": -1190400483,
-    "org.springframework.graphql:spring-graphql": -1491713201,
-    "org.springframework.graphql:spring-graphql-test": -1732803136,
+    "org.springframework.graphql:spring-graphql": 44100285,
+    "org.springframework.graphql:spring-graphql-test": -1502613370,
     "org.springframework.graphql:spring-graphql-test:jar:sources": 751555498,
     "org.springframework.graphql:spring-graphql:jar:sources": 547147589,
     "org.springframework.kafka:spring-kafka": -264802002,
@@ -738,17 +756,17 @@
     "org.springframework:spring-webmvc:jar:sources": 1745322585,
     "org.springframework:spring-websocket": -304316296,
     "org.springframework:spring-websocket:jar:sources": 574687427,
-    "org.testcontainers:database-commons": -682736886,
+    "org.testcontainers:database-commons": 1612371166,
     "org.testcontainers:database-commons:jar:sources": 1212560508,
-    "org.testcontainers:jdbc": 1479004534,
+    "org.testcontainers:jdbc": -199966655,
     "org.testcontainers:jdbc:jar:sources": 1763436289,
-    "org.testcontainers:junit-jupiter": -2015378743,
+    "org.testcontainers:junit-jupiter": 1569382719,
     "org.testcontainers:junit-jupiter:jar:sources": -920193843,
-    "org.testcontainers:kafka": -173248038,
+    "org.testcontainers:kafka": 1490258958,
     "org.testcontainers:kafka:jar:sources": -42642082,
-    "org.testcontainers:postgresql": -936993186,
+    "org.testcontainers:postgresql": -1156743304,
     "org.testcontainers:postgresql:jar:sources": 772521704,
-    "org.testcontainers:testcontainers": -507257965,
+    "org.testcontainers:testcontainers": 230562205,
     "org.testcontainers:testcontainers:jar:sources": 115174585,
     "org.wiremock:wiremock": 164373912,
     "org.wiremock:wiremock-jetty12": 85933723,
@@ -767,7 +785,13 @@
     "redis.clients.authentication:redis-authx-core": 442288662,
     "redis.clients.authentication:redis-authx-core:jar:sources": -376828222,
     "redis.clients:jedis": -1828110990,
-    "redis.clients:jedis:jar:sources": -316799386
+    "redis.clients:jedis:jar:sources": -316799386,
+    "tools.jackson.core:jackson-core": 579299413,
+    "tools.jackson.core:jackson-core:jar:sources": -1027276254,
+    "tools.jackson.core:jackson-databind": 1835187628,
+    "tools.jackson.core:jackson-databind:jar:sources": -1657930758,
+    "tools.jackson.module:jackson-module-kotlin": 2084453215,
+    "tools.jackson.module:jackson-module-kotlin:jar:sources": -2088276621
   },
   "conflict_resolution": {
     "com.fasterxml.jackson.core:jackson-databind": "com.fasterxml.jackson.core:jackson-databind:2.19.4",
@@ -777,9 +801,9 @@
     "com.google.j2objc:j2objc-annotations:2.8": "com.google.j2objc:j2objc-annotations:3.1",
     "com.h2database:h2": "com.h2database:h2:2.3.232",
     "com.mysql:mysql-connector-j": "com.mysql:mysql-connector-j:9.6.0",
-    "com.netflix.graphql.dgs:dgs-starter": "com.netflix.graphql.dgs:dgs-starter:10.2.4",
-    "com.netflix.graphql.dgs:dgs-starter-test": "com.netflix.graphql.dgs:dgs-starter-test:10.2.4",
-    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:10.2.4",
+    "com.netflix.graphql.dgs:dgs-starter": "com.netflix.graphql.dgs:dgs-starter:12.0.1",
+    "com.netflix.graphql.dgs:dgs-starter-test": "com.netflix.graphql.dgs:dgs-starter-test:12.0.1",
+    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:12.0.1",
     "jakarta.servlet:jakarta.servlet-api": "jakarta.servlet:jakarta.servlet-api:6.0.0",
     "org.apache.commons:commons-lang3": "org.apache.commons:commons-lang3:3.17.0",
     "org.apache.kafka:kafka-clients": "org.apache.kafka:kafka-clients:3.9.1",
@@ -906,13 +930,6 @@
       "shasums": {
         "jar": "bf018ef5cb79d4222c1d1bbf8532ca75b0c24be00a6ed22ddc536f015ecd0b71",
         "sources": "ef8016782a70a01d1921d0563541087f007cfff9428404ecf076dff22b497763"
-      },
-      "version": "2.19.4"
-    },
-    "com.fasterxml.jackson.module:jackson-module-kotlin": {
-      "shasums": {
-        "jar": "440a2533aa6523296a58c4798ad920cd77b1b819ccc6fbd9e96c81d53794ed90",
-        "sources": "f7577e25b9c8a1959772e8f03d972dc0cb4898df70647c073218ff1994a781dc"
       },
       "version": "2.19.4"
     },
@@ -1183,10 +1200,10 @@
     },
     "com.graphql-java:java-dataloader": {
       "shasums": {
-        "jar": "de05a85f5be5a35989877ba3e23504f41903ffc0c4f3432adf34a81b479f089c",
-        "sources": "447746999a3cec8b26729b2d12946feaebfe4cffa6fd406d65870d202f3c0c1a"
+        "jar": "1c9ef058308381312c350f943d185c9e451b0eee0acab74b7b80fc4f56625501",
+        "sources": "ea1b61592602f06976ee20026083b79ce7677e28591a12d381e5ac3d56a46170"
       },
-      "version": "5.0.0"
+      "version": "6.0.0"
     },
     "com.h2database:h2": {
       "shasums": {
@@ -1232,73 +1249,80 @@
     },
     "com.netflix.graphql.dgs:dgs-starter": {
       "shasums": {
-        "jar": "0f26f4e9fd2edcfba4baee736bf8fcb558636715da84e199b4e21f2a9aae7ead",
+        "jar": "81a341baa6b2ce7408c087fc91fcd3a5774ad737730ee487faeb41b6d2e2c6f8",
         "sources": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:dgs-starter-test": {
       "shasums": {
-        "jar": "2b20924f77c715003604c64aaef560581732de6fe084da9ad290c098b46f346e",
+        "jar": "d6c9ae5d755f089cdc4f504ecc48f040fcb5226dca9b0a8176fa35b0ea66bd7b",
         "sources": "c6deada2fac53b8ea6523dbda77597b128006674616f140f04df23264c6d1aa3"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs": {
       "shasums": {
-        "jar": "d311c10843d784eb5eab16eb5b591327bae16a25bc34a6e18b0b56a3aeb2d35f",
-        "sources": "15067e92ea9bd8d81007d55256888721cfb07f4daccb7f08e398294c3796b59f"
+        "jar": "7404c704bb36d3fad1dd2b888d50a36a4a91b8db5984c5a52fe08d9099127afa",
+        "sources": "a41b7e573675f823d29278f8716e4f5034800d505b93de0cbd16dbb39047d1bf"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-client": {
       "shasums": {
-        "jar": "6abd8e21bf44be51588b243c961a7c85e80b9a933a096db4d7f9bf2a45080cb8",
-        "sources": "31e5fde393bb20fbaa6e6d3a54a0e5dbb2d7dbd65cce59958fdb7b92b13a33ea"
+        "jar": "61fa626f6eeef28994cf76c0e8e8324d74992728426eed96ccc9fe215ae86d82",
+        "sources": "feab4a5369ddd10ceb2ac2b01be469ee2c5e8c58755fca8e9441666d38bacfec"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": {
       "shasums": {
-        "jar": "005406184975475030074ab4602c6757cd5de11d9e9e05fcf70fb33302e71967",
-        "sources": "518aea0ad8c226545fa0ed452f4bb2105a47d2099cc735fbc07362535501a2d9"
+        "jar": "bbd72c9deada8c19fe395c7fedf7e851d106362fc5005768e77d845a1221272c",
+        "sources": "0c234ea43a6457e29c94bcd6e932a3324fe7a993c494646cc95311847dadf435"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
+    },
+    "com.netflix.graphql.dgs:graphql-dgs-json-api": {
+      "shasums": {
+        "jar": "a7357ef9114dc8e19c603062d442da71c099ea7827c3e602e48f7b53d7ee6555",
+        "sources": "873b04f93220b3df242ebd6c1a18bd0914f4ff695a3f2a363135be84ba60a862"
+      },
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-reactive": {
       "shasums": {
-        "jar": "2aa311fe6f62961c6cccbf21bd964918548a7401d6592fe2160eca73b21f30e8",
-        "sources": "74f825c59e85f68e5bcb62a947f1430e1a8af1bb956225cb81933cdcd4ab7e31"
+        "jar": "dc458e13f8cc48ec1e4757ac3e97782a8aaee62160dff643f5035ee692bba5f1",
+        "sources": "9a78af5a3121d4444f7002d092becf2f6ab4b1f4b3b8ddbec6e8634d0ddb2d1f"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": {
       "shasums": {
-        "jar": "fb2367864c93d4b85c3b36944ecd1eb45208efab95da36026c37571cc1525c1c",
-        "sources": "33e0cd3d0682d0017fa2d4d0b9bee0de9f621c7276149d2c23ff58e9c69053de"
+        "jar": "9ae61fa736dac6f66ff05321b3241275a6cf9946eb3cb1182149ad3181569c9b",
+        "sources": "586ddd82b2a0bdf238e457fc05a2c175e28be81d3f69b0de58366846e17a23fd"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test": {
       "shasums": {
-        "jar": "5fa654185a9e34ef0e21df58f9082066c6a9fe4f47ebf50aa91ec9f93b5e5656",
-        "sources": "538a26bda4e7b1797e36167232e93df19048a5bdf40daf63f52e3f1c86e0d9b5"
+        "jar": "712b28ac1ad5fa4d2bb515b44e3e25c7195aad42356abd0189681e077f733711",
+        "sources": "e9b026e3334f67f3971539a4297dc5824170c8465d9aa5f82f2474edb3741f7d"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-dgs-subscription-types": {
       "shasums": {
-        "jar": "d1db6cd8a1210f7cb2ea1d71388c43e1d35f05d3df932a388fffe430eb544039",
+        "jar": "9541aa9996fecaffb6cb366b9501b63b7dc5e3e2e9a5d487203265992679491e",
         "sources": "b4921490d08c4b1c5fbc72a3e57cb059cb8a83859637bd48bc4a30ff79510e08"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.netflix.graphql.dgs:graphql-error-types": {
       "shasums": {
-        "jar": "d8f7923e3dc0e144b7442db5f268bf8a829678f1d3e050b852594c1059d5627c",
+        "jar": "3a5e11fdf6bebf91e51f6d1b6f99a93602f9e26c234b01cefc3f7350afaaaef5",
         "sources": "2b68b347cb938c0a5f54ae1975cd9931f445fdb3198b8dba12350f9d156efe8a"
       },
-      "version": "10.2.4"
+      "version": "12.0.1"
     },
     "com.networknt:json-schema-validator": {
       "shasums": {
@@ -2402,13 +2426,6 @@
       },
       "version": "1.9.25"
     },
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core": {
-      "shasums": {
-        "jar": "daf50f1c9404b224a1d6dd5286f8e8ee7d63fe807f78ea98f71795c183b6025f",
-        "sources": "4439a01f451bb44cabda4da2d0638cebf6ab5804c85fa725af90b4d65711f3bb"
-      },
-      "version": "1.8.1"
-    },
     "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": {
       "shasums": {
         "jar": "f3d4f5de1c391bbcc20f3b3435ccbac013521e76b6902d7d59635ec15c1f797e",
@@ -2453,10 +2470,10 @@
     },
     "org.jetbrains:annotations": {
       "shasums": {
-        "jar": "2037be378980d3ba9333e97955f3b2cde392aa124d04ca73ce2eee6657199297",
-        "sources": "a3bea3ada0af186437f8f3a089e6b0f52ac5aa068c1cb829058fb8a5069f6b0f"
+        "jar": "ebc7aec252ed0c7d2d04c039d7f00e69f7b86b1f493c741d67b3ef31b986b054",
+        "sources": "736d7e0e4bd95570ec8856cacffa3c34eb78ad8e45ca78c5df610d7347963b53"
       },
-      "version": "26.0.2"
+      "version": "26.1.0"
     },
     "org.jetbrains:markdown": {
       "shasums": {
@@ -2895,12 +2912,47 @@
       },
       "version": "3.5.11"
     },
+    "org.springframework.boot:spring-boot-http-client": {
+      "shasums": {
+        "jar": "416707634ed732cedc295f91935d7adeee1a4d351724fab6913683ae011d1dab",
+        "sources": "fc0e205c31118386b5da59cdebb8908065204ebd77898d8b053ccecc37dc796c"
+      },
+      "version": "4.0.0"
+    },
+    "org.springframework.boot:spring-boot-http-converter": {
+      "shasums": {
+        "jar": "8ff4200f84d1626ec9418068f6e69c6b3af34ebce383f7548dbb6d0458f4b2f4",
+        "sources": "391378b135e7960064d424c913179b92dee0242c1a5ab11aef58cf5a4d5243d2"
+      },
+      "version": "4.0.0"
+    },
+    "org.springframework.boot:spring-boot-jackson": {
+      "shasums": {
+        "jar": "5cd8796b8dbf3e2a873ece0d1fe94fff99b53ce1e18e7460e70e38e94d5a449d",
+        "sources": "e2167a9fe3caaec1387eff70ee73e178fc81334f77f20c76838edd94eba160a3"
+      },
+      "version": "4.0.0"
+    },
     "org.springframework.boot:spring-boot-loader": {
       "shasums": {
         "jar": "829437ad5edee7a2af39b2e64086a1069eef617c272818212c39f8da59a129a9",
         "sources": "de83ea8675e82e37afadc6fb2ca9def4310e69d0d005d57262853428010d1a6d"
       },
       "version": "3.5.11"
+    },
+    "org.springframework.boot:spring-boot-restclient": {
+      "shasums": {
+        "jar": "c8d8cde9fdc1f10fb614509da361ffecb1a84d664f5600affbd60d42ce1be610",
+        "sources": "a99a75b95370528eb9216bbef5dfe79226a0ba3d5407dca241937bd91b519df7"
+      },
+      "version": "4.0.0"
+    },
+    "org.springframework.boot:spring-boot-servlet": {
+      "shasums": {
+        "jar": "4fb49171178f35ea4e5472f720f678fc702e5db2ccc007cab70b7c3d8464b273",
+        "sources": "1f8239c92a77ac6c3c2ef27aaa07ffa701322fa173a9cf45da962184d8824c5a"
+      },
+      "version": "4.0.0"
     },
     "org.springframework.boot:spring-boot-starter": {
       "shasums": {
@@ -2922,6 +2974,13 @@
         "sources": "62a1b5ce22fd9a4d997642c88e200bab3dedd3cd9e9d084f4922a1ba1537bf34"
       },
       "version": "3.5.11"
+    },
+    "org.springframework.boot:spring-boot-starter-jackson": {
+      "shasums": {
+        "jar": "ce2f5ebfbb9735cdb0b56af447b30075d3e9df604d8f1c019d1478618284d55e",
+        "sources": "ce2f5ebfbb9735cdb0b56af447b30075d3e9df604d8f1c019d1478618284d55e"
+      },
+      "version": "4.0.0"
     },
     "org.springframework.boot:spring-boot-starter-jdbc": {
       "shasums": {
@@ -2950,6 +3009,13 @@
         "sources": "1ded4fb8293fdcf3096371228a8fe791cd6ed1a9d90653fac893453497d70d89"
       },
       "version": "3.5.11"
+    },
+    "org.springframework.boot:spring-boot-starter-restclient": {
+      "shasums": {
+        "jar": "753853049ba398202f8eab5073bfc113bc2ddcf98ea38b8f3d675c49c0a82dd9",
+        "sources": "753853049ba398202f8eab5073bfc113bc2ddcf98ea38b8f3d675c49c0a82dd9"
+      },
+      "version": "4.0.0"
     },
     "org.springframework.boot:spring-boot-starter-security": {
       "shasums": {
@@ -3006,6 +3072,27 @@
         "sources": "9e7493e4daf7441f9dc12fdbb3b255356cd771a625ccd08761e22023d81c338f"
       },
       "version": "3.5.11"
+    },
+    "org.springframework.boot:spring-boot-web-server": {
+      "shasums": {
+        "jar": "f7ccd92eebf23f9929972f6e676bcff102ef3dc10e377776fd03692e44359fcc",
+        "sources": "c6c1070b88490ea6a66293fb32822d9a5b0c3f526efd226ed4012aed8a0043ae"
+      },
+      "version": "4.0.0"
+    },
+    "org.springframework.boot:spring-boot-webmvc": {
+      "shasums": {
+        "jar": "9f4838837eefe14d3dcc81c8f7598635cdef45277b498eb503b9c481b5a99630",
+        "sources": "ec218c6303fe104b00cddeec6d971ede26515d7c17ba38c25438913956314843"
+      },
+      "version": "4.0.0"
+    },
+    "org.springframework.boot:spring-boot-webmvc-test": {
+      "shasums": {
+        "jar": "5c4cabf398e95e1116b86276f50c567909f2f78f04a51a52e5de9c694a728894",
+        "sources": "ba352cb3aa82afd37567e22cfd6311434eefd379c87c10dc984b563a270574ca"
+      },
+      "version": "4.0.0"
     },
     "org.springframework.data:spring-data-commons": {
       "shasums": {
@@ -3300,6 +3387,27 @@
         "sources": "8c1f553ef01655cef9ef2434054a4d12085746bb21fc8f2a9675ac287359365b"
       },
       "version": "6.0.0"
+    },
+    "tools.jackson.core:jackson-core": {
+      "shasums": {
+        "jar": "fa74515ba5fc01282cecab7e5970fa12a0f4ff23bd6c2061e9c7783338d0b436",
+        "sources": "2ff7c48ee9b3a129b54fdb005a7103cabe250c7b0ffb84adaa3bb1284767eac3"
+      },
+      "version": "3.0.2"
+    },
+    "tools.jackson.core:jackson-databind": {
+      "shasums": {
+        "jar": "f54f69bfc780380a3f4de42fb2c3e82b22c8ef4d84ba918cff81d22c6aa1069f",
+        "sources": "5b319cfb5d3edb06c732b62de721dbb71146a4c9e8043212c2e4d7f787a961bc"
+      },
+      "version": "3.0.2"
+    },
+    "tools.jackson.module:jackson-module-kotlin": {
+      "shasums": {
+        "jar": "4a3142b5f393e48baec671c9cae76ab163c3add3877b82e4e1f46d831b6cf4b6",
+        "sources": "9696b46c9498ed08642260be952a33d838c5a7975f242865506b71bbef658e53"
+      },
+      "version": "3.0.2"
     }
   },
   "dependencies": {
@@ -3344,11 +3452,6 @@
       "com.fasterxml.jackson.core:jackson-core",
       "com.fasterxml.jackson.core:jackson-databind",
       "javax.validation:validation-api"
-    ],
-    "com.fasterxml.jackson.module:jackson-module-kotlin": [
-      "com.fasterxml.jackson.core:jackson-annotations",
-      "com.fasterxml.jackson.core:jackson-databind",
-      "org.jetbrains.kotlin:kotlin-reflect"
     ],
     "com.fasterxml.jackson.module:jackson-module-parameter-names": [
       "com.fasterxml.jackson.core:jackson-core",
@@ -3530,7 +3633,8 @@
       "org.jetbrains.kotlin:kotlin-stdlib",
       "org.jetbrains:annotations",
       "org.slf4j:slf4j-api",
-      "org.springframework.boot:spring-boot-starter-graphql"
+      "org.springframework.boot:spring-boot-starter-graphql",
+      "tools.jackson.module:jackson-module-kotlin"
     ],
     "com.netflix.graphql.dgs:dgs-starter-test": [
       "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test",
@@ -3541,16 +3645,15 @@
     ],
     "com.netflix.graphql.dgs:graphql-dgs": [
       "com.apollographql.federation:federation-graphql-java-support",
-      "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
       "com.graphql-java:graphql-java",
       "com.graphql-java:java-dataloader",
       "com.jayway.jsonpath:json-path",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api",
       "com.netflix.graphql.dgs:graphql-error-types",
       "io.micrometer:context-propagation",
       "org.jetbrains.kotlin:kotlin-reflect",
       "org.jetbrains.kotlin:kotlin-stdlib",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core",
+      "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactor",
       "org.jetbrains:annotations",
       "org.slf4j:slf4j-api",
@@ -3558,13 +3661,9 @@
       "org.springframework:spring-web"
     ],
     "com.netflix.graphql.dgs:graphql-dgs-client": [
-      "com.fasterxml.jackson.core:jackson-annotations",
-      "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
-      "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
-      "com.fasterxml.jackson.module:jackson-module-parameter-names",
       "com.graphql-java:graphql-java",
       "com.jayway.jsonpath:json-path",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api",
       "com.netflix.graphql.dgs:graphql-dgs-subscription-types",
       "io.projectreactor:reactor-core",
       "org.jetbrains.kotlin:kotlin-stdlib",
@@ -3580,25 +3679,30 @@
       "org.slf4j:slf4j-api",
       "org.springframework.boot:spring-boot-autoconfigure"
     ],
+    "com.netflix.graphql.dgs:graphql-dgs-json-api": [
+      "com.jayway.jsonpath:json-path",
+      "org.jetbrains.kotlin:kotlin-stdlib",
+      "org.jetbrains:annotations",
+      "org.slf4j:slf4j-api"
+    ],
     "com.netflix.graphql.dgs:graphql-dgs-reactive": [
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
       "com.netflix.graphql.dgs:graphql-dgs",
       "io.projectreactor.kotlin:reactor-kotlin-extensions",
       "org.jetbrains.kotlin:kotlin-stdlib",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core",
+      "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
       "org.jetbrains:annotations",
       "org.slf4j:slf4j-api"
     ],
     "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": [
-      "com.fasterxml.jackson.datatype:jackson-datatype-jsr310",
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
       "com.netflix.graphql.dgs:graphql-dgs",
       "com.netflix.graphql.dgs:graphql-dgs-reactive",
       "io.micrometer:context-propagation",
       "org.jetbrains.kotlin:kotlin-stdlib",
+      "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
       "org.jetbrains:annotations",
       "org.slf4j:slf4j-api",
       "org.springframework.boot:spring-boot-autoconfigure",
+      "org.springframework.boot:spring-boot-starter-graphql",
       "org.springframework.graphql:spring-graphql",
       "org.springframework:spring-web"
     ],
@@ -3607,7 +3711,10 @@
       "org.jetbrains:annotations",
       "org.slf4j:slf4j-api",
       "org.springframework.boot:spring-boot-autoconfigure",
-      "org.springframework.boot:spring-boot-test-autoconfigure"
+      "org.springframework.boot:spring-boot-starter-graphql",
+      "org.springframework.boot:spring-boot-starter-restclient",
+      "org.springframework.boot:spring-boot-test-autoconfigure",
+      "org.springframework.boot:spring-boot-webmvc-test"
     ],
     "com.netflix.graphql.dgs:graphql-dgs-subscription-types": [
       "com.fasterxml.jackson.core:jackson-annotations",
@@ -4266,9 +4373,6 @@
       "org.jetbrains.kotlin:kotlin-stdlib",
       "org.jetbrains.kotlin:kotlin-stdlib-jdk7"
     ],
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core": [
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm"
-    ],
     "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": [
       "org.jetbrains.kotlin:kotlin-stdlib",
       "org.jetbrains:annotations"
@@ -4559,6 +4663,28 @@
     "org.springframework.boot:spring-boot-autoconfigure": [
       "org.springframework.boot:spring-boot"
     ],
+    "org.springframework.boot:spring-boot-http-client": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-http-converter",
+      "org.springframework:spring-web"
+    ],
+    "org.springframework.boot:spring-boot-http-converter": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework:spring-web"
+    ],
+    "org.springframework.boot:spring-boot-jackson": [
+      "org.springframework.boot:spring-boot",
+      "tools.jackson.core:jackson-databind"
+    ],
+    "org.springframework.boot:spring-boot-restclient": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-http-client",
+      "org.springframework.boot:spring-boot-http-converter"
+    ],
+    "org.springframework.boot:spring-boot-servlet": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework:spring-web"
+    ],
     "org.springframework.boot:spring-boot-starter": [
       "jakarta.annotation:jakarta.annotation-api",
       "org.springframework.boot:spring-boot",
@@ -4577,6 +4703,10 @@
       "org.springframework.boot:spring-boot-starter",
       "org.springframework.boot:spring-boot-starter-json",
       "org.springframework.graphql:spring-graphql"
+    ],
+    "org.springframework.boot:spring-boot-starter-jackson": [
+      "org.springframework.boot:spring-boot-jackson",
+      "org.springframework.boot:spring-boot-starter"
     ],
     "org.springframework.boot:spring-boot-starter-jdbc": [
       "com.zaxxer:HikariCP",
@@ -4598,6 +4728,11 @@
     ],
     "org.springframework.boot:spring-boot-starter-reactor-netty": [
       "io.projectreactor.netty:reactor-netty-http"
+    ],
+    "org.springframework.boot:spring-boot-starter-restclient": [
+      "org.springframework.boot:spring-boot-restclient",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.boot:spring-boot-starter-jackson"
     ],
     "org.springframework.boot:spring-boot-starter-security": [
       "org.springframework.boot:spring-boot-starter",
@@ -4656,6 +4791,22 @@
       "org.springframework.boot:spring-boot",
       "org.springframework.boot:spring-boot-autoconfigure",
       "org.springframework.boot:spring-boot-test"
+    ],
+    "org.springframework.boot:spring-boot-web-server": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework:spring-web"
+    ],
+    "org.springframework.boot:spring-boot-webmvc": [
+      "org.springframework.boot:spring-boot-http-converter",
+      "org.springframework.boot:spring-boot-servlet",
+      "org.springframework:spring-web",
+      "org.springframework:spring-webmvc"
+    ],
+    "org.springframework.boot:spring-boot-webmvc-test": [
+      "org.springframework.boot:spring-boot-http-converter",
+      "org.springframework.boot:spring-boot-test-autoconfigure",
+      "org.springframework.boot:spring-boot-web-server",
+      "org.springframework.boot:spring-boot-webmvc"
     ],
     "org.springframework.data:spring-data-commons": [
       "org.slf4j:slf4j-api",
@@ -4881,6 +5032,15 @@
       "org.json:json",
       "org.slf4j:slf4j-api",
       "redis.clients.authentication:redis-authx-core"
+    ],
+    "tools.jackson.core:jackson-databind": [
+      "com.fasterxml.jackson.core:jackson-annotations",
+      "tools.jackson.core:jackson-core"
+    ],
+    "tools.jackson.module:jackson-module-kotlin": [
+      "com.fasterxml.jackson.core:jackson-annotations",
+      "org.jetbrains.kotlin:kotlin-reflect",
+      "tools.jackson.core:jackson-databind"
     ]
   },
   "packages": {
@@ -5045,9 +5205,6 @@
       "com.fasterxml.jackson.module.jsonSchema.factories",
       "com.fasterxml.jackson.module.jsonSchema.types",
       "com.fasterxml.jackson.module.jsonSchema.validation"
-    ],
-    "com.fasterxml.jackson.module:jackson-module-kotlin": [
-      "com.fasterxml.jackson.module.kotlin"
     ],
     "com.fasterxml.jackson.module:jackson-module-parameter-names": [
       "com.fasterxml.jackson.module.paramnames"
@@ -5593,6 +5750,9 @@
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": [
       "com.netflix.graphql.dgs.autoconfig"
     ],
+    "com.netflix.graphql.dgs:graphql-dgs-json-api": [
+      "com.netflix.graphql.dgs.json"
+    ],
     "com.netflix.graphql.dgs:graphql-dgs-reactive": [
       "com.netflix.graphql.dgs.reactive",
       "com.netflix.graphql.dgs.reactive.internal",
@@ -5605,6 +5765,7 @@
       "com.netflix.graphql.dgs.mvc.internal.method",
       "com.netflix.graphql.dgs.springgraphql",
       "com.netflix.graphql.dgs.springgraphql.autoconfig",
+      "com.netflix.graphql.dgs.springgraphql.conditions",
       "com.netflix.graphql.dgs.springgraphql.webflux",
       "com.netflix.graphql.dgs.springgraphql.webmvc"
     ],
@@ -8523,6 +8684,22 @@
       "org.springframework.boot.autoconfigure.websocket.reactive",
       "org.springframework.boot.autoconfigure.websocket.servlet"
     ],
+    "org.springframework.boot:spring-boot-http-client": [
+      "org.springframework.boot.http.client",
+      "org.springframework.boot.http.client.autoconfigure",
+      "org.springframework.boot.http.client.autoconfigure.imperative",
+      "org.springframework.boot.http.client.autoconfigure.metrics",
+      "org.springframework.boot.http.client.autoconfigure.reactive",
+      "org.springframework.boot.http.client.autoconfigure.service",
+      "org.springframework.boot.http.client.reactive"
+    ],
+    "org.springframework.boot:spring-boot-http-converter": [
+      "org.springframework.boot.http.converter.autoconfigure"
+    ],
+    "org.springframework.boot:spring-boot-jackson": [
+      "org.springframework.boot.jackson",
+      "org.springframework.boot.jackson.autoconfigure"
+    ],
     "org.springframework.boot:spring-boot-loader": [
       "org.springframework.boot.loader.jar",
       "org.springframework.boot.loader.jarmode",
@@ -8535,6 +8712,22 @@
       "org.springframework.boot.loader.nio.file",
       "org.springframework.boot.loader.ref",
       "org.springframework.boot.loader.zip"
+    ],
+    "org.springframework.boot:spring-boot-restclient": [
+      "org.springframework.boot.restclient",
+      "org.springframework.boot.restclient.autoconfigure",
+      "org.springframework.boot.restclient.autoconfigure.service",
+      "org.springframework.boot.restclient.observation"
+    ],
+    "org.springframework.boot:spring-boot-servlet": [
+      "org.springframework.boot.servlet",
+      "org.springframework.boot.servlet.actuate.web.exchanges",
+      "org.springframework.boot.servlet.actuate.web.mappings",
+      "org.springframework.boot.servlet.autoconfigure",
+      "org.springframework.boot.servlet.autoconfigure.actuate.web",
+      "org.springframework.boot.servlet.autoconfigure.actuate.web.exchanges",
+      "org.springframework.boot.servlet.autoconfigure.actuate.web.mappings",
+      "org.springframework.boot.servlet.filter"
     ],
     "org.springframework.boot:spring-boot-test": [
       "org.springframework.boot.test.context",
@@ -8583,6 +8776,30 @@
       "org.springframework.boot.test.autoconfigure.web.servlet",
       "org.springframework.boot.test.autoconfigure.webservices.client",
       "org.springframework.boot.test.autoconfigure.webservices.server"
+    ],
+    "org.springframework.boot:spring-boot-web-server": [
+      "org.springframework.boot.web.server",
+      "org.springframework.boot.web.server.autoconfigure",
+      "org.springframework.boot.web.server.autoconfigure.reactive",
+      "org.springframework.boot.web.server.autoconfigure.servlet",
+      "org.springframework.boot.web.server.context",
+      "org.springframework.boot.web.server.reactive",
+      "org.springframework.boot.web.server.reactive.context",
+      "org.springframework.boot.web.server.servlet",
+      "org.springframework.boot.web.server.servlet.context"
+    ],
+    "org.springframework.boot:spring-boot-webmvc": [
+      "org.springframework.boot.webmvc.actuate.endpoint.web",
+      "org.springframework.boot.webmvc.actuate.web.mappings",
+      "org.springframework.boot.webmvc.autoconfigure",
+      "org.springframework.boot.webmvc.autoconfigure.actuate.endpoint.web",
+      "org.springframework.boot.webmvc.autoconfigure.actuate.web",
+      "org.springframework.boot.webmvc.autoconfigure.actuate.web.mappings",
+      "org.springframework.boot.webmvc.autoconfigure.error",
+      "org.springframework.boot.webmvc.error"
+    ],
+    "org.springframework.boot:spring-boot-webmvc-test": [
+      "org.springframework.boot.webmvc.test.autoconfigure"
     ],
     "org.springframework.data:spring-data-commons": [
       "org.springframework.data.annotation",
@@ -9932,6 +10149,65 @@
       "redis.clients.jedis.search.schemafields",
       "redis.clients.jedis.timeseries",
       "redis.clients.jedis.util"
+    ],
+    "tools.jackson.core:jackson-core": [
+      "tools.jackson.core",
+      "tools.jackson.core.async",
+      "tools.jackson.core.base",
+      "tools.jackson.core.exc",
+      "tools.jackson.core.filter",
+      "tools.jackson.core.internal.shaded.fdp",
+      "tools.jackson.core.internal.shaded.fdp.bte",
+      "tools.jackson.core.internal.shaded.fdp.chr",
+      "tools.jackson.core.io",
+      "tools.jackson.core.io.schubfach",
+      "tools.jackson.core.json",
+      "tools.jackson.core.json.async",
+      "tools.jackson.core.sym",
+      "tools.jackson.core.tree",
+      "tools.jackson.core.type",
+      "tools.jackson.core.util"
+    ],
+    "tools.jackson.core:jackson-databind": [
+      "tools.jackson.databind",
+      "tools.jackson.databind.annotation",
+      "tools.jackson.databind.cfg",
+      "tools.jackson.databind.deser",
+      "tools.jackson.databind.deser.bean",
+      "tools.jackson.databind.deser.impl",
+      "tools.jackson.databind.deser.jackson",
+      "tools.jackson.databind.deser.jdk",
+      "tools.jackson.databind.deser.std",
+      "tools.jackson.databind.exc",
+      "tools.jackson.databind.ext",
+      "tools.jackson.databind.ext.beans",
+      "tools.jackson.databind.ext.javatime",
+      "tools.jackson.databind.ext.javatime.deser",
+      "tools.jackson.databind.ext.javatime.deser.key",
+      "tools.jackson.databind.ext.javatime.ser",
+      "tools.jackson.databind.ext.javatime.ser.key",
+      "tools.jackson.databind.ext.javatime.util",
+      "tools.jackson.databind.ext.jdk8",
+      "tools.jackson.databind.ext.sql",
+      "tools.jackson.databind.introspect",
+      "tools.jackson.databind.json",
+      "tools.jackson.databind.jsonFormatVisitors",
+      "tools.jackson.databind.jsontype",
+      "tools.jackson.databind.jsontype.impl",
+      "tools.jackson.databind.module",
+      "tools.jackson.databind.node",
+      "tools.jackson.databind.ser",
+      "tools.jackson.databind.ser.bean",
+      "tools.jackson.databind.ser.impl",
+      "tools.jackson.databind.ser.jackson",
+      "tools.jackson.databind.ser.jdk",
+      "tools.jackson.databind.ser.std",
+      "tools.jackson.databind.type",
+      "tools.jackson.databind.util",
+      "tools.jackson.databind.util.internal"
+    ],
+    "tools.jackson.module:jackson-module-kotlin": [
+      "tools.jackson.module.kotlin"
     ]
   },
   "repositories": {
@@ -9962,8 +10238,6 @@
       "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-jsonSchema",
       "com.fasterxml.jackson.module:jackson-module-jsonSchema:jar:sources",
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
-      "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-parameter-names",
       "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13",
@@ -10062,6 +10336,8 @@
       "com.netflix.graphql.dgs:graphql-dgs-client:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
       "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:jar:sources",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-reactive",
       "com.netflix.graphql.dgs:graphql-dgs-reactive:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-spring-graphql",
@@ -10390,10 +10666,8 @@
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:sources",
       "org.jetbrains.kotlin:kotlin-stdlib:jar:sources",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core",
       "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
       "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:jar:sources",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core:jar:sources",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactive",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:jar:sources",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactor",
@@ -10527,13 +10801,25 @@
       "org.springframework.boot:spring-boot-actuator:jar:sources",
       "org.springframework.boot:spring-boot-autoconfigure",
       "org.springframework.boot:spring-boot-autoconfigure:jar:sources",
+      "org.springframework.boot:spring-boot-http-client",
+      "org.springframework.boot:spring-boot-http-client:jar:sources",
+      "org.springframework.boot:spring-boot-http-converter",
+      "org.springframework.boot:spring-boot-http-converter:jar:sources",
+      "org.springframework.boot:spring-boot-jackson",
+      "org.springframework.boot:spring-boot-jackson:jar:sources",
       "org.springframework.boot:spring-boot-loader",
       "org.springframework.boot:spring-boot-loader:jar:sources",
+      "org.springframework.boot:spring-boot-restclient",
+      "org.springframework.boot:spring-boot-restclient:jar:sources",
+      "org.springframework.boot:spring-boot-servlet",
+      "org.springframework.boot:spring-boot-servlet:jar:sources",
       "org.springframework.boot:spring-boot-starter",
       "org.springframework.boot:spring-boot-starter-actuator",
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
       "org.springframework.boot:spring-boot-starter-graphql:jar:sources",
+      "org.springframework.boot:spring-boot-starter-jackson",
+      "org.springframework.boot:spring-boot-starter-jackson:jar:sources",
       "org.springframework.boot:spring-boot-starter-jdbc",
       "org.springframework.boot:spring-boot-starter-jdbc:jar:sources",
       "org.springframework.boot:spring-boot-starter-json",
@@ -10542,6 +10828,8 @@
       "org.springframework.boot:spring-boot-starter-logging:jar:sources",
       "org.springframework.boot:spring-boot-starter-reactor-netty",
       "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources",
+      "org.springframework.boot:spring-boot-starter-restclient",
+      "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
@@ -10559,6 +10847,12 @@
       "org.springframework.boot:spring-boot-test-autoconfigure",
       "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources",
       "org.springframework.boot:spring-boot-test:jar:sources",
+      "org.springframework.boot:spring-boot-web-server",
+      "org.springframework.boot:spring-boot-web-server:jar:sources",
+      "org.springframework.boot:spring-boot-webmvc",
+      "org.springframework.boot:spring-boot-webmvc-test",
+      "org.springframework.boot:spring-boot-webmvc-test:jar:sources",
+      "org.springframework.boot:spring-boot-webmvc:jar:sources",
       "org.springframework.boot:spring-boot:jar:sources",
       "org.springframework.data:spring-data-commons",
       "org.springframework.data:spring-data-commons:jar:sources",
@@ -10643,7 +10937,13 @@
       "redis.clients.authentication:redis-authx-core",
       "redis.clients.authentication:redis-authx-core:jar:sources",
       "redis.clients:jedis",
-      "redis.clients:jedis:jar:sources"
+      "redis.clients:jedis:jar:sources",
+      "tools.jackson.core:jackson-core",
+      "tools.jackson.core:jackson-core:jar:sources",
+      "tools.jackson.core:jackson-databind",
+      "tools.jackson.core:jackson-databind:jar:sources",
+      "tools.jackson.module:jackson-module-kotlin",
+      "tools.jackson.module:jackson-module-kotlin:jar:sources"
     ],
     "https://packages.confluent.io/maven/": [
       "ch.qos.logback:logback-classic",
@@ -10672,8 +10972,6 @@
       "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-jsonSchema",
       "com.fasterxml.jackson.module:jackson-module-jsonSchema:jar:sources",
-      "com.fasterxml.jackson.module:jackson-module-kotlin",
-      "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-parameter-names",
       "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources",
       "com.fasterxml.jackson.module:jackson-module-scala_2.13",
@@ -10772,6 +11070,8 @@
       "com.netflix.graphql.dgs:graphql-dgs-client:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
       "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:jar:sources",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api",
+      "com.netflix.graphql.dgs:graphql-dgs-json-api:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-reactive",
       "com.netflix.graphql.dgs:graphql-dgs-reactive:jar:sources",
       "com.netflix.graphql.dgs:graphql-dgs-spring-graphql",
@@ -11100,10 +11400,8 @@
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8",
       "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:sources",
       "org.jetbrains.kotlin:kotlin-stdlib:jar:sources",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core",
       "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm",
       "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:jar:sources",
-      "org.jetbrains.kotlinx:kotlinx-coroutines-core:jar:sources",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactive",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:jar:sources",
       "org.jetbrains.kotlinx:kotlinx-coroutines-reactor",
@@ -11237,13 +11535,25 @@
       "org.springframework.boot:spring-boot-actuator:jar:sources",
       "org.springframework.boot:spring-boot-autoconfigure",
       "org.springframework.boot:spring-boot-autoconfigure:jar:sources",
+      "org.springframework.boot:spring-boot-http-client",
+      "org.springframework.boot:spring-boot-http-client:jar:sources",
+      "org.springframework.boot:spring-boot-http-converter",
+      "org.springframework.boot:spring-boot-http-converter:jar:sources",
+      "org.springframework.boot:spring-boot-jackson",
+      "org.springframework.boot:spring-boot-jackson:jar:sources",
       "org.springframework.boot:spring-boot-loader",
       "org.springframework.boot:spring-boot-loader:jar:sources",
+      "org.springframework.boot:spring-boot-restclient",
+      "org.springframework.boot:spring-boot-restclient:jar:sources",
+      "org.springframework.boot:spring-boot-servlet",
+      "org.springframework.boot:spring-boot-servlet:jar:sources",
       "org.springframework.boot:spring-boot-starter",
       "org.springframework.boot:spring-boot-starter-actuator",
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
       "org.springframework.boot:spring-boot-starter-graphql:jar:sources",
+      "org.springframework.boot:spring-boot-starter-jackson",
+      "org.springframework.boot:spring-boot-starter-jackson:jar:sources",
       "org.springframework.boot:spring-boot-starter-jdbc",
       "org.springframework.boot:spring-boot-starter-jdbc:jar:sources",
       "org.springframework.boot:spring-boot-starter-json",
@@ -11252,6 +11562,8 @@
       "org.springframework.boot:spring-boot-starter-logging:jar:sources",
       "org.springframework.boot:spring-boot-starter-reactor-netty",
       "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources",
+      "org.springframework.boot:spring-boot-starter-restclient",
+      "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
@@ -11269,6 +11581,12 @@
       "org.springframework.boot:spring-boot-test-autoconfigure",
       "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources",
       "org.springframework.boot:spring-boot-test:jar:sources",
+      "org.springframework.boot:spring-boot-web-server",
+      "org.springframework.boot:spring-boot-web-server:jar:sources",
+      "org.springframework.boot:spring-boot-webmvc",
+      "org.springframework.boot:spring-boot-webmvc-test",
+      "org.springframework.boot:spring-boot-webmvc-test:jar:sources",
+      "org.springframework.boot:spring-boot-webmvc:jar:sources",
       "org.springframework.boot:spring-boot:jar:sources",
       "org.springframework.data:spring-data-commons",
       "org.springframework.data:spring-data-commons:jar:sources",
@@ -11353,7 +11671,13 @@
       "redis.clients.authentication:redis-authx-core",
       "redis.clients.authentication:redis-authx-core:jar:sources",
       "redis.clients:jedis",
-      "redis.clients:jedis:jar:sources"
+      "redis.clients:jedis:jar:sources",
+      "tools.jackson.core:jackson-core",
+      "tools.jackson.core:jackson-core:jar:sources",
+      "tools.jackson.core:jackson-databind",
+      "tools.jackson.core:jackson-databind:jar:sources",
+      "tools.jackson.module:jackson-module-kotlin",
+      "tools.jackson.module:jackson-module-kotlin:jar:sources"
     ]
   },
   "services": {
@@ -11443,16 +11767,6 @@
     "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources": {
       "com.fasterxml.jackson.databind.Module": [
         "com.fasterxml.jackson.datatype.jsr310.JavaTimeModule"
-      ]
-    },
-    "com.fasterxml.jackson.module:jackson-module-kotlin": {
-      "com.fasterxml.jackson.databind.Module": [
-        "com.fasterxml.jackson.module.kotlin.KotlinModule"
-      ]
-    },
-    "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources": {
-      "com.fasterxml.jackson.databind.Module": [
-        "com.fasterxml.jackson.module.kotlin.KotlinModule"
       ]
     },
     "com.fasterxml.jackson.module:jackson-module-parameter-names": {
@@ -12091,6 +12405,36 @@
         "org.xmlunit.placeholder.IsDateTimePlaceholderHandler",
         "org.xmlunit.placeholder.IsNumberPlaceholderHandler",
         "org.xmlunit.placeholder.MatchesRegexPlaceholderHandler"
+      ]
+    },
+    "tools.jackson.core:jackson-core": {
+      "tools.jackson.core.TokenStreamFactory": [
+        "tools.jackson.core.json.JsonFactory"
+      ]
+    },
+    "tools.jackson.core:jackson-core:jar:sources": {
+      "tools.jackson.core.TokenStreamFactory": [
+        "tools.jackson.core.json.JsonFactory"
+      ]
+    },
+    "tools.jackson.core:jackson-databind": {
+      "tools.jackson.databind.ObjectMapper": [
+        "tools.jackson.databind.json.JsonMapper"
+      ]
+    },
+    "tools.jackson.core:jackson-databind:jar:sources": {
+      "tools.jackson.databind.ObjectMapper": [
+        "tools.jackson.databind.json.JsonMapper"
+      ]
+    },
+    "tools.jackson.module:jackson-module-kotlin": {
+      "tools.jackson.databind.JacksonModule": [
+        "tools.jackson.module.kotlin.KotlinModule"
+      ]
+    },
+    "tools.jackson.module:jackson-module-kotlin:jar:sources": {
+      "tools.jackson.databind.JacksonModule": [
+        "tools.jackson.module.kotlin.KotlinModule"
       ]
     }
   },
