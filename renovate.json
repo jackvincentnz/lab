@@ -12,6 +12,18 @@
         "\"(?<depName>ghcr\\.io/apollographql/router):(?<currentValue>v?[^@\"]+)@(?<currentDigest>sha256:[a-f0-9]+)\""
       ],
       "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
+      "description": "Update rules_jvm_external BOMs in MODULE.bazel",
+      "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
+      "matchStringsStrategy": "recursive",
+      "matchStrings": [
+        "boms\\s*=\\s*\\[(?<bomBlock>[\\s\\S]*?)\\]",
+        "\"(?<depName>[A-Za-z0-9_.-]+:[A-Za-z0-9_.-]+):(?<currentValue>[^\"\\s]+)\""
+      ],
+      "datasourceTemplate": "maven",
+      "versioningTemplate": "maven"
     }
   ],
   "packageRules": [
