@@ -3,6 +3,11 @@ load("@rules_multirun//:defs.bzl", "command", "multirun")
 command(
     name = "service",
     command = "//projects/mops/service/src/main",
+    environment = {
+        "OTEL_JAVAAGENT_ENABLED": "false",  # run docker run -p 4317:4317 -p 4318:4318 -p 3000:3000 grafana/otel-lgtm
+        "OTEL_SERVICE_NAME": "mops-service",
+        "OTEL_EXPORTER_OTLP_ENDPOINT": "http://localhost:4318",
+    },
 )
 
 command(
