@@ -18,9 +18,9 @@
     "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
   },
   "peerDependencies": {
-    "@mantine/core": "7.17.8",
-    "@mantine/dates": "7.17.8",
-    "@mantine/hooks": "7.17.8",
+    "@mantine/core": "9.3.0",
+    "@mantine/dates": "9.3.0",
+    "@mantine/hooks": "9.3.0",
     "dayjs": "1.11.21",
     "@tabler/icons-react": "3.44.0",
     "react": "19.2.6",

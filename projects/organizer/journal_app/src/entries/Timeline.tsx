@@ -13,7 +13,7 @@ export interface TimelineItemProps {
 export function Timeline({ items }: TimelineProps) {
   const timelineItems = items.map((item) => (
     <MTimeline.Item key={item.title} title={item.title}>
-      <Text color="dimmed" size="sm">
+      <Text c="dimmed" size="sm">
         {item.message}
       </Text>
       <Text size="xs" mt={4}>

@@ -3,7 +3,7 @@ import {
   Button,
   type ButtonVariant as MButtonVariant,
 } from "@mantine/core";
-import { MonthPicker } from "@mantine/dates";
+import { MonthPicker, type DatesRangeValue } from "@mantine/dates";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import dayjs from "dayjs";
@@ -22,27 +22,35 @@ export interface MonthYear {
   month: number; // 1-12
 }
 
-const DEFAULT_INITIAL_RANGE: [Date | null, Date | null] = [null, null];
+type MonthRangeValue = DatesRangeValue<string>;
 
-function initialRangeToDateRange([start, end]: [MonthYear, MonthYear]): [
-  Date,
-  Date,
-] {
+const DEFAULT_INITIAL_RANGE: MonthRangeValue = [null, null];
+
+function initialRangeToDateRange([start, end]: [
+  MonthYear,
+  MonthYear,
+]): MonthRangeValue {
   return [monthYearToDate(start), monthYearToDate(end)];
 }
 
-function monthYearToDate(monthYear: MonthYear): Date {
-  return new Date(monthYear.year, monthYear.month - 1);
+function monthYearToDate(monthYear: MonthYear): string {
+  return dayjs()
+    .year(monthYear.year)
+    .month(monthYear.month - 1)
+    .date(1)
+    .format("YYYY-MM-DD");
 }
 
-function dateToMonthYear(date: Date): MonthYear {
+function dateToMonthYear(date: string): MonthYear {
+  const parsedDate = dayjs(date);
+
   return {
-    year: date.getFullYear(),
-    month: date.getMonth() + 1,
+    year: parsedDate.year(),
+    month: parsedDate.month() + 1,
   };
 }
 
-function formatDateRange(start: Date | null, end: Date | null): string {
+function formatDateRange(start: string | null, end: string | null): string {
   if (!start || !end) {
     return "Select Range";
   }
@@ -50,8 +58,7 @@ function formatDateRange(start: Date | null, end: Date | null): string {
   const startFormatted = dayjs(start).format("MMM 'YY");
   const endFormatted = dayjs(end).format("MMM 'YY");
 
-  return start.getFullYear() === end.getFullYear() &&
-    start.getMonth() === end.getMonth()
+  return dayjs(start).isSame(end, "month")
     ? startFormatted
     : `${startFormatted} - ${endFormatted}`;
 }
@@ -71,7 +78,7 @@ export function MonthRangePicker({
 
   const [opened, { close, open }] = useDisclosure(false);
 
-  function handleRangeChange([start, end]: [Date | null, Date | null]) {
+  function handleRangeChange([start, end]: MonthRangeValue) {
     setInternalValue([start, end]);
 
     if (start && end) {

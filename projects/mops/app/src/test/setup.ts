@@ -15,10 +15,20 @@ window.HTMLElement.prototype.scrollIntoView = () => {
   // intentionally empty
 };
 
+if (!document.fonts) {
+  Object.defineProperty(document, "fonts", {
+    configurable: true,
+    value: {
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    },
+  });
+}
+
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
-    matches: false,
+    matches: true,
     media: query,
     onchange: null,
     addListener: vi.fn(),

@@ -1,14 +1,10 @@
 import classes from "./Table.module.css";
 import { useMemo } from "react";
-import {
-  type MRT_ColumnDef,
-  MRT_Table,
-  useMantineReactTable,
-} from "mantine-react-table";
+import { DataTable, type DataTableColumn } from "mantine-datatable";
 import { data } from "./data";
-import clsx from "clsx";
 
 export interface Person {
+  id: number;
   firstName: string;
   lastName: string;
   address: string;
@@ -17,48 +13,42 @@ export interface Person {
 }
 
 export function Table() {
-  const columns = useMemo<MRT_ColumnDef<Person>[]>(
+  const columns = useMemo<DataTableColumn<Person>[]>(
     () => [
       {
-        accessorKey: "firstName",
-        header: "First Name",
+        accessor: "firstName",
+        title: "First Name",
       },
       {
-        accessorKey: "lastName",
-        header: "Last Name",
+        accessor: "lastName",
+        title: "Last Name",
       },
       {
-        accessorKey: "address",
-        header: "Address",
+        accessor: "address",
+        title: "Address",
       },
       {
-        accessorKey: "city",
-        header: "City",
+        accessor: "city",
+        title: "City",
       },
       {
-        accessorKey: "state",
-        header: "State",
+        accessor: "state",
+        title: "State",
       },
     ],
     [],
   );
 
-  const table = useMantineReactTable({
-    columns,
-    data,
-    enableColumnActions: false,
-    enableColumnFilters: false,
-    enablePagination: false,
-    enableSorting: false,
-    mantineTableProps: {
-      className: clsx(classes["table"]),
-      highlightOnHover: false,
-      striped: "odd",
-      withColumnBorders: true,
-      withRowBorders: true,
-      withTableBorder: true,
-    },
-  });
-
-  return <MRT_Table table={table} />;
+  return (
+    <DataTable
+      className={classes["table"]}
+      columns={columns}
+      highlightOnHover={false}
+      idAccessor="id"
+      records={data}
+      striped
+      withColumnBorders
+      withTableBorder
+    />
+  );
 }

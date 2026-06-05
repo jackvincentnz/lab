@@ -6,6 +6,7 @@ import {
   test,
   userEvent,
   vi,
+  waitFor,
 } from "../../test";
 import { ToolCallApproval } from "./ToolCallApproval";
 import { ToolCallStatus } from "../../__generated__/graphql";
@@ -73,6 +74,6 @@ describe("ToolCallApproval", () => {
       screen.getByRole("button", { name: /create_budget/i }),
     );
 
-    expect(screen.getByText(/FY26/i)).toBeVisible();
+    await waitFor(() => expect(screen.getByText(/FY26/i)).toBeVisible());
   });
 });

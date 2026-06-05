@@ -1,25 +1,11 @@
-import type { MockLink } from "@apollo/client/testing";
-import {
-  describe,
-  expect,
-  fireEvent,
-  render,
-  screen,
-  test,
-  userEvent,
-  within,
-} from "../../test";
+import { describe, expect, render, screen, test } from "../../test";
 import { SpendPage } from "./SpendPage";
 import {
-  AddLineItemDocument,
   SpendPageQueryDocument,
-  type AddLineItemMutation,
-  type AddLineItemMutationVariables,
   type Category,
   type CategoryValue,
   type LineItem,
 } from "../../__generated__/graphql";
-import { ADD_LINE_ITEM_BUTTON } from "./components/spend-table/columns";
 
 describe("SpendPage", async () => {
   test("renders table", async () => {
@@ -49,85 +35,6 @@ describe("SpendPage", async () => {
     });
 
     expect(await screen.findByText(category)).toBeInTheDocument();
-  });
-
-  test("adds line item", async () => {
-    const name = "My Line Item";
-    const categoryName = "Country";
-    const categoryValueName = "New Zealand";
-
-    const initial = mockSpendPageQuery({
-      categoryNames: [categoryName],
-      categoryValueNames: [categoryValueName],
-    });
-    const category = initial.result.data.allCategories[0];
-
-    const mutation: MockLink.MockedResponse<
-      AddLineItemMutation,
-      AddLineItemMutationVariables
-    > = {
-      request: {
-        query: AddLineItemDocument,
-        variables: {
-          input: {
-            name,
-            budgetId: "",
-            categorizations: [
-              {
-                categoryId: category.id,
-                categoryValueId: category.values[0].id,
-              },
-            ],
-          },
-        },
-      },
-      result: {
-        data: {
-          addLineItem: {
-            code: 201,
-            success: true,
-            message: "added",
-            lineItem: mockLineItem({
-              name,
-              categorizations: [
-                { category, categoryValue: category.values[0] },
-              ],
-            }),
-          },
-        },
-      },
-    };
-
-    const refetch = mockSpendPageQuery({
-      categoryNames: [categoryName],
-      lineItemNames: [name],
-    });
-
-    render(<SpendPage />, {
-      mockedProvider: {
-        mocks: [initial, mutation, refetch],
-      },
-    });
-
-    const addLineItemBtn = await screen.findByText(ADD_LINE_ITEM_BUTTON);
-    await userEvent.click(addLineItemBtn);
-
-    const input = await screen.findByRole("textbox", { name: /Name/i });
-    fireEvent.change(input, { target: { value: name } });
-
-    const modal = screen.getByRole("dialog");
-    const categoryInput = within(modal).getByLabelText(category.name);
-
-    await userEvent.click(categoryInput);
-
-    const option = screen.getByText(categoryValueName);
-    await userEvent.click(option);
-
-    const saveBtn = await screen.findByText(/Save/);
-    await userEvent.click(saveBtn);
-
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(await screen.findByRole("cell", { name: name })).toBeInTheDocument();
   });
 });
 

@@ -2,6 +2,7 @@ import type { Person } from "./Table";
 
 export const data: Person[] = [
   {
+    id: 1,
     firstName: "Wava",
     lastName: "Hoppe",
     address: "4456 Towne Estates",
@@ -9,6 +10,7 @@ export const data: Person[] = [
     state: "California",
   },
   {
+    id: 2,
     firstName: "Kamren",
     lastName: "Kemmer",
     address: "237 Reinger View",
@@ -16,6 +18,7 @@ export const data: Person[] = [
     state: "New Jersey",
   },
   {
+    id: 3,
     firstName: "Dillon",
     lastName: "Hackett",
     address: "79266 Cronin Rest",
@@ -23,6 +26,7 @@ export const data: Person[] = [
     state: "Colorado",
   },
   {
+    id: 4,
     firstName: "Wilber",
     lastName: "Von",
     address: "4162 Della Roads",
@@ -30,6 +34,7 @@ export const data: Person[] = [
     state: "Idaho",
   },
   {
+    id: 5,
     firstName: "Ronny",
     lastName: "Lowe",
     address: "4057 Burley Extensions",
@@ -37,6 +42,7 @@ export const data: Person[] = [
     state: "Alaska",
   },
   {
+    id: 6,
     firstName: "Lavinia",
     lastName: "Kreiger",
     address: "24310 Aufderhar Union",
@@ -44,6 +50,7 @@ export const data: Person[] = [
     state: "Kentucky",
   },
   {
+    id: 7,
     firstName: "Tracy",
     lastName: "Wilkinson",
     address: "7204 Claudine Summit",
