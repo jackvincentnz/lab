@@ -103,7 +103,7 @@ maven.install(
     boms = [
         "org.springframework.boot:spring-boot-dependencies:3.5.11",
         "org.springframework.ai:spring-ai-bom:1.1.2",
-        "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.2.4",
+        "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.1",
         "com.google.protobuf:protobuf-bom:4.35.0",
     ],
     fail_if_repin_required = True,
