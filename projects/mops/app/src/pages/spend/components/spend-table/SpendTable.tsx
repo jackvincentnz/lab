@@ -1,78 +1,30 @@
 import classes from "./SpendTable.module.css";
 import { useMemo } from "react";
-import {
-  createRow,
-  MantineReactTable,
-  useMantineReactTable,
-} from "mantine-react-table";
-import clsx from "clsx";
-import { useAddLineItem } from "./actions";
-import type { Column, LineItem, NewLineItem } from "./types";
-import { useLineItemValidation } from "./validation";
-import { AddLineItemToolbar, createSpendTableColumns } from "./columns";
+import { DataTable } from "mantine-datatable";
+import type { Column, LineItem } from "./types";
+import { createSpendTableColumns } from "./columns";
 
 export interface SpendTableProps {
   columns: Column[];
   lineItems: LineItem[];
-  onAddLineItem?: (lineItem: NewLineItem) => void;
-  onDeleteAllLineItems?: () => void;
   loading?: boolean;
 }
 
-const NEW_ROW: LineItem = {
-  id: "",
-  name: "",
-  fields: [],
-};
+export function SpendTable({ columns, lineItems, loading }: SpendTableProps) {
+  const columnDefs = useMemo(() => createSpendTableColumns(columns), [columns]);
 
-export function SpendTable({
-  columns,
-  lineItems,
-  onAddLineItem,
-  loading,
-}: SpendTableProps) {
-  const {
-    validationErrors,
-    setValidationErrors,
-    removeErrorsFor,
-    clearErrors,
-  } = useLineItemValidation();
-
-  const columnDefs = useMemo(
-    () => createSpendTableColumns(columns, validationErrors, removeErrorsFor),
-    [columns, removeErrorsFor, validationErrors],
+  return (
+    <DataTable
+      className={classes["table"]}
+      columns={columnDefs}
+      fetching={loading}
+      highlightOnHover={false}
+      minHeight={"120px"}
+      noRecordsText="No line items"
+      records={lineItems}
+      striped
+      withColumnBorders
+      withTableBorder
+    />
   );
-
-  const table = useMantineReactTable({
-    columns: columnDefs,
-    data: lineItems,
-    initialState: {
-      density: "xs",
-    },
-    state: {
-      isLoading: loading,
-    },
-    enableFacetedValues: true,
-    enablePagination: false,
-    onCreatingRowCancel: clearErrors,
-    onCreatingRowSave: useAddLineItem(setValidationErrors, onAddLineItem),
-    renderTopToolbarCustomActions: () => (
-      <AddLineItemToolbar onAddRow={onAddRow} />
-    ),
-    mantineTableProps: {
-      className: clsx(classes["table"]),
-      highlightOnHover: false,
-      striped: "odd",
-      withColumnBorders: true,
-      withRowBorders: true,
-      withTableBorder: true,
-    },
-  });
-
-  const onAddRow = () => {
-    const row = createRow(table, NEW_ROW);
-    table.setCreatingRow(row);
-  };
-
-  return <MantineReactTable table={table} />;
 }

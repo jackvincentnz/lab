@@ -91,7 +91,7 @@ export function ToolCallApproval({
           </Group>
         </UnstyledButton>
 
-        <Collapse in={opened}>
+        <Collapse expanded={opened}>
           <Stack gap="sm" mt="sm">
             <Box>
               <Text size="xs" c="dimmed" mb={4}>

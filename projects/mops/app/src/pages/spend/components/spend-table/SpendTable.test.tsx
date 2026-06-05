@@ -1,23 +1,6 @@
-import {
-  describe,
-  expect,
-  fireEvent,
-  randomString,
-  render,
-  screen,
-  test,
-  userEvent,
-  vi,
-  within,
-} from "../../../../test";
+import { describe, expect, render, screen, test } from "../../../../test";
 import { SpendTable } from "./SpendTable";
-import { ADD_LINE_ITEM_BUTTON } from "./columns";
 import type { Column, LineItem } from "./types";
-import {
-  NAME_MAX_LENGTH,
-  NAME_MAX_LENGTH_ERROR,
-  NAME_REQUIRED_ERROR,
-} from "./validation";
 
 const columns: Column[] = ["column1", "column2"].map((column) => ({
   id: column,
@@ -79,86 +62,5 @@ describe("SpendTable", async () => {
         ).toBeInTheDocument();
       }
     }
-  });
-
-  test("adds line item", async () => {
-    const name = "Added line item";
-    const onAddLineItem = vi.fn();
-
-    render(
-      <SpendTable
-        columns={columns}
-        lineItems={[]}
-        onAddLineItem={onAddLineItem}
-      />,
-    );
-
-    const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
-    await userEvent.click(addLineItemBtn);
-
-    const nameInput = screen.getByRole("textbox", { name: /Name/i });
-    fireEvent.change(nameInput, { target: { value: name } });
-
-    const modal = screen.getByRole("dialog");
-    const categoryInput = within(modal).getByLabelText(columns[0].header);
-
-    await userEvent.click(categoryInput);
-
-    const option = screen.getByText(columns[0].options[0].label);
-    await userEvent.click(option);
-
-    const saveBtn = screen.getByText(/Save/);
-    await userEvent.click(saveBtn);
-
-    expect(onAddLineItem).toHaveBeenCalledWith({
-      name,
-      fields: [{ id: columns[0].id, value: columns[0].options[0].value }],
-    });
-  });
-
-  test("line item name is required", async () => {
-    render(<SpendTable columns={columns} lineItems={lineItems} />);
-
-    const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
-    await userEvent.click(addLineItemBtn);
-
-    const saveBtn = screen.getByText(/Save/);
-    await userEvent.click(saveBtn);
-
-    const errorMessage = screen.getByText(NAME_REQUIRED_ERROR);
-    expect(errorMessage).toBeInTheDocument();
-  });
-
-  test("line item name has max length", async () => {
-    const invalidName = randomString(NAME_MAX_LENGTH + 1);
-    const name = randomString(NAME_MAX_LENGTH);
-    const onAddLineItem = vi.fn();
-
-    render(
-      <SpendTable
-        columns={columns}
-        lineItems={lineItems}
-        onAddLineItem={onAddLineItem}
-      />,
-    );
-
-    const addLineItemBtn = screen.getByText(ADD_LINE_ITEM_BUTTON);
-    await userEvent.click(addLineItemBtn);
-
-    const input = screen.getByRole("textbox", { name: /Name/i });
-    fireEvent.change(input, { target: { value: invalidName } });
-
-    const saveBtn = screen.getByText(/Save/);
-    await userEvent.click(saveBtn);
-
-    const errorMessage = screen.getByText(NAME_MAX_LENGTH_ERROR);
-    expect(errorMessage).toBeInTheDocument();
-    expect(onAddLineItem).not.toHaveBeenCalled();
-
-    await userEvent.clear(input);
-    fireEvent.change(input, { target: { value: name } });
-    await userEvent.click(saveBtn);
-
-    expect(onAddLineItem).toHaveBeenCalledWith({ name, fields: [] });
   });
 });

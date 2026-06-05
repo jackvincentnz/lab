@@ -21,6 +21,4 @@ export interface Option {
   label: string;
 }
 
-export type NewLineItem = Omit<LineItem, "id">;
-
 export type LineItemErrors = Partial<Record<keyof LineItem, string>>;
