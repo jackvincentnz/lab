@@ -1497,9 +1497,6 @@
     }
   },
   "facts": {
-    "@@aspect_rules_js+//npm:extensions.bzl%pnpm": {
-      "11.3.0": "sha512-LEA9ZZRScodnKx9wVjQ6H3w2NANqZ/+r/MKz11ldhDdo+HhxSNG1fPeVbJBga70ZKFfDY68Z6W0tDsnsV0HSFQ=="
-    },
     "@@rules_go+//go:extensions.bzl%go_sdk": {
       "1.22.4": {
         "aix_ppc64": [
