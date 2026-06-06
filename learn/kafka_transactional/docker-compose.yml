@@ -19,7 +19,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
 
   db:
-    image: mysql
+    image: mysql@sha256:c11782aa2a96624c1efc121768641d96954faa136d6aa82751b032d8c426ffbc
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=mysql_native_password
@@ -32,7 +32,7 @@ services:
       - "3306:3306"
 
   adminer:
-    image: adminer
+    image: adminer@sha256:cc64d253db4f016cbcff2ff2f01e60ed07e74f38b4398f84d3c4fae4b5ce0e07
     restart: always
     ports:
       - "8080:8080"
