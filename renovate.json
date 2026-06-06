@@ -28,6 +28,11 @@
   ],
   "packageRules": [
     {
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["/^jackvincent\\/lab-/"],
+      "pinDigests": false
+    },
+    {
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
