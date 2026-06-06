@@ -2,9 +2,9 @@
 This module contains common ts macros to avoid direct dependencies on external rules.
 """
 
+load("@aspect_rules_swc//swc:defs.bzl", "swc")
 load("@aspect_rules_ts//ts:defs.bzl", _ts_config = "ts_config", _ts_project = "ts_project")
 load("@bazel_skylib//lib:partial.bzl", "partial")
-load("@aspect_rules_swc//swc:defs.bzl", "swc")
 
 def ts_project(name, **kwargs):
     """ts_project() macro with default tsconfig and aligning params.

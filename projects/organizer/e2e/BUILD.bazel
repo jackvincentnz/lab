@@ -1,5 +1,5 @@
-load("//tools/bazel:ts.bzl", "node_ts_project")
 load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
+load("//tools/bazel:ts.bzl", "node_ts_project")
 
 node_ts_project(
     name = "ts",

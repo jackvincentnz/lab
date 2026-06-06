@@ -1,7 +1,7 @@
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
-load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
 load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
 
 npm_package(
     name = "pkg",

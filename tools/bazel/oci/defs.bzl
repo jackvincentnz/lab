@@ -2,8 +2,8 @@
 This module contains common oci macros.
 """
 
-load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@rules_oci//oci:defs.bzl", "oci_load", "oci_push", _oci_image = "oci_image")
 load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 

@@ -1,5 +1,5 @@
-load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:ts.bzl", "ts_project")
 
 SRC_PATHS = [
     "**/*.tsx",
