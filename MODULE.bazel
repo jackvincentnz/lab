@@ -214,13 +214,12 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
+    digest = "sha256:2c605dbeab79a6b2a63340474fe58119d0ef95bdc4b1f41df0aa689659b3d13b",
     image = "nginx",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    reproducible = False,
-    tag = "stable-alpine-slim",
 )
 oci.pull(
     name = "debian",
