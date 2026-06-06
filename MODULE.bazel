@@ -205,12 +205,13 @@ register_toolchains("@cypress_toolchains//:all")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:0210d5b77dfbe851916184405ddfc8297e7bc652029f7a485274cb71ea2462bc",
-    image = "gcr.io/distroless/java17-debian12",
+    digest = "sha256:3c89b72dcd8b9c3b6fc9ae42785fc5ccf58b7d540504944ee5376c91a81f0af9",
+    image = "gcr.io/distroless/java17-debian13",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
+    tag = "latest",
 )
 oci.pull(
     name = "nginx_alpine_slim",
@@ -222,14 +223,5 @@ oci.pull(
     ],
     tag = "alpine-slim",
 )
-oci.pull(
-    name = "debian",
-    digest = "sha256:4ae67669760b807c19f23902a3fd7c121a6a70cf2ae709035674b23e712e4d62",
-    image = "debian",
-    platforms = [
-        "linux/amd64",
-        "linux/arm64/v8",
-    ],
-)
 oci.toolchains(name = "lab_oci")
-use_repo(oci, "debian", "debian_linux_amd64", "debian_linux_arm64_v8", "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
+use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
