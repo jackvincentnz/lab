@@ -1,6 +1,6 @@
 load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
-load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:ts.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 

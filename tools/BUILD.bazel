@@ -1,6 +1,6 @@
+load("@multitool//:tools.bzl", MULTITOOL_TOOLS = "TOOLS")
 load("@bazel_env.bzl", "bazel_env")
 load("@bazelrc-preset.bzl", "bazelrc_preset")
-load("@multitool//:tools.bzl", MULTITOOL_TOOLS = "TOOLS")
 
 bazelrc_preset(
     name = "preset",

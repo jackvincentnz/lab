@@ -1,5 +1,5 @@
-load("//tools/bazel:java.bzl", "DGS_TEST_DEPS", "DGS_TEST_RUNTIME_DEPS", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 load("@rules_java//java:defs.bzl", "java_library")
+load("//tools/bazel:java.bzl", "DGS_TEST_DEPS", "DGS_TEST_RUNTIME_DEPS", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
 # TODO: We should hoist these resources to common package for integration tests to avoid this in each package
 java_library(
