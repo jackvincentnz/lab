@@ -13,7 +13,7 @@
     "format": "pre-commit run prettier --all-files"
   },
   "dependencies": {
-    "@apollo/client": "4.2.1",
+    "@apollo/client": "4.2.2",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@lab/bubbles": "workspace:*",
     "@mantine/core": "9.3.0",
