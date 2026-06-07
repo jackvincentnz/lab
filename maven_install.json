@@ -18,6 +18,7 @@
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -228705223,
     "com.squareup.okhttp3:okhttp-jvm": -674460980,
     "io.confluent:kafka-protobuf-serializer": 494677790,
+    "io.netty:netty-bom": 299173863,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
     "org.apache.kafka:kafka-clients": -1662559649,
@@ -29,6 +30,10 @@
     "org.apache.kafka:kafka-streams": 1473637962,
     "org.apache.kafka:kafka-streams-test-utils": -541626037,
     "org.apache.kafka:kafka_2.13": 1972780171,
+    "org.apache.tomcat.embed:tomcat-embed-core": -650930851,
+    "org.apache.tomcat.embed:tomcat-embed-el": 1389144293,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": 863637281,
+    "org.apache.tomcat:tomcat-annotations-api": -1353008108,
     "org.eclipse.jetty:jetty-reactive-httpclient": 1555298607,
     "org.flywaydb:flyway-core": 1866554074,
     "org.junit.platform:junit-platform-launcher": -354104948,
@@ -284,50 +289,52 @@
     "io.modelcontextprotocol.sdk:mcp-json-jackson2:jar:sources": 2137425405,
     "io.modelcontextprotocol.sdk:mcp-spring-webmvc": 40215268,
     "io.modelcontextprotocol.sdk:mcp-spring-webmvc:jar:sources": -1091712180,
-    "io.netty:netty-buffer": -236720864,
-    "io.netty:netty-buffer:jar:sources": 272833050,
-    "io.netty:netty-codec": -2078788179,
-    "io.netty:netty-codec-dns": -688980782,
-    "io.netty:netty-codec-dns:jar:sources": -1747807996,
-    "io.netty:netty-codec-http": -1138800139,
-    "io.netty:netty-codec-http2": 578793155,
-    "io.netty:netty-codec-http2:jar:sources": -882029458,
-    "io.netty:netty-codec-http:jar:sources": 1322046027,
-    "io.netty:netty-codec-socks": -2073913755,
-    "io.netty:netty-codec-socks:jar:sources": -2078393214,
-    "io.netty:netty-codec:jar:sources": 1007742664,
-    "io.netty:netty-common": 462347872,
-    "io.netty:netty-common:jar:sources": -1450108248,
-    "io.netty:netty-handler": -625912678,
-    "io.netty:netty-handler-proxy": -796343660,
-    "io.netty:netty-handler-proxy:jar:sources": -843034031,
-    "io.netty:netty-handler:jar:sources": 1518432588,
-    "io.netty:netty-resolver": 2101982504,
-    "io.netty:netty-resolver-dns": -738849062,
-    "io.netty:netty-resolver-dns-classes-macos": -1857335772,
-    "io.netty:netty-resolver-dns-classes-macos:jar:sources": -1815560285,
-    "io.netty:netty-resolver-dns-native-macos:jar:osx-x86_64": 2088633983,
-    "io.netty:netty-resolver-dns-native-macos:jar:sources": -1016877429,
-    "io.netty:netty-resolver-dns:jar:sources": -2062715503,
-    "io.netty:netty-resolver:jar:sources": -2108596379,
-    "io.netty:netty-transport": -836307057,
-    "io.netty:netty-transport-classes-epoll": 1262654766,
-    "io.netty:netty-transport-classes-epoll:jar:sources": 403359600,
-    "io.netty:netty-transport-native-epoll": -267063533,
-    "io.netty:netty-transport-native-epoll:jar:linux-x86_64": -34618056,
-    "io.netty:netty-transport-native-epoll:jar:sources": -1480238034,
-    "io.netty:netty-transport-native-unix-common": 1450539523,
-    "io.netty:netty-transport-native-unix-common:jar:sources": -620319442,
-    "io.netty:netty-transport:jar:sources": -610895726,
+    "io.netty:netty-buffer": 380312161,
+    "io.netty:netty-buffer:jar:sources": -1845923271,
+    "io.netty:netty-codec-base": -507049948,
+    "io.netty:netty-codec-base:jar:sources": 15078527,
+    "io.netty:netty-codec-compression": 508772871,
+    "io.netty:netty-codec-compression:jar:sources": -2138419186,
+    "io.netty:netty-codec-dns": 1854852323,
+    "io.netty:netty-codec-dns:jar:sources": -1972713937,
+    "io.netty:netty-codec-http": -1392597293,
+    "io.netty:netty-codec-http2": 227940863,
+    "io.netty:netty-codec-http2:jar:sources": -1892800262,
+    "io.netty:netty-codec-http:jar:sources": 908530576,
+    "io.netty:netty-codec-socks": 1911084687,
+    "io.netty:netty-codec-socks:jar:sources": -367561659,
+    "io.netty:netty-common": -967449894,
+    "io.netty:netty-common:jar:sources": 1708433030,
+    "io.netty:netty-handler": -1533905586,
+    "io.netty:netty-handler-proxy": -1342909098,
+    "io.netty:netty-handler-proxy:jar:sources": -1374933198,
+    "io.netty:netty-handler:jar:sources": -494022384,
+    "io.netty:netty-resolver": -1632072846,
+    "io.netty:netty-resolver-dns": 1101758341,
+    "io.netty:netty-resolver-dns-classes-macos": -1240628210,
+    "io.netty:netty-resolver-dns-classes-macos:jar:sources": 1592356904,
+    "io.netty:netty-resolver-dns-native-macos:jar:osx-x86_64": 1172826160,
+    "io.netty:netty-resolver-dns-native-macos:jar:sources": 1744957184,
+    "io.netty:netty-resolver-dns:jar:sources": -1138665189,
+    "io.netty:netty-resolver:jar:sources": 1879976093,
+    "io.netty:netty-transport": 1890907667,
+    "io.netty:netty-transport-classes-epoll": 861207903,
+    "io.netty:netty-transport-classes-epoll:jar:sources": 1911242145,
+    "io.netty:netty-transport-native-epoll": 1686809184,
+    "io.netty:netty-transport-native-epoll:jar:linux-x86_64": 1976400350,
+    "io.netty:netty-transport-native-epoll:jar:sources": -972558241,
+    "io.netty:netty-transport-native-unix-common": 150289726,
+    "io.netty:netty-transport-native-unix-common:jar:sources": 976106990,
+    "io.netty:netty-transport:jar:sources": -1344318581,
     "io.opencensus:opencensus-api": -2128472383,
     "io.opencensus:opencensus-api:jar:sources": 1085904850,
     "io.opencensus:opencensus-contrib-http-util": 1489973183,
     "io.opencensus:opencensus-contrib-http-util:jar:sources": -879181311,
     "io.projectreactor.kotlin:reactor-kotlin-extensions": 903323507,
     "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources": -1169407018,
-    "io.projectreactor.netty:reactor-netty-core": 1276136912,
+    "io.projectreactor.netty:reactor-netty-core": 209096546,
     "io.projectreactor.netty:reactor-netty-core:jar:sources": -1803806729,
-    "io.projectreactor.netty:reactor-netty-http": 1782840502,
+    "io.projectreactor.netty:reactor-netty-http": -789029824,
     "io.projectreactor.netty:reactor-netty-http:jar:sources": -426317894,
     "io.projectreactor:reactor-core": -1921001354,
     "io.projectreactor:reactor-core:jar:sources": -1209404804,
@@ -421,22 +428,24 @@
     "org.apache.kafka:kafka-tools-api:jar:sources": 397381785,
     "org.apache.kafka:kafka-transaction-coordinator": -55501310,
     "org.apache.kafka:kafka-transaction-coordinator:jar:sources": -905956474,
-    "org.apache.kafka:kafka_2.13": -1763291030,
+    "org.apache.kafka:kafka_2.13": -1461206991,
     "org.apache.kafka:kafka_2.13:jar:sources": 954583229,
-    "org.apache.kafka:kafka_2.13:jar:test": 1714453393,
+    "org.apache.kafka:kafka_2.13:jar:test": 2016537432,
     "org.apache.logging.log4j:log4j-api": 1629993183,
     "org.apache.logging.log4j:log4j-api:jar:sources": -1395990218,
     "org.apache.logging.log4j:log4j-to-slf4j": -745282189,
     "org.apache.logging.log4j:log4j-to-slf4j:jar:sources": 1968925522,
-    "org.apache.tomcat.embed:tomcat-embed-core": 1930943979,
-    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 2041633578,
-    "org.apache.tomcat.embed:tomcat-embed-el": 321323058,
-    "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": -1517311346,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": -1624011701,
-    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": -1018278331,
+    "org.apache.tomcat.embed:tomcat-embed-core": -1367626723,
+    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 40200423,
+    "org.apache.tomcat.embed:tomcat-embed-el": -1350702111,
+    "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 894829407,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": 1545927053,
+    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": -906340953,
+    "org.apache.tomcat:tomcat-annotations-api": -1514378528,
+    "org.apache.tomcat:tomcat-annotations-api:jar:sources": -577783506,
     "org.apache.yetus:audience-annotations": 1772399437,
     "org.apache.yetus:audience-annotations:jar:sources": 1306776745,
-    "org.apache.zookeeper:zookeeper": 321429393,
+    "org.apache.zookeeper:zookeeper": 561740053,
     "org.apache.zookeeper:zookeeper-jute": -1231629619,
     "org.apache.zookeeper:zookeeper-jute:jar:sources": 1565838422,
     "org.apache.zookeeper:zookeeper:jar:sources": 1074589896,
@@ -638,7 +647,7 @@
     "org.springframework.ai:spring-ai-openai:jar:sources": 120012569,
     "org.springframework.ai:spring-ai-retry": 1598982374,
     "org.springframework.ai:spring-ai-retry:jar:sources": -1812210947,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 1343921197,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1430968155,
     "org.springframework.ai:spring-ai-starter-model-google-genai": -1373975155,
     "org.springframework.ai:spring-ai-starter-model-ollama": -893166153,
     "org.springframework.ai:spring-ai-starter-model-openai": -904387707,
@@ -664,19 +673,19 @@
     "org.springframework.boot:spring-boot-starter-json:jar:sources": 1916460439,
     "org.springframework.boot:spring-boot-starter-logging": 570895476,
     "org.springframework.boot:spring-boot-starter-logging:jar:sources": -758140910,
-    "org.springframework.boot:spring-boot-starter-reactor-netty": 549137234,
+    "org.springframework.boot:spring-boot-starter-reactor-netty": 1988400573,
     "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": 1747683167,
     "org.springframework.boot:spring-boot-starter-security": -967647264,
     "org.springframework.boot:spring-boot-starter-security:jar:sources": 565469887,
     "org.springframework.boot:spring-boot-starter-test": 1248876967,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": 152636809,
-    "org.springframework.boot:spring-boot-starter-tomcat": -354816854,
+    "org.springframework.boot:spring-boot-starter-tomcat": -767184812,
     "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": 2136897783,
-    "org.springframework.boot:spring-boot-starter-validation": -349591643,
+    "org.springframework.boot:spring-boot-starter-validation": 236290614,
     "org.springframework.boot:spring-boot-starter-validation:jar:sources": -540352046,
-    "org.springframework.boot:spring-boot-starter-web": -192135922,
+    "org.springframework.boot:spring-boot-starter-web": 1053846646,
     "org.springframework.boot:spring-boot-starter-web:jar:sources": 529705681,
-    "org.springframework.boot:spring-boot-starter-webflux": 2085146757,
+    "org.springframework.boot:spring-boot-starter-webflux": -1918522398,
     "org.springframework.boot:spring-boot-starter-webflux:jar:sources": -1850085965,
     "org.springframework.boot:spring-boot-starter:jar:sources": -1015331517,
     "org.springframework.boot:spring-boot-test": 552775082,
@@ -695,7 +704,7 @@
     "org.springframework.graphql:spring-graphql-test:jar:sources": 751555498,
     "org.springframework.graphql:spring-graphql:jar:sources": 547147589,
     "org.springframework.kafka:spring-kafka": -398618382,
-    "org.springframework.kafka:spring-kafka-test": -720915083,
+    "org.springframework.kafka:spring-kafka-test": -1719154984,
     "org.springframework.kafka:spring-kafka-test:jar:sources": -156074310,
     "org.springframework.kafka:spring-kafka:jar:sources": 1799535460,
     "org.springframework.retry:spring-retry": 1239051060,
@@ -1609,123 +1618,130 @@
     },
     "io.netty:netty-buffer": {
       "shasums": {
-        "jar": "583c16c0b1e7692eb6cf2ac05bedb5fd8244998306899576d3fb585f4e41d547",
-        "sources": "e22f9f30a9294bf5595687c62e4aed6f31ef3f6f93ad24408c76c5f003edcff3"
+        "jar": "1361fd9c9ba85b9831cf54a1b2e45ddc3ce34a768931726c099d3f5ef0efe4a3",
+        "sources": "13259b636c4a91c0f34a8536d621178fba302f9ba61f3e4aaec3a17ca291dc2a"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
-    "io.netty:netty-codec": {
+    "io.netty:netty-codec-base": {
       "shasums": {
-        "jar": "10662499b0b6a6435de3a02979eed82b529ea9eaf7f1a54859ecc43705aa4096",
-        "sources": "4175a88860db4b308ca9c095748a444072c1c0ec6407d65c69ed56b50c9908be"
+        "jar": "2c6d39d7270628b8cfc3166fbd7a93d595958e59c461bc32ddb383c8c91bf811",
+        "sources": "029bea433dfc710c640338954c7403cc7ac31cc5bf4c192904c837b0ebda5fb2"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
+    },
+    "io.netty:netty-codec-compression": {
+      "shasums": {
+        "jar": "4adaa5cdd4d2e9b50b23e4c3eff42e73de6eb40848718b3aa84cd5b454da6ce8",
+        "sources": "58d61aa4f781657f955a196f17e28fcd9b02e21658b996571e4604a2dadbd8af"
+      },
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-codec-dns": {
       "shasums": {
-        "jar": "f2e2c893de0a06cd2f3f017d9ef6324df64a055dee61c414648f7af09d85602d",
-        "sources": "f7ca286b24a718e2424e599ab2fe91ca1d0399cbeb5ba0cd150d3ec37c5b5bf6"
+        "jar": "c5e2c05b4faeba3cf374cc6af29d6f4a7e969d7ca222be958e0800c79a02ee4e",
+        "sources": "f10017539ab2816efee10b70b47b262c04b881fca685327769d576dd8b222b47"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-codec-http": {
       "shasums": {
-        "jar": "77ecb1f5719c9fe26f990d867788e3f47c092377ca4de4fdcee6186e70224cd3",
-        "sources": "c8817bb25fd1922c00a86bd2d791907c501a5f5bb477af7e4588adb4036e3a32"
+        "jar": "76ae57e87af37b3c4107140f50b9244b1456163a6a225510838f7c5a4458ec22",
+        "sources": "76b25b4884e7bec78cd310415b068204e67da5a87162774abfad9a0e6c7a0e78"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-codec-http2": {
       "shasums": {
-        "jar": "8ad7fb7d42f524b11ab1dfbf949269b0d7fe708631da7b5bce8c166ae40a5382",
-        "sources": "f7b78f3e30920783ade251dcb7efa8b78bfcf51247d45d4bcdd88e531e9bceaf"
+        "jar": "4a9b052bd815c765d9c05e27b32abbd32a2c7c3e3364ccb992ce71da1a26bc0d",
+        "sources": "01f8ad714e5abb989b0e782da9ec467068821299cd17d80c2db833a6472507f6"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-codec-socks": {
       "shasums": {
-        "jar": "818cfcff52cb36e3a07b1764d21624e75b1eb1029bee65b075850d6d8c080074",
-        "sources": "1a299bdb58e11b19d365446516ace0124ad5088a864aa7dc06dadc9ee62af81f"
+        "jar": "4230d43481241e49382a83da2fa9d5980c5702668fc5aa5a980346ce03d30828",
+        "sources": "f126a6f94589b56b1c056a5dbbda4e76e4e749cec1591a3e878e4d6854144a43"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-common": {
       "shasums": {
-        "jar": "97ca3b4e99fc605b6824498387102392f4c6ba9d5d3d93d507e2c9f38ab5bf10",
-        "sources": "90d18a84143d0472a3c7246c5060e01862c78915ae75b180ca2edc3f5d149bfb"
+        "jar": "78206aa7f6d197caa926291408c01889b6b910ca0f74017d3fcbdaccf9562959",
+        "sources": "de720a128534ba1072b354c863d671ab1999900a8fddaadc4a68ee74c2e33fd6"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-handler": {
       "shasums": {
-        "jar": "6e19fe8c1a163857ef9eba9e255e133859d1b9da8fe3c7ee799381465e75cc92",
-        "sources": "a49aba2ab7d86004ee4e2096c9e29d6b0152417642c474eb0a2ee8768af2e115"
+        "jar": "99b59e4bea72220d2aed52df8baf37d97431b06ade0b135226cdf73168975eab",
+        "sources": "68306697d15d870e7bb29ab9ce725d121ac3170428e8a5d7a33767c5fb0ffa0e"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-handler-proxy": {
       "shasums": {
-        "jar": "134d985913b7cac9fcae2c8926d957aa1e35d74a19e6ab14349b385c43c17d67",
-        "sources": "72879b7c3b8f4b028bedd0427fbaa136e0acf4932706905b09869218d8d3a639"
+        "jar": "a06aaaaa1a2e6eb26824e53566bfd020ba930a9390d57a1f0bbf57316e357373",
+        "sources": "91fa7fc64aaa39982b30cc19974f80021090c91023d1d5f6a8e4179aa3a5056b"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-resolver": {
       "shasums": {
-        "jar": "1f0245b4541357aad24be113c870db0a08c75895eaa650338783397c245fa4c2",
-        "sources": "af533c55c96e90f5b7555ea207639f8b8b1051a87589e78d79070b56c427c974"
+        "jar": "24318497f2a3a645964fed418f48879ba11365cab8e1f8d66c47fa7da15ef19a",
+        "sources": "c87b295c43265b34c749331e12ee667f7d43329338618bee2a08027b839220d2"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-resolver-dns": {
       "shasums": {
-        "jar": "7d78cb4aa51f16b6e6adc8099e14845a4b2d94f84bad245f9ee51c8a7e25760b",
-        "sources": "88a3f2948868cf78c7c5e1fe76689d6cfc1293932983eada17c72ed13124823b"
+        "jar": "2e8dd2d861775483d689329ab2546045647c8f8bf5ae3ed2dd48eefbb748952d",
+        "sources": "4db838a89ec84479476e71956d59c67a957779dc5f9781f1a9964f9a6b607c29"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-resolver-dns-classes-macos": {
       "shasums": {
-        "jar": "f3cb28cb95d85f8ebde5b7b09b1c6ec10859f6fbc7efb20471fa9c9e3621e4e7",
-        "sources": "6f971a7df9e00c8f1e83bb7e6871469c263b35664e4e73c5cdb800f283ac47e9"
+        "jar": "dc91d81e0f6c8987ed34f6ca005b4b97cc6032f933a49f7500940e846ade7c43",
+        "sources": "00067617cc0927d804091590f9ea5041e39c4f907357e3c969c45078fe10be3d"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-resolver-dns-native-macos": {
       "shasums": {
-        "osx-x86_64": "c44d27362961130308ac9f2b9376dba2972a94791c0b8da7bd5df9b19299ddfb",
-        "sources": "52469356a706e06ccfa8f0e2d02032f441c5719a0b83be38f3fe7f301cbe5c40"
+        "osx-x86_64": "a1115fb0fd88fe50209fbd645cbfe09e41fe2d264bb1854dc545f44a1bd020cf",
+        "sources": "87a85f239a73c9a4e7dde8ca31e0a8dea711b3b5e3cff9df18b8c07f31f5dc50"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-transport": {
       "shasums": {
-        "jar": "70da7db7fba9bfcbed030747ca25e9a6a3a53694c3c69b353c4851e9db08f60a",
-        "sources": "f1ed418d1527a3d21fe005c8589441afe7aa82a2cb2bb31e2be7b00e4910755a"
+        "jar": "9fb671e96651066cf1a28dad3f1382c7c99df5b8326d4a214d9a375b311f8dc1",
+        "sources": "e17c0a4c7324a93fa01f00bc6ddd2bf2f6eb94702ad8de7af777dec87f89eaf8"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-transport-classes-epoll": {
       "shasums": {
-        "jar": "fbadf92d6c00f5d6d8e8835ae5256260e376c0f021c0d4656ad680e26cdb2e35",
-        "sources": "17f04c5dedae7f75edd0f0f3005e9a048fec210c94428e0707ed8a09b687858a"
+        "jar": "be509407fd71a4b83378567c613420db544d659bb522df7b253a1dbe8ca297fe",
+        "sources": "bb095191a070714f769bff1dd0e5d2496305d10bd566bdc16dbca5773df48b4e"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-transport-native-epoll": {
       "shasums": {
-        "jar": "74afb6d8f8b62662bee7cfd574c5a742358895fd732b3011c557b100eaef7ed5",
-        "linux-x86_64": "c2ac991780fdf4cb27f448742889188558e6103e35ad7b1c32e95411e3d54bfb",
-        "sources": "4422b0c0977a260daf6ab658a53d9c2c5a57f36878be04e0af283e05a26e7537"
+        "jar": "98804b29544a20f56f242240bbec220684f3e1fcc7808b7118a7d5e7e999c410",
+        "linux-x86_64": "5440e38f5ca2858fee8d7898e65291e05b665736c9e8a14c832e707511f5dba6",
+        "sources": "d48e8de50b0994842bec4e65725a7f8e9734144dd4f08b78ffe5396a70ab06b6"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.netty:netty-transport-native-unix-common": {
       "shasums": {
-        "jar": "542d554e9bb57b57282cb42db7e05d2128d402d32584e5600daa2aef9d1980d1",
-        "sources": "0169fbb4e8fb41a006bf91274a660e2ae4e321b465658742975ef6a809eace9e"
+        "jar": "b9ea9fc5ad5eba04e99afdff75b2eb97b5ddfb2ad772e2f2ef5d8f277f3cbd76",
+        "sources": "2b82c54d1b2b9908ec0104664edf58ded4848ae5b34266ee1cf90707efc420ab"
       },
-      "version": "4.1.132.Final"
+      "version": "4.2.15.Final"
     },
     "io.opencensus:opencensus-api": {
       "shasums": {
@@ -2103,24 +2119,31 @@
     },
     "org.apache.tomcat.embed:tomcat-embed-core": {
       "shasums": {
-        "jar": "f9320888a7db9ffc36471c4154ca2ad6d1cdf39240f21afeca6263d11d793030",
-        "sources": "22c1b591ed49331ce1308fcb89c3e9022a3692782c021cef94912445663c2028"
+        "jar": "82473f841824095e03f2c938c18707e44e388e34fb1735b2b338bb4f22fd54f0",
+        "sources": "7820710c0ecc68e81c07ab8922e14ebba9abc56ee797da233bb244bc1572dcc3"
       },
-      "version": "10.1.54"
+      "version": "10.1.55"
     },
     "org.apache.tomcat.embed:tomcat-embed-el": {
       "shasums": {
-        "jar": "afab70634533bf64bb6776f4a35b6d0f50a3f104b84bcc29ed085342a2b19b5b",
-        "sources": "97ec71cfbb0db722bb94ee080622abf26b75fe7a818530172b80b5defee20033"
+        "jar": "a527fe51c6f9428c5116f78fe28588e55357b4492309b51fb0453372da16fa5f",
+        "sources": "a0cf0765f1a65f925150a6e530dabdd5dbab76173bcfb54c6b1eb8f296fa4c1a"
       },
-      "version": "10.1.54"
+      "version": "10.1.55"
     },
     "org.apache.tomcat.embed:tomcat-embed-websocket": {
       "shasums": {
-        "jar": "809cb3e6a373ad007ce63c4d78a7a0da5168b46f2f5de03bdd0bfbde1521eb4e",
-        "sources": "42b902f88ea6016a638953ebce3c5926bdc8aef3661c7b1b2501a433b87ee8c8"
+        "jar": "81800431395fe2ef317fc14075ed49faaa64679a3458ee8791159111a1aa1b37",
+        "sources": "ce1aeded003fb9f57e69f242ae0f83a8c022028581a183afe068fe99e1a47072"
       },
-      "version": "10.1.54"
+      "version": "10.1.55"
+    },
+    "org.apache.tomcat:tomcat-annotations-api": {
+      "shasums": {
+        "jar": "f011b4438e0b949ed9a5a5782aa01e81fd831b939c13b48292bee43522dca9d7",
+        "sources": "e9bc5a52fd49117a0ea179df22a52dfbdf18cb846b8bf49280bd4021146f4a21"
+      },
+      "version": "10.1.55"
     },
     "org.apache.yetus:audience-annotations": {
       "shasums": {
@@ -3779,27 +3802,34 @@
     "io.netty:netty-buffer": [
       "io.netty:netty-common"
     ],
-    "io.netty:netty-codec": [
+    "io.netty:netty-codec-base": [
       "io.netty:netty-buffer",
+      "io.netty:netty-common",
+      "io.netty:netty-transport"
+    ],
+    "io.netty:netty-codec-compression": [
+      "io.netty:netty-buffer",
+      "io.netty:netty-codec-base",
       "io.netty:netty-common",
       "io.netty:netty-transport"
     ],
     "io.netty:netty-codec-dns": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-common",
       "io.netty:netty-transport"
     ],
     "io.netty:netty-codec-http": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
+      "io.netty:netty-codec-compression",
       "io.netty:netty-common",
       "io.netty:netty-handler",
       "io.netty:netty-transport"
     ],
     "io.netty:netty-codec-http2": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-codec-http",
       "io.netty:netty-common",
       "io.netty:netty-handler",
@@ -3807,13 +3837,13 @@
     ],
     "io.netty:netty-codec-socks": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-common",
       "io.netty:netty-transport"
     ],
     "io.netty:netty-handler": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-common",
       "io.netty:netty-resolver",
       "io.netty:netty-transport",
@@ -3821,10 +3851,11 @@
     ],
     "io.netty:netty-handler-proxy": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-codec-http",
       "io.netty:netty-codec-socks",
       "io.netty:netty-common",
+      "io.netty:netty-handler",
       "io.netty:netty-transport"
     ],
     "io.netty:netty-resolver": [
@@ -3832,7 +3863,7 @@
     ],
     "io.netty:netty-resolver-dns": [
       "io.netty:netty-buffer",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
       "io.netty:netty-codec-dns",
       "io.netty:netty-common",
       "io.netty:netty-handler",
@@ -4119,6 +4150,9 @@
     "org.apache.logging.log4j:log4j-to-slf4j": [
       "org.apache.logging.log4j:log4j-api",
       "org.slf4j:slf4j-api"
+    ],
+    "org.apache.tomcat.embed:tomcat-embed-core": [
+      "org.apache.tomcat:tomcat-annotations-api"
     ],
     "org.apache.tomcat.embed:tomcat-embed-websocket": [
       "org.apache.tomcat.embed:tomcat-embed-core"
@@ -5976,17 +6010,16 @@
       "io.netty.buffer",
       "io.netty.buffer.search"
     ],
-    "io.netty:netty-codec": [
+    "io.netty:netty-codec-base": [
       "io.netty.handler.codec",
       "io.netty.handler.codec.base64",
       "io.netty.handler.codec.bytes",
-      "io.netty.handler.codec.compression",
       "io.netty.handler.codec.json",
-      "io.netty.handler.codec.marshalling",
-      "io.netty.handler.codec.protobuf",
       "io.netty.handler.codec.serialization",
-      "io.netty.handler.codec.string",
-      "io.netty.handler.codec.xml"
+      "io.netty.handler.codec.string"
+    ],
+    "io.netty:netty-codec-compression": [
+      "io.netty.handler.codec.compression"
     ],
     "io.netty:netty-codec-dns": [
       "io.netty.handler.codec.dns"
@@ -6034,7 +6067,6 @@
       "io.netty.handler.logging",
       "io.netty.handler.pcap",
       "io.netty.handler.ssl",
-      "io.netty.handler.ssl.ocsp",
       "io.netty.handler.ssl.util",
       "io.netty.handler.stream",
       "io.netty.handler.timeout",
@@ -7048,6 +7080,11 @@
       "org.apache.tomcat.websocket",
       "org.apache.tomcat.websocket.pojo",
       "org.apache.tomcat.websocket.server"
+    ],
+    "org.apache.tomcat:tomcat-annotations-api": [
+      "jakarta.annotation",
+      "jakarta.annotation.security",
+      "jakarta.annotation.sql"
     ],
     "org.apache.yetus:audience-annotations": [
       "org.apache.yetus.audience",
@@ -10173,7 +10210,10 @@
       "io.modelcontextprotocol.sdk:mcp-spring-webmvc:jar:sources",
       "io.netty:netty-buffer",
       "io.netty:netty-buffer:jar:sources",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
+      "io.netty:netty-codec-base:jar:sources",
+      "io.netty:netty-codec-compression",
+      "io.netty:netty-codec-compression:jar:sources",
       "io.netty:netty-codec-dns",
       "io.netty:netty-codec-dns:jar:sources",
       "io.netty:netty-codec-http",
@@ -10182,7 +10222,6 @@
       "io.netty:netty-codec-http:jar:sources",
       "io.netty:netty-codec-socks",
       "io.netty:netty-codec-socks:jar:sources",
-      "io.netty:netty-codec:jar:sources",
       "io.netty:netty-common",
       "io.netty:netty-common:jar:sources",
       "io.netty:netty-handler",
@@ -10321,6 +10360,8 @@
       "org.apache.tomcat.embed:tomcat-embed-el:jar:sources",
       "org.apache.tomcat.embed:tomcat-embed-websocket",
       "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources",
+      "org.apache.tomcat:tomcat-annotations-api",
+      "org.apache.tomcat:tomcat-annotations-api:jar:sources",
       "org.apache.yetus:audience-annotations",
       "org.apache.yetus:audience-annotations:jar:sources",
       "org.apache.zookeeper:zookeeper",
@@ -10883,7 +10924,10 @@
       "io.modelcontextprotocol.sdk:mcp-spring-webmvc:jar:sources",
       "io.netty:netty-buffer",
       "io.netty:netty-buffer:jar:sources",
-      "io.netty:netty-codec",
+      "io.netty:netty-codec-base",
+      "io.netty:netty-codec-base:jar:sources",
+      "io.netty:netty-codec-compression",
+      "io.netty:netty-codec-compression:jar:sources",
       "io.netty:netty-codec-dns",
       "io.netty:netty-codec-dns:jar:sources",
       "io.netty:netty-codec-http",
@@ -10892,7 +10936,6 @@
       "io.netty:netty-codec-http:jar:sources",
       "io.netty:netty-codec-socks",
       "io.netty:netty-codec-socks:jar:sources",
-      "io.netty:netty-codec:jar:sources",
       "io.netty:netty-common",
       "io.netty:netty-common:jar:sources",
       "io.netty:netty-handler",
@@ -11031,6 +11074,8 @@
       "org.apache.tomcat.embed:tomcat-embed-el:jar:sources",
       "org.apache.tomcat.embed:tomcat-embed-websocket",
       "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources",
+      "org.apache.tomcat:tomcat-annotations-api",
+      "org.apache.tomcat:tomcat-annotations-api:jar:sources",
       "org.apache.yetus:audience-annotations",
       "org.apache.yetus:audience-annotations:jar:sources",
       "org.apache.zookeeper:zookeeper",
