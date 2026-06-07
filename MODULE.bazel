@@ -102,7 +102,7 @@ maven.install(
         "org.apache.tomcat.embed:tomcat-embed-core:10.1.55",
         "org.apache.tomcat.embed:tomcat-embed-el:10.1.55",
         "org.apache.tomcat.embed:tomcat-embed-websocket:10.1.55",
-        "org.apache.tomcat:tomcat-annotations-api:10.1.55",
+        "org.apache.tomcat:tomcat-annotations-api:11.0.22",
     ],
     boms = [
         "io.netty:netty-bom:4.2.15.Final",
