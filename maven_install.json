@@ -32,7 +32,7 @@
     "org.apache.kafka:kafka_2.13": 1972780171,
     "org.apache.tomcat.embed:tomcat-embed-core": -650930851,
     "org.apache.tomcat.embed:tomcat-embed-el": 1389144293,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": 863637281,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": 1945932545,
     "org.apache.tomcat:tomcat-annotations-api": -1353008108,
     "org.eclipse.jetty:jetty-reactive-httpclient": 1555298607,
     "org.flywaydb:flyway-core": 1866554074,
@@ -439,8 +439,8 @@
     "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 40200423,
     "org.apache.tomcat.embed:tomcat-embed-el": -1350702111,
     "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 894829407,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": 1545927053,
-    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": -906340953,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": -1483028481,
+    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": 1025115480,
     "org.apache.tomcat:tomcat-annotations-api": -1514378528,
     "org.apache.tomcat:tomcat-annotations-api:jar:sources": -577783506,
     "org.apache.yetus:audience-annotations": 1772399437,
@@ -647,7 +647,7 @@
     "org.springframework.ai:spring-ai-openai:jar:sources": 120012569,
     "org.springframework.ai:spring-ai-retry": 1598982374,
     "org.springframework.ai:spring-ai-retry:jar:sources": -1812210947,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1430968155,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 1998534772,
     "org.springframework.ai:spring-ai-starter-model-google-genai": -1373975155,
     "org.springframework.ai:spring-ai-starter-model-ollama": -893166153,
     "org.springframework.ai:spring-ai-starter-model-openai": -904387707,
@@ -679,11 +679,11 @@
     "org.springframework.boot:spring-boot-starter-security:jar:sources": 565469887,
     "org.springframework.boot:spring-boot-starter-test": 1248876967,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": 152636809,
-    "org.springframework.boot:spring-boot-starter-tomcat": -767184812,
+    "org.springframework.boot:spring-boot-starter-tomcat": 909621379,
     "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": 2136897783,
     "org.springframework.boot:spring-boot-starter-validation": 236290614,
     "org.springframework.boot:spring-boot-starter-validation:jar:sources": -540352046,
-    "org.springframework.boot:spring-boot-starter-web": 1053846646,
+    "org.springframework.boot:spring-boot-starter-web": -405937319,
     "org.springframework.boot:spring-boot-starter-web:jar:sources": 529705681,
     "org.springframework.boot:spring-boot-starter-webflux": -1918522398,
     "org.springframework.boot:spring-boot-starter-webflux:jar:sources": -1850085965,
@@ -2133,10 +2133,10 @@
     },
     "org.apache.tomcat.embed:tomcat-embed-websocket": {
       "shasums": {
-        "jar": "81800431395fe2ef317fc14075ed49faaa64679a3458ee8791159111a1aa1b37",
-        "sources": "ce1aeded003fb9f57e69f242ae0f83a8c022028581a183afe068fe99e1a47072"
+        "jar": "210e0c7ab194a76cc7283df0be365276091b042369dae125fb477828ba67e922",
+        "sources": "711f09af528ac5af172c664244bcba4748eac00811ef7c6b52ddd6836b5a4a28"
       },
-      "version": "10.1.55"
+      "version": "11.0.22"
     },
     "org.apache.tomcat:tomcat-annotations-api": {
       "shasums": {
