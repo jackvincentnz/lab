@@ -30,7 +30,7 @@
     "org.apache.kafka:kafka-streams": 1473637962,
     "org.apache.kafka:kafka-streams-test-utils": -541626037,
     "org.apache.kafka:kafka_2.13": 1972780171,
-    "org.apache.tomcat.embed:tomcat-embed-core": -650930851,
+    "org.apache.tomcat.embed:tomcat-embed-core": 431364413,
     "org.apache.tomcat.embed:tomcat-embed-el": 1389144293,
     "org.apache.tomcat.embed:tomcat-embed-websocket": 863637281,
     "org.apache.tomcat:tomcat-annotations-api": -1353008108,
@@ -435,11 +435,11 @@
     "org.apache.logging.log4j:log4j-api:jar:sources": -1395990218,
     "org.apache.logging.log4j:log4j-to-slf4j": -745282189,
     "org.apache.logging.log4j:log4j-to-slf4j:jar:sources": 1968925522,
-    "org.apache.tomcat.embed:tomcat-embed-core": -1367626723,
-    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 40200423,
+    "org.apache.tomcat.embed:tomcat-embed-core": 1389539855,
+    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 610251870,
     "org.apache.tomcat.embed:tomcat-embed-el": -1350702111,
     "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 894829407,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": 1545927053,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": -969646623,
     "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": -906340953,
     "org.apache.tomcat:tomcat-annotations-api": -1514378528,
     "org.apache.tomcat:tomcat-annotations-api:jar:sources": -577783506,
@@ -647,7 +647,7 @@
     "org.springframework.ai:spring-ai-openai:jar:sources": 120012569,
     "org.springframework.ai:spring-ai-retry": 1598982374,
     "org.springframework.ai:spring-ai-retry:jar:sources": -1812210947,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1430968155,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1303861850,
     "org.springframework.ai:spring-ai-starter-model-google-genai": -1373975155,
     "org.springframework.ai:spring-ai-starter-model-ollama": -893166153,
     "org.springframework.ai:spring-ai-starter-model-openai": -904387707,
@@ -679,11 +679,11 @@
     "org.springframework.boot:spring-boot-starter-security:jar:sources": 565469887,
     "org.springframework.boot:spring-boot-starter-test": 1248876967,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": 152636809,
-    "org.springframework.boot:spring-boot-starter-tomcat": -767184812,
+    "org.springframework.boot:spring-boot-starter-tomcat": 62299689,
     "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": 2136897783,
     "org.springframework.boot:spring-boot-starter-validation": 236290614,
     "org.springframework.boot:spring-boot-starter-validation:jar:sources": -540352046,
-    "org.springframework.boot:spring-boot-starter-web": 1053846646,
+    "org.springframework.boot:spring-boot-starter-web": 1507581708,
     "org.springframework.boot:spring-boot-starter-web:jar:sources": 529705681,
     "org.springframework.boot:spring-boot-starter-webflux": -1918522398,
     "org.springframework.boot:spring-boot-starter-webflux:jar:sources": -1850085965,
@@ -2119,10 +2119,10 @@
     },
     "org.apache.tomcat.embed:tomcat-embed-core": {
       "shasums": {
-        "jar": "82473f841824095e03f2c938c18707e44e388e34fb1735b2b338bb4f22fd54f0",
-        "sources": "7820710c0ecc68e81c07ab8922e14ebba9abc56ee797da233bb244bc1572dcc3"
+        "jar": "78cd7cd7c104b6b87142c1b0bd902e1ce005b0245c3cefa8a06759148947200b",
+        "sources": "0bfbdc27e60d4db5b83e0f51193bae5f4bd02ac270fd78b06945e219fc473359"
       },
-      "version": "10.1.55"
+      "version": "11.0.22"
     },
     "org.apache.tomcat.embed:tomcat-embed-el": {
       "shasums": {
@@ -7028,7 +7028,6 @@
       "org.apache.juli.logging",
       "org.apache.naming",
       "org.apache.naming.factory",
-      "org.apache.naming.factory.webservices",
       "org.apache.naming.java",
       "org.apache.tomcat",
       "org.apache.tomcat.jni",
@@ -7036,7 +7035,6 @@
       "org.apache.tomcat.util.bcel",
       "org.apache.tomcat.util.bcel.classfile",
       "org.apache.tomcat.util.buf",
-      "org.apache.tomcat.util.codec.binary",
       "org.apache.tomcat.util.collections",
       "org.apache.tomcat.util.compat",
       "org.apache.tomcat.util.concurrent",
