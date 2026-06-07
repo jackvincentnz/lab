@@ -106,7 +106,7 @@ maven.install(
     ],
     boms = [
         "io.netty:netty-bom:4.2.15.Final",
-        "org.springframework.boot:spring-boot-dependencies:3.5.14",
+        "org.springframework.boot:spring-boot-dependencies:4.0.6",
         "org.springframework.ai:spring-ai-bom:1.1.7",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:10.6.0",
         "com.google.protobuf:protobuf-bom:4.35.0",
