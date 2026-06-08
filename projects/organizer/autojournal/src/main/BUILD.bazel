@@ -29,6 +29,7 @@ java_library(
     runtime_deps = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal",
         "@maven//:org_springframework_boot_spring_boot_loader",
+        "@maven//:org_springframework_boot_spring_boot_starter_kafka",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )

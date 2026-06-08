@@ -1,44 +1,39 @@
 package lab.autojournal.adapter.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 
-@WireMockTest
 class GqlTaskServiceAdapterTest {
 
   static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   @Test
-  void getTask_returnsTask(WireMockRuntimeInfo wmRuntimeInfo) {
-    var taskServiceAdapter = newAdapter(wmRuntimeInfo);
+  void getTask_returnsTask() throws Exception {
+    try (var server = new RecordingGraphqlServer()) {
+      var taskServiceAdapter = newAdapter(server);
 
-    var taskId = UUID.randomUUID().toString();
-    var taskTitle = "My task";
+      var taskId = UUID.randomUUID().toString();
+      var taskTitle = "My task";
 
-    var responseJson = OBJECT_MAPPER.createObjectNode();
-    responseJson.putObject("data").putObject("task").put("id", taskId).put("title", taskTitle);
+      var responseJson = OBJECT_MAPPER.createObjectNode();
+      responseJson.putObject("data").putObject("task").put("id", taskId).put("title", taskTitle);
 
-    // TODO: verify that post body contains expected query
-    stubFor(post("/graphql").willReturn(ok().withBody(responseJson.toString())));
+      server.respondWith(responseJson.toString());
 
-    var task = taskServiceAdapter.getTask(taskId);
+      var task = taskServiceAdapter.getTask(taskId);
 
-    assertThat(task.taskId()).isEqualTo(taskId);
-    assertThat(task.title()).isEqualTo(taskTitle);
+      assertThat(task.taskId()).isEqualTo(taskId);
+      assertThat(task.title()).isEqualTo(taskTitle);
+      assertThat(server.requestBody()).contains(taskId);
+    }
   }
 
-  private GqlTaskServiceAdapter newAdapter(WireMockRuntimeInfo wmRuntimeInfo) {
-    var gqlUrl = String.format("http://localhost:%s/graphql", wmRuntimeInfo.getHttpPort());
+  private GqlTaskServiceAdapter newAdapter(RecordingGraphqlServer server) {
     var properties = new TaskServiceProperties();
-    properties.setGraphqlUrl(gqlUrl);
+    properties.setGraphqlUrl(server.graphqlUrl());
     return new GqlTaskServiceAdapter(properties);
   }
 }

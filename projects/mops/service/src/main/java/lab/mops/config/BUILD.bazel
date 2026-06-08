@@ -14,7 +14,9 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
         "@maven//:org_springframework_ai_spring_ai_model",
         "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_restclient",
         "@maven//:org_springframework_data_spring_data_jdbc",
         "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_web",
     ],
 )

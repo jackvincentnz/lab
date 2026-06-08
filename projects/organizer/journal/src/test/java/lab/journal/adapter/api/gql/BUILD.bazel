@@ -21,7 +21,7 @@ java_test_suite(
         "//projects/organizer/journal/src/main/java/lab/journal/application/entry",
         "//projects/organizer/journal/src/main/java/lab/journal/config",
         "//projects/organizer/journal/src/main/java/lab/journal/domain",
+        "//third_party/dgs:client",
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
-        "@maven//:com_netflix_graphql_dgs_graphql_dgs_client",
     ] + SPRING_TEST_DEPS + DGS_TEST_DEPS,
 )

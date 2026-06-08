@@ -1,8 +1,10 @@
 package lab.mops.ai.infrastructure.llm;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Method;
@@ -16,6 +18,7 @@ import lab.test.TestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.messages.AssistantMessage;
@@ -23,6 +26,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.annotation.Tool;
 
 @ExtendWith(MockitoExtension.class)
@@ -61,6 +65,31 @@ class SpringChatClientTest extends TestBase {
     var response = springChatClient.getResponse(List.of(userMessage));
 
     assertThat(response.getContent()).hasValue(assistantContent);
+  }
+
+  @Test
+  void getResponse_registersToolsWithoutAllowingSpringAiToExecuteThem() {
+    var chatResponse =
+        ChatResponse.builder()
+            .generations(List.of(new Generation(new AssistantMessage(randomString()))))
+            .build();
+    var promptCaptor = ArgumentCaptor.forClass(Prompt.class);
+
+    when(messageMapper.map(anyList())).thenReturn(List.of());
+    when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+    when(messageMapper.map(chatResponse))
+        .thenReturn(lab.mops.ai.application.chat.completions.AssistantMessage.of(randomString()));
+
+    springChatClient.getResponse(List.of(new UserMessage(randomString())));
+
+    verify(chatModel).call(promptCaptor.capture());
+    var options = (ToolCallingChatOptions) promptCaptor.getValue().getOptions();
+    var toolCallback = options.getToolCallbacks().get(0);
+
+    assertThat(toolCallback.getToolDefinition().name()).isNotBlank();
+    assertThatThrownBy(() -> toolCallback.call("{}"))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessage("Tool calls must be executed by the MOPS approval loop");
   }
 
   @Test
