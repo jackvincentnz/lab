@@ -12,10 +12,14 @@ import lab.mops.ai.application.chat.completions.Message;
 import lab.mops.core.api.ai.BudgetTools;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.model.ChatModel;
+import org.springframework.ai.chat.model.ToolContext;
 import org.springframework.ai.chat.prompt.ChatOptions;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.support.ToolCallbacks;
+import org.springframework.ai.tool.ToolCallback;
+import org.springframework.ai.tool.definition.ToolDefinition;
+import org.springframework.ai.tool.metadata.ToolMetadata;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -40,8 +44,10 @@ class SpringChatClient implements CompletionService, ToolProvider {
     this.budgetTools = budgetTools;
     this.chatOptions =
         ToolCallingChatOptions.builder()
-            .toolCallbacks(ToolCallbacks.from(budgetTools))
-            .internalToolExecutionEnabled(false)
+            .toolCallbacks(
+                Arrays.stream(ToolCallbacks.from(budgetTools))
+                    .map(NonExecutingToolCallback::new)
+                    .toArray(ToolCallback[]::new))
             .build();
     this.messageMapper = messageMapper;
     this.approvalPolicy = approvalPolicy;
@@ -68,5 +74,27 @@ class SpringChatClient implements CompletionService, ToolProvider {
     return Arrays.stream(ToolCallbacks.from(budgetTools))
         .map(cb -> new SpringTool(cb, approvalPolicy))
         .collect(Collectors.toUnmodifiableList());
+  }
+
+  private record NonExecutingToolCallback(ToolCallback delegate) implements ToolCallback {
+    @Override
+    public ToolDefinition getToolDefinition() {
+      return delegate.getToolDefinition();
+    }
+
+    @Override
+    public ToolMetadata getToolMetadata() {
+      return delegate.getToolMetadata();
+    }
+
+    @Override
+    public String call(String toolInput) {
+      throw new IllegalStateException("Tool calls must be executed by the MOPS approval loop");
+    }
+
+    @Override
+    public String call(String toolInput, ToolContext toolContext) {
+      throw new IllegalStateException("Tool calls must be executed by the MOPS approval loop");
+    }
   }
 }

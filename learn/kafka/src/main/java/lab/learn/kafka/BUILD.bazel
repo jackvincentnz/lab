@@ -7,6 +7,9 @@ java_library(
         "//learn/kafka/src/main:__pkg__",
         "//learn/kafka/src/test/java/lab/learn/kafka:__pkg__",
     ],
+    runtime_deps = [
+        "@maven//:org_springframework_boot_spring_boot_kafka",
+    ],
     deps = [
         "//learn/kafka/src/main/proto:kafka_java",
         "@maven//:org_slf4j_slf4j_api",

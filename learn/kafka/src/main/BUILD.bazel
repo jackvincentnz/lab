@@ -8,6 +8,7 @@ java_binary(
     runtime_deps = [
         "//learn/kafka/src/main/java/lab/learn/kafka",
         "@maven//:io_confluent_kafka_protobuf_serializer",
+        "@maven//:org_springframework_boot_spring_boot_starter_kafka",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
 )

@@ -1,0 +1,17 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
+java_library(
+    name = "client",
+    visibility = ["//visibility:public"],
+    exports = [
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs_client",
+    ],
+    runtime_deps = [
+        # Remove this wrapper when the DGS client no longer directly registers these
+        # Jackson 2 modules, or when its Maven metadata supplies them transitively.
+        "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jdk8",
+        "@maven//:com_fasterxml_jackson_datatype_jackson_datatype_jsr310",
+        "@maven//:com_fasterxml_jackson_module_jackson_module_kotlin",
+        "@maven//:com_fasterxml_jackson_module_jackson_module_parameter_names",
+    ],
+)

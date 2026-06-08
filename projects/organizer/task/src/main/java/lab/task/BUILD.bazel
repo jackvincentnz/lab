@@ -11,6 +11,7 @@ java_library(
         "//projects/organizer/task/src/main/java/lab/task/adapter",
         "//projects/organizer/task/src/main/java/lab/task/application",
         "//projects/organizer/task/src/main/java/lab/task/domain",
+        "@maven//:org_springframework_boot_spring_boot_kafka",
     ],
     deps = [
         "//libs/tenancy/src/main/java/lab/libs/tenancy/filter",

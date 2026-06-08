@@ -1,42 +1,27 @@
 package lab.autojournal.adapter.service;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.containing;
-import static com.github.tomakehurst.wiremock.client.WireMock.ok;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.verify;
+import static org.assertj.core.api.Assertions.assertThat;
 
-import com.github.tomakehurst.wiremock.junit5.WireMockRuntimeInfo;
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-@WireMockTest
 class GqlJournalServiceAdapterTest {
 
-  @BeforeEach
-  void beforeEach() {
-    stubFor(post("/graphql").willReturn(ok().withBody("{}")));
-  }
-
   @Test
-  void addEntry_addsEntryMatchingMessage(WireMockRuntimeInfo wmRuntimeInfo) {
-    var gqlJournalServiceAdapter = newAdapter(wmRuntimeInfo);
-    var message = "My message";
+  void addEntry_addsEntryMatchingMessage() throws Exception {
+    try (var server = new RecordingGraphqlServer()) {
+      var gqlJournalServiceAdapter = newAdapter(server);
+      var message = "My message";
 
-    gqlJournalServiceAdapter.addEntry(message);
+      gqlJournalServiceAdapter.addEntry(message);
 
-    verify(
-        postRequestedFor(urlEqualTo("/graphql"))
-            .withRequestBody(containing("addEntry(input: {message : \\\"" + message + "\\\"})")));
+      assertThat(server.requestBody())
+          .contains("addEntry(input: {message : \\\"" + message + "\\\"})");
+    }
   }
 
-  private GqlJournalServiceAdapter newAdapter(WireMockRuntimeInfo wmRuntimeInfo) {
-    var gqlUrl = String.format("http://localhost:%s/graphql", wmRuntimeInfo.getHttpPort());
+  private GqlJournalServiceAdapter newAdapter(RecordingGraphqlServer server) {
     var properties = new JournalServiceProperties();
-    properties.setGraphqlUrl(gqlUrl);
+    properties.setGraphqlUrl(server.graphqlUrl());
     return new GqlJournalServiceAdapter(properties);
   }
 }

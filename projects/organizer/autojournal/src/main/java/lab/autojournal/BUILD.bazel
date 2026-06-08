@@ -10,6 +10,7 @@ java_library(
     runtime_deps = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter",
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/application",
+        "@maven//:org_springframework_boot_spring_boot_kafka",
     ],
     deps = [
         "@maven//:org_springframework_boot_spring_boot",
