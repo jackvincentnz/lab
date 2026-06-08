@@ -9,6 +9,8 @@ on:
 jobs:
   tagger:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: tag HEAD with year.week
         run: |
