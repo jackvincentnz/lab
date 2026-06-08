@@ -81,7 +81,7 @@ maven.install(
         "org.springframework.boot:spring-boot-starter-web",
         "org.springframework.boot:spring-boot-starter-webflux",
         "redis.clients:jedis",
-        "org.postgresql:postgresql",
+        "org.postgresql:postgresql:42.7.11",
         "org.springframework.boot:spring-boot-starter-test",
         "org.springframework.kafka:spring-kafka-test",
         "org.testcontainers:testcontainers",
@@ -98,6 +98,9 @@ maven.install(
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.5.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
         "com.squareup.okhttp3:okhttp-jvm:5.3.2",
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.22",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.22",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.22",
     ],
     boms = [
         "io.netty:netty-bom:4.2.15.Final",
