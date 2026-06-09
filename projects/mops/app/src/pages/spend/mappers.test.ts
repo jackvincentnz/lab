@@ -1,10 +1,10 @@
 import { describe, expect, test } from "../../test";
-import type {
-  Category,
-  CategoryValue,
-  LineItem,
-} from "../../__generated__/graphql";
+import type { SpendPageQueryQuery } from "../../__generated__/graphql";
 import { mapToColumns, mapToLineItems } from "./mappers";
+
+type Category = SpendPageQueryQuery["allCategories"][number];
+type CategoryValue = Category["values"][number];
+type LineItem = SpendPageQueryQuery["allLineItems"][number];
 
 describe("spend mappers", () => {
   test("maps query line items to table rows", () => {
@@ -56,18 +56,9 @@ describe("spend mappers", () => {
 function mockLineItem(overrides: Partial<LineItem>): LineItem {
   return {
     id: overrides.id ?? "line-item-1",
-    budgetId: "budget-1",
     name: overrides.name ?? "Line Item",
     spending: [],
-    spendTotals: {
-      monthlyTotals: [],
-      quarterlyTotals: [],
-      annualTotals: [],
-      grandTotal: 0,
-    },
     categorizations: overrides.categorizations ?? [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -76,8 +67,6 @@ function mockCategory(overrides: Partial<Category>): Category {
     id: overrides.id ?? "category-1",
     name: overrides.name ?? "Category",
     values: overrides.values ?? [mockCategoryValue({})],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   };
 }
 

@@ -7,11 +7,6 @@ import {
   userEvent,
   vi,
 } from "../../test";
-import {
-  ChatMessageStatus,
-  ChatMessageType,
-  ToolCallStatus,
-} from "../../__generated__/graphql";
 import { ChatTranscript, type ChatTranscriptMessage } from "./ChatTranscript";
 
 describe("ChatTranscript", () => {
@@ -22,7 +17,7 @@ describe("ChatTranscript", () => {
         messages={[
           createAssistantMessage({
             id: "assistant-1",
-            status: ChatMessageStatus.Pending,
+            status: "PENDING",
             content: null,
           }),
         ]}
@@ -47,7 +42,7 @@ describe("ChatTranscript", () => {
         messages={[
           createAssistantMessage({
             id: "assistant-1",
-            status: ChatMessageStatus.Failed,
+            status: "FAILED",
             content: null,
           }),
         ]}
@@ -76,14 +71,14 @@ describe("ChatTranscript", () => {
         messages={[
           createAssistantMessage({
             id: "assistant-1",
-            status: ChatMessageStatus.Completed,
+            status: "COMPLETED",
             content: "I will create a budget",
             toolCalls: [
               {
                 id: "tool-call-1",
                 name: "create_budget",
                 arguments: '{"name":"new budget"}',
-                status: ToolCallStatus.PendingApproval,
+                status: "PENDING_APPROVAL",
               },
             ],
           }),
@@ -201,8 +196,8 @@ function createUserMessage(
 ): ChatTranscriptMessage {
   return {
     id: overrides.id ?? "user-1",
-    type: ChatMessageType.User,
-    status: overrides.status ?? ChatMessageStatus.Completed,
+    type: "USER",
+    status: overrides.status ?? "COMPLETED",
     content: overrides.content ?? "User message",
     toolCalls: overrides.toolCalls ?? [],
     createdAt: overrides.createdAt ?? new Date().toISOString(),
@@ -215,8 +210,8 @@ function createAssistantMessage(
 ): ChatTranscriptMessage {
   return {
     id: overrides.id ?? "assistant-1",
-    type: ChatMessageType.Assistant,
-    status: overrides.status ?? ChatMessageStatus.Completed,
+    type: "ASSISTANT",
+    status: overrides.status ?? "COMPLETED",
     content: overrides.content ?? "Assistant reply",
     toolCalls: overrides.toolCalls ?? [],
     createdAt: overrides.createdAt ?? new Date().toISOString(),
