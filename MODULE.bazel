@@ -108,7 +108,7 @@ maven.install(
         "org.springframework.ai:spring-ai-bom:2.0.0-RC1",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.1",
         "com.google.protobuf:protobuf-bom:4.35.0",
-        "org.testcontainers:testcontainers-bom:1.21.4",
+        "org.testcontainers:testcontainers-bom:2.0.5",
     ],
     fail_if_repin_required = True,
     fetch_sources = True,
