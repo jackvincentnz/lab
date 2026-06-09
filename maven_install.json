@@ -55,11 +55,12 @@
     "org.springframework.boot:spring-boot-starter-web": -1905796688,
     "org.springframework.boot:spring-boot-starter-webflux": 1788530073,
     "org.springframework.kafka:spring-kafka-test": 990321692,
-    "org.testcontainers:junit-jupiter": 1315787294,
-    "org.testcontainers:kafka": 945108230,
-    "org.testcontainers:postgresql": -1496390422,
     "org.testcontainers:testcontainers": -258185670,
-    "org.testcontainers:testcontainers-bom": 1460572771,
+    "org.testcontainers:testcontainers-bom": 483223872,
+    "org.testcontainers:testcontainers-jdbc": 820447396,
+    "org.testcontainers:testcontainers-junit-jupiter": -918230293,
+    "org.testcontainers:testcontainers-kafka": -1796937005,
+    "org.testcontainers:testcontainers-postgresql": 110741309,
     "redis.clients:jedis": -1241873108,
     "repositories": 1733343677
   },
@@ -772,17 +773,17 @@
     "org.springframework:spring-webmvc:jar:sources": -1653514509,
     "org.springframework:spring-websocket": -1360917096,
     "org.springframework:spring-websocket:jar:sources": 550906248,
-    "org.testcontainers:database-commons": 1732932591,
-    "org.testcontainers:database-commons:jar:sources": 1212560508,
-    "org.testcontainers:jdbc": 254342769,
-    "org.testcontainers:jdbc:jar:sources": 1763436289,
-    "org.testcontainers:junit-jupiter": -924259312,
-    "org.testcontainers:junit-jupiter:jar:sources": -920193843,
-    "org.testcontainers:kafka": 347217695,
-    "org.testcontainers:kafka:jar:sources": -42642082,
-    "org.testcontainers:postgresql": -1646992349,
-    "org.testcontainers:postgresql:jar:sources": 772521704,
     "org.testcontainers:testcontainers": -1094676158,
+    "org.testcontainers:testcontainers-database-commons": 68173076,
+    "org.testcontainers:testcontainers-database-commons:jar:sources": 255562709,
+    "org.testcontainers:testcontainers-jdbc": -575875861,
+    "org.testcontainers:testcontainers-jdbc:jar:sources": 625832805,
+    "org.testcontainers:testcontainers-junit-jupiter": -1946774862,
+    "org.testcontainers:testcontainers-junit-jupiter:jar:sources": 322843120,
+    "org.testcontainers:testcontainers-kafka": -804570005,
+    "org.testcontainers:testcontainers-kafka:jar:sources": 1379781,
+    "org.testcontainers:testcontainers-postgresql": -132055982,
+    "org.testcontainers:testcontainers-postgresql:jar:sources": 564962717,
     "org.testcontainers:testcontainers:jar:sources": 375219890,
     "org.xerial.snappy:snappy-java": -694621450,
     "org.xerial.snappy:snappy-java:jar:sources": 1189859762,
@@ -843,10 +844,11 @@
     "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.0.6",
     "org.springframework.boot:spring-boot-starter-webflux": "org.springframework.boot:spring-boot-starter-webflux:4.0.6",
     "org.springframework.kafka:spring-kafka-test": "org.springframework.kafka:spring-kafka-test:4.0.5",
-    "org.testcontainers:junit-jupiter": "org.testcontainers:junit-jupiter:1.21.4",
-    "org.testcontainers:kafka": "org.testcontainers:kafka:1.21.4",
-    "org.testcontainers:postgresql": "org.testcontainers:postgresql:1.21.4",
     "org.testcontainers:testcontainers": "org.testcontainers:testcontainers:2.0.5",
+    "org.testcontainers:testcontainers-jdbc": "org.testcontainers:testcontainers-jdbc:2.0.5",
+    "org.testcontainers:testcontainers-junit-jupiter": "org.testcontainers:testcontainers-junit-jupiter:2.0.5",
+    "org.testcontainers:testcontainers-kafka": "org.testcontainers:testcontainers-kafka:2.0.5",
+    "org.testcontainers:testcontainers-postgresql": "org.testcontainers:testcontainers-postgresql:2.0.5",
     "redis.clients:jedis": "redis.clients:jedis:7.0.0"
   },
   "artifacts": {
@@ -3328,45 +3330,45 @@
       },
       "version": "7.0.7"
     },
-    "org.testcontainers:database-commons": {
-      "shasums": {
-        "jar": "539167f41549b597efa04a40912f58a2d56f422040d014993951ec6f0e14c691",
-        "sources": "299781cdff4920bf0c13394b8374a4aa38467b03648bc4f3a913cb8389281f3c"
-      },
-      "version": "1.21.4"
-    },
-    "org.testcontainers:jdbc": {
-      "shasums": {
-        "jar": "15ce7d24f4a869fcf225875fcfeea8fd1f86991c8f00286e435c8602ea426470",
-        "sources": "c4f80ad3fea8a5aca1eba138bdf00a5dd8d9204c5edff0b27638997bb0d816af"
-      },
-      "version": "1.21.4"
-    },
-    "org.testcontainers:junit-jupiter": {
-      "shasums": {
-        "jar": "92df2a6fd67c30acb5b3521118558033f711c7973fab5f4597211ff3fd13f416",
-        "sources": "897b13ab18d4faf950d29563c55a66081a0809435072a3c47953fc6d38f13070"
-      },
-      "version": "1.21.4"
-    },
-    "org.testcontainers:kafka": {
-      "shasums": {
-        "jar": "db891d886a58091a8433bca22771cad8ef0ed48a13a54ea78572cff4e9654579",
-        "sources": "29da6b445b45db7b6912c8d6853d62c5e192e9d18cb63bc455ccf1e4f9eb9ad6"
-      },
-      "version": "1.21.4"
-    },
-    "org.testcontainers:postgresql": {
-      "shasums": {
-        "jar": "38fc4c42580c96d9f8cdc2286612dd9e1f589b3ed2f57b3fb5e690f7b1505c03",
-        "sources": "25620e2f51086b6a3b125bf0ee9a68be977c79acf4fd1328d694237b8228786d"
-      },
-      "version": "1.21.4"
-    },
     "org.testcontainers:testcontainers": {
       "shasums": {
         "jar": "0466f481343d5f350a91274cd7bf984308cbaf90d706247fd1cf4b1a8010c2e1",
         "sources": "b4dfdb7d0f8dadc6bfa6d817df703b5c6881b83b6d0452148fd9a00434387e24"
+      },
+      "version": "2.0.5"
+    },
+    "org.testcontainers:testcontainers-database-commons": {
+      "shasums": {
+        "jar": "0ebbc62bdcfb315cb840a63fbaa148b455927666d9034b5e5c00009d84c755b0",
+        "sources": "017efc160847bf209b3fdfa3561fa6eb1a5b5b5b82d2214f965caabe9c2cf9ab"
+      },
+      "version": "2.0.5"
+    },
+    "org.testcontainers:testcontainers-jdbc": {
+      "shasums": {
+        "jar": "0f7fe603a32692c33739cf99d638206f9060ca47615bf0141ca2eb32d33d764a",
+        "sources": "dbfe476c0702f82ee9c13f7d37a8b6f20fe62baa00e9d071e6c7d53cfda613a0"
+      },
+      "version": "2.0.5"
+    },
+    "org.testcontainers:testcontainers-junit-jupiter": {
+      "shasums": {
+        "jar": "d66eb7f257a85833a8cc973e3814d740967d40a7db1a0de0040653c6ed236748",
+        "sources": "0dd4463ca900cbce90894cdaafb18fd146ea50b92ee0ee72a9c3e1e48b53a8e6"
+      },
+      "version": "2.0.5"
+    },
+    "org.testcontainers:testcontainers-kafka": {
+      "shasums": {
+        "jar": "83a41a6660643321640634eb658eb23f694911dd0ab672a636e824f0945c4750",
+        "sources": "6e4dd919ef66576d9b794d7ab1de1e7f01001d4a820f40a2a7994452797672cd"
+      },
+      "version": "2.0.5"
+    },
+    "org.testcontainers:testcontainers-postgresql": {
+      "shasums": {
+        "jar": "8dbfb2fda977eb813ed1188ce02f098b8b634910eeab220568d54d6bd5b7ce9f",
+        "sources": "7770843c5e8bf608b8f13f3f2c85889574b3812fa5523411389ddfdf031a1f93"
       },
       "version": "2.0.5"
     },
@@ -5023,27 +5025,27 @@
       "org.springframework:spring-core",
       "org.springframework:spring-web"
     ],
-    "org.testcontainers:database-commons": [
-      "org.testcontainers:testcontainers"
-    ],
-    "org.testcontainers:jdbc": [
-      "org.testcontainers:database-commons"
-    ],
-    "org.testcontainers:junit-jupiter": [
-      "org.testcontainers:testcontainers"
-    ],
-    "org.testcontainers:kafka": [
-      "org.testcontainers:testcontainers"
-    ],
-    "org.testcontainers:postgresql": [
-      "org.testcontainers:jdbc"
-    ],
     "org.testcontainers:testcontainers": [
       "com.github.docker-java:docker-java-api",
       "com.github.docker-java:docker-java-transport-zerodep",
       "org.apache.commons:commons-compress",
       "org.rnorth.duct-tape:duct-tape",
       "org.slf4j:slf4j-api"
+    ],
+    "org.testcontainers:testcontainers-database-commons": [
+      "org.testcontainers:testcontainers"
+    ],
+    "org.testcontainers:testcontainers-jdbc": [
+      "org.testcontainers:testcontainers-database-commons"
+    ],
+    "org.testcontainers:testcontainers-junit-jupiter": [
+      "org.testcontainers:testcontainers"
+    ],
+    "org.testcontainers:testcontainers-kafka": [
+      "org.testcontainers:testcontainers"
+    ],
+    "org.testcontainers:testcontainers-postgresql": [
+      "org.testcontainers:testcontainers-jdbc"
     ],
     "org.xmlunit:xmlunit-core": [
       "jakarta.xml.bind:jakarta.xml.bind-api"
@@ -9473,26 +9475,6 @@
       "org.springframework.web.socket.sockjs.transport.handler",
       "org.springframework.web.socket.sockjs.transport.session"
     ],
-    "org.testcontainers:database-commons": [
-      "org.testcontainers.delegate",
-      "org.testcontainers.exception",
-      "org.testcontainers.ext"
-    ],
-    "org.testcontainers:jdbc": [
-      "org.testcontainers.containers",
-      "org.testcontainers.jdbc",
-      "org.testcontainers.jdbc.ext"
-    ],
-    "org.testcontainers:junit-jupiter": [
-      "org.testcontainers.junit.jupiter"
-    ],
-    "org.testcontainers:kafka": [
-      "org.testcontainers.containers",
-      "org.testcontainers.kafka"
-    ],
-    "org.testcontainers:postgresql": [
-      "org.testcontainers.containers"
-    ],
     "org.testcontainers:testcontainers": [
       "org.testcontainers",
       "org.testcontainers.containers",
@@ -9945,6 +9927,27 @@
       "org.testcontainers.shaded.org.zeroturnaround.exec.stream",
       "org.testcontainers.shaded.org.zeroturnaround.exec.stream.slf4j",
       "org.testcontainers.utility"
+    ],
+    "org.testcontainers:testcontainers-database-commons": [
+      "org.testcontainers.delegate",
+      "org.testcontainers.exception",
+      "org.testcontainers.ext"
+    ],
+    "org.testcontainers:testcontainers-jdbc": [
+      "org.testcontainers.containers",
+      "org.testcontainers.jdbc",
+      "org.testcontainers.jdbc.ext"
+    ],
+    "org.testcontainers:testcontainers-junit-jupiter": [
+      "org.testcontainers.junit.jupiter"
+    ],
+    "org.testcontainers:testcontainers-kafka": [
+      "org.testcontainers.containers",
+      "org.testcontainers.kafka"
+    ],
+    "org.testcontainers:testcontainers-postgresql": [
+      "org.testcontainers.containers",
+      "org.testcontainers.postgresql"
     ],
     "org.xerial.snappy:snappy-java": [
       "org.xerial.snappy",
@@ -10789,17 +10792,17 @@
       "org.springframework:spring-webmvc:jar:sources",
       "org.springframework:spring-websocket",
       "org.springframework:spring-websocket:jar:sources",
-      "org.testcontainers:database-commons",
-      "org.testcontainers:database-commons:jar:sources",
-      "org.testcontainers:jdbc",
-      "org.testcontainers:jdbc:jar:sources",
-      "org.testcontainers:junit-jupiter",
-      "org.testcontainers:junit-jupiter:jar:sources",
-      "org.testcontainers:kafka",
-      "org.testcontainers:kafka:jar:sources",
-      "org.testcontainers:postgresql",
-      "org.testcontainers:postgresql:jar:sources",
       "org.testcontainers:testcontainers",
+      "org.testcontainers:testcontainers-database-commons",
+      "org.testcontainers:testcontainers-database-commons:jar:sources",
+      "org.testcontainers:testcontainers-jdbc",
+      "org.testcontainers:testcontainers-jdbc:jar:sources",
+      "org.testcontainers:testcontainers-junit-jupiter",
+      "org.testcontainers:testcontainers-junit-jupiter:jar:sources",
+      "org.testcontainers:testcontainers-kafka",
+      "org.testcontainers:testcontainers-kafka:jar:sources",
+      "org.testcontainers:testcontainers-postgresql",
+      "org.testcontainers:testcontainers-postgresql:jar:sources",
       "org.testcontainers:testcontainers:jar:sources",
       "org.xerial.snappy:snappy-java",
       "org.xerial.snappy:snappy-java:jar:sources",
@@ -11529,17 +11532,17 @@
       "org.springframework:spring-webmvc:jar:sources",
       "org.springframework:spring-websocket",
       "org.springframework:spring-websocket:jar:sources",
-      "org.testcontainers:database-commons",
-      "org.testcontainers:database-commons:jar:sources",
-      "org.testcontainers:jdbc",
-      "org.testcontainers:jdbc:jar:sources",
-      "org.testcontainers:junit-jupiter",
-      "org.testcontainers:junit-jupiter:jar:sources",
-      "org.testcontainers:kafka",
-      "org.testcontainers:kafka:jar:sources",
-      "org.testcontainers:postgresql",
-      "org.testcontainers:postgresql:jar:sources",
       "org.testcontainers:testcontainers",
+      "org.testcontainers:testcontainers-database-commons",
+      "org.testcontainers:testcontainers-database-commons:jar:sources",
+      "org.testcontainers:testcontainers-jdbc",
+      "org.testcontainers:testcontainers-jdbc:jar:sources",
+      "org.testcontainers:testcontainers-junit-jupiter",
+      "org.testcontainers:testcontainers-junit-jupiter:jar:sources",
+      "org.testcontainers:testcontainers-kafka",
+      "org.testcontainers:testcontainers-kafka:jar:sources",
+      "org.testcontainers:testcontainers-postgresql",
+      "org.testcontainers:testcontainers-postgresql:jar:sources",
       "org.testcontainers:testcontainers:jar:sources",
       "org.xerial.snappy:snappy-java",
       "org.xerial.snappy:snappy-java:jar:sources",
@@ -12181,22 +12184,6 @@
         "org.springframework.web.server.adapter.WebHttpHandlerBuilder$SpringWebBlockHoundIntegration"
       ]
     },
-    "org.testcontainers:jdbc": {
-      "java.sql.Driver": [
-        "org.testcontainers.jdbc.ContainerDatabaseDriver"
-      ]
-    },
-    "org.testcontainers:postgresql": {
-      "org.testcontainers.containers.JdbcDatabaseContainerProvider": [
-        "org.testcontainers.containers.PgVectorContainerProvider",
-        "org.testcontainers.containers.PostgisContainerProvider",
-        "org.testcontainers.containers.PostgreSQLContainerProvider",
-        "org.testcontainers.containers.TimescaleDBContainerProvider"
-      ],
-      "org.testcontainers.r2dbc.R2DBCDatabaseContainerProvider": [
-        "org.testcontainers.containers.PostgreSQLR2DBCDatabaseContainerProvider"
-      ]
-    },
     "org.testcontainers:testcontainers": {
       "org.testcontainers.dockerclient.DockerClientProviderStrategy": [
         "org.testcontainers.dockerclient.DockerDesktopClientProviderStrategy",
@@ -12212,6 +12199,22 @@
       ],
       "org.testcontainers.shaded.com.fasterxml.jackson.core.ObjectCodec": [
         "org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper"
+      ]
+    },
+    "org.testcontainers:testcontainers-jdbc": {
+      "java.sql.Driver": [
+        "org.testcontainers.jdbc.ContainerDatabaseDriver"
+      ]
+    },
+    "org.testcontainers:testcontainers-postgresql": {
+      "org.testcontainers.containers.JdbcDatabaseContainerProvider": [
+        "org.testcontainers.containers.PgVectorContainerProvider",
+        "org.testcontainers.containers.PostgisContainerProvider",
+        "org.testcontainers.containers.PostgreSQLContainerProvider",
+        "org.testcontainers.containers.TimescaleDBContainerProvider"
+      ],
+      "org.testcontainers.r2dbc.R2DBCDatabaseContainerProvider": [
+        "org.testcontainers.containers.PostgreSQLR2DBCDatabaseContainerProvider"
       ]
     },
     "tools.jackson.core:jackson-core": {

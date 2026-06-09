@@ -15,7 +15,7 @@ java_test_suite(
         "//libs/ddd/src/main/java/lab/libs/ddd/es/persistence",
         "@maven//:com_fasterxml_jackson_core_jackson_annotations",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
-        "@maven//:org_testcontainers_jdbc",
-        "@maven//:org_testcontainers_postgresql",
+        "@maven//:org_testcontainers_testcontainers_jdbc",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
     ],
 )

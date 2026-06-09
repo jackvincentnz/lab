@@ -8,8 +8,8 @@ java_test_suite(
     ],
     deps = [
         "@maven//:org_apache_kafka_kafka_clients",
-        "@maven//:org_testcontainers_junit_jupiter",
-        "@maven//:org_testcontainers_kafka",
         "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_junit_jupiter",
+        "@maven//:org_testcontainers_testcontainers_kafka",
     ],
 )
