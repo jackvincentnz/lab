@@ -1,9 +1,15 @@
 import { ActionIcon, Group } from "@mantine/core";
 import { IconEdit, IconRefresh } from "@tabler/icons-react";
-import {
+import type {
   ChatMessageStatus,
   ChatMessageType,
 } from "../../__generated__/graphql";
+import {
+  isAssistantMessageType,
+  isCompletedMessageStatus,
+  isFailedMessageStatus,
+  isUserMessageType,
+} from "./chatPredicates";
 
 export interface ChatMessageActionsProps {
   messageId: string;
@@ -26,11 +32,11 @@ export function ChatMessageActions({
   onRetry,
   isLoading = false,
 }: ChatMessageActionsProps) {
-  const canEdit = messageType === ChatMessageType.User && content;
+  const canEdit = isUserMessageType(messageType) && content;
   const canRetry =
-    messageType === ChatMessageType.Assistant &&
-    (messageStatus === ChatMessageStatus.Failed ||
-      messageStatus === ChatMessageStatus.Completed);
+    isAssistantMessageType(messageType) &&
+    (isFailedMessageStatus(messageStatus) ||
+      isCompletedMessageStatus(messageStatus));
 
   if (!canEdit && !canRetry) {
     return null;

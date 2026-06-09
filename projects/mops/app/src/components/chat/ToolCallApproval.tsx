@@ -19,6 +19,10 @@ import {
 } from "@tabler/icons-react";
 import { useDisclosure } from "@mantine/hooks";
 import { type ToolCallStatus as GToolCallStatus } from "../../__generated__/graphql";
+import {
+  isApprovedToolCall,
+  isPendingApprovalToolCall,
+} from "./chatPredicates";
 
 export type ToolCallStatus = GToolCallStatus;
 
@@ -39,7 +43,7 @@ export function ToolCallApproval({
   onReject,
 }: ToolCallApprovalProps) {
   const [opened, { close, toggle }] = useDisclosure(
-    toolCall.status === "PENDING_APPROVAL",
+    isPendingApprovalToolCall(toolCall),
   );
 
   let parsedArgs: object | null = null;
@@ -49,8 +53,8 @@ export function ToolCallApproval({
     // Keep as string if not valid JSON
   }
 
-  const isPending = toolCall.status === "PENDING_APPROVAL";
-  const isApproved = toolCall.status === "APPROVED";
+  const isPending = isPendingApprovalToolCall(toolCall);
+  const isApproved = isApprovedToolCall(toolCall);
 
   const onApproveClick = () => {
     onApprove();

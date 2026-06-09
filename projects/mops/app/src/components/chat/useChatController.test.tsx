@@ -10,8 +10,6 @@ import {
 import { vi } from "vitest";
 import {
   AddUserMessageDocument,
-  ChatMessageStatus,
-  ChatMessageType,
   EditUserMessageDocument,
   RetryAssistantMessageDocument,
   StartChatDocument,
@@ -182,8 +180,8 @@ describe("useChatController", () => {
           messages: [
             {
               id: "assistant-1",
-              type: ChatMessageType.Assistant,
-              status: ChatMessageStatus.Completed,
+              type: "ASSISTANT",
+              status: "COMPLETED",
               content: "done",
               toolCalls: [],
             },

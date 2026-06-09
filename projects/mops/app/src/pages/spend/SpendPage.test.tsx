@@ -2,10 +2,12 @@ import { describe, expect, render, screen, test } from "../../test";
 import { SpendPage } from "./SpendPage";
 import {
   SpendPageQueryDocument,
-  type Category,
-  type CategoryValue,
-  type LineItem,
+  type SpendPageQueryQuery,
 } from "../../__generated__/graphql";
+
+type Category = SpendPageQueryQuery["allCategories"][number];
+type CategoryValue = Category["values"][number];
+type LineItem = SpendPageQueryQuery["allLineItems"][number];
 
 describe("SpendPage", async () => {
   test("renders table", async () => {
@@ -68,18 +70,12 @@ function mockSpendPageQuery(options?: {
   };
 }
 
-function mockLineItem({
-  name,
-  categorizations,
-}: Partial<LineItem>): Omit<LineItem, "spendTotals"> {
+function mockLineItem({ name, categorizations }: Partial<LineItem>): LineItem {
   return {
     id: name ?? newId(),
-    budgetId: newId(),
     name: name ?? newId(),
     spending: [],
     categorizations: categorizations || [],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   };
 }
 
@@ -88,8 +84,6 @@ function mockCategory({ name, values }: Partial<Category>): Category {
     id: name ?? newId(),
     name: name ?? newId(),
     values: values ?? [mockCategoryValue({})],
-    createdAt: new Date().toISOString(),
-    updatedAt: new Date().toISOString(),
   };
 }
 

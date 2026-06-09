@@ -9,7 +9,6 @@ import {
   waitFor,
 } from "../../test";
 import { ToolCallApproval } from "./ToolCallApproval";
-import { ToolCallStatus } from "../../__generated__/graphql";
 
 describe("ToolCallApproval", () => {
   test("calls reject handler for pending tool calls", async () => {
@@ -21,7 +20,7 @@ describe("ToolCallApproval", () => {
           id: "tool-call-1",
           name: "create_budget",
           arguments: '{"name":"FY26"}',
-          status: ToolCallStatus.PendingApproval,
+          status: "PENDING_APPROVAL",
         }}
         onApprove={() => undefined}
         onReject={onReject}
@@ -42,7 +41,7 @@ describe("ToolCallApproval", () => {
           id: "tool-call-1",
           name: "create_budget",
           arguments: '{"name":"FY26"}',
-          status: ToolCallStatus.PendingApproval,
+          status: "PENDING_APPROVAL",
         }}
         onApprove={onApprove}
         onReject={() => undefined}
@@ -61,7 +60,7 @@ describe("ToolCallApproval", () => {
           id: "tool-call-1",
           name: "create_budget",
           arguments: '{"name":"FY26"}',
-          status: ToolCallStatus.Approved,
+          status: "APPROVED",
         }}
         onApprove={() => undefined}
         onReject={() => undefined}

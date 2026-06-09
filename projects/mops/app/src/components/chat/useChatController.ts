@@ -3,8 +3,6 @@ import { useMutation, useQuery } from "@apollo/client/react";
 import {
   AddUserMessageDocument,
   ApproveToolCallDocument,
-  ChatMessageStatus,
-  ChatMessageType,
   EditUserMessageDocument,
   GetChatDocument,
   RejectToolCallDocument,
@@ -26,6 +24,7 @@ import {
   type StartChatMutationVariables,
 } from "../../__generated__/graphql";
 import { CHAT_HISTORY_VIEW, CHAT_VIEW, type ViewType } from "./chatView";
+import { isPendingAssistantMessage } from "./chatPredicates";
 
 const POLL_INTERVAL = 500;
 
@@ -121,9 +120,7 @@ export function useChatController() {
   useEffect(() => {
     if (chatData?.chat?.messages) {
       const hasPendingAssistantMessages = chatData.chat.messages.some(
-        (message) =>
-          message.type === ChatMessageType.Assistant &&
-          message.status === ChatMessageStatus.Pending,
+        isPendingAssistantMessage,
       );
 
       if (!hasPendingAssistantMessages) {

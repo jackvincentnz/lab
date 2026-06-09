@@ -11,15 +11,16 @@ import {
 } from "@mantine/core";
 import { IconCheck, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import {
-  ChatMessageStatus,
-  ChatMessageType,
-  ToolCallStatus,
-  type GetChatQuery,
-} from "../../__generated__/graphql";
+import type { GetChatQuery } from "../../__generated__/graphql";
 import { ToolCallApproval } from "./ToolCallApproval";
 import { MarkdownContent } from "./MarkdownContent";
 import { ChatMessageActions } from "./ChatMessageActions";
+import {
+  isFailedMessage,
+  isPendingApprovalToolCall,
+  isPendingMessage,
+  isUserMessage,
+} from "./chatPredicates";
 
 export type ChatTranscriptMessage = NonNullable<
   GetChatQuery["chat"]
@@ -82,7 +83,7 @@ export function ChatTranscript({
     >
       {currentChatId &&
         messages.map((message) =>
-          message.type === ChatMessageType.User ? (
+          isUserMessage(message) ? (
             <UserMessage
               key={message.id}
               message={message}
@@ -204,14 +205,14 @@ function AssistantMessage({
 }) {
   return (
     <Box mb="md">
-      {message.status === ChatMessageStatus.Pending ? (
+      {isPendingMessage(message) ? (
         <Group align="center" gap="xs">
           <Loader size="xs" />
           <Text size="sm" c="dimmed">
             Assistant is thinking...
           </Text>
         </Group>
-      ) : message.status === ChatMessageStatus.Failed ? (
+      ) : isFailedMessage(message) ? (
         <>
           <Alert color="red" variant="light">
             <Text size="sm">
@@ -232,10 +233,7 @@ function AssistantMessage({
         <>
           {message.toolCalls && message.toolCalls.length > 0 && (
             <Stack gap="md" mb="md">
-              {message.toolCalls.some(
-                (toolCall) =>
-                  toolCall.status === ToolCallStatus.PendingApproval,
-              ) && (
+              {message.toolCalls.some(isPendingApprovalToolCall) && (
                 <Text size="sm" c="dimmed">
                   The assistant wants to make the following change(s):
                 </Text>
