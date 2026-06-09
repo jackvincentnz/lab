@@ -7,8 +7,8 @@ java_test_suite(
         "requires-network",
     ],
     deps = [
-        "@maven//:org_testcontainers_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_junit_jupiter",
         "@maven//:redis_clients_jedis",
     ],
 )
