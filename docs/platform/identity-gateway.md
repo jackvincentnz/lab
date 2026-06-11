@@ -126,7 +126,7 @@ behavior before those assumptions become platform contracts.
 
 ```mermaid
 flowchart LR
-    I0["0. Remove conflicting<br/>Mops tenant model"] --> I1["1. WorkOS<br/>capability spike"]
+    I1["1. WorkOS<br/>capability spike"]
     I1 --> I2["2. Shared identity<br/>contract"]
     I2 --> I3["3. Gateway and<br/>/mops/ routing"]
     I3 --> I4["4. Local Redis<br/>sessions"]

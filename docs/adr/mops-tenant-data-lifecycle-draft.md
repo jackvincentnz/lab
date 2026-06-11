@@ -27,15 +27,12 @@ vertical provisioning. The identity gateway keeps the local projection required 
 tokens; WorkOS may become a synchronized authentication and OAuth projection rather than the
 canonical membership source. Request handling must not call the control plane synchronously.
 
-## Existing Mops Tenant Model
+## Historical Context
 
-The current Mops `iam` module contains an in-memory tenant aggregate and a public GraphQL
-`provisionTenant` mutation that generates its own `TenantId`. The identity gateway plan removes this
-model, its unused tenant-provisioning event handler, and its unused protobuf API in an initial cleanup
-iteration because they conflict with externally supplied platform tenant IDs.
-
-A future Mops tenant representation is an application provisioning record and database keyed by the
-canonical platform `tenant_id`, not a revival of the current identity aggregate.
+Mops previously generated tenant IDs through its own in-memory tenant model and public provisioning
+mutation. That model was removed because canonical tenant identity belongs to the platform. A future
+Mops tenant representation is an application provisioning record and database keyed by the platform
+`tenant_id`, not a separate identity aggregate.
 
 ## Database-Per-Tenant Direction
 
