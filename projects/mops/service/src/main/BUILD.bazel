@@ -16,7 +16,6 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/ai",
         "//projects/mops/service/src/main/java/lab/mops/config",
         "//projects/mops/service/src/main/java/lab/mops/core",
-        "//projects/mops/service/src/main/java/lab/mops/iam",
         "@maven//:com_netflix_graphql_dgs_dgs_starter",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs_extended_scalars",
         "@maven//:org_springframework_ai_spring_ai_starter_mcp_server_webmvc",

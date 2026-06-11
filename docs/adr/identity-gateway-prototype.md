@@ -246,11 +246,10 @@ required to prove the five prototype goals and are not committed by this ADR:
 
 Changes should remain independently reviewable and leave the repository runnable after each step.
 
-0. **Remove the conflicting Mops tenant model**
-   Remove the existing in-memory Mops tenant aggregate, command service, repository, public
-   `provisionTenant` GraphQL mutation, unused tenant-provisioning event handler and protobuf API, and
-   related schema and tests. This is a cleanup change before the identity contract and does not add
-   replacement provisioning behavior.
+Before this plan begins, an initial cleanup removed the Mops-owned tenant aggregate and public
+provisioning API. This established that Mops does not create canonical tenant IDs and deliberately
+left replacement tenant provisioning outside the prototype.
+
 1. **WorkOS capability spike**
    Before making the OAuth model foundational, verify third-party consent, public clients with PKCE,
    custom vertical scopes or their replacement, resource indicators and audiences, organization
@@ -286,19 +285,6 @@ remains `trusted-headers`. Individual app, service, and gateway targets remain a
 Iteration 4 is the first end-to-end browser-session milestone: a user can select a local persona, receive
 an opaque Redis-backed session, load Mops through the gateway, make CSRF-protected GraphQL requests,
 and log out without WorkOS credentials.
-
-## Cleanup Iteration Acceptance Criteria
-
-The cleanup iteration is complete when:
-
-- the Mops-owned tenant aggregate, event, repository, and command service are removed;
-- the public `provisionTenant` GraphQL mutation and its schema types are removed;
-- the unused tenant-provisioning event handler and protobuf API are removed;
-- related generated-code dependencies and tests are removed or regenerated;
-- no Mops code generates a canonical `tenant_id`;
-- existing unrelated Mops tests pass.
-
-It does not add `libs/identity`, gateway behavior, or replacement tenant provisioning.
 
 ## Identity Contract Acceptance Criteria
 
