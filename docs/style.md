@@ -10,6 +10,13 @@ This makes the commit history nice and clean, increasing the ability to quickly 
 
 Commits should follow the [conventional](https://www.conventionalcommits.org/en/v1.0.0/) style. See [What is commitlint](https://github.com/conventional-changelog/commitlint/#what-is-commitlint) for more information.
 
+## Markdown format
+
+Write list items as sentences: start each item with an uppercase letter and end it with a period.
+
+- This list item follows the repository style.
+- This one does too.
+
 ## Code style
 
 Code style is enforced with:
