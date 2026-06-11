@@ -32,7 +32,7 @@ services:
       - "3306:3306"
 
   adminer:
-    image: adminer@sha256:3856143121b0f5d24c952f343db61ee14226985adfc56334d8e877a22388d73e
+    image: adminer@sha256:946244aed5d70cd17b122c5481a1b776e5b138f5c7b1a3b854cd74d8d99b8b88
     restart: always
     ports:
       - "8080:8080"
