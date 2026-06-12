@@ -30,9 +30,3 @@ services:
       MYSQL_ROOT_PASSWORD: example
     ports:
       - "3306:3306"
-
-  adminer:
-    image: adminer@sha256:3856143121b0f5d24c952f343db61ee14226985adfc56334d8e877a22388d73e
-    restart: always
-    ports:
-      - "8080:8080"
