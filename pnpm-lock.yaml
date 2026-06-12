@@ -130,8 +130,8 @@ importers:
         specifier: 4.1.8
         version: 4.1.8(vitest@4.1.8)
       cypress:
-        specifier: 15.16.0
-        version: 15.16.0
+        specifier: 15.17.0
+        version: 15.17.0
       dockerode:
         specifier: 5.0.0
         version: 5.0.0(node-gyp@12.4.0)
@@ -2376,8 +2376,8 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
-  cypress@15.16.0:
-    resolution: {integrity: sha512-fy0M0c9xDLEp4v9y7LLKFeAQhIdDsobxDSKpD3JcZpqQefjy9TSzEyVV3HA0zu7hUi0bGHlSYlI7ASub8wgR9A==}
+  cypress@15.17.0:
+    resolution: {integrity: sha512-WL5Gcqi1GaDWozBwXmkSAtOPafTsVSRS764iX6xvuz3DPzvBAxbkRyEi4BreVdVWxLDpiYRgZCyJUafBw44njw==}
     engines: {node: ^20.1.0 || ^22.0.0 || >=24.0.0}
     hasBin: true
 
@@ -6913,7 +6913,7 @@ snapshots:
 
   csstype@3.2.3: {}
 
-  cypress@15.16.0:
+  cypress@15.17.0:
     dependencies:
       '@cypress/request': 4.0.1
       '@cypress/xvfb': 1.2.4(supports-color@8.1.1)

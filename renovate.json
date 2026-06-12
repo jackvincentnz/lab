@@ -24,6 +24,14 @@
       ],
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the Cypress Bazel toolchain version aligned with package.json",
+      "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
+      "matchStrings": ["cypress_version\\s*=\\s*\"(?<currentValue>[^\"]+)\""],
+      "depNameTemplate": "cypress",
+      "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
@@ -31,6 +39,11 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/^jackvincent\\/lab-/"],
       "pinDigests": false
+    },
+    {
+      "matchPackageNames": ["cypress"],
+      "groupName": "cypress",
+      "groupSlug": "cypress"
     },
     {
       "matchUpdateTypes": ["minor", "patch"],
