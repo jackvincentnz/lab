@@ -1,0 +1,15 @@
+def _impl(ctx: TaskContext) -> int:
+    root = ctx.std.env.aspect_root_dir()
+    ctx.task.phase(
+        "mirror",
+        description = "Generate and write Cypress release integrity values",
+    )
+    result = (ctx.std.process.command(root + "/tools/cypress/update_integrity.sh")
+        .spawn()
+        .wait())
+    return result.code
+
+cypress_integrity = task(
+    summary = "Update the Cypress integrity values in MODULE.bazel.",
+    implementation = _impl,
+)
