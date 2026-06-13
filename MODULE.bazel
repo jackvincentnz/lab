@@ -9,14 +9,14 @@ bazel_dep(name = "rules_java", version = "9.6.1")
 bazel_dep(name = "rules_jvm_external", version = "7.0")
 bazel_dep(name = "contrib_rules_jvm", version = "0.33.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.4")
-bazel_dep(name = "aspect_rules_js", version = "3.2.1")
-bazel_dep(name = "aspect_rules_ts", version = "3.8.10")
+bazel_dep(name = "aspect_rules_js", version = "3.2.2")
+bazel_dep(name = "aspect_rules_ts", version = "3.8.11")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.2")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.2.0")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 bazel_dep(name = "rules_oci", version = "2.3.0")
-bazel_dep(name = "rules_multirun", version = "0.13.0")
+bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.7.2")
@@ -98,17 +98,17 @@ maven.install(
         "io.confluent:kafka-protobuf-serializer:8.2.1",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.5.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
-        "com.squareup.okhttp3:okhttp-jvm:5.3.2",
+        "com.squareup.okhttp3:okhttp-jvm:5.4.0",
         "org.apache.tomcat.embed:tomcat-embed-core:11.0.22",
         "org.apache.tomcat.embed:tomcat-embed-el:11.0.22",
         "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.22",
     ],
     boms = [
         "io.netty:netty-bom:4.2.15.Final",
-        "org.springframework.boot:spring-boot-dependencies:4.0.6",
-        "org.springframework.ai:spring-ai-bom:2.0.0-RC1",
+        "org.springframework.boot:spring-boot-dependencies:4.1.0",
+        "org.springframework.ai:spring-ai-bom:2.0.0",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.1",
-        "com.google.protobuf:protobuf-bom:4.35.0",
+        "com.google.protobuf:protobuf-bom:4.35.1",
         "org.testcontainers:testcontainers-bom:2.0.5",
     ],
     fail_if_repin_required = True,
