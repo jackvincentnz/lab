@@ -28,7 +28,7 @@ repos:
           - "eslint@10.4.1"
           - "eslint-config-prettier@10.1.8"
           - "globals@17.6.0"
-          - "typescript-eslint@8.60.1"
+          - "typescript-eslint@8.61.0"
 
   # Format FE source files
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -58,6 +58,6 @@ repos:
       - id: end-of-file-fixer
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 43.214.6
+    rev: 43.218.0
     hooks:
       - id: renovate-config-validator
