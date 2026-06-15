@@ -46,11 +46,20 @@
       "groupSlug": "cypress"
     },
     {
+      "matchPackageNames": ["protobuf", "com.google.protobuf:protobuf-bom"],
+      "groupName": "protobuf",
+      "groupSlug": "protobuf"
+    },
+    {
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
       "schedule": "* * * * 0,6",
-      "matchPackageNames": ["!cypress", "!protobuf"]
+      "matchPackageNames": [
+        "!cypress",
+        "!protobuf",
+        "!com.google.protobuf:protobuf-bom"
+      ]
     },
     {
       "matchDatasources": ["docker"],

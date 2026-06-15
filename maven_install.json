@@ -17,7 +17,7 @@
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -1209796964,
-    "com.squareup.okhttp3:okhttp-jvm": -674460980,
+    "com.squareup.okhttp3:okhttp-jvm": 1143496587,
     "io.confluent:kafka-protobuf-serializer": 494677790,
     "io.netty:netty-bom": 299173863,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
@@ -38,12 +38,12 @@
     "org.junit.platform:junit-platform-launcher": -354104948,
     "org.junit.platform:junit-platform-reporting": 1896713402,
     "org.postgresql:postgresql": -1963352047,
-    "org.springframework.ai:spring-ai-bom": 138558687,
+    "org.springframework.ai:spring-ai-bom": 112016274,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 741804729,
     "org.springframework.ai:spring-ai-starter-model-google-genai": 1893382336,
     "org.springframework.ai:spring-ai-starter-model-ollama": 1768708354,
     "org.springframework.ai:spring-ai-starter-model-openai": -867978546,
-    "org.springframework.boot:spring-boot-dependencies": 70134847,
+    "org.springframework.boot:spring-boot-dependencies": 98585252,
     "org.springframework.boot:spring-boot-loader": 1745496505,
     "org.springframework.boot:spring-boot-starter-actuator": -1082017891,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 39840922,
@@ -67,11 +67,11 @@
   "__RESOLVED_ARTIFACTS_HASH": {
     "at.yawk.lz4:lz4-java": -1660709332,
     "at.yawk.lz4:lz4-java:jar:sources": -1669027916,
-    "ch.qos.logback:logback-classic": 1745497406,
-    "ch.qos.logback:logback-classic:jar:sources": 1985074007,
-    "ch.qos.logback:logback-core": -1295639532,
-    "ch.qos.logback:logback-core:jar:sources": -622497308,
-    "com.apollographql.federation:federation-graphql-java-support": 1991469259,
+    "ch.qos.logback:logback-classic": -1621986300,
+    "ch.qos.logback:logback-classic:jar:sources": -1227816428,
+    "ch.qos.logback:logback-core": 1941568752,
+    "ch.qos.logback:logback-core:jar:sources": 465794306,
+    "com.apollographql.federation:federation-graphql-java-support": -709485498,
     "com.apollographql.federation:federation-graphql-java-support:jar:sources": 1980874549,
     "com.dynatrace.hash4j:hash4j": 746068526,
     "com.dynatrace.hash4j:hash4j:jar:sources": 1203953972,
@@ -79,59 +79,61 @@
     "com.ethlo.time:itu:jar:sources": 649236868,
     "com.fasterxml.jackson.core:jackson-annotations": 1145483352,
     "com.fasterxml.jackson.core:jackson-annotations:jar:sources": -1434301790,
-    "com.fasterxml.jackson.core:jackson-core": -863050871,
-    "com.fasterxml.jackson.core:jackson-core:jar:sources": 1505511197,
-    "com.fasterxml.jackson.core:jackson-databind": 939448353,
-    "com.fasterxml.jackson.core:jackson-databind:jar:sources": 848659024,
-    "com.fasterxml.jackson.dataformat:jackson-dataformat-csv": -1438371214,
-    "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:jar:sources": 957306715,
-    "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": -1376269882,
-    "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:sources": 445186068,
-    "com.fasterxml.jackson.datatype:jackson-datatype-jdk8": 1414302893,
-    "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:sources": -1744530541,
-    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310": 1771227479,
-    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources": -896022487,
-    "com.fasterxml.jackson.module:jackson-module-kotlin": 1584181248,
-    "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources": 418455655,
-    "com.fasterxml.jackson.module:jackson-module-parameter-names": 1226744229,
-    "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources": -781809300,
+    "com.fasterxml.jackson.core:jackson-core": -723233903,
+    "com.fasterxml.jackson.core:jackson-core:jar:sources": -407005088,
+    "com.fasterxml.jackson.core:jackson-databind": 1247838595,
+    "com.fasterxml.jackson.core:jackson-databind:jar:sources": -1029900496,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-csv": -188566205,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-csv:jar:sources": 1167840652,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": 364553944,
+    "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:jar:sources": -629166421,
+    "com.fasterxml.jackson.datatype:jackson-datatype-jdk8": -1100825889,
+    "com.fasterxml.jackson.datatype:jackson-datatype-jdk8:jar:sources": -146116899,
+    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310": 546831499,
+    "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:jar:sources": 10763351,
+    "com.fasterxml.jackson.module:jackson-module-kotlin": -528661065,
+    "com.fasterxml.jackson.module:jackson-module-kotlin:jar:sources": -263458756,
+    "com.fasterxml.jackson.module:jackson-module-parameter-names": 1526682813,
+    "com.fasterxml.jackson.module:jackson-module-parameter-names:jar:sources": 265126780,
     "com.fasterxml:classmate": 381313761,
     "com.fasterxml:classmate:jar:sources": -1810072668,
-    "com.github.ajalt.clikt:clikt": 217017373,
-    "com.github.ajalt.clikt:clikt-jvm": 47138780,
+    "com.github.ajalt.clikt:clikt": -384335039,
+    "com.github.ajalt.clikt:clikt-jvm": -1485410324,
     "com.github.ajalt.clikt:clikt-jvm:jar:sources": -838446743,
     "com.github.ajalt.clikt:clikt:jar:sources": -318737285,
-    "com.github.ajalt.colormath:colormath": 1099090058,
-    "com.github.ajalt.colormath:colormath-jvm": 802259122,
+    "com.github.ajalt.colormath:colormath": -1211711385,
+    "com.github.ajalt.colormath:colormath-jvm": -1775475905,
     "com.github.ajalt.colormath:colormath-jvm:jar:sources": 1560893232,
     "com.github.ajalt.colormath:colormath:jar:sources": 1560893232,
-    "com.github.ajalt.mordant:mordant": 583595627,
-    "com.github.ajalt.mordant:mordant-jvm": -648009994,
+    "com.github.ajalt.mordant:mordant": -821462836,
+    "com.github.ajalt.mordant:mordant-jvm": 1360412170,
     "com.github.ajalt.mordant:mordant-jvm:jar:sources": 1298564931,
     "com.github.ajalt.mordant:mordant:jar:sources": -666800065,
-    "com.github.ben-manes.caffeine:caffeine": 254783836,
-    "com.github.ben-manes.caffeine:caffeine:jar:sources": -594702079,
-    "com.github.docker-java:docker-java-api": 1975036578,
+    "com.github.ben-manes.caffeine:caffeine": -1739797235,
+    "com.github.ben-manes.caffeine:caffeine:jar:sources": -57104877,
+    "com.github.docker-java:docker-java-api": 1073735645,
     "com.github.docker-java:docker-java-api:jar:sources": -964631834,
     "com.github.docker-java:docker-java-transport": -1526601578,
-    "com.github.docker-java:docker-java-transport-zerodep": 1975524173,
+    "com.github.docker-java:docker-java-transport-zerodep": -168720568,
     "com.github.docker-java:docker-java-transport-zerodep:jar:sources": -767880782,
     "com.github.docker-java:docker-java-transport:jar:sources": -1920988041,
     "com.github.luben:zstd-jni": -851900223,
     "com.github.luben:zstd-jni:jar:sources": -322256874,
-    "com.github.victools:jsonschema-generator": -1153061988,
+    "com.github.spotbugs:spotbugs-annotations": 1784664812,
+    "com.github.spotbugs:spotbugs-annotations:jar:sources": -1367968760,
+    "com.github.victools:jsonschema-generator": 1634190165,
     "com.github.victools:jsonschema-generator:jar:sources": 219538543,
-    "com.github.victools:jsonschema-module-jackson": -279333593,
+    "com.github.victools:jsonschema-module-jackson": 150720418,
     "com.github.victools:jsonschema-module-jackson:jar:sources": -1919425096,
-    "com.github.victools:jsonschema-module-swagger-2": 1493279383,
+    "com.github.victools:jsonschema-module-swagger-2": 161503506,
     "com.github.victools:jsonschema-module-swagger-2:jar:sources": -1497562568,
-    "com.google.api.grpc:proto-google-common-protos": 609060832,
-    "com.google.api.grpc:proto-google-common-protos:jar:sources": 1617852759,
+    "com.google.api.grpc:proto-google-common-protos": 1951837576,
+    "com.google.api.grpc:proto-google-common-protos:jar:sources": -2052889786,
     "com.google.api:api-common": -1781742575,
     "com.google.api:api-common:jar:sources": -894782275,
     "com.google.auth:google-auth-library-credentials": 942630605,
     "com.google.auth:google-auth-library-credentials:jar:sources": 1050676971,
-    "com.google.auth:google-auth-library-oauth2-http": -1936519376,
+    "com.google.auth:google-auth-library-oauth2-http": -42494680,
     "com.google.auth:google-auth-library-oauth2-http:jar:sources": -569959045,
     "com.google.auto.value:auto-value-annotations": 641018093,
     "com.google.auto.value:auto-value-annotations:jar:sources": -315473772,
@@ -141,15 +143,15 @@
     "com.google.code.gson:gson:jar:sources": 907899269,
     "com.google.errorprone:error_prone_annotations": 1527418394,
     "com.google.errorprone:error_prone_annotations:jar:sources": 1371598517,
-    "com.google.genai:google-genai": 295204662,
-    "com.google.genai:google-genai:jar:sources": 1676143318,
+    "com.google.genai:google-genai": 1621852635,
+    "com.google.genai:google-genai:jar:sources": -1349649140,
     "com.google.guava:failureaccess": -718864417,
     "com.google.guava:failureaccess:jar:sources": -527872939,
     "com.google.guava:guava": 1719674436,
     "com.google.guava:guava:jar:sources": -1734233239,
     "com.google.guava:listenablefuture": 1079558157,
-    "com.google.http-client:google-http-client": 1238686218,
-    "com.google.http-client:google-http-client-gson": 665313055,
+    "com.google.http-client:google-http-client": 2022622422,
+    "com.google.http-client:google-http-client-gson": 1401936560,
     "com.google.http-client:google-http-client-gson:jar:sources": 1352765986,
     "com.google.http-client:google-http-client:jar:sources": -1639480500,
     "com.google.j2objc:j2objc-annotations": -404209759,
@@ -168,72 +170,72 @@
     "com.graphql-java:java-dataloader:jar:sources": -1676833358,
     "com.h2database:h2": 1660949213,
     "com.h2database:h2:jar:sources": 446387355,
-    "com.jayway.jsonpath:json-path": -976071077,
+    "com.jayway.jsonpath:json-path": 936586710,
     "com.jayway.jsonpath:json-path:jar:sources": -2145126200,
     "com.knuddels:jtokkit": -1179071928,
     "com.knuddels:jtokkit:jar:sources": 1741515621,
     "com.mysql:mysql-connector-j": -2039406906,
     "com.mysql:mysql-connector-j:jar:sources": 1776774784,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -882058900,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -1788678299,
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": -615713111,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": -404861610,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": -579191572,
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": 448579447,
-    "com.netflix.graphql.dgs:dgs-starter": 2035258081,
-    "com.netflix.graphql.dgs:dgs-starter-test": 460932770,
+    "com.netflix.graphql.dgs:dgs-starter": -1406967810,
+    "com.netflix.graphql.dgs:dgs-starter-test": -99706960,
     "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -90305005,
     "com.netflix.graphql.dgs:dgs-starter:jar:sources": -90305005,
-    "com.netflix.graphql.dgs:graphql-dgs": -858249285,
-    "com.netflix.graphql.dgs:graphql-dgs-client": 1102087241,
+    "com.netflix.graphql.dgs:graphql-dgs": 1371335687,
+    "com.netflix.graphql.dgs:graphql-dgs-client": 473968031,
     "com.netflix.graphql.dgs:graphql-dgs-client:jar:sources": 85188281,
-    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 5824145,
+    "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": -572730349,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:jar:sources": -1060923273,
-    "com.netflix.graphql.dgs:graphql-dgs-json-api": 15871918,
+    "com.netflix.graphql.dgs:graphql-dgs-json-api": 601155372,
     "com.netflix.graphql.dgs:graphql-dgs-json-api:jar:sources": -129046666,
-    "com.netflix.graphql.dgs:graphql-dgs-reactive": 723105466,
+    "com.netflix.graphql.dgs:graphql-dgs-reactive": -2078831789,
     "com.netflix.graphql.dgs:graphql-dgs-reactive:jar:sources": -111219698,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": -371481085,
-    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test": -1726376559,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql": -983599871,
+    "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test": 835348491,
     "com.netflix.graphql.dgs:graphql-dgs-spring-graphql-test:jar:sources": 347183046,
     "com.netflix.graphql.dgs:graphql-dgs-spring-graphql:jar:sources": 412702585,
-    "com.netflix.graphql.dgs:graphql-dgs-subscription-types": -957021320,
+    "com.netflix.graphql.dgs:graphql-dgs-subscription-types": 2146797078,
     "com.netflix.graphql.dgs:graphql-dgs-subscription-types:jar:sources": 1800603041,
     "com.netflix.graphql.dgs:graphql-dgs:jar:sources": -460871097,
-    "com.netflix.graphql.dgs:graphql-error-types": 1143454112,
+    "com.netflix.graphql.dgs:graphql-error-types": 176411208,
     "com.netflix.graphql.dgs:graphql-error-types:jar:sources": -1247486311,
-    "com.networknt:json-schema-validator": 98772138,
+    "com.networknt:json-schema-validator": 858666819,
     "com.networknt:json-schema-validator:jar:sources": -1602829806,
-    "com.openai:openai-java-core": 1039985476,
-    "com.openai:openai-java-core:jar:sources": 881309346,
+    "com.openai:openai-java-core": 195152810,
+    "com.openai:openai-java-core:jar:sources": 1760314238,
     "com.palantir.javapoet:javapoet": 1329345971,
     "com.palantir.javapoet:javapoet:jar:sources": -721215784,
-    "com.squareup.okhttp3:okhttp": -1925379111,
-    "com.squareup.okhttp3:okhttp-jvm": 1001186754,
-    "com.squareup.okhttp3:okhttp-jvm:jar:sources": -433851252,
+    "com.squareup.okhttp3:okhttp": -1671403771,
+    "com.squareup.okhttp3:okhttp-jvm": 2029111923,
+    "com.squareup.okhttp3:okhttp-jvm:jar:sources": 1193647833,
     "com.squareup.okhttp3:okhttp:jar:sources": 412901443,
-    "com.squareup.okio:okio": -1770535126,
-    "com.squareup.okio:okio-jvm": -195144472,
-    "com.squareup.okio:okio-jvm:jar:sources": -992116235,
+    "com.squareup.okio:okio": 462695006,
+    "com.squareup.okio:okio-jvm": 194733247,
+    "com.squareup.okio:okio-jvm:jar:sources": 1535507792,
     "com.squareup.okio:okio:jar:sources": 410238119,
-    "com.squareup.wire:wire-runtime-jvm": -1752136960,
+    "com.squareup.wire:wire-runtime-jvm": 1294572488,
     "com.squareup.wire:wire-runtime-jvm:jar:sources": 983012095,
-    "com.squareup.wire:wire-schema-jvm": 352521806,
+    "com.squareup.wire:wire-schema-jvm": -2054266941,
     "com.squareup.wire:wire-schema-jvm:jar:sources": -1743927679,
-    "com.squareup:kotlinpoet": -1583991777,
-    "com.squareup:kotlinpoet-jvm": -1912329412,
+    "com.squareup:kotlinpoet": 779947570,
+    "com.squareup:kotlinpoet-jvm": 656633613,
     "com.squareup:kotlinpoet-jvm:jar:sources": -944675289,
     "com.squareup:kotlinpoet:jar:sources": -1571729273,
-    "com.typesafe.scala-logging:scala-logging_2.13": -107342699,
-    "com.typesafe.scala-logging:scala-logging_2.13:jar:sources": -1673725229,
+    "com.typesafe.scala-logging:scala-logging_2.13": 290787302,
+    "com.typesafe.scala-logging:scala-logging_2.13:jar:sources": 1711602686,
     "com.vaadin.external.google:android-json": -815169796,
     "com.vaadin.external.google:android-json:jar:sources": -241719183,
-    "com.yammer.metrics:metrics-core": 835428277,
+    "com.yammer.metrics:metrics-core": -2006776400,
     "com.yammer.metrics:metrics-core:jar:sources": -88746442,
-    "com.zaxxer:HikariCP": -121743357,
+    "com.zaxxer:HikariCP": -1650230914,
     "com.zaxxer:HikariCP:jar:sources": -90064539,
     "commons-beanutils:commons-beanutils": -882775588,
     "commons-beanutils:commons-beanutils:jar:sources": 1596942423,
-    "commons-codec:commons-codec": 1545666683,
-    "commons-codec:commons-codec:jar:sources": -1502704019,
+    "commons-codec:commons-codec": 58403102,
+    "commons-codec:commons-codec:jar:sources": 1330593853,
     "commons-collections:commons-collections": 7509648,
     "commons-collections:commons-collections:jar:sources": -1549695345,
     "commons-digester:commons-digester": 781759527,
@@ -244,37 +246,37 @@
     "commons-logging:commons-logging:jar:sources": 147282524,
     "commons-validator:commons-validator": 2078586229,
     "commons-validator:commons-validator:jar:sources": 1288604053,
-    "io.confluent:common-utils": -1683601754,
+    "io.confluent:common-utils": 770487521,
     "io.confluent:common-utils:jar:sources": -668046586,
-    "io.confluent:kafka-protobuf-provider": 1874067259,
+    "io.confluent:kafka-protobuf-provider": 120693141,
     "io.confluent:kafka-protobuf-provider:jar:sources": 1530162600,
-    "io.confluent:kafka-protobuf-serializer": -1830852624,
+    "io.confluent:kafka-protobuf-serializer": 2018699736,
     "io.confluent:kafka-protobuf-serializer:jar:sources": -1635849564,
-    "io.confluent:kafka-protobuf-types": 2126581442,
+    "io.confluent:kafka-protobuf-types": -792183,
     "io.confluent:kafka-protobuf-types:jar:sources": 1718154412,
-    "io.confluent:kafka-schema-registry-client": -978232919,
+    "io.confluent:kafka-schema-registry-client": 548940669,
     "io.confluent:kafka-schema-registry-client:jar:sources": 804603703,
-    "io.confluent:kafka-schema-serializer": -407142687,
+    "io.confluent:kafka-schema-serializer": -1208945245,
     "io.confluent:kafka-schema-serializer:jar:sources": -1844922852,
-    "io.grpc:grpc-api": 32128397,
-    "io.grpc:grpc-api:jar:sources": -251192845,
-    "io.grpc:grpc-context": -1585690271,
-    "io.grpc:grpc-context:jar:sources": 2048359545,
+    "io.grpc:grpc-api": 1783406226,
+    "io.grpc:grpc-api:jar:sources": -424175038,
+    "io.grpc:grpc-context": 168417266,
+    "io.grpc:grpc-context:jar:sources": 2089234811,
     "io.micrometer:context-propagation": -616873396,
     "io.micrometer:context-propagation:jar:sources": -1333491713,
-    "io.micrometer:micrometer-commons": 2146891883,
-    "io.micrometer:micrometer-commons:jar:sources": -1493710057,
-    "io.micrometer:micrometer-core": -1210740753,
-    "io.micrometer:micrometer-core:jar:sources": 1773516904,
-    "io.micrometer:micrometer-jakarta9": -792112303,
-    "io.micrometer:micrometer-jakarta9:jar:sources": 1754066028,
-    "io.micrometer:micrometer-observation": 890556216,
-    "io.micrometer:micrometer-observation:jar:sources": -330836787,
-    "io.modelcontextprotocol.sdk:mcp": 1377957368,
-    "io.modelcontextprotocol.sdk:mcp-core": -1889010443,
-    "io.modelcontextprotocol.sdk:mcp-core:jar:sources": 1254080328,
-    "io.modelcontextprotocol.sdk:mcp-json-jackson3": -1052490339,
-    "io.modelcontextprotocol.sdk:mcp-json-jackson3:jar:sources": 1824415402,
+    "io.micrometer:micrometer-commons": -497857416,
+    "io.micrometer:micrometer-commons:jar:sources": 1267123759,
+    "io.micrometer:micrometer-core": 676088806,
+    "io.micrometer:micrometer-core:jar:sources": 1142677550,
+    "io.micrometer:micrometer-jakarta9": 1507923138,
+    "io.micrometer:micrometer-jakarta9:jar:sources": 783901351,
+    "io.micrometer:micrometer-observation": 104243727,
+    "io.micrometer:micrometer-observation:jar:sources": 1054362325,
+    "io.modelcontextprotocol.sdk:mcp": -1784561437,
+    "io.modelcontextprotocol.sdk:mcp-core": 1891445727,
+    "io.modelcontextprotocol.sdk:mcp-core:jar:sources": 142202551,
+    "io.modelcontextprotocol.sdk:mcp-json-jackson3": 1691232417,
+    "io.modelcontextprotocol.sdk:mcp-json-jackson3:jar:sources": 1474470479,
     "io.netty:netty-buffer": 380312161,
     "io.netty:netty-buffer:jar:sources": -1845923271,
     "io.netty:netty-codec-base": -507049948,
@@ -321,18 +323,18 @@
     "io.netty:netty-transport-native-unix-common": 150289726,
     "io.netty:netty-transport-native-unix-common:jar:sources": 976106990,
     "io.netty:netty-transport:jar:sources": -1344318581,
-    "io.opencensus:opencensus-api": -2128472383,
+    "io.opencensus:opencensus-api": 1519521439,
     "io.opencensus:opencensus-api:jar:sources": 1085904850,
-    "io.opencensus:opencensus-contrib-http-util": 2094984456,
+    "io.opencensus:opencensus-contrib-http-util": -1772177477,
     "io.opencensus:opencensus-contrib-http-util:jar:sources": -879181311,
-    "io.projectreactor.kotlin:reactor-kotlin-extensions": -673302600,
-    "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources": -266977830,
-    "io.projectreactor.netty:reactor-netty-core": -486112161,
-    "io.projectreactor.netty:reactor-netty-core:jar:sources": -334909246,
-    "io.projectreactor.netty:reactor-netty-http": -1469590699,
-    "io.projectreactor.netty:reactor-netty-http:jar:sources": 687187307,
-    "io.projectreactor:reactor-core": 858143162,
-    "io.projectreactor:reactor-core:jar:sources": -1385646868,
+    "io.projectreactor.kotlin:reactor-kotlin-extensions": 85216669,
+    "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources": -610078254,
+    "io.projectreactor.netty:reactor-netty-core": -727150099,
+    "io.projectreactor.netty:reactor-netty-core:jar:sources": 1225003399,
+    "io.projectreactor.netty:reactor-netty-http": 959212543,
+    "io.projectreactor.netty:reactor-netty-http:jar:sources": -398716465,
+    "io.projectreactor:reactor-core": 1912727153,
+    "io.projectreactor:reactor-core:jar:sources": 1631650691,
     "io.swagger.core.v3:swagger-annotations": 2080290375,
     "io.swagger.core.v3:swagger-annotations-jakarta": -184176601,
     "io.swagger.core.v3:swagger-annotations-jakarta:jar:sources": -506702050,
@@ -347,14 +349,14 @@
     "jakarta.servlet:jakarta.servlet-api:jar:sources": -2084357823,
     "jakarta.validation:jakarta.validation-api": -1708329466,
     "jakarta.validation:jakarta.validation-api:jar:sources": 1704294238,
-    "jakarta.xml.bind:jakarta.xml.bind-api": 1698969766,
-    "jakarta.xml.bind:jakarta.xml.bind-api:jar:sources": 564482088,
+    "jakarta.xml.bind:jakarta.xml.bind-api": -1145319810,
+    "jakarta.xml.bind:jakarta.xml.bind-api:jar:sources": 186644598,
     "javax.annotation:javax.annotation-api": -1009230154,
     "javax.annotation:javax.annotation-api:jar:sources": -1912277688,
-    "net.bytebuddy:byte-buddy": 550301713,
-    "net.bytebuddy:byte-buddy-agent": -1974088055,
-    "net.bytebuddy:byte-buddy-agent:jar:sources": 1808316386,
-    "net.bytebuddy:byte-buddy:jar:sources": 824777303,
+    "net.bytebuddy:byte-buddy": -645553046,
+    "net.bytebuddy:byte-buddy-agent": 567350281,
+    "net.bytebuddy:byte-buddy-agent:jar:sources": 467108684,
+    "net.bytebuddy:byte-buddy:jar:sources": -315779909,
     "net.java.dev.jna:jna": 154162148,
     "net.java.dev.jna:jna:jar:sources": -1131590933,
     "net.minidev:accessors-smart": 2098330403,
@@ -371,142 +373,142 @@
     "org.antlr:antlr-runtime:jar:sources": 673568178,
     "org.antlr:antlr4-runtime": -821540210,
     "org.antlr:antlr4-runtime:jar:sources": -1778545568,
-    "org.apache.avro:avro": 1173892463,
+    "org.apache.avro:avro": 461399636,
     "org.apache.avro:avro:jar:sources": 1761386785,
-    "org.apache.commons:commons-compress": 921631058,
+    "org.apache.commons:commons-compress": -1565950364,
     "org.apache.commons:commons-compress:jar:sources": -1888643111,
-    "org.apache.commons:commons-lang3": 1244192954,
-    "org.apache.commons:commons-lang3:jar:sources": 321970823,
-    "org.apache.commons:commons-pool2": 747335609,
-    "org.apache.commons:commons-pool2:jar:sources": -215634974,
-    "org.apache.httpcomponents.client5:httpclient5": 865036072,
-    "org.apache.httpcomponents.client5:httpclient5:jar:sources": 769982946,
-    "org.apache.httpcomponents.core5:httpcore5": 1180859703,
-    "org.apache.httpcomponents.core5:httpcore5-h2": -1690067709,
-    "org.apache.httpcomponents.core5:httpcore5-h2:jar:sources": -1194800975,
-    "org.apache.httpcomponents.core5:httpcore5:jar:sources": -258723166,
-    "org.apache.httpcomponents:httpclient": -1931016499,
+    "org.apache.commons:commons-lang3": 1841935436,
+    "org.apache.commons:commons-lang3:jar:sources": -982252396,
+    "org.apache.commons:commons-pool2": 1285556555,
+    "org.apache.commons:commons-pool2:jar:sources": 424657886,
+    "org.apache.httpcomponents.client5:httpclient5": -2138632366,
+    "org.apache.httpcomponents.client5:httpclient5:jar:sources": -1704771342,
+    "org.apache.httpcomponents.core5:httpcore5": -1399988701,
+    "org.apache.httpcomponents.core5:httpcore5-h2": -491563693,
+    "org.apache.httpcomponents.core5:httpcore5-h2:jar:sources": 742797945,
+    "org.apache.httpcomponents.core5:httpcore5:jar:sources": 405594852,
+    "org.apache.httpcomponents:httpclient": -954670100,
     "org.apache.httpcomponents:httpclient:jar:sources": -779528763,
     "org.apache.httpcomponents:httpcore": 67453319,
     "org.apache.httpcomponents:httpcore:jar:sources": 2134002822,
-    "org.apache.kafka:kafka-clients": 50991513,
-    "org.apache.kafka:kafka-clients:jar:sources": -1509770284,
-    "org.apache.kafka:kafka-clients:jar:test": 1006473585,
-    "org.apache.kafka:kafka-coordinator-common": 1481209061,
-    "org.apache.kafka:kafka-coordinator-common:jar:sources": 756014251,
-    "org.apache.kafka:kafka-group-coordinator": 1321092128,
-    "org.apache.kafka:kafka-group-coordinator-api": 1214216957,
-    "org.apache.kafka:kafka-group-coordinator-api:jar:sources": 2122294063,
-    "org.apache.kafka:kafka-group-coordinator:jar:sources": -182590359,
-    "org.apache.kafka:kafka-metadata": -444966713,
-    "org.apache.kafka:kafka-metadata:jar:sources": -554633846,
-    "org.apache.kafka:kafka-raft": 730520594,
-    "org.apache.kafka:kafka-raft:jar:sources": 2037724306,
-    "org.apache.kafka:kafka-server": -573743717,
-    "org.apache.kafka:kafka-server-common": 301702752,
-    "org.apache.kafka:kafka-server-common:jar:sources": 694121412,
-    "org.apache.kafka:kafka-server-common:jar:test": -661388747,
-    "org.apache.kafka:kafka-server:jar:sources": 1599959634,
-    "org.apache.kafka:kafka-share-coordinator": -1713793076,
-    "org.apache.kafka:kafka-share-coordinator:jar:sources": -138061871,
-    "org.apache.kafka:kafka-storage": -1932130822,
-    "org.apache.kafka:kafka-storage-api": -1392341766,
-    "org.apache.kafka:kafka-storage-api:jar:sources": 1957118512,
-    "org.apache.kafka:kafka-storage:jar:sources": 811859503,
-    "org.apache.kafka:kafka-streams": 400775116,
-    "org.apache.kafka:kafka-streams-test-utils": 2139912222,
-    "org.apache.kafka:kafka-streams-test-utils:jar:sources": -1901098850,
-    "org.apache.kafka:kafka-streams:jar:sources": -1847032617,
-    "org.apache.kafka:kafka-test-common-internal-api": 804769983,
-    "org.apache.kafka:kafka-test-common-internal-api:jar:sources": 409937594,
-    "org.apache.kafka:kafka-test-common-runtime": 1046152477,
-    "org.apache.kafka:kafka-test-common-runtime:jar:sources": -1105212184,
-    "org.apache.kafka:kafka-tools-api": -292434158,
-    "org.apache.kafka:kafka-tools-api:jar:sources": 1423206679,
-    "org.apache.kafka:kafka-transaction-coordinator": 892571470,
-    "org.apache.kafka:kafka-transaction-coordinator:jar:sources": -689769699,
-    "org.apache.kafka:kafka_2.13": -186398061,
-    "org.apache.kafka:kafka_2.13:jar:sources": 1244370739,
+    "org.apache.kafka:kafka-clients": 156135804,
+    "org.apache.kafka:kafka-clients:jar:sources": 168212132,
+    "org.apache.kafka:kafka-clients:jar:test": -634749245,
+    "org.apache.kafka:kafka-coordinator-common": 392921697,
+    "org.apache.kafka:kafka-coordinator-common:jar:sources": 1405969369,
+    "org.apache.kafka:kafka-group-coordinator": 1900788670,
+    "org.apache.kafka:kafka-group-coordinator-api": -1631801472,
+    "org.apache.kafka:kafka-group-coordinator-api:jar:sources": -897507657,
+    "org.apache.kafka:kafka-group-coordinator:jar:sources": -325250031,
+    "org.apache.kafka:kafka-metadata": 478086506,
+    "org.apache.kafka:kafka-metadata:jar:sources": 1031128455,
+    "org.apache.kafka:kafka-raft": -1709243789,
+    "org.apache.kafka:kafka-raft:jar:sources": 259088482,
+    "org.apache.kafka:kafka-server": -1714558213,
+    "org.apache.kafka:kafka-server-common": -2055609852,
+    "org.apache.kafka:kafka-server-common:jar:sources": 1758462416,
+    "org.apache.kafka:kafka-server-common:jar:test": -1093926800,
+    "org.apache.kafka:kafka-server:jar:sources": -1712049015,
+    "org.apache.kafka:kafka-share-coordinator": 39688954,
+    "org.apache.kafka:kafka-share-coordinator:jar:sources": 619307055,
+    "org.apache.kafka:kafka-storage": 1264900934,
+    "org.apache.kafka:kafka-storage-api": 1025082927,
+    "org.apache.kafka:kafka-storage-api:jar:sources": -2011307079,
+    "org.apache.kafka:kafka-storage:jar:sources": -731274833,
+    "org.apache.kafka:kafka-streams": -1541891394,
+    "org.apache.kafka:kafka-streams-test-utils": 1283964658,
+    "org.apache.kafka:kafka-streams-test-utils:jar:sources": -202974913,
+    "org.apache.kafka:kafka-streams:jar:sources": 58302544,
+    "org.apache.kafka:kafka-test-common-internal-api": 1454507539,
+    "org.apache.kafka:kafka-test-common-internal-api:jar:sources": -1778349355,
+    "org.apache.kafka:kafka-test-common-runtime": -1267810773,
+    "org.apache.kafka:kafka-test-common-runtime:jar:sources": 585750746,
+    "org.apache.kafka:kafka-tools-api": -477014323,
+    "org.apache.kafka:kafka-tools-api:jar:sources": 1502606251,
+    "org.apache.kafka:kafka-transaction-coordinator": 279321343,
+    "org.apache.kafka:kafka-transaction-coordinator:jar:sources": 179059874,
+    "org.apache.kafka:kafka_2.13": 481206371,
+    "org.apache.kafka:kafka_2.13:jar:sources": 1915043523,
     "org.apache.logging.log4j:log4j-api": -535303980,
     "org.apache.logging.log4j:log4j-api:jar:sources": 1398816473,
     "org.apache.logging.log4j:log4j-core": -1468872283,
     "org.apache.logging.log4j:log4j-core:jar:sources": -310222995,
-    "org.apache.logging.log4j:log4j-to-slf4j": 1902537030,
+    "org.apache.logging.log4j:log4j-to-slf4j": 211091329,
     "org.apache.logging.log4j:log4j-to-slf4j:jar:sources": 1332324341,
-    "org.apache.tomcat.embed:tomcat-embed-core": -1021201612,
+    "org.apache.tomcat.embed:tomcat-embed-core": 592587240,
     "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 610251870,
     "org.apache.tomcat.embed:tomcat-embed-el": 1305005618,
     "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 1468704337,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": -1941676928,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": 356573561,
     "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": 1025115480,
-    "org.apache.tomcat:tomcat-annotations-api": 925375027,
-    "org.apache.tomcat:tomcat-annotations-api:jar:sources": -1810197536,
+    "org.apache.tomcat:tomcat-annotations-api": 446816209,
+    "org.apache.tomcat:tomcat-annotations-api:jar:sources": 1818516395,
     "org.apiguardian:apiguardian-api": 1279798469,
     "org.apiguardian:apiguardian-api:jar:sources": 729595858,
-    "org.assertj:assertj-core": 504285799,
+    "org.assertj:assertj-core": -923964809,
     "org.assertj:assertj-core:jar:sources": -697161745,
     "org.awaitility:awaitility": 146142818,
     "org.awaitility:awaitility:jar:sources": -74464497,
-    "org.bitbucket.b_c:jose4j": -36599002,
+    "org.bitbucket.b_c:jose4j": 320805217,
     "org.bitbucket.b_c:jose4j:jar:sources": 1703050659,
     "org.checkerframework:checker-qual": -1158206121,
     "org.checkerframework:checker-qual:jar:sources": -1169439178,
-    "org.eclipse.jetty.compression:jetty-compression-common": 756174200,
-    "org.eclipse.jetty.compression:jetty-compression-common:jar:sources": -2061932775,
-    "org.eclipse.jetty.compression:jetty-compression-gzip": -682434585,
-    "org.eclipse.jetty.compression:jetty-compression-gzip:jar:sources": -828531763,
-    "org.eclipse.jetty:jetty-alpn-client": 788859499,
-    "org.eclipse.jetty:jetty-alpn-client:jar:sources": 691602546,
-    "org.eclipse.jetty:jetty-client": 458859399,
-    "org.eclipse.jetty:jetty-client:jar:sources": 976907964,
-    "org.eclipse.jetty:jetty-http": 962426982,
-    "org.eclipse.jetty:jetty-http:jar:sources": -2004094024,
-    "org.eclipse.jetty:jetty-io": -239049611,
-    "org.eclipse.jetty:jetty-io:jar:sources": 1465261863,
-    "org.eclipse.jetty:jetty-reactive-httpclient": 994207552,
-    "org.eclipse.jetty:jetty-reactive-httpclient:jar:sources": 1400287648,
-    "org.eclipse.jetty:jetty-util": 1285673488,
-    "org.eclipse.jetty:jetty-util:jar:sources": 1858130782,
-    "org.flywaydb:flyway-core": -268183715,
-    "org.flywaydb:flyway-core:jar:sources": 777650237,
+    "org.eclipse.jetty.compression:jetty-compression-common": 569822841,
+    "org.eclipse.jetty.compression:jetty-compression-common:jar:sources": 1239870176,
+    "org.eclipse.jetty.compression:jetty-compression-gzip": -643031410,
+    "org.eclipse.jetty.compression:jetty-compression-gzip:jar:sources": -105640607,
+    "org.eclipse.jetty:jetty-alpn-client": 155903241,
+    "org.eclipse.jetty:jetty-alpn-client:jar:sources": -1611778506,
+    "org.eclipse.jetty:jetty-client": 1512572058,
+    "org.eclipse.jetty:jetty-client:jar:sources": 1062473643,
+    "org.eclipse.jetty:jetty-http": -1578822522,
+    "org.eclipse.jetty:jetty-http:jar:sources": -1317713476,
+    "org.eclipse.jetty:jetty-io": -225847225,
+    "org.eclipse.jetty:jetty-io:jar:sources": 116677681,
+    "org.eclipse.jetty:jetty-reactive-httpclient": -220425305,
+    "org.eclipse.jetty:jetty-reactive-httpclient:jar:sources": -107409534,
+    "org.eclipse.jetty:jetty-util": -1027747345,
+    "org.eclipse.jetty:jetty-util:jar:sources": -280937557,
+    "org.flywaydb:flyway-core": -185732339,
+    "org.flywaydb:flyway-core:jar:sources": -1338379798,
     "org.hamcrest:hamcrest": 1282317766,
     "org.hamcrest:hamcrest:jar:sources": 1394599014,
     "org.hdrhistogram:HdrHistogram": 310945399,
     "org.hdrhistogram:HdrHistogram:jar:sources": 1419519143,
-    "org.hibernate.validator:hibernate-validator": 800753676,
-    "org.hibernate.validator:hibernate-validator:jar:sources": 1930458303,
-    "org.java-websocket:Java-WebSocket": -892177604,
+    "org.hibernate.validator:hibernate-validator": -198379521,
+    "org.hibernate.validator:hibernate-validator:jar:sources": -1337270651,
+    "org.java-websocket:Java-WebSocket": 172429047,
     "org.java-websocket:Java-WebSocket:jar:sources": -685191494,
     "org.jboss.logging:jboss-logging": 670094878,
     "org.jboss.logging:jboss-logging:jar:sources": -2146327648,
-    "org.jetbrains.kotlin:kotlin-reflect": -1472135748,
-    "org.jetbrains.kotlin:kotlin-reflect:jar:sources": 1941632541,
-    "org.jetbrains.kotlin:kotlin-stdlib": 1089737601,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk7": -1664108617,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:sources": -979551995,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk8": 963705080,
-    "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:sources": -427899088,
-    "org.jetbrains.kotlin:kotlin-stdlib:jar:sources": -77419816,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": -247734910,
+    "org.jetbrains.kotlin:kotlin-reflect": 1902078629,
+    "org.jetbrains.kotlin:kotlin-reflect:jar:sources": 290175045,
+    "org.jetbrains.kotlin:kotlin-stdlib": 153582412,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk7": -1742945476,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk7:jar:sources": 1658409060,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk8": 1139696443,
+    "org.jetbrains.kotlin:kotlin-stdlib-jdk8:jar:sources": -2084905329,
+    "org.jetbrains.kotlin:kotlin-stdlib:jar:sources": -1886221917,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": 202490883,
     "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:jar:sources": 1967060403,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-reactive": 690360007,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-reactive": -550953996,
     "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:jar:sources": 1649986218,
-    "org.jetbrains.kotlinx:kotlinx-coroutines-reactor": 1531194664,
+    "org.jetbrains.kotlinx:kotlinx-coroutines-reactor": 1173752636,
     "org.jetbrains.kotlinx:kotlinx-coroutines-reactor:jar:sources": 1452806926,
-    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm": 1372951816,
-    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:jar:sources": -1117287358,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json": 1660978337,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm": -2081884307,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:jar:sources": 2006823320,
-    "org.jetbrains.kotlinx:kotlinx-serialization-json:jar:sources": -750749331,
+    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm": -2004463344,
+    "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:jar:sources": 1083107474,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json": -29830513,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm": 1404381509,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:jar:sources": 524818523,
+    "org.jetbrains.kotlinx:kotlinx-serialization-json:jar:sources": 906757762,
     "org.jetbrains:annotations": -1687668980,
     "org.jetbrains:annotations:jar:sources": 381604573,
-    "org.jetbrains:markdown": 1808198359,
-    "org.jetbrains:markdown-jvm": 1734202864,
+    "org.jetbrains:markdown": 612278394,
+    "org.jetbrains:markdown-jvm": -1052676543,
     "org.jetbrains:markdown-jvm:jar:sources": -1893283916,
     "org.jetbrains:markdown:jar:sources": -1310283335,
-    "org.json:json": -1002773527,
-    "org.json:json:jar:sources": -1786632790,
+    "org.json:json": -1055551073,
+    "org.json:json:jar:sources": 457416886,
     "org.jspecify:jspecify": 117231129,
     "org.jspecify:jspecify:jar:sources": -2134060298,
     "org.junit.jupiter:junit-jupiter": -1180454764,
@@ -525,12 +527,10 @@
     "org.junit.platform:junit-platform-launcher:jar:sources": -1783349551,
     "org.junit.platform:junit-platform-reporting": -708741566,
     "org.junit.platform:junit-platform-reporting:jar:sources": -479417393,
-    "org.latencyutils:LatencyUtils": 130996999,
-    "org.latencyutils:LatencyUtils:jar:sources": -20719320,
-    "org.mockito:mockito-core": -1592530031,
-    "org.mockito:mockito-core:jar:sources": -575554551,
-    "org.mockito:mockito-junit-jupiter": 125700135,
-    "org.mockito:mockito-junit-jupiter:jar:sources": 670098644,
+    "org.mockito:mockito-core": -1906572894,
+    "org.mockito:mockito-core:jar:sources": 1900207417,
+    "org.mockito:mockito-junit-jupiter": -1768016635,
+    "org.mockito:mockito-junit-jupiter:jar:sources": 1340803793,
     "org.objenesis:objenesis": 1798216877,
     "org.objenesis:objenesis:jar:sources": 1586171112,
     "org.opentest4j.reporting:open-test-reporting-tooling-spi": 1212162497,
@@ -547,265 +547,265 @@
     "org.reactivestreams:reactive-streams:jar:sources": -1454226778,
     "org.rnorth.duct-tape:duct-tape": 133152594,
     "org.rnorth.duct-tape:duct-tape:jar:sources": -1798015648,
-    "org.rocksdb:rocksdbjni": -1283122336,
-    "org.rocksdb:rocksdbjni:jar:sources": 639676585,
-    "org.scala-lang:scala-library": -1079389784,
-    "org.scala-lang:scala-library:jar:sources": 9987806,
-    "org.scala-lang:scala-reflect": 1954333033,
-    "org.scala-lang:scala-reflect:jar:sources": 872007774,
+    "org.rocksdb:rocksdbjni": 356064214,
+    "org.rocksdb:rocksdbjni:jar:sources": -1617140129,
+    "org.scala-lang:scala-library": 1871381361,
+    "org.scala-lang:scala-library:jar:sources": 184552237,
+    "org.scala-lang:scala-reflect": -986980073,
+    "org.scala-lang:scala-reflect:jar:sources": 250010501,
     "org.skyscreamer:jsonassert": -852848867,
     "org.skyscreamer:jsonassert:jar:sources": 1419411400,
-    "org.slf4j:jul-to-slf4j": 720587186,
-    "org.slf4j:jul-to-slf4j:jar:sources": -724466985,
-    "org.slf4j:slf4j-api": -1521593912,
-    "org.slf4j:slf4j-api:jar:sources": -1050183387,
+    "org.slf4j:jul-to-slf4j": 1118476727,
+    "org.slf4j:jul-to-slf4j:jar:sources": 1413084385,
+    "org.slf4j:slf4j-api": 500377983,
+    "org.slf4j:slf4j-api:jar:sources": 1751644771,
     "org.snakeyaml:snakeyaml-engine": -1273354013,
     "org.snakeyaml:snakeyaml-engine:jar:sources": -1787221586,
-    "org.springframework.ai:mcp-spring-webmvc": 1398876146,
-    "org.springframework.ai:mcp-spring-webmvc:jar:sources": -977344163,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": -1290485785,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common:jar:sources": -281528798,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": -301784467,
-    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc:jar:sources": -1540320001,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": 1420070264,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client:jar:sources": 1091268902,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": -478000679,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory:jar:sources": -1970499,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": 569281307,
-    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation:jar:sources": -1519210305,
-    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": -589849102,
-    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation:jar:sources": -736576462,
-    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": -1446084069,
-    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai:jar:sources": 1588966459,
-    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": 1210405593,
-    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation:jar:sources": 251458627,
-    "org.springframework.ai:spring-ai-autoconfigure-model-ollama": 174723418,
-    "org.springframework.ai:spring-ai-autoconfigure-model-ollama:jar:sources": -626689494,
-    "org.springframework.ai:spring-ai-autoconfigure-model-openai": 1243296980,
-    "org.springframework.ai:spring-ai-autoconfigure-model-openai:jar:sources": 1919590066,
-    "org.springframework.ai:spring-ai-autoconfigure-model-tool": -1370620764,
-    "org.springframework.ai:spring-ai-autoconfigure-model-tool:jar:sources": 19454764,
-    "org.springframework.ai:spring-ai-autoconfigure-retry": 816426385,
-    "org.springframework.ai:spring-ai-autoconfigure-retry:jar:sources": -1721754482,
-    "org.springframework.ai:spring-ai-client-chat": -658570826,
-    "org.springframework.ai:spring-ai-client-chat:jar:sources": 2063373128,
-    "org.springframework.ai:spring-ai-commons": 737904165,
-    "org.springframework.ai:spring-ai-commons:jar:sources": 1209990732,
-    "org.springframework.ai:spring-ai-google-genai": 423760879,
-    "org.springframework.ai:spring-ai-google-genai:jar:sources": 675136181,
-    "org.springframework.ai:spring-ai-mcp": -203058504,
-    "org.springframework.ai:spring-ai-mcp-annotations": 1589607316,
-    "org.springframework.ai:spring-ai-mcp-annotations:jar:sources": 533454040,
-    "org.springframework.ai:spring-ai-mcp:jar:sources": 897070655,
-    "org.springframework.ai:spring-ai-model": -508864411,
-    "org.springframework.ai:spring-ai-model:jar:sources": 258604344,
-    "org.springframework.ai:spring-ai-ollama": 740335927,
-    "org.springframework.ai:spring-ai-ollama:jar:sources": -2014833309,
-    "org.springframework.ai:spring-ai-openai": -63554539,
-    "org.springframework.ai:spring-ai-openai:jar:sources": -602000150,
-    "org.springframework.ai:spring-ai-retry": 1761844068,
-    "org.springframework.ai:spring-ai-retry:jar:sources": -1605560550,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 1643947420,
-    "org.springframework.ai:spring-ai-starter-model-google-genai": -1462560134,
-    "org.springframework.ai:spring-ai-starter-model-ollama": 370684618,
-    "org.springframework.ai:spring-ai-starter-model-openai": -2041620522,
-    "org.springframework.ai:spring-ai-template-st": -432172078,
-    "org.springframework.ai:spring-ai-template-st:jar:sources": -1529297300,
-    "org.springframework.boot:spring-boot": 1901813840,
-    "org.springframework.boot:spring-boot-actuator": 2011987612,
-    "org.springframework.boot:spring-boot-actuator-autoconfigure": -520238042,
-    "org.springframework.boot:spring-boot-actuator-autoconfigure:jar:sources": 189056123,
-    "org.springframework.boot:spring-boot-actuator:jar:sources": -274994342,
-    "org.springframework.boot:spring-boot-autoconfigure": -428618889,
-    "org.springframework.boot:spring-boot-autoconfigure:jar:sources": 1060786986,
-    "org.springframework.boot:spring-boot-data-commons": 767144394,
-    "org.springframework.boot:spring-boot-data-commons:jar:sources": 1673333726,
-    "org.springframework.boot:spring-boot-data-jdbc": 1283183032,
-    "org.springframework.boot:spring-boot-data-jdbc:jar:sources": 1526506977,
-    "org.springframework.boot:spring-boot-flyway": 1298953367,
-    "org.springframework.boot:spring-boot-flyway:jar:sources": -54149784,
-    "org.springframework.boot:spring-boot-graphql": -1834550020,
-    "org.springframework.boot:spring-boot-graphql:jar:sources": -380009707,
-    "org.springframework.boot:spring-boot-health": 522669726,
-    "org.springframework.boot:spring-boot-health:jar:sources": -101864662,
-    "org.springframework.boot:spring-boot-http-client": -1178241689,
-    "org.springframework.boot:spring-boot-http-client:jar:sources": -888554284,
-    "org.springframework.boot:spring-boot-http-codec": 819362368,
-    "org.springframework.boot:spring-boot-http-codec:jar:sources": -804539127,
-    "org.springframework.boot:spring-boot-http-converter": -417751704,
-    "org.springframework.boot:spring-boot-http-converter:jar:sources": -2147334562,
-    "org.springframework.boot:spring-boot-jackson": 394229230,
-    "org.springframework.boot:spring-boot-jackson:jar:sources": -1914580300,
-    "org.springframework.boot:spring-boot-jdbc": 429811168,
-    "org.springframework.boot:spring-boot-jdbc:jar:sources": -678625571,
-    "org.springframework.boot:spring-boot-kafka": 1272860205,
-    "org.springframework.boot:spring-boot-kafka:jar:sources": -874678440,
-    "org.springframework.boot:spring-boot-loader": -2052037461,
-    "org.springframework.boot:spring-boot-loader:jar:sources": 861172188,
-    "org.springframework.boot:spring-boot-micrometer-metrics": -695970327,
-    "org.springframework.boot:spring-boot-micrometer-metrics:jar:sources": 1440823170,
-    "org.springframework.boot:spring-boot-micrometer-observation": -564629584,
-    "org.springframework.boot:spring-boot-micrometer-observation:jar:sources": -1226352761,
-    "org.springframework.boot:spring-boot-netty": 1902702814,
-    "org.springframework.boot:spring-boot-netty:jar:sources": -76755154,
-    "org.springframework.boot:spring-boot-persistence": -362446886,
-    "org.springframework.boot:spring-boot-persistence:jar:sources": -1823344332,
-    "org.springframework.boot:spring-boot-reactor": -2033925709,
-    "org.springframework.boot:spring-boot-reactor-netty": -1667315346,
-    "org.springframework.boot:spring-boot-reactor-netty:jar:sources": -2130743248,
-    "org.springframework.boot:spring-boot-reactor:jar:sources": -2089724075,
-    "org.springframework.boot:spring-boot-restclient": 1536930319,
-    "org.springframework.boot:spring-boot-restclient:jar:sources": 244708014,
-    "org.springframework.boot:spring-boot-security": 1172160011,
-    "org.springframework.boot:spring-boot-security:jar:sources": 353971832,
-    "org.springframework.boot:spring-boot-servlet": -1127767015,
-    "org.springframework.boot:spring-boot-servlet:jar:sources": -165930431,
-    "org.springframework.boot:spring-boot-sql": -136525353,
-    "org.springframework.boot:spring-boot-sql:jar:sources": 343460561,
-    "org.springframework.boot:spring-boot-starter": 1239171763,
-    "org.springframework.boot:spring-boot-starter-actuator": 745691681,
-    "org.springframework.boot:spring-boot-starter-actuator:jar:sources": -1474293030,
-    "org.springframework.boot:spring-boot-starter-data-jdbc": 2145060990,
-    "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources": -1870472382,
-    "org.springframework.boot:spring-boot-starter-flyway": 54776649,
-    "org.springframework.boot:spring-boot-starter-flyway:jar:sources": -1179872455,
-    "org.springframework.boot:spring-boot-starter-graphql": -405561991,
-    "org.springframework.boot:spring-boot-starter-graphql:jar:sources": -1683505112,
-    "org.springframework.boot:spring-boot-starter-jackson": 1542045694,
-    "org.springframework.boot:spring-boot-starter-jackson:jar:sources": 151963461,
-    "org.springframework.boot:spring-boot-starter-jdbc": -49232843,
-    "org.springframework.boot:spring-boot-starter-jdbc:jar:sources": -1878247576,
-    "org.springframework.boot:spring-boot-starter-kafka": -1555156821,
-    "org.springframework.boot:spring-boot-starter-kafka:jar:sources": 1755489019,
-    "org.springframework.boot:spring-boot-starter-logging": 1741910120,
-    "org.springframework.boot:spring-boot-starter-logging:jar:sources": -505202228,
-    "org.springframework.boot:spring-boot-starter-micrometer-metrics": 278581341,
-    "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources": 1640727403,
-    "org.springframework.boot:spring-boot-starter-reactor-netty": 1657667162,
-    "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": 1034078945,
-    "org.springframework.boot:spring-boot-starter-restclient": -217219082,
-    "org.springframework.boot:spring-boot-starter-restclient:jar:sources": 1798959853,
-    "org.springframework.boot:spring-boot-starter-security": 484574402,
-    "org.springframework.boot:spring-boot-starter-security:jar:sources": 1743676768,
-    "org.springframework.boot:spring-boot-starter-test": 2064634742,
-    "org.springframework.boot:spring-boot-starter-test:jar:sources": 646966594,
-    "org.springframework.boot:spring-boot-starter-tomcat": -1894871732,
-    "org.springframework.boot:spring-boot-starter-tomcat-runtime": 232821806,
-    "org.springframework.boot:spring-boot-starter-tomcat-runtime:jar:sources": 1844487672,
-    "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": -1278142313,
-    "org.springframework.boot:spring-boot-starter-validation": -1575328514,
-    "org.springframework.boot:spring-boot-starter-validation:jar:sources": 1904860676,
-    "org.springframework.boot:spring-boot-starter-web": -1489191694,
-    "org.springframework.boot:spring-boot-starter-web:jar:sources": -520550530,
-    "org.springframework.boot:spring-boot-starter-webclient": 128378586,
-    "org.springframework.boot:spring-boot-starter-webclient:jar:sources": 2056056838,
-    "org.springframework.boot:spring-boot-starter-webflux": -226999573,
-    "org.springframework.boot:spring-boot-starter-webflux:jar:sources": 1428331132,
-    "org.springframework.boot:spring-boot-starter:jar:sources": 2120320285,
-    "org.springframework.boot:spring-boot-test": 202030743,
-    "org.springframework.boot:spring-boot-test-autoconfigure": -834160310,
-    "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources": 2034664639,
-    "org.springframework.boot:spring-boot-test:jar:sources": -1332713625,
-    "org.springframework.boot:spring-boot-tomcat": 2040882099,
-    "org.springframework.boot:spring-boot-tomcat:jar:sources": 1121073132,
-    "org.springframework.boot:spring-boot-transaction": -1561469472,
-    "org.springframework.boot:spring-boot-transaction:jar:sources": -1110100170,
-    "org.springframework.boot:spring-boot-validation": 1650568402,
-    "org.springframework.boot:spring-boot-validation:jar:sources": -434338936,
-    "org.springframework.boot:spring-boot-web-server": -536053243,
-    "org.springframework.boot:spring-boot-web-server:jar:sources": 1338921549,
-    "org.springframework.boot:spring-boot-webclient": -1088155541,
-    "org.springframework.boot:spring-boot-webclient:jar:sources": 1647562532,
-    "org.springframework.boot:spring-boot-webflux": 224377931,
-    "org.springframework.boot:spring-boot-webflux:jar:sources": -1650823452,
-    "org.springframework.boot:spring-boot-webmvc": 785653065,
-    "org.springframework.boot:spring-boot-webmvc-test": -1500676153,
-    "org.springframework.boot:spring-boot-webmvc-test:jar:sources": -987517501,
-    "org.springframework.boot:spring-boot-webmvc:jar:sources": -1463510541,
-    "org.springframework.boot:spring-boot:jar:sources": 1048282930,
-    "org.springframework.data:spring-data-commons": -989106464,
-    "org.springframework.data:spring-data-commons:jar:sources": -1319257970,
-    "org.springframework.data:spring-data-jdbc": -125177636,
-    "org.springframework.data:spring-data-jdbc:jar:sources": -647630686,
-    "org.springframework.data:spring-data-relational": 1681275527,
-    "org.springframework.data:spring-data-relational:jar:sources": 184548748,
-    "org.springframework.graphql:spring-graphql": 798681229,
-    "org.springframework.graphql:spring-graphql-test": -1066265643,
-    "org.springframework.graphql:spring-graphql-test:jar:sources": -402709200,
-    "org.springframework.graphql:spring-graphql:jar:sources": 861189622,
-    "org.springframework.kafka:spring-kafka": 1950504869,
-    "org.springframework.kafka:spring-kafka-test": 173783934,
-    "org.springframework.kafka:spring-kafka-test:jar:sources": -828509672,
-    "org.springframework.kafka:spring-kafka:jar:sources": -1883722522,
-    "org.springframework.security:spring-security-config": -834097665,
-    "org.springframework.security:spring-security-config:jar:sources": -239436333,
-    "org.springframework.security:spring-security-core": -61792083,
-    "org.springframework.security:spring-security-core:jar:sources": -1689116205,
-    "org.springframework.security:spring-security-crypto": 431842400,
-    "org.springframework.security:spring-security-crypto:jar:sources": 277332779,
-    "org.springframework.security:spring-security-web": -841574015,
-    "org.springframework.security:spring-security-web:jar:sources": 556098983,
-    "org.springframework:spring-aop": -305603362,
-    "org.springframework:spring-aop:jar:sources": 2130203978,
-    "org.springframework:spring-beans": 533174316,
-    "org.springframework:spring-beans:jar:sources": 1741826767,
-    "org.springframework:spring-context": 1783494081,
-    "org.springframework:spring-context-support": 349203279,
-    "org.springframework:spring-context-support:jar:sources": -1620810890,
-    "org.springframework:spring-context:jar:sources": -1087451652,
-    "org.springframework:spring-core": -1658095425,
-    "org.springframework:spring-core:jar:sources": 1747710351,
-    "org.springframework:spring-expression": 1304840909,
-    "org.springframework:spring-expression:jar:sources": 1006383690,
-    "org.springframework:spring-jdbc": 975578957,
-    "org.springframework:spring-jdbc:jar:sources": 1075226863,
-    "org.springframework:spring-messaging": 610412846,
-    "org.springframework:spring-messaging:jar:sources": 1418971355,
-    "org.springframework:spring-test": -1687530705,
-    "org.springframework:spring-test:jar:sources": 1498011759,
-    "org.springframework:spring-tx": -311719454,
-    "org.springframework:spring-tx:jar:sources": -2985905,
-    "org.springframework:spring-web": -501801522,
-    "org.springframework:spring-web:jar:sources": 722352373,
-    "org.springframework:spring-webflux": 602166498,
-    "org.springframework:spring-webflux:jar:sources": 2010001069,
-    "org.springframework:spring-webmvc": 781793239,
-    "org.springframework:spring-webmvc:jar:sources": -1653514509,
-    "org.springframework:spring-websocket": -1360917096,
-    "org.springframework:spring-websocket:jar:sources": 550906248,
-    "org.testcontainers:testcontainers": -1094676158,
-    "org.testcontainers:testcontainers-database-commons": 68173076,
+    "org.springframework.ai:mcp-spring-webmvc": -1100693215,
+    "org.springframework.ai:mcp-spring-webmvc:jar:sources": 847600756,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": 765361290,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common:jar:sources": -1722470986,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": -114868425,
+    "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc:jar:sources": -1715833605,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": -1139914420,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-client:jar:sources": -1701045228,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": 1093888902,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory:jar:sources": -2109716800,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": 617263222,
+    "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation:jar:sources": 1112505823,
+    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": -441780515,
+    "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation:jar:sources": -1497225061,
+    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": 398506415,
+    "org.springframework.ai:spring-ai-autoconfigure-model-google-genai:jar:sources": -2140943913,
+    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": -564646129,
+    "org.springframework.ai:spring-ai-autoconfigure-model-image-observation:jar:sources": -471054492,
+    "org.springframework.ai:spring-ai-autoconfigure-model-ollama": 278825315,
+    "org.springframework.ai:spring-ai-autoconfigure-model-ollama:jar:sources": 1521677367,
+    "org.springframework.ai:spring-ai-autoconfigure-model-openai": 2087281852,
+    "org.springframework.ai:spring-ai-autoconfigure-model-openai:jar:sources": 1884856442,
+    "org.springframework.ai:spring-ai-autoconfigure-model-tool": 1515984104,
+    "org.springframework.ai:spring-ai-autoconfigure-model-tool:jar:sources": 92018905,
+    "org.springframework.ai:spring-ai-autoconfigure-retry": 687537550,
+    "org.springframework.ai:spring-ai-autoconfigure-retry:jar:sources": 1963028228,
+    "org.springframework.ai:spring-ai-client-chat": 1826376916,
+    "org.springframework.ai:spring-ai-client-chat:jar:sources": 698435974,
+    "org.springframework.ai:spring-ai-commons": 1031115966,
+    "org.springframework.ai:spring-ai-commons:jar:sources": -448674207,
+    "org.springframework.ai:spring-ai-google-genai": -418732585,
+    "org.springframework.ai:spring-ai-google-genai:jar:sources": -1697273332,
+    "org.springframework.ai:spring-ai-mcp": 217942151,
+    "org.springframework.ai:spring-ai-mcp-annotations": 715923936,
+    "org.springframework.ai:spring-ai-mcp-annotations:jar:sources": 1843528841,
+    "org.springframework.ai:spring-ai-mcp:jar:sources": 683706860,
+    "org.springframework.ai:spring-ai-model": -2001834555,
+    "org.springframework.ai:spring-ai-model:jar:sources": 59072715,
+    "org.springframework.ai:spring-ai-ollama": -479457632,
+    "org.springframework.ai:spring-ai-ollama:jar:sources": 1148872969,
+    "org.springframework.ai:spring-ai-openai": -468313725,
+    "org.springframework.ai:spring-ai-openai:jar:sources": 860406190,
+    "org.springframework.ai:spring-ai-retry": 29400778,
+    "org.springframework.ai:spring-ai-retry:jar:sources": -776423673,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 886323669,
+    "org.springframework.ai:spring-ai-starter-model-google-genai": -1368369832,
+    "org.springframework.ai:spring-ai-starter-model-ollama": 297548365,
+    "org.springframework.ai:spring-ai-starter-model-openai": 1256026234,
+    "org.springframework.ai:spring-ai-template-st": -1291044588,
+    "org.springframework.ai:spring-ai-template-st:jar:sources": -531668671,
+    "org.springframework.boot:spring-boot": -2102328017,
+    "org.springframework.boot:spring-boot-actuator": 627458784,
+    "org.springframework.boot:spring-boot-actuator-autoconfigure": -869851216,
+    "org.springframework.boot:spring-boot-actuator-autoconfigure:jar:sources": 40524570,
+    "org.springframework.boot:spring-boot-actuator:jar:sources": 946174766,
+    "org.springframework.boot:spring-boot-autoconfigure": 645445427,
+    "org.springframework.boot:spring-boot-autoconfigure:jar:sources": 1265799903,
+    "org.springframework.boot:spring-boot-data-commons": 1359021170,
+    "org.springframework.boot:spring-boot-data-commons:jar:sources": -1061328568,
+    "org.springframework.boot:spring-boot-data-jdbc": 1680595043,
+    "org.springframework.boot:spring-boot-data-jdbc:jar:sources": 854284084,
+    "org.springframework.boot:spring-boot-flyway": 1450983247,
+    "org.springframework.boot:spring-boot-flyway:jar:sources": -1584354382,
+    "org.springframework.boot:spring-boot-graphql": 341575116,
+    "org.springframework.boot:spring-boot-graphql:jar:sources": 1792186235,
+    "org.springframework.boot:spring-boot-health": -117160007,
+    "org.springframework.boot:spring-boot-health:jar:sources": -1182624342,
+    "org.springframework.boot:spring-boot-http-client": -489556142,
+    "org.springframework.boot:spring-boot-http-client:jar:sources": -1809882948,
+    "org.springframework.boot:spring-boot-http-codec": 1031222114,
+    "org.springframework.boot:spring-boot-http-codec:jar:sources": 439306140,
+    "org.springframework.boot:spring-boot-http-converter": 1368054119,
+    "org.springframework.boot:spring-boot-http-converter:jar:sources": 56530696,
+    "org.springframework.boot:spring-boot-jackson": -526221512,
+    "org.springframework.boot:spring-boot-jackson:jar:sources": 701337069,
+    "org.springframework.boot:spring-boot-jdbc": -403532659,
+    "org.springframework.boot:spring-boot-jdbc:jar:sources": -635955134,
+    "org.springframework.boot:spring-boot-kafka": -39362496,
+    "org.springframework.boot:spring-boot-kafka:jar:sources": 1456483985,
+    "org.springframework.boot:spring-boot-loader": 1572336122,
+    "org.springframework.boot:spring-boot-loader:jar:sources": 92308740,
+    "org.springframework.boot:spring-boot-micrometer-metrics": 998422830,
+    "org.springframework.boot:spring-boot-micrometer-metrics:jar:sources": 1805440258,
+    "org.springframework.boot:spring-boot-micrometer-observation": -1577920372,
+    "org.springframework.boot:spring-boot-micrometer-observation:jar:sources": -683923030,
+    "org.springframework.boot:spring-boot-netty": 1365420680,
+    "org.springframework.boot:spring-boot-netty:jar:sources": -1949622066,
+    "org.springframework.boot:spring-boot-persistence": -1413300745,
+    "org.springframework.boot:spring-boot-persistence:jar:sources": 401200584,
+    "org.springframework.boot:spring-boot-reactor": 1229570327,
+    "org.springframework.boot:spring-boot-reactor-netty": 146010607,
+    "org.springframework.boot:spring-boot-reactor-netty:jar:sources": 1687036834,
+    "org.springframework.boot:spring-boot-reactor:jar:sources": -615842764,
+    "org.springframework.boot:spring-boot-restclient": 1557775805,
+    "org.springframework.boot:spring-boot-restclient:jar:sources": -1346883909,
+    "org.springframework.boot:spring-boot-security": 840730809,
+    "org.springframework.boot:spring-boot-security:jar:sources": 1295543157,
+    "org.springframework.boot:spring-boot-servlet": 1271857974,
+    "org.springframework.boot:spring-boot-servlet:jar:sources": -1667317769,
+    "org.springframework.boot:spring-boot-sql": 697442744,
+    "org.springframework.boot:spring-boot-sql:jar:sources": 1922457247,
+    "org.springframework.boot:spring-boot-starter": -1005809768,
+    "org.springframework.boot:spring-boot-starter-actuator": -839111475,
+    "org.springframework.boot:spring-boot-starter-actuator:jar:sources": -39830888,
+    "org.springframework.boot:spring-boot-starter-data-jdbc": 1664993357,
+    "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources": -565304837,
+    "org.springframework.boot:spring-boot-starter-flyway": 1906280299,
+    "org.springframework.boot:spring-boot-starter-flyway:jar:sources": 462817695,
+    "org.springframework.boot:spring-boot-starter-graphql": 11192611,
+    "org.springframework.boot:spring-boot-starter-graphql:jar:sources": 1558841455,
+    "org.springframework.boot:spring-boot-starter-jackson": 34432591,
+    "org.springframework.boot:spring-boot-starter-jackson:jar:sources": -180342166,
+    "org.springframework.boot:spring-boot-starter-jdbc": 394398694,
+    "org.springframework.boot:spring-boot-starter-jdbc:jar:sources": 1722815046,
+    "org.springframework.boot:spring-boot-starter-kafka": -1841910099,
+    "org.springframework.boot:spring-boot-starter-kafka:jar:sources": -732251960,
+    "org.springframework.boot:spring-boot-starter-logging": 118495084,
+    "org.springframework.boot:spring-boot-starter-logging:jar:sources": -1528383112,
+    "org.springframework.boot:spring-boot-starter-micrometer-metrics": 849934417,
+    "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources": 1783426680,
+    "org.springframework.boot:spring-boot-starter-reactor-netty": -1011708883,
+    "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": -1446015076,
+    "org.springframework.boot:spring-boot-starter-restclient": 456748388,
+    "org.springframework.boot:spring-boot-starter-restclient:jar:sources": 1298064137,
+    "org.springframework.boot:spring-boot-starter-security": -1165274447,
+    "org.springframework.boot:spring-boot-starter-security:jar:sources": 1287759663,
+    "org.springframework.boot:spring-boot-starter-test": -1082388949,
+    "org.springframework.boot:spring-boot-starter-test:jar:sources": 492287751,
+    "org.springframework.boot:spring-boot-starter-tomcat": -1251627478,
+    "org.springframework.boot:spring-boot-starter-tomcat-runtime": -1518025192,
+    "org.springframework.boot:spring-boot-starter-tomcat-runtime:jar:sources": -1594378474,
+    "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": 1710800577,
+    "org.springframework.boot:spring-boot-starter-validation": 1797935210,
+    "org.springframework.boot:spring-boot-starter-validation:jar:sources": -98233243,
+    "org.springframework.boot:spring-boot-starter-web": 1798735086,
+    "org.springframework.boot:spring-boot-starter-web:jar:sources": -50443338,
+    "org.springframework.boot:spring-boot-starter-webclient": 385175757,
+    "org.springframework.boot:spring-boot-starter-webclient:jar:sources": -1148035857,
+    "org.springframework.boot:spring-boot-starter-webflux": 575814563,
+    "org.springframework.boot:spring-boot-starter-webflux:jar:sources": -263288397,
+    "org.springframework.boot:spring-boot-starter:jar:sources": 1753498836,
+    "org.springframework.boot:spring-boot-test": 1463015190,
+    "org.springframework.boot:spring-boot-test-autoconfigure": -234747939,
+    "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources": 938613417,
+    "org.springframework.boot:spring-boot-test:jar:sources": 1818591638,
+    "org.springframework.boot:spring-boot-tomcat": -1620019240,
+    "org.springframework.boot:spring-boot-tomcat:jar:sources": -579287638,
+    "org.springframework.boot:spring-boot-transaction": 1521084822,
+    "org.springframework.boot:spring-boot-transaction:jar:sources": 194387993,
+    "org.springframework.boot:spring-boot-validation": -1504664541,
+    "org.springframework.boot:spring-boot-validation:jar:sources": 464745436,
+    "org.springframework.boot:spring-boot-web-server": 2130825281,
+    "org.springframework.boot:spring-boot-web-server:jar:sources": 1594014198,
+    "org.springframework.boot:spring-boot-webclient": -520574902,
+    "org.springframework.boot:spring-boot-webclient:jar:sources": 161532859,
+    "org.springframework.boot:spring-boot-webflux": 389380396,
+    "org.springframework.boot:spring-boot-webflux:jar:sources": 700752933,
+    "org.springframework.boot:spring-boot-webmvc": -1081250228,
+    "org.springframework.boot:spring-boot-webmvc-test": -555536972,
+    "org.springframework.boot:spring-boot-webmvc-test:jar:sources": 2018201245,
+    "org.springframework.boot:spring-boot-webmvc:jar:sources": 1837977874,
+    "org.springframework.boot:spring-boot:jar:sources": -1053373483,
+    "org.springframework.data:spring-data-commons": -1803521701,
+    "org.springframework.data:spring-data-commons:jar:sources": 273168986,
+    "org.springframework.data:spring-data-jdbc": 2101451245,
+    "org.springframework.data:spring-data-jdbc:jar:sources": -2069474841,
+    "org.springframework.data:spring-data-relational": 1689397707,
+    "org.springframework.data:spring-data-relational:jar:sources": -1122501439,
+    "org.springframework.graphql:spring-graphql": 1264056794,
+    "org.springframework.graphql:spring-graphql-test": 878187574,
+    "org.springframework.graphql:spring-graphql-test:jar:sources": 298131636,
+    "org.springframework.graphql:spring-graphql:jar:sources": -1515300034,
+    "org.springframework.kafka:spring-kafka": -149046336,
+    "org.springframework.kafka:spring-kafka-test": -200470341,
+    "org.springframework.kafka:spring-kafka-test:jar:sources": 542373146,
+    "org.springframework.kafka:spring-kafka:jar:sources": 683737951,
+    "org.springframework.security:spring-security-config": 8606473,
+    "org.springframework.security:spring-security-config:jar:sources": -2058695571,
+    "org.springframework.security:spring-security-core": 669988484,
+    "org.springframework.security:spring-security-core:jar:sources": -1780444038,
+    "org.springframework.security:spring-security-crypto": 724977293,
+    "org.springframework.security:spring-security-crypto:jar:sources": -1304547187,
+    "org.springframework.security:spring-security-web": -617979270,
+    "org.springframework.security:spring-security-web:jar:sources": 1090060652,
+    "org.springframework:spring-aop": 1095469135,
+    "org.springframework:spring-aop:jar:sources": -1310503601,
+    "org.springframework:spring-beans": 221469784,
+    "org.springframework:spring-beans:jar:sources": -883717113,
+    "org.springframework:spring-context": 274068034,
+    "org.springframework:spring-context-support": 543115285,
+    "org.springframework:spring-context-support:jar:sources": 1971560567,
+    "org.springframework:spring-context:jar:sources": 1821170241,
+    "org.springframework:spring-core": -1132697119,
+    "org.springframework:spring-core:jar:sources": 333163033,
+    "org.springframework:spring-expression": -815588614,
+    "org.springframework:spring-expression:jar:sources": 735232192,
+    "org.springframework:spring-jdbc": -535375281,
+    "org.springframework:spring-jdbc:jar:sources": 372631024,
+    "org.springframework:spring-messaging": -1025395810,
+    "org.springframework:spring-messaging:jar:sources": 1084900329,
+    "org.springframework:spring-test": 1580718139,
+    "org.springframework:spring-test:jar:sources": 1652798181,
+    "org.springframework:spring-tx": -967641142,
+    "org.springframework:spring-tx:jar:sources": 1657223841,
+    "org.springframework:spring-web": -231064366,
+    "org.springframework:spring-web:jar:sources": -168743571,
+    "org.springframework:spring-webflux": -195081235,
+    "org.springframework:spring-webflux:jar:sources": -1349638957,
+    "org.springframework:spring-webmvc": 837373761,
+    "org.springframework:spring-webmvc:jar:sources": 402125698,
+    "org.springframework:spring-websocket": -886790365,
+    "org.springframework:spring-websocket:jar:sources": 1117752498,
+    "org.testcontainers:testcontainers": -1023726741,
+    "org.testcontainers:testcontainers-database-commons": 562018612,
     "org.testcontainers:testcontainers-database-commons:jar:sources": 255562709,
-    "org.testcontainers:testcontainers-jdbc": -575875861,
+    "org.testcontainers:testcontainers-jdbc": -1151647638,
     "org.testcontainers:testcontainers-jdbc:jar:sources": 625832805,
-    "org.testcontainers:testcontainers-junit-jupiter": -1946774862,
+    "org.testcontainers:testcontainers-junit-jupiter": -1452929326,
     "org.testcontainers:testcontainers-junit-jupiter:jar:sources": 322843120,
-    "org.testcontainers:testcontainers-kafka": -804570005,
+    "org.testcontainers:testcontainers-kafka": -310724469,
     "org.testcontainers:testcontainers-kafka:jar:sources": 1379781,
-    "org.testcontainers:testcontainers-postgresql": -132055982,
+    "org.testcontainers:testcontainers-postgresql": -1014995876,
     "org.testcontainers:testcontainers-postgresql:jar:sources": 564962717,
     "org.testcontainers:testcontainers:jar:sources": 375219890,
     "org.xerial.snappy:snappy-java": -694621450,
     "org.xerial.snappy:snappy-java:jar:sources": 1189859762,
-    "org.xmlunit:xmlunit-core": 1176054831,
-    "org.xmlunit:xmlunit-core:jar:sources": -1509036605,
-    "org.yaml:snakeyaml": 1308413731,
-    "org.yaml:snakeyaml:jar:sources": -140059451,
-    "redis.clients.authentication:redis-authx-core": 442288662,
+    "org.xmlunit:xmlunit-core": -1543079851,
+    "org.xmlunit:xmlunit-core:jar:sources": -511080803,
+    "org.yaml:snakeyaml": 1068613154,
+    "org.yaml:snakeyaml:jar:sources": -665563845,
+    "redis.clients.authentication:redis-authx-core": 1112364113,
     "redis.clients.authentication:redis-authx-core:jar:sources": -376828222,
-    "redis.clients:jedis": -599240734,
-    "redis.clients:jedis:jar:sources": -1619104934,
-    "tools.jackson.core:jackson-core": -614132327,
-    "tools.jackson.core:jackson-core:jar:sources": -761174922,
-    "tools.jackson.core:jackson-databind": 1440695172,
-    "tools.jackson.core:jackson-databind:jar:sources": 249661957,
-    "tools.jackson.dataformat:jackson-dataformat-yaml": -841443928,
-    "tools.jackson.dataformat:jackson-dataformat-yaml:jar:sources": -2085924824,
-    "tools.jackson.module:jackson-module-kotlin": -1222954577,
-    "tools.jackson.module:jackson-module-kotlin:jar:sources": 538565488
+    "redis.clients:jedis": -305509419,
+    "redis.clients:jedis:jar:sources": -1214964921,
+    "tools.jackson.core:jackson-core": 704806230,
+    "tools.jackson.core:jackson-core:jar:sources": -611060232,
+    "tools.jackson.core:jackson-databind": -1784115690,
+    "tools.jackson.core:jackson-databind:jar:sources": 1368198688,
+    "tools.jackson.dataformat:jackson-dataformat-yaml": 761694829,
+    "tools.jackson.dataformat:jackson-dataformat-yaml:jar:sources": -507182757,
+    "tools.jackson.module:jackson-module-kotlin": 953007132,
+    "tools.jackson.module:jackson-module-kotlin:jar:sources": -1590071703
   },
   "conflict_resolution": {
-    "com.fasterxml.jackson.module:jackson-module-parameter-names": "com.fasterxml.jackson.module:jackson-module-parameter-names:2.21.2",
+    "com.fasterxml.jackson.module:jackson-module-parameter-names": "com.fasterxml.jackson.module:jackson-module-parameter-names:2.21.4",
     "com.google.code.gson:gson:2.8.9": "com.google.code.gson:gson:2.13.2",
     "com.google.errorprone:error_prone_annotations:2.5.1": "com.google.errorprone:error_prone_annotations:2.41.0",
     "com.google.guava:guava:32.0.1-jre": "com.google.guava:guava:33.4.0-jre",
@@ -816,40 +816,40 @@
     "com.netflix.graphql.dgs:dgs-starter-test": "com.netflix.graphql.dgs:dgs-starter-test:12.0.1",
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": "com.netflix.graphql.dgs:graphql-dgs-extended-scalars:12.0.1",
     "jakarta.servlet:jakarta.servlet-api": "jakarta.servlet:jakarta.servlet-api:6.1.0",
-    "org.apache.commons:commons-lang3": "org.apache.commons:commons-lang3:3.19.0",
-    "org.apache.kafka:kafka-clients": "org.apache.kafka:kafka-clients:4.1.2",
-    "org.apache.kafka:kafka-metadata": "org.apache.kafka:kafka-metadata:4.1.2",
-    "org.apache.kafka:kafka-raft": "org.apache.kafka:kafka-raft:4.1.2",
-    "org.apache.kafka:kafka-server-common": "org.apache.kafka:kafka-server-common:4.1.2",
-    "org.apache.kafka:kafka-storage": "org.apache.kafka:kafka-storage:4.1.2",
-    "org.apache.kafka:kafka-storage-api": "org.apache.kafka:kafka-storage-api:4.1.2",
-    "org.apache.kafka:kafka-streams": "org.apache.kafka:kafka-streams:4.1.2",
-    "org.apache.kafka:kafka-streams-test-utils": "org.apache.kafka:kafka-streams-test-utils:4.1.2",
-    "org.apache.kafka:kafka_2.13": "org.apache.kafka:kafka_2.13:4.1.2",
-    "org.eclipse.jetty:jetty-reactive-httpclient": "org.eclipse.jetty:jetty-reactive-httpclient:4.1.4",
+    "org.apache.commons:commons-lang3": "org.apache.commons:commons-lang3:3.20.0",
+    "org.apache.kafka:kafka-clients": "org.apache.kafka:kafka-clients:4.2.1",
+    "org.apache.kafka:kafka-metadata": "org.apache.kafka:kafka-metadata:4.2.1",
+    "org.apache.kafka:kafka-raft": "org.apache.kafka:kafka-raft:4.2.1",
+    "org.apache.kafka:kafka-server-common": "org.apache.kafka:kafka-server-common:4.2.1",
+    "org.apache.kafka:kafka-storage": "org.apache.kafka:kafka-storage:4.2.1",
+    "org.apache.kafka:kafka-storage-api": "org.apache.kafka:kafka-storage-api:4.2.1",
+    "org.apache.kafka:kafka-streams": "org.apache.kafka:kafka-streams:4.2.1",
+    "org.apache.kafka:kafka-streams-test-utils": "org.apache.kafka:kafka-streams-test-utils:4.2.1",
+    "org.apache.kafka:kafka_2.13": "org.apache.kafka:kafka_2.13:4.2.1",
+    "org.eclipse.jetty:jetty-reactive-httpclient": "org.eclipse.jetty:jetty-reactive-httpclient:4.1.5",
     "org.junit.platform:junit-platform-launcher": "org.junit.platform:junit-platform-launcher:6.0.3",
     "org.junit.platform:junit-platform-reporting": "org.junit.platform:junit-platform-reporting:6.0.3",
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": "org.springframework.ai:spring-ai-starter-mcp-server-webmvc:2.0.0-RC1",
-    "org.springframework.ai:spring-ai-starter-model-google-genai": "org.springframework.ai:spring-ai-starter-model-google-genai:2.0.0-RC1",
-    "org.springframework.ai:spring-ai-starter-model-ollama": "org.springframework.ai:spring-ai-starter-model-ollama:2.0.0-RC1",
-    "org.springframework.ai:spring-ai-starter-model-openai": "org.springframework.ai:spring-ai-starter-model-openai:2.0.0-RC1",
-    "org.springframework.boot:spring-boot-loader": "org.springframework.boot:spring-boot-loader:4.0.6",
-    "org.springframework.boot:spring-boot-starter-actuator": "org.springframework.boot:spring-boot-starter-actuator:4.0.6",
-    "org.springframework.boot:spring-boot-starter-data-jdbc": "org.springframework.boot:spring-boot-starter-data-jdbc:4.0.6",
-    "org.springframework.boot:spring-boot-starter-flyway": "org.springframework.boot:spring-boot-starter-flyway:4.0.6",
-    "org.springframework.boot:spring-boot-starter-kafka": "org.springframework.boot:spring-boot-starter-kafka:4.0.6",
-    "org.springframework.boot:spring-boot-starter-security": "org.springframework.boot:spring-boot-starter-security:4.0.6",
-    "org.springframework.boot:spring-boot-starter-test": "org.springframework.boot:spring-boot-starter-test:4.0.6",
-    "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.0.6",
-    "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.0.6",
-    "org.springframework.boot:spring-boot-starter-webflux": "org.springframework.boot:spring-boot-starter-webflux:4.0.6",
-    "org.springframework.kafka:spring-kafka-test": "org.springframework.kafka:spring-kafka-test:4.0.5",
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": "org.springframework.ai:spring-ai-starter-mcp-server-webmvc:2.0.0",
+    "org.springframework.ai:spring-ai-starter-model-google-genai": "org.springframework.ai:spring-ai-starter-model-google-genai:2.0.0",
+    "org.springframework.ai:spring-ai-starter-model-ollama": "org.springframework.ai:spring-ai-starter-model-ollama:2.0.0",
+    "org.springframework.ai:spring-ai-starter-model-openai": "org.springframework.ai:spring-ai-starter-model-openai:2.0.0",
+    "org.springframework.boot:spring-boot-loader": "org.springframework.boot:spring-boot-loader:4.1.0",
+    "org.springframework.boot:spring-boot-starter-actuator": "org.springframework.boot:spring-boot-starter-actuator:4.1.0",
+    "org.springframework.boot:spring-boot-starter-data-jdbc": "org.springframework.boot:spring-boot-starter-data-jdbc:4.1.0",
+    "org.springframework.boot:spring-boot-starter-flyway": "org.springframework.boot:spring-boot-starter-flyway:4.1.0",
+    "org.springframework.boot:spring-boot-starter-kafka": "org.springframework.boot:spring-boot-starter-kafka:4.1.0",
+    "org.springframework.boot:spring-boot-starter-security": "org.springframework.boot:spring-boot-starter-security:4.1.0",
+    "org.springframework.boot:spring-boot-starter-test": "org.springframework.boot:spring-boot-starter-test:4.1.0",
+    "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.1.0",
+    "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.1.0",
+    "org.springframework.boot:spring-boot-starter-webflux": "org.springframework.boot:spring-boot-starter-webflux:4.1.0",
+    "org.springframework.kafka:spring-kafka-test": "org.springframework.kafka:spring-kafka-test:4.1.0",
     "org.testcontainers:testcontainers": "org.testcontainers:testcontainers:2.0.5",
     "org.testcontainers:testcontainers-jdbc": "org.testcontainers:testcontainers-jdbc:2.0.5",
     "org.testcontainers:testcontainers-junit-jupiter": "org.testcontainers:testcontainers-junit-jupiter:2.0.5",
     "org.testcontainers:testcontainers-kafka": "org.testcontainers:testcontainers-kafka:2.0.5",
     "org.testcontainers:testcontainers-postgresql": "org.testcontainers:testcontainers-postgresql:2.0.5",
-    "redis.clients:jedis": "redis.clients:jedis:7.0.0"
+    "redis.clients:jedis": "redis.clients:jedis:7.4.1"
   },
   "artifacts": {
     "at.yawk.lz4:lz4-java": {
@@ -861,17 +861,17 @@
     },
     "ch.qos.logback:logback-classic": {
       "shasums": {
-        "jar": "2d4cf592db78be2de4d6140434c2fec170dcb16a09e8c8b7b207dbf5e31b848a",
-        "sources": "be553204e18ce1f628c535bb063a1e611182854d15154382b00afd4968ce591f"
+        "jar": "b65e05076a5c1aadb659b4fe4bc5fee31cb26cd70390292eb03e4a7a24cff10f",
+        "sources": "c2e39cb4d6d9b8c2343c6da2469e21e1d6aef2dde16c2227762c084d549ad0a0"
       },
-      "version": "1.5.32"
+      "version": "1.5.34"
     },
     "ch.qos.logback:logback-core": {
       "shasums": {
-        "jar": "6a904d5778d0e361a9692f9cbe68b1b0620ae0f3eda2ec2ed09102755bf036c4",
-        "sources": "a73a40370a2a086a36b626b71f16c529e54e2a75845faf08134b689c607508e1"
+        "jar": "42eda264c0c650c2bec59e66151a88b708a8663dc1b49d788202d53e78b8caae",
+        "sources": "6a9f217ef206caf2880810c505e057fd2bb90a6024013906815e9513c6e488c5"
       },
-      "version": "1.5.32"
+      "version": "1.5.34"
     },
     "com.apollographql.federation:federation-graphql-java-support": {
       "shasums": {
@@ -903,59 +903,59 @@
     },
     "com.fasterxml.jackson.core:jackson-core": {
       "shasums": {
-        "jar": "12e8655b100267b44d0f14d01b1f5082a5105e616174dc4307be1a761e92407b",
-        "sources": "f756a72f5a8a0b53c7c80ee7425de4d29f46d03c6f9350549b28d182a6ee7ca9"
+        "jar": "4b40a06396f239f8de2da57419adde6e94e5edc18a2171d471ea05eeed4e5c2d",
+        "sources": "90ccada55626ce4f00a81bde235af0a942ec2bc4c701fcc86a93af1be9b3e08d"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.core:jackson-databind": {
       "shasums": {
-        "jar": "8c982f01f148d805f0aaac2339011244757e0df7c6ff8951f2fa3f433b8ed849",
-        "sources": "f2804ae5ec27efe04f3648f5d7fd6856d8b5b562f7a43c532e4c9ef4242a4d94"
+        "jar": "3888e9e69ab66fbacaacc9aea0e9ffbf15368288e4aca468b024dba11c09fbf9",
+        "sources": "23188e78e912c9866367bf038fb7f729e79f1c2724174ca66e0a00915de70e61"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.dataformat:jackson-dataformat-csv": {
       "shasums": {
-        "jar": "682f8c7977e02a42748426bf54946e32e52e2f80b84b6642801ab12bd541368a",
-        "sources": "48a675f0ea340ba294c135a44cdf2c29a193c5c668516969392b11cee95f3123"
+        "jar": "40f3fc22e9b1575838cc256013bc17db5b824c79fe0b5a32ae1662201e99dcca",
+        "sources": "0d3315661a4569b7913a521b12290c0286b056f190af7f380817f7e21189d6e2"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml": {
       "shasums": {
-        "jar": "d25551812fa0c14f37cabaa9401e63eadcea42ce36311183af5622d5bc8a1bc7",
-        "sources": "af4ce80d704aec3d134d86fd07934b7cedf842e8f78671887cdd1216a48a1351"
+        "jar": "055eb4c008ab12f0cb63e93a6454463d032fde0fca85943d69f8dc7469489e4b",
+        "sources": "164cef68956eb2797e421dd6cf74bfd648581965a8df2389c260bb363d1f3baa"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.datatype:jackson-datatype-jdk8": {
       "shasums": {
-        "jar": "e581bbf3fc5622d16b57366dd41e10fc56921fb202879de2ef487f87dd9b30e7",
-        "sources": "124d73595487448ef1ba2a570c91c650b979e99b2111c4c7a266ce84dff3c7e8"
+        "jar": "2dde4a8f1aad3306c040f56ff40da81c6d58dcef3434c00849c9bce09f56a074",
+        "sources": "9bf668a180d7b749e3d6f8b03357c390b116716f7051e26a986a08d8ee526b15"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.datatype:jackson-datatype-jsr310": {
       "shasums": {
-        "jar": "a083d57cd1c4a28fefcc6bd071740779eb7fc1c22a3c1b40451b5477c443f02f",
-        "sources": "7fe29fb9c5915e062f32c1f04d08269ee2e6c09990c8c60d524313093bc6f694"
+        "jar": "d1ac4b98b70304e56448423589fde5e775b100889643ad1ead62cc7811633684",
+        "sources": "884a8812af289bb56f38f09a4b3b7b73b4a16dbc184ae735fbe6c4aa1089161f"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.module:jackson-module-kotlin": {
       "shasums": {
-        "jar": "9194d794a2879106be90e36becae6e16ee8716f14224144970c82717be0004ce",
-        "sources": "139ad7f940d50702f1529fb6cbc75479279201841c4ee819bfe45fbaaab476d7"
+        "jar": "f9fe2ad3927dbff6c604b122977302fd83f9c3d52d48381db0f40560dec516ca",
+        "sources": "47ace368d3d80ddca9bea7d474e65d28252c84e2538d8818eacaf4e0fbb19125"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml.jackson.module:jackson-module-parameter-names": {
       "shasums": {
-        "jar": "1f1c4449bde17778e9e8571667363923427b108622622a7d23206a465586864e",
-        "sources": "605b960c785c296b5f86327c5b0aeacbd63a18ac4d47495119e7b0d1340ba624"
+        "jar": "9510f91a4be2c700753ad244596b67424cb32c23659db1dc534219226e5df3a3",
+        "sources": "e4dd3ca21b04c3e7abe0732a1ed159703a404f1308a65f9ba8fe3b9394857d34"
       },
-      "version": "2.21.2"
+      "version": "2.21.4"
     },
     "com.fasterxml:classmate": {
       "shasums": {
@@ -1008,10 +1008,10 @@
     },
     "com.github.ben-manes.caffeine:caffeine": {
       "shasums": {
-        "jar": "ca70c90a5d1ce1511880ce9c93d4ad22108f61111d3daf91eb52762b571bd179",
-        "sources": "60434a548af57d0dbe13b1aa4aaf08816e5bf1d3442264c669246f8929f4b757"
+        "jar": "9d9d2cfd681fd9272ded3d27c9930db12f89f732345975aa113ebc223bbf1224",
+        "sources": "5079e1b327d79e2fc8ae3f5927587e59c968603e63785fb33479acd8b732211d"
       },
-      "version": "3.2.3"
+      "version": "3.2.4"
     },
     "com.github.docker-java:docker-java-api": {
       "shasums": {
@@ -1041,6 +1041,13 @@
       },
       "version": "1.5.6-10"
     },
+    "com.github.spotbugs:spotbugs-annotations": {
+      "shasums": {
+        "jar": "6f69d6fe9c55a54dcb30e87d8fa2d5f52246af50d7a3445246d9539ef221be1c",
+        "sources": "075b2eed660c2fe2fb1ad1de028f8fdff5f358e25c1318706b95ab17bb28be44"
+      },
+      "version": "4.9.8"
+    },
     "com.github.victools:jsonschema-generator": {
       "shasums": {
         "jar": "dc17156260641870fd0f2dcbda5866f7d2fdffc668a41928487b1008ae3335c0",
@@ -1064,10 +1071,10 @@
     },
     "com.google.api.grpc:proto-google-common-protos": {
       "shasums": {
-        "jar": "61ac7fbd31a9f604890d22330a6f94b3f410ea2d7247e0f5f11a87ae34087385",
-        "sources": "736c912f7477663288f22e85fabe4c3c5fc05e9d4d0fd8362b94f62d59f9a377"
+        "jar": "c748efe7fadb1ca3158a0bc2ad91ac41b2d9f758146fc8de86464a220ec506c1",
+        "sources": "35adb9768fdb0772fc0a0e86f39557532cb922a7521419b9ca4e0af60176848f"
       },
-      "version": "2.53.0"
+      "version": "2.70.0"
     },
     "com.google.api:api-common": {
       "shasums": {
@@ -1120,10 +1127,10 @@
     },
     "com.google.genai:google-genai": {
       "shasums": {
-        "jar": "73de37062a93c81cbc38336b69d25f9714adcbdc60938a34192be8f29cfc9754",
-        "sources": "5f3853a5b0de55f2a6ce428ebdca397e17a2e8aa619b6c26b37183b3b2683ebb"
+        "jar": "e9c17f77c17ac74e8aa4d5862c53f9f4fc8161b3a3a54b22f0da340072960152",
+        "sources": "5ee3dd09168e11918a15b3d75bdcc566f943fc4fc1a15b86b745df4273c38cd2"
       },
-      "version": "1.54.0"
+      "version": "1.58.0"
     },
     "com.google.guava:failureaccess": {
       "shasums": {
@@ -1336,10 +1343,10 @@
     },
     "com.openai:openai-java-core": {
       "shasums": {
-        "jar": "73cf8ff7194f7e876ddd51be137f187da9dc3c64042dfe832f5155f212020736",
-        "sources": "0c6202b8f261eb3ca9ca7a4d829cc90d4afc4cdebf87cf67bb2a3a4ce9b546f3"
+        "jar": "4983b430650e52b94fc45177c3fe85b6340eb70d3e1858801f62cc065b7b89d6",
+        "sources": "b2d8476d71595d9a5480994086e400fd59e1c37e6f813cd7d72f6dc998e295cd"
       },
-      "version": "4.38.0"
+      "version": "4.39.1"
     },
     "com.palantir.javapoet:javapoet": {
       "shasums": {
@@ -1357,10 +1364,10 @@
     },
     "com.squareup.okhttp3:okhttp-jvm": {
       "shasums": {
-        "jar": "c771f48075b763f6c322055e21129a94b7de4c1faf3f8f58ace320b0c9517a30",
-        "sources": "c44c549707d30d56084d0bc1bc00f36c7c326e30664b40c20c1ff8ab657afa5b"
+        "jar": "b15e605ca0a4b12c62ea7f657dad413c236c947e875854767349cdbe20df473c",
+        "sources": "52d1992759a1d0da8135b3a6819b881f44d949d2e07cfd3fb3007f804cf1909a"
       },
-      "version": "5.3.2"
+      "version": "5.4.0"
     },
     "com.squareup.okio:okio": {
       "shasums": {
@@ -1371,10 +1378,10 @@
     },
     "com.squareup.okio:okio-jvm": {
       "shasums": {
-        "jar": "2196b993cd34dbbd919e7e01f57a4781b58bee80f86106163e287c20343a96a7",
-        "sources": "834d0ba65168b5314f447bd2403d134423c42ad1927fdcd24473b20c4fd5a7d8"
+        "jar": "3b13dcc3e1573047c2d507fc4f7fcb0bb0cbcd9d395da21d20e09406e2cd6a73",
+        "sources": "5603dfecfe4c71b36d6a591616be345fdd9d41a0a63553a3bd883d5ab6ee09a6"
       },
-      "version": "3.16.4"
+      "version": "3.17.0"
     },
     "com.squareup.wire:wire-runtime-jvm": {
       "shasums": {
@@ -1406,10 +1413,10 @@
     },
     "com.typesafe.scala-logging:scala-logging_2.13": {
       "shasums": {
-        "jar": "87a3017d3f43e6ace7566fe4c3d615134c6914ff871c8d64bb32ca1d996d0545",
-        "sources": "db07c47dd691dc4208338364f395fb39448f2d5d29a8b68d099488e9adb1af05"
+        "jar": "0ad0c3f4d89d538b3b6c300158555e266aa69cf1b5f6522aba8b5bad238eb994",
+        "sources": "2a7f0487e3b6ec5e38eb82e4f7fcbf4f648b4d653368dbd39bf52dd7e4b39689"
       },
-      "version": "3.9.5"
+      "version": "3.9.6"
     },
     "com.vaadin.external.google:android-json": {
       "shasums": {
@@ -1441,10 +1448,10 @@
     },
     "commons-codec:commons-codec": {
       "shasums": {
-        "jar": "5c3881e4f556855e9c532927ee0c9dfde94cc66760d5805c031a59887070af5f",
-        "sources": "b0462142585d45fc15bc8091b7b02f1e3a85c83595068659548c82cac9cdc7a2"
+        "jar": "4da851cb6abfb98bfe9eb77c5e5fc47f5414fa28b94e21b7fd9a646705dc167f",
+        "sources": "4b4558c13a54afb6461ab795a95b6c349b1fada9cd785defe1f47531853247ec"
       },
-      "version": "1.19.0"
+      "version": "1.21.0"
     },
     "commons-collections:commons-collections": {
       "shasums": {
@@ -1525,17 +1532,17 @@
     },
     "io.grpc:grpc-api": {
       "shasums": {
-        "jar": "45faf2ac1bf2791e8fdabce53684a86b62c99b84cba26fb13a5ba3f4abf80d6c",
-        "sources": "4797fb5b5fb495df9da6995792167862cef60ed2e392776c434d5df4098f1168"
+        "jar": "3af18798cf5d705fb40187d47548345d017df9a22791b9c028d9643441be9759",
+        "sources": "ea270f1c8476289cc7cb9eb0f9e8a09746004a33727fe99266a4eea1de1b151d"
       },
-      "version": "1.70.0"
+      "version": "1.80.0"
     },
     "io.grpc:grpc-context": {
       "shasums": {
-        "jar": "eb2824831c0ac03e741efda86b141aa863a481ebc4aaf5a5c1f13a481dbb40ff",
-        "sources": "419603fecc423fb2704c67dd7ad91fdf51637f004fc114dfb9f42d225e8ce40b"
+        "jar": "74a6fc8e6c9fc873c3683db41bc0ab5869bfd55b733cc62ac63eb276f37b0b0a",
+        "sources": "9f86ea8238acecb77905a6b4d54990c424528d21fdcc8a779440b15b4a5d03d9"
       },
-      "version": "1.70.0"
+      "version": "1.80.0"
     },
     "io.micrometer:context-propagation": {
       "shasums": {
@@ -1546,51 +1553,51 @@
     },
     "io.micrometer:micrometer-commons": {
       "shasums": {
-        "jar": "b0cc8c620453ef71e22d6c4ec5c496cc112f964b4e826b9f87182fc97512c8f9",
-        "sources": "59afa907dd686b3859b34ebd14f3749f4e20c07a5016d06ff6d60eeaa6798f1c"
+        "jar": "03919dc71e2417ec4b5c254c4ba924963c972e124190f73cdcb68ed51c6eede6",
+        "sources": "5000b8b053549e337612d451838c6c453d0bb57947f77d67e2a4ee77d3e857cb"
       },
-      "version": "1.16.5"
+      "version": "1.17.0"
     },
     "io.micrometer:micrometer-core": {
       "shasums": {
-        "jar": "2908222d2eed9411d0d2a7a3725026cd6d8a8f7a3feab7009746009810248164",
-        "sources": "85e39b71bbffa34065a49be293ad72ff6f8fcaa8130fd895be9fc0dc4fa91152"
+        "jar": "73503e701a377fafeaf33b71b9b8910a8d7884cbba88ab27971b33b3753b65aa",
+        "sources": "652220ec088ebbcb271e5ca92775f8bee01440083dc199dc30a8c4ce698c9bf6"
       },
-      "version": "1.16.5"
+      "version": "1.17.0"
     },
     "io.micrometer:micrometer-jakarta9": {
       "shasums": {
-        "jar": "f40e07dea10f4905cf321bd9e719a87b288493cbb10c0c0a1bae7194b5996ad4",
-        "sources": "78e89a50c84aec7e14aa9e949d4952c65a04da4977ad68c1b8933ddc9eb6d196"
+        "jar": "4ae9dbc9072fea8c36684a745e0e944b9540fd15027dfe7af0a186f8df43272c",
+        "sources": "f5f6f13ce3e3ea847304242a17747b4bcffde40ca799f6d4cdebd319f94effc3"
       },
-      "version": "1.16.5"
+      "version": "1.17.0"
     },
     "io.micrometer:micrometer-observation": {
       "shasums": {
-        "jar": "4406f33535185ff896375e9a81a4b8694e28bf20c1089b24de0325d87f63dfe7",
-        "sources": "5dc187df87594bc3bbc057d11d38beaa2f2eaea215ad616f2240b514934c1320"
+        "jar": "2fc95a327578d3b2a81c3ff40e646a4a21e46b0153ccbbf91690142bf80d9661",
+        "sources": "bbaa8e7a257c2be17cadcc3b4d6d14988dbf189fa673e1bed43e3362e1fb56aa"
       },
-      "version": "1.16.5"
+      "version": "1.17.0"
     },
     "io.modelcontextprotocol.sdk:mcp": {
       "shasums": {
-        "jar": "0f48fb38da7bbb9daf51783a634015409dc183848c993cec5315ed1790d87600"
+        "jar": "765d688a4466b35d789ddd58d76d7a600c6d68987669881eb060e3d1afd8d92c"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "io.modelcontextprotocol.sdk:mcp-core": {
       "shasums": {
-        "jar": "bc9562a992f6353ad45aff1d9043044f3216a6e7de720a5456eba9fa9c5d8cf0",
-        "sources": "92ff75e7a2d61d1c7654ebc79c021d078809069314fd803d52a796ae0fe7e756"
+        "jar": "56c1f99cc5e9932fcebb57d4d82f89d0b641f90275fc19d0b132f6ce7d1eab2c",
+        "sources": "cf8da73725745d772309a81e0d4999df2e0ddf574e0373e3ade0c2553a87d421"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "io.modelcontextprotocol.sdk:mcp-json-jackson3": {
       "shasums": {
-        "jar": "26f0ff870d8f53a32ad5b773ed6c7f441ad8cd83ade6027a6548867a58bb6c25",
-        "sources": "0b91d1bdc976ae592e8d8b8e845434c84249cdebc05c81e4e8e0297cc55cd9be"
+        "jar": "35544916b481699764bf0f5d2bb78cb2b989385c7d246263fd68e8cb8296513b",
+        "sources": "bd845eae01fd821edb6974753ff675fed73a53f931f7f8b5dc43607bef0e1ec7"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "io.netty:netty-buffer": {
       "shasums": {
@@ -1759,31 +1766,31 @@
     },
     "io.projectreactor.kotlin:reactor-kotlin-extensions": {
       "shasums": {
-        "jar": "1b0693c75f7787e0569d8baa5699528a39ba2fd215d5684a6f25b662e7fe6c4c",
-        "sources": "25676cf938d1c7de286f53950ecdb560760545d29a6f2c111a6fc8c1b3f96bec"
+        "jar": "5184dab37c64037d65b2bf830a2821eae2664bf278a192cb721a31a6e18bbd3e",
+        "sources": "42501f37a0f274e6a48a38009017d8949fcaa34776f136b01437e5c86cbec8c1"
       },
-      "version": "1.3.0"
+      "version": "1.3.1"
     },
     "io.projectreactor.netty:reactor-netty-core": {
       "shasums": {
-        "jar": "9776858b41a8b6426e40a9081d14525a0b39fda710321571fc6b3e4a5da8468a",
-        "sources": "09627afad555c879543481df391b4a4f6cc65d887a4a7747b5a1508615433e2c"
+        "jar": "b8aaddd6025af42c2d810a76dc5b9a7717f0fde84beb93d6d4a778dac25fc287",
+        "sources": "061136ccc1bc3bed6938cea77a7343dc47de275aad4851b3407fb7ac15854121"
       },
-      "version": "1.3.5"
+      "version": "1.3.6"
     },
     "io.projectreactor.netty:reactor-netty-http": {
       "shasums": {
-        "jar": "9748b03ec7d7bb9d7cc58d904dbab06df5ebc66b9bf03d893089966bd636c50c",
-        "sources": "701064c79d5e7dd5e4ee3d292b53b5fd4296ccf27a03683d1aaf944cd9ca7040"
+        "jar": "0ffdcaafe718327ca4687dd41c21318a267e93cea7b43f42db6f3fb3175256a5",
+        "sources": "712c12723e57d68e909ce9221cb12e04be105435ca518d13f63075af81cbaa44"
       },
-      "version": "1.3.5"
+      "version": "1.3.6"
     },
     "io.projectreactor:reactor-core": {
       "shasums": {
-        "jar": "c4a1cc8bce7f5e743ad6b34dcf2ca0b101f4b92d564fe7e006455324be625281",
-        "sources": "2d2e2180607ad1c75f7f3648bfa0cc759bf74ddea72e5100735f1d10e58c1c51"
+        "jar": "ffc646b225465efce55d3ea350f1bcd1d27d4a56e912323e316dd8e6d04bff11",
+        "sources": "d6180835f642a1f6d8b330fac98876488994187a89c3df48b369f37344ea6845"
       },
-      "version": "3.8.5"
+      "version": "3.8.6"
     },
     "io.swagger.core.v3:swagger-annotations": {
       "shasums": {
@@ -1836,10 +1843,10 @@
     },
     "jakarta.xml.bind:jakarta.xml.bind-api": {
       "shasums": {
-        "jar": "c507ca69a8c6dd11bf4afeec9e0d412c4fa3933fffb0a84680ea5727e8472124",
-        "sources": "8a8f39188fca972a05720c1a94c51333ebc476354846314079baac00322de50c"
+        "jar": "5e489b6c874c4119e003ff1403db523ee3a8959ec499f3de29e77245efccf216",
+        "sources": "5bcf811e6719582ab2be21c84bc48f963ba377dfe1dae5ecb2673c1efa00e422"
       },
-      "version": "4.0.4"
+      "version": "4.0.5"
     },
     "javax.annotation:javax.annotation-api": {
       "shasums": {
@@ -1850,17 +1857,17 @@
     },
     "net.bytebuddy:byte-buddy": {
       "shasums": {
-        "jar": "2b5ddc8c1f4234bdb7cb45338a8e10a13e0e3ca473e91d5d821d681127ea8ba1",
-        "sources": "5211140f46c380a5e9630a86b2c07b396a9c374128fa603ca1d321b3c7da7449"
+        "jar": "8b31f4ea806afaa900b67bffd8498760d1f65464f4c2ea78cdbda2f3e633898b",
+        "sources": "d40bbc426b8e79a026b4e570e6f57b0a8659b122864c874cfa309121066f1fb1"
       },
-      "version": "1.17.8"
+      "version": "1.18.10"
     },
     "net.bytebuddy:byte-buddy-agent": {
       "shasums": {
-        "jar": "5b17113e66e77ca6f8af07ff367c216df964a980f0e9f11e3b1aa793253aa64f",
-        "sources": "a205437d772e3edaf4a7a1a709e9d59c666e8a05218d0e000deb5651c52de2d2"
+        "jar": "9cfa3c71c8f07bfb5f4c3c68db7715940d792801eba82d346fc343f7bd7c2401",
+        "sources": "af62bcc1d124110ee1917f61d4cf3c19eb832f9213a555a1d375b743327345a8"
       },
-      "version": "1.17.8"
+      "version": "1.18.10"
     },
     "net.java.dev.jna:jna": {
       "shasums": {
@@ -1934,38 +1941,38 @@
     },
     "org.apache.commons:commons-lang3": {
       "shasums": {
-        "jar": "32733ab4bc90b45b63eb72677d886961003fd4ed113e07b1028f9877cb2ac735",
-        "sources": "374170a7d58183d0f930e41b0f2845bc1e26c2a2183dbc6e0e2a7f03bf035a16"
+        "jar": "69e5c9fa35da7a51a5fd2099dfe56a2d8d32cf233e2f6d770e796146440263f4",
+        "sources": "eec245e820ec2800a1780cf756aefb427c1c6170e06902e67ac15b6910ce6335"
       },
-      "version": "3.19.0"
+      "version": "3.20.0"
     },
     "org.apache.commons:commons-pool2": {
       "shasums": {
-        "jar": "5273c8bc8c0dca2211175c0d27efbd7228efae99689aac001a8e1ef8e872e9ef",
-        "sources": "91d50152d046429d794a197e7b466550b81838f6114fa4821de0cb767e3b218b"
+        "jar": "f77a5060d6936a9144023584232f9de3f2248f1abfe156e9d31795f18770674f",
+        "sources": "b0d796f9396ac7dd2c4b3f8ffe788f93ecb57f831701122012cef6ffc18088ee"
       },
-      "version": "2.12.1"
+      "version": "2.13.1"
     },
     "org.apache.httpcomponents.client5:httpclient5": {
       "shasums": {
-        "jar": "5aec3f3447ec816e593e380b59fbe3e42083318af6b215bc177386f7742f6146",
-        "sources": "d19dd279bcc8854b68bbd80b3c703e54896367e8b1608f883fc63683b7d7659e"
+        "jar": "1e3d8444c3c27772e4b9d42a790f06b3345a8ece4fd16d00981f2f2460e1e772",
+        "sources": "4109458b613b83772f8cfe700e5d73d674366a4924b42ffdae6d43a635895d8f"
       },
-      "version": "5.5.2"
+      "version": "5.6.1"
     },
     "org.apache.httpcomponents.core5:httpcore5": {
       "shasums": {
-        "jar": "8fb4528d3e970aca440523a1bd698a389fa710ecfea4c5c6096698b86d1669ce",
-        "sources": "08dbcd68ee403e432554010e38c2eae2b6c97ce3ed5e0af8e11679870c8f141c"
+        "jar": "7c34a25506e7207b6748cef9e91163ed03081bee805cef930d82e1d8761d62f1",
+        "sources": "e2c575f745d9807aa31c4da794af42c6a3447390316b58f699dc180560b76b38"
       },
-      "version": "5.3.6"
+      "version": "5.4.2"
     },
     "org.apache.httpcomponents.core5:httpcore5-h2": {
       "shasums": {
-        "jar": "479a8aa5e6f99030a2a446a68d1f62320698932746f811fc656a1ea06b94184d",
-        "sources": "23816441863ed7e6cade34a1573ac2c203d399a1cb1e542e22d225e6b1f05d44"
+        "jar": "a70da7280f63ddbb7da2869a2e7aba7d8bde3f2aff050e1324ef60ea1d9fab43",
+        "sources": "e26d8878e2daabebf9225b42c581d6ddeb4ce7efd187f335d4f9954f5aed634e"
       },
-      "version": "5.3.6"
+      "version": "5.4.2"
     },
     "org.apache.httpcomponents:httpclient": {
       "shasums": {
@@ -1983,131 +1990,131 @@
     },
     "org.apache.kafka:kafka-clients": {
       "shasums": {
-        "jar": "afe861c05067f4018a3148d73c1ed1e5fc90808757c15b043527d7e535a5d431",
-        "sources": "a6a8651e4708acffba27316bbe7ff95c36c23f59a1815b575f2cef66d2253fc0",
-        "test": "d2824a571023ab15d2bb6a9fbbd9c1369ba03411ff7e91e1f307255c09368ac2"
+        "jar": "6a281026416938a53c105f2d91d2807fdc83d5658452abf0ad1b6d8ab8a553c8",
+        "sources": "e111566a7f61cc93734ca12f0285a3e96bd8fcd39e7de85a996285dea667377a",
+        "test": "2af3f1b755f4f9af2d1b11a24b4e9af05fc29fe4954f77fcbe5982e0ea8f6c91"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-coordinator-common": {
       "shasums": {
-        "jar": "0e6697b6827fa635b4686ec9754b1c5583f4997e9bc0f33a8518f1dee518a454",
-        "sources": "631e16b5551b1b72834d53e42a36e5f1850d2984176f0667ec2fedf7cc20eb77"
+        "jar": "83399c9d26875d78997032c1cde2a2073db354dbf44a93243cc942a206fb9492",
+        "sources": "ddbb56070ee5b3ce9e4a4a3ddc4b5a4aaed35d420f1f3f0a44de5f00e7918326"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-group-coordinator": {
       "shasums": {
-        "jar": "1925a002ef7c527b72a0877ed0d9f3a5f88a08d130d1ed2bdfcc40457ded354b",
-        "sources": "1563dee362afd55858bb1e7c3eab34a147233da86467c841c1ed2befe4461242"
+        "jar": "1ec06bf318eeea2e176d839873f34c7db7dddd174010c305de4dcfef89908d86",
+        "sources": "93de2298a7aec36d46db862bf91e252155efc7d09ddc402ca97ab5c7cecfc641"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-group-coordinator-api": {
       "shasums": {
-        "jar": "781f932fb3e3824420e7554ef745b57e1827dd801cfc71bf8fd31eef56e60638",
-        "sources": "618d54cdf33bf7ac5e9f174d07f9364af5b218c19f31312c4bd97b608cf918a0"
+        "jar": "0b85f8c4857f5cdc0159a17e2679f24e4ad6fa75160a4f81fe7f601d45d493dd",
+        "sources": "156ad4e2bd051378763ba194a2b38f806f63adea6fe66fcec71b94a9c274cc7b"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-metadata": {
       "shasums": {
-        "jar": "ccc29f5423cf5fbe63b47871dbce00a16e05a38bd0d531b3bf21e5c71ba54fac",
-        "sources": "0e48d8312c96c7cf2734ae0b9de8fa338c272b29da4ae4a0f4d9ce0789ac240c"
+        "jar": "001b4a66383023992990d26fc7e53d0dfa7ccda3f51c79e2c32c75f4d1fe13a8",
+        "sources": "8f6d27c6c172b61f42f65df7dd718710d01a9c8ca586f6e230442ab2f03528fa"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-raft": {
       "shasums": {
-        "jar": "01f6717d07472b577a1cfe1cdf4d098b14a1dae4e35574164712801bd2a55cce",
-        "sources": "4710e0e103fcc72190392d0c14feb4e1a0ebd65980bfa0898023844322e45d4f"
+        "jar": "4391c2f7d5c1a6a8139ed7eda67ea1ce8b39a727f5bf0372c3dd81cc4a2dbf52",
+        "sources": "478882e0d82fc81fb9fefc0c61a6494f3856ef7782380e2d0cba573d431e6758"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-server": {
       "shasums": {
-        "jar": "2b849f1c9d3d9a08a5ea4c2f0479c552592cd770d72263d8d1610701a9b3e8d4",
-        "sources": "8b1131c329ec59e53183b69b27ef21d2e138dd595805ade5a5168634befa6d2d"
+        "jar": "a24df46f801ea880af31b4dbd278ac00c7723a5260cfcdb39b3f11cf10f233a1",
+        "sources": "c75957d7b9dbe863c18c476b415ce18847cfbef12a2920e81f95508c93a50468"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-server-common": {
       "shasums": {
-        "jar": "0f1d8fb9478ca0e3eea23b81064749738b9bff705704067e2fe8d62047e5fc07",
-        "sources": "1202640415536d2eb457fbd92ab0f1844e465281a27b9ce3190957ebda6e93e3",
-        "test": "546c0633b51229249150d54bef69e780c4626c89bbdd12430710c3ac784bf758"
+        "jar": "8c10d0ca99fe4585797814dfea4ee43a4cf6bb38a847f7bdcb738527ee9d24bb",
+        "sources": "0fa253875b9b15d5d5b244afdaaac73460b2278e3c5918aa723f63b0c67207a3",
+        "test": "46e2c7289e47b69510a91d099728c5d499e99884a041322d6ceb7ae71fc8a174"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-share-coordinator": {
       "shasums": {
-        "jar": "fffacfaa46e7f25696f673035f86669422ae81889dfd28d8fec29500ee888310",
-        "sources": "9323053704fa6556889489031eda25d8b08b94e00b889fae4ec8b50b2dafa1df"
+        "jar": "7401ab67a77e1743c5c3c1ed2d4d0f97f9ea9de96e6ff47ce11c0d75ced54cc0",
+        "sources": "e7b0b6ca0388f6e42472ff89a63c0fecbe001c1cc5054c9ce13460ad8c366fa4"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-storage": {
       "shasums": {
-        "jar": "902a08f775a9957e1546ecec8e22fbda73b84be9dfbdf04cce7a023dd60bf8b9",
-        "sources": "0481a1c0a11ded56894786590e99d6311a70bb2a90b15cb4952362583b99887c"
+        "jar": "c12d9f25f08260a329eb40615ffbc92e892314838b798e1d4d19f28341a1076d",
+        "sources": "4d12a239447b9c5afe82d6bc48d76a6cd43b10b9bb7ce2486a538a025d5b17b3"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-storage-api": {
       "shasums": {
-        "jar": "79910cc7d0e3d3a9d9ce6f30f6f000cd355321f604a0f6c73c948389d1b41457",
-        "sources": "376bee80c573cd74fe790295f74662d9f50c7a6d44647ea7541168c49f5d6421"
+        "jar": "5b7ec3b876ba3c1347e589bcf07b61b04f4226a69c39fac90735d0f152859edc",
+        "sources": "97e186585592b1979b267c6193fcc9e60c76f242f4a5e90c9ae14fc2b12294ff"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-streams": {
       "shasums": {
-        "jar": "415998b32e8627b3ce21ff87226c66f3313e9fc52eca2513a3600bf492e3cbac",
-        "sources": "348caf08764aec0c6a79fe190aa3d48951af6973982cff7cf7486380c62c66eb"
+        "jar": "1ae087197b4a65d40f3e526a88a14003a8ac2e24e1edb6d6cfe897da0781c60b",
+        "sources": "ad145f12dea3802fcd1a337741624b7cc1f44dd5a7926598eeb2d860758feec2"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-streams-test-utils": {
       "shasums": {
-        "jar": "316d851235a36525b837232b1c71430792b33787b25db09da58a01f3ac13926b",
-        "sources": "369035d4b8a5a27c819f973b87e52df24174c5ae41bec0b21650f7d2363fc802"
+        "jar": "1cbcb67d7fbb57d52a3291b16e071ae4a8224b86afcf96eeb3a01033a00bbe1d",
+        "sources": "e46ee930d882895b78c2f654d2f23138389853ffd657c3537b4142f3f93f9e74"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-test-common-internal-api": {
       "shasums": {
-        "jar": "f9601cc2801b5e309f0667245d4662bb4347f7b5fcb5f26db72d7739c8590749",
-        "sources": "d23020e3cf76123623c23c5ed3aa1ce37368f64c074c162b1e3f2120039fbf8d"
+        "jar": "1848c635cbec03dff4f18c2addebf436ae6430cfcb445197f716acd963089293",
+        "sources": "fcc7156f84c4cd1df5072020367995b87cc806fb5ceebd502d6639fff8c969cf"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-test-common-runtime": {
       "shasums": {
-        "jar": "aa8364492288a4af8b40077ed91187044778983d149382180184e3ca3c944f6e",
-        "sources": "1d4381ace60ae17886167e710d62ee12c301e57bbfc0b60988168d8ef776b305"
+        "jar": "6a58c6c905a48f785cb4b1fe507d81eb828b46554fd70b423f1f8a78ef04aedd",
+        "sources": "80b44149021c728adebf6e52420c38912fbf5edcd372ddc21a0b8fdb5353f99a"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-tools-api": {
       "shasums": {
-        "jar": "6d4d6a33b0dcd2180e7489c58c0089f8fb502e7a095cdd46f57755df462f00ae",
-        "sources": "bda29dd1d2ad6d7c7502613e1a42aaf2d42c76f1d7eba9c3dba1993d690c12e4"
+        "jar": "ecb0e8d68bfd3750695bf303021206e951ccde4f1efbd6910def4c86f3bae2f0",
+        "sources": "97b4e18c243fa1a3f76a2b4ade6ed6cb01a776a7fc19f2cf25732d4ba569f221"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka-transaction-coordinator": {
       "shasums": {
-        "jar": "20939d46e1e65a34d6a59b447f0a5e63721678abbfdc948a5f9422930d71612c",
-        "sources": "0ccf2d92e66f488c7fa289a1592d15400920d5b5f2bd92c118fa8e2c7fd6f107"
+        "jar": "b2d957c7919519d6330c38e8c8e573864ef1afdfee30f60aa53ad89d50d3ac1b",
+        "sources": "e3be84d27f1ad66eada62544a8ca11ba9c9423e1b4e366b6f648c05248d1cfc1"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.kafka:kafka_2.13": {
       "shasums": {
-        "jar": "965af2d9c19be0c169110eb18468a0bee24e24d14071a57c7f8a57bc4d3f990e",
-        "sources": "2a5915f3cce25f9286b095e98eac9fb171b68c743e49d36439fc403ab71f4c21"
+        "jar": "1feebfe64c4077641aa915e8d77b6a1ae702dcbee80a88d0c3d5a4077b49fa0b",
+        "sources": "6761536005e3f1fb7c4dd23d6967f8223705c45f72dacebb2c15bdbe8d624b74"
       },
-      "version": "4.1.2"
+      "version": "4.2.1"
     },
     "org.apache.logging.log4j:log4j-api": {
       "shasums": {
@@ -2153,10 +2160,10 @@
     },
     "org.apache.tomcat:tomcat-annotations-api": {
       "shasums": {
-        "jar": "2f66697030bb986a69043ca3b55b838384c73de50aff1ef5452ae2c90cfaea70",
-        "sources": "cbb5b6aa6e3760b198a75293de3ca0a6de117eb5c3fef5643b68a9486dcbb55e"
+        "jar": "fbe1a2ee12ea472b773bf3a6237d95b66a002c5c4fa6d38a54e69c019558cfd4",
+        "sources": "564d5913d099bdc08bf5ddfd421a00f8567c6ea730ccae72437ecfc6f8bf0fdf"
       },
-      "version": "11.0.21"
+      "version": "11.0.22"
     },
     "org.apiguardian:apiguardian-api": {
       "shasums": {
@@ -2195,66 +2202,66 @@
     },
     "org.eclipse.jetty.compression:jetty-compression-common": {
       "shasums": {
-        "jar": "46f12d348115f310130c7df6e736017c6e7dc032f19b96a0dc2658f56ec43bf1",
-        "sources": "9c2efe36fb1c2896464fc3006e94c0816e6b8fabca384ece087c1f22c1e59510"
+        "jar": "7c02e58d5589549a5e9b19a903134a0e868fdb9ee38459b2c4495a6a3b342ba0",
+        "sources": "a0e60032b1b19c8e469add610db92c73fbe48e8d9b5b98a203dc725b142207a2"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty.compression:jetty-compression-gzip": {
       "shasums": {
-        "jar": "482455c2e4b243913354dfd52cf2a68becfb9a7479c1deb385019f97925f0ae0",
-        "sources": "c59c6f505a012548995d0323efd506f7a2a3c8503aa380f02830615e8a13a699"
+        "jar": "8c112b9ebb3413626026ba6782afde5e22575eb6fb071c98ae3541cb8d2dc79e",
+        "sources": "5766b7f39f90be0bee1b598ee4a6278092557f0c8a1758ba748504421812cfc1"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty:jetty-alpn-client": {
       "shasums": {
-        "jar": "91953f4a034590e7dac4589038fe0ef7400e04cd2e1e54c0027d88ba0c545f18",
-        "sources": "5ed0ca390754c1ea70f6f361676031e08f02795a4a13832a7556421c12bbaed3"
+        "jar": "4eed96763ac18fe310ad162d3266cf64ec718d86f5ac87b19a91f3f62a2c4520",
+        "sources": "8d87139729a2c372b66a62955b124fd821c6f3cde586ba071bc671086b1bb52e"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty:jetty-client": {
       "shasums": {
-        "jar": "460d4d74c95a591bf6c16be6388186427b773c0110605b3d329955f7a442122c",
-        "sources": "435a5cecefc83ebbc55781c05a503ae192d9305f88551e4613d39e9900029623"
+        "jar": "6e72623ef6ef1ed39a77934452e9d0340d7977882f3d8e9184ed8a2176330c68",
+        "sources": "1db84e20f558fcf3c00374b8007a7bf19b9a310c3ecf958c7e47abba88ef618a"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty:jetty-http": {
       "shasums": {
-        "jar": "32c351984fd74e7db9b3120f7aa43c034a9d7fe290386747ff318f4c4221d94b",
-        "sources": "8e92d83b7e9747e84157033ff9eb18455a56d858ed56a293fc101babd7011580"
+        "jar": "090f276739fd9bf8c30511007caec669ea3804b1df1061c37f44467474bee71d",
+        "sources": "4d416e2686881085327d3a28e349029d4ae9fc9b44db831291633f18bbf01625"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty:jetty-io": {
       "shasums": {
-        "jar": "c45a68ceed3526f5ca0974768caa61f6683c3d5591a819fbcf3c0480a64ab245",
-        "sources": "8aa192357b83fd1edad5b7bce6c81c0d7de42d330f56ee100c04d39b0c87a477"
+        "jar": "448fc0f8f6f5f7251fc46de8e3aae7da14bd7c571a8043dac3dc381d08228fa0",
+        "sources": "bf40abffd40e759b16b642e12dfacb7bca1d0c937f5456b62506cc78169f6b56"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.eclipse.jetty:jetty-reactive-httpclient": {
       "shasums": {
-        "jar": "747725d3e9a2f25a897ed7ef0c645bfef45ada129533c45f580b523169f79145",
-        "sources": "fedfed45efc5e733850e7048468d0311b0f9b3794511a9659543e5a23f663e70"
+        "jar": "4b6d69da870cc6c7b22bba5d5d7d93e104eaeee25bbf1076d38976d6aae33087",
+        "sources": "924277d55d0b956077e98e250b51ce049f99794f6d4ba741365924580b562ff9"
       },
-      "version": "4.1.4"
+      "version": "4.1.5"
     },
     "org.eclipse.jetty:jetty-util": {
       "shasums": {
-        "jar": "00432715f20c3ddc8d4fe3b01974253a7772f1830f7712da71af30348b01c822",
-        "sources": "c37d8df0e0e98e38ec296a6a218f1165f8ec3cd4d999b13031ded470fef570aa"
+        "jar": "c52b4ff62cdacca8a399c611231129e6bd1074db7e3892e78cd106725cdd0ef1",
+        "sources": "209630667d8e042f187bed4e754c3f8af7c5247888fc83b8dc97b5bb2134d435"
       },
-      "version": "12.1.8"
+      "version": "12.1.10"
     },
     "org.flywaydb:flyway-core": {
       "shasums": {
-        "jar": "45148edbcb55016418ff1ef7ecca3331b55f5216b3af4bd2db40063904db3715",
-        "sources": "e99b8e0e1c71e6ec431d08da7a8de81be7d20c2e0a4ad9135466147bfa387589"
+        "jar": "c3f93df1f3e0c9d14652adb5ade97401f2ede503859ac693c2af5c06e2797799",
+        "sources": "805518e597ce89b061a8cee566f87844961a26f677f08706debc124befa3c8db"
       },
-      "version": "11.14.1"
+      "version": "12.4.0"
     },
     "org.hamcrest:hamcrest": {
       "shasums": {
@@ -2272,10 +2279,10 @@
     },
     "org.hibernate.validator:hibernate-validator": {
       "shasums": {
-        "jar": "25f40118fa4c50f8522d090d25d52d5a38953b0ccd1250835f052e7bd3164ce0",
-        "sources": "db6a3d49eceaae0a880de8749cd7f7e8928c18458b44fac84633c3ee8db7ac0d"
+        "jar": "4dea20c780d12e8ad6e1fe7d695460af74f8668df9eb58910991919194412188",
+        "sources": "d9b58bec0fe4b79e307111a9246f55be5d39649f5893bdaa390b7273741c62b7"
       },
-      "version": "9.0.1.Final"
+      "version": "9.1.0.Final"
     },
     "org.java-websocket:Java-WebSocket": {
       "shasums": {
@@ -2293,31 +2300,31 @@
     },
     "org.jetbrains.kotlin:kotlin-reflect": {
       "shasums": {
-        "jar": "44380abf37d245ce5c0f294f43512d1c39a59642bfa463922c74e96877cf49f8",
-        "sources": "420ec3e59a8b7257a7aa2d3cbff69b1979d7bd9006e432364a0f7644ee700bf6"
+        "jar": "33e37d9dfa86c7a29ab34e975b5f4a1287b458878611051f3485652220c1a2cb",
+        "sources": "8cbdca65092aa6888901e23c08c7d69d141544107a9bcc9aa47b5453d4dbcf7e"
       },
-      "version": "2.2.21"
+      "version": "2.3.21"
     },
     "org.jetbrains.kotlin:kotlin-stdlib": {
       "shasums": {
-        "jar": "6558a3d233da56a20934b32159f9db5f86ed5816ef098f78a2c223dc6abb79dd",
-        "sources": "664f515359444a92267a13266101431a630f99d6b8d04407a92b1a0e558d33ee"
+        "jar": "6f64eac736db9434dd6925b4a518b9d1d17177652320c37916cf9ba3ce7d7d7a",
+        "sources": "8693386ae174f7e4a91eb82c5c632d169d236704da24f78b9c8c84d87af2fd64"
       },
-      "version": "2.2.21"
+      "version": "2.3.21"
     },
     "org.jetbrains.kotlin:kotlin-stdlib-jdk7": {
       "shasums": {
-        "jar": "b785922f11e6d91a6dd1d75cb0aef1ce37b83f8de0e3a2139139dfb823bb8a2c",
+        "jar": "e2243abac2bed6e0b47be18b2b7fe1c1b4cf6a431480353dcd49d1ed35f31199",
         "sources": "2534c8908432e06de73177509903d405b55f423dd4c2f747e16b92a2162611e6"
       },
-      "version": "2.2.21"
+      "version": "2.3.21"
     },
     "org.jetbrains.kotlin:kotlin-stdlib-jdk8": {
       "shasums": {
-        "jar": "c62275c50ee591ca2f82c7ba42696b791600c25844f47e84bd9460302a0d5238",
+        "jar": "63091929246beba86b5fb2b020a6f5d06e01693a960b58a59959c8713667991c",
         "sources": "3cb6895054a0985bba591c165503fe4dd63a215af53263b67a071ccdc242bf6e"
       },
-      "version": "2.2.21"
+      "version": "2.3.21"
     },
     "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm": {
       "shasums": {
@@ -2342,24 +2349,24 @@
     },
     "org.jetbrains.kotlinx:kotlinx-serialization-core-jvm": {
       "shasums": {
-        "jar": "1f0afa172110e45a7231ef1b44ae8fd84c1ebaff96f3fc3ad68ef8c48120b59c",
-        "sources": "72ad8ca04529d29cb144f845858f650ad8f06ca3a43c637967ca88b733c06f19"
+        "jar": "f4a801c647d4351327cd9e1ac4113e2be9ea37a64ab0abae269c25a52e28f35d",
+        "sources": "9c9b7d4aabc03e671b5297ca5d50931f7c961f3d7e36a67ce945921b08a7be40"
       },
-      "version": "1.9.0"
+      "version": "1.11.0"
     },
     "org.jetbrains.kotlinx:kotlinx-serialization-json": {
       "shasums": {
-        "jar": "f0d4643605362ab158c11b20f6c8be1726023bb931b9ead5ffa5a14e2338dfde",
-        "sources": "903beada71846ccc955d1f7492993a761e95c88175ce70db5f03eb5f057f1bb9"
+        "jar": "57788c37107f55fa980ef36c157e70ecef573158a762783bfd30ed4824419e80",
+        "sources": "b3dd36abd8d06dd2e08eb74cd38dacc6b45182e191f5b8fe51cb5eab7666ba07"
       },
-      "version": "1.9.0"
+      "version": "1.11.0"
     },
     "org.jetbrains.kotlinx:kotlinx-serialization-json-jvm": {
       "shasums": {
-        "jar": "d94cc34cae39246a1af74fda63f9c4812ce12216ef641d5fa3bbbb539a6922d8",
-        "sources": "6c231ddcd95b1023ffb72cfd98023a035f666e46b4479d68eff83cc30892396c"
+        "jar": "563a25b4eb5c9128ae9c2479f3d1a5c44dcd176112b91cf03682e906eba5c935",
+        "sources": "8a0eae6ac1a42a0fbe1b850ea4e21ad71d2a8aa896ee2257b1492b471bd5c5fe"
       },
-      "version": "1.9.0"
+      "version": "1.11.0"
     },
     "org.jetbrains:annotations": {
       "shasums": {
@@ -2384,10 +2391,10 @@
     },
     "org.json:json": {
       "shasums": {
-        "jar": "3ea61b2a06e31edf1c91134fe9106b0ebb16628be169f3db75bc7a2b06b45796",
-        "sources": "e946f18024a64653f6514d8706201b479c908bb2ace04eeab0fe3145721514a4"
+        "jar": "2a3438fbf9293174ea82bdfa35e83d8b965cfe6bddc034a1ac5d60107174c209",
+        "sources": "a380c396038560c8c7993c9e6e128d499b0aebc218969d47113013f013508220"
       },
-      "version": "20250517"
+      "version": "20251224"
     },
     "org.jspecify:jspecify": {
       "shasums": {
@@ -2452,26 +2459,19 @@
       },
       "version": "6.0.3"
     },
-    "org.latencyutils:LatencyUtils": {
-      "shasums": {
-        "jar": "a32a9ffa06b2f4e01c5360f8f9df7bc5d9454a5d373cd8f361347fa5a57165ec",
-        "sources": "717e271b5d67c190afba092795d79bba496434256aca7151cf6a02f83564e724"
-      },
-      "version": "2.0.3"
-    },
     "org.mockito:mockito-core": {
       "shasums": {
-        "jar": "d1a96d252128d3a4247cfd8a2e76412efa3cc103977be17933c942117a24f374",
-        "sources": "dcde489c1db6449c162f05105ace4c172850d3dc7f6633bb4f54d47a16a0fd1b"
+        "jar": "ae295bebd5d11fab97ab297815dc7617188b86003cbce3dfd5c0d5c3a6cc4a0c",
+        "sources": "38f869a12a1168ca8dc2a4acd090d8129a7f81afc8f1fc61582701894755fefd"
       },
-      "version": "5.20.0"
+      "version": "5.23.0"
     },
     "org.mockito:mockito-junit-jupiter": {
       "shasums": {
-        "jar": "fd6c703c2b00b914f3adbc27b18077a708f3d6992f19242c444e737c6cce024e",
-        "sources": "3c199479a2319db4395fd9fd209946ecc4530f48fe5cdeed7677c285bf70fbb5"
+        "jar": "65938526fdc311bb3a1c0015eb1c8a0be81515aa998f22b9f4e92f1b668e4f63",
+        "sources": "0c9e34937d567e0b784b5a335150c59d31604cceedc10440dba001770c033ed1"
       },
-      "version": "5.20.0"
+      "version": "5.23.0"
     },
     "org.objenesis:objenesis": {
       "shasums": {
@@ -2531,24 +2531,24 @@
     },
     "org.rocksdb:rocksdbjni": {
       "shasums": {
-        "jar": "5ca63e0e955f101f7af1c1fb8ce260b5d3a5701cea7d8c2852b9d56031a57221",
-        "sources": "51aba04751bb743cfcef8731ed0f3a565369cba28a5911c59db1c3ed5f97434a"
+        "jar": "e7f925287d9fe2574fb7c7a86f7facaa9b8ab602a2eed0e598bf633528121498",
+        "sources": "72020584a55ada5f5d618020ac153a23e0f754b9d0860de858246dd102a748a4"
       },
-      "version": "9.7.3"
+      "version": "10.1.3"
     },
     "org.scala-lang:scala-library": {
       "shasums": {
-        "jar": "1ebb2b6f9e4eb4022497c19b1e1e825019c08514f962aaac197145f88ed730f1",
-        "sources": "c02edc324e7db59c52115214a6ef36e2d78d0a50dff635eda4dcee5502b1dea5"
+        "jar": "b7822c4225243215f185925724a6edff92cf18777a136cc738276c4446fac76c",
+        "sources": "81c36a923dad2b735695447da27229c6e075ee1b368321066b75dcd0b3fe3642"
       },
-      "version": "2.13.16"
+      "version": "2.13.17"
     },
     "org.scala-lang:scala-reflect": {
       "shasums": {
-        "jar": "fb49ccd9cac7464486ab993cda20a3c1569d8ef26f052e897577ad2a4970fb1d",
-        "sources": "11c15fbf9ee203e262049fdd54d8b8472e1601970fba655678c237629815117e"
+        "jar": "734533897bcfabe7a6e7fa09dbee165b257b0396e14e8a57c75111db8e04bb98",
+        "sources": "63a0e43a313d4dce301b4d821f34ff78b1a9d1f9119889352ba2e92f3a76dd33"
       },
-      "version": "2.13.16"
+      "version": "2.13.17"
     },
     "org.skyscreamer:jsonassert": {
       "shasums": {
@@ -2559,17 +2559,17 @@
     },
     "org.slf4j:jul-to-slf4j": {
       "shasums": {
-        "jar": "a7afcd23b9cfd1475e55c94f943b808c5922035e7e2c2a5c65a487a4106bc538",
-        "sources": "63962cb695376c541835ce130a9a734516c61628aafdb088db0241f0c9559ab2"
+        "jar": "cbb7d1aaaa9e871eb1a06594abd911bf97027152976edf1edc315be75239204e",
+        "sources": "b6dd2138f3e83d876bf07206d09f2b48ca655bc36a8e80b0c2a32ad19ab8f1d5"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.slf4j:slf4j-api": {
       "shasums": {
-        "jar": "7b751d952061954d5abfed7181c1f645d336091b679891591d63329c622eb832",
-        "sources": "db0d08d8efa05ad19d174d747bd9d8e68dbb02b596812fe7b3a681656e346694"
+        "jar": "44508fd1576500688c790b190acdd16fec4f8c79a3e0b900afd70503cf055f55",
+        "sources": "192e007cf7f2be41d40574e44521fc0b7ce55e01f13dbe0fa8707c8ae3329075"
       },
-      "version": "2.0.17"
+      "version": "2.0.18"
     },
     "org.snakeyaml:snakeyaml-engine": {
       "shasums": {
@@ -2580,755 +2580,755 @@
     },
     "org.springframework.ai:mcp-spring-webmvc": {
       "shasums": {
-        "jar": "58030e052736689a2133a86d82f66d8c5fdafa4893b9b9a938acf3a216feaafb",
-        "sources": "3ec4b57c80a6a515606af4d9123d52d9134218098f8c72a15969a1dddbbbcf42"
+        "jar": "4391cedba51a5e3244ccb0017c65e19f150a3e0ac7da9d2a7e1a69a6e926c120",
+        "sources": "10ef2798d53efbd3497cfe4117a9406a82da4791549b7b9b8bd6367d813086a6"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-mcp-server-common": {
       "shasums": {
-        "jar": "01351142080872211636c0148fe370ff120594efa0acbe5da599da0cad05f3d5",
-        "sources": "de97569443c65a6b449a96e935eadc87df6ff08bf4669a7f437cffcccd0561f7"
+        "jar": "c957efa2f8b64c75e53fcc39f1adf54e181fcd9e1147518231f2123170fb20f1",
+        "sources": "8fcbddbdf97df9ca69e3821942a554830c15046fa36fd5747868a77687c9ddce"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-mcp-server-webmvc": {
       "shasums": {
-        "jar": "9ad754537ea04f6196d2c700a038bacda867173f839137cc760d0a6ee06470e5",
-        "sources": "620c5988fc53a2c2d058b1714f1a35dad121ff1282ffcbae41d1f9fd1bfe6fb5"
+        "jar": "54acd7faef422c3ada501cb682b17e530320c4d01ca6a41b78584317382035eb",
+        "sources": "3ebc160c3bc0a08b9216b5eb4ac3733c9823dd96cae33dafc27806ece4a6c36f"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-client": {
       "shasums": {
-        "jar": "3471bb2523be98ab652c774df5f9e6f55f93e7ea4421295a0194062b802a5a37",
-        "sources": "789bc8bd549143e0fa207e16ee2eaa87c70cebd91f2001d30726418139e446d6"
+        "jar": "e56a8fff6562a547d235d4632b1eee3401f83b5273a735319b25369173569a16",
+        "sources": "5acaf29dfb277f4cbde62b5ea3dc99dcbfc939b5f86c2a9c3796344961fae0b3"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-memory": {
       "shasums": {
-        "jar": "b855ed5b18a7337e76ddcda6dec12f39611d415a41b4bf9cd9b175dfa2059a91",
-        "sources": "0cbcd007ba72d2f5d4a0200398428a581092ec231ace149efb5d44ebaca9ca75"
+        "jar": "2de75403f93bb4aa1c9e5ac0973b5b87dd857f70a976bc7da40b374e4f0f3db4",
+        "sources": "204e0c2c13673d4f8a6991ae5f1b5286d21f3d561f7ba45fb41e4511294762f5"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-chat-observation": {
       "shasums": {
-        "jar": "3434db022e3a82720f8e1c896e9c462ce2a62ee0e267057f21e52e653ed968a6",
-        "sources": "bf2cba9215695d86e76510ed608a54cd3efef2c7cadc629c7576b512f7905ce6"
+        "jar": "a680460253cb3641cab8ad7dea8316f9dc37b752a41818e4f30d4bd917c39b88",
+        "sources": "00999ded11969fd62799d2b0bcd7a262fa763a7883c5b181961697917a7b0791"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-embedding-observation": {
       "shasums": {
-        "jar": "1a0f3c30bc8fd81cfa7b925a8a5f165caa35ab70a1b3e7ad5b2d5b60faad64fd",
-        "sources": "e9d4d3d2aaeb6b357a5653c57b8379072b933456cb6e8458ccc1bdec4ed9bb3b"
+        "jar": "5756e52f2619a2ae7ee2a856492eef0b1efdad023716cb4818da405f88ba8263",
+        "sources": "dc015a7bb7044c93e5c6874ec9959667c39bd6764978a523fb3e626b52874d7b"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-google-genai": {
       "shasums": {
-        "jar": "84dbb2a96c48534d4c41ec53df47758349746760f46b8ccfe2c662360cbeadff",
-        "sources": "be5a06297ebf59bd4c7e14da02b77ed315772b3b2c911a5ba1592750213173cc"
+        "jar": "c53e9e65c67913c144fa5333bb35f9d46ebaf4adc24b0d32efa21b72751989c7",
+        "sources": "e4033e0d44ffeba024f95c8df1ab07bf2ddae2f2bfade0a0cc580cbbd6c7aa83"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-image-observation": {
       "shasums": {
-        "jar": "ccef256832562b5d28fbcc21d3ba5573711fa0964d2bdeaab84753b518d3401b",
-        "sources": "f99cf12b9862a7bcbea3586938ae5b1c71ddfca3e59e833508f40754263e3632"
+        "jar": "8930214762c64288a96a2e0d87e3fea094da89f9c9606130403f5b965b875c09",
+        "sources": "7b0ec94a32a9800a41089ea5558a62c57fc53ffa5901a6197d53950797da9997"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-ollama": {
       "shasums": {
-        "jar": "c4941ec97ac310bf5272455173988eca565468fded20293f7e5e0455f4a48f2a",
-        "sources": "04ef5077ca9020c3c992b38e3bab0692e716eabb674087007d2e12c618c0bb1e"
+        "jar": "5968a2da57feb9374fa23742c3cdb2db5d7be55c27cd35169eaa1a665c01e054",
+        "sources": "1af230707c017dad8c0e251f5dc0ce92e55944875a87336ce83cc695509a536d"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-openai": {
       "shasums": {
-        "jar": "a65b45cc6ffbef37e4793e4eb763da422f20f0d9ba77bf265d0f67ea46c46869",
-        "sources": "c2b4709d682466b8cec8fb3d92dd2a43c7bfef0ee956bbcb097d1a3667f268f4"
+        "jar": "84ed3a2c3e185c20a3c9c688e46eaf638b64319474f83db38ad6a738b0f3e28a",
+        "sources": "3fd8f9db07cdac4f2e1b7f0600658cc737d9925b6174d0300373b491de866132"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-model-tool": {
       "shasums": {
-        "jar": "3a59c764351dab8aa7082e874d2d4d940252cca7d9c359c35865ca7cbc585539",
-        "sources": "98e9971105c937f7d967661a8172477762de132e8bc93d1e0f8f213c810765af"
+        "jar": "f3e2b5b7031561c7c43aba04309bceec6c3135df031e9c8bfa615530d906f438",
+        "sources": "95f5e703fd24a15651edf58d7ba44dc5eec963ab26995a97ffbe68a2ec92ea82"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-autoconfigure-retry": {
       "shasums": {
-        "jar": "4596e3ebbc49dac79cfcb63c9a451b9b1eb77a0b01e5ffa8ca1a293b551c6248",
-        "sources": "1038cf32bfb4716e600d657c5a697bc9b61111ad70ad382713ead08b7c0124aa"
+        "jar": "db45cb020eec94d7025a2da17e76c1545c1810427706477cc0ec5d2467717230",
+        "sources": "416fdd20db24fa28304cdcd58a87ce4c1632491c39d3a2d6acf6ddc6f4ee8f35"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-client-chat": {
       "shasums": {
-        "jar": "0135ad7aef5081f20752edea57c843546776880fa99c32cc659926dd3d483520",
-        "sources": "abc99f22a411155c6770d9d7e5be8fef86adf83fee04c34a761cc877350779ad"
+        "jar": "cb0e199611d1397eec67f8992c0b16a626d316547cf709d483a90d73fc47aeba",
+        "sources": "7201b075c5af7924dce1607a5c98ce61d3e8277352d9385c4529b1096841a414"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-commons": {
       "shasums": {
-        "jar": "ceb30855e17545e69f27deb9c62af11ce58d7b4bf54019d7d30ab5ddfbd3fe01",
-        "sources": "ae3279be3faa89df83acff3a53c4da9567195d819f6418d47854220efde854be"
+        "jar": "ebf49507c65302069abfa425ed573ef944f3a937b8afa20c6ffa2700f80f39fc",
+        "sources": "3678bed0408267bee6415236fd7dc12f67a619bcb7adb1add6ef51b6994f64e5"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-google-genai": {
       "shasums": {
-        "jar": "dca71737abfd314e9de1efde3a2c9798d07a1a5607159762574af33a7701baa7",
-        "sources": "f00fe085798d81829643c2a63cde29ecdf1643ee2d8b6158d98509168ad68465"
+        "jar": "a4e1bcf4d4a893d5211b7e6304f5a38cd5537dd37f32d66d8c71556a1fb132b0",
+        "sources": "aa743015a473dfd01390be078f3b90c84dc5390c05aa8b3d909622aa015bafa7"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-mcp": {
       "shasums": {
-        "jar": "d6537b312496641bd382a2d13dd90cdcd8296ecf61a00fb622fb38718c790901",
-        "sources": "a3661672e80102bf1844dc5eacf64282177723d5bcb5cb166ac8c7fc019d7d81"
+        "jar": "5e11f4e1cbc612dba0170f17e905e677070540f866cb197e6ae938cbca3f4650",
+        "sources": "64f8ca2ecb5751344638c9edceed9814548906d228e7e6029a6000162c4a1ad1"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-mcp-annotations": {
       "shasums": {
-        "jar": "e44ae588b99c7f404398a39287b565b89a5f66de4f7b202532e6c48588fc6f8b",
-        "sources": "5572eca45bc30c15d61023c67d0e70a0f54bf0440e3f646f3ce36ab550207f08"
+        "jar": "f5d0a0e5746260140a06f26d3cb4fb0b4fdf10226cfdde603a3d0ff81d3793e2",
+        "sources": "0ee21c4a8d24cfb48ad91738806a7c5564d72c02c7599990af6f3bbba8b22bc5"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-model": {
       "shasums": {
-        "jar": "8d11d1f53cf8efbb072f7563b11cdba36bb4a7913a7100a59857fb902e1a8dad",
-        "sources": "b881cfb49b039dd84025695d56f7a79022eb2942d8a9fbcf238e1e9ffbfddfde"
+        "jar": "23d91239aa950445d25e269faaed53facf66ff48dcba5284659e59ca62e5e9dc",
+        "sources": "0e518165adf511c8e90509575f5686b3b74c8659195a27ae76ec9d14e01b2430"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-ollama": {
       "shasums": {
-        "jar": "d494b834b75e86189e3d818cce4c7be4dbc02e360916de939c7ee40892599102",
-        "sources": "ee20ef6d17a28e792c360048a3b113bf291f512a0b450428b901c52ee8f4f6fe"
+        "jar": "7215059d0c7eb159fff84f3fd6f8a11675ae1e98e902b1e68a4ca3b49a5c6f9f",
+        "sources": "f7e4fddcb034f12834b87ed7ee566f8e1276e0f45cb9dfb54cfd32a1a8824b83"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-openai": {
       "shasums": {
-        "jar": "72f5b3a21e7bad2ea800bac96a032c59a1400ee3ecfce3f93e18c8a21f3d24db",
-        "sources": "ec4befafa3a012ae31c471b34e65b43314de57f47440c6068e234556e540ad0a"
+        "jar": "0e69bc974e79c86d4291533e5d4e789e89711159a199d10991715514d5abe57a",
+        "sources": "5b958a63b66e5e51dae552350120c8c9e7fb8de0850820ec2705f63595ae62a0"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-retry": {
       "shasums": {
-        "jar": "d462d2e18f9e33899bbeee81aa17b5d93490c1d79ec2e6d4d7d17efabd4c6625",
-        "sources": "6c8e5344ddf4921dcfb15a8f662dab57fa2b4a3d18551ed721b3052ee37eefe0"
+        "jar": "d719407ae2b6e36e983719df1393111b5c80a6eb055bb612c28f7538477491f2",
+        "sources": "e3976a4cfb1cdc2fea4a1e930d796841c42fb0b65fa8c20b9ef56d6ad642c897"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": {
       "shasums": {
-        "jar": "897fb3d78fa246b8f48cc255c3b262a2422087d9b99787108ca4033e0b7aafbc"
+        "jar": "2747724e5482542e3f6ddbd1fe9efbecf83df076ec02e5e0a291ff14cd7c31af"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-starter-model-google-genai": {
       "shasums": {
-        "jar": "291600f6959b0319756fd5232e72f7f71162957979409a01a140f9044a5a512c"
+        "jar": "dc17e11a6775abb085a27e194d20e4da83e1b4553bc754136e36ebfa31ee4ee4"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-starter-model-ollama": {
       "shasums": {
-        "jar": "99f861513c2289f0a7870de644ae40f5f631e79a3a4d0bb958f2c70299df212c"
+        "jar": "dfb422a872c9e74475b210ba1bd327dddc9d02ddc267743a1d997b3dcbf71339"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-starter-model-openai": {
       "shasums": {
-        "jar": "dd893823c906cb9c6fab020699707c9bc4782b26d6899c0e39b9840ef6e9e75b"
+        "jar": "06aded6b2490c0ddf45cbc383bbd011c454ed3a6ed3e5b8feeea3a66a8538a1e"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.ai:spring-ai-template-st": {
       "shasums": {
-        "jar": "463c89320dcad0a40590f5b406dd4db1d55dac2ff093c350651b474596243502",
-        "sources": "5365b6b509299a2ef9af2ea3ca228b1382436ae8c2a4645ccbfed1605fe6649e"
+        "jar": "65704f0a2b0f808420b8c4a0fb36760eaa514a55fd143ddfa2086d0bccbc94da",
+        "sources": "1803ae48b34318805e325d4b2c2f11e812931d2b4f2c2d7220d8319713cb461a"
       },
-      "version": "2.0.0-RC1"
+      "version": "2.0.0"
     },
     "org.springframework.boot:spring-boot": {
       "shasums": {
-        "jar": "163d0c77cc7e8b6a2d523e5d0ebc3afe838d33dc89162c613a75a63bc197b9e6",
-        "sources": "95b41b86f0ad9aeedcd22076b983ddfbfe73cc0286b129a33d1a72116c120215"
+        "jar": "b23951a3a7f867e38db4729b8594e1b72374516f386b1dd9cf4d5317d6d3f91f",
+        "sources": "65ec9df3163a0c8cbcfa26a093ee043967969f06f4739ce7b970fb8370c36ea7"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-actuator": {
       "shasums": {
-        "jar": "c5b4902053c61923d81e6fae9864f396dd5ada923e145bc338057b3abf0f1ed4",
-        "sources": "9e63e208868b807c24ffb2c8f4216e9e35bc2f231a6afe51e89cf087e861913e"
+        "jar": "10279d87ab47a9a41cb69c56fc69494a54a3b84f25c853141ed234d4832e85b4",
+        "sources": "a89ae5f9c7164d4cd04389fc95fca53438923a56fb3ee54f90b86f05fafec6bc"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-actuator-autoconfigure": {
       "shasums": {
-        "jar": "d2b798d02d31fbe20dfa128f561e79dbc96a460a67e0b69aaed1e07826738c02",
-        "sources": "d973e83c266d7cd7ada84e1bb1196e309b530ae2e60c9493cbb9a59c5fdb1541"
+        "jar": "1124c22bc848e5ed557fe4543698056ef7090f134f2ccbcafb3d6c18a5613b13",
+        "sources": "493707dc3adec7ed1d554e2faee82d32d588e1d9850fb79c5d3f854c54058fa6"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-autoconfigure": {
       "shasums": {
-        "jar": "a68a9a56f1976ab9d669e732889de9de73f1262ef8854d0eff70806ccf8dc684",
-        "sources": "ca133f83c5e5a096f7b9b2c96e56b409978247cedab105c37b35d84033ce5338"
+        "jar": "0fcaa3050ba835ca6b3879f81cd48dc590a6262f53bbf10d2a95c70bf7c048ac",
+        "sources": "e0ae0f924ecbfc88fe08613abc0012a101aa80d2d475cde544e1cb7d9f3f0015"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-data-commons": {
       "shasums": {
-        "jar": "c75c99034009d67e43fc7f68c2e0bdb785392953917b11bbe3c74821fd80282a",
-        "sources": "0ca75f0b39209ae0812b63c78e3555f4729e02bb8292a1a90b9da66a934daabf"
+        "jar": "44613292a91c231d81d39d05b10550b9988e7dcaf3b931b700e86fb0ac029937",
+        "sources": "347598ad68a22fc25dd5ab4a07581fdbc14f5bc911d93ad57dfde9c4b20aeda0"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-data-jdbc": {
       "shasums": {
-        "jar": "79d79fdba8be601acd5aba8534cf8a1e74b4a9db8ecaf178683279b4d8d66865",
-        "sources": "4c331898fb819af8ac2665b329c0981857565cac6899ee5817b7b0d4d32ba63f"
+        "jar": "1edf3005ae1571afcfb179ace21bee53f6d64976769168214b02e3fbca5a30a5",
+        "sources": "9d6ef6d8b07749db61ced8efc2f3b283aa514bbf80e1a7ee1eccd5d65b9d0830"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-flyway": {
       "shasums": {
-        "jar": "a2a6884d3ef606523777cec431c5c2b5032d3056599d8b6a18887100c5b0bafe",
-        "sources": "f259beb83e09304d3c8c69dace243ac1eb9441539d285fa2a8163f36ef3839ad"
+        "jar": "ae208fe4ff07de13340080a1533635f529dc19cf2f5c2f2ccd3bdf34578b5438",
+        "sources": "ee8057797a12b32129a30f9162955153ce5ce23c2756c69e307785c2f8586723"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-graphql": {
       "shasums": {
-        "jar": "b57a3f5285631f9c87ff3bb93895dad79b76958fe3e7196700a850a0370a8525",
-        "sources": "61eb1a5c15f872d0196a0e926dfbe49833b3d231875247b06dfed1650af11c03"
+        "jar": "06808a8b559c41be05f506e72620f8074a5a3610a6ab84aa5007a1d8449fae95",
+        "sources": "fe8b63d11a3416b5491019703e778470b8bc297e001c960bf616eddbd3a8090e"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-health": {
       "shasums": {
-        "jar": "07dfd4f56995588fa6c77dc3afcb26f3559ffb34eeb9dbc729aad70fe551f0bc",
-        "sources": "b1fe48efc61f989012a039756e088770d1ce707707b2ec83ac65259ce31c0d29"
+        "jar": "cbd92b42254fe264a5d4556538049139aabbfdc367f5d06fb5b4cf97aa70fc18",
+        "sources": "22106e49b99131e632119dfa25edbf7c5542067da670bb94c6834377560eae4e"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-http-client": {
       "shasums": {
-        "jar": "a4f8cabadad69ddb046a86cd1df7d1ca914ed8b62763bd5ed7b361f4270d0f22",
-        "sources": "ea55f914d633a01443c782f2f6fee8b7cb7d429164cdb9da535756ca31080153"
+        "jar": "898e8f4d7e11331d472fe4d07aeb04b505e98027ef794c24c0ef39549c2da6fe",
+        "sources": "297b007a732d36a9a1a41e27b6a959a100ab2318c01fa6093cac61fddea0c8e7"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-http-codec": {
       "shasums": {
-        "jar": "750b8c42a8dd70fc5dd736cfffb6a59ca4f4e55acfaef7b9f3773468918801d3",
-        "sources": "80d44e8931e9fcf950e2756c7fe68a850bf2afdcf958cdc80a5c60076eb74e84"
+        "jar": "1fdfd368a2d883ae3889158be4b5ecc1fa46859dd0705118f5a90df8c1cf3efc",
+        "sources": "e6e6fc85c8ddadac6cb09f5df56099d11dc5c68403f5f8bda8aa84337a15212a"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-http-converter": {
       "shasums": {
-        "jar": "d01837b5fc73faa697cfac07912378e7f24f925774a61666d9a6d71d20f7394b",
-        "sources": "c992c67c2893bcaa8eea621dcde60d79e584f5ac984031497464eac2b6219b52"
+        "jar": "f82c8913ea17a60630a5d26fa006cf79f28c7d920dbbef8760f5bc7053706fea",
+        "sources": "34aa1020450646e5fe00baa8a4b6835cfd38e999f536b12ad1cf5cf1a727b2ef"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-jackson": {
       "shasums": {
-        "jar": "82fb828f4c0f3e468f0553f2e025507ad20761db025037ce03b5f17fe59989c8",
-        "sources": "5bc6e2b1fd320e83cc8aff38689520c5e0e199b4bf055695570c65513bb1d58d"
+        "jar": "10b6e63a40b257168854093f413eaab8b8a9afb7e989fcc7f6732b42c3f173d1",
+        "sources": "16d12a38b1ab8d3a3e1876ad8a841d8b9d3dd1199b370f564be1c87ad3ce038f"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-jdbc": {
       "shasums": {
-        "jar": "a18af3d81c96175b2ce43e276fcef9bdf842a1a0264b36bd9b31c9571c031a92",
-        "sources": "e1693926b1be9336827f0545e81d3ac0af4bc9292372fc138d1c41c4b846a35d"
+        "jar": "3b5aab97e72d8a15a40546c31365ed2090cf25451e18762add8ed22cbb4ead43",
+        "sources": "5e17c2c34e3fb0338f71a8ff4ad6af2077afa1e8873447d8aaa67109af4940f3"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-kafka": {
       "shasums": {
-        "jar": "341786fe85fff743d2d707b8c3755d817904704a8bc49503ed9b7346685f4dfc",
-        "sources": "a5d9c8c2bec6d676bba38cd8c0dc67c8c0452fffd4a21d2461c0f79152415075"
+        "jar": "f3c2d63cdf22800d072fb59e0feeb4ac421ed6567aa6f5c3f101beb933732540",
+        "sources": "a4011ea160b3bb2bf5a143a2a25aaeb84e1b7c06313f4b881fb6025a797401fd"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-loader": {
       "shasums": {
-        "jar": "5bd711ec6ed6c8029332fd78537aa44deb2263fdd978f2fe4b0e3abb37e9f3e3",
-        "sources": "3c48de3fd21055410f839da6ecf514a5f056aa07c3f31cd631d1bb8afac90da5"
+        "jar": "bbe479f00a26c1a13fa69db3d99f570a8fdc656551e4b306a32bc2941a2409b1",
+        "sources": "04b8df0d1d682bf6ad376643fca44b697b56bad0a276340a42c4f8b5f2f909d7"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-micrometer-metrics": {
       "shasums": {
-        "jar": "a21e1e415c1e6ab3252b3745110f0717e602cb6b1ffa59d2f2a29bc3ab45bdb0",
-        "sources": "9aed3e6fef953ead1dbe41033a39c67b4d1798a6d866099195f41280e11250ff"
+        "jar": "2030f79dbc59c9d84f1f4d6d2a423b46a8ba5cc277cbda75ac54a436b3ea96fb",
+        "sources": "df3281574d1567b98e8add3fbb0558cc0ae426d5f7e5d1cacf881e5a5e0eb398"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-micrometer-observation": {
       "shasums": {
-        "jar": "3684b47955ab80ba796918a07610b7957f4a66366c3b67b51bf8eb4cdc6df7f6",
-        "sources": "321bfd25a7aee2f8ba353508c31cf7f5cbb3079e2a2d03e500d5a540668468af"
+        "jar": "1f4a7a9755b38470157316dcec8a9f19b1b89864c5f742149b8db0c517f41853",
+        "sources": "41e13c5658c0086e876f26d10858d4ff092a22335a79c7ee796fa7b8cb76429c"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-netty": {
       "shasums": {
-        "jar": "cc32af938a1573b9c05bbe5ec46c5288af506f5abcd582cbd86b43fa374936e4",
-        "sources": "458ad22d22718f95b2e8a18cb4b91ccbbb2b63404a3bbd3fd07f96bc2c030b60"
+        "jar": "397e145402d1c556b1ac2ea154218ba88a83153adac9a7e5a4534dc6cc7d780c",
+        "sources": "83626220bb3fc5693e01a24bffa25363bda2ee53a69f89a44a38d4e3ef8465c7"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-persistence": {
       "shasums": {
-        "jar": "0c708ba19501262cf075397a7c08a11ac8f93e745bf9dbe37e209a12f464b834",
-        "sources": "3897442d5374e19f9a2182646ba97279e6d153f55f1bec43c571f97578994cdc"
+        "jar": "d9d926224c738bd6152718c078134e3aea1057db4d6a452c37ad120893e0e4d6",
+        "sources": "961374a772ff69f3723d446fa613f77e24963e4894a6aaeea44d819752961c53"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-reactor": {
       "shasums": {
-        "jar": "898d6216d115be70da411526ce79e88b4284d71cd5eeac5abf242ed78623f8d1",
-        "sources": "347c4cb6a36c72233cecf1f0da2261bf33eafee33132b3dd0adcc57b7cbfb11d"
+        "jar": "ff709c0f289b6b5e14c1830e8b3ffa875210d6b41d12607e0c5b0792047a11cf",
+        "sources": "745973b7ee2e195c2c64192c01d692fb5b121c658fe5da9e8911ae1e65ba7ca1"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-reactor-netty": {
       "shasums": {
-        "jar": "639afc77a0950a6b0ca773afa26cb3e2d06cbf05044bec8656331bac4049802c",
-        "sources": "47c13481779cc37b45599b30ee69c682e0988b3517cd6b2dcbcee6d565b13579"
+        "jar": "066eded91f20cfc960c2dd01425de75ae5e0ed267b37eac32eccc62c74be045f",
+        "sources": "cfb9b9a1e7c4e823d3e1d8e1ba04315d8f8d2c9cb9ec83100a635a4dffbb1453"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-restclient": {
       "shasums": {
-        "jar": "4381dbce948c2efe7c0a154129fce8fc4e2b1db1d14305ed69bd6755f877c984",
-        "sources": "4e6af4d8a5d24da18690b33fc74f8756c978970ab1efadab8226c9f35ff0cdad"
+        "jar": "18e89dc45eab8268b03d6a9f9a2152cb12eee3343ff6c1f2e8f3a38873a77553",
+        "sources": "bf9f10a3d72f476b32367a33b42e5f27a092af7c7eec9e8dbea7913535ed5c6c"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-security": {
       "shasums": {
-        "jar": "f19e7752a51ac54035af43231b13683ed386feed80703b46704dd7ad31f54dd0",
-        "sources": "2a527a48fc872ebc38aed9c8a91a5ede8f909be039c369863f374d477f99a6b1"
+        "jar": "5e30a3ea1d62c5ef2af5a8bcf31237583f216f40dbb0b76ec2eda72981ea2bac",
+        "sources": "a3ea044d2b2c6c612f12e753a33b543b10b8e3f28be4b6d13235d6680ec83782"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-servlet": {
       "shasums": {
-        "jar": "f2f75ebde296e10e01bb88eb7015deadf36ef889e5526717633866454d1250b4",
-        "sources": "744adf72945c305e37f0b135e8225b830f3da5578120d63143c9361b6af0e327"
+        "jar": "5f694a7c6c357a87032bc92db0e7e0e03b64010f77892e5992c86b10f568a5ae",
+        "sources": "7b20d2387de1027a885232b184201cb50ac7002ae752f49207a8914c96f4807a"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-sql": {
       "shasums": {
-        "jar": "aa98cba6a0195ce0a6cc48e075f37f4b11587d91f1004b3b37b47a59897de615",
-        "sources": "6292d95d75e281b1f2c9dbbaad0fabaff918cf85d3a752f5840da40315a1a130"
+        "jar": "2826a5380675337f4c5b3e90db02279e68a2c9a7eb2b2ac312828c05fb827a9a",
+        "sources": "a9d2f1812aaa78a885dfdecc400d023cfb3e6b91239f17e9fa0f95c5cfa35f74"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter": {
       "shasums": {
-        "jar": "4cb0ed1cf253aa93b6e80a39d69e68a48ff4a01d60c3c127533132b46bdb790a",
-        "sources": "4cb0ed1cf253aa93b6e80a39d69e68a48ff4a01d60c3c127533132b46bdb790a"
+        "jar": "40352b3fc0834d5830f66d40100fc8afa8ac73e24a134c7779bd42b72f2d6506",
+        "sources": "40352b3fc0834d5830f66d40100fc8afa8ac73e24a134c7779bd42b72f2d6506"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-actuator": {
       "shasums": {
-        "jar": "e1dc79923bc2815acc4dc88c985715534910af567df707f75b96cca2ed692a85",
-        "sources": "e1dc79923bc2815acc4dc88c985715534910af567df707f75b96cca2ed692a85"
+        "jar": "f6f6c4166430953515336ecf3b25ea467e24c4e5705cbcc8cefa273a4bd6bde8",
+        "sources": "f6f6c4166430953515336ecf3b25ea467e24c4e5705cbcc8cefa273a4bd6bde8"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-data-jdbc": {
       "shasums": {
-        "jar": "2324bcc59efd246ce0975bb34fc44567efdad617eaa6c6f3e5cda3a369592aff",
-        "sources": "2324bcc59efd246ce0975bb34fc44567efdad617eaa6c6f3e5cda3a369592aff"
+        "jar": "a3173609d3a209739f9016fdd35c55f7ea58d0ef171f442443bb36454ae27a41",
+        "sources": "a3173609d3a209739f9016fdd35c55f7ea58d0ef171f442443bb36454ae27a41"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-flyway": {
       "shasums": {
-        "jar": "2f39ca497ee24c7df3fd0971f943a17deb193553d07187a99bc6793b0147f43e",
-        "sources": "2f39ca497ee24c7df3fd0971f943a17deb193553d07187a99bc6793b0147f43e"
+        "jar": "3ec2faf7c8cb7a657067923d5a4c7deb1a1a62f2b51750be63d554d4b8d59a3d",
+        "sources": "3ec2faf7c8cb7a657067923d5a4c7deb1a1a62f2b51750be63d554d4b8d59a3d"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-graphql": {
       "shasums": {
-        "jar": "def545321cac1e934c86260fd73f0eaa376846b748c66b4628ebe8e6dfbe357f",
-        "sources": "def545321cac1e934c86260fd73f0eaa376846b748c66b4628ebe8e6dfbe357f"
+        "jar": "7e1ee27a1e274a99b6beb4ac0dbbb978a942a7b58e4f4e76eb4cffe10ed1d74b",
+        "sources": "7e1ee27a1e274a99b6beb4ac0dbbb978a942a7b58e4f4e76eb4cffe10ed1d74b"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-jackson": {
       "shasums": {
-        "jar": "78a3fbce32e41b9185a3ea32275f494529ace99578f3ec105b2fa03df2043e83",
-        "sources": "78a3fbce32e41b9185a3ea32275f494529ace99578f3ec105b2fa03df2043e83"
+        "jar": "4214c534cca5c7c7e1cf92db90f178a3dffdede503fb68ac3c0dd905f331431f",
+        "sources": "4214c534cca5c7c7e1cf92db90f178a3dffdede503fb68ac3c0dd905f331431f"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-jdbc": {
       "shasums": {
-        "jar": "0cd94a651d1be209c701be4ecc59b4715a2e9c53f3b3506900c775dafa9a6bf1",
-        "sources": "0cd94a651d1be209c701be4ecc59b4715a2e9c53f3b3506900c775dafa9a6bf1"
+        "jar": "ce3e3dfdde267f11d21960715967b59713575cab8e5e8b3b00fba6a3bb022c99",
+        "sources": "ce3e3dfdde267f11d21960715967b59713575cab8e5e8b3b00fba6a3bb022c99"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-kafka": {
       "shasums": {
-        "jar": "d7327ee3a9aaaa3b6585ff596347134b37ae9ccb19c808db74bdc19eedf05709",
-        "sources": "d7327ee3a9aaaa3b6585ff596347134b37ae9ccb19c808db74bdc19eedf05709"
+        "jar": "1a0229736b8f777d693f2f60b0fc000f4dbcaea43ef7da2211d3949b5929d764",
+        "sources": "1a0229736b8f777d693f2f60b0fc000f4dbcaea43ef7da2211d3949b5929d764"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-logging": {
       "shasums": {
-        "jar": "abd1da42af5afc4f6065494fd3b50d1a478c7621cea0b00c33ef0e99c098bb91",
-        "sources": "abd1da42af5afc4f6065494fd3b50d1a478c7621cea0b00c33ef0e99c098bb91"
+        "jar": "73a6a42d2b6a589bd722aa107800829d0b20b731d94135f53c4b744db8beafbf",
+        "sources": "73a6a42d2b6a589bd722aa107800829d0b20b731d94135f53c4b744db8beafbf"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-micrometer-metrics": {
       "shasums": {
-        "jar": "7e3da1a9dadad54e088bd764d4bfc6af0611ad52ee0593266fbd49a6946d2008",
-        "sources": "7e3da1a9dadad54e088bd764d4bfc6af0611ad52ee0593266fbd49a6946d2008"
+        "jar": "ad4a34ba880e6a8c811e90c1c034b937b8a78030eae60ec5b43826c42590c802",
+        "sources": "ad4a34ba880e6a8c811e90c1c034b937b8a78030eae60ec5b43826c42590c802"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-reactor-netty": {
       "shasums": {
-        "jar": "63f3ab4cea4f478ebacb1d7b347c4ced345f6050b4698e9c19ed1eaf9236555c",
-        "sources": "63f3ab4cea4f478ebacb1d7b347c4ced345f6050b4698e9c19ed1eaf9236555c"
+        "jar": "5e7110d8ca4430c0b26df99dd1fa17281bf4abbd5bc5b51e413e52475bab741f",
+        "sources": "5e7110d8ca4430c0b26df99dd1fa17281bf4abbd5bc5b51e413e52475bab741f"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-restclient": {
       "shasums": {
-        "jar": "68c401caa522d5bcd0cdb66c4186b4e2cbca3f262e2a89ee0fdbe6b7e8ec2fdf",
-        "sources": "68c401caa522d5bcd0cdb66c4186b4e2cbca3f262e2a89ee0fdbe6b7e8ec2fdf"
+        "jar": "428661363c181ffdae59520bed77b80106de6a1fdd5e6902512a01e2fb09631b",
+        "sources": "428661363c181ffdae59520bed77b80106de6a1fdd5e6902512a01e2fb09631b"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-security": {
       "shasums": {
-        "jar": "94df2933c3388647f23d64f8e1fd7d15d3b752d8684e91f7c58272d3a0db70ea",
-        "sources": "94df2933c3388647f23d64f8e1fd7d15d3b752d8684e91f7c58272d3a0db70ea"
+        "jar": "5370ad6bd847e85675ee81a2da98f5fabcfc8649197b0a873417a051aa435c41",
+        "sources": "5370ad6bd847e85675ee81a2da98f5fabcfc8649197b0a873417a051aa435c41"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-test": {
       "shasums": {
-        "jar": "7068e629a0b79c838ed454fea37c94cb1a6ac705b7c148c902e78e8fc6634b99",
-        "sources": "7068e629a0b79c838ed454fea37c94cb1a6ac705b7c148c902e78e8fc6634b99"
+        "jar": "03ceed4690ac787c2aa22e72c767c395c446d83f2e581282cf2e6a3a11cbc2d8",
+        "sources": "03ceed4690ac787c2aa22e72c767c395c446d83f2e581282cf2e6a3a11cbc2d8"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-tomcat": {
       "shasums": {
-        "jar": "b69066407242d0997e6d65b2e3bba306954d183bcf4d23d6ab07f63eb3441465",
-        "sources": "b69066407242d0997e6d65b2e3bba306954d183bcf4d23d6ab07f63eb3441465"
+        "jar": "3e8cbd141ee6f4f2acfaf6320f1951307816f086de426d08eac19ef4a57d7e90",
+        "sources": "3e8cbd141ee6f4f2acfaf6320f1951307816f086de426d08eac19ef4a57d7e90"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-tomcat-runtime": {
       "shasums": {
-        "jar": "caab936e904edcee854791178ad5ad3018862c35a376d27f1e5802681a88429f",
-        "sources": "caab936e904edcee854791178ad5ad3018862c35a376d27f1e5802681a88429f"
+        "jar": "135fa0b7a4232c64b975f348cab39e2259d36a18e14768f5f213147a4febf68d",
+        "sources": "135fa0b7a4232c64b975f348cab39e2259d36a18e14768f5f213147a4febf68d"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-validation": {
       "shasums": {
-        "jar": "31cc784d9d7ae207dd24d731890f177df8213e4abe0d627f08bf82d9e36cd952",
-        "sources": "31cc784d9d7ae207dd24d731890f177df8213e4abe0d627f08bf82d9e36cd952"
+        "jar": "f4a15a63712f4a097347cae20dca5456be4a7d87a6f2791be3815ecf58638837",
+        "sources": "f4a15a63712f4a097347cae20dca5456be4a7d87a6f2791be3815ecf58638837"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-web": {
       "shasums": {
-        "jar": "07b8b52fdd3e2fea9f4aaddc58f419b5f1cbfd8bfbcc34c37811a2fa74eb7590",
-        "sources": "07b8b52fdd3e2fea9f4aaddc58f419b5f1cbfd8bfbcc34c37811a2fa74eb7590"
+        "jar": "d2732bdc307d3628d680d32758b300972109f499ec8e023bd663cdad002c67c6",
+        "sources": "d2732bdc307d3628d680d32758b300972109f499ec8e023bd663cdad002c67c6"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-webclient": {
       "shasums": {
-        "jar": "c105a34c47d4a5ef5b653ee6c822951e637f95a321975bb4265a996636fee16c",
-        "sources": "c105a34c47d4a5ef5b653ee6c822951e637f95a321975bb4265a996636fee16c"
+        "jar": "60684bf7cdbbbe21fa6760d8e3da42bcff4c6c0b5ba7ce91c468a395cc2c333c",
+        "sources": "60684bf7cdbbbe21fa6760d8e3da42bcff4c6c0b5ba7ce91c468a395cc2c333c"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-starter-webflux": {
       "shasums": {
-        "jar": "a40a9090818f65deeb80565d1c7fa48734f1a0119a92594df339d5d000fa17a6",
-        "sources": "a40a9090818f65deeb80565d1c7fa48734f1a0119a92594df339d5d000fa17a6"
+        "jar": "2ce209db257de3fc45ee9328d28cf524f03aa044c01af40dd6476810390aa52c",
+        "sources": "2ce209db257de3fc45ee9328d28cf524f03aa044c01af40dd6476810390aa52c"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-test": {
       "shasums": {
-        "jar": "3375706dfa0b02138e5cef4208bd6f258d45b90d97fafcf859aef25ee2267455",
-        "sources": "cf1a85ca52dd38ae34aea54d594c85b9c0eec4f84a49212451663add0916ad3c"
+        "jar": "3421dbe658d32e9e0165c118b031e4585f8c55710b1b6b9368453c6d8daaeb58",
+        "sources": "f25c8234c523d6bbcaac02c514df7f6f0ba9c011f689008656c000c26e484af7"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-test-autoconfigure": {
       "shasums": {
-        "jar": "deb1a4abfeabed14ef6f501b58c1215f0a248ba24ff9ef88651e16774a32ee89",
-        "sources": "05d49b5465233644b98aa4dfa099ca930015f2a3219b93e8d13056db680cea63"
+        "jar": "ceebd04f58fd51f037ade92cac4ac14af36ffa5eb2f273c17f886041fe32d0cc",
+        "sources": "a2d7cbcfcb8d1f82fb7005a303173bb9e8ae7bb4663d56cbef733a5ab2b3addb"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-tomcat": {
       "shasums": {
-        "jar": "9c0e9b3b2e746c8a6b39146dc26a71a5ae3aa0f26f7b23d0390516addc25d5a3",
-        "sources": "a591e7ab2102e28e8594a7d81e716597182998c042478387ca317baa2ba1af3b"
+        "jar": "011e662eb6f9f4a80c5dacf914cfca8a25a33fcd753736ec453dcf701337dd24",
+        "sources": "c01aef4a51680f5e630872bf4a04e6a05206b5690fcbc95269ad31135fe487e5"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-transaction": {
       "shasums": {
-        "jar": "7ae5685cb7edc9e0d788baaa6c0cad4ef63c9d6826446f20580f6f0839fcaa90",
-        "sources": "972893687d2c076194f363be9c082f233bf23c72e542de38d034a72e66c2ae2a"
+        "jar": "5402dfeef5d6633b485d6ce8d1cfb2116c7a55e70f8f5dbd31b69ca43e006f13",
+        "sources": "1994264f75769fa0a656a0dcf625ad1fac5486d84c318c22f0a746d5890c90ed"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-validation": {
       "shasums": {
-        "jar": "60940a76bd19c6c5bee2965947724d672252a1d1f40ca777e9cbd09db4c4e395",
-        "sources": "55b84a45aee1eff7a87dc0cbe4480e064eb98b904afe40163f9d6ebf0d2f65bc"
+        "jar": "38e3409dc8050e14afcfe14b7bb09f10d1077c7fbd33150ba2698d53dd79b4cc",
+        "sources": "b9e0884189e37c2eb9de57499faa9d70d24c6984b58f5ae72a82e0006615390f"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-web-server": {
       "shasums": {
-        "jar": "d75dcc45dd7b09ae9816d74aae772dc22ac7fee6ca69e8e094f2b693229dc556",
-        "sources": "f0ff2eb435cdae3c9a3eefe381eba9bab05f39b1c02e716d96b01ffa24047237"
+        "jar": "a8541ccbd29f5a8db7e6092fa83463aa4d1c002fac07b8b5babe118ad6c4a3d3",
+        "sources": "4b95367ce932a4ec51ede71743d5de9796c772388623a87e2abd5b2879017a45"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-webclient": {
       "shasums": {
-        "jar": "bcbe5475ebd5143b51134b2371d5f34ba88faebc60526a1a8474cdc6d9bb13cc",
-        "sources": "6cfc7491d42085c0e8b3fceff8b77f743aed52c0a1af7b4b47a7c2128bd30c9b"
+        "jar": "129f8959054552cc59878ca78b447a11c4702575242781da52f6c6c9e962a77d",
+        "sources": "762c62f32db4292b0b0c7fd59acf374406552161b34e9a0b6b3ac0c6fd7bb9e2"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-webflux": {
       "shasums": {
-        "jar": "ddaac9555f82f1a5da829a958df1a6c7bd9081b9aca6e6d6a6577abbff91c729",
-        "sources": "444e81bc451416e36193c5f2a82dda2cf38601d50d2fd883c8bfd6e50418be28"
+        "jar": "c122d9f82fcb09bd7b214c4f1e13c7153ad50374588d6a6159fdae63611f363c",
+        "sources": "64b97ebb61e00ab3a6a2c68b3b1369f6a8e54898b835e2a8c9e9f2976a730ff2"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-webmvc": {
       "shasums": {
-        "jar": "61a1fe818944202f275c63bcedd0349d43330e1f700ec67445b3c5b5b1cbdff2",
-        "sources": "b7fca79ca7717a7e6bf3428977da0f33a2ca0f1456ac5e87be7ced2a32208b94"
+        "jar": "ab21735a550cbfefaa4ad6ffbb1a891592580ef05ad729cd2025bc0245862b55",
+        "sources": "8a052cf213ade8892a7d572becb9e29ece0f4cc125c4bedcda37273525a0d1c3"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.boot:spring-boot-webmvc-test": {
       "shasums": {
-        "jar": "bb3377dcb5e529a244487f572d4c74774c822d7540f961066d03be4a75c075f6",
-        "sources": "24e86a174608845f4fdb6aaaf6463fe5d74212c3c38880fb6b61cc5a66a9d730"
+        "jar": "71748074bb59d2420df911c4029e8cb8400ccad8a5050f12e7beea61a9cd4d98",
+        "sources": "c127167303587d32b0d802e950278e66fa79ef5d7f2ce0fea5f1514e554c992b"
       },
-      "version": "4.0.6"
+      "version": "4.1.0"
     },
     "org.springframework.data:spring-data-commons": {
       "shasums": {
-        "jar": "b75c957b798497435b9168c9677fae3c5cac5831d1badcf280b2bb4c57b12e4f",
-        "sources": "24954dbf4e32777bb7ee9e05bf52b4fe35f3bd388d565c9a8dc225f6326f6500"
+        "jar": "c9e41d45b30aacc0ce50c4426f0650a3544c066ab5d6d0304840e6f878388c5c",
+        "sources": "9b4fb034b60c797b7647ca64b6004ac58721b85bf394b2b9717c06686c01e224"
       },
-      "version": "4.0.5"
+      "version": "4.1.0"
     },
     "org.springframework.data:spring-data-jdbc": {
       "shasums": {
-        "jar": "fa157145b1bc59c6e14033ea6ce5de98b968e969b8f317933f5a94f96a7a11b7",
-        "sources": "3a37f90f8909cd8b3d9a039bc60898567da6b69480afe08b2c8b32d238e5ae82"
+        "jar": "c122c6ca94b14f1b82edbfc2514eb7d41923a773275638a99ddf9ee65fcaecdb",
+        "sources": "c3cb03f64d0542c0a02e269a819e081d859a114aa939222c1c50152bc16fb8c4"
       },
-      "version": "4.0.5"
+      "version": "4.1.0"
     },
     "org.springframework.data:spring-data-relational": {
       "shasums": {
-        "jar": "f73f5ac3b888cdb7443dddabee515a615ea70eaaabc4826f6d035a756d0b336b",
-        "sources": "cdc9857f39b13771550cf18e438fe544f6a6b931ff49091fd4d63280e2835210"
+        "jar": "d9f4d2d9d9a34bfce116b68c9c47ff2158f28c1bf4fc9e1faff48bb0efd3126e",
+        "sources": "feffcd064061b37c1be5d2bfa6c704de816ec01bd9455d8deef1e4ac81ee878c"
       },
-      "version": "4.0.5"
+      "version": "4.1.0"
     },
     "org.springframework.graphql:spring-graphql": {
       "shasums": {
-        "jar": "b472b5ef59ee8481b4c951d9a17122d1845bc0e60f1fa724db6df9476b33dc0c",
-        "sources": "869b328836da67afd6d87282776df93fdb598bd571f99246ca01323492dbef5d"
+        "jar": "d39aecd0f062d41ae90ce868bd7050a945c575dced0118a06bf2ef2f48b55f09",
+        "sources": "7a2b090c4288904b368918935978e9cb6199b7b0c7b65862a7911f3380eba407"
       },
-      "version": "2.0.3"
+      "version": "2.0.4"
     },
     "org.springframework.graphql:spring-graphql-test": {
       "shasums": {
-        "jar": "8156bc4a5836eda49373da067e5fd3fd79a8d3098e44b54382c9b11cb6b3eee2",
-        "sources": "67661b4b8204fc072b7f8dcb9b514d44519c30f88d00205f46565c5ec10dc032"
+        "jar": "3f55fa793857069c697bab089abcee838daf2f3aedaec1d6921a78ae9705700a",
+        "sources": "f25f8aeac55dcd90f375e0e1dedcf53ef3838754e6193592603efc5cea858168"
       },
-      "version": "2.0.3"
+      "version": "2.0.4"
     },
     "org.springframework.kafka:spring-kafka": {
       "shasums": {
-        "jar": "e7c49475c341b7d66e7433851d0c2c7d48afa81bf2fe47d4db88e4472d76184d",
-        "sources": "97027511480843748d21a52c72fa6c14d3ded2b570673661fdbfa95ad610cff9"
+        "jar": "c685b04fd70c6f0b3e8e425c7d3586b34c77585eda68475e32dc9f5a135719a2",
+        "sources": "44167f821e0f7fa6fa88f45f8086c12ae15ddfb74f4c46290b4767ef63d17a65"
       },
-      "version": "4.0.5"
+      "version": "4.1.0"
     },
     "org.springframework.kafka:spring-kafka-test": {
       "shasums": {
-        "jar": "7929f810ecf10b1ef8e298485d735ffce3f4cd60474db691cd20e49c68aad096",
-        "sources": "24f3a6e120740eac2fd69c3ba3257a663542039bd1ca9219c52a08b2c6f3d9ec"
+        "jar": "11e6275728c7a64d2dd77c956561226ca0c9407b25fa3adfebebe2455149eb9b",
+        "sources": "9b377f14b5742fd45e649eb2b659b7f9281a4663fa9148d58accc7b7e1b47568"
       },
-      "version": "4.0.5"
+      "version": "4.1.0"
     },
     "org.springframework.security:spring-security-config": {
       "shasums": {
-        "jar": "3682285f86681a93bddb5c14d8b2dfa111aa6809b195b8c12d1897c1781d2fde",
-        "sources": "6d08cb6434cf9438471d4f47131ec202be455ebc87a439d79ce496f56d9f00b5"
+        "jar": "3234035bb5ccd45a9367ce526723d6b8da501c5c3f725b54a98354f922c2e978",
+        "sources": "ec26cb54bdcb5a1f3572929220c891fdd341c5037a6f88227492b1d7d34ba0de"
       },
-      "version": "7.0.5"
+      "version": "7.1.0"
     },
     "org.springframework.security:spring-security-core": {
       "shasums": {
-        "jar": "344bfbed8025031781218cbd7891f6b9fd750d4f52c923f75948d5e7b11fc2ea",
-        "sources": "7c95a16f1fba8fc91490c5b7c32db8ec360cbc6a25e59a80ffd9ff7f44f73152"
+        "jar": "f8cecce9e65db9fe9ea42ca92b04d6e4e4320ff9d492aa60b753716ea397262c",
+        "sources": "693b29a659173f1323278c0372720d13fdc192e7bb1f92987e96f26d66b240af"
       },
-      "version": "7.0.5"
+      "version": "7.1.0"
     },
     "org.springframework.security:spring-security-crypto": {
       "shasums": {
-        "jar": "fa2dbe7ce6aea8b3b0cc82bcd09b5b4ef030cdac51b85e54d785d85f1a3d42d9",
-        "sources": "253c3b0b15c28e9c7dc806d5a2159538c78d4356f32f57ff3f36c5865bca05d2"
+        "jar": "6f6957548a28451712e53b94a3e77057735b2fcec04c99ca6dd555b574453a98",
+        "sources": "64d6d5ea9e7f504bd75c3ab19d04c0593382be15b707cc718c8ace5b4e3850a1"
       },
-      "version": "7.0.5"
+      "version": "7.1.0"
     },
     "org.springframework.security:spring-security-web": {
       "shasums": {
-        "jar": "4616f13afe233600dfad8cfa4ef1472c378a080a6cbf516739c779d9267edbd9",
-        "sources": "cab8f26fd852fdbf8b798d1e52b5557d0419c5121c30d016037d3e2ba167c3c5"
+        "jar": "1deee612104ce85ec815076b80578cd8e82c07067e122068f09fbfef860b3cb1",
+        "sources": "d9f608c065ad203df169928b81907bc903134a6c15738f9d3dcd263caed90d01"
       },
-      "version": "7.0.5"
+      "version": "7.1.0"
     },
     "org.springframework:spring-aop": {
       "shasums": {
-        "jar": "c0503b7f318368f37f0d0e0557f65e572cebdf61cf9c318a7cbcad7824b0f284",
-        "sources": "e7e8a4b651b0ebcb7f97ef55fba05f8644b7109c6c26012b5eea4e972a9b1269"
+        "jar": "1178f039e087884174e2affc46e484f4a8bd7f2a4e011d33dd9137709f740f80",
+        "sources": "580610d9e5e2418ea48f64850673ed1d1fdc2d9c8e5cf6e9cfaece1e61b70522"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-beans": {
       "shasums": {
-        "jar": "13775be4269a6cc82ebcee619a9fef1545c90ae54c6fba84a0d8c6d79ff6877a",
-        "sources": "4f0638eb1a2f8dffb2a99610d7435b947d6a7dae0951c7da79f9f1c486e3a520"
+        "jar": "6ec2e361a8872a71d8b1ff66f1bcb8cfa29fcc437931998919da7cecfb59b45b",
+        "sources": "d75bdcfe142b1576f72356748292cad5c21872a52be2c7f2920a9795bb3c52a5"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-context": {
       "shasums": {
-        "jar": "4a252050fd8595c5922c4d795728f8aae495e41171b3a958b0cee349b5e3586b",
-        "sources": "c5e319b619ab0031d70509f446c70649d6d114f1292b1734118c1b8835cac370"
+        "jar": "1eb7d552414ebac00e30ab3e809138d810785f6d2c4271db77cdf0181f308f19",
+        "sources": "a28b30679b51bcf8aac7f06cb564a379cc2d6c4891b2e2dfc738ddd750c6278e"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-context-support": {
       "shasums": {
-        "jar": "c2a50cecd342ae6bdf7c70ae8150ca0556a3ca8435add636eec3a699c08a4a16",
+        "jar": "9ab80715682c47ad66a1a2c0e9ab2be9ec3d828276f281597f12c5208147b92e",
         "sources": "22d3e1ee4d52ede6b31cd6fd27d65d4bdd0b2709fcc14af92ec287286ae8abf3"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-core": {
       "shasums": {
-        "jar": "9e1c13ed6d69002aae7ebc4b7d2d1d07e309013a2fbb63ab266bea8601229785",
-        "sources": "6dc4cc0f641deedc239606b9e2e9cc00fb5a5a4bd3f8bb3929ee8c8379a0723f"
+        "jar": "726ba2a5130833644bdf267a55ff26e1f52e8dcc9aa1ffa06904ca9c14619f25",
+        "sources": "3cbdaed9f2b1eea10d8ac27148ac5e6407d2861fa2d373253a09a1220a232919"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-expression": {
       "shasums": {
-        "jar": "3c23d7eb62bb3fbddc0ad1d7f94be94d1518424f1c9a1b4de6b1b6906e8d0c54",
-        "sources": "cb9d8339001956f2ca2aa409815274673d6b677dc96ad0a1d05a10a0b1f82854"
+        "jar": "3c97c38ab59c77ee886e08ccf8096f6bb58a1245f68dfed7a40e93f41c435f9a",
+        "sources": "35517249c504d1d4550186808665587c8bb5be953cb6cbbb3856804194e790e9"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-jdbc": {
       "shasums": {
-        "jar": "7bf8760ebca14457068125ddcef2ca1b17b3147e01d161aac23463626cd123a5",
+        "jar": "7d6bbf130ed919d5f4f01ec0ea771ab59ac3936ab29f50fd3a705c0119871e32",
         "sources": "c9467ce6aecdfc2d47780ee67d09e4d950aba4330581ad6f0a55c0a05b172db9"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-messaging": {
       "shasums": {
-        "jar": "e8e717b1959dcf2fa90bb80e967605143b97c9606800c13c030b99fc5fcf5e47",
-        "sources": "e8c1e01300901f10a2b30f97fa34e107052786f783e798550c23b96614c278ef"
+        "jar": "0f96694ebb88fed6bf4aef608010c23ee922a476dd71e0fab76ca9ed0eaa70b0",
+        "sources": "1fcd23228dfc8fa9d33b1b7ededa65c5a90af213b90fd335b0556a7507f2cd74"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-test": {
       "shasums": {
-        "jar": "9ed5fda6520b79f1f53714b2f307891a19c5fc18181169fe81d5272efd73a934",
-        "sources": "f4eb669227cd393c1c25c8889b0c78cab94aa5a660ee8c7fb8099fe12e1f336f"
+        "jar": "6ffb7796075a204915edc4bb9e54dc420183cecb520d753004f660f153763c8e",
+        "sources": "7bc670e2e1c9cc902da5557a857dde0a4d8089c267ccfcc1bb554cbf2a8c5a05"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-tx": {
       "shasums": {
-        "jar": "d6517a0164bbe1f7525ad6f1ad621913b3a9ce89460e75580130316af022affd",
-        "sources": "8653c012ec612d602af5e1276e9a8a38758c07ab9652093fb0c7f26f719d91f7"
+        "jar": "57e8fdb6de949e7ec2617683fec03af0253bdbdf4bf3d2651a926a94413df283",
+        "sources": "7887541d74a7221ca92e21d1a2ecc13e8f98767b1603b3b6bb81d7bbd5aede48"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-web": {
       "shasums": {
-        "jar": "dbc9298d83849fb0255791fb86b80e996cfc482801ce4879481ad733d225c518",
-        "sources": "3cd6abd611805b3cbffdca1cabbc1c83a63b09c73694ddb0f447c7b12e825767"
+        "jar": "4d4ed7ecb0453d25d735ea27d025ea36b003c3d29cb7d006bedd6d5188a2f5c0",
+        "sources": "281cbbd965844cdf2e08396924eacd8a369cd38f56fdfb9519c7492217d8b411"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-webflux": {
       "shasums": {
-        "jar": "cc669b9c9455b12a2094185fc31107b9c034226d1ffc3e25a9db33eb4f468634",
-        "sources": "31907138f3c42350962edd776f4b9a0f0c6e80582d01e375d9c3ff82b3259d55"
+        "jar": "3e48db9c30d3768ac14898cfad4bad21f4cfc6a8979a12071b75e725143e5eb9",
+        "sources": "9b00f6ad4a63f3c636e455f3e733d0f75cf5dcdd8225820a1498469b707652ba"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-webmvc": {
       "shasums": {
-        "jar": "41c0c6ed2244cdbcd84a9955b4b2717e8466e20e82335b043ea9ce768dc38d9c",
-        "sources": "abba0317a1d1de856e64b99482b4e3d33c860ef90231f81b655aab77fdd0fa26"
+        "jar": "48f7e1e2d0d46e98ed3fa30d5a64cb1f7ed2aa339a82edcd87289ed8ff216f04",
+        "sources": "6dcbc3dc4d5222121f83d1eb0d30807e389771b8d233be38b8e413b92b88a106"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.springframework:spring-websocket": {
       "shasums": {
-        "jar": "ff8bdcde4ab8717bd06c6be3a17fdc0695bfd6ba92bf44065c3275ef9aaba8a2",
-        "sources": "9566a2cc321fe22b01a1e8fe519b12b2698838d343d4216b514514d96f0ef1bd"
+        "jar": "5127c9bd1d565b9081b07743496c892424a19e2f42a81ec1480cbc98fb3dd2a5",
+        "sources": "369e31293717a6fa95d06fb27caa19d4c5ac6cf40c7746e441b1620f45a26320"
       },
-      "version": "7.0.7"
+      "version": "7.0.8"
     },
     "org.testcontainers:testcontainers": {
       "shasums": {
@@ -3381,17 +3381,17 @@
     },
     "org.xmlunit:xmlunit-core": {
       "shasums": {
-        "jar": "208e0cee82aedd9183937e4b9ae44b83884179f724a706bef5795477acfcca91",
-        "sources": "bb8dba65e8bc1ade346e4bfd98d7f620f51ae8b9034e9758cd6f3031838e79fd"
+        "jar": "50970e6069c21182689eb44ae9f8193970e080b6f37fc13f22aa4201cca2dfe4",
+        "sources": "3fcc2f5d6dc72125bf85c1257f3bc2779475d1d7985d97e23696daa12eb38325"
       },
-      "version": "2.10.4"
+      "version": "2.11.0"
     },
     "org.yaml:snakeyaml": {
       "shasums": {
-        "jar": "e6682acf1ace77508ef13649cbf4f8d09d2cf5457bdb61d25ffb6ac0233d78dd",
-        "sources": "7a7d307ca9fe1663219a60045a8e5a113a69331566f9ebbe1d3b12c6781909ac"
+        "jar": "c8f7a98e7394adda02f6317249710e4d1b4c7a25aa8c7eace0c2eea52eb8bf85",
+        "sources": "cd719ff3e52eec48ef7c541ba4f178c2eff0f6719fd0abe4f4e44bde41138ca2"
       },
-      "version": "2.5"
+      "version": "2.6"
     },
     "redis.clients.authentication:redis-authx-core": {
       "shasums": {
@@ -3402,38 +3402,38 @@
     },
     "redis.clients:jedis": {
       "shasums": {
-        "jar": "8d22651125f00f9933a37b3a341137dbe527f11cb24d3a618deb0a6b3144e5eb",
-        "sources": "dcb65e948bf2b21304da19031d19ca8eb506472cbc328a299ac631735f94a289"
+        "jar": "5b4d5b7207fb9042ee8ec57a0c264bc2422120cb59231cbe95eaf8d98832de8f",
+        "sources": "c77aa1d541254cf7c55dddf5c906dc16870ac8e615305ef05826c8dc9b83d1ae"
       },
-      "version": "7.0.0"
+      "version": "7.4.1"
     },
     "tools.jackson.core:jackson-core": {
       "shasums": {
-        "jar": "bbb00763f5998f03a26f21e47ed500f253c7fc5c158fa3e8a41dbf97aa7416fd",
-        "sources": "a0d6dbb49a2f424b12d3e0161e6f2d341ed2ef3aa697db87704f956df4a51b5a"
+        "jar": "3bda1cd6eff0a8d47bdfcaeae7c2bd5311d6c8ed494ef5f3e51029bb44aa9bdf",
+        "sources": "5aa481c1c120505fc1d204510ec201a40c2bb0bb6bdea24560e0b5fb66484e60"
       },
-      "version": "3.1.2"
+      "version": "3.1.4"
     },
     "tools.jackson.core:jackson-databind": {
       "shasums": {
-        "jar": "0a366b1c2f6321e466c2970847b1251a5dc7201b680f320594230b77bfc8ddb2",
-        "sources": "be5ae6b79a88c36c73caaa9353d2858e038045d51e50464b2b29a9a32ad63148"
+        "jar": "14034bfdf392b6ebec1b4bb6c1de29d604f0aa97251259a19d5f19af8719bb20",
+        "sources": "109baa39968ff6fdcc4389dd4249f04d2edcab7387421ea17bfb51bf18e24189"
       },
-      "version": "3.1.2"
+      "version": "3.1.4"
     },
     "tools.jackson.dataformat:jackson-dataformat-yaml": {
       "shasums": {
-        "jar": "3980240691d86564b60e8672d28379124abdd2c5ee2dbdc3f214322afa6a4a4a",
-        "sources": "766b23d551291171b18e67a59b469007fac7d9146242d8976d53af9fbf0aa509"
+        "jar": "f583bd16b6d39a0ec900e37948507616bb651caea58fb882560d7e63efbe56db",
+        "sources": "af9ecf3064cea0c6977bd0fe3f1cc095d04a63e1a480fd1493fcc5cbc8c07d8f"
       },
-      "version": "3.1.2"
+      "version": "3.1.4"
     },
     "tools.jackson.module:jackson-module-kotlin": {
       "shasums": {
-        "jar": "420c6e77c3ca513a8158b515ed009a27096bb7b5ef90579ddc1f4929974a0c26",
-        "sources": "692e062808b44f74a093f48d8c3935dc13cc94edf8d436016acbea7dc24c6d64"
+        "jar": "efa7d704dadfabba9dffea17b36b946856a6c92ae349e49be8b363de9ba8f849",
+        "sources": "f809a27bfa20dd27d8ae264d754c63e54c53bed7c19e10b442b6010d12c8c641"
       },
-      "version": "3.1.2"
+      "version": "3.1.4"
     }
   },
   "dependencies": {
@@ -3515,6 +3515,9 @@
       "com.github.docker-java:docker-java-transport",
       "net.java.dev.jna:jna",
       "org.slf4j:slf4j-api"
+    ],
+    "com.github.spotbugs:spotbugs-annotations": [
+      "com.google.code.findbugs:jsr305"
     ],
     "com.github.victools:jsonschema-generator": [
       "com.fasterxml:classmate",
@@ -3867,8 +3870,7 @@
       "io.micrometer:micrometer-commons",
       "io.micrometer:micrometer-observation",
       "org.hdrhistogram:HdrHistogram",
-      "org.jspecify:jspecify",
-      "org.latencyutils:LatencyUtils"
+      "org.jspecify:jspecify"
     ],
     "io.micrometer:micrometer-jakarta9": [
       "io.micrometer:micrometer-commons",
@@ -4344,7 +4346,7 @@
       "org.slf4j:slf4j-api"
     ],
     "org.flywaydb:flyway-core": [
-      "com.fasterxml.jackson.core:jackson-databind"
+      "tools.jackson.core:jackson-databind"
     ],
     "org.hibernate.validator:hibernate-validator": [
       "com.fasterxml:classmate",
@@ -4914,6 +4916,7 @@
       "org.springframework:spring-test"
     ],
     "org.springframework.kafka:spring-kafka": [
+      "com.github.spotbugs:spotbugs-annotations",
       "io.micrometer:micrometer-observation",
       "org.apache.kafka:kafka-clients",
       "org.springframework:spring-context",
@@ -4921,6 +4924,7 @@
       "org.springframework:spring-tx"
     ],
     "org.springframework.kafka:spring-kafka-test": [
+      "com.github.spotbugs:spotbugs-annotations",
       "org.apache.kafka:kafka-clients:jar:test",
       "org.apache.kafka:kafka-metadata",
       "org.apache.kafka:kafka-server",
@@ -5188,9 +5192,9 @@
       "com.fasterxml.jackson.core.exc",
       "com.fasterxml.jackson.core.filter",
       "com.fasterxml.jackson.core.format",
-      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_2",
-      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_2.bte",
-      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_2.chr",
+      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_4",
+      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_4.bte",
+      "com.fasterxml.jackson.core.internal.shaded.fdp.v2_21_4.chr",
       "com.fasterxml.jackson.core.io",
       "com.fasterxml.jackson.core.io.schubfach",
       "com.fasterxml.jackson.core.json",
@@ -5386,6 +5390,9 @@
     "com.github.luben:zstd-jni": [
       "com.github.luben.zstd",
       "com.github.luben.zstd.util"
+    ],
+    "com.github.spotbugs:spotbugs-annotations": [
+      "edu.umd.cs.findbugs.annotations"
     ],
     "com.github.victools:jsonschema-generator": [
       "com.github.victools.jsonschema.generator",
@@ -6021,7 +6028,6 @@
       "okhttp3.internal",
       "okhttp3.internal.authenticator",
       "okhttp3.internal.cache",
-      "okhttp3.internal.cache2",
       "okhttp3.internal.concurrent",
       "okhttp3.internal.connection",
       "okhttp3.internal.graal",
@@ -6562,6 +6568,7 @@
       "net.bytebuddy.description.field",
       "net.bytebuddy.description.method",
       "net.bytebuddy.description.modifier",
+      "net.bytebuddy.description.module",
       "net.bytebuddy.description.type",
       "net.bytebuddy.dynamic",
       "net.bytebuddy.dynamic.loading",
@@ -6739,6 +6746,7 @@
       "org.apache.hc.client5.http.config",
       "org.apache.hc.client5.http.cookie",
       "org.apache.hc.client5.http.entity",
+      "org.apache.hc.client5.http.entity.compress",
       "org.apache.hc.client5.http.entity.mime",
       "org.apache.hc.client5.http.impl",
       "org.apache.hc.client5.http.impl.async",
@@ -6768,6 +6776,7 @@
       "org.apache.hc.core5.http.impl",
       "org.apache.hc.core5.http.impl.bootstrap",
       "org.apache.hc.core5.http.impl.io",
+      "org.apache.hc.core5.http.impl.io.support",
       "org.apache.hc.core5.http.impl.nio",
       "org.apache.hc.core5.http.impl.routing",
       "org.apache.hc.core5.http.io",
@@ -6805,6 +6814,7 @@
       "org.apache.hc.core5.http2.nio.command",
       "org.apache.hc.core5.http2.nio.pool",
       "org.apache.hc.core5.http2.nio.support",
+      "org.apache.hc.core5.http2.priority",
       "org.apache.hc.core5.http2.protocol",
       "org.apache.hc.core5.http2.ssl"
     ],
@@ -6919,10 +6929,12 @@
       "org.apache.kafka.shaded.com.google.protobuf.compiler",
       "org.apache.kafka.shaded.io.opentelemetry.proto.collector.logs.v1",
       "org.apache.kafka.shaded.io.opentelemetry.proto.collector.metrics.v1",
+      "org.apache.kafka.shaded.io.opentelemetry.proto.collector.profiles.v1experimental",
       "org.apache.kafka.shaded.io.opentelemetry.proto.collector.trace.v1",
       "org.apache.kafka.shaded.io.opentelemetry.proto.common.v1",
       "org.apache.kafka.shaded.io.opentelemetry.proto.logs.v1",
       "org.apache.kafka.shaded.io.opentelemetry.proto.metrics.v1",
+      "org.apache.kafka.shaded.io.opentelemetry.proto.profiles.v1experimental",
       "org.apache.kafka.shaded.io.opentelemetry.proto.resource.v1",
       "org.apache.kafka.shaded.io.opentelemetry.proto.trace.v1"
     ],
@@ -7032,12 +7044,12 @@
     "org.apache.kafka:kafka-server": [
       "org.apache.kafka.network",
       "org.apache.kafka.network.metrics",
-      "org.apache.kafka.security",
       "org.apache.kafka.security.authorizer",
       "org.apache.kafka.server",
       "org.apache.kafka.server.config",
       "org.apache.kafka.server.logger",
       "org.apache.kafka.server.metrics",
+      "org.apache.kafka.server.partition",
       "org.apache.kafka.server.purgatory",
       "org.apache.kafka.server.quota",
       "org.apache.kafka.server.replica",
@@ -7053,8 +7065,10 @@
       "org.apache.kafka.common",
       "org.apache.kafka.config",
       "org.apache.kafka.deferred",
+      "org.apache.kafka.logger",
       "org.apache.kafka.metadata",
       "org.apache.kafka.queue",
+      "org.apache.kafka.security",
       "org.apache.kafka.server.common",
       "org.apache.kafka.server.common.serialization",
       "org.apache.kafka.server.config",
@@ -7080,6 +7094,7 @@
       "org.apache.kafka.deferred",
       "org.apache.kafka.metadata",
       "org.apache.kafka.queue",
+      "org.apache.kafka.server",
       "org.apache.kafka.server.common",
       "org.apache.kafka.server.fault",
       "org.apache.kafka.server.immutable",
@@ -7090,6 +7105,7 @@
       "org.apache.kafka.server.purgatory",
       "org.apache.kafka.server.quota",
       "org.apache.kafka.server.record",
+      "org.apache.kafka.server.share",
       "org.apache.kafka.server.share.persister",
       "org.apache.kafka.server.util",
       "org.apache.kafka.server.util.timer",
@@ -7169,7 +7185,6 @@
       "kafka",
       "kafka.admin",
       "kafka.cluster",
-      "kafka.controller",
       "kafka.coordinator.group",
       "kafka.coordinator.transaction",
       "kafka.docker",
@@ -7516,6 +7531,7 @@
       "org.flywaydb.core.api.configuration",
       "org.flywaydb.core.api.exception",
       "org.flywaydb.core.api.executor",
+      "org.flywaydb.core.api.locations",
       "org.flywaydb.core.api.logging",
       "org.flywaydb.core.api.migration",
       "org.flywaydb.core.api.migration.baseline",
@@ -7648,6 +7664,7 @@
       "org.hibernate.validator.internal.engine.path",
       "org.hibernate.validator.internal.engine.resolver",
       "org.hibernate.validator.internal.engine.scripting",
+      "org.hibernate.validator.internal.engine.tracking",
       "org.hibernate.validator.internal.engine.validationcontext",
       "org.hibernate.validator.internal.engine.valuecontext",
       "org.hibernate.validator.internal.engine.valueextraction",
@@ -7683,7 +7700,8 @@
       "org.hibernate.validator.spi.nodenameprovider",
       "org.hibernate.validator.spi.properties",
       "org.hibernate.validator.spi.resourceloading",
-      "org.hibernate.validator.spi.scripting"
+      "org.hibernate.validator.spi.scripting",
+      "org.hibernate.validator.spi.tracking"
     ],
     "org.java-websocket:Java-WebSocket": [
       "org.java_websocket",
@@ -7773,7 +7791,8 @@
       "kotlin.reflect.jvm.internal.impl.util.capitalizeDecapitalize",
       "kotlin.reflect.jvm.internal.impl.util.collectionUtils",
       "kotlin.reflect.jvm.internal.impl.utils",
-      "kotlin.reflect.jvm.internal.impl.utils.addToStdlib"
+      "kotlin.reflect.jvm.internal.impl.utils.addToStdlib",
+      "kotlin.reflect.jvm.internal.types"
     ],
     "org.jetbrains.kotlin:kotlin-stdlib": [
       "kotlin",
@@ -7961,9 +7980,6 @@
       "org.junit.platform.reporting.shadow.org.opentest4j.reporting.events.java",
       "org.junit.platform.reporting.shadow.org.opentest4j.reporting.events.root",
       "org.junit.platform.reporting.shadow.org.opentest4j.reporting.schema"
-    ],
-    "org.latencyutils:LatencyUtils": [
-      "org.LatencyUtils"
     ],
     "org.mockito:mockito-core": [
       "org.mockito",
@@ -8878,7 +8894,6 @@
       "org.springframework.kafka.test.core",
       "org.springframework.kafka.test.hamcrest",
       "org.springframework.kafka.test.junit",
-      "org.springframework.kafka.test.rule",
       "org.springframework.kafka.test.utils"
     ],
     "org.springframework.security:spring-security-config": [
@@ -8970,7 +8985,8 @@
       "org.springframework.security.provisioning",
       "org.springframework.security.scheduling",
       "org.springframework.security.task",
-      "org.springframework.security.util"
+      "org.springframework.security.util",
+      "org.springframework.security.util.matcher"
     ],
     "org.springframework.security:spring-security-crypto": [
       "org.springframework.security.crypto.argon2",
@@ -10013,6 +10029,7 @@
       "redis.clients.jedis.resps",
       "redis.clients.jedis.search",
       "redis.clients.jedis.search.aggr",
+      "redis.clients.jedis.search.hybrid",
       "redis.clients.jedis.search.querybuilder",
       "redis.clients.jedis.search.schemafields",
       "redis.clients.jedis.timeseries",
@@ -10138,6 +10155,8 @@
       "com.github.docker-java:docker-java-transport:jar:sources",
       "com.github.luben:zstd-jni",
       "com.github.luben:zstd-jni:jar:sources",
+      "com.github.spotbugs:spotbugs-annotations",
+      "com.github.spotbugs:spotbugs-annotations:jar:sources",
       "com.github.victools:jsonschema-generator",
       "com.github.victools:jsonschema-generator:jar:sources",
       "com.github.victools:jsonschema-module-jackson",
@@ -10544,8 +10563,6 @@
       "org.junit.platform:junit-platform-launcher:jar:sources",
       "org.junit.platform:junit-platform-reporting",
       "org.junit.platform:junit-platform-reporting:jar:sources",
-      "org.latencyutils:LatencyUtils",
-      "org.latencyutils:LatencyUtils:jar:sources",
       "org.mockito:mockito-core",
       "org.mockito:mockito-core:jar:sources",
       "org.mockito:mockito-junit-jupiter",
@@ -10878,6 +10895,8 @@
       "com.github.docker-java:docker-java-transport:jar:sources",
       "com.github.luben:zstd-jni",
       "com.github.luben:zstd-jni:jar:sources",
+      "com.github.spotbugs:spotbugs-annotations",
+      "com.github.spotbugs:spotbugs-annotations:jar:sources",
       "com.github.victools:jsonschema-generator",
       "com.github.victools:jsonschema-generator:jar:sources",
       "com.github.victools:jsonschema-module-jackson",
@@ -11284,8 +11303,6 @@
       "org.junit.platform:junit-platform-launcher:jar:sources",
       "org.junit.platform:junit-platform-reporting",
       "org.junit.platform:junit-platform-reporting:jar:sources",
-      "org.latencyutils:LatencyUtils",
-      "org.latencyutils:LatencyUtils:jar:sources",
       "org.mockito:mockito-core",
       "org.mockito:mockito-core:jar:sources",
       "org.mockito:mockito-junit-jupiter",
@@ -11900,9 +11917,6 @@
         "org.flywaydb.core.api.migration.baseline.BaselineMigrationResolver",
         "org.flywaydb.core.api.migration.baseline.BaselineResourceTypeProvider",
         "org.flywaydb.core.internal.NullFlywayTelemetryManager",
-        "org.flywaydb.core.internal.command.clean.CleanModeConfigurationExtension",
-        "org.flywaydb.core.internal.configuration.extensions.DeployScriptFilenameConfigurationExtension",
-        "org.flywaydb.core.internal.configuration.extensions.PrepareScriptFilenameConfigurationExtension",
         "org.flywaydb.core.internal.configuration.resolvers.EnvironmentProvisionerNone",
         "org.flywaydb.core.internal.configuration.resolvers.EnvironmentVariableResolver",
         "org.flywaydb.core.internal.configuration.resolvers.PlaceholderPropertyResolver",
@@ -11936,9 +11950,6 @@
         "org.flywaydb.core.api.migration.baseline.BaselineMigrationResolver",
         "org.flywaydb.core.api.migration.baseline.BaselineResourceTypeProvider",
         "org.flywaydb.core.internal.NullFlywayTelemetryManager",
-        "org.flywaydb.core.internal.command.clean.CleanModeConfigurationExtension",
-        "org.flywaydb.core.internal.configuration.extensions.DeployScriptFilenameConfigurationExtension",
-        "org.flywaydb.core.internal.configuration.extensions.PrepareScriptFilenameConfigurationExtension",
         "org.flywaydb.core.internal.configuration.resolvers.EnvironmentProvisionerNone",
         "org.flywaydb.core.internal.configuration.resolvers.EnvironmentVariableResolver",
         "org.flywaydb.core.internal.configuration.resolvers.PlaceholderPropertyResolver",
