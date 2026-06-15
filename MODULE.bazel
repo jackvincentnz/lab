@@ -4,7 +4,7 @@ bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "bazelrc-preset.bzl", version = "1.9.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
-bazel_dep(name = "protobuf", version = "35.0")
+bazel_dep(name = "protobuf", version = "35.1")
 bazel_dep(name = "rules_java", version = "9.6.1")
 bazel_dep(name = "rules_jvm_external", version = "7.0")
 bazel_dep(name = "contrib_rules_jvm", version = "0.33.0")
@@ -106,7 +106,7 @@ maven.install(
     boms = [
         # First wins
         "io.netty:netty-bom:4.2.15.Final",
-        "com.google.protobuf:protobuf-bom:4.35.0",
+        "com.google.protobuf:protobuf-bom:4.35.1",
         "org.springframework.boot:spring-boot-dependencies:4.1.0",
         "org.springframework.ai:spring-ai-bom:2.0.0",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.1",
