@@ -48,8 +48,8 @@ fi
 git config user.name "github-actions[bot]"
 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 git add MODULE.bazel.lock maven_install.json
-git commit -m "chore: repin generated lockfiles"
-git push origin "HEAD:${GITHUB_HEAD_REF}"
+git commit --amend --no-edit
+git push --force-with-lease origin "HEAD:${GITHUB_HEAD_REF}"
 
-write_summary "Repin commit pushed to \`${GITHUB_HEAD_REF}\`; failing this run intentionally so follow-up CI runs on the updated branch."
+write_summary "Repin changes amended onto the Renovate commit on \`${GITHUB_HEAD_REF}\`; failing this run intentionally so follow-up CI runs on the updated branch."
 exit 1
