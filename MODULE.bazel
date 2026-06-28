@@ -19,7 +19,7 @@ bazel_dep(name = "rules_oci", version = "2.3.0")
 bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
-bazel_dep(name = "bazel_env.bzl", version = "0.7.2")
+bazel_dep(name = "bazel_env.bzl", version = "0.8.0")
 
 multitool = use_extension("@rules_multitool//multitool:extension.bzl", "multitool")
 multitool.hub(lockfile = "//tools:tools.lock.json")
@@ -99,9 +99,9 @@ maven.install(
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.5.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
         "com.squareup.okhttp3:okhttp-jvm:5.4.0",
-        "org.apache.tomcat.embed:tomcat-embed-core:11.0.22",
-        "org.apache.tomcat.embed:tomcat-embed-el:11.0.22",
-        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.22",
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.23",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.23",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.23",
     ],
     boms = [
         # First wins
