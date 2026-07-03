@@ -12,7 +12,7 @@
     "com.h2database:h2": -1982770052,
     "com.jayway.jsonpath:json-path": -630573646,
     "com.mysql:mysql-connector-j": 1083076608,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 698850728,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -1098100631,
     "com.netflix.graphql.dgs:dgs-starter": -1261092832,
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
@@ -31,13 +31,13 @@
     "org.apache.kafka:kafka-streams": 1473637962,
     "org.apache.kafka:kafka-streams-test-utils": -541626037,
     "org.apache.kafka:kafka_2.13": 1972780171,
-    "org.apache.tomcat.embed:tomcat-embed-core": 431364413,
-    "org.apache.tomcat.embed:tomcat-embed-el": -1823527739,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": 1945932545,
+    "org.apache.tomcat.embed:tomcat-embed-core": -1376090050,
+    "org.apache.tomcat.embed:tomcat-embed-el": 663985094,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": 138478082,
     "org.eclipse.jetty:jetty-reactive-httpclient": 1555298607,
     "org.junit.platform:junit-platform-launcher": -354104948,
     "org.junit.platform:junit-platform-reporting": 1896713402,
-    "org.postgresql:postgresql": -1963352047,
+    "org.postgresql:postgresql": 524160786,
     "org.springframework.ai:spring-ai-bom": 112016274,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": 741804729,
     "org.springframework.ai:spring-ai-starter-model-google-genai": 1893382336,
@@ -176,10 +176,10 @@
     "com.knuddels:jtokkit:jar:sources": 1741515621,
     "com.mysql:mysql-connector-j": 1233704292,
     "com.mysql:mysql-connector-j:jar:sources": 1776774784,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 1404891891,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": -615713111,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": -579191572,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": 448579447,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -1312965066,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": 2106305288,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": 1004552629,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": -436156360,
     "com.netflix.graphql.dgs:dgs-starter": -92637071,
     "com.netflix.graphql.dgs:dgs-starter-test": -99706960,
     "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -90305005,
@@ -439,12 +439,12 @@
     "org.apache.logging.log4j:log4j-core:jar:sources": -310222995,
     "org.apache.logging.log4j:log4j-to-slf4j": 211091329,
     "org.apache.logging.log4j:log4j-to-slf4j:jar:sources": 1332324341,
-    "org.apache.tomcat.embed:tomcat-embed-core": 592587240,
-    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 610251870,
-    "org.apache.tomcat.embed:tomcat-embed-el": 1305005618,
-    "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 1468704337,
-    "org.apache.tomcat.embed:tomcat-embed-websocket": 356573561,
-    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": 1025115480,
+    "org.apache.tomcat.embed:tomcat-embed-core": -632355622,
+    "org.apache.tomcat.embed:tomcat-embed-core:jar:sources": 1878709174,
+    "org.apache.tomcat.embed:tomcat-embed-el": 1101789898,
+    "org.apache.tomcat.embed:tomcat-embed-el:jar:sources": 1139500978,
+    "org.apache.tomcat.embed:tomcat-embed-websocket": -451239695,
+    "org.apache.tomcat.embed:tomcat-embed-websocket:jar:sources": -823735726,
     "org.apache.tomcat:tomcat-annotations-api": 446816209,
     "org.apache.tomcat:tomcat-annotations-api:jar:sources": 1818516395,
     "org.apiguardian:apiguardian-api": 1279798469,
@@ -545,8 +545,8 @@
     "org.ow2.asm:asm:jar:sources": -1707020066,
     "org.pcollections:pcollections": -311488717,
     "org.pcollections:pcollections:jar:sources": 238016638,
-    "org.postgresql:postgresql": -457385259,
-    "org.postgresql:postgresql:jar:sources": -1604401690,
+    "org.postgresql:postgresql": -1607497519,
+    "org.postgresql:postgresql:jar:sources": 748494712,
     "org.reactivestreams:reactive-streams": 1281941191,
     "org.reactivestreams:reactive-streams:jar:sources": -1454226778,
     "org.rnorth.duct-tape:duct-tape": 133152594,
@@ -609,7 +609,7 @@
     "org.springframework.ai:spring-ai-openai:jar:sources": 860406190,
     "org.springframework.ai:spring-ai-retry": 29400778,
     "org.springframework.ai:spring-ai-retry:jar:sources": -776423673,
-    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -105863553,
+    "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -483568726,
     "org.springframework.ai:spring-ai-starter-model-google-genai": 1699858287,
     "org.springframework.ai:spring-ai-starter-model-ollama": -946432117,
     "org.springframework.ai:spring-ai-starter-model-openai": 1322790296,
@@ -693,13 +693,13 @@
     "org.springframework.boot:spring-boot-starter-security:jar:sources": 1287759663,
     "org.springframework.boot:spring-boot-starter-test": -1082388949,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": 492287751,
-    "org.springframework.boot:spring-boot-starter-tomcat": -1251627478,
-    "org.springframework.boot:spring-boot-starter-tomcat-runtime": -1518025192,
+    "org.springframework.boot:spring-boot-starter-tomcat": 373688047,
+    "org.springframework.boot:spring-boot-starter-tomcat-runtime": 268448913,
     "org.springframework.boot:spring-boot-starter-tomcat-runtime:jar:sources": -1594378474,
     "org.springframework.boot:spring-boot-starter-tomcat:jar:sources": 1710800577,
-    "org.springframework.boot:spring-boot-starter-validation": 1797935210,
+    "org.springframework.boot:spring-boot-starter-validation": -1523972064,
     "org.springframework.boot:spring-boot-starter-validation:jar:sources": -98233243,
-    "org.springframework.boot:spring-boot-starter-web": 1798735086,
+    "org.springframework.boot:spring-boot-starter-web": -1197494058,
     "org.springframework.boot:spring-boot-starter-web:jar:sources": -50443338,
     "org.springframework.boot:spring-boot-starter-webclient": 385175757,
     "org.springframework.boot:spring-boot-starter-webclient:jar:sources": -1148035857,
@@ -710,11 +710,11 @@
     "org.springframework.boot:spring-boot-test-autoconfigure": -234747939,
     "org.springframework.boot:spring-boot-test-autoconfigure:jar:sources": 938613417,
     "org.springframework.boot:spring-boot-test:jar:sources": 1818591638,
-    "org.springframework.boot:spring-boot-tomcat": -1620019240,
+    "org.springframework.boot:spring-boot-tomcat": -1291936823,
     "org.springframework.boot:spring-boot-tomcat:jar:sources": -579287638,
     "org.springframework.boot:spring-boot-transaction": 1521084822,
     "org.springframework.boot:spring-boot-transaction:jar:sources": 194387993,
-    "org.springframework.boot:spring-boot-validation": -1504664541,
+    "org.springframework.boot:spring-boot-validation": 294321460,
     "org.springframework.boot:spring-boot-validation:jar:sources": 464745436,
     "org.springframework.boot:spring-boot-web-server": 2130825281,
     "org.springframework.boot:spring-boot-web-server:jar:sources": 1594014198,
@@ -1249,17 +1249,17 @@
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": {
       "shasums": {
-        "jar": "395203d9dd83741580704f75ea570b538194b4c7255134a48b0825b0c912cb0c",
-        "sources": "41b69dc0487ed13b282746afec71ab2f10a4d3ba51a32c97701ef929d50596ae"
+        "jar": "7ed7646645134d2d6c3e3ac92cf39f0e8af20478b6e189366e6a467cabff27c4",
+        "sources": "6fd2fc7fb0739606eb0ce7f8d99c025762ae02feb6a125805fbabe671c42a729"
       },
-      "version": "8.5.0"
+      "version": "8.6.0"
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": {
       "shasums": {
-        "jar": "6510c7cd01617b79ecc7c0f0f978dafd38e195f8be7042bc2081543ed318c466",
+        "jar": "2c376ab243529bc64e23118e274af9d272d4fd103388c7fadf50b441fe02ad2d",
         "sources": "ca5d0c1a2046b3f663bd6ac727a308096a440f0f5238bccb58deda072d4b604a"
       },
-      "version": "8.5.0"
+      "version": "8.6.0"
     },
     "com.netflix.graphql.dgs:dgs-starter": {
       "shasums": {
@@ -2157,24 +2157,24 @@
     },
     "org.apache.tomcat.embed:tomcat-embed-core": {
       "shasums": {
-        "jar": "78cd7cd7c104b6b87142c1b0bd902e1ce005b0245c3cefa8a06759148947200b",
-        "sources": "0bfbdc27e60d4db5b83e0f51193bae5f4bd02ac270fd78b06945e219fc473359"
+        "jar": "53c4038175e4180182a0d27ef777ddafe7289d9a7acc43d367e556b071f03075",
+        "sources": "afd0de2c44181ff804e1f7e81759acf3487fc7c3c51af1a076a6e59564b7bad3"
       },
-      "version": "11.0.22"
+      "version": "11.0.23"
     },
     "org.apache.tomcat.embed:tomcat-embed-el": {
       "shasums": {
-        "jar": "1b34c33b858c141df36c501b4d809e68036c406bca3671a86facae297917c7de",
-        "sources": "da3724004575f5c8fa7e45649f2900ec53e7ecfb502b6ce227ca9cf86b36a156"
+        "jar": "bf917bed94ca89a0155a5f448ded801d8c0869eb1622d4b0243059f3ed213120",
+        "sources": "2488ee494cd7b23db709a936a780e22bb1c3d4152798fb65e9c82cc54c64870f"
       },
-      "version": "11.0.22"
+      "version": "11.0.23"
     },
     "org.apache.tomcat.embed:tomcat-embed-websocket": {
       "shasums": {
-        "jar": "210e0c7ab194a76cc7283df0be365276091b042369dae125fb477828ba67e922",
-        "sources": "711f09af528ac5af172c664244bcba4748eac00811ef7c6b52ddd6836b5a4a28"
+        "jar": "ca7a58b288c7ceabb7589f0b27405fddadda61cc087ee45a91e8444d640ec05f",
+        "sources": "9437a426f8804ed009bf477ea138602a7cbea79ccb6742a1766cb75f3b66d858"
       },
-      "version": "11.0.22"
+      "version": "11.0.23"
     },
     "org.apache.tomcat:tomcat-annotations-api": {
       "shasums": {
@@ -2528,10 +2528,10 @@
     },
     "org.postgresql:postgresql": {
       "shasums": {
-        "jar": "1981b31d3993c58702783c1cddf10a34e48c1f413d70ff1cb6def0a143484647",
-        "sources": "5156b9a1076e69ede16266ceb0c20a7ecd0f3f7d5a5a388480333ec8339ee198"
+        "jar": "31fbf6f06b2217fb51d5100cee51b22625cc81640da0679b47914e54c1e6377c",
+        "sources": "f3688b6cff20a77fb3fe1a2b2dcd853fbaa5620c5d23a0fb87f49c5919946866"
       },
-      "version": "42.7.11"
+      "version": "42.7.12"
     },
     "org.reactivestreams:reactive-streams": {
       "shasums": {
