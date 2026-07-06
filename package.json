@@ -13,7 +13,7 @@
     "format": "pre-commit run prettier --all-files"
   },
   "dependencies": {
-    "@apollo/client": "4.2.3",
+    "@apollo/client": "4.2.5",
     "@graphql-typed-document-node/core": "^3.2.0",
     "@lab/bubbles": "workspace:*",
     "@mantine/core": "9.4.1",
@@ -27,7 +27,7 @@
     "@tanstack/react-query": "^5.66.9",
     "clsx": "2.1.1",
     "dayjs": "1.11.21",
-    "graphql": "17.0.1",
+    "graphql": "17.0.2",
     "graphql-ws": "^6.0.0",
     "mantine-datatable": "9.3.1",
     "react": "19.2.7",
@@ -67,7 +67,7 @@
     "tsconfig-to-swcconfig": "2.8.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.62.1",
-    "vite": "8.1.1",
+    "vite": "8.1.3",
     "vitest": "4.1.9"
   }
 }
