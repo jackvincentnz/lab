@@ -37,10 +37,6 @@ type Mutation {
   rejectToolCall(input: RejectToolCallInput!): RejectToolCallResponse!
 }
 
-type Subscription {
-  counter: Long!
-}
-
 # Objects
 
 type Budget {
@@ -396,5 +392,3 @@ type RejectToolCallResponse implements MutationResponse {
 scalar Date @specifiedBy(url: "https://tools.ietf.org/html/rfc3339")
 
 scalar BigDecimal
-
-scalar Long

@@ -8,7 +8,6 @@ import { Shell } from "./components/shell";
 import { PlanPage } from "./pages/plan";
 import { SpendPage } from "./pages/spend";
 import { SettingsPage } from "./pages/settings";
-import { CounterPage } from "./pages/counter";
 
 const router = createBrowserRouter([
   {
@@ -35,10 +34,6 @@ const router = createBrowserRouter([
       {
         path: "/settings",
         element: <SettingsPage />,
-      },
-      {
-        path: "/counter",
-        element: <CounterPage />,
       },
     ],
   },
