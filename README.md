@@ -1,8 +1,8 @@
 # Lab
 
 <p>
-    <a href="https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild+branch%3Amain+">
-        <img alt="Build status" src="https://github.com/allocadia-jack/lab/actions/workflows/main.yml/badge.svg">
+    <a href="https://github.com/jackvincentnz/lab/actions?query=workflow%3ABuild+branch%3Amain+">
+        <img alt="Build status" src="https://github.com/jackvincentnz/lab/actions/workflows/main.yml/badge.svg">
     </a>
     <a href="https://codecov.io/gh/jackvincentnz/lab" >
         <img src="https://codecov.io/gh/jackvincentnz/lab/graph/badge.svg?token=6NY99RW8Z8"/>
@@ -72,4 +72,4 @@ More info: [Style](docs/style.md)
 
 ### Continuous integration
 
-- [Build & test](https://github.com/allocadia-jack/lab/actions?query=workflow%3ABuild): The solution is built and tested on each PR and commit to master.
+- [Build & test](https://github.com/jackvincentnz/lab/actions?query=workflow%3ABuild): The solution is built and tested on each PR and commit to main.
