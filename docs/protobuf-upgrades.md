@@ -20,4 +20,3 @@ Watch for:
 
 - Bzlmod direct dependency warnings; align root `bazel_dep` pins when needed.
 - Confluent protobuf serializer compatibility; Kafka/protobuf tests are the signal.
-- `AGENTS.md` protobuf invariant; update it after the upgrade.
