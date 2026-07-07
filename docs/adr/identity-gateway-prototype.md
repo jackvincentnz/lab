@@ -10,7 +10,7 @@ Decision owner: Jack Vincent
 This record describes the intended prototype architecture and delivery order. Later-phase decisions
 are direction rather than commitments to implement them in the current iteration.
 
-Start with the [identity gateway overview](docs/platform/identity-gateway.md) for diagrams and the concise
+Start with the [identity gateway overview](../platform/identity-gateway.md) for diagrams and the concise
 architecture narrative. This ADR contains the detailed decisions and implementation constraints.
 
 ## Context
@@ -237,9 +237,9 @@ scheme, and `X-Forwarded-For` headers for the prototype. IP allowlisting is defe
 Identity operations and Mops tenant-data lifecycle are useful future directions, but they are not
 required to prove the five prototype goals and are not committed by this ADR:
 
-- [Draft: Identity operations](docs/adr/identity-operations-draft.md) covers profiles, request correlation,
+- [Draft: Identity operations](identity-operations-draft.md) covers profiles, request correlation,
   membership revocation, platform administration, and impersonation.
-- [Draft: Mops tenant data lifecycle](docs/adr/mops-tenant-data-lifecycle-draft.md) covers database-per-tenant,
+- [Draft: Mops tenant data lifecycle](mops-tenant-data-lifecycle-draft.md) covers database-per-tenant,
   migrations, provisioning, cloning, and the future control-plane boundary.
 
 ## Delivery Plan

@@ -10,7 +10,7 @@ Decision owner: Jack Vincent
 This record captures future identity-operations direction. It is not part of the committed identity
 gateway prototype and should be revisited after the prototype exit criteria are met.
 
-See the [identity gateway overview](docs/platform/identity-gateway.md) for the committed prototype boundary.
+See the [identity gateway overview](../platform/identity-gateway.md) for the committed prototype boundary.
 
 ## Context
 
