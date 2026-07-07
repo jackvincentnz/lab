@@ -1,7 +1,7 @@
 # Identity Gateway
 
 This page summarizes the identity gateway prototype. The detailed decisions and tradeoffs live in
-the [prototype ADR](docs/adr/identity-gateway-prototype.md).
+the [prototype ADR](../adr/identity-gateway-prototype.md).
 
 ## Goals
 
@@ -138,6 +138,6 @@ Iteration 4 is the first local end-to-end browser milestone. Iteration 6 complet
 
 ## Detailed Records
 
-- [Identity gateway prototype ADR](docs/adr/identity-gateway-prototype.md)
-- [Draft: Identity operations](docs/adr/identity-operations-draft.md)
-- [Draft: Mops tenant data lifecycle](docs/adr/mops-tenant-data-lifecycle-draft.md)
+- [Identity gateway prototype ADR](../adr/identity-gateway-prototype.md)
+- [Draft: Identity operations](../adr/identity-operations-draft.md)
+- [Draft: Mops tenant data lifecycle](../adr/mops-tenant-data-lifecycle-draft.md)

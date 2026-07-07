@@ -10,7 +10,7 @@ Decision owner: Jack Vincent
 This record captures future tenant-data lifecycle direction. It is not required to prove the
 identity gateway prototype and must be reviewed again before implementation.
 
-See the [identity gateway overview](docs/platform/identity-gateway.md) for the committed prototype boundary.
+See the [identity gateway overview](../platform/identity-gateway.md) for the committed prototype boundary.
 
 ## Context
 
