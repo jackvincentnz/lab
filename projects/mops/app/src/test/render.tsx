@@ -9,7 +9,6 @@ import {
   type MockedProviderProps,
 } from "@apollo/client/testing/react";
 import { ModalsProvider } from "@mantine/modals";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { StatsigProvider } from "@statsig/react-bindings";
 import type { PropsWithChildren } from "react";
@@ -19,34 +18,22 @@ export interface Options {
   mockedProvider?: MockedProviderProps;
   route?: string;
   path?: string;
-  queryClient?: QueryClient;
 }
 
 export function render(ui: React.ReactNode, options?: Options): RenderResult {
-  const queryClient =
-    options?.queryClient ??
-    new QueryClient({
-      defaultOptions: {
-        queries: { retry: false },
-        mutations: { retry: false },
-      },
-    });
-
   return testingLibraryRender(ui, {
     wrapper: ({ children }: PropsWithChildren) => (
-      <QueryClientProvider client={queryClient}>
-        <StatsigProvider client={statsigClient as never}>
-          <MantineProvider>
-            <ModalsProvider>
-              <RouterWrapper route={options?.route} path={options?.path}>
-                <ApolloWrapper mockedProvider={options?.mockedProvider}>
-                  {children}
-                </ApolloWrapper>
-              </RouterWrapper>
-            </ModalsProvider>
-          </MantineProvider>
-        </StatsigProvider>
-      </QueryClientProvider>
+      <StatsigProvider client={statsigClient as never}>
+        <MantineProvider>
+          <ModalsProvider>
+            <RouterWrapper route={options?.route} path={options?.path}>
+              <ApolloWrapper mockedProvider={options?.mockedProvider}>
+                {children}
+              </ApolloWrapper>
+            </RouterWrapper>
+          </ModalsProvider>
+        </MantineProvider>
+      </StatsigProvider>
     ),
   });
 }
