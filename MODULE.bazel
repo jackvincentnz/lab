@@ -5,13 +5,13 @@ bazel_dep(name = "bazel_skylib", version = "1.9.0")
 bazel_dep(name = "bazelrc-preset.bzl", version = "1.9.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "35.1")
-bazel_dep(name = "rules_java", version = "9.6.1")
+bazel_dep(name = "rules_java", version = "9.7.0")
 bazel_dep(name = "rules_jvm_external", version = "7.0")
 bazel_dep(name = "contrib_rules_jvm", version = "0.33.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.5")
-bazel_dep(name = "aspect_rules_js", version = "3.2.2")
-bazel_dep(name = "aspect_rules_ts", version = "3.8.11")
-bazel_dep(name = "aspect_rules_swc", version = "2.7.2")
+bazel_dep(name = "aspect_rules_js", version = "3.2.3")
+bazel_dep(name = "aspect_rules_ts", version = "3.9.2")
+bazel_dep(name = "aspect_rules_swc", version = "2.7.5")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.2.0")
 bazel_dep(name = "rules_shell", version = "0.8.0")
@@ -81,7 +81,7 @@ maven.install(
         "org.springframework.boot:spring-boot-starter-web",
         "org.springframework.boot:spring-boot-starter-webflux",
         "redis.clients:jedis",
-        "org.postgresql:postgresql:42.7.12",
+        "org.postgresql:postgresql:42.7.13",
         "org.springframework.boot:spring-boot-starter-test",
         "org.springframework.kafka:spring-kafka-test",
         "org.testcontainers:testcontainers",
@@ -99,13 +99,13 @@ maven.install(
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.6.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
         "com.squareup.okhttp3:okhttp-jvm:5.4.0",
-        "org.apache.tomcat.embed:tomcat-embed-core:11.0.23",
-        "org.apache.tomcat.embed:tomcat-embed-el:11.0.23",
-        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.23",
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.24",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.24",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.24",
     ],
     boms = [
         # First wins
-        "io.netty:netty-bom:4.2.15.Final",
+        "io.netty:netty-bom:4.2.16.Final",
         "com.google.protobuf:protobuf-bom:4.35.1",
         "org.springframework.boot:spring-boot-dependencies:4.1.0",
         "org.springframework.ai:spring-ai-bom:2.0.0",
