@@ -3,6 +3,7 @@
 # Bazel
 dist
 user.bazelrc
+.bazelbsp
 
 # Node
 node_modules
