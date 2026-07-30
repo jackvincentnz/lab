@@ -255,7 +255,7 @@ register_toolchains("@cypress_toolchains//:all")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:4d9bf9f529f9fcc10dfc626d9d7334172000f980336171d01bd3e609f83ebd6f",
+    digest = "sha256:6e1d87b8749262f5cb052bd68e4c1e91298459d1b9b493a60841bb93965de897",
     image = "gcr.io/distroless/java17-debian13",
     platforms = [
         "linux/amd64",
