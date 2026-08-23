@@ -9,8 +9,8 @@ bazel_dep(name = "rules_java", version = "9.8.0")
 bazel_dep(name = "rules_jvm_external", version = "7.1")
 bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.5")
-bazel_dep(name = "aspect_rules_js", version = "3.4.0")
-bazel_dep(name = "aspect_rules_ts", version = "3.10.0")
+bazel_dep(name = "aspect_rules_js", version = "3.4.1")
+bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
 bazel_dep(name = "rules_pkg", version = "1.3.0")
@@ -98,17 +98,17 @@ maven.install(
         "io.confluent:kafka-protobuf-serializer:8.3.1",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.6.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
-        "com.squareup.okhttp3:okhttp-jvm:5.4.0",
-        "org.apache.tomcat.embed:tomcat-embed-core:11.0.24",
-        "org.apache.tomcat.embed:tomcat-embed-el:11.0.24",
-        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.24",
+        "com.squareup.okhttp3:okhttp-jvm:5.5.0",
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.25",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.25",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.25",
     ],
     boms = [
         # First wins
         "io.netty:netty-bom:4.2.17.Final",
         "com.google.protobuf:protobuf-bom:4.35.1",
-        "org.springframework.boot:spring-boot-dependencies:4.1.0",
-        "org.springframework.ai:spring-ai-bom:2.0.0",
+        "org.springframework.boot:spring-boot-dependencies:4.1.1",
+        "org.springframework.ai:spring-ai-bom:2.0.1",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.0.1",
         "org.testcontainers:testcontainers-bom:2.0.5",
     ],
