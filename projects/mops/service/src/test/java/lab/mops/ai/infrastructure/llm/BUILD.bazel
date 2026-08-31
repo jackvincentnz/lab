@@ -9,6 +9,7 @@ java_test_suite(
         "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
         "//projects/mops/service/src/main/java/lab/mops/core/application/budget/data",
         "@maven//:org_springframework_ai_spring_ai_client_chat",
+        "@maven//:org_springframework_ai_spring_ai_google_genai",
         "@maven//:org_springframework_ai_spring_ai_model",
         "@maven//:org_springframework_spring_core",
     ],

@@ -26,6 +26,7 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.annotation.Tool;
 
@@ -90,6 +91,34 @@ class SpringChatClientTest extends TestBase {
     assertThatThrownBy(() -> toolCallback.call("{}"))
         .isInstanceOf(IllegalStateException.class)
         .hasMessage("Tool calls must be executed by the MOPS approval loop");
+  }
+
+  @Test
+  void getResponse_preservesTheModelsOwnOptionsType() {
+    when(chatModel.getOptions())
+        .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
+    springChatClient =
+        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+
+    var chatResponse =
+        ChatResponse.builder()
+            .generations(List.of(new Generation(new AssistantMessage(randomString()))))
+            .build();
+    var promptCaptor = ArgumentCaptor.forClass(Prompt.class);
+
+    when(messageMapper.map(anyList())).thenReturn(List.of());
+    when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+    when(messageMapper.map(chatResponse))
+        .thenReturn(lab.mops.ai.application.chat.completions.AssistantMessage.of(randomString()));
+
+    springChatClient.getResponse(List.of(new UserMessage(randomString())));
+
+    verify(chatModel).call(promptCaptor.capture());
+    var options = promptCaptor.getValue().getOptions();
+
+    assertThat(options).isInstanceOf(GoogleGenAiChatOptions.class);
+    assertThat(options.getModel()).isEqualTo("gemini-test");
+    assertThat(((GoogleGenAiChatOptions) options).getToolCallbacks()).hasSize(2);
   }
 
   @Test
