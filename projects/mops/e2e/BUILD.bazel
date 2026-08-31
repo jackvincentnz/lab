@@ -1,0 +1,31 @@
+load("@npm//:@playwright/test/package_json.bzl", playwright_bin = "bin")
+
+playwright_bin.playwright_test(
+    name = "e2e",
+    size = "medium",
+    args = [
+        "test",
+        "--config",
+        "projects/mops/e2e/playwright.config.ts",
+    ],
+    data = [
+        "fixtures.ts",
+        "global-setup.ts",
+        "playwright.config.ts",
+        "spend.spec.ts",
+        "//:node_modules/@playwright/test",
+        "//:node_modules/dockerode",
+        "//:node_modules/testcontainers",
+        "//projects/mops/app:deliver.tar",
+        "//projects/mops/service/src/main:deliver.tar",
+        "@playwright//:chromium-headless-shell",
+    ],
+    env = {
+        "PLAYWRIGHT_BROWSERS_PATH": "$(rootpath @playwright//:chromium-headless-shell)/../",
+    },
+    tags = [
+        "no-coverage",
+        "requires-docker",
+        "requires-network",
+    ],
+)

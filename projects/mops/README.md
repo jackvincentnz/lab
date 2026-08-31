@@ -63,6 +63,12 @@ Run app tests in watch mode with ibazel:
 ibazel run //projects/mops/app:test
 ```
 
+Run the full-stack Playwright smoke test:
+
+```zsh
+bazel test //projects/mops/e2e
+```
+
 ## Local endpoints
 
 - Service base URL: `http://localhost:8080`
