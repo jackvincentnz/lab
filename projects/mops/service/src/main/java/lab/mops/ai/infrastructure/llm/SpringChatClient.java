@@ -42,15 +42,28 @@ class SpringChatClient implements CompletionService, ToolProvider {
       ToolApprovalPolicy approvalPolicy) {
     this.chatModel = chatModel;
     this.budgetTools = budgetTools;
-    this.chatOptions =
-        ToolCallingChatOptions.builder()
-            .toolCallbacks(
-                Arrays.stream(ToolCallbacks.from(budgetTools))
-                    .map(NonExecutingToolCallback::new)
-                    .toArray(ToolCallback[]::new))
-            .build();
+    this.chatOptions = buildChatOptions(chatModel, budgetTools);
     this.messageMapper = messageMapper;
     this.approvalPolicy = approvalPolicy;
+  }
+
+  /**
+   * Registers the tools on top of the model's own default options. Provider implementations (e.g.
+   * {@code GoogleGenAiChatModel}) cast the prompt options back to their own type, so the options we
+   * attach must be derived from the model's defaults rather than built from scratch. Mutating the
+   * defaults also preserves the configured model, temperature, and other provider settings.
+   */
+  private static ChatOptions buildChatOptions(ChatModel chatModel, BudgetTools budgetTools) {
+    var toolCallbacks =
+        Arrays.stream(ToolCallbacks.from(budgetTools))
+            .map(NonExecutingToolCallback::new)
+            .toArray(ToolCallback[]::new);
+
+    if (chatModel.getOptions() instanceof ToolCallingChatOptions defaults) {
+      return defaults.mutate().toolCallbacks(toolCallbacks).build();
+    }
+
+    return ToolCallingChatOptions.builder().toolCallbacks(toolCallbacks).build();
   }
 
   @Override
