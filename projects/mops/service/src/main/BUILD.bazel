@@ -79,4 +79,5 @@ oci_deliver(
     name = "deliver",
     image = ":image",
     repo_suffix = "mops",
+    visibility = ["//projects/mops/e2e:__pkg__"],
 )

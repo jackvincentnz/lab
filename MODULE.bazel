@@ -13,6 +13,7 @@ bazel_dep(name = "aspect_rules_js", version = "3.4.1")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
 bazel_dep(name = "aspect_rules_cypress", version = "0.7.2")
+bazel_dep(name = "rules_playwright", version = "0.0.0")
 bazel_dep(name = "rules_pkg", version = "1.3.0")
 bazel_dep(name = "rules_shell", version = "0.8.0")
 bazel_dep(name = "rules_oci", version = "2.3.0")
@@ -20,6 +21,12 @@ bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.8.0")
+
+git_override(
+    module_name = "rules_playwright",
+    commit = "bf4a6acf00321e30df612e4af8ef900f51bc4fe3",
+    remote = "https://github.com/mrmeku/rules_playwright.git",
+)
 
 multitool = use_extension("@rules_multitool//multitool:extension.bzl", "multitool")
 multitool.hub(lockfile = "//tools:tools.lock.json")
@@ -247,6 +254,23 @@ cypress.toolchain(
 use_repo(cypress, "cypress_toolchains")
 
 register_toolchains("@cypress_toolchains//:all")
+
+####################################################################################################
+# rules_playwright setup
+####################################################################################################
+
+playwright = use_extension("@rules_playwright//playwright:extensions.bzl", "playwright")
+playwright.repo(
+    name = "playwright",
+    browsers_download_urls = [
+        "https://cdn.playwright.dev/dbazure/download/playwright",
+        "https://playwright.download.prss.microsoft.com/dbazure/download/playwright",
+        "https://cdn.playwright.dev",
+    ],
+    # Keep aligned with @playwright/test in package.json.
+    playwright_version = "1.56.1",
+)
+use_repo(playwright, "playwright")
 
 ####################################################################################################
 # rules_oci setup
