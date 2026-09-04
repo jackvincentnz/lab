@@ -279,7 +279,7 @@ use_repo(playwright, "playwright")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:0c63d9a435f4cf2ced57796493c8774156e5f555da1cc2912cb997744a409067",
+    digest = "sha256:04214cd3b6cbf44ae12d6ae019636ca414d08bb0c7ceb7909065f383ce891729",
     image = "gcr.io/distroless/java17-debian13",
     platforms = [
         "linux/amd64",
