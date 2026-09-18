@@ -48,7 +48,8 @@
     {
       "matchPackageNames": ["protobuf", "com.google.protobuf:protobuf-bom"],
       "groupName": "protobuf",
-      "groupSlug": "protobuf"
+      "groupSlug": "protobuf",
+      "separateMajorMinor": false
     },
     {
       "matchUpdateTypes": ["minor", "patch"],
