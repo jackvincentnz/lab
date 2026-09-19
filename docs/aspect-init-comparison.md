@@ -95,7 +95,7 @@ Cross-check whether any are worth pulling in:
 
 ## What `lab` has that `aspect_init` doesn't (don't lose these)
 
-- `aspect_rules_jest`, `aspect_rules_swc`, `aspect_rules_cypress` — JS/TS test stack
+- `aspect_rules_jest`, `aspect_rules_swc`, `rules_playwright` — JS/TS test stack
 - `rules_spring`, `contrib_rules_jvm` — Spring Boot support
 - OCI pulls pre-configured (distroless_java, nginx, debian)
 - Custom domain `.bzl` macros: `tools/bazel/{fe,java,js,pkg,ts,react}.bzl` + `dgs/`, `jest/`, `oci/`, `storybook/`, `vite/`, `vitest/`

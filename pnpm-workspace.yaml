@@ -27,7 +27,6 @@ allowBuilds:
   {
     "@apollo/rover": false,
     cpu-features: false,
-    cypress: false,
     esbuild: false,
     protobufjs: false,
     ssh2: false,

@@ -1,24 +1,24 @@
-load("@aspect_rules_cypress//cypress:defs.bzl", "cypress_module_test")
-load("//tools/bazel:ts.bzl", "node_ts_project")
+load("@npm//:@playwright/test/package_json.bzl", playwright_bin = "bin")
 
-node_ts_project(
-    name = "ts",
-    deps = [
-        "//:node_modules/@testcontainers/kafka",
-        "//:node_modules/@types/dockerode",
-        "//:node_modules/cypress",
-        "//:node_modules/dockerode",
-        "//:node_modules/testcontainers",
-        "//libs/utils/ts",
-    ],
-)
-
-cypress_module_test(
+playwright_bin.playwright_test(
     name = "e2e",
     size = "medium",
-    chdir = package_name(),
+    args = [
+        "test",
+        "--config",
+        "projects/organizer/e2e/playwright.config.ts",
+    ],
     data = [
-        ":ts",
+        "autojournal.spec.ts",
+        "fixtures.ts",
+        "playwright.config.ts",
+        "routing.spec.ts",
+        "runner.ts",
+        "//:node_modules/@playwright/test",
+        "//:node_modules/@testcontainers/kafka",
+        "//:node_modules/@types/dockerode",
+        "//:node_modules/dockerode",
+        "//:node_modules/testcontainers",
         "//infra/local:router_conf",
         "//infra/local/proxy:tarball.tar",
         "//projects/organizer/autojournal/src/main:deliver.tar",
@@ -26,13 +26,13 @@ cypress_module_test(
         "//projects/organizer/journal_app:deliver.tar",
         "//projects/organizer/task/src/main:deliver.tar",
         "//projects/organizer/tasklist:deliver.tar",
+        "@playwright//:chromium-headless-shell",
     ],
     env = {
         "DEBUG": "testcontainers*",
+        "PLAYWRIGHT_BROWSERS_PATH": "$(rootpath @playwright//:chromium-headless-shell)/../",
     },
-    runner = "runner.js",
     tags = [
-        "exclusive",  # TODO: see if this can be removed if all ports are dynamically allocated
         "no-coverage",
         "requires-docker",
         "requires-network",

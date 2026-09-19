@@ -24,14 +24,6 @@
       ],
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
-    },
-    {
-      "customType": "regex",
-      "description": "Keep the Cypress Bazel toolchain version aligned with package.json",
-      "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
-      "matchStrings": ["cypress_version\\s*=\\s*\"(?<currentValue>[^\"]+)\""],
-      "depNameTemplate": "cypress",
-      "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
@@ -39,11 +31,6 @@
       "matchDatasources": ["docker"],
       "matchPackageNames": ["/^jackvincent\\/lab-/"],
       "pinDigests": false
-    },
-    {
-      "matchPackageNames": ["cypress"],
-      "groupName": "cypress",
-      "groupSlug": "cypress"
     },
     {
       "matchPackageNames": ["protobuf", "com.google.protobuf:protobuf-bom"],
@@ -56,11 +43,7 @@
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
       "schedule": "* * * * 0,6",
-      "matchPackageNames": [
-        "!cypress",
-        "!protobuf",
-        "!com.google.protobuf:protobuf-bom"
-      ]
+      "matchPackageNames": ["!protobuf", "!com.google.protobuf:protobuf-bom"]
     },
     {
       "matchDatasources": ["docker"],
