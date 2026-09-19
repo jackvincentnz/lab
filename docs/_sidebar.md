@@ -1,6 +1,7 @@
 - Getting started
   - [Home](/)
   - [Style](docs/style.md)
+  - [Development tools](docs/tools.md)
   - [Renovate](docs/renovate.md)
   - [Protobuf upgrades](docs/protobuf-upgrades.md)
 - Platform
