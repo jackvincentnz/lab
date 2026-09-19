@@ -3,6 +3,7 @@
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
   - [Renovate](docs/renovate.md)
+  - [Playwright upgrades](docs/playwright-upgrades.md)
   - [Protobuf upgrades](docs/protobuf-upgrades.md)
 - Platform
   - [Identity gateway](docs/platform/identity-gateway.md)
