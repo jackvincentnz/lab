@@ -63,7 +63,7 @@
     "prettier": "3.9.6",
     "storybook": "10.6.0",
     "testcontainers": "12.1.0",
-    "tsconfig-to-swcconfig": "2.8.1",
+    "tsconfig-to-swcconfig": "3.0.0",
     "typescript": "7.0.2",
     "typescript-eslint": "8.70.0",
     "vite": "8.3.0",
