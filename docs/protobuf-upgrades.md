@@ -19,4 +19,7 @@ bazel test //...
 Watch for:
 
 - Bzlmod direct dependency warnings; align root `bazel_dep` pins when needed.
-- Confluent protobuf serializer compatibility; Kafka/protobuf tests are the signal.
+- Confluent protobuf serializer compatibility; Kafka/protobuf tests are the signal. Keep the
+  `io.confluent:kafka-protobuf-serializer` release aligned with the `cp-kafka` and
+  `cp-schema-registry` images. Renovate groups those Confluent Platform updates, while Protobuf
+  stays in its own group because its version line is independent.

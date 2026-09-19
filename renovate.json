@@ -15,6 +15,18 @@
     },
     {
       "customType": "regex",
+      "description": "Update Confluent images used outside Compose manifests",
+      "managerFilePatterns": [
+        "/^projects/organizer/e2e/runner\\.ts$/",
+        "/^learn/testcontainers/src/test/java/lab/learn/testcontainers/kafka/KafkaTest\\.java$/"
+      ],
+      "matchStrings": [
+        "(?<depName>confluentinc/cp-(?:kafka|schema-registry)):(?<currentValue>[A-Za-z0-9_.-]+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "customType": "regex",
       "description": "Update rules_jvm_external BOMs in MODULE.bazel",
       "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
       "matchStringsStrategy": "recursive",
@@ -71,10 +83,14 @@
       ]
     },
     {
-      "matchDatasources": ["docker"],
-      "matchPackageNames": ["confluentinc/cp-*"],
-      "groupName": "confluentinc/cp-* docker images",
-      "groupSlug": "confluentinc-docker-images"
+      "description": "Keep Confluent Platform images and the Java Protobuf serializer on the same release line",
+      "matchPackageNames": [
+        "confluentinc/cp-*",
+        "io.confluent:kafka-protobuf-serializer"
+      ],
+      "groupName": "Confluent Platform",
+      "groupSlug": "confluent-platform",
+      "separateMajorMinor": false
     }
   ]
 }
