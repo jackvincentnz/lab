@@ -22,7 +22,7 @@ tsconfig_to_swcconfig.t2s(
     srcs = ["tsconfig.base.json"],
     args = [
         "--filename",
-        "$(location tsconfig.base.json)",
+        "$(rootpath tsconfig.base.json)",
     ],
     stdout = ".swcrc",
     visibility = [":__subpackages__"],
@@ -43,7 +43,7 @@ tsconfig_to_swcconfig.t2s(
     ],
     args = [
         "--filename",
-        "$(location tsconfig.node.json)",
+        "$(rootpath tsconfig.node.json)",
     ],
     stdout = ".swcrc.node",
     visibility = [":__subpackages__"],

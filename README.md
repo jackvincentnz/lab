@@ -58,8 +58,8 @@ This repository includes multiple tools to improve consistency, maintainability 
 ### Build
 
 - [Bazel](https://bazel.build): Fast, multi-language, reproducible, incremental build system.
-- [bazel_env.bzl](https://github.com/buildbuddy-io/bazel_env.bzl): Enables
-  consistent development tools when working in this repo.
+- [Bazel-managed development tools](docs/tools.md): Enables consistent,
+  repository-pinned commands on `PATH` when working in this repo.
 
 ### Style
 
