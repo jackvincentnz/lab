@@ -1,6 +1,11 @@
 load("@bazel_env.bzl", "bazel_env")
 load("@bazelrc-preset.bzl", "bazelrc_preset")
 load("@multitool//:tools.bzl", MULTITOOL_TOOLS = "TOOLS")
+load("@npm//:@playwright/test/package_json.bzl", playwright_bin = "bin")
+
+playwright_bin.playwright_binary(
+    name = "playwright",
+)
 
 bazelrc_preset(
     name = "preset",
@@ -16,5 +21,6 @@ bazel_env(
         "jar": "$(JAVABASE)/bin/jar",
         "java": "$(JAVA)",
         "pnpm": "@pnpm",
+        "playwright": ":playwright",
     } | MULTITOOL_TOOLS,
 )
