@@ -19,7 +19,7 @@ services:
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
 
   db:
-    image: mysql@sha256:45abdd9b4144660b5c93a5b7d0ebb21e024f0ba9851ecb4ab43bf83c6bf83592
+    image: mysql@sha256:ade067ae2fb15eeb6143e81185afe22573e3b3addc58aaf90c41999fa6883991
     # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
     # (this is just an example, not intended to be a production configuration)
     command: --default-authentication-plugin=mysql_native_password
