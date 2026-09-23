@@ -264,7 +264,7 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:3b171d7224b669faa3cc2137fea0a65301791df1ec1f271ebd2a2b7461f7fade",
+    digest = "sha256:b54a1a3219e4b8b90fd4d5d383af7f8843a7b34a8079897cb83487a6a3e1aff3",
     image = "nginx",
     platforms = [
         "linux/amd64",
