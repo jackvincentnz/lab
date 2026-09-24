@@ -4,8 +4,8 @@ graphql_codegen(
     name = "graphql_codegen",
     srcs = [
         "//projects/mops/app:codegen",
-        "//projects/mops/app/src:gql",
+        "//projects/mops/app:gql",
         "//projects/mops/service/src/main/resources/schema",
     ],
-    visibility = ["//projects/mops/app/src:__subpackages__"],
+    visibility = ["//projects/mops/app:__pkg__"],
 )

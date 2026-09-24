@@ -4,10 +4,105 @@ This module contains common front end macros.
 
 load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
 load("//tools/bazel:ts.bzl", "ts_project")
-load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
+load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run", "vitest_watch")
+
+def fe_app(
+        name,
+        srcs,
+        deps = [],
+        assets = [],
+        data = [],
+        test_srcs = [],
+        test_deps = [],
+        test_tags = [],
+        stories = [],
+        story_deps = [],
+        visibility = ["//visibility:private"]):
+    """Declare one flattened Vite application per Bazel package.
+
+    Emits src_ts, src, dev, build, preview, test_ts, test_run, test_watch,
+    test_ui and, when supplied, stories. The named target aliases dev.
+    See //tools/bazel/fe_app.md for the source/configuration contract.
+
+    Args:
+        name: Alias for the dev server (normally "app").
+        srcs: Production TypeScript sources, excluding tests/helpers and stories.
+        deps: Production compilation dependencies, including generated code.
+        assets: Assets imported by production sources.
+        data: Vite config, index.html, package.json, public files and config deps.
+        test_srcs: Test sources plus app-specific setup, helpers and fixtures.
+        test_deps: Additional test compilation/runtime dependencies.
+        test_tags: Tags for the cacheable Vitest test target.
+        stories: Optional story sources, compiled separately from production/tests.
+        story_deps: Additional story dependencies (e.g. @storybook/react).
+        visibility: Visibility of entry points, compiled src and stories.
+    """
+    ts_project(
+        name = "src_ts",
+        srcs = srcs,
+        visibility = ["//visibility:private"],
+        deps = deps,
+    )
+    js_library(
+        name = "src",
+        srcs = assets,
+        deps = [":src_ts"],
+        visibility = visibility,
+    )
+    runtime = [":src"] + data
+    vite_dev_server(
+        name = "dev",
+        data = runtime,
+        visibility = visibility,
+    )
+    native.alias(
+        name = name,
+        actual = ":dev",
+        visibility = visibility,
+    )
+    vite_build(
+        name = "build",
+        srcs = runtime,
+        visibility = visibility,
+    )
+    ts_project(
+        name = "test_ts",
+        testonly = True,
+        visibility = ["//visibility:private"],
+        srcs = test_srcs,
+        deps = [":src"] + deps + test_deps,
+    )
+    test_runtime = runtime + [":test_ts"]
+    vitest_run(
+        name = "test_run",
+        data = test_runtime,
+        tags = test_tags,
+        visibility = visibility,
+    )
+    vitest_watch(
+        name = "test_watch",
+        data = test_runtime,
+        visibility = visibility,
+    )
+    vitest_watch(
+        name = "test_ui",
+        args = ["--ui"],
+        data = test_runtime + ["//:node_modules/@vitest/ui"],
+        visibility = visibility,
+    )
+    if stories:
+        ts_project(
+            name = "stories",
+            srcs = stories,
+            deps = [":src"] + deps + story_deps,
+            visibility = visibility,
+        )
 
 def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:private"]):
-    """Bazel macro for packaging a standard front end library.
+    """Legacy directory-level frontend library; use fe_app for new applications.
+
+    Retained for existing Organizer/Bubbles consumers. See //tools/bazel/fe_app.md.
 
     ### Requirements
 

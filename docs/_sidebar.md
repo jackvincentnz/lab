@@ -10,6 +10,7 @@
   - [Identity gateway](docs/platform/identity-gateway.md)
 - Architecture decision records
   - [Overview](docs/adr/README.md)
+  - [Accepted: Flattened frontend](docs/adr/flattened-frontend.md)
   - [Accepted: Identity gateway](docs/adr/identity-gateway-prototype.md)
   - [Draft: Identity operations](docs/adr/identity-operations-draft.md)
   - [Draft: Mops tenant data](docs/adr/mops-tenant-data-lifecycle-draft.md)
