@@ -1,0 +1,6 @@
+interface:
+  display_name: "GitHub Issues"
+  short_description: "Capture issue intent without premature requirements"
+  default_prompt: "Use $github-issues to capture or refine this GitHub issue at the level of detail we have agreed."
+policy:
+  allow_implicit_invocation: true
