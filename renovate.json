@@ -36,6 +36,16 @@
       ],
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "description": "Keep the Playwright browser repository aligned with @playwright/test",
+      "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
+      "matchStrings": [
+        "playwright_version\\s*=\\s*\\\"(?<currentValue>[^\\\"]+)\\\""
+      ],
+      "depNameTemplate": "@playwright/test",
+      "datasourceTemplate": "npm"
     }
   ],
   "packageRules": [
@@ -63,7 +73,11 @@
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
       "schedule": "* * * * 0,6",
-      "matchPackageNames": ["!protobuf", "!com.google.protobuf:protobuf-bom"]
+      "matchPackageNames": [
+        "!@playwright/test",
+        "!protobuf",
+        "!com.google.protobuf:protobuf-bom"
+      ]
     },
     {
       "description": "Keep Confluent Platform images and the Java Protobuf serializer on the same release line",

@@ -605,7 +605,7 @@
     "@@rules_playwright+//playwright:extensions.bzl%playwright": {
       "general": {
         "bzlTransitiveDigest": "VmW+t1o83jzeSvQTF1CQyKFpgGed+wn3tDkNguevr3Y=",
-        "usagesDigest": "k7VhE7MEMGh7CDJvLxmRfZf8dgRx6EYq2PhRIxJ+oNo=",
+        "usagesDigest": "vuov5J8TZnwV3Z/ruhSK7pfnIqqZbPJeefoCLcrdJZw=",
         "recordedInputs": [
           "REPO_MAPPING:rules_playwright+,bazel_tools bazel_tools",
           "FILE:@@rules_playwright+//tools/release/artifacts/cli-arm64-apple-darwin 67731b424ce41adff3be0b4f612c60be0bddb53454eab0a5c415815d9c97f9cc",
@@ -872,9 +872,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux-arm64.zip"
               ]
             }
           },
@@ -883,9 +883,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux.zip"
               ]
             }
           },
@@ -894,9 +894,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux-arm64.zip"
               ]
             }
           },
@@ -905,9 +905,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux.zip"
               ]
             }
           },
@@ -916,9 +916,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip"
               ]
             }
           },
@@ -927,9 +927,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux.zip"
               ]
             }
           },
@@ -938,9 +938,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip"
               ]
             }
           },
@@ -949,9 +949,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux.zip"
               ]
             }
           },
@@ -960,9 +960,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac.zip"
               ]
             }
           },
@@ -971,9 +971,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip"
               ]
             }
           },
@@ -982,9 +982,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac.zip"
               ]
             }
           },
@@ -993,9 +993,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip"
               ]
             }
           },
@@ -1004,9 +1004,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac.zip"
               ]
             }
           },
@@ -1015,9 +1015,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip"
               ]
             }
           },
@@ -1026,9 +1026,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac.zip"
               ]
             }
           },
@@ -1037,9 +1037,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip"
               ]
             }
           },
@@ -1048,9 +1048,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac.zip"
               ]
             }
           },
@@ -1059,9 +1059,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-mac-arm64.zip"
               ]
             }
           },
@@ -1070,9 +1070,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip"
               ]
             }
           },
@@ -1081,9 +1081,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux.zip"
               ]
             }
           },
@@ -1092,9 +1092,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip"
               ]
             }
           },
@@ -1103,9 +1103,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux.zip"
               ]
             }
           },
@@ -1114,9 +1114,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux-arm64.zip"
               ]
             }
           },
@@ -1125,9 +1125,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-headless-shell-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-headless-shell-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-headless-shell-linux.zip"
               ]
             }
           },
@@ -1136,9 +1136,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1147,9 +1147,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1158,9 +1158,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1169,9 +1169,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1180,9 +1180,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac-arm64.zip"
               ]
             }
           },
@@ -1191,9 +1191,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1202,9 +1202,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac-arm64.zip"
               ]
             }
           },
@@ -1213,9 +1213,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1224,9 +1224,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac-arm64.zip"
               ]
             }
           },
@@ -1235,9 +1235,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1246,9 +1246,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac-arm64.zip"
               ]
             }
           },
@@ -1257,9 +1257,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac.zip"
               ]
             }
           },
@@ -1268,482 +1268,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-debian11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-debian11-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-debian12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-debian12-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-debian11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-debian11-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-debian12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-debian12-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac11": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac12": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac13": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac13-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac14": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac14-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac15": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-mac15-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu20.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu20.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu22.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu22.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu24.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-headless-shell-ubuntu24.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-headless-shell-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac10.13": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac10.14": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac10.15": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac11": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac12": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac13": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac13-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac14": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac14-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac15": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-mac15-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu20.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu20.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu22.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu22.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu24.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux-arm64.zip"
-              ]
-            }
-          },
-          "playwright-chromium-tip-of-tree-ubuntu24.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium-tip-of-tree/1371/chromium-tip-of-tree-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-mac-arm64.zip"
               ]
             }
           },
@@ -1752,9 +1279,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux-arm64.zip"
               ]
             }
           },
@@ -1763,9 +1290,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux.zip"
               ]
             }
           },
@@ -1774,9 +1301,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux-arm64.zip"
               ]
             }
           },
@@ -1785,9 +1312,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux.zip"
               ]
             }
           },
@@ -1796,9 +1323,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux-arm64.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux-arm64.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux-arm64.zip"
               ]
             }
           },
@@ -1807,9 +1334,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1194/chromium-linux.zip",
-                "https://cdn.playwright.dev/builds/chromium/1194/chromium-linux.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/chromium/1243/chromium-linux.zip",
+                "https://cdn.playwright.dev/builds/chromium/1243/chromium-linux.zip"
               ]
             }
           },
@@ -1915,22 +1442,22 @@
           "playwright-ffmpeg-mac12": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-jzwvO/Ye/XXHTDzJVtZHtUqbW82tIQSa9er0Oioe05I=",
+              "integrity": "sha256-F+0Vovpg08dBgb78sr33ybsojRmyo7mJO5S2PyziYOQ=",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1010/ffmpeg-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/ffmpeg/1010/ffmpeg-mac.zip",
-                "https://cdn.playwright.dev/builds/ffmpeg/1010/ffmpeg-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-mac.zip",
+                "https://cdn.playwright.dev/builds/ffmpeg/1011/ffmpeg-mac.zip"
               ]
             }
           },
           "playwright-ffmpeg-mac12-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-r94UveYB7hhMUfMWtEMGgyJf4ZgtOixo21Nbqmaz2iU=",
+              "integrity": "sha256-fXfrDUS1msxAZfqiR2wN8aJCzJBMNG+CBiaBjJU8Unc=",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1010/ffmpeg-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/ffmpeg/1010/ffmpeg-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/ffmpeg/1010/ffmpeg-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/ffmpeg/1011/ffmpeg-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/ffmpeg/1011/ffmpeg-mac-arm64.zip"
               ]
             }
           },
@@ -2066,256 +1593,14 @@
               ]
             }
           },
-          "playwright-firefox-beta-debian11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-11-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-11-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-debian-11-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-debian11-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-11.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-11.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-debian-11.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-debian12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-12-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-12-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-debian-12-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-debian12-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-12.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-debian-12.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-debian-12.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac10.13": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac10.14": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac10.15": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac11": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac11-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac12": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac12-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac13": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac13-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac14": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac14-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac15": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-mac15-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-mac-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-ubuntu20.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-20.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-20.04.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-ubuntu-20.04.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-ubuntu22.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-ubuntu22.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-ubuntu-22.04.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-ubuntu24.04-arm64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04-arm64.zip"
-              ]
-            }
-          },
-          "playwright-firefox-beta-ubuntu24.04-x64": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
-            "attributes": {
-              "integrity": "",
-              "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04.zip",
-                "https://cdn.playwright.dev/builds/firefox-beta/1490/firefox-beta-ubuntu-24.04.zip"
-              ]
-            }
-          },
           "playwright-firefox-debian11-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-debian-11-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-debian-11-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-debian-11-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-debian-11-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-debian-11-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-debian-11-arm64.zip"
               ]
             }
           },
@@ -2324,9 +1609,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-debian-11.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-debian-11.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-debian-11.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-debian-11.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-debian-11.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-debian-11.zip"
               ]
             }
           },
@@ -2335,9 +1620,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-debian-12-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-debian-12-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-debian-12-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-debian-12-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-debian-12-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-debian-12-arm64.zip"
               ]
             }
           },
@@ -2346,9 +1631,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-debian-12.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-debian-12.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-debian-12.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-debian-12.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-debian-12.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-debian-12.zip"
               ]
             }
           },
@@ -2357,9 +1642,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2368,9 +1653,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2379,9 +1664,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2390,9 +1675,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2401,9 +1686,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac-arm64.zip"
               ]
             }
           },
@@ -2412,9 +1697,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2423,9 +1708,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac-arm64.zip"
               ]
             }
           },
@@ -2434,9 +1719,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2445,9 +1730,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac-arm64.zip"
               ]
             }
           },
@@ -2456,9 +1741,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2467,9 +1752,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac-arm64.zip"
               ]
             }
           },
@@ -2478,9 +1763,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac.zip"
               ]
             }
           },
@@ -2489,9 +1774,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-mac-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-mac-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-mac-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-mac-arm64.zip"
               ]
             }
           },
@@ -2500,9 +1785,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-20.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-20.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-20.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-20.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-20.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-20.04-arm64.zip"
               ]
             }
           },
@@ -2511,9 +1796,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-20.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-20.04.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-20.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-20.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-20.04.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-20.04.zip"
               ]
             }
           },
@@ -2522,9 +1807,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-22.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-22.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-22.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-22.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-22.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-22.04-arm64.zip"
               ]
             }
           },
@@ -2533,9 +1818,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-22.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-22.04.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-22.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-22.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-22.04.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-22.04.zip"
               ]
             }
           },
@@ -2544,9 +1829,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-24.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-24.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-24.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-24.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-24.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-24.04-arm64.zip"
               ]
             }
           },
@@ -2555,31 +1840,31 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-24.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1495/firefox-ubuntu-24.04.zip",
-                "https://cdn.playwright.dev/builds/firefox/1495/firefox-ubuntu-24.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-24.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/firefox/1543/firefox-ubuntu-24.04.zip",
+                "https://cdn.playwright.dev/builds/firefox/1543/firefox-ubuntu-24.04.zip"
               ]
             }
           },
           "playwright-webkit-debian11-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-Mhpjz9GNZiayIUQOxD92R1mfb1a7wnusdWPJeECkx+4=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2105/webkit-debian-11-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2105/webkit-debian-11-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2105/webkit-debian-11-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-debian-11-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-debian-11-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-debian-11-arm64.zip"
               ]
             }
           },
           "playwright-webkit-debian11-x64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-pkeiZb0RIX+Hjce1JuQEfq6+nHjzGHJvuJxckdxo81o=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2105/webkit-debian-11.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2105/webkit-debian-11.zip",
-                "https://cdn.playwright.dev/builds/webkit/2105/webkit-debian-11.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-debian-11.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-debian-11.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-debian-11.zip"
               ]
             }
           },
@@ -2588,9 +1873,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-debian-12-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-debian-12-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-debian-12-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-debian-12-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-debian-12-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-debian-12-arm64.zip"
               ]
             }
           },
@@ -2599,97 +1884,97 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-debian-12.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-debian-12.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-debian-12.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-debian-12.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-debian-12.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-debian-12.zip"
               ]
             }
           },
           "playwright-webkit-mac10.14": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-onN55LO1UOlcHDsFoCJwpli0Dw4W94FJK4KOP1VWUJ4=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/deprecated-webkit-mac-10.14/1446/deprecated-webkit-mac-10.14.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/deprecated-webkit-mac-10.14/1446/deprecated-webkit-mac-10.14.zip",
-                "https://cdn.playwright.dev/builds/deprecated-webkit-mac-10.14/1446/deprecated-webkit-mac-10.14.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/deprecated-webkit-mac-10.14/2359/deprecated-webkit-mac-10.14.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/deprecated-webkit-mac-10.14/2359/deprecated-webkit-mac-10.14.zip",
+                "https://cdn.playwright.dev/builds/deprecated-webkit-mac-10.14/2359/deprecated-webkit-mac-10.14.zip"
               ]
             }
           },
           "playwright-webkit-mac10.15": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-uCA1JD5urKP09FFJTAjBB9lnSEIKKe5zE6mEWic06BY=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/deprecated-webkit-mac-10.15/1616/deprecated-webkit-mac-10.15.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/deprecated-webkit-mac-10.15/1616/deprecated-webkit-mac-10.15.zip",
-                "https://cdn.playwright.dev/builds/deprecated-webkit-mac-10.15/1616/deprecated-webkit-mac-10.15.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/deprecated-webkit-mac-10.15/2359/deprecated-webkit-mac-10.15.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/deprecated-webkit-mac-10.15/2359/deprecated-webkit-mac-10.15.zip",
+                "https://cdn.playwright.dev/builds/deprecated-webkit-mac-10.15/2359/deprecated-webkit-mac-10.15.zip"
               ]
             }
           },
           "playwright-webkit-mac11": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-RnHAPszuiEUg23UghFgbVKzz1iK42FFYE9t7PKYeJ2s=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/1816/webkit-mac-11.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/1816/webkit-mac-11.zip",
-                "https://cdn.playwright.dev/builds/webkit/1816/webkit-mac-11.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-11.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-11.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-11.zip"
               ]
             }
           },
           "playwright-webkit-mac11-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-GeZSiz/rQ0R3S1CNPtAmGJayTxt3+kJpds4V052z/1Q=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/1816/webkit-mac-11-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/1816/webkit-mac-11-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/1816/webkit-mac-11-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-11-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-11-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-11-arm64.zip"
               ]
             }
           },
           "playwright-webkit-mac12": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-2s7UJ4+mgLHzkjxpYfdXYs/4Q4PLwb9W1SEuocgLHg0=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2009/webkit-mac-12.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2009/webkit-mac-12.zip",
-                "https://cdn.playwright.dev/builds/webkit/2009/webkit-mac-12.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-12.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-12.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-12.zip"
               ]
             }
           },
           "playwright-webkit-mac12-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-OR/j9ZBkFCgUD/CqSz1j3ZQAS6AC2HgLy/mmA/Cm4cM=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2009/webkit-mac-12-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2009/webkit-mac-12-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2009/webkit-mac-12-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-12-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-12-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-12-arm64.zip"
               ]
             }
           },
           "playwright-webkit-mac13": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-Ey7qjUHibCifUk9gEQA5ErFms2J7/y92HqkVnW5HAv4=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2140/webkit-mac-13.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2140/webkit-mac-13.zip",
-                "https://cdn.playwright.dev/builds/webkit/2140/webkit-mac-13.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-13.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-13.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-13.zip"
               ]
             }
           },
           "playwright-webkit-mac13-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-El5K5oAoyI9jv/4bJCUSXIMfhEGUipvtZZJ8LDQg5V0=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2140/webkit-mac-13-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2140/webkit-mac-13-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2140/webkit-mac-13-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-13-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-13-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-13-arm64.zip"
               ]
             }
           },
@@ -2698,9 +1983,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-mac-14.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-mac-14.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-mac-14.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2251/webkit-mac-14.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2251/webkit-mac-14.zip",
+                "https://cdn.playwright.dev/builds/webkit/2251/webkit-mac-14.zip"
               ]
             }
           },
@@ -2709,9 +1994,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-mac-14-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-mac-14-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-mac-14-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2251/webkit-mac-14-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2251/webkit-mac-14-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2251/webkit-mac-14-arm64.zip"
               ]
             }
           },
@@ -2720,9 +2005,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-mac-15.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-mac-15.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-mac-15.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-15.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-15.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-15.zip"
               ]
             }
           },
@@ -2731,31 +2016,31 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-mac-15-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-mac-15-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-mac-15-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-mac-15-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-mac-15-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-mac-15-arm64.zip"
               ]
             }
           },
           "playwright-webkit-ubuntu20.04-arm64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-YMRbRTBA6MQ3uMCgUgR5Oh3MCt9MbrQlepuKH/mCiN0=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2092/webkit-ubuntu-20.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2092/webkit-ubuntu-20.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2092/webkit-ubuntu-20.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-20.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-20.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-20.04-arm64.zip"
               ]
             }
           },
           "playwright-webkit-ubuntu20.04-x64": {
             "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_file",
             "attributes": {
-              "integrity": "sha256-4dHblulkxXiViVj8Irh6zzq1PsVCRfjgeSWpDHmZ+0Q=",
+              "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2092/webkit-ubuntu-20.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2092/webkit-ubuntu-20.04.zip",
-                "https://cdn.playwright.dev/builds/webkit/2092/webkit-ubuntu-20.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-20.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-20.04.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-20.04.zip"
               ]
             }
           },
@@ -2764,9 +2049,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-22.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-22.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-ubuntu-22.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-22.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-22.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-22.04-arm64.zip"
               ]
             }
           },
@@ -2775,9 +2060,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-22.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-22.04.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-ubuntu-22.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-22.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-22.04.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-22.04.zip"
               ]
             }
           },
@@ -2786,9 +2071,9 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-24.04-arm64.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-24.04-arm64.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-ubuntu-24.04-arm64.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-24.04-arm64.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-24.04-arm64.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-24.04-arm64.zip"
               ]
             }
           },
@@ -2797,16 +2082,16 @@
             "attributes": {
               "integrity": "",
               "urls": [
-                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-24.04.zip",
-                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2215/webkit-ubuntu-24.04.zip",
-                "https://cdn.playwright.dev/builds/webkit/2215/webkit-ubuntu-24.04.zip"
+                "https://cdn.playwright.dev/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-24.04.zip",
+                "https://playwright.download.prss.microsoft.com/dbazure/download/playwright/builds/webkit/2359/webkit-ubuntu-24.04.zip",
+                "https://cdn.playwright.dev/builds/webkit/2359/webkit-ubuntu-24.04.zip"
               ]
             }
           },
           "playwright": {
             "repoRuleId": "@@rules_playwright+//playwright:repositories.bzl%playwright_repository",
             "attributes": {
-              "playwright_version": "1.56.1",
+              "playwright_version": "1.63.0",
               "browsers_workspace_name_prefix": "playwright",
               "rules_playwright_cannonical_name": "@rules_playwright+"
             }
