@@ -3523,9 +3523,6 @@
     }
   },
   "facts": {
-    "@@aspect_rules_js+//npm:extensions.bzl%pnpm": {
-      "11.28.5": "sha512-SEVj0wtMKtJ8tIqpT/KzAtvOvI/2vyiBbCWJiG4UbOf3bzVPO8GkOOb16XaMMCqgpvet2CMpA81M+BQmy8FNng=="
-    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "notice_version": "3"
     },
