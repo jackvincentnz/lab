@@ -51,6 +51,8 @@ bazel test //...
 Project-specific setup and commands live in each project README (for example,
 `projects/organizer/README.md`).
 
+See [Contributing](CONTRIBUTING.md) for commit hooks, validation, and the PR workflow.
+
 ## Tooling
 
 This repository includes multiple tools to improve consistency, maintainability and developer efficiency.
