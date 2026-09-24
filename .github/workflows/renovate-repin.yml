@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - MODULE.bazel
+      - tools/tools.lock.json
       - package.json
       - pnpm-lock.yaml
 
