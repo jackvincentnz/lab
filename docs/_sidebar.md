@@ -1,7 +1,9 @@
 - Getting started
   - [Home](/)
+  - [Contributing](CONTRIBUTING.md)
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
+  - [pre-commit](docs/pre-commit.md)
   - [Renovate](docs/renovate.md)
   - [Protobuf upgrades](docs/protobuf-upgrades.md)
 - Platform
