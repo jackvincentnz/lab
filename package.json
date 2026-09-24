@@ -2,9 +2,9 @@
   "name": "lab",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@11.3.0",
+  "packageManager": "pnpm@12.5.1",
   "engines": {
-    "pnpm": ">=10 <12",
+    "pnpm": ">=10 <13",
     "node": ">=24.15.0 <25"
   },
   "scripts": {
