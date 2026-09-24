@@ -1,0 +1,36 @@
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        # Allow a drop of up to one percentage point from the base commit.
+        threshold: 1%
+    patch:
+      default:
+        informational: true
+
+comment:
+  layout: "header, diff, components, files"
+
+# Reporting slices of the existing upload, without additional status checks.
+component_management:
+  individual_components:
+    - component_id: mops-service
+      name: Mops service
+      paths:
+        - "projects/mops/service/**"
+    - component_id: mops-app
+      name: Mops app
+      paths:
+        - "projects/mops/app/**"
+    - component_id: organizer
+      name: Organizer
+      paths:
+        - "projects/organizer/**"
+    - component_id: libs
+      name: Shared libraries
+      paths:
+        - "libs/**"
+
+ignore:
+  - "learn/**"
