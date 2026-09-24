@@ -26,8 +26,15 @@ js_library(
     name = "vite_config",
     srcs = ["vite.config.ts"],
     deps = [
+        ":coverage_config",
         "//:node_modules/jsdom",
     ],
+)
+
+js_library(
+    name = "coverage_config",
+    srcs = ["coverage.ts"],
+    deps = ["//:node_modules/@vitest/coverage-v8"],
 )
 
 js_library(

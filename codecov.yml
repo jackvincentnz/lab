@@ -15,6 +15,10 @@ comment:
 # Reporting slices of the existing upload, without additional status checks.
 component_management:
   individual_components:
+    - component_id: mops-app
+      name: Mops app
+      paths:
+        - "projects/mops/app/**"
     - component_id: mops-service
       name: Mops service
       paths:

@@ -21,6 +21,7 @@ SRCS = [
     "//:node_modules/postcss-simple-vars",
     "//projects/mops/app/public",
     "//projects/mops/app/src",
+    "//tools/bazel/vitest:coverage_config",
     "index.html",
     "package.json",
     "postcss.config.cjs",
