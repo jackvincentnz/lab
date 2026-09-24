@@ -5,6 +5,8 @@ consequences.
 
 ## Accepted
 
+- [Erasable TypeScript syntax](erasable-typescript-syntax.md) records why the shared
+  compiler configuration enables `erasableSyntaxOnly`, including generated clients.
 - [Identity gateway prototype](identity-gateway-prototype.md) defines the committed
   prototype architecture, delivery sequence, and completion criteria.
 
