@@ -1,1 +1,5 @@
-# Currently there are no targets in this Bazel package
+config_setting(
+    name = "coverage_enabled",
+    values = {"collect_code_coverage": "true"},
+    visibility = ["//visibility:public"],
+)
