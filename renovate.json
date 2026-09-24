@@ -15,7 +15,7 @@
     },
     {
       "customType": "regex",
-      "description": "Update Confluent images used outside Compose manifests",
+      "description": "Update Confluent images",
       "managerFilePatterns": [
         "/^projects/organizer/e2e/runner\\.ts$/",
         "/^learn/testcontainers/src/test/java/lab/learn/testcontainers/kafka/KafkaTest\\.java$/"
@@ -27,7 +27,7 @@
     },
     {
       "customType": "regex",
-      "description": "Update rules_jvm_external BOMs in MODULE.bazel",
+      "description": "Update Maven BOMs",
       "managerFilePatterns": ["/(^|/)MODULE\\.bazel$/"],
       "matchStringsStrategy": "recursive",
       "matchStrings": [
@@ -39,10 +39,10 @@
     },
     {
       "customType": "regex",
-      "description": "Update multitool GitHub release assets and their SHA-256 checksums together",
+      "description": "Update multitool binaries",
       "managerFilePatterns": ["/^tools/tools\\.lock\\.json$/"],
       "matchStrings": [
-        "\"url\"\\s*:\\s*\"https://github\\.com/(?<depName>aspect-build/aspect-cli|bazelbuild/buildtools|bazelbuild/bazel-watcher)/releases/download/(?<currentValue>v[^/\"\\s]+)/[^\"\\s]+\",\\s*\"sha256\"\\s*:\\s*\"(?<currentDigest>[a-f0-9]{64})\""
+        "\"url\"\\s*:\\s*\"https://github\\.com/(?<depName>[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+)/releases/download/(?<currentValue>v[^/\"\\s]+)/[^\"\\s]+\",\\s*\"sha256\"\\s*:\\s*\"(?<currentDigest>[a-f0-9]{64})\""
       ],
       "datasourceTemplate": "github-release-attachments",
       "versioningTemplate": "semver",
@@ -50,7 +50,7 @@
     },
     {
       "customType": "regex",
-      "description": "Update the OpenTelemetry Java agent JAR and its SHA-256 checksum together",
+      "description": "Update OpenTelemetry Java agent",
       "managerFilePatterns": ["/^MODULE\\.bazel$/"],
       "matchStrings": [
         "http_jar\\(\\s*name\\s*=\\s*\"opentelemetry-javaagent\",\\s*sha256\\s*=\\s*\"(?<currentDigest>[a-f0-9]{64})\",\\s*url\\s*=\\s*\"https://github\\.com/(?<depName>open-telemetry/opentelemetry-java-instrumentation)/releases/download/(?<currentValue>v[^/\"\\s]+)/opentelemetry-javaagent\\.jar\",\\s*\\)"
@@ -73,7 +73,7 @@
       "separateMajorMinor": false
     },
     {
-      "description": "Keep GitHub Action and reusable workflow updates together",
+      "description": "Update GitHub Actions",
       "matchManagers": ["github-actions"],
       "matchDepTypes": ["action", "workflow"],
       "groupName": "GitHub Actions",
@@ -88,7 +88,7 @@
       "matchPackageNames": ["!protobuf", "!com.google.protobuf:protobuf-bom"]
     },
     {
-      "description": "Keep Confluent Platform images and the Java Protobuf serializer on the same release line",
+      "description": "Update Confluent Platform",
       "matchPackageNames": [
         "confluentinc/cp-*",
         "io.confluent:kafka-protobuf-serializer"
