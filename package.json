@@ -2,6 +2,7 @@
   "name": "lab",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@11.3.0",
   "engines": {
     "pnpm": ">=10 <12",
     "node": ">=24.15.0 <25"

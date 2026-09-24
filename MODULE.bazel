@@ -209,7 +209,7 @@ use_repo(npm, "npm")
 
 pnpm = use_extension("@aspect_rules_js//npm:extensions.bzl", "pnpm")
 pnpm.pnpm(
-    pnpm_version = "11.3.0",
+    pnpm_version_from = "//:package.json",
 )
 
 # Allows developers to use the matching pnpm version, for example:

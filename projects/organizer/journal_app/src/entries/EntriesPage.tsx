@@ -7,13 +7,11 @@ export function EntriesPage() {
   const { data } = useQuery(GetEntriesDocument, { pollInterval: 500 });
 
   const items =
-    data?.allEntries.map(
-      (entry): TimelineItemProps => ({
-        title: entry.message,
-        message: entry.message,
-        when: entry.createdAt,
-      }),
-    ) || [];
+    data?.allEntries.map((entry): TimelineItemProps => ({
+      title: entry.message,
+      message: entry.message,
+      when: entry.createdAt,
+    })) || [];
 
   return <Timeline items={items} />;
 }
