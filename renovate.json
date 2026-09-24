@@ -36,6 +36,28 @@
       ],
       "datasourceTemplate": "maven",
       "versioningTemplate": "maven"
+    },
+    {
+      "customType": "regex",
+      "description": "Update multitool GitHub release assets and their SHA-256 checksums together",
+      "managerFilePatterns": ["/^tools/tools\\.lock\\.json$/"],
+      "matchStrings": [
+        "\"url\"\\s*:\\s*\"https://github\\.com/(?<depName>aspect-build/aspect-cli|bazelbuild/buildtools|bazelbuild/bazel-watcher)/releases/download/(?<currentValue>v[^/\"\\s]+)/[^\"\\s]+\",\\s*\"sha256\"\\s*:\\s*\"(?<currentDigest>[a-f0-9]{64})\""
+      ],
+      "datasourceTemplate": "github-release-attachments",
+      "versioningTemplate": "semver",
+      "autoReplaceStringTemplate": "{{#if newDigest}}{{#if (equals currentDigest newDigest)}}{{{replaceString}}}{{else}}{{{replace currentDigest newDigest (replace currentValue newValue replaceString)}}}{{/if}}{{else}}{{{replaceString}}}{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the OpenTelemetry Java agent JAR and its SHA-256 checksum together",
+      "managerFilePatterns": ["/^MODULE\\.bazel$/"],
+      "matchStrings": [
+        "http_jar\\(\\s*name\\s*=\\s*\"opentelemetry-javaagent\",\\s*sha256\\s*=\\s*\"(?<currentDigest>[a-f0-9]{64})\",\\s*url\\s*=\\s*\"https://github\\.com/(?<depName>open-telemetry/opentelemetry-java-instrumentation)/releases/download/(?<currentValue>v[^/\"\\s]+)/opentelemetry-javaagent\\.jar\",\\s*\\)"
+      ],
+      "datasourceTemplate": "github-release-attachments",
+      "versioningTemplate": "semver",
+      "autoReplaceStringTemplate": "{{#if newDigest}}{{#if (equals currentDigest newDigest)}}{{{replaceString}}}{{else}}{{{replace currentDigest newDigest (replace currentValue newValue replaceString)}}}{{/if}}{{else}}{{{replaceString}}}{{/if}}"
     }
   ],
   "packageRules": [
