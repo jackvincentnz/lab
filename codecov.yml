@@ -19,10 +19,6 @@ component_management:
       name: Mops service
       paths:
         - "projects/mops/service/**"
-    - component_id: mops-app
-      name: Mops app
-      paths:
-        - "projects/mops/app/**"
     - component_id: organizer
       name: Organizer
       paths:
