@@ -24,6 +24,10 @@ Tests tagged `requires-docker` need a running Docker engine. In an environment
 without Docker, `bazel test --config=codex-cloud //...`
 skips those tests; mention that omission in the PR's validation results.
 
+## Contribution guidelines
+
+- [Bazel](docs/contributing/bazel.md).
+
 ## Pull requests and CI
 
 Open PRs against `main`. Describe the problem, the resulting behavior, and the

@@ -29,9 +29,6 @@ build --@aspect_rules_ts//ts:skipLibCheck=always
 fetch --@aspect_rules_ts//ts:skipLibCheck=always
 query --@aspect_rules_ts//ts:skipLibCheck=always
 
-# Require explicit opt-in for optional source patterns.
-common --incompatible_disallow_empty_glob
-
 # This tells Bazel how to interact with the version control system
 # Enable this with --config=release
 build:release --stamp --workspace_status_command=tools/bazel/output_workspace_status.sh

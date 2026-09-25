@@ -1,6 +1,7 @@
 - Getting started
   - [Home](/)
   - [Contributing](CONTRIBUTING.md)
+    - [Bazel](docs/contributing/bazel.md)
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
   - [pre-commit](docs/pre-commit.md)

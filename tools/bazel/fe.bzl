@@ -210,7 +210,6 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     js_library(
         name = "gql",
-        # GraphQL documents and assets are optional in a library package.
         srcs = native.glob(["*.gql"], allow_empty = True),
         visibility = visibility,
     )
