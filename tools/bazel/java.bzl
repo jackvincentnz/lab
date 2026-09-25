@@ -1,8 +1,13 @@
 """
-This module contains common java macros.
+This module contains common java macros to avoid direct dependencies on external rules.
 """
 
 load("@contrib_rules_jvm//java:defs.bzl", "JUNIT5_DEPS", _java_test_suite = "java_test_suite")
+load(
+    "@rules_java//java:defs.bzl",
+    _java_binary = "java_binary",
+    _java_library = "java_library",
+)
 
 TEST_DEPS = [
     "//libs/test/src/test/java/lab/test:test",
@@ -36,16 +41,31 @@ SPRING_TEST_RUNTIME_DEPS = [
     "@maven//:org_springframework_boot_spring_boot_starter_test",
 ]
 
+def java_binary(name, **kwargs):
+    _java_binary(
+        name = name,
+        **kwargs
+    )
+
+def java_library(name, **kwargs):
+    _java_library(
+        name = name,
+        **kwargs
+    )
+
 def java_test_suite(name, **kwargs):
     env = kwargs.pop("env", {})
     env.setdefault("SPRING_PROFILES_ACTIVE", "test")
+
+    # Do not evaluate the default glob when callers supply explicit sources.
+    srcs = kwargs.pop("srcs") if "srcs" in kwargs else native.glob(["*.java"])
 
     _java_test_suite(
         name = name,
 
         # Default attributes
         size = kwargs.pop("size", "small"),
-        srcs = kwargs.pop("srcs", native.glob(["*.java"])),
+        srcs = srcs,
         runtime_deps = TEST_RUNTIME_DEPS + kwargs.pop("runtime_deps", []),
         deps = TEST_DEPS + kwargs.pop("deps", []),
         package_prefixes = [".nz.", ".lab."],

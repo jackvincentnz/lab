@@ -29,12 +29,8 @@ build --@aspect_rules_ts//ts:skipLibCheck=always
 fetch --@aspect_rules_ts//ts:skipLibCheck=always
 query --@aspect_rules_ts//ts:skipLibCheck=always
 
-# FIXME: enable this by setting allow_empty = True where applicable
-common --noincompatible_disallow_empty_glob
-
-# The IDE passes this which causes a repository remap and analysis when switching between IDE and terminal commands.
-# Leave here until the IDE no longer passes it.
-common --experimental_google_legacy_api
+# Require explicit opt-in for optional source patterns.
+common --incompatible_disallow_empty_glob
 
 # This tells Bazel how to interact with the version control system
 # Enable this with --config=release

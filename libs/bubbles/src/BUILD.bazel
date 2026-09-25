@@ -6,11 +6,6 @@ SRC_PATHS = [
     "**/*.ts",
 ]
 
-TEST_PATHS = [
-    "**/*.test.tsx",
-    "**/*.test.ts",
-]
-
 STORY_PATHS = [
     "**/*.stories.ts",
     "**/*.stories.tsx",
@@ -20,7 +15,7 @@ ts_project(
     name = "src_ts",
     srcs = glob(
         include = SRC_PATHS,
-        exclude = TEST_PATHS + STORY_PATHS,
+        exclude = STORY_PATHS,
     ),
     deps = [
         "//:node_modules/@mantine/core",
