@@ -1,5 +1,7 @@
 import { isAbsolute } from "node:path";
-import { defineConfig, type PluginOption } from "vite";
+import type { PluginOption } from "vite";
+import { defineConfig } from "vitest/config";
+import { bazelCoverage } from "../../../tools/bazel/vitest/coverage.ts";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/
@@ -17,6 +19,19 @@ export default defineConfig({
     watchNodeModules(["@lab/bubbles"]),
     react(),
   ],
+  resolve: {
+    // Keep Vitest setup and test files inside Bazel's sandboxed runfiles tree.
+    // TODO: Remove when https://github.com/jackvincentnz/lab/issues/771 is resolved.
+    preserveSymlinks: process.env.VITEST === "true",
+  },
+  test: {
+    // Coverage runfiles also contain TS sources for remapping; run each test once.
+    include: ["src/**/*.{test,spec}.js"],
+    coverage: bazelCoverage(["src/**/*.js"]),
+    environment: "jsdom",
+    setupFiles: "./src/test/setup.js",
+    css: false,
+  },
   server: {
     port: 3000,
     proxy: {

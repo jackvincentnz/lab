@@ -23,7 +23,11 @@ Run the local environment using existing images (skips Bazel builds) with:
 bazel run //projects/organizer:local_environment
 ```
 
-Run e2e tests with:
+## End-to-end tests
+
+The E2E suite exercises routing and task completion through the delivered apps,
+including the resulting journal entry. It requires a running Docker engine.
+Run it from the repository root:
 
 ```zsh
 bazel test //projects/organizer/e2e
@@ -31,5 +35,5 @@ bazel test //projects/organizer/e2e
 
 ## Related docs
 
-- `projects/organizer/tasklist/README.md`
-- `projects/organizer/journal_app/README.md`
+- [Tasklist](tasklist/README.md).
+- [Journal app](journal_app/README.md).

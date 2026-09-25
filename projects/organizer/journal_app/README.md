@@ -1,29 +1,32 @@
-# React + TypeScript + Vite
+# Journal App
 
-## Summary
+Web app for viewing Organizer journal entries.
 
-This example provides a minimal setup to get React + Vite + HMR working with Bazel.
+See the [Organizer setup guide](../README.md#getting-started) to run the apps and
+services together.
 
-## Getting started
+## Development
 
-In the project directory, you can run:
+Run these commands from the repository root:
 
-### Development server
+| Task                                    | Command                                                  |
+| --------------------------------------- | -------------------------------------------------------- |
+| Build and typecheck the app and tests.  | `bazel build //projects/organizer/journal_app/...`       |
+| Build the production bundle.            | `bazel build //projects/organizer/journal_app:build`     |
+| Run the app.                            | `bazel run //projects/organizer/journal_app`             |
+| Watch sources, rebuild and run the app. | `ibazel run //projects/organizer/journal_app`            |
+| Run tests once.                         | `bazel test //projects/organizer/journal_app:test_run`   |
+| Watch sources, rebuild and rerun tests. | `ibazel run //projects/organizer/journal_app:test_watch` |
+| Watch tests with the Vitest UI.         | `ibazel run //projects/organizer/journal_app:test_ui`    |
+| Preview the production bundle.          | `bazel run //projects/organizer/journal_app:preview`     |
 
-`pnpm dev` or `ibazel run //projects/organizer/journal_app`
+The dev server listens at `http://localhost:3004/journal/` and proxies `/graphql`
+to `http://localhost:4000`. Use `ibazel` during development so source changes are
+recompiled before Vite or Vitest reloads them.
 
-Runs the app in the development mode.
-Open http://127.0.0.1:5173/ to view it in the browser.
-The page will reload if you make edits.
+From this directory, `pnpm dev`, `pnpm build`, and `pnpm test` run the development,
+production build, and test watch commands. Journal has no component tests yet;
+its test targets currently allow an empty suite.
 
-### Production build
-
-`pnpm build` or `bazel build //projects/organizer/journal_app:build`
-
-Builds the app for production to `dist/bin/projects/organizer/journal_app/dist`.
-
-## Improvements
-
-- Transpile ts prior with swc
-- Merge react ts configs
-- Tests
+See the [frontend coverage guide](../../../tools/bazel/vitest/README.md) for
+collecting and checking TypeScript coverage.

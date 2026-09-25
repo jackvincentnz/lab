@@ -2,6 +2,7 @@
   - [Home](/)
   - [Contributing](CONTRIBUTING.md)
     - [Bazel](docs/contributing/bazel.md)
+    - [READMEs](docs/contributing/readmes.md)
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
   - [pre-commit](docs/pre-commit.md)

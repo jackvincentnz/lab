@@ -1,8 +1,11 @@
 {
   "name": "tasklist",
+  "private": true,
   "type": "module",
   "scripts": {
-    "start": "ibazel run //projects/organizer/tasklist",
-    "build": "bazel build //projects/organizer/tasklist:build"
+    "dev": "ibazel run //projects/organizer/tasklist",
+    "build": "bazel build //projects/organizer/tasklist:build",
+    "test": "ibazel run //projects/organizer/tasklist:test_watch",
+    "start": "ibazel run //projects/organizer/tasklist"
   }
 }
