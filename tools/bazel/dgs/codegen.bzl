@@ -2,7 +2,7 @@
 Rule for generate dgs java types from a graphql schema
 """
 
-load("@rules_java//java:defs.bzl", "java_library")
+load("//tools/bazel:java.bzl", "java_library")
 
 def _zipper_input_path(file):
     marker = "_generated/"
