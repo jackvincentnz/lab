@@ -17,17 +17,7 @@ Run the service only:
 bazel run //projects/mops/service
 ```
 
-Run the app only:
-
-```zsh
-bazel run //projects/mops/app
-```
-
-Run the app in watch mode (ibazel):
-
-```zsh
-ibazel run //projects/mops/app
-```
+See the [Mops App guide](app/README.md) for app build, run and watch commands.
 
 ### Environment variables
 
@@ -45,23 +35,7 @@ Run service tests:
 bazel test //projects/mops/service/src/test/java/lab/mops:tests
 ```
 
-Run app tests (one-off):
-
-```zsh
-bazel test //projects/mops/app:test_run
-```
-
-Run app tests in watch mode:
-
-```zsh
-bazel run //projects/mops/app:test
-```
-
-Run app tests in watch mode with ibazel:
-
-```zsh
-ibazel run //projects/mops/app:test
-```
+See the [Mops App test commands](app/README.md#development) for one-off and watch runs.
 
 Run the full-stack Playwright smoke test:
 

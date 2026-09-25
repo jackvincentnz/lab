@@ -1,9 +1,30 @@
-# Mops app
+# Mops App
 
-The app uses Vite, React and Mantine through the shared
-[`fe_app` Bazel macro](../../../tools/bazel/fe_app.md). That guide documents the
-source layout, configuration and build/test/watch/UI targets.
+Mops App is the web interface for the Mops budgeting assistant. It brings together
+spending, planning, settings and an AI chat assistant, with a React and Mantine UI
+connected to the Mops service through GraphQL.
 
-See the [Mops guide](../README.md) for application setup and the
-[frontend coverage guide](../../../tools/bazel/vitest/README.md) for collecting
-and checking TypeScript coverage.
+See the [Mops setup guide](../README.md#getting-started) to run the app and service
+together and configure the service's AI provider.
+
+## Development
+
+Run these commands from the repository root:
+
+| Task                                    | Command                                     |
+| --------------------------------------- | ------------------------------------------- |
+| Build and typecheck the app and tests.  | `bazel build //projects/mops/app/...`       |
+| Build the production bundle.            | `bazel build //projects/mops/app:build`     |
+| Run the app.                            | `bazel run //projects/mops/app`             |
+| Watch sources, rebuild and run the app. | `ibazel run //projects/mops/app`            |
+| Run tests once.                         | `bazel test //projects/mops/app:test_run`   |
+| Watch sources, rebuild and rerun tests. | `ibazel run //projects/mops/app:test_watch` |
+| Watch tests with the Vitest UI.         | `ibazel run //projects/mops/app:test_ui`    |
+| Preview the production bundle.          | `bazel run //projects/mops/app:preview`     |
+
+The dev server listens at `http://localhost:5173` and proxies `/api` and `/ws` to
+the service at `http://localhost:8080`. Use `ibazel` during development so source
+changes are recompiled before Vite or Vitest reloads them.
+
+See the [frontend coverage guide](../../../tools/bazel/vitest/README.md) for
+collecting and checking TypeScript coverage.

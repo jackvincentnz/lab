@@ -15,6 +15,11 @@ js_library(
     visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
 )
 
+SRC_PATTERNS = [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+]
+
 TEST_PATTERNS = [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
@@ -32,16 +37,14 @@ STORY_PATTERNS = [
 fe_app(
     name = "app",
     srcs = glob(
-        [
-            "src/**/*.ts",
-            "src/**/*.tsx",
-        ],
+        SRC_PATTERNS,
         exclude = TEST_PATTERNS + STORY_PATTERNS,
     ),
     assets = glob([
         "src/**/*.css",
         "src/**/*.png",
     ]),
+    # Inputs consumed by Vite/Vitest and their configuration at runtime.
     data = [
         "index.html",
         "package.json",
@@ -64,6 +67,7 @@ fe_app(
     test_srcs = glob(TEST_PATTERNS),
     test_tags = ["exclusive"],
     visibility = ["//projects/mops:__pkg__"],
+    # Libraries imported by application TypeScript, including generated types.
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",
@@ -87,13 +91,6 @@ fe_app(
         "//:node_modules/vite",
         "//projects/mops/app/src/__generated__:graphql_codegen_ts",
     ],
-)
-
-# Preserve the existing watch command; the macro also exposes test_watch/test_ui.
-alias(
-    name = "test",
-    testonly = True,
-    actual = ":test_watch",
 )
 
 tar(

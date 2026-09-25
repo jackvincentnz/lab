@@ -5,8 +5,6 @@ consequences.
 
 ## Accepted
 
-- [Flatten frontend application targets](flattened-frontend.md) establishes the
-  app-root Bazel macro and the compatibility policy for existing libraries.
 - [Identity gateway prototype](identity-gateway-prototype.md) defines the committed
   prototype architecture, delivery sequence, and completion criteria.
 
