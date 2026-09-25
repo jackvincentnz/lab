@@ -30,7 +30,7 @@ including the resulting journal entry. It requires a running Docker engine.
 Run it from the repository root:
 
 ```zsh
-bazel test //projects/organizer/e2e:e2e
+bazel test //projects/organizer/e2e
 ```
 
 ## Related docs
