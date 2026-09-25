@@ -113,7 +113,7 @@ def fe_app(
 def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:private"]):
     """Legacy directory-level frontend library; use fe_app for new applications.
 
-    Retained for existing Organizer/Bubbles consumers; migrate them separately.
+    Retained for existing directory-level consumers; migrate them separately.
 
     ### Requirements
 
@@ -134,7 +134,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     For example:
     ```shell
-    bazel query "//projects/organizer/tasklist/src/tasks/..."
+    bazel query "//path/to/library/..."
     ```
 
     #### Build targets
@@ -148,7 +148,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Type check and transpile whole package including test sources.
 
-    bazel build //projects/organizer/tasklist/src/tasks/...
+    bazel build //path/to/library/...
     ```
 
     #### Test targets
@@ -160,7 +160,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Run tests as a single cacheable run.
 
-    bazel test //projects/organizer/tasklist/src/tasks:test
+    bazel test //path/to/library:test
     ```
 
     #### Run targets
@@ -173,7 +173,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
     ```shell
     # e.g. Run tests in watch mode.
 
-    ibazel run //projects/organizer/tasklist/src/tasks:test_watch
+    ibazel run //path/to/library:test_watch
     ```
 
     Args:
@@ -210,13 +210,13 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 
     js_library(
         name = "gql",
-        srcs = native.glob(["*.gql"]),
+        srcs = native.glob(["*.gql"], allow_empty = True),
         visibility = visibility,
     )
 
     js_library(
         name = "assets",
-        srcs = native.glob(ASSET_PATTERNS),
+        srcs = native.glob(ASSET_PATTERNS, allow_empty = True),
         visibility = visibility,
     )
 
@@ -225,6 +225,8 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
         srcs = native.glob(
             include = SRC_PATTERNS,
             exclude = STORY_SRC_PATTERNS,
+            # A package can contain TS, TSX, or just re-export dependencies.
+            allow_empty = True,
         ),
         visibility = ["//visibility:private"],
         deps = COMMON_REACT_DEPS + deps,
@@ -239,17 +241,18 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
         visibility = visibility,
     )
 
-    tests = native.glob([
-        "__tests__/*.test.tsx",
-        "__tests__/*.test.ts",
-    ])
+    # Tests and stories are discovered only when present.
+    tests = native.glob(
+        ["__tests__/*.test.tsx", "__tests__/*.test.ts"],
+        allow_empty = True,
+    )
     if len(tests) > 0:
         _tests(
             name = "test",
             deps = test_deps + [":%s" % name],
         )
 
-    stories = native.glob(STORY_SRC_PATTERNS)
+    stories = native.glob(STORY_SRC_PATTERNS, allow_empty = True)
     if len(stories) > 0:
         ts_project(
             name = "stories",
@@ -264,7 +267,7 @@ def fe_library(name, deps = [], test_deps = [], visibility = ["//visibility:priv
 def _tests(name, deps):
     ts_project(
         name = "_test_ts",
-        srcs = native.glob(["__tests__/**/*", "__fixtures__/**/*"]),
+        srcs = native.glob(["__tests__/**/*"]) + native.glob(["__fixtures__/**/*"], allow_empty = True),
         deps = deps + [
             "//tools/bazel/vitest:utils",
         ],

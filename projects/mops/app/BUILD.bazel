@@ -23,22 +23,15 @@ SRC_PATTERNS = [
 TEST_PATTERNS = [
     "src/**/*.test.ts",
     "src/**/*.test.tsx",
-    "src/**/*.spec.ts",
-    "src/**/*.spec.tsx",
     "src/test/**/*.ts",
     "src/test/**/*.tsx",
-]
-
-STORY_PATTERNS = [
-    "src/**/*.stories.ts",
-    "src/**/*.stories.tsx",
 ]
 
 fe_app(
     name = "app",
     srcs = glob(
         SRC_PATTERNS,
-        exclude = TEST_PATTERNS + STORY_PATTERNS,
+        exclude = TEST_PATTERNS,
     ),
     assets = glob([
         "src/**/*.css",
@@ -55,8 +48,6 @@ fe_app(
         "//projects/mops/app/public",
         "//tools/bazel/vitest:coverage_config",
     ],
-    stories = glob(STORY_PATTERNS),
-    story_deps = ["//:node_modules/@storybook/react"],
     test_deps = [
         "//:node_modules/@testing-library/jest-dom",
         "//:node_modules/@testing-library/react",
