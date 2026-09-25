@@ -1,29 +1,42 @@
-# React + TypeScript + Vite
+# Journal
 
-## Summary
+## Development
 
-This example provides a minimal setup to get React + Vite + HMR working with Bazel.
+Run `pnpm dev` from this directory, or `ibazel run //projects/organizer/journal_app`
+from the repository root. The explicit `:app` target starts the same server.
+Open [http://localhost:3004/journal/](http://localhost:3004/journal/).
+The page reloads when you edit source files.
 
-## Getting started
+## Build and typecheck
 
-In the project directory, you can run:
+Run `pnpm build` or `bazel build //projects/organizer/journal_app:build` to build
+production assets in `dist/bin/projects/organizer/journal_app/dist`.
 
-### Development server
+Typecheck production and test sources with:
 
-`pnpm dev` or `ibazel run //projects/organizer/journal_app`
+```sh
+bazel build //projects/organizer/journal_app:src_ts //projects/organizer/journal_app:test_ts
+```
 
-Runs the app in the development mode.
-Open http://127.0.0.1:5173/ to view it in the browser.
-The page will reload if you make edits.
+The app uses one `fe_app` in the root `BUILD.bazel`. Production sources and tests
+compile separately. GraphQL documents are collected by `:gql`, and the
+`src/__generated__` package generates and compiles the client code for both.
 
-### Production build
+## Tests and coverage
 
-`pnpm build` or `bazel build //projects/organizer/journal_app:build`
+Run `pnpm test` for watch mode, or use the Bazel targets from the repository root:
 
-Builds the app for production to `dist/bin/projects/organizer/journal_app/dist`.
+```sh
+bazel test //projects/organizer/journal_app:test_run
+ibazel run //projects/organizer/journal_app:test_ui
+bazel coverage --combined_report=lcov //projects/organizer/journal_app:test_run
+```
 
-## Improvements
+Journal has no component tests yet. Its standard test targets allow an empty
+suite; a successful run does not indicate component test coverage.
 
-- Transpile ts prior with swc
-- Merge react ts configs
-- Tests
+The Organizer E2E suite exercises the delivered apps and requires Docker:
+
+```sh
+bazel test //projects/organizer/e2e:e2e
+```

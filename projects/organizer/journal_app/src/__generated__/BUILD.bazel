@@ -5,7 +5,7 @@ graphql_codegen(
     srcs = [
         "//projects/organizer/journal/src/main/resources/schema",
         "//projects/organizer/journal_app:codegen",
-        "//projects/organizer/journal_app/src/entries:gql",
+        "//projects/organizer/journal_app:gql",
     ],
-    visibility = ["//projects/organizer/journal_app:__subpackages__"],
+    visibility = ["//projects/organizer/journal_app:__pkg__"],
 )

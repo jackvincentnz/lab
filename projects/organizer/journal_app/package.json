@@ -1,8 +1,10 @@
 {
-  "name": "journal",
+  "name": "journal-app",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "ibazel run //projects/organizer/journal_app",
-    "build": "bazel build //projects/organizer/journal_app:build"
+    "build": "bazel build //projects/organizer/journal_app:build",
+    "test": "ibazel run //projects/organizer/journal_app:test_watch"
   }
 }

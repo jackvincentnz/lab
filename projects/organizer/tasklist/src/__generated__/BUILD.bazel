@@ -5,7 +5,7 @@ graphql_codegen(
     srcs = [
         "//projects/organizer/task/src/main/resources/schema",
         "//projects/organizer/tasklist:codegen",
-        "//projects/organizer/tasklist/src/tasks:gql",
+        "//projects/organizer/tasklist:gql",
     ],
-    visibility = ["//projects/organizer/tasklist/src:__subpackages__"],
+    visibility = ["//projects/organizer/tasklist:__pkg__"],
 )

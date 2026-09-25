@@ -3,8 +3,8 @@
 Use the same targets for tests and coverage:
 
 ```sh
-bazel test //projects/mops/app:test_run //projects/organizer/tasklist/src/tasks:test
-bazel coverage --combined_report=lcov //projects/mops/app:test_run //projects/organizer/tasklist/src/tasks:test
+bazel test //projects/mops/app:test_run //projects/organizer/tasklist:test_run
+bazel coverage --combined_report=lcov //projects/mops/app:test_run //projects/organizer/tasklist:test_run
 ```
 
 CI runs `bazel coverage --combined_report=lcov //...` and uploads

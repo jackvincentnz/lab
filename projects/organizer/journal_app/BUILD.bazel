@@ -1,7 +1,7 @@
+load("//tools/bazel:fe.bzl", "fe_app")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
-load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
 
 js_library(
     name = "codegen",
@@ -9,27 +9,73 @@ js_library(
     visibility = ["//projects/organizer/journal_app/src/__generated__:__pkg__"],
 )
 
-SRCS = [
-    "public/vite.svg",
-    "index.html",
-    "package.json",
-    "vite.config.ts",
-]
-
-DEPS = [
-    "//projects/organizer/journal_app/src",
-    "//:node_modules/@vitejs/plugin-react",
-    "//:node_modules/vite",
-]
-
-vite_build(
-    name = "build",
-    srcs = SRCS + DEPS,
+js_library(
+    name = "gql",
+    srcs = glob(["src/**/*.gql"]),
+    visibility = ["//projects/organizer/journal_app/src/__generated__:__pkg__"],
 )
 
-vite_dev_server(
+SRC_PATTERNS = [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+]
+
+TEST_PATTERNS = [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/**/__tests__/**/*.ts",
+    "src/**/__tests__/**/*.tsx",
+    "src/**/__fixtures__/**/*.ts",
+    "src/**/__fixtures__/**/*.tsx",
+    "src/test/**/*.ts",
+    "src/test/**/*.tsx",
+]
+
+STORY_PATTERNS = [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+]
+
+fe_app(
+    name = "app",
+    srcs = glob(
+        SRC_PATTERNS,
+        exclude = TEST_PATTERNS + STORY_PATTERNS,
+    ),
+    data = [
+        "index.html",
+        "package.json",
+        "public/vite.svg",
+        "vite.config.ts",
+        "//:node_modules/@vitejs/plugin-react",
+        "//:node_modules/jsdom",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:coverage_config",
+    ],
+    test_deps = ["//tools/bazel/vitest:utils"],
+    test_srcs = glob(
+        TEST_PATTERNS,
+        allow_empty = True,
+    ),
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@lab/bubbles",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@types/react",
+        "//:node_modules/@types/react-dom",
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/vite",
+        "//projects/organizer/journal_app/src/__generated__:graphql_codegen_ts",
+    ],
+)
+
+# Preserve the existing package-default development command.
+alias(
     name = "journal_app",
-    data = SRCS + DEPS,
+    actual = ":app",
 )
 
 tar(

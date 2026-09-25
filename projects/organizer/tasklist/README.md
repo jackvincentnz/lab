@@ -1,16 +1,45 @@
-# Getting Started with Tasklist
+# Tasklist
 
-## Getting started
+## Development
 
-In the project directory, you can run:
+Run `pnpm dev` from this directory, or `ibazel run //projects/organizer/tasklist`
+from the repository root. The explicit `:app` target starts the same server.
+Open [http://localhost:3000/task/](http://localhost:3000/task/).
+The page reloads when you edit source files.
 
-### `pnpm start`
+`pnpm start` remains an alias for `pnpm dev`.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Build and typecheck
 
-The page will reload if you make edits.
+Run `pnpm build` or `bazel build //projects/organizer/tasklist:build` to build
+production assets in `dist/bin/projects/organizer/tasklist/dist`.
 
-### `pnpm build`
+Typecheck production and test sources with:
 
-Builds the app for production to `dist/bin/projects/organizer/tasklist/dist`.
+```sh
+bazel build //projects/organizer/tasklist:src_ts //projects/organizer/tasklist:test_ts
+```
+
+The app uses one `fe_app` in the root `BUILD.bazel`. Production sources and tests
+compile separately. GraphQL documents are collected by `:gql`, and the
+`src/__generated__` package generates and compiles the client code for both.
+
+## Tests and coverage
+
+Run `pnpm test` for watch mode, or use the Bazel targets from the repository root:
+
+```sh
+bazel test //projects/organizer/tasklist:test_run
+ibazel run //projects/organizer/tasklist:test_ui
+bazel coverage --combined_report=lcov //projects/organizer/tasklist:test_run
+```
+
+The existing `DisplayTasks` test runs once against compiled JavaScript. Coverage
+remaps to source TS/TSX and includes unimported production modules. See the
+[frontend coverage guide](../../../tools/bazel/vitest/README.md).
+
+The Organizer E2E suite exercises the delivered apps and requires Docker:
+
+```sh
+bazel test //projects/organizer/e2e:e2e
+```
