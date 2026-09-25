@@ -5,6 +5,6 @@
   "scripts": {
     "dev": "ibazel run //projects/mops/app",
     "build": "bazel build //projects/mops/app:build",
-    "test": "ibazel run //projects/mops/app:test"
+    "test": "ibazel run //projects/mops/app:test_watch"
   }
 }

@@ -1,13 +1,7 @@
+load("//tools/bazel:fe.bzl", "fe_app")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
-load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
-load("//tools/bazel/vitest:vitest.bzl", "vitest_run", "vitest_watch")
-
-alias(
-    name = "app",
-    actual = ":dev",
-)
 
 js_library(
     name = "codegen",
@@ -15,46 +9,86 @@ js_library(
     visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
 )
 
-SRCS = [
-    "//:node_modules/vitest",
-    "//:node_modules/postcss-preset-mantine",
-    "//:node_modules/postcss-simple-vars",
-    "//projects/mops/app/public",
-    "//projects/mops/app/src",
-    "//tools/bazel/vitest:coverage_config",
-    "index.html",
-    "package.json",
-    "postcss.config.cjs",
-    "vite.config.ts",
+js_library(
+    name = "gql",
+    srcs = glob(["src/**/*.gql"]),
+    visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
+)
+
+SRC_PATTERNS = [
+    "src/**/*.ts",
+    "src/**/*.tsx",
 ]
 
-TEST_SRCS = [
-    "//projects/mops/app/src:test_ts",
-    "//projects/mops/app/src/test",
+TEST_PATTERNS = [
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.spec.ts",
+    "src/**/*.spec.tsx",
+    "src/test/**/*.ts",
+    "src/test/**/*.tsx",
 ]
 
-vite_dev_server(
-    name = "dev",
-    data = SRCS,
-    visibility = [
-        "//projects/mops:__pkg__",
+STORY_PATTERNS = [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+]
+
+fe_app(
+    name = "app",
+    srcs = glob(
+        SRC_PATTERNS,
+        exclude = TEST_PATTERNS + STORY_PATTERNS,
+    ),
+    assets = glob([
+        "src/**/*.css",
+        "src/**/*.png",
+    ]),
+    data = [
+        "index.html",
+        "package.json",
+        "postcss.config.cjs",
+        "vite.config.ts",
+        "//:node_modules/postcss-preset-mantine",
+        "//:node_modules/postcss-simple-vars",
+        "//:node_modules/vitest",
+        "//projects/mops/app/public",
+        "//tools/bazel/vitest:coverage_config",
     ],
-)
-
-vite_build(
-    name = "build",
-    srcs = SRCS,
-)
-
-vitest_watch(
-    name = "test",
-    data = SRCS + TEST_SRCS,
-)
-
-vitest_run(
-    name = "test_run",
-    data = SRCS + TEST_SRCS,
-    tags = ["exclusive"],
+    stories = glob(STORY_PATTERNS),
+    story_deps = ["//:node_modules/@storybook/react"],
+    test_deps = [
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/vitest",
+    ],
+    test_srcs = glob(TEST_PATTERNS),
+    test_tags = ["exclusive"],
+    visibility = ["//projects/mops:__pkg__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@statsig/react-bindings",
+        "//:node_modules/@statsig/session-replay",
+        "//:node_modules/@statsig/web-analytics",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/@types/react-dom",
+        "//:node_modules/clsx",
+        "//:node_modules/dayjs",
+        "//:node_modules/graphql-ws",
+        "//:node_modules/mantine-datatable",
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/react-markdown",
+        "//:node_modules/react-router-dom",
+        "//:node_modules/remark-gfm",
+        "//:node_modules/vite",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+    ],
 )
 
 tar(
