@@ -44,7 +44,6 @@ fe_app(
         "src/**/*.css",
         "src/**/*.png",
     ]),
-    # Inputs consumed by Vite/Vitest and their configuration at runtime.
     data = [
         "index.html",
         "package.json",
@@ -67,7 +66,6 @@ fe_app(
     test_srcs = glob(TEST_PATTERNS),
     test_tags = ["exclusive"],
     visibility = ["//projects/mops:__pkg__"],
-    # Libraries imported by application TypeScript, including generated types.
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@mantine/core",

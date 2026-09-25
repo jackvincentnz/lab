@@ -13,7 +13,7 @@ command(
 command(
     name = "app",
     args = ["--open"],
-    command = "//projects/mops/app:app",
+    command = "//projects/mops/app",
 )
 
 multirun(

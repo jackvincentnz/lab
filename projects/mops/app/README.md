@@ -1,8 +1,6 @@
 # Mops App
 
-Mops App is the web interface for the Mops budgeting assistant. It brings together
-spending, planning, settings and an AI chat assistant, with a React and Mantine UI
-connected to the Mops service through GraphQL.
+Web app for the Mops project.
 
 See the [Mops setup guide](../README.md#getting-started) to run the app and service
 together and configure the service's AI provider.
