@@ -1,45 +1,31 @@
 # Tasklist
 
+Web app for creating and completing Organizer tasks.
+
+See the [Organizer setup guide](../README.md#getting-started) to run the apps and
+services together.
+
 ## Development
 
-Run `pnpm dev` from this directory, or `ibazel run //projects/organizer/tasklist`
-from the repository root. The explicit `:app` target starts the same server.
-Open [http://localhost:3000/task/](http://localhost:3000/task/).
-The page reloads when you edit source files.
+Run these commands from the repository root:
 
-`pnpm start` remains an alias for `pnpm dev`.
+| Task                                    | Command                                               |
+| --------------------------------------- | ----------------------------------------------------- |
+| Build and typecheck the app and tests.  | `bazel build //projects/organizer/tasklist/...`       |
+| Build the production bundle.            | `bazel build //projects/organizer/tasklist:build`     |
+| Run the app.                            | `bazel run //projects/organizer/tasklist`             |
+| Watch sources, rebuild and run the app. | `ibazel run //projects/organizer/tasklist`            |
+| Run tests once.                         | `bazel test //projects/organizer/tasklist:test_run`   |
+| Watch sources, rebuild and rerun tests. | `ibazel run //projects/organizer/tasklist:test_watch` |
+| Watch tests with the Vitest UI.         | `ibazel run //projects/organizer/tasklist:test_ui`    |
+| Preview the production bundle.          | `bazel run //projects/organizer/tasklist:preview`     |
 
-## Build and typecheck
+The dev server listens at `http://localhost:3000/task/` and proxies `/graphql`
+to `http://localhost:4000`. Use `ibazel` during development so source changes are
+recompiled before Vite or Vitest reloads them.
 
-Run `pnpm build` or `bazel build //projects/organizer/tasklist:build` to build
-production assets in `dist/bin/projects/organizer/tasklist/dist`.
+From this directory, `pnpm dev`, `pnpm build`, and `pnpm test` run the development,
+production build, and test watch commands. `pnpm start` also starts development.
 
-Typecheck production and test sources with:
-
-```sh
-bazel build //projects/organizer/tasklist:src_ts //projects/organizer/tasklist:test_ts
-```
-
-The app uses one `fe_app` in the root `BUILD.bazel`. Production sources and tests
-compile separately. GraphQL documents are collected by `:gql`, and the
-`src/__generated__` package generates and compiles the client code for both.
-
-## Tests and coverage
-
-Run `pnpm test` for watch mode, or use the Bazel targets from the repository root:
-
-```sh
-bazel test //projects/organizer/tasklist:test_run
-ibazel run //projects/organizer/tasklist:test_ui
-bazel coverage --combined_report=lcov //projects/organizer/tasklist:test_run
-```
-
-The existing `DisplayTasks` test runs once against compiled JavaScript. Coverage
-remaps to source TS/TSX and includes unimported production modules. See the
-[frontend coverage guide](../../../tools/bazel/vitest/README.md).
-
-The Organizer E2E suite exercises the delivered apps and requires Docker:
-
-```sh
-bazel test //projects/organizer/e2e:e2e
-```
+See the [frontend coverage guide](../../../tools/bazel/vitest/README.md) for
+collecting and checking TypeScript coverage.

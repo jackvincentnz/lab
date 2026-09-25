@@ -1,42 +1,32 @@
-# Journal
+# Journal App
+
+Web app for viewing Organizer journal entries.
+
+See the [Organizer setup guide](../README.md#getting-started) to run the apps and
+services together.
 
 ## Development
 
-Run `pnpm dev` from this directory, or `ibazel run //projects/organizer/journal_app`
-from the repository root. The explicit `:app` target starts the same server.
-Open [http://localhost:3004/journal/](http://localhost:3004/journal/).
-The page reloads when you edit source files.
+Run these commands from the repository root:
 
-## Build and typecheck
+| Task                                    | Command                                                  |
+| --------------------------------------- | -------------------------------------------------------- |
+| Build and typecheck the app and tests.  | `bazel build //projects/organizer/journal_app/...`       |
+| Build the production bundle.            | `bazel build //projects/organizer/journal_app:build`     |
+| Run the app.                            | `bazel run //projects/organizer/journal_app`             |
+| Watch sources, rebuild and run the app. | `ibazel run //projects/organizer/journal_app`            |
+| Run tests once.                         | `bazel test //projects/organizer/journal_app:test_run`   |
+| Watch sources, rebuild and rerun tests. | `ibazel run //projects/organizer/journal_app:test_watch` |
+| Watch tests with the Vitest UI.         | `ibazel run //projects/organizer/journal_app:test_ui`    |
+| Preview the production bundle.          | `bazel run //projects/organizer/journal_app:preview`     |
 
-Run `pnpm build` or `bazel build //projects/organizer/journal_app:build` to build
-production assets in `dist/bin/projects/organizer/journal_app/dist`.
+The dev server listens at `http://localhost:3004/journal/` and proxies `/graphql`
+to `http://localhost:4000`. Use `ibazel` during development so source changes are
+recompiled before Vite or Vitest reloads them.
 
-Typecheck production and test sources with:
+From this directory, `pnpm dev`, `pnpm build`, and `pnpm test` run the development,
+production build, and test watch commands. Journal has no component tests yet;
+its test targets currently allow an empty suite.
 
-```sh
-bazel build //projects/organizer/journal_app:src_ts //projects/organizer/journal_app:test_ts
-```
-
-The app uses one `fe_app` in the root `BUILD.bazel`. Production sources and tests
-compile separately. GraphQL documents are collected by `:gql`, and the
-`src/__generated__` package generates and compiles the client code for both.
-
-## Tests and coverage
-
-Run `pnpm test` for watch mode, or use the Bazel targets from the repository root:
-
-```sh
-bazel test //projects/organizer/journal_app:test_run
-ibazel run //projects/organizer/journal_app:test_ui
-bazel coverage --combined_report=lcov //projects/organizer/journal_app:test_run
-```
-
-Journal has no component tests yet. Its standard test targets allow an empty
-suite; a successful run does not indicate component test coverage.
-
-The Organizer E2E suite exercises the delivered apps and requires Docker:
-
-```sh
-bazel test //projects/organizer/e2e:e2e
-```
+See the [frontend coverage guide](../../../tools/bazel/vitest/README.md) for
+collecting and checking TypeScript coverage.

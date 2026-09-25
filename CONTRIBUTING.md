@@ -27,6 +27,7 @@ skips those tests; mention that omission in the PR's validation results.
 ## Contribution guidelines
 
 - [Bazel](docs/contributing/bazel.md).
+- [READMEs](docs/contributing/readmes.md).
 
 ## Pull requests and CI
 

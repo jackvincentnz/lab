@@ -15,35 +15,8 @@ js_library(
     visibility = ["//projects/organizer/journal_app/src/__generated__:__pkg__"],
 )
 
-SRC_PATTERNS = [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-]
-
-TEST_PATTERNS = [
-    "src/**/*.test.ts",
-    "src/**/*.test.tsx",
-    "src/**/*.spec.ts",
-    "src/**/*.spec.tsx",
-    "src/**/__tests__/**/*.ts",
-    "src/**/__tests__/**/*.tsx",
-    "src/**/__fixtures__/**/*.ts",
-    "src/**/__fixtures__/**/*.tsx",
-    "src/test/**/*.ts",
-    "src/test/**/*.tsx",
-]
-
-STORY_PATTERNS = [
-    "src/**/*.stories.ts",
-    "src/**/*.stories.tsx",
-]
-
 fe_app(
-    name = "app",
-    srcs = glob(
-        SRC_PATTERNS,
-        exclude = TEST_PATTERNS + STORY_PATTERNS,
-    ),
+    name = "journal_app",
     data = [
         "index.html",
         "package.json",
@@ -55,10 +28,6 @@ fe_app(
         "//tools/bazel/vitest:coverage_config",
     ],
     test_deps = ["//tools/bazel/vitest:utils"],
-    test_srcs = glob(
-        TEST_PATTERNS,
-        allow_empty = True,
-    ),
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@lab/bubbles",
@@ -70,12 +39,6 @@ fe_app(
         "//:node_modules/vite",
         "//projects/organizer/journal_app/src/__generated__:graphql_codegen_ts",
     ],
-)
-
-# Preserve the existing package-default development command.
-alias(
-    name = "journal_app",
-    actual = ":app",
 )
 
 tar(
