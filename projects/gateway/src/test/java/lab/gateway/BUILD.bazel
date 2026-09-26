@@ -1,0 +1,12 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/gateway/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
+        "@maven//:org_springframework_spring_webflux",
+    ],
+)

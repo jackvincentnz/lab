@@ -54,7 +54,10 @@
     "org.springframework.boot:spring-boot-starter-validation": 113118493,
     "org.springframework.boot:spring-boot-starter-web": -1905796688,
     "org.springframework.boot:spring-boot-starter-webflux": 1788530073,
+    "org.springframework.cloud:spring-cloud-dependencies": 46371524,
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": 171429428,
     "org.springframework.kafka:spring-kafka-test": 990321692,
+    "org.springframework.session:spring-session-data-redis": -728513194,
     "org.testcontainers:testcontainers": -258185670,
     "org.testcontainers:testcontainers-bom": 483223872,
     "org.testcontainers:testcontainers-jdbc": 820447396,
@@ -329,6 +332,8 @@
     "io.opencensus:opencensus-api:jar:sources": 1085904850,
     "io.opencensus:opencensus-contrib-http-util": -168385344,
     "io.opencensus:opencensus-contrib-http-util:jar:sources": -879181311,
+    "io.projectreactor.addons:reactor-extra": 769826738,
+    "io.projectreactor.addons:reactor-extra:jar:sources": 2028796991,
     "io.projectreactor.kotlin:reactor-kotlin-extensions": -805720209,
     "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources": -390502251,
     "io.projectreactor.netty:reactor-netty-core": -985770822,
@@ -453,6 +458,8 @@
     "org.awaitility:awaitility:jar:sources": -74464497,
     "org.bitbucket.b_c:jose4j": 320805217,
     "org.bitbucket.b_c:jose4j:jar:sources": 1703050659,
+    "org.bouncycastle:bcprov-jdk18on": -390275162,
+    "org.bouncycastle:bcprov-jdk18on:jar:sources": -2118706434,
     "org.checkerframework:checker-qual": 1035058555,
     "org.checkerframework:checker-qual:jar:sources": -434493987,
     "org.eclipse.jetty.compression:jetty-compression-common": -1338672456,
@@ -723,10 +730,22 @@
     "org.springframework.boot:spring-boot-webmvc-test:jar:sources": 1460822691,
     "org.springframework.boot:spring-boot-webmvc:jar:sources": -246562907,
     "org.springframework.boot:spring-boot:jar:sources": -196215936,
+    "org.springframework.cloud:spring-cloud-commons": -1902318577,
+    "org.springframework.cloud:spring-cloud-commons:jar:sources": -116852119,
+    "org.springframework.cloud:spring-cloud-context": 1987197701,
+    "org.springframework.cloud:spring-cloud-context:jar:sources": -1247649357,
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux": -155257441,
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux:jar:sources": -915774835,
+    "org.springframework.cloud:spring-cloud-starter": 1891966553,
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": -458964825,
     "org.springframework.data:spring-data-commons": 1365953262,
     "org.springframework.data:spring-data-commons:jar:sources": -1040250807,
     "org.springframework.data:spring-data-jdbc": 1551681625,
     "org.springframework.data:spring-data-jdbc:jar:sources": -2009231747,
+    "org.springframework.data:spring-data-keyvalue": 1294982872,
+    "org.springframework.data:spring-data-keyvalue:jar:sources": 338430816,
+    "org.springframework.data:spring-data-redis": 514606181,
+    "org.springframework.data:spring-data-redis:jar:sources": -22064710,
     "org.springframework.data:spring-data-relational": -1580326739,
     "org.springframework.data:spring-data-relational:jar:sources": 1907196969,
     "org.springframework.graphql:spring-graphql": -396741172,
@@ -745,6 +764,10 @@
     "org.springframework.security:spring-security-crypto:jar:sources": -466930554,
     "org.springframework.security:spring-security-web": 1268740790,
     "org.springframework.security:spring-security-web:jar:sources": -1444598853,
+    "org.springframework.session:spring-session-core": -1605489062,
+    "org.springframework.session:spring-session-core:jar:sources": -594080282,
+    "org.springframework.session:spring-session-data-redis": 1340633446,
+    "org.springframework.session:spring-session-data-redis:jar:sources": -121583969,
     "org.springframework:spring-aop": 2140047740,
     "org.springframework:spring-aop:jar:sources": -2013099440,
     "org.springframework:spring-beans": -52091312,
@@ -761,6 +784,8 @@
     "org.springframework:spring-jdbc:jar:sources": -783241676,
     "org.springframework:spring-messaging": -1748332337,
     "org.springframework:spring-messaging:jar:sources": 1746129250,
+    "org.springframework:spring-oxm": 1138425481,
+    "org.springframework:spring-oxm:jar:sources": 300367173,
     "org.springframework:spring-test": 439340573,
     "org.springframework:spring-test:jar:sources": 1525591521,
     "org.springframework:spring-tx": 1278511811,
@@ -843,7 +868,9 @@
     "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.1.1",
     "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.1.1",
     "org.springframework.boot:spring-boot-starter-webflux": "org.springframework.boot:spring-boot-starter-webflux:4.1.1",
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux:5.0.3",
     "org.springframework.kafka:spring-kafka-test": "org.springframework.kafka:spring-kafka-test:4.1.1",
+    "org.springframework.session:spring-session-data-redis": "org.springframework.session:spring-session-data-redis:4.1.1",
     "org.testcontainers:testcontainers": "org.testcontainers:testcontainers:2.0.5",
     "org.testcontainers:testcontainers-jdbc": "org.testcontainers:testcontainers-jdbc:2.0.5",
     "org.testcontainers:testcontainers-junit-jupiter": "org.testcontainers:testcontainers-junit-jupiter:2.0.5",
@@ -1771,6 +1798,13 @@
       },
       "version": "0.31.1"
     },
+    "io.projectreactor.addons:reactor-extra": {
+      "shasums": {
+        "jar": "9a7db643b2c713d9d4b4bbaa746cf781282a314d17c4bdbb1a4bd7c72da56ac6",
+        "sources": "c35314146e976d6f62ddbbf59f096dfd7107bd5a99d1a4ce6d1beedb57f5d2b3"
+      },
+      "version": "3.6.1"
+    },
     "io.projectreactor.kotlin:reactor-kotlin-extensions": {
       "shasums": {
         "jar": "354cc9cb59f7937051d6dc7b107ad5cc19009d6d3b95b3ddee273e3fcd5514a5",
@@ -2199,6 +2233,13 @@
         "sources": "958be1837b507d3a1f1187257072b4c1e1d031c3a0c610d3c02ac69aabfac6a5"
       },
       "version": "0.9.6"
+    },
+    "org.bouncycastle:bcprov-jdk18on": {
+      "shasums": {
+        "jar": "986b0fb92ec10e0c66b43e036ce0077e6150cfaecd1db9fb92b56672e157afe5",
+        "sources": "b37ac84b1d5435ab7b8d166c16ab9f75e09f68f8ec50479bae433939b241b03f"
+      },
+      "version": "1.85.2"
     },
     "org.checkerframework:checker-qual": {
       "shasums": {
@@ -3155,6 +3196,39 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.cloud:spring-cloud-commons": {
+      "shasums": {
+        "jar": "32dc8bcaa6ecafa1769569d029d209c26586efc8373733a183ac0e60d689d9a7",
+        "sources": "c0026a015d460073992f6ab5297e35073fde4dc9f7b9f2815295a7a1cca7bfca"
+      },
+      "version": "5.0.3"
+    },
+    "org.springframework.cloud:spring-cloud-context": {
+      "shasums": {
+        "jar": "66acd3a11f220f321e3592d7af2eff205ee9aa907c92c116e9147167e7efa743",
+        "sources": "4b0537c4c501ec6fc23b16d82eff7b8749c1c792749797ddfb469a0abcbed4ba"
+      },
+      "version": "5.0.3"
+    },
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux": {
+      "shasums": {
+        "jar": "e44a06b3cc46e0b1cc293c327b7c6ae71683e08747b53e5a001c58e9c1271871",
+        "sources": "268a1e0f81cfd6a1ed35c74ae05560b70e76e1b587c0df3937d2acd6a0d11540"
+      },
+      "version": "5.0.3"
+    },
+    "org.springframework.cloud:spring-cloud-starter": {
+      "shasums": {
+        "jar": "1c0b606eb6bd75bc8371090c6a2ed8dcd1299cc9d64f61026f5cb43c1c535695"
+      },
+      "version": "5.0.3"
+    },
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": {
+      "shasums": {
+        "jar": "e3c3e9fd3599de3a72de55053fb210a0a3ef017f2e264b85660173967bba18d7"
+      },
+      "version": "5.0.3"
+    },
     "org.springframework.data:spring-data-commons": {
       "shasums": {
         "jar": "cf2a3f9bfabefca1a8c2c0f0a65c393d9ff83b0cb1cf7b705accac18a6ed0ee4",
@@ -3166,6 +3240,20 @@
       "shasums": {
         "jar": "370f9b229cf6c355608b4af51f41e120de0cdacb6e4e183c46053561fbb9ab63",
         "sources": "7fece1279e1528f93128bfead2b832f0b2625b5f7619dd10ed9423cc8573e5bb"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.data:spring-data-keyvalue": {
+      "shasums": {
+        "jar": "e8986c8e2577d271096266335a798c8fb5df91fd2fdf85607252056884fb554d",
+        "sources": "6ac050252889cc318058119c7918eaa0f53d09e0311c4838d2a02b9c8584c56b"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.data:spring-data-redis": {
+      "shasums": {
+        "jar": "ad609b5a51bb8591cd923d358125a65d9bea193f79480a37ae60a1d0d5ae55b2",
+        "sources": "880394b47e8b15467b54674708f28e00f22aa3e5711ee70df295de44bc4f1af5"
       },
       "version": "4.1.1"
     },
@@ -3232,6 +3320,20 @@
       },
       "version": "7.1.1"
     },
+    "org.springframework.session:spring-session-core": {
+      "shasums": {
+        "jar": "01b836bfcc5b64f7039c3430980878112a10db5066eda4274a1d3eb874e49733",
+        "sources": "d75a8e9c32c2357255971a4cd9330f463e0e5e2ac26e7024bd4a7785606f0bad"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.session:spring-session-data-redis": {
+      "shasums": {
+        "jar": "9a17d1bcc44b1a596c7759d729e8c2cec522211de752d56c14cbb51ec1f10e71",
+        "sources": "8c9fe3f241db5618cb3d808f0c4bd0be932391b1ca48d19c18d7c2d16d783cbe"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework:spring-aop": {
       "shasums": {
         "jar": "b8c5d6bfcb1f4993f2cc124f7ab7fac40edf5256b9e43c2f7250a733cb5510e9",
@@ -3285,6 +3387,13 @@
       "shasums": {
         "jar": "19ea7561e5d61e19bee0c94733d03bbf9384c9356eea2d4e90cce7ba3c0ab01b",
         "sources": "c47cf727fc89df04bc30d22c2006db44958b583bef1eda09ad65a81249e7789e"
+      },
+      "version": "7.0.9"
+    },
+    "org.springframework:spring-oxm": {
+      "shasums": {
+        "jar": "213b742973516a7ae0846c79757cf905b634e2367ee0bdc0c34a067d365f922b",
+        "sources": "3c678d7987ed921213f144344f42568557d34569924382f60a0b059b89da5a27"
       },
       "version": "7.0.9"
     },
@@ -4046,6 +4155,9 @@
     "io.opencensus:opencensus-contrib-http-util": [
       "com.google.guava:guava",
       "io.opencensus:opencensus-api"
+    ],
+    "io.projectreactor.addons:reactor-extra": [
+      "io.projectreactor:reactor-core"
     ],
     "io.projectreactor.kotlin:reactor-kotlin-extensions": [
       "io.projectreactor:reactor-core"
@@ -4882,6 +4994,29 @@
       "org.springframework.boot:spring-boot-web-server",
       "org.springframework.boot:spring-boot-webmvc"
     ],
+    "org.springframework.cloud:spring-cloud-commons": [
+      "org.springframework.security:spring-security-crypto"
+    ],
+    "org.springframework.cloud:spring-cloud-context": [
+      "org.springframework.security:spring-security-crypto"
+    ],
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux": [
+      "io.projectreactor.addons:reactor-extra",
+      "org.springframework.boot:spring-boot-restclient",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.boot:spring-boot-starter-validation"
+    ],
+    "org.springframework.cloud:spring-cloud-starter": [
+      "org.bouncycastle:bcprov-jdk18on",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.cloud:spring-cloud-commons",
+      "org.springframework.cloud:spring-cloud-context"
+    ],
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": [
+      "org.springframework.boot:spring-boot-starter-webflux",
+      "org.springframework.cloud:spring-cloud-gateway-server-webflux",
+      "org.springframework.cloud:spring-cloud-starter"
+    ],
     "org.springframework.data:spring-data-commons": [
       "org.slf4j:slf4j-api",
       "org.springframework:spring-beans",
@@ -4895,6 +5030,20 @@
       "org.springframework:spring-context",
       "org.springframework:spring-core",
       "org.springframework:spring-jdbc",
+      "org.springframework:spring-tx"
+    ],
+    "org.springframework.data:spring-data-keyvalue": [
+      "org.slf4j:slf4j-api",
+      "org.springframework.data:spring-data-commons",
+      "org.springframework:spring-context",
+      "org.springframework:spring-tx"
+    ],
+    "org.springframework.data:spring-data-redis": [
+      "org.slf4j:slf4j-api",
+      "org.springframework.data:spring-data-keyvalue",
+      "org.springframework:spring-aop",
+      "org.springframework:spring-context-support",
+      "org.springframework:spring-oxm",
       "org.springframework:spring-tx"
     ],
     "org.springframework.data:spring-data-relational": [
@@ -4965,6 +5114,13 @@
       "org.springframework:spring-expression",
       "org.springframework:spring-web"
     ],
+    "org.springframework.session:spring-session-core": [
+      "commons-logging:commons-logging"
+    ],
+    "org.springframework.session:spring-session-data-redis": [
+      "org.springframework.data:spring-data-redis",
+      "org.springframework.session:spring-session-core"
+    ],
     "org.springframework:spring-aop": [
       "org.springframework:spring-beans",
       "org.springframework:spring-core"
@@ -4997,6 +5153,11 @@
       "org.springframework:spring-tx"
     ],
     "org.springframework:spring-messaging": [
+      "org.springframework:spring-beans",
+      "org.springframework:spring-core"
+    ],
+    "org.springframework:spring-oxm": [
+      "jakarta.xml.bind:jakarta.xml.bind-api",
       "org.springframework:spring-beans",
       "org.springframework:spring-core"
     ],
@@ -6448,6 +6609,16 @@
       "io.opencensus.contrib.http",
       "io.opencensus.contrib.http.util"
     ],
+    "io.projectreactor.addons:reactor-extra": [
+      "reactor.bool",
+      "reactor.cache",
+      "reactor.function",
+      "reactor.math",
+      "reactor.retry",
+      "reactor.scheduler.clock",
+      "reactor.scheduler.forkjoin",
+      "reactor.swing"
+    ],
     "io.projectreactor.kotlin:reactor-kotlin-extensions": [
       "reactor.kotlin.core.publisher",
       "reactor.kotlin.core.util.function",
@@ -7462,6 +7633,223 @@
       "org.jose4j.lang",
       "org.jose4j.mac",
       "org.jose4j.zip"
+    ],
+    "org.bouncycastle:bcprov-jdk18on": [
+      "org.bouncycastle",
+      "org.bouncycastle.asn1",
+      "org.bouncycastle.asn1.anssi",
+      "org.bouncycastle.asn1.bc",
+      "org.bouncycastle.asn1.cryptopro",
+      "org.bouncycastle.asn1.gm",
+      "org.bouncycastle.asn1.iana",
+      "org.bouncycastle.asn1.nist",
+      "org.bouncycastle.asn1.ocsp",
+      "org.bouncycastle.asn1.pkcs",
+      "org.bouncycastle.asn1.plants",
+      "org.bouncycastle.asn1.sec",
+      "org.bouncycastle.asn1.teletrust",
+      "org.bouncycastle.asn1.ua",
+      "org.bouncycastle.asn1.util",
+      "org.bouncycastle.asn1.x500",
+      "org.bouncycastle.asn1.x500.style",
+      "org.bouncycastle.asn1.x509",
+      "org.bouncycastle.asn1.x509.qualified",
+      "org.bouncycastle.asn1.x509.sigi",
+      "org.bouncycastle.asn1.x9",
+      "org.bouncycastle.crypto",
+      "org.bouncycastle.crypto.agreement",
+      "org.bouncycastle.crypto.agreement.ecjpake",
+      "org.bouncycastle.crypto.agreement.jpake",
+      "org.bouncycastle.crypto.agreement.kdf",
+      "org.bouncycastle.crypto.agreement.owl",
+      "org.bouncycastle.crypto.agreement.srp",
+      "org.bouncycastle.crypto.bls",
+      "org.bouncycastle.crypto.commitments",
+      "org.bouncycastle.crypto.constraints",
+      "org.bouncycastle.crypto.digests",
+      "org.bouncycastle.crypto.ec",
+      "org.bouncycastle.crypto.encodings",
+      "org.bouncycastle.crypto.engines",
+      "org.bouncycastle.crypto.fpe",
+      "org.bouncycastle.crypto.generators",
+      "org.bouncycastle.crypto.hash2curve",
+      "org.bouncycastle.crypto.hash2curve.data",
+      "org.bouncycastle.crypto.hash2curve.impl",
+      "org.bouncycastle.crypto.hpke",
+      "org.bouncycastle.crypto.io",
+      "org.bouncycastle.crypto.kems",
+      "org.bouncycastle.crypto.kems.cmce",
+      "org.bouncycastle.crypto.kems.frodo",
+      "org.bouncycastle.crypto.kems.mlkem",
+      "org.bouncycastle.crypto.macs",
+      "org.bouncycastle.crypto.modes",
+      "org.bouncycastle.crypto.modes.gcm",
+      "org.bouncycastle.crypto.modes.kgcm",
+      "org.bouncycastle.crypto.paddings",
+      "org.bouncycastle.crypto.params",
+      "org.bouncycastle.crypto.parsers",
+      "org.bouncycastle.crypto.prng",
+      "org.bouncycastle.crypto.prng.drbg",
+      "org.bouncycastle.crypto.signers",
+      "org.bouncycastle.crypto.signers.mldsa",
+      "org.bouncycastle.crypto.signers.slhdsa",
+      "org.bouncycastle.crypto.threshold",
+      "org.bouncycastle.crypto.tls",
+      "org.bouncycastle.crypto.util",
+      "org.bouncycastle.i18n",
+      "org.bouncycastle.i18n.filter",
+      "org.bouncycastle.internal.asn1.bsi",
+      "org.bouncycastle.internal.asn1.cms",
+      "org.bouncycastle.internal.asn1.cryptlib",
+      "org.bouncycastle.internal.asn1.eac",
+      "org.bouncycastle.internal.asn1.edec",
+      "org.bouncycastle.internal.asn1.gnu",
+      "org.bouncycastle.internal.asn1.isara",
+      "org.bouncycastle.internal.asn1.isismtt",
+      "org.bouncycastle.internal.asn1.iso",
+      "org.bouncycastle.internal.asn1.kisa",
+      "org.bouncycastle.internal.asn1.microsoft",
+      "org.bouncycastle.internal.asn1.misc",
+      "org.bouncycastle.internal.asn1.nsri",
+      "org.bouncycastle.internal.asn1.ntt",
+      "org.bouncycastle.internal.asn1.oiw",
+      "org.bouncycastle.internal.asn1.rosstandart",
+      "org.bouncycastle.jcajce",
+      "org.bouncycastle.jcajce.interfaces",
+      "org.bouncycastle.jcajce.io",
+      "org.bouncycastle.jcajce.provider.asymmetric",
+      "org.bouncycastle.jcajce.provider.asymmetric.cmce",
+      "org.bouncycastle.jcajce.provider.asymmetric.compositekem",
+      "org.bouncycastle.jcajce.provider.asymmetric.compositesignatures",
+      "org.bouncycastle.jcajce.provider.asymmetric.dh",
+      "org.bouncycastle.jcajce.provider.asymmetric.dsa",
+      "org.bouncycastle.jcajce.provider.asymmetric.dstu",
+      "org.bouncycastle.jcajce.provider.asymmetric.ec",
+      "org.bouncycastle.jcajce.provider.asymmetric.ecgost",
+      "org.bouncycastle.jcajce.provider.asymmetric.ecgost12",
+      "org.bouncycastle.jcajce.provider.asymmetric.edec",
+      "org.bouncycastle.jcajce.provider.asymmetric.elgamal",
+      "org.bouncycastle.jcajce.provider.asymmetric.frodokem",
+      "org.bouncycastle.jcajce.provider.asymmetric.gost",
+      "org.bouncycastle.jcajce.provider.asymmetric.ies",
+      "org.bouncycastle.jcajce.provider.asymmetric.mldsa",
+      "org.bouncycastle.jcajce.provider.asymmetric.mlkem",
+      "org.bouncycastle.jcajce.provider.asymmetric.rsa",
+      "org.bouncycastle.jcajce.provider.asymmetric.slhdsa",
+      "org.bouncycastle.jcajce.provider.asymmetric.util",
+      "org.bouncycastle.jcajce.provider.asymmetric.x509",
+      "org.bouncycastle.jcajce.provider.config",
+      "org.bouncycastle.jcajce.provider.digest",
+      "org.bouncycastle.jcajce.provider.drbg",
+      "org.bouncycastle.jcajce.provider.kdf",
+      "org.bouncycastle.jcajce.provider.kdf.hkdf",
+      "org.bouncycastle.jcajce.provider.kdf.pbkdf2",
+      "org.bouncycastle.jcajce.provider.kdf.scrypt",
+      "org.bouncycastle.jcajce.provider.keystore",
+      "org.bouncycastle.jcajce.provider.keystore.bc",
+      "org.bouncycastle.jcajce.provider.keystore.bcfks",
+      "org.bouncycastle.jcajce.provider.keystore.pkcs12",
+      "org.bouncycastle.jcajce.provider.keystore.util",
+      "org.bouncycastle.jcajce.provider.symmetric",
+      "org.bouncycastle.jcajce.provider.symmetric.util",
+      "org.bouncycastle.jcajce.provider.util",
+      "org.bouncycastle.jcajce.spec",
+      "org.bouncycastle.jcajce.util",
+      "org.bouncycastle.jce",
+      "org.bouncycastle.jce.exception",
+      "org.bouncycastle.jce.interfaces",
+      "org.bouncycastle.jce.netscape",
+      "org.bouncycastle.jce.provider",
+      "org.bouncycastle.jce.spec",
+      "org.bouncycastle.ldap",
+      "org.bouncycastle.math",
+      "org.bouncycastle.math.ec",
+      "org.bouncycastle.math.ec.custom.djb",
+      "org.bouncycastle.math.ec.custom.gm",
+      "org.bouncycastle.math.ec.custom.sec",
+      "org.bouncycastle.math.ec.endo",
+      "org.bouncycastle.math.ec.rfc7748",
+      "org.bouncycastle.math.ec.rfc8032",
+      "org.bouncycastle.math.ec.tools",
+      "org.bouncycastle.math.field",
+      "org.bouncycastle.math.raw",
+      "org.bouncycastle.pqc.asn1",
+      "org.bouncycastle.pqc.crypto",
+      "org.bouncycastle.pqc.crypto.aimer",
+      "org.bouncycastle.pqc.crypto.cmce",
+      "org.bouncycastle.pqc.crypto.crystals.dilithium",
+      "org.bouncycastle.pqc.crypto.faest",
+      "org.bouncycastle.pqc.crypto.falcon",
+      "org.bouncycastle.pqc.crypto.frodo",
+      "org.bouncycastle.pqc.crypto.haetae",
+      "org.bouncycastle.pqc.crypto.hawk",
+      "org.bouncycastle.pqc.crypto.hqc",
+      "org.bouncycastle.pqc.crypto.lms",
+      "org.bouncycastle.pqc.crypto.mayo",
+      "org.bouncycastle.pqc.crypto.mldsa",
+      "org.bouncycastle.pqc.crypto.mlkem",
+      "org.bouncycastle.pqc.crypto.mqom",
+      "org.bouncycastle.pqc.crypto.newhope",
+      "org.bouncycastle.pqc.crypto.ntru",
+      "org.bouncycastle.pqc.crypto.ntruplus",
+      "org.bouncycastle.pqc.crypto.ntruprime",
+      "org.bouncycastle.pqc.crypto.qruov",
+      "org.bouncycastle.pqc.crypto.saber",
+      "org.bouncycastle.pqc.crypto.sdith",
+      "org.bouncycastle.pqc.crypto.slhdsa",
+      "org.bouncycastle.pqc.crypto.snova",
+      "org.bouncycastle.pqc.crypto.sphincs",
+      "org.bouncycastle.pqc.crypto.sqisign",
+      "org.bouncycastle.pqc.crypto.uov",
+      "org.bouncycastle.pqc.crypto.util",
+      "org.bouncycastle.pqc.crypto.xmss",
+      "org.bouncycastle.pqc.crypto.xwing",
+      "org.bouncycastle.pqc.jcajce.interfaces",
+      "org.bouncycastle.pqc.jcajce.provider",
+      "org.bouncycastle.pqc.jcajce.provider.aimer",
+      "org.bouncycastle.pqc.jcajce.provider.bike",
+      "org.bouncycastle.pqc.jcajce.provider.cmce",
+      "org.bouncycastle.pqc.jcajce.provider.dilithium",
+      "org.bouncycastle.pqc.jcajce.provider.faest",
+      "org.bouncycastle.pqc.jcajce.provider.falcon",
+      "org.bouncycastle.pqc.jcajce.provider.frodo",
+      "org.bouncycastle.pqc.jcajce.provider.haetae",
+      "org.bouncycastle.pqc.jcajce.provider.hawk",
+      "org.bouncycastle.pqc.jcajce.provider.hqc",
+      "org.bouncycastle.pqc.jcajce.provider.kyber",
+      "org.bouncycastle.pqc.jcajce.provider.lms",
+      "org.bouncycastle.pqc.jcajce.provider.mayo",
+      "org.bouncycastle.pqc.jcajce.provider.mqom",
+      "org.bouncycastle.pqc.jcajce.provider.newhope",
+      "org.bouncycastle.pqc.jcajce.provider.ntru",
+      "org.bouncycastle.pqc.jcajce.provider.ntruplus",
+      "org.bouncycastle.pqc.jcajce.provider.ntruprime",
+      "org.bouncycastle.pqc.jcajce.provider.picnic",
+      "org.bouncycastle.pqc.jcajce.provider.qruov",
+      "org.bouncycastle.pqc.jcajce.provider.saber",
+      "org.bouncycastle.pqc.jcajce.provider.sdith",
+      "org.bouncycastle.pqc.jcajce.provider.snova",
+      "org.bouncycastle.pqc.jcajce.provider.sphincs",
+      "org.bouncycastle.pqc.jcajce.provider.sphincsplus",
+      "org.bouncycastle.pqc.jcajce.provider.sqisign",
+      "org.bouncycastle.pqc.jcajce.provider.uov",
+      "org.bouncycastle.pqc.jcajce.provider.util",
+      "org.bouncycastle.pqc.jcajce.provider.xmss",
+      "org.bouncycastle.pqc.jcajce.spec",
+      "org.bouncycastle.pqc.legacy.bike",
+      "org.bouncycastle.pqc.legacy.picnic",
+      "org.bouncycastle.pqc.legacy.rainbow",
+      "org.bouncycastle.pqc.legacy.sphincsplus",
+      "org.bouncycastle.pqc.math.ntru",
+      "org.bouncycastle.pqc.math.ntru.parameters",
+      "org.bouncycastle.util",
+      "org.bouncycastle.util.encoders",
+      "org.bouncycastle.util.io",
+      "org.bouncycastle.util.io.pem",
+      "org.bouncycastle.util.test",
+      "org.bouncycastle.x509",
+      "org.bouncycastle.x509.extension",
+      "org.bouncycastle.x509.util"
     ],
     "org.checkerframework:checker-qual": [
       "org.checkerframework.checker.builder.qual",
@@ -8764,6 +9152,82 @@
     "org.springframework.boot:spring-boot-webmvc-test": [
       "org.springframework.boot.webmvc.test.autoconfigure"
     ],
+    "org.springframework.cloud:spring-cloud-commons": [
+      "org.springframework.cloud.client",
+      "org.springframework.cloud.client.actuator",
+      "org.springframework.cloud.client.circuitbreaker",
+      "org.springframework.cloud.client.circuitbreaker.httpservice",
+      "org.springframework.cloud.client.circuitbreaker.observation",
+      "org.springframework.cloud.client.discovery",
+      "org.springframework.cloud.client.discovery.composite",
+      "org.springframework.cloud.client.discovery.composite.reactive",
+      "org.springframework.cloud.client.discovery.event",
+      "org.springframework.cloud.client.discovery.health",
+      "org.springframework.cloud.client.discovery.health.reactive",
+      "org.springframework.cloud.client.discovery.simple",
+      "org.springframework.cloud.client.discovery.simple.reactive",
+      "org.springframework.cloud.client.hypermedia",
+      "org.springframework.cloud.client.loadbalancer",
+      "org.springframework.cloud.client.loadbalancer.reactive",
+      "org.springframework.cloud.client.serviceregistry",
+      "org.springframework.cloud.client.serviceregistry.endpoint",
+      "org.springframework.cloud.commons",
+      "org.springframework.cloud.commons.config",
+      "org.springframework.cloud.commons.publisher",
+      "org.springframework.cloud.commons.security",
+      "org.springframework.cloud.commons.util",
+      "org.springframework.cloud.configuration"
+    ],
+    "org.springframework.cloud:spring-cloud-context": [
+      "org.springframework.cloud.autoconfigure",
+      "org.springframework.cloud.bootstrap",
+      "org.springframework.cloud.bootstrap.config",
+      "org.springframework.cloud.bootstrap.encrypt",
+      "org.springframework.cloud.bootstrap.support",
+      "org.springframework.cloud.context.config",
+      "org.springframework.cloud.context.config.annotation",
+      "org.springframework.cloud.context.encrypt",
+      "org.springframework.cloud.context.environment",
+      "org.springframework.cloud.context.named",
+      "org.springframework.cloud.context.properties",
+      "org.springframework.cloud.context.refresh",
+      "org.springframework.cloud.context.restart",
+      "org.springframework.cloud.context.scope",
+      "org.springframework.cloud.context.scope.refresh",
+      "org.springframework.cloud.context.scope.thread",
+      "org.springframework.cloud.endpoint",
+      "org.springframework.cloud.endpoint.event",
+      "org.springframework.cloud.env",
+      "org.springframework.cloud.health",
+      "org.springframework.cloud.logging",
+      "org.springframework.cloud.util",
+      "org.springframework.cloud.util.random"
+    ],
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux": [
+      "org.springframework.cloud.gateway.actuate",
+      "org.springframework.cloud.gateway.config",
+      "org.springframework.cloud.gateway.config.conditional",
+      "org.springframework.cloud.gateway.discovery",
+      "org.springframework.cloud.gateway.event",
+      "org.springframework.cloud.gateway.filter",
+      "org.springframework.cloud.gateway.filter.cors",
+      "org.springframework.cloud.gateway.filter.factory",
+      "org.springframework.cloud.gateway.filter.factory.cache",
+      "org.springframework.cloud.gateway.filter.factory.cache.keygenerator",
+      "org.springframework.cloud.gateway.filter.factory.cache.postprocessor",
+      "org.springframework.cloud.gateway.filter.factory.rewrite",
+      "org.springframework.cloud.gateway.filter.headers",
+      "org.springframework.cloud.gateway.filter.headers.observation",
+      "org.springframework.cloud.gateway.filter.ratelimit",
+      "org.springframework.cloud.gateway.handler",
+      "org.springframework.cloud.gateway.handler.predicate",
+      "org.springframework.cloud.gateway.route",
+      "org.springframework.cloud.gateway.route.builder",
+      "org.springframework.cloud.gateway.support",
+      "org.springframework.cloud.gateway.support.config",
+      "org.springframework.cloud.gateway.support.ipresolver",
+      "org.springframework.cloud.gateway.support.tagsprovider"
+    ],
     "org.springframework.data:spring-data-commons": [
       "org.springframework.data.annotation",
       "org.springframework.data.aot",
@@ -8828,6 +9292,59 @@
       "org.springframework.data.jdbc.repository.query",
       "org.springframework.data.jdbc.repository.support",
       "org.springframework.data.jdbc.support"
+    ],
+    "org.springframework.data:spring-data-keyvalue": [
+      "org.springframework.data.keyvalue.annotation",
+      "org.springframework.data.keyvalue.aot",
+      "org.springframework.data.keyvalue.core",
+      "org.springframework.data.keyvalue.core.event",
+      "org.springframework.data.keyvalue.core.mapping",
+      "org.springframework.data.keyvalue.core.mapping.context",
+      "org.springframework.data.keyvalue.core.query",
+      "org.springframework.data.keyvalue.repository",
+      "org.springframework.data.keyvalue.repository.config",
+      "org.springframework.data.keyvalue.repository.query",
+      "org.springframework.data.keyvalue.repository.support",
+      "org.springframework.data.map",
+      "org.springframework.data.map.repository.config"
+    ],
+    "org.springframework.data:spring-data-redis": [
+      "org.springframework.data.redis",
+      "org.springframework.data.redis.annotation",
+      "org.springframework.data.redis.aot",
+      "org.springframework.data.redis.cache",
+      "org.springframework.data.redis.config",
+      "org.springframework.data.redis.connection",
+      "org.springframework.data.redis.connection.convert",
+      "org.springframework.data.redis.connection.jedis",
+      "org.springframework.data.redis.connection.lettuce",
+      "org.springframework.data.redis.connection.lettuce.aot",
+      "org.springframework.data.redis.connection.stream",
+      "org.springframework.data.redis.connection.util",
+      "org.springframework.data.redis.connection.zset",
+      "org.springframework.data.redis.core",
+      "org.springframework.data.redis.core.convert",
+      "org.springframework.data.redis.core.index",
+      "org.springframework.data.redis.core.mapping",
+      "org.springframework.data.redis.core.query",
+      "org.springframework.data.redis.core.script",
+      "org.springframework.data.redis.core.types",
+      "org.springframework.data.redis.domain.geo",
+      "org.springframework.data.redis.hash",
+      "org.springframework.data.redis.listener",
+      "org.springframework.data.redis.listener.adapter",
+      "org.springframework.data.redis.listener.support",
+      "org.springframework.data.redis.messaging",
+      "org.springframework.data.redis.repository.cdi",
+      "org.springframework.data.redis.repository.configuration",
+      "org.springframework.data.redis.repository.core",
+      "org.springframework.data.redis.repository.query",
+      "org.springframework.data.redis.repository.support",
+      "org.springframework.data.redis.serializer",
+      "org.springframework.data.redis.stream",
+      "org.springframework.data.redis.support.atomic",
+      "org.springframework.data.redis.support.collections",
+      "org.springframework.data.redis.util"
     ],
     "org.springframework.data:spring-data-relational": [
       "org.springframework.data.relational",
@@ -9066,6 +9583,32 @@
       "org.springframework.security.web.util",
       "org.springframework.security.web.util.matcher"
     ],
+    "org.springframework.session:spring-session-core": [
+      "org.springframework.session",
+      "org.springframework.session.aot.hint",
+      "org.springframework.session.aot.hint.server",
+      "org.springframework.session.aot.hint.servlet",
+      "org.springframework.session.config",
+      "org.springframework.session.config.annotation.web.http",
+      "org.springframework.session.config.annotation.web.server",
+      "org.springframework.session.events",
+      "org.springframework.session.security",
+      "org.springframework.session.security.web.authentication",
+      "org.springframework.session.web.context",
+      "org.springframework.session.web.http",
+      "org.springframework.session.web.server.session",
+      "org.springframework.session.web.socket.config.annotation",
+      "org.springframework.session.web.socket.events",
+      "org.springframework.session.web.socket.handler",
+      "org.springframework.session.web.socket.server"
+    ],
+    "org.springframework.session:spring-session-data-redis": [
+      "org.springframework.session.data.redis",
+      "org.springframework.session.data.redis.config",
+      "org.springframework.session.data.redis.config.annotation",
+      "org.springframework.session.data.redis.config.annotation.web.http",
+      "org.springframework.session.data.redis.config.annotation.web.server"
+    ],
     "org.springframework:spring-aop": [
       "org.aopalliance.aop",
       "org.aopalliance.intercept",
@@ -9285,6 +9828,14 @@
       "org.springframework.messaging.support",
       "org.springframework.messaging.tcp",
       "org.springframework.messaging.tcp.reactor"
+    ],
+    "org.springframework:spring-oxm": [
+      "org.springframework.oxm",
+      "org.springframework.oxm.config",
+      "org.springframework.oxm.jaxb",
+      "org.springframework.oxm.mime",
+      "org.springframework.oxm.support",
+      "org.springframework.oxm.xstream"
     ],
     "org.springframework:spring-test": [
       "org.springframework.mock.env",
@@ -10365,6 +10916,8 @@
       "io.opencensus:opencensus-api:jar:sources",
       "io.opencensus:opencensus-contrib-http-util",
       "io.opencensus:opencensus-contrib-http-util:jar:sources",
+      "io.projectreactor.addons:reactor-extra",
+      "io.projectreactor.addons:reactor-extra:jar:sources",
       "io.projectreactor.kotlin:reactor-kotlin-extensions",
       "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources",
       "io.projectreactor.netty:reactor-netty-core",
@@ -10489,6 +11042,8 @@
       "org.awaitility:awaitility:jar:sources",
       "org.bitbucket.b_c:jose4j",
       "org.bitbucket.b_c:jose4j:jar:sources",
+      "org.bouncycastle:bcprov-jdk18on",
+      "org.bouncycastle:bcprov-jdk18on:jar:sources",
       "org.checkerframework:checker-qual",
       "org.checkerframework:checker-qual:jar:sources",
       "org.eclipse.jetty.compression:jetty-compression-common",
@@ -10759,10 +11314,22 @@
       "org.springframework.boot:spring-boot-webmvc-test:jar:sources",
       "org.springframework.boot:spring-boot-webmvc:jar:sources",
       "org.springframework.boot:spring-boot:jar:sources",
+      "org.springframework.cloud:spring-cloud-commons",
+      "org.springframework.cloud:spring-cloud-commons:jar:sources",
+      "org.springframework.cloud:spring-cloud-context",
+      "org.springframework.cloud:spring-cloud-context:jar:sources",
+      "org.springframework.cloud:spring-cloud-gateway-server-webflux",
+      "org.springframework.cloud:spring-cloud-gateway-server-webflux:jar:sources",
+      "org.springframework.cloud:spring-cloud-starter",
+      "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux",
       "org.springframework.data:spring-data-commons",
       "org.springframework.data:spring-data-commons:jar:sources",
       "org.springframework.data:spring-data-jdbc",
       "org.springframework.data:spring-data-jdbc:jar:sources",
+      "org.springframework.data:spring-data-keyvalue",
+      "org.springframework.data:spring-data-keyvalue:jar:sources",
+      "org.springframework.data:spring-data-redis",
+      "org.springframework.data:spring-data-redis:jar:sources",
       "org.springframework.data:spring-data-relational",
       "org.springframework.data:spring-data-relational:jar:sources",
       "org.springframework.graphql:spring-graphql",
@@ -10781,6 +11348,10 @@
       "org.springframework.security:spring-security-crypto:jar:sources",
       "org.springframework.security:spring-security-web",
       "org.springframework.security:spring-security-web:jar:sources",
+      "org.springframework.session:spring-session-core",
+      "org.springframework.session:spring-session-core:jar:sources",
+      "org.springframework.session:spring-session-data-redis",
+      "org.springframework.session:spring-session-data-redis:jar:sources",
       "org.springframework:spring-aop",
       "org.springframework:spring-aop:jar:sources",
       "org.springframework:spring-beans",
@@ -10797,6 +11368,8 @@
       "org.springframework:spring-jdbc:jar:sources",
       "org.springframework:spring-messaging",
       "org.springframework:spring-messaging:jar:sources",
+      "org.springframework:spring-oxm",
+      "org.springframework:spring-oxm:jar:sources",
       "org.springframework:spring-test",
       "org.springframework:spring-test:jar:sources",
       "org.springframework:spring-tx",
@@ -11105,6 +11678,8 @@
       "io.opencensus:opencensus-api:jar:sources",
       "io.opencensus:opencensus-contrib-http-util",
       "io.opencensus:opencensus-contrib-http-util:jar:sources",
+      "io.projectreactor.addons:reactor-extra",
+      "io.projectreactor.addons:reactor-extra:jar:sources",
       "io.projectreactor.kotlin:reactor-kotlin-extensions",
       "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources",
       "io.projectreactor.netty:reactor-netty-core",
@@ -11229,6 +11804,8 @@
       "org.awaitility:awaitility:jar:sources",
       "org.bitbucket.b_c:jose4j",
       "org.bitbucket.b_c:jose4j:jar:sources",
+      "org.bouncycastle:bcprov-jdk18on",
+      "org.bouncycastle:bcprov-jdk18on:jar:sources",
       "org.checkerframework:checker-qual",
       "org.checkerframework:checker-qual:jar:sources",
       "org.eclipse.jetty.compression:jetty-compression-common",
@@ -11499,10 +12076,22 @@
       "org.springframework.boot:spring-boot-webmvc-test:jar:sources",
       "org.springframework.boot:spring-boot-webmvc:jar:sources",
       "org.springframework.boot:spring-boot:jar:sources",
+      "org.springframework.cloud:spring-cloud-commons",
+      "org.springframework.cloud:spring-cloud-commons:jar:sources",
+      "org.springframework.cloud:spring-cloud-context",
+      "org.springframework.cloud:spring-cloud-context:jar:sources",
+      "org.springframework.cloud:spring-cloud-gateway-server-webflux",
+      "org.springframework.cloud:spring-cloud-gateway-server-webflux:jar:sources",
+      "org.springframework.cloud:spring-cloud-starter",
+      "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux",
       "org.springframework.data:spring-data-commons",
       "org.springframework.data:spring-data-commons:jar:sources",
       "org.springframework.data:spring-data-jdbc",
       "org.springframework.data:spring-data-jdbc:jar:sources",
+      "org.springframework.data:spring-data-keyvalue",
+      "org.springframework.data:spring-data-keyvalue:jar:sources",
+      "org.springframework.data:spring-data-redis",
+      "org.springframework.data:spring-data-redis:jar:sources",
       "org.springframework.data:spring-data-relational",
       "org.springframework.data:spring-data-relational:jar:sources",
       "org.springframework.graphql:spring-graphql",
@@ -11521,6 +12110,10 @@
       "org.springframework.security:spring-security-crypto:jar:sources",
       "org.springframework.security:spring-security-web",
       "org.springframework.security:spring-security-web:jar:sources",
+      "org.springframework.session:spring-session-core",
+      "org.springframework.session:spring-session-core:jar:sources",
+      "org.springframework.session:spring-session-data-redis",
+      "org.springframework.session:spring-session-data-redis:jar:sources",
       "org.springframework:spring-aop",
       "org.springframework:spring-aop:jar:sources",
       "org.springframework:spring-beans",
@@ -11537,6 +12130,8 @@
       "org.springframework:spring-jdbc:jar:sources",
       "org.springframework:spring-messaging",
       "org.springframework:spring-messaging:jar:sources",
+      "org.springframework:spring-oxm",
+      "org.springframework:spring-oxm:jar:sources",
       "org.springframework:spring-test",
       "org.springframework:spring-test:jar:sources",
       "org.springframework:spring-tx",
@@ -11890,6 +12485,18 @@
         "org.apache.tomcat.websocket.server.DefaultServerEndpointConfigurator"
       ]
     },
+    "org.bouncycastle:bcprov-jdk18on": {
+      "java.security.Provider": [
+        "org.bouncycastle.jce.provider.BouncyCastleProvider",
+        "org.bouncycastle.pqc.jcajce.provider.BouncyCastlePQCProvider"
+      ]
+    },
+    "org.bouncycastle:bcprov-jdk18on:jar:sources": {
+      "java.security.Provider": [
+        "org.bouncycastle.jce.provider.BouncyCastleProvider",
+        "org.bouncycastle.pqc.jcajce.provider.BouncyCastlePQCProvider"
+      ]
+    },
     "org.eclipse.jetty.compression:jetty-compression-gzip": {
       "org.eclipse.jetty.compression.Compression": [
         "org.eclipse.jetty.compression.gzip.GzipCompression"
@@ -12115,6 +12722,26 @@
       ],
       "org.apache.logging.log4j.util.PropertySource": [
         "org.springframework.boot.logging.log4j2.SpringBootPropertySource"
+      ]
+    },
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux": {
+      "jakarta.validation.ConstraintValidator": [
+        "org.springframework.cloud.gateway.config.MaxDataSizeValidator"
+      ]
+    },
+    "org.springframework.cloud:spring-cloud-gateway-server-webflux:jar:sources": {
+      "jakarta.validation.ConstraintValidator": [
+        "org.springframework.cloud.gateway.config.MaxDataSizeValidator"
+      ]
+    },
+    "org.springframework.data:spring-data-redis": {
+      "jakarta.enterprise.inject.spi.Extension": [
+        "org.springframework.data.redis.repository.cdi.RedisRepositoryExtension"
+      ]
+    },
+    "org.springframework.data:spring-data-redis:jar:sources": {
+      "jakarta.enterprise.inject.spi.Extension": [
+        "org.springframework.data.redis.repository.cdi.RedisRepositoryExtension"
       ]
     },
     "org.springframework.graphql:spring-graphql": {

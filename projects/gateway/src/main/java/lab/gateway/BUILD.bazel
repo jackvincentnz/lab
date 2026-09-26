@@ -1,0 +1,13 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "gateway",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/gateway/src/main:__pkg__",
+    ],
+    deps = [
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+    ],
+)
