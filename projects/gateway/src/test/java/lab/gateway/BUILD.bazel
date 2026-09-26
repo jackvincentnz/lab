@@ -6,6 +6,9 @@ java_test_suite(
         "//projects/gateway/src/main:main_lib",
     ],
     deps = SPRING_TEST_DEPS + [
+        "@maven//:io_projectreactor_netty_reactor_netty_core",
+        "@maven//:io_projectreactor_netty_reactor_netty_http",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_spring_webflux",
     ],

@@ -48,7 +48,8 @@ bazel test //projects/mops/e2e
 - Service base URL: `http://localhost:8080`
 - MCP streamable HTTP endpoint: `/sse`
 - GraphQL HTTP + WS: `/graphql`
-- App dev server (Vite default): `http://localhost:5173` (proxies `/api` and `/ws` to the service)
+- App dev server: `http://localhost:5173/mops/` (proxies `/mops/api` and `/mops/ws` to the service)
+- Through the [gateway](../gateway/README.md): `http://localhost:3006/mops/`
 
 ## Project map
 
