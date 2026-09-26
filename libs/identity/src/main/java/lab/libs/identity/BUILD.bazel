@@ -1,0 +1,7 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "identity",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+)

@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "web",
+    srcs = glob(["*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_core",
+        "@maven//:org_springframework_spring_web",
+    ],
+)

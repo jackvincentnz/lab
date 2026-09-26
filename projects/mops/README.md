@@ -27,6 +27,18 @@ The service expects an AI provider API key. By default it uses Gemini.
 - `OPENROUTER_API_KEY`: required if you switch to the OpenRouter config in `projects/mops/service/src/main/resources/application.properties`.
 - `OPENAI_API_KEY`: required if you switch to the OpenAI config in `projects/mops/service/src/main/resources/application.properties`.
 
+## Identity
+
+Mops sits behind the edge gateway (see the [Edge gateway ADR](../../docs/adr/gateway.md)) and
+expects every non-health request to carry the identity contract headers `X-Principal-Id`,
+`X-Tenant-Id`, and `X-Scopes`. Requests without a complete, well-formed set are rejected with
+`401` before dispatch. The parsed identity is available to application code through
+`lab.libs.identity.IdentityHolder`.
+
+The `dev` profile sets `mops.identity.development.enabled=true`, so the direct targets above,
+the app dev server, the eval runner, and the e2e image all run without a gateway by assuming a
+fixed development identity. Leave it unset anywhere the gateway fronts the service.
+
 ## Tests
 
 Run service tests:

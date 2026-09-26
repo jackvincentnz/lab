@@ -1,0 +1,14 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "web",
+    runtime_deps = [
+        "@maven//:org_springframework_spring_web",
+    ],
+    deps = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "//libs/identity/src/main/java/lab/libs/identity/web",
+        "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_springframework_spring_test",
+    ],
+)
