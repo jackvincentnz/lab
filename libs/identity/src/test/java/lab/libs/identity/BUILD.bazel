@@ -1,0 +1,6 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "identity",
+    deps = ["//libs/identity/src/main/java/lab/libs/identity"],
+)
