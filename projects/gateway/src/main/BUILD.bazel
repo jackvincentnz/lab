@@ -1,0 +1,25 @@
+load("//tools/bazel:java.bzl", "java_binary", "java_library")
+
+java_library(
+    name = "main_lib",
+    resources = glob(["resources/**"]),
+    visibility = [
+        "//projects/gateway/src/test:__subpackages__",
+    ],
+    runtime_deps = [
+        "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_springframework_boot_spring_boot_starter_actuator",
+        "@maven//:org_springframework_cloud_spring_cloud_starter_gateway_server_webflux",
+    ],
+)
+
+java_binary(
+    name = "main",
+    main_class = "lab.gateway.GatewayApplication",
+    visibility = [
+        "//projects/gateway:__pkg__",
+    ],
+    runtime_deps = [
+        ":main_lib",
+    ],
+)
