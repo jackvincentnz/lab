@@ -20,9 +20,11 @@ Run these commands from the repository root:
 | Watch tests with the Vitest UI.         | `ibazel run //projects/mops/app:test_ui`    |
 | Preview the production bundle.          | `bazel run //projects/mops/app:preview`     |
 
-The dev server listens at `http://localhost:5173` and proxies `/api` and `/ws` to
-the service at `http://localhost:8080`. Use `ibazel` during development so source
-changes are recompiled before Vite or Vitest reloads them.
+The dev server listens at `http://localhost:5173/mops/` and proxies `/mops/api` and
+`/mops/ws` to the service at `http://localhost:8080`. The `/mops` base lets the
+[gateway](../../gateway/README.md) serve the app at `http://localhost:3006/mops/`; the
+production bundle keeps base `/`. Use `ibazel` during development so source changes are
+recompiled before Vite or Vitest reloads them.
 
 See the [frontend coverage guide](../../../tools/bazel/vitest/README.md) for
 collecting and checking TypeScript coverage.

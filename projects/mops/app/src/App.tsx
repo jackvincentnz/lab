@@ -12,12 +12,16 @@ import { ModalsProvider } from "@mantine/modals";
 
 import { createClient } from "graphql-ws";
 
+// Vite's base is /mops/ in local dev so the app can be served through the gateway, and / in
+// the production bundle. API and subscription paths follow it.
+const base = import.meta.env.BASE_URL;
+
 const httpLink = new HttpLink({
-  uri: "/api/graphql",
+  uri: `${base}api/graphql`,
 });
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: `ws://${window.location.host}/ws/graphql`,
+    url: `ws://${window.location.host}${base}ws/graphql`,
   }),
 );
 
