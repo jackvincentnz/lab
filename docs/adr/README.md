@@ -3,14 +3,7 @@
 Architecture decision records capture significant technical decisions, their context, and their
 consequences.
 
-## Accepted
+## Proposed
 
-- [Identity gateway prototype](identity-gateway-prototype.md) defines the committed
-  prototype architecture, delivery sequence, and completion criteria.
-
-## Drafts
-
-- [Identity operations](identity-operations-draft.md) covers future profile, auditing,
-  revocation, administration, and impersonation capabilities.
-- [Mops tenant data lifecycle](mops-tenant-data-lifecycle-draft.md) covers future
-  database-per-tenant, migration, and provisioning capabilities.
+- [Edge gateway](gateway.md) decides where platform security boundary controls live and the
+  minimum shape of each.

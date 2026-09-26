@@ -8,10 +8,6 @@
   - [pre-commit](docs/pre-commit.md)
   - [Renovate](docs/renovate.md)
   - [Protobuf upgrades](docs/protobuf-upgrades.md)
-- Platform
-  - [Identity gateway](docs/platform/identity-gateway.md)
 - Architecture decision records
   - [Overview](docs/adr/README.md)
-  - [Accepted: Identity gateway](docs/adr/identity-gateway-prototype.md)
-  - [Draft: Identity operations](docs/adr/identity-operations-draft.md)
-  - [Draft: Mops tenant data](docs/adr/mops-tenant-data-lifecycle-draft.md)
+  - [Proposed: Edge gateway](docs/adr/gateway.md)
