@@ -2,8 +2,30 @@ server.port: 3006
 spring:
   application:
     name: gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            # Routes match in order, so the API route sits above the app catch-all.
+            - id: mops-api
+              uri: ${lab.gateway.mops.service-uri}
+              predicates:
+                - Path=/api/**
+              filters:
+                - RewritePath=/api/?(?<path>.*), /$\{path}
+            - id: mops-app
+              uri: ${lab.gateway.mops.app-uri}
+              predicates:
+                - Path=/**
 management:
   endpoints:
     web:
       exposure:
         include: health
+lab:
+  gateway:
+    mops:
+      # Local dev defaults. Override with LAB_GATEWAY_MOPS_SERVICE_URI and LAB_GATEWAY_MOPS_APP_URI.
+      service-uri: http://localhost:8080
+      app-uri: http://localhost:5173

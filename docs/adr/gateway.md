@@ -33,9 +33,10 @@ authorization.
 
 ### Routing
 
-The public URL structure is not decided. The first iteration uses one host with a path prefix per
-vertical because it needs no DNS or certificate work. Subdomain per vertical and other layouts
-remain open. Health endpoints are public.
+The public URL structure is not decided. The first iteration serves Mops at the root of one host
+because it is the only vertical, so a prefix would buy nothing and would force the app to change
+its base path. Path prefix per vertical, subdomain per vertical, and other layouts remain open.
+Health endpoints are public.
 
 ### Authentication
 
