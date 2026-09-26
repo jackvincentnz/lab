@@ -1,0 +1,16 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "tests",
+    size = "medium",
+    tags = ["requires-network"],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/gateway/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_webflux",
+    ],
+)
