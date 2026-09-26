@@ -1,0 +1,13 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "jwt",
+    deps = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "//libs/identity/src/main/java/lab/libs/identity/jwt",
+        "//libs/identity/src/test/java/lab/libs/identity/testing",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_oauth2_core",
+        "@maven//:org_springframework_security_spring_security_oauth2_jose",
+    ],
+)

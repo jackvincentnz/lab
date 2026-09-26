@@ -27,6 +27,21 @@ The service expects an AI provider API key. By default it uses Gemini.
 - `OPENROUTER_API_KEY`: required if you switch to the OpenRouter config in `projects/mops/service/src/main/resources/application.properties`.
 - `OPENAI_API_KEY`: required if you switch to the OpenAI config in `projects/mops/service/src/main/resources/application.properties`.
 
+## Identity
+
+Mops trusts identity tokens from one configured issuer and expects every non-health request to
+carry one as a bearer token. `mops.identity.issuer` names the issuer, `mops.identity.jwk-set-uri`
+is where it publishes its signing keys, and `mops.identity.audience` is the name Mops expects in
+the token's audience. Keys are fetched on the first token, so the service starts without the
+issuer running. A missing, expired, foreign, or wrongly addressed token is rejected with `401`. The
+resolved identity is available to application code through `lab.libs.identity.IdentityHolder`.
+The token's claims are described in the [Edge gateway ADR](../../docs/adr/gateway.md).
+
+The `dev` profile sets `mops.identity.development.enabled=true`, so a request that carries no
+token is handled as a fixed development identity. The direct targets above, the e2e image, and
+the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=dev`; the
+delivered image ships with no profile and rejects unidentified requests.
+
 ## Tests
 
 Run service tests:
