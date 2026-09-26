@@ -11,3 +11,4 @@
 - Architecture decision records
   - [Overview](docs/adr/README.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
+  - [Proposed: Identity provider](docs/adr/identity-provider.md)
