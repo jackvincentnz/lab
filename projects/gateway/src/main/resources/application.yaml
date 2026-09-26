@@ -13,7 +13,7 @@ spring:
               predicates:
                 - Path=/api/**
               filters:
-                - RewritePath=/api/(?<path>.*), /$\{path}
+                - RewritePath=/api/?(?<path>.*), /$\{path}
             - id: mops-app
               uri: ${lab.gateway.mops.app-uri}
               predicates:

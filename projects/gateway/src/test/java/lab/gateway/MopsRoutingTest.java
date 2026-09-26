@@ -64,6 +64,18 @@ class MopsRoutingTest {
   }
 
   @Test
+  void routesBareApiPathToServiceRoot() {
+    client()
+        .get()
+        .uri("/api")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectBody(String.class)
+        .isEqualTo("service /");
+  }
+
+  @Test
   void routesPagesToApp() {
     client()
         .get()
