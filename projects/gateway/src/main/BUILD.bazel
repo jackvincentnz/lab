@@ -17,6 +17,7 @@ java_library(
 
 java_binary(
     name = "main",
+    env = {"SPRING_PROFILES_ACTIVE": "dev"},
     main_class = "lab.gateway.GatewayApplication",
     visibility = [
         "//projects/gateway:__pkg__",

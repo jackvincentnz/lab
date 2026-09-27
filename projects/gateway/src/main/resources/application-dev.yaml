@@ -1,4 +1,4 @@
-# Local development only. Activate with --spring.profiles.active=dev.
+# Local development only. Activated by the Bazel run target.
 lab:
   gateway:
     users:

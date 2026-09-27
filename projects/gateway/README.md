@@ -8,11 +8,11 @@ The service routes one public host to Mops and exposes a public health endpoint.
 
 ## Getting started
 
-Start [Redis](#login-and-sessions), then run the service with the development profile
-and log in as `admin` with password `admin`:
+Start [Redis](#login-and-sessions), then run the service and log in as `admin` with password `admin`.
+The Bazel run target activates the `dev` profile:
 
 ```zsh
-bazel run //projects/gateway -- --spring.profiles.active=dev
+bazel run //projects/gateway
 ```
 
 Run Mops through the gateway by starting the Mops service and app alongside it, then open
@@ -20,7 +20,7 @@ Run Mops through the gateway by starting the Mops service and app alongside it, 
 
 ```zsh
 bazel run //projects/mops
-bazel run //projects/gateway -- --spring.profiles.active=dev
+bazel run //projects/gateway
 ```
 
 Downstream targets default to local dev and are overridable per environment, for example
