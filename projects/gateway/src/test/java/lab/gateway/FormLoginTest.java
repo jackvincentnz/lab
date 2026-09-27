@@ -3,6 +3,7 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
+import java.util.Map;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
-  void storesIdentityInRedisAndRotatesSessionId() {
+  void rotatesSessionAndStoresIdentity() {
     var browser = browser().login();
     assertThat(browser.session).isNotEqualTo(browser.anonymousSession);
     assertThat(browser.cookie.isHttpOnly()).isTrue();
@@ -66,7 +67,7 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
-  void requiresCsrfForLoginAndLogout() {
+  void requiresCsrfForUnsafeRequests() {
     client()
         .post()
         .uri("/login")
@@ -94,7 +95,37 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
-  void logoutDeletesRedisSessionAndRejectsReplay() {
+  void servesSessionCsrfToken() {
+    var browser = browser().login();
+    var token =
+        client()
+            .get()
+            .uri("/api/csrf")
+            .cookie("SESSION", browser.session)
+            .accept(MediaType.APPLICATION_JSON)
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectHeader()
+            .valueMatches("Cache-Control", ".*no-store.*")
+            .expectBody(Map.class)
+            .returnResult()
+            .getResponseBody();
+    assertThat(token).containsEntry("headerName", "X-CSRF-TOKEN");
+    client()
+        .post()
+        .uri("/logout")
+        .cookie("SESSION", browser.session)
+        .header("X-CSRF-TOKEN", (String) token.get("token"))
+        .exchange()
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueEquals("Location", "/login?logout");
+  }
+
+  @Test
+  void logoutInvalidatesSessionAndRejectsReplay() {
     var browser = browser().login();
     browser
         .authenticatedClient()
