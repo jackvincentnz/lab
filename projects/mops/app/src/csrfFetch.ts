@@ -4,7 +4,9 @@ interface CsrfToken {
 }
 
 /** Share a session token across GraphQL requests, including concurrent page-load queries. */
-export function createCsrfFetch(): typeof fetch {
+export function createCsrfFetch(
+  login: () => void = () => window.location.assign("/login"),
+): typeof fetch {
   let csrf: Promise<CsrfToken | undefined> | undefined;
 
   async function loadToken(): Promise<CsrfToken | undefined> {
@@ -15,6 +17,7 @@ export function createCsrfFetch(): typeof fetch {
     });
     // Direct Mops development has no gateway or CSRF endpoint.
     if (response.status === 404) return undefined;
+    if (response.status === 401) login();
     if (!response.ok) {
       throw new Error(`Unable to obtain CSRF token (${response.status})`);
     }
@@ -32,6 +35,7 @@ export function createCsrfFetch(): typeof fetch {
     const response = await fetch(input, { ...init, headers });
     // A later request can obtain fresh state; never automatically replay a mutation.
     if (response.status === 401 || response.status === 403) csrf = undefined;
+    if (response.status === 401) login();
     return response;
   };
 }

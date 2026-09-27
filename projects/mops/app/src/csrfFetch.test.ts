@@ -68,16 +68,35 @@ describe("csrfFetch", () => {
     expect(fetchMock).toHaveBeenCalledTimes(3);
   });
 
-  it("does not send GraphQL when token retrieval fails", async () => {
+  it("returns to login when the session has expired", async () => {
     const fetchMock = vi
       .fn()
       .mockResolvedValue(new Response(null, { status: 401 }));
     vi.stubGlobal("fetch", fetchMock);
+    const login = vi.fn();
     await expect(
-      createCsrfFetch()("/api/graphql", { method: "POST" }),
+      createCsrfFetch(login)("/api/graphql", { method: "POST" }),
     ).rejects.toThrow("Unable to obtain CSRF token (401)");
     expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(login).toHaveBeenCalledOnce();
   });
+
+  it("returns to login when a request is unauthorized", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockResolvedValueOnce(
+        Response.json({ headerName: "X-CSRF-TOKEN", token: "stale" }),
+      )
+      .mockResolvedValueOnce(new Response(null, { status: 401 }));
+    vi.stubGlobal("fetch", fetchMock);
+    const login = vi.fn();
+    const response = await createCsrfFetch(login)("/api/graphql", {
+      method: "POST",
+    });
+    expect(response.status).toBe(401);
+    expect(login).toHaveBeenCalledOnce();
+  });
+
   it("refreshes after a rejected request without replaying it", async () => {
     const fetchMock = vi
       .fn()
