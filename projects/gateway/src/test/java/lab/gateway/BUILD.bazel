@@ -8,6 +8,7 @@ java_library(
         "GatewayTestSupport.java",
     ],
     deps = SPRING_TEST_DEPS + [
+        "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_springframework_security_spring_security_crypto",

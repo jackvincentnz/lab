@@ -35,13 +35,23 @@ class RedisSessionTest {
   }
 
   @Test
-  void storesSessionInRedisUntilLogout() {
-    var browser =
-        new Browser(WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build())
-            .login();
+  void login_storesSessionInRedis() {
+    var browser = browser().login();
+
     assertThat(sessions.findById(browser.anonymousSession).block()).isNull();
     assertThat(sessions.findById(browser.session).block()).isNotNull();
+  }
+
+  @Test
+  void logout_deletesSessionFromRedis() {
+    var browser = browser().login();
+
     browser.authenticatedClient().post().uri("/logout").exchange().expectStatus().isFound();
+
     assertThat(sessions.findById(browser.session).block()).isNull();
+  }
+
+  private Browser browser() {
+    return new Browser(WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build());
   }
 }

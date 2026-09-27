@@ -1,6 +1,9 @@
 package lab.gateway;
 
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lab.test.TestBase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.context.TestConfiguration;
@@ -20,10 +23,17 @@ import org.springframework.test.web.reactive.server.WebTestClient;
     webEnvironment = WebEnvironment.RANDOM_PORT,
     properties = "management.health.redis.enabled=false")
 @Import(GatewayTestSupport.InMemorySessions.class)
-abstract class GatewayTestSupport {
-  static final String PRINCIPAL = "11111111-1111-1111-1111-111111111111";
-  static final String TENANT = "22222222-2222-2222-2222-222222222222";
-  static final String PASSWORD = "{bcrypt}" + new BCryptPasswordEncoder(4).encode("password");
+abstract class GatewayTestSupport extends TestBase {
+  /** The one user the shared Spring context is configured with. */
+  static final String PASSWORD = "password";
+
+  static final GatewayUsers.ConfiguredUser USER =
+      new GatewayUsers.ConfiguredUser(
+          "alice",
+          "{bcrypt}" + new BCryptPasswordEncoder(4).encode(PASSWORD),
+          UUID.randomUUID(),
+          UUID.randomUUID(),
+          List.of("mops:read", "mops:write"));
 
   @LocalServerPort int port;
 
@@ -33,12 +43,12 @@ abstract class GatewayTestSupport {
   }
 
   static void configureUsers(DynamicPropertyRegistry registry) {
-    registry.add("lab.gateway.users[0].username", () -> "alice");
-    registry.add("lab.gateway.users[0].password", () -> PASSWORD);
-    registry.add("lab.gateway.users[0].principal", () -> PRINCIPAL);
-    registry.add("lab.gateway.users[0].tenant", () -> TENANT);
-    registry.add("lab.gateway.users[0].scopes[0]", () -> "mops:read");
-    registry.add("lab.gateway.users[0].scopes[1]", () -> "mops:write");
+    registry.add("lab.gateway.users[0].username", USER::username);
+    registry.add("lab.gateway.users[0].password", USER::password);
+    registry.add("lab.gateway.users[0].principal", USER::principal);
+    registry.add("lab.gateway.users[0].tenant", USER::tenant);
+    registry.add("lab.gateway.users[0].scopes[0]", () -> USER.scopes().get(0));
+    registry.add("lab.gateway.users[0].scopes[1]", () -> USER.scopes().get(1));
   }
 
   WebTestClient client() {

@@ -37,13 +37,15 @@ class Browser {
         .uri("/login")
         .cookie("SESSION", session)
         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-        .body(BodyInserters.fromFormData("username", "alice").with("password", password))
+        .body(
+            BodyInserters.fromFormData("username", GatewayTestSupport.USER.username())
+                .with("password", password))
         .exchange();
   }
 
   Browser login() {
     var response =
-        login("password")
+        login(GatewayTestSupport.PASSWORD)
             .expectStatus()
             .isFound()
             .expectHeader()

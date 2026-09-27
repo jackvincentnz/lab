@@ -12,12 +12,12 @@ class GatewayApplicationTest extends GatewayTestSupport {
   @Autowired private RoutePredicateHandlerMapping routeHandlerMapping;
 
   @Test
-  void loadsGatewayRouting() {
+  void context_loadsGatewayRouting() {
     assertThat(routeHandlerMapping).isNotNull();
   }
 
   @Test
-  void answersHealthCheck() {
+  void health_isPublic() {
     WebTestClient.bindToServer()
         .baseUrl("http://localhost:" + port)
         .build()

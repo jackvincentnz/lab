@@ -53,7 +53,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void routesApiToServiceWithPrefixStripped() {
+  void apiRequest_routesToServiceWithPrefixStripped() {
     authenticatedClient()
         .post()
         .uri("/api/graphql")
@@ -65,7 +65,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void routesBareApiPathToServiceRoot() {
+  void bareApiPath_routesToServiceRoot() {
     authenticatedClient()
         .get()
         .uri("/api")
@@ -77,7 +77,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void routesPagesToApp() {
+  void pageRequest_routesToApp() {
     authenticatedClient()
         .get()
         .uri("/spend")
@@ -89,7 +89,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void routesAssetsToApp() {
+  void assetRequest_routesToApp() {
     authenticatedClient()
         .get()
         .uri("/src/main.js")
@@ -101,7 +101,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void stripsCookiesBeforeProxyingToService() {
+  void serviceRequest_dropsBrowserCookies() {
     authenticatedClient()
         .get()
         .uri("/api/cookie-check")
@@ -116,7 +116,7 @@ class MopsRoutingTest extends GatewayTestSupport {
   }
 
   @Test
-  void stripsCookiesBeforeProxyingToApp() {
+  void appRequest_dropsBrowserCookies() {
     authenticatedClient()
         .get()
         .uri("/cookie-check")

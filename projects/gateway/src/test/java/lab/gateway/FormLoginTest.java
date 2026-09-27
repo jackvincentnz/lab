@@ -3,7 +3,6 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Duration;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,10 +11,11 @@ import org.springframework.session.ReactiveSessionRepository;
 import org.springframework.session.Session;
 
 class FormLoginTest extends GatewayTestSupport {
+
   @Autowired ReactiveSessionRepository<? extends Session> sessions;
 
   @Test
-  void redirectsAnonymousBrowserToLogin() {
+  void browserRequest_withoutSession_redirectsToLogin() {
     client()
         .get()
         .uri("/spend")
@@ -28,57 +28,77 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
-  void rejectsAnonymousApiRequestWithUnauthorized() {
+  void apiRequest_withoutSession_isUnauthorized() {
     client()
         .get()
-        .uri("/api/csrf")
+        .uri("/api/graphql")
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus()
         .isUnauthorized();
-    client().get().uri("/api/csrf").exchange().expectStatus().isUnauthorized();
+    client().get().uri("/api/graphql").exchange().expectStatus().isUnauthorized();
   }
 
   @Test
-  void rotatesSessionAndStoresIdentity() {
+  void login_rotatesSessionId() {
     var browser = browser().login();
+
     assertThat(browser.session).isNotEqualTo(browser.anonymousSession);
+    assertThat(sessions.findById(browser.anonymousSession).block()).isNull();
+    assertThat(sessions.findById(browser.session).block()).isNotNull();
+  }
+
+  @Test
+  void login_setsCookieAttributes() {
+    var browser = browser().login();
+
     assertThat(browser.cookie.isHttpOnly()).isTrue();
     assertThat(browser.cookie.isSecure()).isTrue();
     assertThat(browser.cookie.getSameSite()).isEqualTo("Lax");
     assertThat(browser.cookie.getPath()).isEqualTo("/");
-    assertThat(sessions.findById(browser.anonymousSession).block()).isNull();
+  }
+
+  @Test
+  void login_storesIdentityWithoutCredentials() {
+    var browser = browser().login();
+
     Session session = sessions.findById(browser.session).block();
-    assertThat(session).isNotNull();
     assertThat(session.getMaxInactiveInterval()).isEqualTo(Duration.ofMinutes(30));
     SecurityContext context = session.getAttribute("SPRING_SECURITY_CONTEXT");
-    assertThat(context.getAuthentication().isAuthenticated()).isTrue();
     var principal = (GatewayPrincipal) context.getAuthentication().getPrincipal();
-    assertThat(principal.principal()).isEqualTo(UUID.fromString(PRINCIPAL));
-    assertThat(principal.tenant()).isEqualTo(UUID.fromString(TENANT));
-    assertThat(principal.scopes()).containsExactly("mops:read", "mops:write");
+    assertThat(principal.principal()).isEqualTo(USER.principal());
+    assertThat(principal.tenant()).isEqualTo(USER.tenant());
+    assertThat(principal.scopes()).isEqualTo(USER.scopes());
     assertThat(principal.getPassword()).isNull();
     assertThat(context.getAuthentication().getCredentials()).isNull();
-    // A second login must work after the first authentication erased its credentials.
+  }
+
+  @Test
+  void login_succeedsAgainAfterCredentialsWereErased() {
+    browser().login();
+
     browser().login();
   }
 
   @Test
-  void rejectsBadPassword() {
+  void login_withWrongPassword_redirectsToErrorAndKeepsSessionAnonymous() {
     var browser = browser();
+
     browser
-        .login("wrong")
+        .login(randomString())
         .expectStatus()
         .isFound()
         .expectHeader()
         .valueEquals("Location", "/login?error");
+
     Session session = sessions.findById(browser.session).block();
     assertThat((Object) session.getAttribute("SPRING_SECURITY_CONTEXT")).isNull();
   }
 
   @Test
-  void logoutInvalidatesSessionAndRejectsReplay() {
+  void logout_deletesSessionAndExpiresCookie() {
     var browser = browser().login();
+
     browser
         .authenticatedClient()
         .post()
@@ -90,7 +110,15 @@ class FormLoginTest extends GatewayTestSupport {
         .valueEquals("Location", "/login?logout")
         .expectCookie()
         .maxAge("SESSION", Duration.ZERO);
+
     assertThat(sessions.findById(browser.session).block()).isNull();
+  }
+
+  @Test
+  void logout_rejectsReplayedCookie() {
+    var browser = browser().login();
+    browser.authenticatedClient().post().uri("/logout").exchange().expectStatus().isFound();
+
     client()
         .get()
         .uri("/spend")

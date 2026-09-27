@@ -1,37 +1,52 @@
 package lab.gateway;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.assertj.core.api.Assertions.assertThatIllegalArgumentException;
 
 import java.util.List;
 import java.util.UUID;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
-class GatewayUsersTest {
-  private static final UUID ID = UUID.fromString("11111111-1111-1111-1111-111111111111");
+class GatewayUsersTest extends TestBase {
 
   @Test
-  void acceptsEncoderPrefixedPasswords() {
-    assertThatCode(() -> user("alice", "{noop}secret")).doesNotThrowAnyException();
-    assertThatCode(() -> user("alice", "{bcrypt}$2a$10$hash")).doesNotThrowAnyException();
+  void configuredUser_acceptsEncoderPrefixedPassword() {
+    assertThatCode(() -> user(randomString(), "{noop}" + randomString()))
+        .doesNotThrowAnyException();
+    assertThatCode(() -> user(randomString(), "{bcrypt}$2a$10$" + randomString()))
+        .doesNotThrowAnyException();
   }
 
   @Test
-  void rejectsPasswordWithoutEncoderId() {
+  void configuredUser_rejectsPasswordWithoutEncoderId() {
     assertThatIllegalArgumentException()
-        .isThrownBy(() -> user("alice", "$2a$10$hash"))
+        .isThrownBy(() -> user(randomString(), "$2a$10$" + randomString()))
         .withMessageContaining("{id}encodedPassword");
   }
 
   @Test
-  void rejectsDuplicateUsernames() {
+  void gatewayUsers_rejectsDuplicateUsernames() {
+    var username = randomString();
+
     assertThatIllegalArgumentException()
         .isThrownBy(
-            () -> new GatewayUsers(List.of(user("alice", "{noop}a"), user("alice", "{noop}b"))))
+            () ->
+                new GatewayUsers(
+                    List.of(
+                        user(username, "{noop}" + randomString()),
+                        user(username, "{noop}" + randomString()))))
         .withMessageContaining("unique");
   }
 
-  private static GatewayUsers.ConfiguredUser user(String username, String password) {
-    return new GatewayUsers.ConfiguredUser(username, password, ID, ID, List.of());
+  @Test
+  void gatewayUsers_defaultsToNoUsers() {
+    assertThat(new GatewayUsers(null).users()).isEmpty();
+  }
+
+  private GatewayUsers.ConfiguredUser user(String username, String password) {
+    return new GatewayUsers.ConfiguredUser(
+        username, password, UUID.fromString(randomId()), UUID.fromString(randomId()), List.of());
   }
 }
