@@ -3,9 +3,6 @@ package lab.gateway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -14,13 +11,10 @@ import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
 
 /** Routes Mops traffic to stub downstreams that echo which server and path they received. */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class MopsRoutingTest {
+class MopsRoutingTest extends GatewayTestSupport {
 
   private static DisposableServer mopsService;
   private static DisposableServer mopsApp;
-
-  @LocalServerPort private int port;
 
   @BeforeAll
   static void startDownstreams() {
@@ -47,13 +41,13 @@ class MopsRoutingTest {
         .bindNow();
   }
 
-  private WebTestClient client() {
-    return WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+  private WebTestClient authenticatedClient() {
+    return browser().login().authenticatedClient();
   }
 
   @Test
   void routesApiToServiceWithPrefixStripped() {
-    client()
+    authenticatedClient()
         .post()
         .uri("/api/graphql")
         .exchange()
@@ -65,7 +59,7 @@ class MopsRoutingTest {
 
   @Test
   void routesBareApiPathToServiceRoot() {
-    client()
+    authenticatedClient()
         .get()
         .uri("/api")
         .exchange()
@@ -77,7 +71,7 @@ class MopsRoutingTest {
 
   @Test
   void routesPagesToApp() {
-    client()
+    authenticatedClient()
         .get()
         .uri("/spend")
         .exchange()
@@ -89,7 +83,7 @@ class MopsRoutingTest {
 
   @Test
   void routesAssetsToApp() {
-    client()
+    authenticatedClient()
         .get()
         .uri("/src/main.js")
         .exchange()

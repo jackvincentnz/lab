@@ -5,9 +5,19 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = [
         "//projects/gateway/src/main:__pkg__",
+        "//projects/gateway/src/test:__subpackages__",
     ],
     deps = [
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_security_spring_security_config",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
+        "@maven//:org_springframework_security_spring_security_web",
+        "@maven//:org_springframework_session_spring_session_data_redis",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_core",
+        "@maven//:org_springframework_spring_web",
     ],
 )

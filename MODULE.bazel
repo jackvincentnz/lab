@@ -81,6 +81,7 @@ maven.install(
         "org.springframework.boot:spring-boot-loader",
         "org.springframework.boot:spring-boot-starter-actuator",
         "org.springframework.boot:spring-boot-starter-data-jdbc",
+        "org.springframework.boot:spring-boot-starter-data-redis-reactive",
         "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
         "org.springframework.boot:spring-boot-starter-kafka",
         "org.springframework.boot:spring-boot-starter-security",

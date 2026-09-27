@@ -2,14 +2,25 @@ load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "
 
 java_test_suite(
     name = "tests",
+    size = "medium",
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "//projects/gateway/src/main:main_lib",
     ],
     deps = SPRING_TEST_DEPS + [
+        "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
+        "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
+        "@maven//:org_testcontainers_testcontainers",
     ],
 )
