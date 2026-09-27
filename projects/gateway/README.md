@@ -33,10 +33,12 @@ Downstream targets default to local dev and are overridable per environment, for
 | Public path        | Downstream                                   | Notes                      |
 | ------------------ | -------------------------------------------- | -------------------------- |
 | `/actuator/health` | Gateway                                      | Public.                    |
+| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
 | `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
 | `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
 
-GraphQL subscriptions over WebSocket are not proxied.
+GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
+from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
 
 ## Tests
 
@@ -71,5 +73,3 @@ lab:
         tenant: "22222222-2222-2222-2222-222222222222"
         scopes: ["mops:read", "mops:write"]
 ```
-
-Redis defaults to `localhost:6379`; override it with Spring's `SPRING_DATA_REDIS_*` settings.
