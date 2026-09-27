@@ -37,7 +37,14 @@ class MopsRoutingTest extends GatewayTestSupport {
   private static DisposableServer echoServer(String name) {
     return HttpServer.create()
         .port(0)
-        .handle((request, response) -> response.sendString(Mono.just(name + " " + request.uri())))
+        .handle(
+            (request, response) -> {
+              request
+                  .requestHeaders()
+                  .getAll("Cookie")
+                  .forEach(cookie -> response.addHeader("X-Downstream-Cookie", cookie));
+              return response.sendString(Mono.just(name + " " + request.uri()));
+            })
         .bindNow();
   }
 
@@ -91,6 +98,36 @@ class MopsRoutingTest extends GatewayTestSupport {
         .isOk()
         .expectBody(String.class)
         .isEqualTo("app /src/main.js");
+  }
+
+  @Test
+  void stripsCookiesBeforeProxyingToService() {
+    authenticatedClient()
+        .get()
+        .uri("/api/cookie-check")
+        .cookie("other", "browser-value")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectHeader()
+        .doesNotExist("X-Downstream-Cookie")
+        .expectBody(String.class)
+        .isEqualTo("service /cookie-check");
+  }
+
+  @Test
+  void stripsCookiesBeforeProxyingToApp() {
+    authenticatedClient()
+        .get()
+        .uri("/cookie-check")
+        .cookie("other", "browser-value")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectHeader()
+        .doesNotExist("X-Downstream-Cookie")
+        .expectBody(String.class)
+        .isEqualTo("app /cookie-check");
   }
 
   @Test

@@ -13,19 +13,13 @@ import org.springframework.security.authentication.UserDetailsRepositoryReactive
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
-import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
-import org.springframework.web.server.session.CookieWebSessionIdResolver;
-import org.springframework.web.server.session.WebSessionIdResolver;
 import reactor.core.publisher.Mono;
 
 @Configuration(proxyBeanMethods = false)
 @EnableConfigurationProperties(GatewayUsers.class)
-@EnableRedisWebSession(redisNamespace = "lab:gateway:sessions", maxInactiveIntervalInSeconds = 1800)
 public class SecurityConfiguration {
   @Bean
   ReactiveUserDetailsService users(GatewayUsers configuration) {
@@ -39,15 +33,8 @@ public class SecurityConfiguration {
   }
 
   @Bean
-  PasswordEncoder passwordEncoder() {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
-
-  @Bean
-  ReactiveAuthenticationManager authenticationManager(
-      ReactiveUserDetailsService users, PasswordEncoder encoder) {
+  ReactiveAuthenticationManager authenticationManager(ReactiveUserDetailsService users) {
     var manager = new UserDetailsRepositoryReactiveAuthenticationManager(users);
-    manager.setPasswordEncoder(encoder);
     return authentication ->
         manager
             .authenticate(authentication)
@@ -80,14 +67,5 @@ public class SecurityConfiguration {
                                 Mono.defer(
                                     () -> redirect.onLogoutSuccess(exchange, authentication)))))
         .build();
-  }
-
-  @Bean
-  WebSessionIdResolver webSessionIdResolver() {
-    CookieWebSessionIdResolver resolver = new CookieWebSessionIdResolver();
-    resolver.setCookieName("SESSION");
-    resolver.addCookieInitializer(
-        cookie -> cookie.path("/").httpOnly(true).secure(true).sameSite("Lax"));
-    return resolver;
   }
 }

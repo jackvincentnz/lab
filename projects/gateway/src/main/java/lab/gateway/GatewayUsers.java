@@ -20,7 +20,6 @@ public record GatewayUsers(List<ConfiguredUser> users) {
     public ConfiguredUser {
       Assert.hasText(username, "A gateway user needs a username");
       Assert.hasText(password, "A gateway user needs an encoded password");
-      Assert.isTrue(password.startsWith("{bcrypt}"), "Gateway passwords must use {bcrypt} hashes");
       Assert.notNull(principal, "A gateway user needs a principal UUID");
       Assert.notNull(tenant, "A gateway user needs a tenant UUID");
       scopes = scopes == null ? List.of() : List.copyOf(scopes);

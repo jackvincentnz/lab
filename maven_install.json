@@ -47,11 +47,11 @@
     "org.springframework.boot:spring-boot-loader": 1745496505,
     "org.springframework.boot:spring-boot-starter-actuator": -1082017891,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 39840922,
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive": 2057757162,
     "org.springframework.boot:spring-boot-starter-flyway": 432056896,
     "org.springframework.boot:spring-boot-starter-kafka": 152552066,
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server": 346643764,
     "org.springframework.boot:spring-boot-starter-security": 1168390884,
+    "org.springframework.boot:spring-boot-starter-session-data-redis": -622907949,
     "org.springframework.boot:spring-boot-starter-test": -1561809354,
     "org.springframework.boot:spring-boot-starter-validation": 113118493,
     "org.springframework.boot:spring-boot-starter-web": -1905796688,
@@ -677,6 +677,10 @@
     "org.springframework.boot:spring-boot-security:jar:sources": -1560245667,
     "org.springframework.boot:spring-boot-servlet": 639711912,
     "org.springframework.boot:spring-boot-servlet:jar:sources": -1101074157,
+    "org.springframework.boot:spring-boot-session": 1368168516,
+    "org.springframework.boot:spring-boot-session-data-redis": -656809095,
+    "org.springframework.boot:spring-boot-session-data-redis:jar:sources": -1863082936,
+    "org.springframework.boot:spring-boot-session:jar:sources": 1790170822,
     "org.springframework.boot:spring-boot-sql": -1592924234,
     "org.springframework.boot:spring-boot-sql:jar:sources": 766892199,
     "org.springframework.boot:spring-boot-starter": -1905590456,
@@ -684,8 +688,8 @@
     "org.springframework.boot:spring-boot-starter-actuator:jar:sources": 2039606444,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 1714951823,
     "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources": 1876700894,
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive": -1747493485,
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:sources": -712650302,
+    "org.springframework.boot:spring-boot-starter-data-redis": -1742676138,
+    "org.springframework.boot:spring-boot-starter-data-redis:jar:sources": 919139488,
     "org.springframework.boot:spring-boot-starter-flyway": -1250505430,
     "org.springframework.boot:spring-boot-starter-flyway:jar:sources": 243784034,
     "org.springframework.boot:spring-boot-starter-graphql": -695654478,
@@ -708,6 +712,8 @@
     "org.springframework.boot:spring-boot-starter-restclient:jar:sources": -973727731,
     "org.springframework.boot:spring-boot-starter-security": -698267785,
     "org.springframework.boot:spring-boot-starter-security:jar:sources": -239265276,
+    "org.springframework.boot:spring-boot-starter-session-data-redis": 1096994257,
+    "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources": -1810225068,
     "org.springframework.boot:spring-boot-starter-test": -116290833,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": -1629742887,
     "org.springframework.boot:spring-boot-starter-tomcat": 1039333348,
@@ -881,11 +887,11 @@
     "org.springframework.boot:spring-boot-loader": "org.springframework.boot:spring-boot-loader:4.1.1",
     "org.springframework.boot:spring-boot-starter-actuator": "org.springframework.boot:spring-boot-starter-actuator:4.1.1",
     "org.springframework.boot:spring-boot-starter-data-jdbc": "org.springframework.boot:spring-boot-starter-data-jdbc:4.1.1",
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive": "org.springframework.boot:spring-boot-starter-data-redis-reactive:4.1.1",
     "org.springframework.boot:spring-boot-starter-flyway": "org.springframework.boot:spring-boot-starter-flyway:4.1.1",
     "org.springframework.boot:spring-boot-starter-kafka": "org.springframework.boot:spring-boot-starter-kafka:4.1.1",
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server": "org.springframework.boot:spring-boot-starter-oauth2-resource-server:4.1.1",
     "org.springframework.boot:spring-boot-starter-security": "org.springframework.boot:spring-boot-starter-security:4.1.1",
+    "org.springframework.boot:spring-boot-starter-session-data-redis": "org.springframework.boot:spring-boot-starter-session-data-redis:4.1.1",
     "org.springframework.boot:spring-boot-starter-test": "org.springframework.boot:spring-boot-starter-test:4.1.1",
     "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.1.1",
     "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.1.1",
@@ -3029,6 +3035,20 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.boot:spring-boot-session": {
+      "shasums": {
+        "jar": "2bb4ac8c9af285b1211b1dc40b5defb6088712aa5a8b03cc977d3030b62bdae7",
+        "sources": "23255ce55b716738269412448337aaf559d1f9fdec065a355f866bfd396a0f48"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-session-data-redis": {
+      "shasums": {
+        "jar": "c9df414bed94dd8b6a8029091fe509abff705de99d37674ead69678eecfcfb5b",
+        "sources": "a42b877e7a117cc06bb63752b0625ae5a994bc1cca6877ce795579f27b3539d6"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework.boot:spring-boot-sql": {
       "shasums": {
         "jar": "fa4f6ddded1bb3bbc496897686336d8433e34f1f22daa886872be2aa184def23",
@@ -3057,10 +3077,10 @@
       },
       "version": "4.1.1"
     },
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive": {
+    "org.springframework.boot:spring-boot-starter-data-redis": {
       "shasums": {
-        "jar": "5be5734d4d7f5a38e9be6be0045a36989007e6afc6241a8fa7751d3c734fee5a",
-        "sources": "5be5734d4d7f5a38e9be6be0045a36989007e6afc6241a8fa7751d3c734fee5a"
+        "jar": "98b8367cff4cc11005e43452c45dafd0ce9c7f66d20411e6f0850c99bc79575d",
+        "sources": "98b8367cff4cc11005e43452c45dafd0ce9c7f66d20411e6f0850c99bc79575d"
       },
       "version": "4.1.1"
     },
@@ -3138,6 +3158,13 @@
       "shasums": {
         "jar": "38628875b75cbed6ba4642f3b0a4baf4735bd4f82b49450e4ae5a5e4d1b7b4a9",
         "sources": "38628875b75cbed6ba4642f3b0a4baf4735bd4f82b49450e4ae5a5e4d1b7b4a9"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-starter-session-data-redis": {
+      "shasums": {
+        "jar": "e8c6cda9debd15555a375349363ad434eb6c69effebb3c055b1ac680438dddb5",
+        "sources": "e8c6cda9debd15555a375349363ad434eb6c69effebb3c055b1ac680438dddb5"
       },
       "version": "4.1.1"
     },
@@ -4924,6 +4951,16 @@
       "org.springframework.boot:spring-boot",
       "org.springframework:spring-web"
     ],
+    "org.springframework.boot:spring-boot-session": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.session:spring-session-core"
+    ],
+    "org.springframework.boot:spring-boot-session-data-redis": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.session:spring-session-data-redis"
+    ],
     "org.springframework.boot:spring-boot-sql": [
       "org.springframework.boot:spring-boot"
     ],
@@ -4947,10 +4984,10 @@
       "org.springframework.boot:spring-boot-starter",
       "org.springframework.boot:spring-boot-starter-jdbc"
     ],
-    "org.springframework.boot:spring-boot-starter-data-redis-reactive": [
+    "org.springframework.boot:spring-boot-starter-data-redis": [
       "org.springframework.boot:spring-boot-data-redis",
-      "org.springframework.boot:spring-boot-reactor",
-      "org.springframework.boot:spring-boot-starter"
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework:spring-messaging"
     ],
     "org.springframework.boot:spring-boot-starter-flyway": [
       "org.springframework.boot:spring-boot-flyway",
@@ -5005,6 +5042,12 @@
       "org.springframework.boot:spring-boot-security",
       "org.springframework.boot:spring-boot-starter",
       "org.springframework:spring-aop"
+    ],
+    "org.springframework.boot:spring-boot-starter-session-data-redis": [
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.boot:spring-boot-starter-data-redis"
     ],
     "org.springframework.boot:spring-boot-starter-test": [
       "com.jayway.jsonpath:json-path",
@@ -9326,6 +9369,13 @@
       "org.springframework.boot.servlet.autoconfigure.actuate.web.mappings",
       "org.springframework.boot.servlet.filter"
     ],
+    "org.springframework.boot:spring-boot-session": [
+      "org.springframework.boot.session.actuate.endpoint",
+      "org.springframework.boot.session.autoconfigure"
+    ],
+    "org.springframework.boot:spring-boot-session-data-redis": [
+      "org.springframework.boot.session.data.redis.autoconfigure"
+    ],
     "org.springframework.boot:spring-boot-sql": [
       "org.springframework.boot.sql.autoconfigure.init",
       "org.springframework.boot.sql.init",
@@ -11550,6 +11600,10 @@
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-session:jar:sources",
       "org.springframework.boot:spring-boot-sql",
       "org.springframework.boot:spring-boot-sql:jar:sources",
       "org.springframework.boot:spring-boot-starter",
@@ -11557,8 +11611,8 @@
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-data-jdbc",
       "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources",
-      "org.springframework.boot:spring-boot-starter-data-redis-reactive",
-      "org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:sources",
+      "org.springframework.boot:spring-boot-starter-data-redis",
+      "org.springframework.boot:spring-boot-starter-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-flyway",
       "org.springframework.boot:spring-boot-starter-flyway:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
@@ -11581,6 +11635,8 @@
       "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
+      "org.springframework.boot:spring-boot-starter-session-data-redis",
+      "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
       "org.springframework.boot:spring-boot-starter-test:jar:sources",
       "org.springframework.boot:spring-boot-starter-tomcat",
@@ -12330,6 +12386,10 @@
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-session:jar:sources",
       "org.springframework.boot:spring-boot-sql",
       "org.springframework.boot:spring-boot-sql:jar:sources",
       "org.springframework.boot:spring-boot-starter",
@@ -12337,8 +12397,8 @@
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-data-jdbc",
       "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources",
-      "org.springframework.boot:spring-boot-starter-data-redis-reactive",
-      "org.springframework.boot:spring-boot-starter-data-redis-reactive:jar:sources",
+      "org.springframework.boot:spring-boot-starter-data-redis",
+      "org.springframework.boot:spring-boot-starter-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-flyway",
       "org.springframework.boot:spring-boot-starter-flyway:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
@@ -12361,6 +12421,8 @@
       "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
+      "org.springframework.boot:spring-boot-starter-session-data-redis",
+      "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
       "org.springframework.boot:spring-boot-starter-test:jar:sources",
       "org.springframework.boot:spring-boot-starter-tomcat",

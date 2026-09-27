@@ -79,14 +79,15 @@ lab:
         scopes: ["mops:read", "mops:write"]
 ```
 
-Passwords must be BCrypt hashes with the `{bcrypt}` prefix. Principal and tenant are UUIDs;
-each user has one tenant and a fixed scope set. Duplicate usernames and missing identity fields
+Passwords use Spring Security’s `{id}encodedPassword` format, such as `{bcrypt}` followed by a
+BCrypt hash. Spring’s delegating password encoder handles the supported formats. Principal and tenant
+are UUIDs; each user has one tenant and a fixed scope set. Duplicate usernames and missing identity fields
 fail startup. Configuration changes apply on the next login; existing sessions retain their identity.
 
 Open `/login` to use Spring Security's login form. All downstream routes require authentication;
 `/actuator/health` stays public. HTTP Basic and bearer authentication are not enabled. Session
-identity is stored in Redis under `lab:gateway:sessions`, with a 30-minute idle timeout. The
-browser receives only an opaque `SESSION` cookie with `HttpOnly`, `Secure`, `SameSite=Lax`, and
+identity is stored in Redis under `lab:gateway:sessions`, with Spring’s default 30-minute idle timeout
+(overridable with `SPRING_SESSION_TIMEOUT`). The browser receives only an opaque `SESSION` cookie with `HttpOnly`, `Secure`, `SameSite=Lax`, and
 `Path=/`. Login rotates the session ID. Use HTTPS in deployed environments; local browsers must
 support Secure cookies on `localhost`, or use local HTTPS.
 
@@ -94,6 +95,9 @@ Open `/logout` and submit the confirmation form to log out. Logout requires a CS
 deletes the Redis session, and expires the cookie. CSRF protection is enabled for all unsafe
 requests, including login, logout, and downstream API calls. The generated forms carry the token;
 API callers using a session must send the corresponding CSRF token in `X-CSRF-TOKEN`.
+
+The gateway removes the entire `Cookie` header before proxying requests to either Mops downstream.
+Browser session credentials remain at the gateway.
 
 The gateway's signed downstream identity token and Mops browser CSRF integration are subsequent
 work; this change establishes the browser session and its identity.

@@ -1,11 +1,19 @@
 server.port: 3006
+server.reactive.session.cookie.secure: true
+server.reactive.session.cookie.same-site: lax
 spring:
   application:
     name: gateway
+  session:
+    redis:
+      namespace: lab:gateway:sessions
   cloud:
     gateway:
       server:
         webflux:
+          default-filters:
+            # Browser credentials end at the gateway, after session authentication.
+            - RemoveRequestHeader=Cookie
           routes:
             # Routes match in order, so the API route sits above the app catch-all.
             - id: mops-api
