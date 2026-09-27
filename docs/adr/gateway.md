@@ -60,8 +60,7 @@ Browser sessions are server-side, Redis-backed, and referenced by an opaque `Htt
 The cookie is the browser credential. Provider tokens stay in the gateway. A session has one active
 tenant and a configured first-party scope set per vertical.
 
-Session requests are CSRF-protected; see the [Gateway CSRF decision](gateway-csrf.md) for token
-validation and delivery. WebSocket upgrades are proxied under the same rules.
+Session requests are CSRF-protected. WebSocket upgrades are proxied under the same rules.
 
 ### Downstream contract
 

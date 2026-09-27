@@ -31,7 +31,6 @@ Downstream targets default to local dev and are overridable per environment, for
 | Public path        | Downstream                                   | Notes                      |
 | ------------------ | -------------------------------------------- | -------------------------- |
 | `/actuator/health` | Gateway                                      | Public.                    |
-| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
 | `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
 | `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
 
@@ -86,14 +85,11 @@ Duplicate usernames, missing fields, and passwords without an encoder id fail st
 apply on the next login.
 
 `/login` serves Spring Security's form and `/logout` a confirmation form. Browser requests without
-a session are redirected to `/login`; other requests get `401`. Sessions live in Redis under
-`lab:gateway:sessions` with a 30-minute idle timeout (`SPRING_SESSION_TIMEOUT`). The browser holds
-only an opaque `SESSION` cookie (`HttpOnly`, `Secure`, `SameSite=Lax`), so local browsers must
-accept Secure cookies on `localhost`. Login rotates the session ID; logout deletes the session.
-
-Unsafe requests, including login, logout, and API calls, need a CSRF token. The forms carry it;
-Mops fetches it from `/api/csrf` and sends it as `X-CSRF-TOKEN`, returning to `/login` on `401`.
-Other session-based API callers must do the same.
+a session are redirected to `/login`; other requests get `401`. CSRF protection is disabled.
+Sessions live in Redis under `lab:gateway:sessions` with a 30-minute idle timeout
+(`SPRING_SESSION_TIMEOUT`). The browser holds only an opaque `SESSION` cookie (`HttpOnly`,
+`Secure`, `SameSite=Lax`), so local browsers must accept Secure cookies on `localhost`. Login
+rotates the session ID; logout deletes the session.
 
 The gateway strips the `Cookie` header before proxying, so downstreams never see the session. Run
 Mops with its `dev` profile behind the gateway so it applies its development identity to forwarded

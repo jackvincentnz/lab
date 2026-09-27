@@ -23,7 +23,6 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
-import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
 import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
 import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
@@ -57,8 +56,6 @@ public class SecurityConfiguration {
   @Bean
   SecurityWebFilterChain securityWebFilterChain(
       ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
-    var invalidateSession = new WebSessionServerLogoutHandler();
-    var redirect = new RedirectServerLogoutSuccessHandler();
     var loginPage = new LoginPageGeneratingWebFilter();
     loginPage.setFormLoginEnabled(true);
     return http.authenticationManager(authenticationManager)
@@ -70,6 +67,7 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
+        .csrf(ServerHttpSecurity.CsrfSpec::disable)
         .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint()))
         // Spring omits its generated pages once the entry point is explicit.
         .addFilterAt(loginPage, SecurityWebFiltersOrder.LOGIN_PAGE_GENERATING)
@@ -79,14 +77,7 @@ public class SecurityConfiguration {
             new LogoutPageGeneratingWebFilter(), SecurityWebFiltersOrder.LOGOUT_PAGE_GENERATING)
         .logout(
             logout ->
-                // Invalidate after the default security-context and CSRF logout handlers finish.
-                logout.logoutSuccessHandler(
-                    (exchange, authentication) ->
-                        invalidateSession
-                            .logout(exchange, authentication)
-                            .then(
-                                Mono.defer(
-                                    () -> redirect.onLogoutSuccess(exchange, authentication)))))
+                logout.logoutHandler(handlers -> handlers.add(new WebSessionServerLogoutHandler())))
         .build();
   }
 

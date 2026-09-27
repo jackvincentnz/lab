@@ -11,11 +11,9 @@ import { StatsigProvider } from "./providers/StatsigProvider";
 import { ModalsProvider } from "@mantine/modals";
 
 import { createClient } from "graphql-ws";
-import { csrfFetch } from "./csrfFetch";
 
 const httpLink = new HttpLink({
   uri: "/api/graphql",
-  fetch: csrfFetch,
 });
 const wsLink = new GraphQLWsLink(
   createClient({

@@ -7,4 +7,3 @@ consequences.
 
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
-- [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
