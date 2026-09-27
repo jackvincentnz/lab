@@ -55,10 +55,16 @@ bazel test //projects/gateway/...
 
 ## Login and sessions
 
-Start Redis before running the gateway, for example:
+Start Redis before running the gateway (from the repository root):
 
 ```zsh
-docker run --rm --name lab-gateway-redis -p 127.0.0.1:6379:6379 redis:7.4-alpine
+docker compose -f projects/gateway/compose.yaml up -d
+```
+
+Stop Redis and remove its local session data when finished:
+
+```zsh
+docker compose -f projects/gateway/compose.yaml down -v
 ```
 
 Redis defaults to `localhost:6379`. Configure other environments with Spring's
