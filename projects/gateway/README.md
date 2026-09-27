@@ -57,62 +57,46 @@ bazel test //projects/gateway/...
 
 ## Login and sessions
 
-Start Redis before running the gateway (from the repository root):
+Start Redis before running the gateway:
 
 ```zsh
 docker compose -f projects/gateway/compose.yaml up -d
 ```
 
-Stop Redis and remove its local session data when finished:
+Stop it and discard session data with `docker compose -f projects/gateway/compose.yaml down -v`.
+Redis defaults to `localhost:6379`; override it with Spring's `SPRING_DATA_REDIS_*` settings.
 
-```zsh
-docker compose -f projects/gateway/compose.yaml down -v
-```
-
-Redis defaults to `localhost:6379`. Configure other environments with Spring's
-`SPRING_DATA_REDIS_HOST`, `SPRING_DATA_REDIS_PORT`, `SPRING_DATA_REDIS_PASSWORD`, and
-`SPRING_DATA_REDIS_SSL_ENABLED` settings.
-
-The `dev` profile includes `admin:admin` with `mops:read` and `mops:write` scopes for local testing.
-Without that profile, no default users are enabled. To configure your own users, supply a file
-outside version control and load it with `SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
+The `dev` profile adds `admin:admin` with `mops:read` and `mops:write`. Without it, no users exist.
+Configure users in a file outside version control and load it with
+`SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
 
 ```yaml
 lab:
   gateway:
     users:
       - username: alice
-        password: "{bcrypt}<bcrypt hash of your chosen password>"
+        password: "{bcrypt}<bcrypt hash>"
         principal: "11111111-1111-1111-1111-111111111111"
         tenant: "22222222-2222-2222-2222-222222222222"
         scopes: ["mops:read", "mops:write"]
 ```
 
-Passwords use Spring Security’s `{id}encodedPassword` format, such as `{bcrypt}` followed by a
-BCrypt hash. Spring’s delegating password encoder handles the supported formats. Principal and tenant
-are UUIDs; each user has one tenant and a fixed scope set. Duplicate usernames and missing identity fields
-fail startup. Configuration changes apply on the next login; existing sessions retain their identity.
+Passwords use Spring Security's `{id}encodedPassword` format. Principal and tenant are UUIDs.
+Duplicate usernames, missing fields, and passwords without an encoder id fail startup. Changes
+apply on the next login.
 
-Open `/login` to use Spring Security's login form. All downstream routes require authentication;
-`/actuator/health` stays public. HTTP Basic and bearer authentication are not enabled. Session
-identity is stored in Redis under `lab:gateway:sessions`, with Spring’s default 30-minute idle timeout
-(overridable with `SPRING_SESSION_TIMEOUT`). The browser receives only an opaque `SESSION` cookie with `HttpOnly`, `Secure`, `SameSite=Lax`, and
-`Path=/`. Login rotates the session ID. Use HTTPS in deployed environments; local browsers must
-support Secure cookies on `localhost`, or use local HTTPS.
+`/login` serves Spring Security's form and `/logout` a confirmation form. Browser requests without
+a session are redirected to `/login`; other requests get `401`. Sessions live in Redis under
+`lab:gateway:sessions` with a 30-minute idle timeout (`SPRING_SESSION_TIMEOUT`). The browser holds
+only an opaque `SESSION` cookie (`HttpOnly`, `Secure`, `SameSite=Lax`), so local browsers must
+accept Secure cookies on `localhost`. Login rotates the session ID; logout deletes the session.
 
-Open `/logout` and submit the confirmation form to log out. Logout requires a CSRF-protected POST,
-deletes the Redis session, and expires the cookie. CSRF protection is enabled for all unsafe
-requests, including login, logout, and downstream API calls. The generated forms carry the token;
-Mops fetches the session token from `/api/csrf` and includes it in the `X-CSRF-TOKEN` header on
-GraphQL requests. Other API callers using a session must do the same. The token response is not
-cacheable. Direct Mops development remains supported when the gateway endpoint is absent.
+Unsafe requests, including login, logout, and API calls, need a CSRF token. The forms carry it;
+Mops fetches it from `/api/csrf` and sends it as `X-CSRF-TOKEN`, returning to `/login` on `401`.
+Other session-based API callers must do the same.
 
-The gateway removes the entire `Cookie` header before proxying requests to either Mops downstream.
-Browser session credentials remain at the gateway.
+The gateway strips the `Cookie` header before proxying, so downstreams never see the session. Run
+Mops with its `dev` profile behind the gateway so it applies its development identity to forwarded
+requests.
 
-The gateway's signed downstream identity token is subsequent work. Until then, run Mops with its
-`dev` profile so it uses its development identity for requests forwarded by the gateway.
-
-Gateway integration tests require Docker and start an isolated Redis container automatically.
-They exercise real form submissions, Redis persistence, session rotation, cookie attributes,
-CSRF rejection, and logout, alongside authenticated routing.
+Tests use in-memory sessions, except `RedisSessionTest`, which needs Docker for a Redis container.
