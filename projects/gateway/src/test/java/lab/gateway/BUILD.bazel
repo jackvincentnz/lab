@@ -64,7 +64,10 @@ java_test_suite(
 
 java_test_suite(
     name = "unit_tests",
-    srcs = ["GatewayPrincipalTest.java"],
+    srcs = [
+        "GatewayPrincipalTest.java",
+        "GatewayUsersTest.java",
+    ],
     deps = [
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_springframework_security_spring_security_core",

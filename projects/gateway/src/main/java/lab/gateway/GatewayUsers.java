@@ -19,7 +19,9 @@ public record GatewayUsers(List<ConfiguredUser> users) {
       String username, String password, UUID principal, UUID tenant, List<String> scopes) {
     public ConfiguredUser {
       Assert.hasText(username, "A gateway user needs a username");
-      Assert.hasText(password, "A gateway user needs an encoded password");
+      Assert.isTrue(
+          password != null && password.matches("\\{[^}]+\\}.+"),
+          "A gateway password uses Spring Security's {id}encodedPassword format");
       Assert.notNull(principal, "A gateway user needs a principal UUID");
       Assert.notNull(tenant, "A gateway user needs a tenant UUID");
       scopes = scopes == null ? List.of() : List.copyOf(scopes);
