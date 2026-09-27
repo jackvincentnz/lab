@@ -8,10 +8,11 @@ The service routes one public host to Mops and exposes a public health endpoint.
 
 ## Getting started
 
-Configure [Redis and a login user](#login-and-sessions), then run the service:
+Start [Redis](#login-and-sessions), then run the service with the development profile
+and log in as `admin` with password `admin`:
 
 ```zsh
-bazel run //projects/gateway
+bazel run //projects/gateway -- --spring.profiles.active=dev
 ```
 
 Run Mops through the gateway by starting the Mops service and app alongside it, then open
@@ -19,7 +20,7 @@ Run Mops through the gateway by starting the Mops service and app alongside it, 
 
 ```zsh
 bazel run //projects/mops
-bazel run //projects/gateway
+bazel run //projects/gateway -- --spring.profiles.active=dev
 ```
 
 Downstream targets default to local dev and are overridable per environment, for example
@@ -71,8 +72,9 @@ Redis defaults to `localhost:6379`. Configure other environments with Spring's
 `SPRING_DATA_REDIS_HOST`, `SPRING_DATA_REDIS_PORT`, `SPRING_DATA_REDIS_PASSWORD`, and
 `SPRING_DATA_REDIS_SSL_ENABLED` settings.
 
-There are no default users. Supply a local configuration file outside version control and load it
-with `SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
+The `dev` profile includes `admin:admin` with `mops:read` and `mops:write` scopes for local testing.
+Without that profile, no default users are enabled. To configure your own users, supply a file
+outside version control and load it with `SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
 
 ```yaml
 lab:
