@@ -3,19 +3,32 @@ package lab.gateway;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint.DelegateEntry;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
+import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
+import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
+import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
+import org.springframework.security.web.server.ui.LogoutPageGeneratingWebFilter;
+import org.springframework.security.web.server.util.matcher.MediaTypeServerWebExchangeMatcher;
 import reactor.core.publisher.Mono;
 
 @Configuration(proxyBeanMethods = false)
@@ -46,6 +59,8 @@ public class SecurityConfiguration {
       ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
     var invalidateSession = new WebSessionServerLogoutHandler();
     var redirect = new RedirectServerLogoutSuccessHandler();
+    var loginPage = new LoginPageGeneratingWebFilter();
+    loginPage.setFormLoginEnabled(true);
     return http.authenticationManager(authenticationManager)
         .authorizeExchange(
             exchanges ->
@@ -56,6 +71,13 @@ public class SecurityConfiguration {
                     .authenticated())
         .formLogin(withDefaults())
         .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+        .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint()))
+        // Spring omits its generated pages once the entry point is explicit.
+        .addFilterAt(loginPage, SecurityWebFiltersOrder.LOGIN_PAGE_GENERATING)
+        .addFilterBefore(
+            DefaultResourcesWebFilter.css(), SecurityWebFiltersOrder.LOGIN_PAGE_GENERATING)
+        .addFilterAt(
+            new LogoutPageGeneratingWebFilter(), SecurityWebFiltersOrder.LOGOUT_PAGE_GENERATING)
         .logout(
             logout ->
                 // Invalidate after the default security-context and CSRF logout handlers finish.
@@ -67,5 +89,16 @@ public class SecurityConfiguration {
                                 Mono.defer(
                                     () -> redirect.onLogoutSuccess(exchange, authentication)))))
         .build();
+  }
+
+  /** Browsers are sent to the login form; API clients get a status they can act on. */
+  private static ServerAuthenticationEntryPoint entryPoint() {
+    var html = new MediaTypeServerWebExchangeMatcher(MediaType.TEXT_HTML);
+    html.setIgnoredMediaTypes(Set.of(MediaType.ALL));
+    var entryPoint =
+        new DelegatingServerAuthenticationEntryPoint(
+            new DelegateEntry(html, new RedirectServerAuthenticationEntryPoint("/login")));
+    entryPoint.setDefaultEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED));
+    return entryPoint;
   }
 }

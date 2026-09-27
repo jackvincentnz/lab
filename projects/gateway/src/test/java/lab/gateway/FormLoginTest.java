@@ -30,6 +30,18 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
+  void rejectsAnonymousApiRequestWithUnauthorized() {
+    client()
+        .get()
+        .uri("/api/csrf")
+        .accept(MediaType.APPLICATION_JSON)
+        .exchange()
+        .expectStatus()
+        .isUnauthorized();
+    client().get().uri("/api/csrf").exchange().expectStatus().isUnauthorized();
+  }
+
+  @Test
   void rotatesSessionAndStoresIdentity() {
     var browser = browser().login();
     assertThat(browser.session).isNotEqualTo(browser.anonymousSession);
