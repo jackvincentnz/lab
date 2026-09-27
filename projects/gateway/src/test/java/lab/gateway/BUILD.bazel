@@ -3,6 +3,10 @@ load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "
 java_test_suite(
     name = "tests",
     size = "medium",
+    srcs = glob(
+        ["*.java"],
+        exclude = ["GatewayPrincipalTest.java"],
+    ),
     tags = [
         "requires-docker",
         "requires-network",
@@ -22,5 +26,14 @@ java_test_suite(
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
+    ],
+)
+
+java_test_suite(
+    name = "unit_tests",
+    srcs = ["GatewayPrincipalTest.java"],
+    deps = [
+        "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_springframework_security_spring_security_core",
     ],
 )
