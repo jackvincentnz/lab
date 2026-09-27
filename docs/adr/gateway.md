@@ -64,16 +64,29 @@ Session requests are CSRF-protected. WebSocket upgrades are proxied under the sa
 
 ### Downstream contract
 
-The gateway strips client-supplied identity headers and injects:
+The gateway resolves the caller, mints a short-lived identity token for the vertical it forwards
+to, and sends it as `Authorization: Bearer <jwt>` in place of whatever the client sent. The token
+is signed with the gateway's private key and carries:
 
-```http
-X-Principal-Id: <uuid>
-X-Tenant-Id: <uuid>
-X-Scopes: mops:read mops:write
-```
+| Claim               | Value                                                      |
+| ------------------- | ---------------------------------------------------------- |
+| `iss`               | `lab-gateway`                                              |
+| `aud`               | The vertical, for example `mops`                           |
+| `sub`               | Principal UUID                                             |
+| `tenant`            | Active tenant UUID                                         |
+| `scope`             | Space-separated scopes, for example `mops:read mops:write` |
+| `amr`               | How the caller authenticated: `form`, `oidc`, or `bearer`  |
+| `sid`               | Gateway session                                            |
+| `iat`, `exp`, `jti` | Issued at, expiry, and a unique token ID                   |
 
-Private networking is the trust boundary between gateway and verticals. Signed assertions or mTLS
-can be added later without changing the contract.
+One token grows by adding claims, so the contract extends without a new header per fact. Claims
+describe how the caller was authenticated and what session and tenant they act under, which only
+the gateway knows. Anything a vertical could look up by principal and tenant stays a lookup.
+
+A vertical verifies the signature, issuer, audience, and expiry against the JWK set the gateway
+publishes, and trusts nothing else about the caller. Tokens name their key by `kid`, so rotating
+a key is a gateway-only event. The signed token is the trust boundary between gateway and
+vertical; private networking only limits who can present one.
 
 ### Per-tenant IP allowlisting
 
@@ -101,10 +114,10 @@ The first iteration proves the path from public request to vertical with the few
 - The gateway authenticates configured in-memory users with Spring form login. Each user carries
   a principal, tenant, and scopes. No external provider, no tenant service.
 - Browser sessions only. Bearer tokens are not accepted.
-- Fast follow: bearer JWTs signed with a static gateway key, to test API access before a
+- Fast follow: public bearer JWTs signed with a static gateway key, to test API access before a
   provider exists.
 - Allowlisting and rate limiting are not enforced.
-- Path routing to Mops, the downstream contract, CSRF, WebSocket proxying, and access logging are
+- Routing to Mops, the signed identity token, CSRF, WebSocket proxying, and access logging are
   all in.
 
 OIDC login replaces form login later with the same session semantics.
@@ -115,7 +128,7 @@ OIDC login replaces form login later with the same session semantics.
 - Tenant service design.
 - Platform identifiers via lookup versus provider-minted claims.
 - Public URL structure, including subdomain per vertical.
-- Hardening gateway-to-vertical trust beyond private networking.
+- Hardening gateway-to-vertical trust beyond the signed token, such as mTLS.
 - Per-tenant rate limiting mechanism.
 - WAF, DDoS mitigation, and volumetric rate limiting, which belong in front of the load balancer.
 - Service-to-service and background-job identity.
@@ -139,6 +152,6 @@ Verticals get authentication, sessions, allowlisting, rate limiting, and access 
 implementing any of them. Security-sensitive code exists once.
 
 The gateway is on the path of every request and must scale horizontally. Redis is a second
-availability dependency for browser sessions. Any workload on the private network can forge
-identity headers to a vertical until trust is hardened. The tenant service becomes a login-path
-dependency once it exists.
+availability dependency for browser sessions. A workload that captures a token can replay it to
+the vertical until it expires, and custody of the gateway's private key decides who can mint one.
+The tenant service becomes a login-path dependency once it exists.

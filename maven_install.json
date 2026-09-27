@@ -49,6 +49,7 @@
     "org.springframework.boot:spring-boot-starter-data-jdbc": 39840922,
     "org.springframework.boot:spring-boot-starter-flyway": 432056896,
     "org.springframework.boot:spring-boot-starter-kafka": 152552066,
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server": 346643764,
     "org.springframework.boot:spring-boot-starter-security": 1168390884,
     "org.springframework.boot:spring-boot-starter-test": -1561809354,
     "org.springframework.boot:spring-boot-starter-validation": 113118493,
@@ -205,6 +206,8 @@
     "com.netflix.graphql.dgs:graphql-error-types:jar:sources": -1429626279,
     "com.networknt:json-schema-validator": -364771901,
     "com.networknt:json-schema-validator:jar:sources": -1602829806,
+    "com.nimbusds:nimbus-jose-jwt": -2130272744,
+    "com.nimbusds:nimbus-jose-jwt:jar:sources": -1483712041,
     "com.openai:openai-java-core": 1582490104,
     "com.openai:openai-java-core:jar:sources": -1628584193,
     "com.palantir.javapoet:javapoet": 2054419544,
@@ -664,6 +667,8 @@
     "org.springframework.boot:spring-boot-restclient": 1077409218,
     "org.springframework.boot:spring-boot-restclient:jar:sources": -63224966,
     "org.springframework.boot:spring-boot-security": -160820598,
+    "org.springframework.boot:spring-boot-security-oauth2-resource-server": -2048730071,
+    "org.springframework.boot:spring-boot-security-oauth2-resource-server:jar:sources": -342789515,
     "org.springframework.boot:spring-boot-security:jar:sources": -1560245667,
     "org.springframework.boot:spring-boot-servlet": 639711912,
     "org.springframework.boot:spring-boot-servlet:jar:sources": -1101074157,
@@ -688,6 +693,8 @@
     "org.springframework.boot:spring-boot-starter-logging:jar:sources": 2066910258,
     "org.springframework.boot:spring-boot-starter-micrometer-metrics": -242434938,
     "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources": -1376662238,
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server": -113930142,
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server:jar:sources": -974788268,
     "org.springframework.boot:spring-boot-starter-reactor-netty": -2011384248,
     "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": -339730748,
     "org.springframework.boot:spring-boot-starter-restclient": 1134993850,
@@ -762,6 +769,12 @@
     "org.springframework.security:spring-security-core:jar:sources": -236507970,
     "org.springframework.security:spring-security-crypto": -607946200,
     "org.springframework.security:spring-security-crypto:jar:sources": -466930554,
+    "org.springframework.security:spring-security-oauth2-core": -1602834500,
+    "org.springframework.security:spring-security-oauth2-core:jar:sources": -1030611145,
+    "org.springframework.security:spring-security-oauth2-jose": -1045900956,
+    "org.springframework.security:spring-security-oauth2-jose:jar:sources": -972677365,
+    "org.springframework.security:spring-security-oauth2-resource-server": -1544392347,
+    "org.springframework.security:spring-security-oauth2-resource-server:jar:sources": -24489008,
     "org.springframework.security:spring-security-web": 1268740790,
     "org.springframework.security:spring-security-web:jar:sources": -1444598853,
     "org.springframework.session:spring-session-core": -1605489062,
@@ -863,6 +876,7 @@
     "org.springframework.boot:spring-boot-starter-data-jdbc": "org.springframework.boot:spring-boot-starter-data-jdbc:4.1.1",
     "org.springframework.boot:spring-boot-starter-flyway": "org.springframework.boot:spring-boot-starter-flyway:4.1.1",
     "org.springframework.boot:spring-boot-starter-kafka": "org.springframework.boot:spring-boot-starter-kafka:4.1.1",
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server": "org.springframework.boot:spring-boot-starter-oauth2-resource-server:4.1.1",
     "org.springframework.boot:spring-boot-starter-security": "org.springframework.boot:spring-boot-starter-security:4.1.1",
     "org.springframework.boot:spring-boot-starter-test": "org.springframework.boot:spring-boot-starter-test:4.1.1",
     "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.1.1",
@@ -1360,6 +1374,13 @@
         "sources": "c9bd75f71a4909b992c0791083811a70ba8adcdf650a0fcabdfdcc064ce92d94"
       },
       "version": "3.0.1"
+    },
+    "com.nimbusds:nimbus-jose-jwt": {
+      "shasums": {
+        "jar": "33152ea83ec50d22706fdaf3b07acbcd716f9a68edcabdd7c4d02843cbdcdcf6",
+        "sources": "cead38bc98c18a3f4b6da7157f503e74d8701b9d547d2a722e5fc40c1bdc7c32"
+      },
+      "version": "10.9.1"
     },
     "com.openai:openai-java-core": {
       "shasums": {
@@ -2972,6 +2993,13 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.boot:spring-boot-security-oauth2-resource-server": {
+      "shasums": {
+        "jar": "8b28c4c3ce43b8fabac0df94f66dd3d1c77b24c7ea7726977c6d6bee2d41fab1",
+        "sources": "1bb141545ae67750a8a62842398f7d6473d32980e8bb6c18378705f4f66231f6"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework.boot:spring-boot-servlet": {
       "shasums": {
         "jar": "4dcb156e311a4c1ad5f1ed7eabd94a78ea74510b05c429a4fcfdcf8beb9d5882",
@@ -3053,6 +3081,13 @@
       "shasums": {
         "jar": "ad34ce3535a82b3920efea7f9c5d6322de484969f3ab5fa6da05030edd7c14d4",
         "sources": "ad34ce3535a82b3920efea7f9c5d6322de484969f3ab5fa6da05030edd7c14d4"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server": {
+      "shasums": {
+        "jar": "f2deafebcbc7fbd00b005c59875b5c062a5bef2b3f2f1369b75306bb423e320d",
+        "sources": "f2deafebcbc7fbd00b005c59875b5c062a5bef2b3f2f1369b75306bb423e320d"
       },
       "version": "4.1.1"
     },
@@ -3310,6 +3345,27 @@
       "shasums": {
         "jar": "6e8bb2337faccabd30626f917ed1d2bfa9dde982229b6b373b644d1a01635403",
         "sources": "805d843181057b2ed368f7882979c2295c62076359f017b91a90b88d8a270f5c"
+      },
+      "version": "7.1.1"
+    },
+    "org.springframework.security:spring-security-oauth2-core": {
+      "shasums": {
+        "jar": "29140d71b37cf1246bf16e33619e88e7baaa1c66bf5574e3c3e9a9f225f0ef6e",
+        "sources": "9fd6eb13354cf6eee6860f6369b5b78b7df16c5ca54cc145d3adcc9430023164"
+      },
+      "version": "7.1.1"
+    },
+    "org.springframework.security:spring-security-oauth2-jose": {
+      "shasums": {
+        "jar": "e07d47cac04de4f01be6a6c3f8be249472444b24fd4fad8ff030b45bfe6c5b9c",
+        "sources": "81617661e7ea571646e6b7005f1cf6b4996fdba7c6b67908fead81d4b99b1459"
+      },
+      "version": "7.1.1"
+    },
+    "org.springframework.security:spring-security-oauth2-resource-server": {
+      "shasums": {
+        "jar": "d8e2d24d2829ec4e2f8212c2c465c5abb30463f550d650080cc8f1d71d0daa6c",
+        "sources": "4d0d8dff0d3b7b1fa06617c36a117f1f6306792b7404834e7cd9ff21c574bf88"
       },
       "version": "7.1.1"
     },
@@ -4813,6 +4869,12 @@
       "org.springframework.security:spring-security-config",
       "org.springframework.security:spring-security-web"
     ],
+    "org.springframework.boot:spring-boot-security-oauth2-resource-server": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-security",
+      "org.springframework.security:spring-security-oauth2-jose",
+      "org.springframework.security:spring-security-oauth2-resource-server"
+    ],
     "org.springframework.boot:spring-boot-servlet": [
       "org.springframework.boot:spring-boot",
       "org.springframework:spring-web"
@@ -4873,6 +4935,11 @@
     "org.springframework.boot:spring-boot-starter-micrometer-metrics": [
       "org.springframework.boot:spring-boot-micrometer-metrics",
       "org.springframework.boot:spring-boot-starter"
+    ],
+    "org.springframework.boot:spring-boot-starter-oauth2-resource-server": [
+      "org.springframework.boot:spring-boot-security-oauth2-resource-server",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.boot:spring-boot-starter-security"
     ],
     "org.springframework.boot:spring-boot-starter-reactor-netty": [
       "org.springframework.boot:spring-boot-reactor",
@@ -5104,6 +5171,23 @@
       "org.springframework:spring-context",
       "org.springframework:spring-core",
       "org.springframework:spring-expression"
+    ],
+    "org.springframework.security:spring-security-oauth2-core": [
+      "org.springframework.security:spring-security-core",
+      "org.springframework:spring-core",
+      "org.springframework:spring-web"
+    ],
+    "org.springframework.security:spring-security-oauth2-jose": [
+      "com.nimbusds:nimbus-jose-jwt",
+      "org.springframework.security:spring-security-core",
+      "org.springframework.security:spring-security-oauth2-core",
+      "org.springframework:spring-core"
+    ],
+    "org.springframework.security:spring-security-oauth2-resource-server": [
+      "org.springframework.security:spring-security-core",
+      "org.springframework.security:spring-security-oauth2-core",
+      "org.springframework.security:spring-security-web",
+      "org.springframework:spring-core"
     ],
     "org.springframework.security:spring-security-web": [
       "org.springframework.security:spring-security-core",
@@ -6000,6 +6084,39 @@
       "com.networknt.schema.utils",
       "com.networknt.schema.vocabulary",
       "com.networknt.schema.walk"
+    ],
+    "com.nimbusds:nimbus-jose-jwt": [
+      "com.nimbusds.jose",
+      "com.nimbusds.jose.crypto",
+      "com.nimbusds.jose.crypto.bc",
+      "com.nimbusds.jose.crypto.factories",
+      "com.nimbusds.jose.crypto.impl",
+      "com.nimbusds.jose.crypto.opts",
+      "com.nimbusds.jose.crypto.utils",
+      "com.nimbusds.jose.jca",
+      "com.nimbusds.jose.jwk",
+      "com.nimbusds.jose.jwk.gen",
+      "com.nimbusds.jose.jwk.source",
+      "com.nimbusds.jose.mint",
+      "com.nimbusds.jose.proc",
+      "com.nimbusds.jose.produce",
+      "com.nimbusds.jose.shaded.gson",
+      "com.nimbusds.jose.shaded.gson.annotations",
+      "com.nimbusds.jose.shaded.gson.internal",
+      "com.nimbusds.jose.shaded.gson.internal.bind",
+      "com.nimbusds.jose.shaded.gson.internal.bind.util",
+      "com.nimbusds.jose.shaded.gson.internal.reflect",
+      "com.nimbusds.jose.shaded.gson.internal.sql",
+      "com.nimbusds.jose.shaded.gson.reflect",
+      "com.nimbusds.jose.shaded.gson.stream",
+      "com.nimbusds.jose.shaded.jcip",
+      "com.nimbusds.jose.util",
+      "com.nimbusds.jose.util.cache",
+      "com.nimbusds.jose.util.events",
+      "com.nimbusds.jose.util.health",
+      "com.nimbusds.jwt",
+      "com.nimbusds.jwt.proc",
+      "com.nimbusds.jwt.util"
     ],
     "com.openai:openai-java-core": [
       "com.openai.auth",
@@ -9054,6 +9171,13 @@
       "org.springframework.boot.security.web.reactive",
       "org.springframework.boot.security.web.servlet"
     ],
+    "org.springframework.boot:spring-boot-security-oauth2-resource-server": [
+      "org.springframework.boot.security.oauth2.server.resource.autoconfigure",
+      "org.springframework.boot.security.oauth2.server.resource.autoconfigure.reactive",
+      "org.springframework.boot.security.oauth2.server.resource.autoconfigure.servlet",
+      "org.springframework.boot.security.oauth2.server.resource.autoconfigure.web",
+      "org.springframework.boot.security.oauth2.server.resource.autoconfigure.web.reactive"
+    ],
     "org.springframework.boot:spring-boot-servlet": [
       "org.springframework.boot.servlet",
       "org.springframework.boot.servlet.actuate.web.exchanges",
@@ -9521,6 +9645,35 @@
       "org.springframework.security.crypto.password4j",
       "org.springframework.security.crypto.scrypt",
       "org.springframework.security.crypto.util"
+    ],
+    "org.springframework.security:spring-security-oauth2-core": [
+      "org.springframework.security.oauth2.core",
+      "org.springframework.security.oauth2.core.authorization",
+      "org.springframework.security.oauth2.core.converter",
+      "org.springframework.security.oauth2.core.endpoint",
+      "org.springframework.security.oauth2.core.http.converter",
+      "org.springframework.security.oauth2.core.oidc",
+      "org.springframework.security.oauth2.core.oidc.endpoint",
+      "org.springframework.security.oauth2.core.oidc.user",
+      "org.springframework.security.oauth2.core.user",
+      "org.springframework.security.oauth2.core.web.reactive.function"
+    ],
+    "org.springframework.security:spring-security-oauth2-jose": [
+      "org.springframework.security.oauth2.jose",
+      "org.springframework.security.oauth2.jose.jws",
+      "org.springframework.security.oauth2.jwt"
+    ],
+    "org.springframework.security:spring-security-oauth2-resource-server": [
+      "org.springframework.security.oauth2.server.resource",
+      "org.springframework.security.oauth2.server.resource.authentication",
+      "org.springframework.security.oauth2.server.resource.introspection",
+      "org.springframework.security.oauth2.server.resource.web",
+      "org.springframework.security.oauth2.server.resource.web.access",
+      "org.springframework.security.oauth2.server.resource.web.access.server",
+      "org.springframework.security.oauth2.server.resource.web.authentication",
+      "org.springframework.security.oauth2.server.resource.web.reactive.function.client",
+      "org.springframework.security.oauth2.server.resource.web.server",
+      "org.springframework.security.oauth2.server.resource.web.server.authentication"
     ],
     "org.springframework.security:spring-security-web": [
       "org.springframework.security.web",
@@ -10789,6 +10942,8 @@
       "com.netflix.graphql.dgs:graphql-error-types:jar:sources",
       "com.networknt:json-schema-validator",
       "com.networknt:json-schema-validator:jar:sources",
+      "com.nimbusds:nimbus-jose-jwt",
+      "com.nimbusds:nimbus-jose-jwt:jar:sources",
       "com.openai:openai-java-core",
       "com.openai:openai-java-core:jar:sources",
       "com.palantir.javapoet:javapoet",
@@ -11248,6 +11403,8 @@
       "org.springframework.boot:spring-boot-restclient",
       "org.springframework.boot:spring-boot-restclient:jar:sources",
       "org.springframework.boot:spring-boot-security",
+      "org.springframework.boot:spring-boot-security-oauth2-resource-server",
+      "org.springframework.boot:spring-boot-security-oauth2-resource-server:jar:sources",
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
@@ -11272,6 +11429,8 @@
       "org.springframework.boot:spring-boot-starter-logging:jar:sources",
       "org.springframework.boot:spring-boot-starter-micrometer-metrics",
       "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources",
+      "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
+      "org.springframework.boot:spring-boot-starter-oauth2-resource-server:jar:sources",
       "org.springframework.boot:spring-boot-starter-reactor-netty",
       "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources",
       "org.springframework.boot:spring-boot-starter-restclient",
@@ -11346,6 +11505,12 @@
       "org.springframework.security:spring-security-core:jar:sources",
       "org.springframework.security:spring-security-crypto",
       "org.springframework.security:spring-security-crypto:jar:sources",
+      "org.springframework.security:spring-security-oauth2-core",
+      "org.springframework.security:spring-security-oauth2-core:jar:sources",
+      "org.springframework.security:spring-security-oauth2-jose",
+      "org.springframework.security:spring-security-oauth2-jose:jar:sources",
+      "org.springframework.security:spring-security-oauth2-resource-server",
+      "org.springframework.security:spring-security-oauth2-resource-server:jar:sources",
       "org.springframework.security:spring-security-web",
       "org.springframework.security:spring-security-web:jar:sources",
       "org.springframework.session:spring-session-core",
@@ -11551,6 +11716,8 @@
       "com.netflix.graphql.dgs:graphql-error-types:jar:sources",
       "com.networknt:json-schema-validator",
       "com.networknt:json-schema-validator:jar:sources",
+      "com.nimbusds:nimbus-jose-jwt",
+      "com.nimbusds:nimbus-jose-jwt:jar:sources",
       "com.openai:openai-java-core",
       "com.openai:openai-java-core:jar:sources",
       "com.palantir.javapoet:javapoet",
@@ -12010,6 +12177,8 @@
       "org.springframework.boot:spring-boot-restclient",
       "org.springframework.boot:spring-boot-restclient:jar:sources",
       "org.springframework.boot:spring-boot-security",
+      "org.springframework.boot:spring-boot-security-oauth2-resource-server",
+      "org.springframework.boot:spring-boot-security-oauth2-resource-server:jar:sources",
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
@@ -12034,6 +12203,8 @@
       "org.springframework.boot:spring-boot-starter-logging:jar:sources",
       "org.springframework.boot:spring-boot-starter-micrometer-metrics",
       "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources",
+      "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
+      "org.springframework.boot:spring-boot-starter-oauth2-resource-server:jar:sources",
       "org.springframework.boot:spring-boot-starter-reactor-netty",
       "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources",
       "org.springframework.boot:spring-boot-starter-restclient",
@@ -12108,6 +12279,12 @@
       "org.springframework.security:spring-security-core:jar:sources",
       "org.springframework.security:spring-security-crypto",
       "org.springframework.security:spring-security-crypto:jar:sources",
+      "org.springframework.security:spring-security-oauth2-core",
+      "org.springframework.security:spring-security-oauth2-core:jar:sources",
+      "org.springframework.security:spring-security-oauth2-jose",
+      "org.springframework.security:spring-security-oauth2-jose:jar:sources",
+      "org.springframework.security:spring-security-oauth2-resource-server",
+      "org.springframework.security:spring-security-oauth2-resource-server:jar:sources",
       "org.springframework.security:spring-security-web",
       "org.springframework.security:spring-security-web:jar:sources",
       "org.springframework.session:spring-session-core",
