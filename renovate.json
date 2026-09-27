@@ -85,7 +85,11 @@
       "groupName": "all non-major dependency updates",
       "groupSlug": "all-non-major-updates",
       "schedule": "* * * * 0,6",
-      "matchPackageNames": ["!protobuf", "!com.google.protobuf:protobuf-bom"]
+      "matchPackageNames": [
+        "!protobuf",
+        "!com.google.protobuf:protobuf-bom",
+        "!@playwright/test"
+      ]
     },
     {
       "description": "Update Confluent Platform",
