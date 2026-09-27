@@ -70,7 +70,6 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
-        .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
         .exceptionHandling(handling -> handling.authenticationEntryPoint(entryPoint()))
         // Spring omits its generated pages once the entry point is explicit.
         .addFilterAt(loginPage, SecurityWebFiltersOrder.LOGIN_PAGE_GENERATING)
