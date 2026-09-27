@@ -54,9 +54,25 @@ class MopsRoutingTest extends GatewayTestSupport {
 
   @Test
   void routesApiToServiceWithPrefixStripped() {
-    authenticatedClient()
+    var browser = browser().login();
+    var token =
+        client()
+            .get()
+            .uri("/api/csrf")
+            .cookie("SESSION", browser.session)
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectHeader()
+            .valueMatches("Cache-Control", ".*no-store.*")
+            .expectBody(java.util.Map.class)
+            .returnResult()
+            .getResponseBody();
+    client()
         .post()
         .uri("/api/graphql")
+        .cookie("SESSION", browser.session)
+        .header((String) token.get("headerName"), (String) token.get("token"))
         .exchange()
         .expectStatus()
         .isOk()

@@ -31,6 +31,7 @@ Downstream targets default to local dev and are overridable per environment, for
 | Public path        | Downstream                                   | Notes                      |
 | ------------------ | -------------------------------------------- | -------------------------- |
 | `/actuator/health` | Gateway                                      | Public.                    |
+| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
 | `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
 | `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
 
@@ -102,13 +103,15 @@ support Secure cookies on `localhost`, or use local HTTPS.
 Open `/logout` and submit the confirmation form to log out. Logout requires a CSRF-protected POST,
 deletes the Redis session, and expires the cookie. CSRF protection is enabled for all unsafe
 requests, including login, logout, and downstream API calls. The generated forms carry the token;
-API callers using a session must send the corresponding CSRF token in `X-CSRF-TOKEN`.
+Mops fetches the session token from `/api/csrf` and includes it in the `X-CSRF-TOKEN` header on
+GraphQL requests. Other API callers using a session must do the same. The token response is not
+cacheable. Direct Mops development remains supported when the gateway endpoint is absent.
 
 The gateway removes the entire `Cookie` header before proxying requests to either Mops downstream.
 Browser session credentials remain at the gateway.
 
-The gateway's signed downstream identity token and Mops browser CSRF integration are subsequent
-work; this change establishes the browser session and its identity.
+The gateway's signed downstream identity token is subsequent work. Until then, run Mops with its
+`dev` profile so it uses its development identity for requests forwarded by the gateway.
 
 Gateway integration tests require Docker and start an isolated Redis container automatically.
 They exercise real form submissions, Redis persistence, session rotation, cookie attributes,
