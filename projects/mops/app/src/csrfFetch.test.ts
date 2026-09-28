@@ -1,25 +1,49 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createCsrfFetch } from "./csrfFetch";
 
+const tokenResponse = (token: string) =>
+  Response.json({ headerName: "X-CSRF-TOKEN", token });
+const statusResponse = (status: number) => new Response(null, { status });
+const okResponse = () => new Response("ok");
+
+/** Replaces the browser's fetch; each response answers the next call, in order. */
+function stubFetch(...responses: Response[]) {
+  const fetchMock = vi.fn();
+  for (const response of responses) fetchMock.mockResolvedValueOnce(response);
+  vi.stubGlobal("fetch", fetchMock);
+  return fetchMock;
+}
+
+const requestsTo = (fetchMock: ReturnType<typeof vi.fn>, url: string) =>
+  fetchMock.mock.calls.filter(([calledUrl]) => calledUrl === url);
+
+const sentHeader = (
+  fetchMock: ReturnType<typeof vi.fn>,
+  call: number,
+  name: string,
+) =>
+  (
+    fetchMock.mock.calls[call][1] as RequestInit & { headers: Headers }
+  ).headers.get(name);
+
 afterEach(() => vi.unstubAllGlobals());
 
 describe("csrfFetch", () => {
   it("sends the gateway token with the original GraphQL request", async () => {
-    const graphqlResponse = new Response('{"data":{}}');
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "session-token" }),
-      )
-      .mockResolvedValueOnce(graphqlResponse);
-    vi.stubGlobal("fetch", fetchMock);
+    const graphqlResponse = okResponse();
+    const fetchMock = stubFetch(
+      tokenResponse("session-token"),
+      graphqlResponse,
+    );
     const init = {
       method: "POST",
       body: '{"query":"query { allLineItems { id } }"}',
       headers: { "Content-Type": "application/json" },
     };
 
-    expect(await createCsrfFetch()("/api/graphql", init)).toBe(graphqlResponse);
+    const response = await createCsrfFetch()("/api/graphql", init);
+
+    expect(response).toBe(graphqlResponse);
     expect(fetchMock.mock.calls[0]).toEqual([
       "/api/csrf",
       expect.objectContaining({
@@ -27,22 +51,21 @@ describe("csrfFetch", () => {
         cache: "no-store",
       }),
     ]);
-    const [url, request] = fetchMock.mock.calls[1];
-    expect(url).toBe("/api/graphql");
-    expect(request.method).toBe("POST");
-    expect(request.body).toBe(init.body);
-    expect(request.headers.get("Content-Type")).toBe("application/json");
-    expect(request.headers.get("X-CSRF-TOKEN")).toBe("session-token");
+    expect(fetchMock.mock.calls[1][0]).toBe("/api/graphql");
+    expect(fetchMock.mock.calls[1][1]).toMatchObject({
+      method: "POST",
+      body: init.body,
+    });
+    expect(sentHeader(fetchMock, 1, "Content-Type")).toBe("application/json");
+    expect(sentHeader(fetchMock, 1, "X-CSRF-TOKEN")).toBe("session-token");
   });
 
   it("supports direct Mops development without a gateway", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(new Response(null, { status: 404 }))
-      .mockResolvedValueOnce(new Response("ok"));
-    vi.stubGlobal("fetch", fetchMock);
+    const fetchMock = stubFetch(statusResponse(404), okResponse());
     const init = { method: "POST", body: "query" };
+
     await createCsrfFetch()("/api/graphql", init);
+
     expect(fetchMock).toHaveBeenLastCalledWith(
       "/api/graphql",
       expect.objectContaining(init),
@@ -50,85 +73,70 @@ describe("csrfFetch", () => {
   });
 
   it("shares token retrieval between concurrent queries", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "shared-token" }),
-      )
-      .mockResolvedValue(new Response("ok"));
-    vi.stubGlobal("fetch", fetchMock);
+    const fetchMock = stubFetch(
+      tokenResponse("shared-token"),
+      okResponse(),
+      okResponse(),
+    );
     const csrfFetch = createCsrfFetch();
+
     await Promise.all([
       csrfFetch("/api/graphql", { method: "POST" }),
       csrfFetch("/api/graphql", { method: "POST" }),
     ]);
-    expect(
-      fetchMock.mock.calls.filter(([url]) => url === "/api/csrf"),
-    ).toHaveLength(1);
-    expect(fetchMock).toHaveBeenCalledTimes(3);
+
+    expect(requestsTo(fetchMock, "/api/csrf")).toHaveLength(1);
+    expect(requestsTo(fetchMock, "/api/graphql")).toHaveLength(2);
   });
 
   it("returns to login when the session has expired", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValue(new Response(null, { status: 401 }));
-    vi.stubGlobal("fetch", fetchMock);
+    const fetchMock = stubFetch(statusResponse(401));
     const login = vi.fn();
-    await expect(
-      createCsrfFetch(login)("/api/graphql", { method: "POST" }),
-    ).rejects.toThrow("Unable to obtain CSRF token (401)");
-    expect(fetchMock).toHaveBeenCalledTimes(1);
+
+    const request = createCsrfFetch(login)("/api/graphql", { method: "POST" });
+
+    await expect(request).rejects.toThrow("Unable to obtain CSRF token (401)");
     expect(login).toHaveBeenCalledOnce();
+    expect(requestsTo(fetchMock, "/api/graphql")).toHaveLength(0);
   });
 
   it("returns to login when a request is unauthorized", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "stale" }),
-      )
-      .mockResolvedValueOnce(new Response(null, { status: 401 }));
-    vi.stubGlobal("fetch", fetchMock);
+    stubFetch(tokenResponse("stale"), statusResponse(401));
     const login = vi.fn();
+
     const response = await createCsrfFetch(login)("/api/graphql", {
       method: "POST",
     });
+
     expect(response.status).toBe(401);
     expect(login).toHaveBeenCalledOnce();
   });
 
-  it("refreshes after a rejected request without replaying it", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "old" }),
-      )
-      .mockResolvedValueOnce(new Response(null, { status: 403 }))
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "new" }),
-      )
-      .mockResolvedValueOnce(new Response("ok"));
-    vi.stubGlobal("fetch", fetchMock);
-    const csrfFetch = createCsrfFetch();
-    expect((await csrfFetch("/api/graphql", { method: "POST" })).status).toBe(
-      403,
+  it("refreshes the token after a rejected request without replaying it", async () => {
+    const fetchMock = stubFetch(
+      tokenResponse("old"),
+      statusResponse(403),
+      tokenResponse("new"),
+      okResponse(),
     );
-    expect(fetchMock).toHaveBeenCalledTimes(2);
-    await csrfFetch("/api/graphql", { method: "POST" });
-    expect(fetchMock.mock.calls[3][1].headers.get("X-CSRF-TOKEN")).toBe("new");
+    const csrfFetch = createCsrfFetch();
+
+    const rejected = await csrfFetch("/api/graphql", { method: "POST" });
+    const retried = await csrfFetch("/api/graphql", { method: "POST" });
+
+    expect(rejected.status).toBe(403);
+    expect(retried.ok).toBe(true);
+    expect(requestsTo(fetchMock, "/api/graphql")).toHaveLength(2);
+    expect(sentHeader(fetchMock, 3, "X-CSRF-TOKEN")).toBe("new");
   });
 
-  it("can retry token retrieval after a temporary failure", async () => {
-    const fetchMock = vi
-      .fn()
-      .mockResolvedValueOnce(new Response(null, { status: 503 }))
-      .mockResolvedValueOnce(
-        Response.json({ headerName: "X-CSRF-TOKEN", token: "fresh" }),
-      )
-      .mockResolvedValueOnce(new Response("ok"));
-    vi.stubGlobal("fetch", fetchMock);
+  it("retries token retrieval after a temporary failure", async () => {
+    stubFetch(statusResponse(503), tokenResponse("fresh"), okResponse());
     const csrfFetch = createCsrfFetch();
+
     await expect(csrfFetch("/api/graphql")).rejects.toThrow("503");
-    expect((await csrfFetch("/api/graphql")).ok).toBe(true);
+    const response = await csrfFetch("/api/graphql");
+
+    expect(response.ok).toBe(true);
   });
 });
