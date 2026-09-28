@@ -8,11 +8,14 @@ The service routes one public host to Mops and exposes a public health endpoint.
 
 ## Getting started
 
-Run the service:
+Start Redis, run the service, and log in as `admin` with password `admin`:
 
 ```zsh
+docker compose -f projects/gateway/compose.yaml up -d
 bazel run //projects/gateway
 ```
+
+The Bazel run target activates the `local` profile, which supplies the `admin` user.
 
 Run Mops through the gateway by starting the Mops service and app alongside it, then open
 `http://localhost:3006`:
@@ -52,3 +55,21 @@ bazel test //projects/gateway/...
 
 - `projects/gateway/src/main/java/lab/gateway`: Spring Boot entrypoint (`GatewayApplication`).
 - `projects/gateway/src/main/resources/application.yaml`: port, routes, downstream URIs, and actuator exposure.
+
+## Users
+
+Without the `local` profile no users exist. Configure users in a file outside version control and
+load it with `SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
+
+```yaml
+lab:
+  gateway:
+    users:
+      - username: alice
+        password: "{bcrypt}<bcrypt hash>"
+        principal: "11111111-1111-1111-1111-111111111111"
+        tenant: "22222222-2222-2222-2222-222222222222"
+        scopes: ["mops:read", "mops:write"]
+```
+
+Redis defaults to `localhost:6379`; override it with Spring's `SPRING_DATA_REDIS_*` settings.

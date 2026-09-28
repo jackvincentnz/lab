@@ -84,6 +84,7 @@ maven.install(
         "org.springframework.boot:spring-boot-starter-oauth2-resource-server",
         "org.springframework.boot:spring-boot-starter-kafka",
         "org.springframework.boot:spring-boot-starter-security",
+        "org.springframework.boot:spring-boot-starter-session-data-redis",
         "org.springframework.boot:spring-boot-starter-validation",
         "org.springframework.boot:spring-boot-starter-web",
         "org.springframework.boot:spring-boot-starter-webflux",

@@ -1,15 +1,64 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_library", "java_test_suite")
+
+java_library(
+    name = "support",
+    testonly = True,
+    srcs = [
+        "Browser.java",
+        "GatewayTestSupport.java",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "//libs/test/src/test/java/lab/test",
+        "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
+        "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_web",
+        "@maven//:org_springframework_spring_webflux",
+    ],
+)
 
 java_test_suite(
     name = "tests",
+    srcs = glob(
+        ["*Test.java"],
+        exclude = ["RedisSessionTest.java"],
+    ),
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "//projects/gateway/src/main:main_lib",
     ],
     deps = SPRING_TEST_DEPS + [
+        ":support",
+        "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
+    ],
+)
+
+# Separate only so the Docker tag stays off the rest of the package.
+java_test_suite(
+    name = "redis_tests",
+    srcs = ["RedisSessionTest.java"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/gateway/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        ":support",
+        "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_webflux",
+        "@maven//:org_testcontainers_testcontainers",
     ],
 )

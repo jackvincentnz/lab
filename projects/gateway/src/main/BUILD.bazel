@@ -9,12 +9,15 @@ java_library(
     runtime_deps = [
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
+        "@maven//:org_springframework_boot_spring_boot_starter_security",
+        "@maven//:org_springframework_boot_spring_boot_starter_session_data_redis",
         "@maven//:org_springframework_cloud_spring_cloud_starter_gateway_server_webflux",
     ],
 )
 
 java_binary(
     name = "main",
+    env = {"SPRING_PROFILES_ACTIVE": "local"},
     main_class = "lab.gateway.GatewayApplication",
     visibility = [
         "//projects/gateway:__pkg__",

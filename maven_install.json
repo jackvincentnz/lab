@@ -51,6 +51,7 @@
     "org.springframework.boot:spring-boot-starter-kafka": 152552066,
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server": 346643764,
     "org.springframework.boot:spring-boot-starter-security": 1168390884,
+    "org.springframework.boot:spring-boot-starter-session-data-redis": -622907949,
     "org.springframework.boot:spring-boot-starter-test": -1561809354,
     "org.springframework.boot:spring-boot-starter-validation": 113118493,
     "org.springframework.boot:spring-boot-starter-web": -1905796688,
@@ -270,6 +271,8 @@
     "io.grpc:grpc-api:jar:sources": 1614287947,
     "io.grpc:grpc-context": -1756055319,
     "io.grpc:grpc-context:jar:sources": 1414734680,
+    "io.lettuce:lettuce-core": 695050406,
+    "io.lettuce:lettuce-core:jar:sources": 303589290,
     "io.micrometer:context-propagation": 1223423881,
     "io.micrometer:context-propagation:jar:sources": -1333491713,
     "io.micrometer:micrometer-commons": 440746097,
@@ -632,6 +635,8 @@
     "org.springframework.boot:spring-boot-data-commons:jar:sources": -2140871400,
     "org.springframework.boot:spring-boot-data-jdbc": -2048577400,
     "org.springframework.boot:spring-boot-data-jdbc:jar:sources": -1426645420,
+    "org.springframework.boot:spring-boot-data-redis": 1742450287,
+    "org.springframework.boot:spring-boot-data-redis:jar:sources": -1506969287,
     "org.springframework.boot:spring-boot-flyway": 1122814817,
     "org.springframework.boot:spring-boot-flyway:jar:sources": -1430554758,
     "org.springframework.boot:spring-boot-graphql": -155780470,
@@ -672,6 +677,10 @@
     "org.springframework.boot:spring-boot-security:jar:sources": -1560245667,
     "org.springframework.boot:spring-boot-servlet": 639711912,
     "org.springframework.boot:spring-boot-servlet:jar:sources": -1101074157,
+    "org.springframework.boot:spring-boot-session": 1368168516,
+    "org.springframework.boot:spring-boot-session-data-redis": -656809095,
+    "org.springframework.boot:spring-boot-session-data-redis:jar:sources": -1863082936,
+    "org.springframework.boot:spring-boot-session:jar:sources": 1790170822,
     "org.springframework.boot:spring-boot-sql": -1592924234,
     "org.springframework.boot:spring-boot-sql:jar:sources": 766892199,
     "org.springframework.boot:spring-boot-starter": -1905590456,
@@ -679,6 +688,8 @@
     "org.springframework.boot:spring-boot-starter-actuator:jar:sources": 2039606444,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 1714951823,
     "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources": 1876700894,
+    "org.springframework.boot:spring-boot-starter-data-redis": -1742676138,
+    "org.springframework.boot:spring-boot-starter-data-redis:jar:sources": 919139488,
     "org.springframework.boot:spring-boot-starter-flyway": -1250505430,
     "org.springframework.boot:spring-boot-starter-flyway:jar:sources": 243784034,
     "org.springframework.boot:spring-boot-starter-graphql": -695654478,
@@ -701,6 +712,8 @@
     "org.springframework.boot:spring-boot-starter-restclient:jar:sources": -973727731,
     "org.springframework.boot:spring-boot-starter-security": -698267785,
     "org.springframework.boot:spring-boot-starter-security:jar:sources": -239265276,
+    "org.springframework.boot:spring-boot-starter-session-data-redis": 1096994257,
+    "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources": -1810225068,
     "org.springframework.boot:spring-boot-starter-test": -116290833,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": -1629742887,
     "org.springframework.boot:spring-boot-starter-tomcat": 1039333348,
@@ -878,6 +891,7 @@
     "org.springframework.boot:spring-boot-starter-kafka": "org.springframework.boot:spring-boot-starter-kafka:4.1.1",
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server": "org.springframework.boot:spring-boot-starter-oauth2-resource-server:4.1.1",
     "org.springframework.boot:spring-boot-starter-security": "org.springframework.boot:spring-boot-starter-security:4.1.1",
+    "org.springframework.boot:spring-boot-starter-session-data-redis": "org.springframework.boot:spring-boot-starter-session-data-redis:4.1.1",
     "org.springframework.boot:spring-boot-starter-test": "org.springframework.boot:spring-boot-starter-test:4.1.1",
     "org.springframework.boot:spring-boot-starter-validation": "org.springframework.boot:spring-boot-starter-validation:4.1.1",
     "org.springframework.boot:spring-boot-starter-web": "org.springframework.boot:spring-boot-starter-web:4.1.1",
@@ -1598,6 +1612,13 @@
         "sources": "c3f5bc25540ad04887add252cbe8a591dc0cd3035990d1081f9b94f0811a8ced"
       },
       "version": "1.83.1"
+    },
+    "io.lettuce:lettuce-core": {
+      "shasums": {
+        "jar": "86e245a6cfc36a40aaa1f54027e639a70cb4008d12717164041aefe9bbd072c1",
+        "sources": "e7f098188da0096ccf20be45c98d503466281b3a84d0d219457a924351e86b01"
+      },
+      "version": "7.5.2.RELEASE"
     },
     "io.micrometer:context-propagation": {
       "shasums": {
@@ -2867,6 +2888,13 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.boot:spring-boot-data-redis": {
+      "shasums": {
+        "jar": "8df7709a73616c85f12fbee0476a2856a766cda70c6ad87c9a24062b8fe34c91",
+        "sources": "00fd37344f2e180ccc5c6f4e231339a3894552b962a4df796e6f3c5fe5ea6904"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework.boot:spring-boot-flyway": {
       "shasums": {
         "jar": "61db32d08f2b1b04cf006e916575da22ecee0a2e0bb0604aca26c04f7bd4aa0e",
@@ -3007,6 +3035,20 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.boot:spring-boot-session": {
+      "shasums": {
+        "jar": "2bb4ac8c9af285b1211b1dc40b5defb6088712aa5a8b03cc977d3030b62bdae7",
+        "sources": "23255ce55b716738269412448337aaf559d1f9fdec065a355f866bfd396a0f48"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-session-data-redis": {
+      "shasums": {
+        "jar": "c9df414bed94dd8b6a8029091fe509abff705de99d37674ead69678eecfcfb5b",
+        "sources": "a42b877e7a117cc06bb63752b0625ae5a994bc1cca6877ce795579f27b3539d6"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework.boot:spring-boot-sql": {
       "shasums": {
         "jar": "fa4f6ddded1bb3bbc496897686336d8433e34f1f22daa886872be2aa184def23",
@@ -3032,6 +3074,13 @@
       "shasums": {
         "jar": "079c9b220d6127644bdbe58b6dd53c53af4a309df574c0ed2f9dde22f2b5ca32",
         "sources": "079c9b220d6127644bdbe58b6dd53c53af4a309df574c0ed2f9dde22f2b5ca32"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-starter-data-redis": {
+      "shasums": {
+        "jar": "98b8367cff4cc11005e43452c45dafd0ce9c7f66d20411e6f0850c99bc79575d",
+        "sources": "98b8367cff4cc11005e43452c45dafd0ce9c7f66d20411e6f0850c99bc79575d"
       },
       "version": "4.1.1"
     },
@@ -3109,6 +3158,13 @@
       "shasums": {
         "jar": "38628875b75cbed6ba4642f3b0a4baf4735bd4f82b49450e4ae5a5e4d1b7b4a9",
         "sources": "38628875b75cbed6ba4642f3b0a4baf4735bd4f82b49450e4ae5a5e4d1b7b4a9"
+      },
+      "version": "4.1.1"
+    },
+    "org.springframework.boot:spring-boot-starter-session-data-redis": {
+      "shasums": {
+        "jar": "e8c6cda9debd15555a375349363ad434eb6c69effebb3c055b1ac680438dddb5",
+        "sources": "e8c6cda9debd15555a375349363ad434eb6c69effebb3c055b1ac680438dddb5"
       },
       "version": "4.1.1"
     },
@@ -4032,6 +4088,14 @@
     "io.grpc:grpc-context": [
       "io.grpc:grpc-api"
     ],
+    "io.lettuce:lettuce-core": [
+      "io.netty:netty-common",
+      "io.netty:netty-handler",
+      "io.netty:netty-resolver-dns",
+      "io.netty:netty-transport",
+      "io.projectreactor:reactor-core",
+      "redis.clients.authentication:redis-authx-core"
+    ],
     "io.micrometer:context-propagation": [
       "org.jspecify:jspecify"
     ],
@@ -4792,6 +4856,14 @@
       "org.springframework.boot:spring-boot-jdbc",
       "org.springframework.data:spring-data-jdbc"
     ],
+    "org.springframework.boot:spring-boot-data-redis": [
+      "io.lettuce:lettuce-core",
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-data-commons",
+      "org.springframework.boot:spring-boot-netty",
+      "org.springframework.boot:spring-boot-transaction",
+      "org.springframework.data:spring-data-redis"
+    ],
     "org.springframework.boot:spring-boot-flyway": [
       "org.flywaydb:flyway-core",
       "org.springframework.boot:spring-boot",
@@ -4879,6 +4951,16 @@
       "org.springframework.boot:spring-boot",
       "org.springframework:spring-web"
     ],
+    "org.springframework.boot:spring-boot-session": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.session:spring-session-core"
+    ],
+    "org.springframework.boot:spring-boot-session-data-redis": [
+      "org.springframework.boot:spring-boot",
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.session:spring-session-data-redis"
+    ],
     "org.springframework.boot:spring-boot-sql": [
       "org.springframework.boot:spring-boot"
     ],
@@ -4901,6 +4983,11 @@
       "org.springframework.boot:spring-boot-jdbc",
       "org.springframework.boot:spring-boot-starter",
       "org.springframework.boot:spring-boot-starter-jdbc"
+    ],
+    "org.springframework.boot:spring-boot-starter-data-redis": [
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework:spring-messaging"
     ],
     "org.springframework.boot:spring-boot-starter-flyway": [
       "org.springframework.boot:spring-boot-flyway",
@@ -4955,6 +5042,12 @@
       "org.springframework.boot:spring-boot-security",
       "org.springframework.boot:spring-boot-starter",
       "org.springframework:spring-aop"
+    ],
+    "org.springframework.boot:spring-boot-starter-session-data-redis": [
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-starter",
+      "org.springframework.boot:spring-boot-starter-data-redis"
     ],
     "org.springframework.boot:spring-boot-starter-test": [
       "com.jayway.jsonpath:json-path",
@@ -6507,6 +6600,86 @@
     ],
     "io.grpc:grpc-api": [
       "io.grpc"
+    ],
+    "io.lettuce:lettuce-core": [
+      "io.lettuce.authx",
+      "io.lettuce.core",
+      "io.lettuce.core.annotations",
+      "io.lettuce.core.api",
+      "io.lettuce.core.api.async",
+      "io.lettuce.core.api.coroutines",
+      "io.lettuce.core.api.push",
+      "io.lettuce.core.api.reactive",
+      "io.lettuce.core.api.sync",
+      "io.lettuce.core.cluster",
+      "io.lettuce.core.cluster.api",
+      "io.lettuce.core.cluster.api.async",
+      "io.lettuce.core.cluster.api.coroutines",
+      "io.lettuce.core.cluster.api.push",
+      "io.lettuce.core.cluster.api.reactive",
+      "io.lettuce.core.cluster.api.sync",
+      "io.lettuce.core.cluster.event",
+      "io.lettuce.core.cluster.models.partitions",
+      "io.lettuce.core.cluster.models.slots",
+      "io.lettuce.core.cluster.pubsub",
+      "io.lettuce.core.cluster.pubsub.api.async",
+      "io.lettuce.core.cluster.pubsub.api.reactive",
+      "io.lettuce.core.cluster.pubsub.api.sync",
+      "io.lettuce.core.cluster.topology",
+      "io.lettuce.core.codec",
+      "io.lettuce.core.datastructure.queue",
+      "io.lettuce.core.dynamic",
+      "io.lettuce.core.dynamic.annotation",
+      "io.lettuce.core.dynamic.batch",
+      "io.lettuce.core.dynamic.codec",
+      "io.lettuce.core.dynamic.domain",
+      "io.lettuce.core.dynamic.intercept",
+      "io.lettuce.core.dynamic.output",
+      "io.lettuce.core.dynamic.parameter",
+      "io.lettuce.core.dynamic.segment",
+      "io.lettuce.core.dynamic.support",
+      "io.lettuce.core.event",
+      "io.lettuce.core.event.cluster",
+      "io.lettuce.core.event.command",
+      "io.lettuce.core.event.connection",
+      "io.lettuce.core.event.jfr",
+      "io.lettuce.core.event.metrics",
+      "io.lettuce.core.failover",
+      "io.lettuce.core.failover.api",
+      "io.lettuce.core.failover.event",
+      "io.lettuce.core.failover.health",
+      "io.lettuce.core.failover.metrics",
+      "io.lettuce.core.internal",
+      "io.lettuce.core.json",
+      "io.lettuce.core.json.arguments",
+      "io.lettuce.core.masterreplica",
+      "io.lettuce.core.masterslave",
+      "io.lettuce.core.metrics",
+      "io.lettuce.core.models.command",
+      "io.lettuce.core.models.role",
+      "io.lettuce.core.models.stream",
+      "io.lettuce.core.output",
+      "io.lettuce.core.protocol",
+      "io.lettuce.core.pubsub",
+      "io.lettuce.core.pubsub.api.async",
+      "io.lettuce.core.pubsub.api.reactive",
+      "io.lettuce.core.pubsub.api.sync",
+      "io.lettuce.core.resource",
+      "io.lettuce.core.search",
+      "io.lettuce.core.search.aggregateutils",
+      "io.lettuce.core.search.arguments",
+      "io.lettuce.core.search.arguments.hybrid",
+      "io.lettuce.core.sentinel",
+      "io.lettuce.core.sentinel.api",
+      "io.lettuce.core.sentinel.api.async",
+      "io.lettuce.core.sentinel.api.coroutines",
+      "io.lettuce.core.sentinel.api.reactive",
+      "io.lettuce.core.sentinel.api.sync",
+      "io.lettuce.core.support",
+      "io.lettuce.core.support.caching",
+      "io.lettuce.core.support.http",
+      "io.lettuce.core.tracing",
+      "io.lettuce.core.vector"
     ],
     "io.micrometer:context-propagation": [
       "io.micrometer.context",
@@ -9024,6 +9197,14 @@
     "org.springframework.boot:spring-boot-data-jdbc": [
       "org.springframework.boot.data.jdbc.autoconfigure"
     ],
+    "org.springframework.boot:spring-boot-data-redis": [
+      "org.springframework.boot.data.redis.autoconfigure",
+      "org.springframework.boot.data.redis.autoconfigure.health",
+      "org.springframework.boot.data.redis.autoconfigure.observation",
+      "org.springframework.boot.data.redis.docker.compose",
+      "org.springframework.boot.data.redis.health",
+      "org.springframework.boot.data.redis.testcontainers"
+    ],
     "org.springframework.boot:spring-boot-flyway": [
       "org.springframework.boot.flyway",
       "org.springframework.boot.flyway.actuate.endpoint",
@@ -9187,6 +9368,13 @@
       "org.springframework.boot.servlet.autoconfigure.actuate.web.exchanges",
       "org.springframework.boot.servlet.autoconfigure.actuate.web.mappings",
       "org.springframework.boot.servlet.filter"
+    ],
+    "org.springframework.boot:spring-boot-session": [
+      "org.springframework.boot.session.actuate.endpoint",
+      "org.springframework.boot.session.autoconfigure"
+    ],
+    "org.springframework.boot:spring-boot-session-data-redis": [
+      "org.springframework.boot.session.data.redis.autoconfigure"
     ],
     "org.springframework.boot:spring-boot-sql": [
       "org.springframework.boot.sql.autoconfigure.init",
@@ -11006,6 +11194,8 @@
       "io.grpc:grpc-api:jar:sources",
       "io.grpc:grpc-context",
       "io.grpc:grpc-context:jar:sources",
+      "io.lettuce:lettuce-core",
+      "io.lettuce:lettuce-core:jar:sources",
       "io.micrometer:context-propagation",
       "io.micrometer:context-propagation:jar:sources",
       "io.micrometer:micrometer-commons",
@@ -11368,6 +11558,8 @@
       "org.springframework.boot:spring-boot-data-commons:jar:sources",
       "org.springframework.boot:spring-boot-data-jdbc",
       "org.springframework.boot:spring-boot-data-jdbc:jar:sources",
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-flyway",
       "org.springframework.boot:spring-boot-flyway:jar:sources",
       "org.springframework.boot:spring-boot-graphql",
@@ -11408,6 +11600,10 @@
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-session:jar:sources",
       "org.springframework.boot:spring-boot-sql",
       "org.springframework.boot:spring-boot-sql:jar:sources",
       "org.springframework.boot:spring-boot-starter",
@@ -11415,6 +11611,8 @@
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-data-jdbc",
       "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources",
+      "org.springframework.boot:spring-boot-starter-data-redis",
+      "org.springframework.boot:spring-boot-starter-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-flyway",
       "org.springframework.boot:spring-boot-starter-flyway:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
@@ -11437,6 +11635,8 @@
       "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
+      "org.springframework.boot:spring-boot-starter-session-data-redis",
+      "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
       "org.springframework.boot:spring-boot-starter-test:jar:sources",
       "org.springframework.boot:spring-boot-starter-tomcat",
@@ -11780,6 +11980,8 @@
       "io.grpc:grpc-api:jar:sources",
       "io.grpc:grpc-context",
       "io.grpc:grpc-context:jar:sources",
+      "io.lettuce:lettuce-core",
+      "io.lettuce:lettuce-core:jar:sources",
       "io.micrometer:context-propagation",
       "io.micrometer:context-propagation:jar:sources",
       "io.micrometer:micrometer-commons",
@@ -12142,6 +12344,8 @@
       "org.springframework.boot:spring-boot-data-commons:jar:sources",
       "org.springframework.boot:spring-boot-data-jdbc",
       "org.springframework.boot:spring-boot-data-jdbc:jar:sources",
+      "org.springframework.boot:spring-boot-data-redis",
+      "org.springframework.boot:spring-boot-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-flyway",
       "org.springframework.boot:spring-boot-flyway:jar:sources",
       "org.springframework.boot:spring-boot-graphql",
@@ -12182,6 +12386,10 @@
       "org.springframework.boot:spring-boot-security:jar:sources",
       "org.springframework.boot:spring-boot-servlet",
       "org.springframework.boot:spring-boot-servlet:jar:sources",
+      "org.springframework.boot:spring-boot-session",
+      "org.springframework.boot:spring-boot-session-data-redis",
+      "org.springframework.boot:spring-boot-session-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-session:jar:sources",
       "org.springframework.boot:spring-boot-sql",
       "org.springframework.boot:spring-boot-sql:jar:sources",
       "org.springframework.boot:spring-boot-starter",
@@ -12189,6 +12397,8 @@
       "org.springframework.boot:spring-boot-starter-actuator:jar:sources",
       "org.springframework.boot:spring-boot-starter-data-jdbc",
       "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources",
+      "org.springframework.boot:spring-boot-starter-data-redis",
+      "org.springframework.boot:spring-boot-starter-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-flyway",
       "org.springframework.boot:spring-boot-starter-flyway:jar:sources",
       "org.springframework.boot:spring-boot-starter-graphql",
@@ -12211,6 +12421,8 @@
       "org.springframework.boot:spring-boot-starter-restclient:jar:sources",
       "org.springframework.boot:spring-boot-starter-security",
       "org.springframework.boot:spring-boot-starter-security:jar:sources",
+      "org.springframework.boot:spring-boot-starter-session-data-redis",
+      "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources",
       "org.springframework.boot:spring-boot-starter-test",
       "org.springframework.boot:spring-boot-starter-test:jar:sources",
       "org.springframework.boot:spring-boot-starter-tomcat",
@@ -12515,6 +12727,28 @@
       ],
       "org.apache.kafka.common.config.provider.ConfigProvider": [
         "io.confluent.kafka.schemaregistry.client.config.provider.SchemaRegistryConfigProvider"
+      ]
+    },
+    "io.lettuce:lettuce-core": {
+      "io.lettuce.core.json.JsonParser": [
+        "io.lettuce.core.json.DefaultJsonParser"
+      ],
+      "io.lettuce.core.support.http.HttpClientProvider": [
+        "io.lettuce.core.support.http.NettyHttpClientProvider"
+      ],
+      "javax.enterprise.inject.spi.Extension": [
+        "io.lettuce.core.support.LettuceCdiExtension"
+      ]
+    },
+    "io.lettuce:lettuce-core:jar:sources": {
+      "io.lettuce.core.json.JsonParser": [
+        "io.lettuce.core.json.DefaultJsonParser"
+      ],
+      "io.lettuce.core.support.http.HttpClientProvider": [
+        "io.lettuce.core.support.http.NettyHttpClientProvider"
+      ],
+      "javax.enterprise.inject.spi.Extension": [
+        "io.lettuce.core.support.LettuceCdiExtension"
       ]
     },
     "io.micrometer:micrometer-observation": {

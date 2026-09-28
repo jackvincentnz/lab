@@ -3,9 +3,6 @@ package lab.gateway;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -14,13 +11,10 @@ import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
 
 /** Routes Mops traffic to stub downstreams that echo which server and path they received. */
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-class MopsRoutingTest {
+class MopsRoutingTest extends GatewayTestSupport {
 
   private static DisposableServer mopsService;
   private static DisposableServer mopsApp;
-
-  @LocalServerPort private int port;
 
   @BeforeAll
   static void startDownstreams() {
@@ -43,17 +37,24 @@ class MopsRoutingTest {
   private static DisposableServer echoServer(String name) {
     return HttpServer.create()
         .port(0)
-        .handle((request, response) -> response.sendString(Mono.just(name + " " + request.uri())))
+        .handle(
+            (request, response) -> {
+              request
+                  .requestHeaders()
+                  .getAll("Cookie")
+                  .forEach(cookie -> response.addHeader("X-Downstream-Cookie", cookie));
+              return response.sendString(Mono.just(name + " " + request.uri()));
+            })
         .bindNow();
   }
 
-  private WebTestClient client() {
-    return WebTestClient.bindToServer().baseUrl("http://localhost:" + port).build();
+  private WebTestClient authenticatedClient() {
+    return browser().login().authenticatedClient();
   }
 
   @Test
-  void routesApiToServiceWithPrefixStripped() {
-    client()
+  void apiRequest_routesToServiceWithPrefixStripped() {
+    authenticatedClient()
         .post()
         .uri("/api/graphql")
         .exchange()
@@ -64,8 +65,8 @@ class MopsRoutingTest {
   }
 
   @Test
-  void routesBareApiPathToServiceRoot() {
-    client()
+  void bareApiPath_routesToServiceRoot() {
+    authenticatedClient()
         .get()
         .uri("/api")
         .exchange()
@@ -76,8 +77,8 @@ class MopsRoutingTest {
   }
 
   @Test
-  void routesPagesToApp() {
-    client()
+  void pageRequest_routesToApp() {
+    authenticatedClient()
         .get()
         .uri("/spend")
         .exchange()
@@ -88,8 +89,8 @@ class MopsRoutingTest {
   }
 
   @Test
-  void routesAssetsToApp() {
-    client()
+  void assetRequest_routesToApp() {
+    authenticatedClient()
         .get()
         .uri("/src/main.js")
         .exchange()
@@ -97,6 +98,36 @@ class MopsRoutingTest {
         .isOk()
         .expectBody(String.class)
         .isEqualTo("app /src/main.js");
+  }
+
+  @Test
+  void serviceRequest_dropsBrowserCookies() {
+    authenticatedClient()
+        .get()
+        .uri("/api/cookie-check")
+        .cookie("other", "browser-value")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectHeader()
+        .doesNotExist("X-Downstream-Cookie")
+        .expectBody(String.class)
+        .isEqualTo("service /cookie-check");
+  }
+
+  @Test
+  void appRequest_dropsBrowserCookies() {
+    authenticatedClient()
+        .get()
+        .uri("/cookie-check")
+        .cookie("other", "browser-value")
+        .exchange()
+        .expectStatus()
+        .isOk()
+        .expectHeader()
+        .doesNotExist("X-Downstream-Cookie")
+        .expectBody(String.class)
+        .isEqualTo("app /cookie-check");
   }
 
   @Test
