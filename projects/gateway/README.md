@@ -8,12 +8,14 @@ The service routes one public host to Mops and exposes a public health endpoint.
 
 ## Getting started
 
-Start [Redis](#login-and-sessions), then run the service and log in as `admin` with password `admin`.
-The Bazel run target activates the `dev` profile:
+Start Redis, run the service, and log in as `admin` with password `admin`:
 
 ```zsh
+docker compose -f projects/gateway/compose.yaml up -d
 bazel run //projects/gateway
 ```
+
+The Bazel run target activates the `local` profile, which supplies the `admin` user.
 
 Run Mops through the gateway by starting the Mops service and app alongside it, then open
 `http://localhost:3006`:
@@ -54,20 +56,10 @@ bazel test //projects/gateway/...
 - `projects/gateway/src/main/java/lab/gateway`: Spring Boot entrypoint (`GatewayApplication`).
 - `projects/gateway/src/main/resources/application.yaml`: port, routes, downstream URIs, and actuator exposure.
 
-## Login and sessions
+## Users
 
-Start Redis before running the gateway:
-
-```zsh
-docker compose -f projects/gateway/compose.yaml up -d
-```
-
-Stop it and discard session data with `docker compose -f projects/gateway/compose.yaml down -v`.
-Redis defaults to `localhost:6379`; override it with Spring's `SPRING_DATA_REDIS_*` settings.
-
-The `dev` profile adds `admin:admin` with `mops:read` and `mops:write`. Without it, no users exist.
-Configure users in a file outside version control and load it with
-`SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
+Without the `local` profile no users exist. Configure users in a file outside version control and
+load it with `SPRING_CONFIG_ADDITIONAL_LOCATION=file:/absolute/path/gateway-local.yaml`:
 
 ```yaml
 lab:
@@ -80,19 +72,4 @@ lab:
         scopes: ["mops:read", "mops:write"]
 ```
 
-Passwords use Spring Security's `{id}encodedPassword` format. Principal and tenant are UUIDs.
-Duplicate usernames, missing fields, and passwords without an encoder id fail startup. Changes
-apply on the next login.
-
-`/login` serves Spring Security's form and `/logout` a confirmation form. Browser requests without
-a session are redirected to `/login`; other requests get `401`. CSRF protection is disabled.
-Sessions live in Redis under `lab:gateway:sessions` with a 30-minute idle timeout
-(`SPRING_SESSION_TIMEOUT`). The browser holds only an opaque `SESSION` cookie (`HttpOnly`,
-`Secure`, `SameSite=Lax`), so local browsers must accept Secure cookies on `localhost`. Login
-rotates the session ID; logout deletes the session.
-
-The gateway strips the `Cookie` header before proxying, so downstreams never see the session. Run
-Mops with its `dev` profile behind the gateway so it applies its development identity to forwarded
-requests.
-
-Tests use in-memory sessions, except `RedisSessionTest`, which needs Docker for a Redis container.
+Redis defaults to `localhost:6379`; override it with Spring's `SPRING_DATA_REDIS_*` settings.

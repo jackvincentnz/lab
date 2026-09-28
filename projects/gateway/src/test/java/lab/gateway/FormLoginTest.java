@@ -36,6 +36,10 @@ class FormLoginTest extends GatewayTestSupport {
         .exchange()
         .expectStatus()
         .isUnauthorized();
+  }
+
+  @Test
+  void request_withoutAcceptHeader_isUnauthorized() {
     client().get().uri("/api/graphql").exchange().expectStatus().isUnauthorized();
   }
 

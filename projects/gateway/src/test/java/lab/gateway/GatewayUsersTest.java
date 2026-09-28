@@ -27,6 +27,24 @@ class GatewayUsersTest extends TestBase {
   }
 
   @Test
+  void configuredUser_rejectsMissingPassword() {
+    assertThatIllegalArgumentException().isThrownBy(() -> user(randomString(), null));
+  }
+
+  @Test
+  void configuredUser_defaultsToNoScopes() {
+    var user =
+        new GatewayUsers.ConfiguredUser(
+            randomString(),
+            "{noop}" + randomString(),
+            UUID.fromString(randomId()),
+            UUID.fromString(randomId()),
+            null);
+
+    assertThat(user.scopes()).isEmpty();
+  }
+
+  @Test
   void gatewayUsers_rejectsDuplicateUsernames() {
     var username = randomString();
 

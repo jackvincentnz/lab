@@ -21,11 +21,10 @@ java_library(
 
 java_test_suite(
     name = "tests",
-    srcs = [
-        "FormLoginTest.java",
-        "GatewayApplicationTest.java",
-        "MopsRoutingTest.java",
-    ],
+    srcs = glob(
+        ["*Test.java"],
+        exclude = ["RedisSessionTest.java"],
+    ),
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "//projects/gateway/src/main:main_lib",
     ],
@@ -43,6 +42,7 @@ java_test_suite(
     ],
 )
 
+# Separate only so the Docker tag stays off the rest of the package.
 java_test_suite(
     name = "redis_tests",
     srcs = ["RedisSessionTest.java"],
@@ -60,17 +60,5 @@ java_test_suite(
         "@maven//:org_springframework_session_spring_session_core",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
-    ],
-)
-
-java_test_suite(
-    name = "unit_tests",
-    srcs = [
-        "GatewayPrincipalTest.java",
-        "GatewayUsersTest.java",
-    ],
-    deps = [
-        "//projects/gateway/src/main/java/lab/gateway",
-        "@maven//:org_springframework_security_spring_security_core",
     ],
 )

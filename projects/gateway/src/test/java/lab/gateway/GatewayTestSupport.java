@@ -59,7 +59,7 @@ abstract class GatewayTestSupport extends TestBase {
     return new Browser(client());
   }
 
-  @TestConfiguration(proxyBeanMethods = false)
+  @TestConfiguration
   @EnableSpringWebSession
   static class InMemorySessions {
     @Bean

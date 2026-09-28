@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -30,8 +29,7 @@ import org.springframework.security.web.server.ui.LogoutPageGeneratingWebFilter;
 import org.springframework.security.web.server.util.matcher.MediaTypeServerWebExchangeMatcher;
 import reactor.core.publisher.Mono;
 
-@Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(GatewayUsers.class)
+@Configuration
 public class SecurityConfiguration {
   @Bean
   ReactiveUserDetailsService users(GatewayUsers configuration) {
