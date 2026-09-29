@@ -12,7 +12,7 @@
     "com.h2database:h2": -1982770052,
     "com.jayway.jsonpath:json-path": -630573646,
     "com.mysql:mysql-connector-j": 1083076608,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -1098100631,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 1399915306,
     "com.netflix.graphql.dgs:dgs-starter": -1261092832,
     "com.netflix.graphql.dgs:dgs-starter-test": -907697553,
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
@@ -179,10 +179,10 @@
     "com.knuddels:jtokkit:jar:sources": 1741515621,
     "com.mysql:mysql-connector-j": -1383728292,
     "com.mysql:mysql-connector-j:jar:sources": 1776774784,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": 1343479881,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": 2106305288,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": -354656180,
-    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": -436156360,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": -49333441,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:jar:sources": 1221569481,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": -1684010845,
+    "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core:jar:sources": -1320892167,
     "com.netflix.graphql.dgs:dgs-starter": -306918911,
     "com.netflix.graphql.dgs:dgs-starter-test": -1319082176,
     "com.netflix.graphql.dgs:dgs-starter-test:jar:sources": -272444973,
@@ -1293,17 +1293,17 @@
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core": {
       "shasums": {
-        "jar": "7ed7646645134d2d6c3e3ac92cf39f0e8af20478b6e189366e6a467cabff27c4",
+        "jar": "140cff74666486d9a322de72ea6ff20236e7b883836b371adcc90130f02eded8",
         "sources": "6fd2fc7fb0739606eb0ce7f8d99c025762ae02feb6a125805fbabe671c42a729"
       },
-      "version": "8.6.0"
+      "version": "8.7.0"
     },
     "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-shared-core": {
       "shasums": {
-        "jar": "2c376ab243529bc64e23118e274af9d272d4fd103388c7fadf50b441fe02ad2d",
+        "jar": "234a5b67ba875661708d0fb0490d0e4ddd15456d254ec070c08731ef661139ee",
         "sources": "ca5d0c1a2046b3f663bd6ac727a308096a440f0f5238bccb58deda072d4b604a"
       },
-      "version": "8.6.0"
+      "version": "8.7.0"
     },
     "com.netflix.graphql.dgs:dgs-starter": {
       "shasums": {
