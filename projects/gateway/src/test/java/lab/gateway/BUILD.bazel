@@ -84,6 +84,8 @@ java_test_suite(
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + ["//projects/gateway/src/main:main_lib"],
     deps = SPRING_TEST_DEPS + [
         ":support",
+        "@maven//:io_projectreactor_reactor_core",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
