@@ -1,5 +1,10 @@
 package lab.gateway;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.nimbusds.jose.crypto.RSASSAVerifier;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jwt.SignedJWT;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -43,6 +48,10 @@ class MopsRoutingTest extends GatewayTestSupport {
                   .requestHeaders()
                   .getAll("Cookie")
                   .forEach(cookie -> response.addHeader("X-Downstream-Cookie", cookie));
+              request
+                  .requestHeaders()
+                  .getAll("Authorization")
+                  .forEach(value -> response.addHeader("X-Downstream-Authorization", value));
               return response.sendString(Mono.just(name + " " + request.uri()));
             })
         .bindNow();
@@ -128,6 +137,59 @@ class MopsRoutingTest extends GatewayTestSupport {
         .doesNotExist("X-Downstream-Cookie")
         .expectBody(String.class)
         .isEqualTo("app /cookie-check");
+  }
+
+  @Test
+  void forwardedRequests_replaceAllClientAuthorizationWithSignedIdentity() throws Exception {
+    var browser = browser().login();
+    var keys =
+        client()
+            .get()
+            .uri("/.well-known/jwks.json")
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .expectBody(String.class)
+            .returnResult()
+            .getResponseBody();
+    var jwks = JWKSet.parse(keys);
+    assertThat(jwks.getKeys()).allMatch(key -> !key.isPrivate());
+    String previousId = null;
+    for (var path : new String[] {"/api/identity", "/spend"}) {
+      var result =
+          browser
+              .authenticatedClient()
+              .get()
+              .uri(path)
+              .header("Authorization", "Bearer attacker", "Basic attacker")
+              .exchange()
+              .expectStatus()
+              .isOk()
+              .expectBody(String.class)
+              .returnResult();
+      var headers = result.getResponseHeaders().get("X-Downstream-Authorization");
+      assertThat(headers).hasSize(1);
+      var token = SignedJWT.parse(headers.get(0).substring("Bearer ".length()));
+      assertThat(
+              token.verify(
+                  new RSASSAVerifier(jwks.getKeyByKeyId(token.getHeader().getKeyID()).toRSAKey())))
+          .isTrue();
+      assertThat(token.getJWTClaimsSet().getSubject()).isEqualTo(USER.principal().toString());
+      assertThat(token.getJWTClaimsSet().getStringClaim("sid")).isEqualTo(browser.session);
+      assertThat(token.getJWTClaimsSet().getJWTID()).isNotEqualTo(previousId);
+      previousId = token.getJWTClaimsSet().getJWTID();
+    }
+  }
+
+  @Test
+  void bearerWithoutSession_cannotReachDownstream() {
+    client()
+        .get()
+        .uri("/api/identity")
+        .header("Authorization", "Bearer attacker")
+        .exchange()
+        .expectStatus()
+        .isUnauthorized();
   }
 
   @Test

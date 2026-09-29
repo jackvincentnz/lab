@@ -8,8 +8,10 @@ java_library(
         "GatewayTestSupport.java",
     ],
     deps = SPRING_TEST_DEPS + [
+        "//libs/identity/src/test/java/lab/libs/identity/testing",
         "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_session_spring_session_core",
@@ -23,14 +25,19 @@ java_test_suite(
     name = "tests",
     srcs = glob(
         ["*Test.java"],
-        exclude = ["RedisSessionTest.java"],
+        exclude = [
+            "RedisSessionTest.java",
+            "MopsIdentityEndToEndTest.java",
+        ],
     ),
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "//projects/gateway/src/main:main_lib",
     ],
     deps = SPRING_TEST_DEPS + [
         ":support",
+        "//libs/identity/src/test/java/lab/libs/identity/testing",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
         "@maven//:io_projectreactor_reactor_core",
@@ -59,6 +66,25 @@ java_test_suite(
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_webflux",
+        "@maven//:org_testcontainers_testcontainers",
+    ],
+)
+
+java_test_suite(
+    name = "identity_e2e",
+    size = "medium",
+    srcs = ["MopsIdentityEndToEndTest.java"],
+    data = ["//projects/mops/service/src/main"],
+    tags = [
+        "no-coverage",
+        "requires-docker",
+        "requires-network",
+    ],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + ["//projects/gateway/src/main:main_lib"],
+    deps = SPRING_TEST_DEPS + [
+        ":support",
+        "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
     ],

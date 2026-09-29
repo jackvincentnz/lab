@@ -8,9 +8,12 @@ java_library(
         "//projects/gateway/src/test:__subpackages__",
     ],
     deps = [
+        "//libs/identity/src/main/java/lab/libs/identity/development",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_config",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_security_spring_security_web",

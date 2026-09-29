@@ -4,7 +4,8 @@ Edge gateway for the lab verticals, built on Spring Boot and Spring Cloud Gatewa
 only public entry point and owns authentication, sessions, and the identity contract handed to
 verticals. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
 
-The service routes one public host to Mops and exposes a public health endpoint.
+The service routes one public host to Mops, signs a fresh identity token for each forwarded
+request, and exposes public health and JWKS endpoints.
 
 ## Getting started
 
@@ -30,12 +31,13 @@ Downstream targets default to local dev and are overridable per environment, for
 
 ## Routes
 
-| Public path        | Downstream                                   | Notes                      |
-| ------------------ | -------------------------------------------- | -------------------------- |
-| `/actuator/health` | Gateway                                      | Public.                    |
-| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
-| `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
-| `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
+| Public path              | Downstream                                   | Notes                      |
+| ------------------------ | -------------------------------------------- | -------------------------- |
+| `/.well-known/jwks.json` | Gateway                                      | Public signing keys.       |
+| `/actuator/health`       | Gateway                                      | Public.                    |
+| `/api/csrf`              | Gateway                                      | Session CSRF token.        |
+| `/api/**`                | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
+| `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
 
 GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
 from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
@@ -73,3 +75,29 @@ lab:
         tenant: "22222222-2222-2222-2222-222222222222"
         scopes: ["mops:read", "mops:write"]
 ```
+
+## Downstream identity
+
+After session authentication, the gateway replaces all client `Authorization` values with a
+five-minute RS256 token for the `mops` audience. It includes the configured principal, active
+tenant and scopes, `amr: ["form"]`, the current session ID, and fresh issue, expiry and token IDs.
+Mops validates it using the public keys at `/.well-known/jwks.json`; its default issuer and JWKS
+URI already point to the local gateway.
+
+The `local` profile uses the ephemeral development key shared with `libs/identity` test support.
+The key is generated once per JVM and changes when the gateway restarts. Outside `local`, startup
+requires `LAB_GATEWAY_IDENTITY_PRIVATE_JWK`: an RSA private JWK with a nonempty `kid` and at least
+2048 bits. If present, `alg` must be `RS256` and `use` must be `sig`. An explicitly configured key
+also takes precedence in `local`. Supply deployment key material through the environment, outside
+version control. The JWKS endpoint publishes only its public portion.
+
+The integration test starts Redis and the real Mops service, disables Mops' development identity
+fallback, logs in through the gateway, and submits a GraphQL request that Mops verifies against
+the gateway's JWKS endpoint:
+
+```zsh
+bazel test //projects/gateway/src/test/java/lab/gateway:MopsIdentityEndToEndTest
+```
+
+Docker must be running. On hosts whose Bazel sandbox blocks loopback HTTP connections, add
+`--strategy=TestRunner=local` when running gateway HTTP tests.

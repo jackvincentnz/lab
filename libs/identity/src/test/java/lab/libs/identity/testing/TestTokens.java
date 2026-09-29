@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import lab.libs.identity.development.DevelopmentSigningKey;
 import lab.libs.identity.jwt.IdentityClaims;
 
 /** Mints identity tokens for tests, signed with a key pair generated per test run. */
@@ -29,18 +30,16 @@ public final class TestTokens {
   public static final String DEFAULT_ISSUER = "lab-gateway";
 
   /** The {@code kid} the development key is published under. */
-  public static final String DEV_KEY_ID = "dev";
-
-  private static final KeyPair DEV_KEY_PAIR = generateKeyPair();
+  public static final String DEV_KEY_ID = DevelopmentSigningKey.KEY_ID;
 
   private TestTokens() {}
 
   public static RSAPublicKey devPublicKey() {
-    return (RSAPublicKey) DEV_KEY_PAIR.getPublic();
+    return DevelopmentSigningKey.publicKey();
   }
 
   public static RSAPrivateKey devPrivateKey() {
-    return (RSAPrivateKey) DEV_KEY_PAIR.getPrivate();
+    return DevelopmentSigningKey.privateKey();
   }
 
   /** The development public key as the JWK set JSON an issuer would publish. */

@@ -6,6 +6,7 @@ java_library(
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        "//libs/identity/src/main/java/lab/libs/identity/development",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "@maven//:com_nimbusds_nimbus_jose_jwt",
     ],

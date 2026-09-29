@@ -1,8 +1,10 @@
 package lab.gateway;
 
+import com.nimbusds.jose.jwk.RSAKey;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lab.libs.identity.testing.TestTokens;
 import lab.test.TestBase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -43,6 +45,14 @@ abstract class GatewayTestSupport extends TestBase {
   }
 
   static void configureUsers(DynamicPropertyRegistry registry) {
+    registry.add(
+        "lab.gateway.identity.private-jwk",
+        () ->
+            new RSAKey.Builder(TestTokens.devPublicKey())
+                .privateKey(TestTokens.devPrivateKey())
+                .keyID(TestTokens.DEV_KEY_ID)
+                .build()
+                .toJSONString());
     registry.add("lab.gateway.users[0].username", USER::username);
     registry.add("lab.gateway.users[0].password", USER::password);
     registry.add("lab.gateway.users[0].principal", USER::principal);

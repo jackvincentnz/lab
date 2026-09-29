@@ -1,0 +1,7 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "development",
+    srcs = ["DevelopmentSigningKey.java"],
+    visibility = ["//visibility:public"],
+)

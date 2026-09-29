@@ -44,6 +44,7 @@ java_binary(
     ],
     main_class = "lab.mops.MopsApplication",
     visibility = [
+        "//projects/gateway/src/test:__subpackages__",
         "//projects/mops:__pkg__",
         "//projects/mops/service:__pkg__",
     ],
