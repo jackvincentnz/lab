@@ -1,0 +1,13 @@
+query Problems($page: Int!, $limit: Int!) {
+  problems(page: $page, limit: $limit) {
+    id
+    title
+    updatedAt
+    signals {
+      id
+    }
+    solutions {
+      id
+    }
+  }
+}

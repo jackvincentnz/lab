@@ -1,0 +1,23 @@
+import type { CodegenConfig } from "@graphql-codegen/cli";
+
+const config: CodegenConfig = {
+  schema: "../service/src/main/resources/schema/schema.graphqls",
+  documents: ["./src/**/*.gql"],
+  generates: {
+    "./src/__generated__/": {
+      preset: "client",
+      plugins: [],
+      presetConfig: {
+        gqlTagName: "gql",
+        // Unmasking is a cast, not a React hook, so name it accordingly.
+        fragmentMasking: { unmaskFunctionName: "getFragmentData" },
+      },
+      config: {
+        useTypeImports: true,
+      },
+    },
+  },
+  ignoreNoDocuments: true,
+};
+
+export default config;

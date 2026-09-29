@@ -1,0 +1,13 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "domain",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/wide/service/src/main/java/lab/wide:__subpackages__",
+        "//projects/wide/service/src/test:__subpackages__",
+    ],
+    deps = [
+        "@maven//:org_springframework_data_spring_data_commons",
+    ],
+)

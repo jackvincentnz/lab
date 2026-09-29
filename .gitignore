@@ -40,3 +40,6 @@ typings
 # System Files
 .DS_Store
 Thumbs.db
+
+# Claude Code agent worktrees
+.claude/worktrees
