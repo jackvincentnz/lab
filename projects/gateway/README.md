@@ -42,24 +42,14 @@ Downstream targets default to local dev and are overridable per environment, for
 GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
 from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
 
-Cookies and any client `Authorization` header stop at the gateway. Service requests carry a
-short-lived identity token minted from the session instead, sent as `Authorization: Bearer` and
-signed with the gateway's key. See the ADR for the claims.
-
 ## Signing key
 
-The `local` profile lets the gateway generate a signing key at startup under a random `kid`, so a
-restart rotates the key and verticals refetch it by name. Anywhere else the gateway refuses to
-start without a configured key. Supply an RSA private JWK of at least 2048 bits that carries its
-`kid`, outside version control:
+The `local` profile generates the token signing key at startup. Anywhere else, supply an RSA
+private JWK through the environment, see [Signing key](docs/signing-key.md):
 
 ```zsh
 LAB_GATEWAY_TOKEN_PRIVATE_JWK="$(cat gateway-signing-key.json)" bazel run //projects/gateway
 ```
-
-Every replica must hold the same key, because a vertical fetches the JWK set from whichever
-replica answers. The set holds one key, so tokens signed just before a rotation fail until they
-expire, at most five minutes. Publishing the outgoing key alongside the new one is not supported.
 
 ## Tests
 

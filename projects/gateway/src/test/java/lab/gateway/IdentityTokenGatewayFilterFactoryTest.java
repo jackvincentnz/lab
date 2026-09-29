@@ -3,7 +3,6 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import java.security.Principal;
 import java.time.Duration;
 import java.util.List;
 import java.util.Optional;
@@ -16,48 +15,50 @@ import org.springframework.http.HttpStatus;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.web.server.context.SecurityContextServerWebExchange;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.ServerWebExchangeDecorator;
 import reactor.core.publisher.Mono;
 
 class IdentityTokenGatewayFilterFactoryTest extends TestBase {
 
   private final IdentityTokenMinter minter =
       new IdentityTokenMinter(
-          new IdentityTokenProperties("lab-gateway", Duration.ofMinutes(5), Optional.empty(), true),
+          new IdentityTokenProperties(
+              randomString(), Duration.ofMinutes(5), Optional.empty(), true),
           SigningKey.generate(),
           fixedClock());
   private final IdentityTokenGatewayFilterFactory factory =
       new IdentityTokenGatewayFilterFactory(minter);
   private final AtomicReference<ServerWebExchange> forwarded = new AtomicReference<>();
 
-  private ServerWebExchange request(String clientAuthorization) {
+  private ServerWebExchange request() {
     return MockServerWebExchange.from(
-        MockServerHttpRequest.get("/graphql")
-            .header(HttpHeaders.AUTHORIZATION, clientAuthorization));
+        MockServerHttpRequest.get("/" + randomString())
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString()));
   }
 
-  private static ServerWebExchange authenticated(ServerWebExchange exchange) {
+  /** Wraps the exchange the way the security chain does once a session is authenticated. */
+  private ServerWebExchange authenticated(ServerWebExchange exchange) {
     var principal =
         new GatewayPrincipal(
             new GatewayUsers.ConfiguredUser(
-                "alice", "{noop}x", UUID.randomUUID(), UUID.randomUUID(), List.of("mops:read")));
+                randomString(),
+                "{noop}" + randomString(),
+                UUID.randomUUID(),
+                UUID.randomUUID(),
+                List.of(randomString())));
     var authentication =
         UsernamePasswordAuthenticationToken.authenticated(
             principal, null, principal.getAuthorities());
-    return new ServerWebExchangeDecorator(exchange) {
-      @Override
-      @SuppressWarnings("unchecked")
-      public <T extends Principal> Mono<T> getPrincipal() {
-        return (Mono<T>) Mono.just(authentication);
-      }
-    };
+    return new SecurityContextServerWebExchange(
+        exchange, Mono.just(new SecurityContextImpl(authentication)));
   }
 
   private void run(ServerWebExchange exchange) {
     factory
-        .apply(config("mops"))
+        .apply(config(randomString()))
         .filter(
             exchange,
             next -> {
@@ -75,7 +76,7 @@ class IdentityTokenGatewayFilterFactoryTest extends TestBase {
 
   @Test
   void filter_withoutGatewaySession_refusesTheRequest() {
-    assertThatThrownBy(() -> run(request("Bearer " + randomString())))
+    assertThatThrownBy(() -> run(request()))
         .isInstanceOf(ResponseStatusException.class)
         .extracting(e -> ((ResponseStatusException) e).getStatusCode())
         .isEqualTo(HttpStatus.UNAUTHORIZED);
@@ -84,7 +85,7 @@ class IdentityTokenGatewayFilterFactoryTest extends TestBase {
 
   @Test
   void filter_withGatewaySession_replacesClientAuthorizationWithMintedToken() {
-    run(authenticated(request("Bearer " + randomString())));
+    run(authenticated(request()));
 
     var authorization = forwarded.get().getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION);
     assertThat(authorization).hasSize(1);

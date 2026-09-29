@@ -10,6 +10,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.text.ParseException;
 import java.util.Map;
 import java.util.UUID;
+import org.springframework.util.Assert;
 
 /** The RSA key pair the gateway signs identity tokens with, published under one {@code kid}. */
 public final class SigningKey {
@@ -57,21 +58,15 @@ public final class SigningKey {
       // The message stays generic because the value holds private key material.
       throw new IllegalArgumentException("The signing key is not an RSA JWK");
     }
-    if (!key.isPrivate()) {
-      throw new IllegalArgumentException("The signing key JWK holds no private key");
-    }
-    if (key.size() < MINIMUM_BITS) {
-      throw new IllegalArgumentException("The signing key must be at least 2048 bits");
-    }
-    if (key.getKeyID() == null || key.getKeyID().isBlank()) {
-      throw new IllegalArgumentException("The signing key needs a kid");
-    }
-    if (key.getAlgorithm() != null && !JWSAlgorithm.RS256.equals(key.getAlgorithm())) {
-      throw new IllegalArgumentException("The signing key must be for RS256");
-    }
-    if (key.getKeyUse() != null && !KeyUse.SIGNATURE.equals(key.getKeyUse())) {
-      throw new IllegalArgumentException("The signing key must be for signatures");
-    }
+    Assert.isTrue(key.isPrivate(), "The signing key JWK holds no private key");
+    Assert.isTrue(key.size() >= MINIMUM_BITS, "The signing key must be at least 2048 bits");
+    Assert.hasText(key.getKeyID(), "The signing key needs a kid");
+    Assert.isTrue(
+        key.getAlgorithm() == null || JWSAlgorithm.RS256.equals(key.getAlgorithm()),
+        "The signing key must be for RS256");
+    Assert.isTrue(
+        key.getKeyUse() == null || KeyUse.SIGNATURE.equals(key.getKeyUse()),
+        "The signing key must be for signatures");
     return new SigningKey(key);
   }
 

@@ -19,7 +19,7 @@ import org.junit.jupiter.api.Test;
 class SigningKeyTest extends TestBase {
 
   @Test
-  void from_withEphemeralKey_generatesOneNamedPerProcess() throws Exception {
+  void from_withEphemeralKey_generatesADistinctKeyEachTime() throws Exception {
     var properties = properties(Optional.empty(), true);
 
     var first = SigningKey.from(properties);
