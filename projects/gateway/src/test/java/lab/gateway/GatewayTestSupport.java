@@ -43,6 +43,7 @@ abstract class GatewayTestSupport extends TestBase {
   }
 
   static void configureUsers(DynamicPropertyRegistry registry) {
+    registry.add("lab.gateway.token.ephemeral-key", () -> true);
     registry.add("lab.gateway.users[0].username", USER::username);
     registry.add("lab.gateway.users[0].password", USER::password);
     registry.add("lab.gateway.users[0].principal", USER::principal);

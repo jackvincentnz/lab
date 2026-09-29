@@ -3,14 +3,19 @@ package lab.gateway;
 import java.util.List;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.WebSession;
+import reactor.core.publisher.Mono;
 
 /**
  * Route filter {@code IdentityToken=<audience>}: forwards the session's identity to the vertical as
- * a bearer token. A request the gateway did not authenticate is forwarded without one.
+ * a bearer token. A request the gateway did not authenticate is refused rather than forwarded,
+ * since a vertical running without an issuer may treat a tokenless request as its development
+ * identity.
  */
 @Component
 public class IdentityTokenGatewayFilterFactory
@@ -35,17 +40,21 @@ public class IdentityTokenGatewayFilterFactory
             .<Authentication>getPrincipal()
             .map(Authentication::getPrincipal)
             .ofType(GatewayPrincipal.class)
+            .switchIfEmpty(
+                Mono.error(
+                    () ->
+                        new ResponseStatusException(
+                            HttpStatus.UNAUTHORIZED, "The route needs a gateway session")))
             .zipWith(exchange.getSession().map(WebSession::getId))
             .map(identity -> minter.mint(identity.getT1(), identity.getT2(), config.getAudience()))
-            .map(
+            .flatMap(
                 token ->
-                    exchange
-                        .mutate()
-                        .request(
-                            request -> request.headers(headers -> headers.setBearerAuth(token)))
-                        .build())
-            .defaultIfEmpty(exchange)
-            .flatMap(chain::filter);
+                    chain.filter(
+                        exchange
+                            .mutate()
+                            .request(
+                                request -> request.headers(headers -> headers.setBearerAuth(token)))
+                            .build()));
   }
 
   /** The vertical a route forwards to, which every token it carries is addressed to. */

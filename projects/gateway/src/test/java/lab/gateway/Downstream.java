@@ -1,5 +1,6 @@
 package lab.gateway;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.http.HttpHeaders;
 import reactor.core.publisher.Mono;
 import reactor.netty.DisposableServer;
@@ -15,17 +16,21 @@ final class Downstream implements AutoCloseable {
   static final String AUTHORIZATION = "X-Downstream-Authorization";
 
   private final DisposableServer server;
+  private final AtomicInteger requests;
 
-  private Downstream(DisposableServer server) {
+  private Downstream(DisposableServer server, AtomicInteger requests) {
     this.server = server;
+    this.requests = requests;
   }
 
   static Downstream start(String name) {
+    var requests = new AtomicInteger();
     var server =
         HttpServer.create()
             .port(0)
             .handle(
                 (request, response) -> {
+                  requests.incrementAndGet();
                   request
                       .requestHeaders()
                       .getAll(HttpHeaders.COOKIE)
@@ -37,7 +42,12 @@ final class Downstream implements AutoCloseable {
                   return response.sendString(Mono.just(name + " " + request.uri()));
                 })
             .bindNow();
-    return new Downstream(server);
+    return new Downstream(server, requests);
+  }
+
+  /** How many requests crossed the gateway to this vertical. */
+  int requests() {
+    return requests.get();
   }
 
   String uri() {

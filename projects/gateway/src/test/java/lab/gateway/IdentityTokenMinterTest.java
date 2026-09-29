@@ -20,7 +20,7 @@ class IdentityTokenMinterTest extends TestBase {
   private final Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
   private final Duration validFor = Duration.ofMinutes(ThreadLocalRandom.current().nextInt(1, 60));
   private final IdentityTokenProperties properties =
-      new IdentityTokenProperties(randomString(), validFor, Optional.empty(), Optional.empty());
+      new IdentityTokenProperties(randomString(), validFor, Optional.empty(), true);
   private final SigningKey key = SigningKey.generate();
   private final IdentityTokenMinter minter =
       new IdentityTokenMinter(properties, key, fixedClock(now));

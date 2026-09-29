@@ -48,15 +48,18 @@ signed with the gateway's key. See the ADR for the claims.
 
 ## Signing key
 
-Without configuration the gateway generates a signing key at startup and publishes it under a
-random `kid`, so a restart rotates the key. Verticals fetch keys by `kid`, so nothing else needs
-to change. For a stable key, supply a PKCS#8 PEM private key and its ID:
+The `local` profile lets the gateway generate a signing key at startup under a random `kid`, so a
+restart rotates the key and verticals refetch it by name. Anywhere else the gateway refuses to
+start without a configured key. Supply an RSA private JWK of at least 2048 bits that carries its
+`kid`, outside version control:
 
 ```zsh
-LAB_GATEWAY_TOKEN_KEY_ID=2026-09 \
-LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" \
-bazel run //projects/gateway
+LAB_GATEWAY_TOKEN_PRIVATE_JWK="$(cat gateway-signing-key.json)" bazel run //projects/gateway
 ```
+
+Every replica must hold the same key, because a vertical fetches the JWK set from whichever
+replica answers. The set holds one key, so tokens signed just before a rotation fail until they
+expire, at most five minutes. Publishing the outgoing key alongside the new one is not supported.
 
 ## Tests
 

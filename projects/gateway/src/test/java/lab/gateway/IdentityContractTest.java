@@ -75,7 +75,7 @@ class IdentityContractTest extends GatewayTestSupport {
   }
 
   @Test
-  void serviceRequest_replacesClientAuthorizationHeader() {
+  void serviceRequest_replacesEveryClientAuthorizationHeader() {
     var browser = browser().login();
 
     var forwarded =
@@ -83,7 +83,8 @@ class IdentityContractTest extends GatewayTestSupport {
             .authenticatedClient()
             .get()
             .uri("/api/graphql")
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString())
+            .header(
+                HttpHeaders.AUTHORIZATION, "Bearer " + randomString(), "Basic " + randomString())
             .exchange()
             .expectStatus()
             .isOk()
@@ -94,6 +95,21 @@ class IdentityContractTest extends GatewayTestSupport {
     assertThat(forwarded).hasSize(1);
     Jwt jwt = mopsDecoder().decode(bearer(forwarded.get(0)));
     assertThat(jwt.getSubject()).isEqualTo(USER.principal().toString());
+  }
+
+  @Test
+  void bearerRequest_withoutSession_neverReachesTheService() {
+    var before = mopsService.requests();
+
+    client()
+        .get()
+        .uri("/api/graphql")
+        .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString())
+        .exchange()
+        .expectStatus()
+        .isUnauthorized();
+
+    assertThat(mopsService.requests()).isEqualTo(before);
   }
 
   @Test

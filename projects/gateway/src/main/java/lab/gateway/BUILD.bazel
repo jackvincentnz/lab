@@ -16,7 +16,6 @@ java_library(
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_config",
         "@maven//:org_springframework_security_spring_security_core",
-        "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_spring_context",

@@ -1,6 +1,8 @@
 # Local development only. Activated by the Bazel run target.
 lab:
   gateway:
+    token:
+      ephemeral-key: true
     users:
       - username: admin
         password: "{noop}admin"
