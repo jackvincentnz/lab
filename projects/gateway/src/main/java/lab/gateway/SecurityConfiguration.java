@@ -61,7 +61,7 @@ public class SecurityConfiguration {
         .authorizeExchange(
             exchanges ->
                 exchanges
-                    .pathMatchers("/actuator/health")
+                    .pathMatchers("/actuator/health", JwkSetController.PATH)
                     .permitAll()
                     .anyExchange()
                     .authenticated())

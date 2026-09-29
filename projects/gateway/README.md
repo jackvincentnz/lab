@@ -4,7 +4,8 @@ Edge gateway for the lab verticals, built on Spring Boot and Spring Cloud Gatewa
 only public entry point and owns authentication, sessions, and the identity contract handed to
 verticals. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
 
-The service routes one public host to Mops and exposes a public health endpoint.
+The service routes one public host to Mops, forwards each API request with a signed identity
+token, and exposes public health and JWK set endpoints.
 
 ## Getting started
 
@@ -30,15 +31,32 @@ Downstream targets default to local dev and are overridable per environment, for
 
 ## Routes
 
-| Public path        | Downstream                                   | Notes                      |
-| ------------------ | -------------------------------------------- | -------------------------- |
-| `/actuator/health` | Gateway                                      | Public.                    |
-| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
-| `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
-| `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
+| Public path              | Downstream                                   | Notes                                            |
+| ------------------------ | -------------------------------------------- | ------------------------------------------------ |
+| `/actuator/health`       | Gateway                                      | Public.                                          |
+| `/.well-known/jwks.json` | Gateway                                      | Public. Keys that verify identity tokens.        |
+| `/api/csrf`              | Gateway                                      | Session CSRF token.                              |
+| `/api/**`                | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. Identity token added. |
+| `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.                        |
 
 GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
 from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
+
+Cookies and any client `Authorization` header stop at the gateway. Service requests carry a
+short-lived identity token minted from the session instead, sent as `Authorization: Bearer` and
+signed with the gateway's key. See the ADR for the claims.
+
+## Signing key
+
+Without configuration the gateway generates a signing key at startup and publishes it under a
+random `kid`, so a restart rotates the key. Verticals fetch keys by `kid`, so nothing else needs
+to change. For a stable key, supply a PKCS#8 PEM private key and its ID:
+
+```zsh
+LAB_GATEWAY_TOKEN_KEY_ID=2026-09 \
+LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" \
+bazel run //projects/gateway
+```
 
 ## Tests
 
