@@ -44,11 +44,11 @@ from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this it
 
 ## Signing key
 
-The `local` profile generates the token signing key at startup. Anywhere else, supply an RSA
-private JWK through the environment, see [Signing key](docs/signing-key.md):
+The `local` profile generates the token signing key at startup. Anywhere else, supply a PKCS#8
+PEM RSA private key through the environment, see [Signing key](docs/signing-key.md):
 
 ```zsh
-LAB_GATEWAY_TOKEN_PRIVATE_JWK="$(cat gateway-signing-key.json)" bazel run //projects/gateway
+LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //projects/gateway
 ```
 
 ## Tests

@@ -3,13 +3,12 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import com.nimbusds.jose.JWSAlgorithm;
-import com.nimbusds.jose.jwk.KeyUse;
 import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.gen.RSAKeyGenerator;
+import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,24 +30,38 @@ class SigningKeyTest extends TestBase {
   }
 
   @Test
-  void from_withConfiguredJwk_signsWithItUnderItsId() throws Exception {
-    var keyId = randomString();
-    var configured = new RSAKeyGenerator(2048).keyID(keyId).generate();
+  void from_withConfiguredPem_signsWithItUnderItsThumbprint() throws Exception {
+    var pair = keyPair(2048);
 
-    var key = SigningKey.from(properties(Optional.of(configured.toJSONString()), false));
+    var key = SigningKey.from(properties(Optional.of(pem(pair)), false));
 
-    assertThat(key.keyId()).isEqualTo(keyId);
-    assertThat(key.jwk().toRSAPrivateKey()).isEqualTo(configured.toRSAPrivateKey());
-    assertThat(key.jwk().toRSAPublicKey()).isEqualTo(configured.toRSAPublicKey());
+    assertThat(key.jwk().toRSAPrivateKey()).isEqualTo(pair.getPrivate());
+    assertThat(key.jwk().toRSAPublicKey()).isEqualTo(pair.getPublic());
+    assertThat(key.keyId())
+        .isEqualTo(
+            new RSAKey.Builder((RSAPublicKey) pair.getPublic())
+                .build()
+                .computeThumbprint()
+                .toString());
   }
 
   @Test
-  void from_prefersTheConfiguredJwkOverAnEphemeralKey() throws Exception {
-    var configured = new RSAKeyGenerator(2048).keyID(randomString()).generate();
+  void from_withTheSameConfiguredPem_namesTheKeyTheSameEverywhere() throws Exception {
+    var pem = pem(keyPair(2048));
 
-    var key = SigningKey.from(properties(Optional.of(configured.toJSONString()), true));
+    var first = SigningKey.parse(pem);
+    var second = SigningKey.parse(pem);
 
-    assertThat(key.keyId()).isEqualTo(configured.getKeyID());
+    assertThat(first.keyId()).isEqualTo(second.keyId());
+  }
+
+  @Test
+  void from_prefersTheConfiguredPemOverAnEphemeralKey() throws Exception {
+    var pair = keyPair(2048);
+
+    var key = SigningKey.from(properties(Optional.of(pem(pair)), true));
+
+    assertThat(key.jwk().toRSAPublicKey()).isEqualTo(pair.getPublic());
   }
 
   @Test
@@ -70,7 +83,7 @@ class SigningKeyTest extends TestBase {
   }
 
   @Test
-  void parse_withMalformedJwk_failsWithoutEchoingIt() {
+  void parse_withMalformedPem_failsWithoutEchoingIt() {
     var secret = randomString();
 
     assertThatThrownBy(() -> SigningKey.parse(secret))
@@ -79,57 +92,32 @@ class SigningKeyTest extends TestBase {
   }
 
   @Test
-  void parse_withPublicOnlyJwk_isRejected() throws Exception {
-    var jwk = new RSAKeyGenerator(2048).keyID(randomString()).generate().toPublicJWK();
+  void parse_withPublicKeyPem_isRejected() throws Exception {
+    var pair = keyPair(2048);
+    var publicPem =
+        "-----BEGIN PUBLIC KEY-----\n"
+            + Base64.getMimeEncoder(64, "\n".getBytes())
+                .encodeToString(pair.getPublic().getEncoded())
+            + "\n-----END PUBLIC KEY-----\n";
 
-    assertThatThrownBy(() -> SigningKey.parse(jwk.toJSONString()))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("private");
-  }
-
-  @Test
-  void parse_withoutKid_isRejected() throws Exception {
-    var jwk = new RSAKeyGenerator(2048).generate();
-
-    assertThatThrownBy(() -> SigningKey.parse(jwk.toJSONString()))
-        .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("kid");
+    assertThatThrownBy(() -> SigningKey.parse(publicPem))
+        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   void parse_withShortKey_isRejected() throws Exception {
-    var generator = KeyPairGenerator.getInstance("RSA");
-    generator.initialize(1024);
-    var pair = generator.generateKeyPair();
-    var jwk =
-        new RSAKey.Builder((RSAPublicKey) pair.getPublic())
-            .privateKey(pair.getPrivate())
-            .keyID(randomString())
-            .build();
+    var pem = pem(keyPair(1024));
 
-    assertThatThrownBy(() -> SigningKey.parse(jwk.toJSONString()))
+    assertThatThrownBy(() -> SigningKey.parse(pem))
         .isInstanceOf(IllegalArgumentException.class)
         .hasMessageContaining("2048");
-  }
-
-  @Test
-  void parse_withKeyForAnotherAlgorithmOrUse_isRejected() throws Exception {
-    var otherAlgorithm =
-        new RSAKeyGenerator(2048).keyID(randomString()).algorithm(JWSAlgorithm.RS512).generate();
-    var otherUse =
-        new RSAKeyGenerator(2048).keyID(randomString()).keyUse(KeyUse.ENCRYPTION).generate();
-
-    assertThatThrownBy(() -> SigningKey.parse(otherAlgorithm.toJSONString()))
-        .isInstanceOf(IllegalArgumentException.class);
-    assertThatThrownBy(() -> SigningKey.parse(otherUse.toJSONString()))
-        .isInstanceOf(IllegalArgumentException.class);
   }
 
   @Test
   void properties_withNeitherKeyNorEphemeralFlag_areRejected() {
     assertThatThrownBy(() -> properties(Optional.empty(), false))
         .isInstanceOf(IllegalArgumentException.class)
-        .hasMessageContaining("private-jwk");
+        .hasMessageContaining("private-key");
   }
 
   @Test
@@ -140,7 +128,19 @@ class SigningKeyTest extends TestBase {
   }
 
   private static IdentityTokenProperties properties(
-      Optional<String> privateJwk, boolean ephemeral) {
-    return new IdentityTokenProperties("lab-gateway", Duration.ofMinutes(5), privateJwk, ephemeral);
+      Optional<String> privateKey, boolean ephemeral) {
+    return new IdentityTokenProperties("lab-gateway", Duration.ofMinutes(5), privateKey, ephemeral);
+  }
+
+  private static KeyPair keyPair(int bits) throws Exception {
+    var generator = KeyPairGenerator.getInstance("RSA");
+    generator.initialize(bits);
+    return generator.generateKeyPair();
+  }
+
+  private static String pem(KeyPair pair) {
+    return "-----BEGIN PRIVATE KEY-----\n"
+        + Base64.getMimeEncoder(64, "\n".getBytes()).encodeToString(pair.getPrivate().getEncoded())
+        + "\n-----END PRIVATE KEY-----\n";
   }
 }
