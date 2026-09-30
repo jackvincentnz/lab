@@ -15,3 +15,7 @@ The user uses issues for:
 - Recording clear solutions that are ready for delivery.
 
 Let the structure and level of detail fit the conversation. No fixed template or required sections. Keep exploratory ideas open, and preserve an explicitly chosen solution when that is the intent.
+
+Create or edit issues only when the user asks. Keep tracking issues to an ordered checklist of linked issues, and answer questions in the conversation instead of adding sections to them.
+
+Read issues and PRs with `gh issue view <number> --comments` and `gh pr view <number> --comments`.
