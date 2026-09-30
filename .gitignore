@@ -4,6 +4,7 @@
 dist
 user.bazelrc
 .bazelbsp
+.bazel_env
 
 # Node
 node_modules
