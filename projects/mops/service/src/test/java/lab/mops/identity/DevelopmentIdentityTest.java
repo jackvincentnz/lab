@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 
-/** Mops without an issuer: the direct dev target assumes a fixed development identity. */
+/** Mops without an issuer: the direct local target assumes a fixed development identity. */
 @SpringBootTest(
     properties = {
       "mops.identity.development.enabled=true",

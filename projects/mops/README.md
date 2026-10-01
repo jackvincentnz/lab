@@ -37,9 +37,9 @@ issuer running. A missing, expired, foreign, or wrongly addressed token is rejec
 resolved identity is available to application code through `lab.libs.identity.IdentityHolder`.
 The token's claims are described in the [Edge gateway ADR](../../docs/adr/gateway.md).
 
-The `dev` profile sets `mops.identity.development.enabled=true`, so a request that carries no
+The `local` profile sets `mops.identity.development.enabled=true`, so a request that carries no
 token is handled as a fixed development identity. The direct targets above, the e2e image, and
-the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=dev`; the
+the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=local`; the
 delivered image ships with no profile and rejects unidentified requests.
 
 ## Tests
