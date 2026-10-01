@@ -1,7 +1,7 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "messaging",
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",

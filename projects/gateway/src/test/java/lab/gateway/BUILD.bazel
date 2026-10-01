@@ -20,7 +20,7 @@ java_library(
 )
 
 java_test_suite(
-    name = "tests",
+    name = "gateway",
     srcs = glob(
         ["*Test.java"],
         exclude = ["RedisSessionTest.java"],

@@ -12,7 +12,7 @@ java_library(
 )
 
 java_test_suite(
-    name = "tests",
+    name = "gql",
     runtime_deps = [":test_resources"] + SPRING_TEST_RUNTIME_DEPS + DGS_TEST_RUNTIME_DEPS,
     deps = [
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql",

@@ -1,7 +1,7 @@
 load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "kafka",
     timeout = "moderate",
     tags = ["requires-network"],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
