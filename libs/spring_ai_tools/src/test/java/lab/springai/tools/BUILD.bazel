@@ -1,7 +1,7 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "tools",
     deps = [
         "//libs/spring_ai_tools/src/main/java/lab/springai/tools",
         "@maven//:org_springframework_spring_context",

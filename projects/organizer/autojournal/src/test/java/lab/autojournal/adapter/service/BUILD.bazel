@@ -1,7 +1,7 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "service",
     tags = ["requires-network"],
     runtime_deps = [
         "@maven//:org_eclipse_jetty_jetty_reactive_httpclient",

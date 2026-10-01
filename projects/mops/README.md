@@ -47,7 +47,7 @@ delivered image ships with no profile and rejects unidentified requests.
 Run service tests:
 
 ```zsh
-bazel test //projects/mops/service/src/test/java/lab/mops:tests
+bazel test //projects/mops/service/...
 ```
 
 See the [Mops App test commands](app/README.md#development) for one-off and watch runs.
