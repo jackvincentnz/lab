@@ -1,9 +1,12 @@
 # Bazel contribution guidelines
 
-Use the repository's rule wrappers in `tools/bazel/` instead of loading upstream
-rules directly. For example, load Java rules from `//tools/bazel:java.bzl` and
-JavaScript rules from `//tools/bazel:js.bzl`.
+- Load rules from the wrappers in `tools/bazel/`, such as
+  `//tools/bazel:java.bzl` and `//tools/bazel:js.bzl`, so that shared defaults
+  and upstream changes are handled in one place. Add a wrapper when a rule is
+  missing, and keep its upstream load inside the wrapper module.
+- Prefer shorthand labels when the target name matches the last component of
+  the package path, such as `//projects/organizer/e2e` instead of
+  `//projects/organizer/e2e:e2e`, so that labels stay short and consistent.
 
-Wrappers give us one place to maintain shared defaults and adapt to upstream
-changes without updating every BUILD file. Add a wrapper when a rule is missing;
-keep its upstream load inside the wrapper module.
+See [Bazel](../bazel.md) for how outputs, dependency sources, and the sandbox
+work in this repository.
