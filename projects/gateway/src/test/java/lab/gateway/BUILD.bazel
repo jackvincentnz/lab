@@ -5,11 +5,15 @@ java_library(
     testonly = True,
     srcs = [
         "Browser.java",
+        "Downstream.java",
         "GatewayTestSupport.java",
     ],
     deps = SPRING_TEST_DEPS + [
         "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:io_projectreactor_netty_reactor_netty_core",
+        "@maven//:io_projectreactor_netty_reactor_netty_http",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_session_spring_session_core",
@@ -19,23 +23,27 @@ java_library(
     ],
 )
 
+# Spring suites bind a port and connect to it, which the sandbox treats as network access.
 java_test_suite(
     name = "gateway",
     srcs = glob(
         ["*Test.java"],
         exclude = ["RedisSessionTest.java"],
     ),
+    tags = ["requires-network"],
     runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
         "//projects/gateway/src/main:main_lib",
     ],
     deps = SPRING_TEST_DEPS + [
         ":support",
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "//projects/gateway/src/main/java/lab/gateway",
-        "@maven//:io_projectreactor_netty_reactor_netty_core",
-        "@maven//:io_projectreactor_netty_reactor_netty_http",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
         "@maven//:org_springframework_spring_web",
