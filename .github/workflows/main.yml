@@ -20,6 +20,9 @@ jobs:
     env:
       BAZELISK_HOME: ~/.cache/bazel-repo
       BUILDBUDDY_API_KEY: ${{ secrets.BUILDBUDDY_API_KEY }}
+      # rules_android, pulled in by rules_jvm_external and by protobuf through
+      # rules_kotlin, creates an empty Android SDK repository only when
+      # ANDROID_HOME is unset or empty. Runners set it, so the SDK fetch fails.
       ANDROID_HOME: ""
     steps:
       - name: Checkout
