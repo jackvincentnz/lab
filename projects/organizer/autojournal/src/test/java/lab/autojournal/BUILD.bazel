@@ -14,7 +14,7 @@ java_test_suite(
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
     deps = [
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/organizer/autojournal/src/main/java/lab/autojournal",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",

@@ -13,7 +13,7 @@ java_test_suite(
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "//libs/identity/src/main/java/lab/libs/identity/web",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",

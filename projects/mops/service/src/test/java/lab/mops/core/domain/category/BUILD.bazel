@@ -10,8 +10,8 @@ java_test_suite(
     ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
-        "//libs/ddd/src/test/java/lab/libs/ddd/domain/test",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/ddd/src/test/java/lab/libs/ddd/domain/test:test-test-lib",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",

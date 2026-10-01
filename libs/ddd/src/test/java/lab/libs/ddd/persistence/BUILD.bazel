@@ -11,7 +11,7 @@ java_test_suite(
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//libs/ddd/src/main/java/lab/libs/ddd/persistence",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
