@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "startup",
-    srcs = glob(["*.java"]),
+    srcs = ["BudgetCreator.java"],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core:__pkg__",
         "//projects/mops/service/src/test/java/lab/mops/core/infrastructure/startup:__pkg__",

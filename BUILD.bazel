@@ -48,3 +48,26 @@ tsconfig_to_swcconfig.t2s(
     stdout = ".swcrc.node",
     visibility = [":__subpackages__"],
 )
+
+# gazelle:java_maven_install_file maven_install.json
+# gazelle:map_kind java_library java_library //tools/bazel:java.bzl
+# gazelle:map_kind java_binary java_binary //tools/bazel:java.bzl
+# gazelle:map_kind java_test_suite java_test_suite //tools/bazel:java.bzl
+# gazelle:map_kind java_junit5_test java_junit5_test //tools/bazel:java.bzl
+# gazelle:java_generate_resources false
+# gazelle:java_generate_binary false
+# gazelle:resolve java jakarta.servlet @maven//:jakarta_servlet_jakarta_servlet_api
+# gazelle:resolve java jakarta.servlet.http @maven//:jakarta_servlet_jakarta_servlet_api
+# gazelle:resolve java okhttp3 @maven//:com_squareup_okhttp3_okhttp_jvm
+# gazelle:resolve java org.testcontainers.containers @maven//:org_testcontainers_testcontainers
+# gazelle:resolve java org.testcontainers.containers.PostgreSQLContainer @maven//:org_testcontainers_testcontainers_postgresql
+# gazelle:resolve java com.netflix.graphql.dgs.client //third_party/dgs:client
+# gazelle:resolve java lab.learn.kafka.proto //learn/kafka/src/main/proto:kafka_java
+# gazelle:resolve java lab.mops.api.gql //projects/mops/service/src/main/resources/schema:java
+# gazelle:resolve java lab.mops.api.gql.client //projects/mops/service/src/main/resources/schema:java
+# gazelle:resolve java lab.mops.api.gql.types //projects/mops/service/src/main/resources/schema:java
+# gazelle:resolve java lab.journal.adapter.gql.schema.client //projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema
+# gazelle:resolve java lab.journal.adapter.gql.schema.types //projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema
+# gazelle:resolve java lab.task.adapter.gql.schema.client //projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema
+# gazelle:resolve java lab.task.adapter.gql.schema.types //projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema
+# gazelle:resolve java lab.task.api //projects/organizer/task/src/main/proto:task_api_java

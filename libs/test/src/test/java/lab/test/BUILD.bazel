@@ -2,6 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "test",
+    srcs = [
+        "RequiresDocker.java",
+        "TestBase.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:org_apache_commons_commons_lang3",

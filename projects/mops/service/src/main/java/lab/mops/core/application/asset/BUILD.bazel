@@ -2,14 +2,17 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "asset",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "AssetCommandService.java",
+        "CreateAssetCommand.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/application/asset:__pkg__",
     ],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/core/domain/asset"],
     deps = [
-        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/asset",
         "@maven//:org_springframework_spring_context",
     ],

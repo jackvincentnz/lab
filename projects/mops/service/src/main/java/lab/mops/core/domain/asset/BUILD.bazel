@@ -2,7 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "asset",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Asset.java",
+        "AssetCreatedEvent.java",
+        "AssetId.java",
+        "AssetRepository.java",
+    ],
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],

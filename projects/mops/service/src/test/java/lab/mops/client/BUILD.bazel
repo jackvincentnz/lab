@@ -2,6 +2,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "client",
+    srcs = ["TestClient.java"],
     visibility = ["//projects/mops/service/src/test:__subpackages__"],
     deps = [
         "//projects/mops/service/src/main/resources/schema:java",

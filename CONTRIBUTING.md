@@ -25,6 +25,9 @@ true as plans change. Keep sequencing such as "once #123 lands" in issues.
   every target in it is covered, not only the ones you touched.
 - Run `bazel test //...` when you change `libs/`, `tools/`, Bazel configuration,
   or dependencies, so that consumers in other projects are covered.
+- Run `aspect gazelle` when you add, move, or delete Java files or change
+  imports, so that [Java BUILD files](docs/contributing/bazel.md#java-build-files)
+  match the code before CI checks them.
 - Run `pre-commit run --files <changed files>`, so that formatting and lint
   failures are caught before CI.
 - Run the app or service when you change its behavior, so that problems tests

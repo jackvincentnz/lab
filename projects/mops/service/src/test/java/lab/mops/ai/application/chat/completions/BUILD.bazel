@@ -2,6 +2,11 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "completions",
+    srcs = [
+        "AssistantMessageTest.java",
+        "ToolResultMessageTest.java",
+        "UserMessageTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -13,7 +18,5 @@ java_test_suite(
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
     ],
 )

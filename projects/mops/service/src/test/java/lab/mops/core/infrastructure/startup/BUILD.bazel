@@ -2,6 +2,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "startup",
+    srcs = ["BudgetCreatorTest.java"],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -13,7 +14,6 @@ java_test_suite(
         "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/infrastructure/startup",
-        "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
         "@maven//:org_mockito_mockito_junit_jupiter",

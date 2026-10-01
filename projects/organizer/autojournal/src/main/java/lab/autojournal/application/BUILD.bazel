@@ -2,7 +2,13 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "application",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "JournalService.java",
+        "Task.java",
+        "TaskCompletedEvent.java",
+        "TaskEventHandler.java",
+        "TaskService.java",
+    ],
     visibility = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal:__pkg__",
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter:__subpackages__",

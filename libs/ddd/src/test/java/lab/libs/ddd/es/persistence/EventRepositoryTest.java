@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 import lab.libs.ddd.domain.DomainEvent;
 import lab.libs.ddd.domain.InternalId;
+import lab.test.RequiresDocker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
       "spring.datasource.url=jdbc:tc:postgresql:latest:///databasename",
       "spring.sql.init.mode=always"
     })
+@RequiresDocker
 class EventRepositoryTest {
 
   @Autowired EventRepository eventRepository;

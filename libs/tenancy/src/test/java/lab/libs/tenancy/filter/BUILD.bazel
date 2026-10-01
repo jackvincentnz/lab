@@ -2,6 +2,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "filter",
+    srcs = ["TenantFilterTest.java"],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -12,12 +13,10 @@ java_test_suite(
     deps = [
         "//libs/tenancy/src/main/java/lab/libs/tenancy",
         "//libs/tenancy/src/main/java/lab/libs/tenancy/filter",
-        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_spring_test",
     ],
 )

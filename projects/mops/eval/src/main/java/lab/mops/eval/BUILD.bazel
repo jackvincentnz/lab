@@ -1,8 +1,17 @@
+# gazelle:java_module_granularity module
 load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "eval",
-    srcs = glob(["**/*.java"]),
+    srcs = [
+        "Main.java",
+        "http/ChatClient.java",
+        "loader/Eval.java",
+        "loader/EvalLoader.java",
+        "scoring/Response.java",
+        "scoring/Score.java",
+        "scoring/Scorer.java",
+    ],
     visibility = ["//projects/mops/eval:__subpackages__"],
     deps = [
         "@maven//:com_fasterxml_jackson_core_jackson_core",

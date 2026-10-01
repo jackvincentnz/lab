@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "time",
-    srcs = glob(["*.java"]),
+    srcs = ["Quarter.java"],
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],

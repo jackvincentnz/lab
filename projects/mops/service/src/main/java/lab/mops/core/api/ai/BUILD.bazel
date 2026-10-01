@@ -2,12 +2,15 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "ai",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "BudgetTools.java",
+        "DefaultBudgetTools.java",
+    ],
     visibility = ["//visibility:public"],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/core/application/budget/data"],
     deps = [
         "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/application/budget/data",
-        "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
         "@maven//:org_springframework_ai_spring_ai_model",
         "@maven//:org_springframework_spring_context",
     ],

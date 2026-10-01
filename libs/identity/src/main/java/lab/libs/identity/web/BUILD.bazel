@@ -2,7 +2,10 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "web",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "DevelopmentIdentityFilter.java",
+        "IdentityHolderFilter.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity",

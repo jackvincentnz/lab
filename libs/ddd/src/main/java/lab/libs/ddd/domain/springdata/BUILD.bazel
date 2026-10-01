@@ -2,7 +2,18 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "springdata",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Converters.java",
+        "ExternalIdToStringConverter.java",
+        "InternalIdToUUIDConverter.java",
+        "StringToExternalIdConverter.java",
+        "StringToExternalIdConverterFactory.java",
+        "StringToStringValueConverter.java",
+        "StringToStringValueConverterFactory.java",
+        "StringValueToStringConverter.java",
+        "UUIDToInternalIdConverter.java",
+        "UUIDToInternalIdConverterFactory.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",

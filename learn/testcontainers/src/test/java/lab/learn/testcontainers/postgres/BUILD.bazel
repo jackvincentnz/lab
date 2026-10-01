@@ -1,12 +1,13 @@
-load("//tools/bazel:java.bzl", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_junit5_test")
 
-java_test_suite(
-    name = "postgres",
-    runner = "junit5",
+java_junit5_test(
+    name = "PostgresTest",
+    srcs = ["PostgresTest.java"],
     tags = [
         "requires-docker",
         "requires-network",
     ],
+    test_class = "lab.learn.testcontainers.postgres.PostgresTest",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
         "@maven//:org_junit_platform_junit_platform_launcher",
@@ -17,8 +18,6 @@ java_test_suite(
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers",
         "@maven//:org_testcontainers_testcontainers_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers_postgresql",

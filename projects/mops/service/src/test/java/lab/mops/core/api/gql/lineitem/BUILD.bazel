@@ -2,6 +2,11 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "lineitem",
+    srcs = [
+        "LineItemDataFetcherTest.java",
+        "LineItemMapperTest.java",
+        "LineItemMutationTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",

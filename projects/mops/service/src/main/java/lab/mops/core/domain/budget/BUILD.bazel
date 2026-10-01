@@ -2,10 +2,29 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "budget",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Budget.java",
+        "BudgetCreatedEvent.java",
+        "BudgetId.java",
+        "BudgetRepository.java",
+        "Categorization.java",
+        "LineItem.java",
+        "LineItemAddedEvent.java",
+        "LineItemCategorizedEvent.java",
+        "LineItemId.java",
+        "LineItemRepository.java",
+        "LineItemSpendAnnualTotal.java",
+        "LineItemSpendMonthlyTotal.java",
+        "LineItemSpendQuarterlyTotal.java",
+        "LineItemSpendTotals.java",
+        "Spend.java",
+        "SpendPlannedEvent.java",
+        "SpendingAggregator.java",
+    ],
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/core/domain/category"],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",

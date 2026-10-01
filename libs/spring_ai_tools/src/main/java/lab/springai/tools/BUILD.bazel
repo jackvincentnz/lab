@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "tools",
-    srcs = glob(["*.java"]),
+    srcs = ["DateTimeTools.java"],
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:org_springframework_ai_spring_ai_model",

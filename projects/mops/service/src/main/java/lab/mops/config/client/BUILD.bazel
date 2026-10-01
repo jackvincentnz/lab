@@ -2,8 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "client",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "ConfigDataFetcher.java",
+        "StatsigProperties.java",
+    ],
     visibility = ["//projects/mops/service/src/main/java/lab/mops/config:__pkg__"],
+    exports = ["//projects/mops/service/src/main/resources/schema:java"],
     deps = [
         "//projects/mops/service/src/main/resources/schema:java",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",

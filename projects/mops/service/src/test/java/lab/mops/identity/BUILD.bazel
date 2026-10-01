@@ -2,6 +2,11 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "identity",
+    srcs = [
+        "DevelopmentIdentityTest.java",
+        "IdentityContractTest.java",
+        "IdentityProbe.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "//projects/mops/service/src/main:main_lib",
@@ -13,11 +18,8 @@ java_test_suite(
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/test/java/lab/libs/identity/testing:testing-test-lib",
-        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_boot_spring_boot_webmvc_test",
         "@maven//:org_springframework_security_spring_security_core",
