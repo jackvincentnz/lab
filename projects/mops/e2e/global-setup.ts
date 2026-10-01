@@ -58,7 +58,7 @@ async function startService(
 ) {
   const environment: Environment = {
     GEMINI_API_KEY: "unused-by-e2e-test",
-    SPRING_PROFILES_ACTIVE: "dev",
+    SPRING_PROFILES_ACTIVE: "local",
   };
 
   return container
