@@ -1,14 +1,27 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "autojournal",
     resources = [
         "//projects/organizer/autojournal/src/main/resources",
     ],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
         "@maven//:org_springframework_boot_spring_boot_starter_web",
     ],
-    deps = SPRING_TEST_DEPS + [
+    deps = [
+        "//libs/test/src/test/java/lab/test",
         "//projects/organizer/autojournal/src/main/java/lab/autojournal",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
     ],
 )

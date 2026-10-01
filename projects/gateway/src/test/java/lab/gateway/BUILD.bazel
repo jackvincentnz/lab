@@ -1,4 +1,4 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_library", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_library", "java_test_suite")
 
 java_library(
     name = "support",
@@ -7,13 +7,16 @@ java_library(
         "Browser.java",
         "GatewayTestSupport.java",
     ],
-    deps = SPRING_TEST_DEPS + [
+    deps = [
         "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_assertj_assertj_core",
+        "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_beans",
         "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
     ],
@@ -25,19 +28,32 @@ java_test_suite(
         ["*Test.java"],
         exclude = ["RedisSessionTest.java"],
     ),
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+    runner = "junit5",
+    runtime_deps = [
         "//projects/gateway/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
-    deps = SPRING_TEST_DEPS + [
+    deps = [
         ":support",
+        "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
         "@maven//:io_projectreactor_reactor_core",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
     ],
@@ -47,18 +63,31 @@ java_test_suite(
 java_test_suite(
     name = "redis_tests",
     srcs = ["RedisSessionTest.java"],
+    runner = "junit5",
     tags = [
         "requires-docker",
         "requires-network",
     ],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+    runtime_deps = [
         "//projects/gateway/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
-    deps = SPRING_TEST_DEPS + [
+    deps = [
         ":support",
+        "//libs/test/src/test/java/lab/test",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
     ],

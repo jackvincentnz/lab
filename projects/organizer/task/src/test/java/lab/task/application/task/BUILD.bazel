@@ -2,8 +2,19 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "task",
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
     deps = [
+        "//libs/test/src/test/java/lab/test",
         "//projects/organizer/task/src/main/java/lab/task/application/task",
         "//projects/organizer/task/src/main/java/lab/task/domain",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
     ],
 )
