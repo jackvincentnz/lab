@@ -10,7 +10,7 @@ java_test_suite(
     ],
     deps = [
         "//libs/spring_ai_tools/src/main/java/lab/springai/tools",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",

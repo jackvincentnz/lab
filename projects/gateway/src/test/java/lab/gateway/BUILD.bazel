@@ -8,7 +8,7 @@ java_library(
         "GatewayTestSupport.java",
     ],
     deps = [
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_springframework_boot_spring_boot_test",
@@ -38,7 +38,7 @@ java_test_suite(
     ],
     deps = [
         ":support",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
@@ -77,7 +77,7 @@ java_test_suite(
     ],
     deps = [
         ":support",
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",

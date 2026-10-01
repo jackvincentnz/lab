@@ -9,7 +9,7 @@ java_test_suite(
         "@maven//:org_junit_platform_junit_platform_reporting",
     ],
     deps = [
-        "//libs/test/src/test/java/lab/test",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/java/lab/mops/core/application/asset",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/asset",
         "@maven//:org_assertj_assertj_core",

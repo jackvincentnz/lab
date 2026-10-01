@@ -1,9 +1,7 @@
-load("//tools/bazel:java.bzl", "java_library")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
-java_library(
+java_test_suite(
     name = "client",
-    testonly = True,
-    srcs = glob(["*.java"]),
     visibility = ["//projects/mops/service/src/test:__subpackages__"],
     deps = [
         "//projects/mops/service/src/main/resources/schema:java",
