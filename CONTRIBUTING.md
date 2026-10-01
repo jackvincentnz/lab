@@ -12,19 +12,24 @@ Keep each PR focused on one problem. Use conventional commit messages, such as
 [commit types](#commit-types) and the [style guide](docs/style.md) for commit
 and source formatting conventions.
 
+Follow the conventions of the code around your change, so that each project
+stays consistent. A project may choose its own architectural style within its
+boundary.
+
+Write comments that explain why the code is the way it is, so that they stay
+true as plans change. Keep sequencing such as "once #123 lands" in issues.
+
 ## Validating a change
 
-Validate every change before you report it or open a PR:
+- Run `bazel test //projects/<name>/...` for the project you changed, so that
+  every target in it is covered, not only the ones you touched.
+- Run `bazel test //...` when you change `libs/`, `tools/`, Bazel configuration,
+  or dependencies, so that consumers in other projects are covered.
+- Run `pre-commit run --files <changed files>`, so that formatting and lint
+  failures are caught before CI.
+- Run the app or service when you change its behavior, so that problems tests
+  miss, such as a broken page, are caught before review.
 
-- For changes inside one project, run `bazel test //projects/<name>/...`.
-- For changes to `libs/`, `tools/`, `MODULE.bazel`, `.bazelrc`, lockfiles, or
-  dependency versions, run `bazel test //...`.
-- Run `pre-commit run --files <changed files>`, because Bazel tests do not lint
-  or format.
-- For changes to a running app or service, start it and check the affected flow
-  in a browser or with the client it serves.
-
-Use these commands without extra flags, and run one Bazel command at a time.
 For repository-wide validation, use:
 
 ```sh
@@ -57,9 +62,8 @@ Choose the type by the effect of the change, not by the files it touches:
 - [Bazel](docs/contributing/bazel.md).
 - [Java](docs/contributing/java.md).
 - [Testing](docs/contributing/testing.md).
-- [Frontend](docs/contributing/frontend.md).
 - [Dependencies](docs/contributing/dependencies.md).
-- [READMEs and docs](docs/contributing/readmes.md).
+- [Markdown](docs/contributing/markdown.md).
 
 ## Pull requests and CI
 
@@ -68,9 +72,8 @@ sections: a short description of the problem and the resulting behavior, then
 the checks you ran, including any failures or checks you could not run. Link the
 relevant issue; use `Closes #123` when merging the PR will fully resolve it.
 Link repository files with absolute
-`https://github.com/jackvincentnz/lab/blob/<branch>/<path>` URLs, because
-relative paths do not resolve in PR descriptions. When the PR makes a
-non-obvious design choice, name the alternative and why it was not chosen.
+`https://github.com/jackvincentnz/lab/blob/<branch>/<path>` URLs, so that the
+links resolve in the PR description.
 
 Address review feedback and ensure all checks pass on the latest revision before
 merging. If a check fails, inspect its log and fix the cause. See the
