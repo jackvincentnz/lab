@@ -1,0 +1,8 @@
+fragment DecisionFields on RefinementDecision {
+  id
+  decision
+  rationale
+  source
+  revisitWhen
+  updatedAt
+}

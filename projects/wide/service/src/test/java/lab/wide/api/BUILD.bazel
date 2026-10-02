@@ -1,0 +1,12 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "api",
+    deps = [
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/resources/schema:java",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+    ],
+)

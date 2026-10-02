@@ -1,0 +1,9 @@
+fragment QuestionFields on RefinementQuestion {
+  id
+  question
+  status
+  answer
+  context
+  source
+  updatedAt
+}

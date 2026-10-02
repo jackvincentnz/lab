@@ -1,0 +1,21 @@
+load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+
+java_test_suite(
+    name = "functional",
+    size = "medium",
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+        "//projects/wide/service/src/main:main_lib",
+    ],
+    deps = SPRING_TEST_DEPS + [
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/java/lab/wide/infrastructure",
+        "//projects/wide/service/src/test/java/lab/wide/testing",
+        "@maven//:io_modelcontextprotocol_sdk_mcp_core",
+        "@maven//:org_springframework_spring_web",
+    ],
+)

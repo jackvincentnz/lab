@@ -1,0 +1,12 @@
+interface:
+  display_name: "WIDE triage"
+  short_description: "Choose the highest-value WIDE refinement"
+  default_prompt: "Review my WIDE signals, problems, and solutions against strategy and recommend what to refine next."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "wide"
+      description: "WIDE local signal, strategy, problem, and solution store"
+      transport: "streamable_http"
+      url: "http://127.0.0.1:8095/mcp"

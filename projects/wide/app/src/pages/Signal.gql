@@ -1,0 +1,21 @@
+query Signal($id: ID!) {
+  signal(id: $id) {
+    ...SourceFields
+    problems {
+      id
+      rationale
+      linkedAt
+      problem {
+        ...ProblemFields
+      }
+    }
+    solutions {
+      id
+      rationale
+      linkedAt
+      solution {
+        ...CandidateFields
+      }
+    }
+  }
+}

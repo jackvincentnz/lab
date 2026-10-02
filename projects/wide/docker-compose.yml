@@ -1,0 +1,22 @@
+name: wide
+
+services:
+  postgres:
+    image: postgres:17
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5495:5432"
+    environment:
+      POSTGRES_DB: wide
+      POSTGRES_USER: wide
+      POSTGRES_PASSWORD: wide-local
+    volumes:
+      - wide-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wide -d wide"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  wide-data:
