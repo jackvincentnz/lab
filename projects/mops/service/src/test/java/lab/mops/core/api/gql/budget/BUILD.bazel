@@ -2,6 +2,11 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "budget",
+    srcs = [
+        "BudgetDataFetcherTest.java",
+        "BudgetMapperTest.java",
+        "BudgetMutationTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",

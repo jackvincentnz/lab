@@ -2,6 +2,14 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "springdata",
+    srcs = [
+        "InternalIdToUUIDConverterTest.java",
+        "StringToStringValueConverterFactoryTest.java",
+        "StringToStringValueConverterTest.java",
+        "StringValueToStringConverterTest.java",
+        "TestValue.java",
+        "UUIDToInternalIdConverterTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -14,8 +22,5 @@ java_test_suite(
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
-        "@maven//:org_springframework_spring_core",
     ],
 )

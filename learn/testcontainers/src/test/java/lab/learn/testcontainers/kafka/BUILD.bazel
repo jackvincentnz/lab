@@ -1,12 +1,13 @@
-load("//tools/bazel:java.bzl", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_junit5_test")
 
-java_test_suite(
-    name = "kafka",
-    runner = "junit5",
+java_junit5_test(
+    name = "KafkaTest",
+    srcs = ["KafkaTest.java"],
     tags = [
         "requires-docker",
         "requires-network",
     ],
+    test_class = "lab.learn.testcontainers.kafka.KafkaTest",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
         "@maven//:org_junit_platform_junit_platform_launcher",
@@ -17,8 +18,6 @@ java_test_suite(
         "@maven//:org_apache_kafka_kafka_clients",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers",
         "@maven//:org_testcontainers_testcontainers_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers_kafka",

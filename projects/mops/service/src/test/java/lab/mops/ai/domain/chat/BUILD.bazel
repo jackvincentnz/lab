@@ -2,6 +2,14 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "chat",
+    srcs = [
+        "ChatIdTest.java",
+        "ChatTest.java",
+        "MessageIdTest.java",
+        "MessageTest.java",
+        "ToolCallIdTest.java",
+        "ToolCallTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -15,7 +23,5 @@ java_test_suite(
         "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
     ],
 )

@@ -2,6 +2,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "functional",
+    srcs = ["ChatFunctionalTest.java"],
     runner = "junit5",
     runtime_deps = [
         "//projects/mops/service/src/main:main_lib",
@@ -14,17 +15,11 @@ java_test_suite(
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/resources/schema:java",
         "//projects/mops/service/src/test/java/lab/mops/client:client-test-lib",
-        "@maven//:com_jayway_jsonpath_json_path",
-        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
-        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
-        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_tx",
     ],
 )

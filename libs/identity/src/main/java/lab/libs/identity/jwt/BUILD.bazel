@@ -2,8 +2,19 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "jwt",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "IdentityAuthentication.java",
+        "IdentityClaims.java",
+        "IdentityClaimsValidator.java",
+        "IdentityJwtConverter.java",
+        "IdentityJwtDecoder.java",
+    ],
     visibility = ["//visibility:public"],
+    exports = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "@maven//:org_springframework_security_spring_security_oauth2_core",
+        "@maven//:org_springframework_security_spring_security_oauth2_jose",
+    ],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity",
         "@maven//:org_springframework_security_spring_security_core",

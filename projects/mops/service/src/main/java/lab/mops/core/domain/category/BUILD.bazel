@@ -2,7 +2,17 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "category",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Category.java",
+        "CategoryCreatedEvent.java",
+        "CategoryId.java",
+        "CategoryNameUpdatedEvent.java",
+        "CategoryRepository.java",
+        "CategoryValue.java",
+        "CategoryValueAddedEvent.java",
+        "CategoryValueId.java",
+        "CategoryValueNameUpdatedEvent.java",
+    ],
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],

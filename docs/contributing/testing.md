@@ -23,9 +23,16 @@ as the reference.
 
 ## Bazel test targets
 
-- Use one `java_test_suite` per package. Split a second suite only to keep the
-  `requires-docker` tag off tests that do not need Docker, so that Docker-free
-  hosts can still run them.
-- Tag a suite `requires-network` when its tests bind or connect to sockets,
-  including Testcontainers, so that the sandbox allows it. Tag the whole suite
-  rather than splitting it.
+[Gazelle](../gazelle.md) generates one `java_test_suite` per test package,
+named after the directory.
+
+- Annotate a test class that starts Docker containers with
+  `@lab.test.RequiresDocker`, so that Gazelle gives it its own target tagged
+  `requires-docker` and `requires-network`, and Docker-free hosts can still run
+  the rest of the package.
+- Tag a suite `requires-network` when its tests bind or connect to sockets, so
+  that the sandbox allows it. Tag the whole suite rather than splitting it.
+- Put test helpers that several packages share in their own package under
+  `src/test`, with no tests, so that other tests depend on its
+  `<name>-test-lib` target, such as
+  `//libs/test/src/test/java/lab/test:test-test-lib`.

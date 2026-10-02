@@ -2,6 +2,7 @@ package lab.learn.testcontainers.redis;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import lab.test.RequiresDocker;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.junit.jupiter.Container;
@@ -11,6 +12,7 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 @Testcontainers
+@RequiresDocker
 public class RedisTest {
 
   @Container

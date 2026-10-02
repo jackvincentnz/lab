@@ -2,6 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "testing",
+    srcs = [
+        "JwkSetServer.java",
+        "TestTokens.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",

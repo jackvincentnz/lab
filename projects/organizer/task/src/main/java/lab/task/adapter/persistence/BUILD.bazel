@@ -2,11 +2,15 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "persistence",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "InMemoryTaskRepository.java",
+        "PublishingTaskRepository.java",
+    ],
     visibility = [
         "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
         "//projects/organizer/task/src/test/java/lab/task/adapter/persistence:__pkg__",
     ],
+    exports = ["//projects/organizer/task/src/main/java/lab/task/domain"],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/persistence",
         "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",

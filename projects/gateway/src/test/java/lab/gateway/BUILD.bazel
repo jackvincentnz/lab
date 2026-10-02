@@ -1,33 +1,18 @@
-load("//tools/bazel:java.bzl", "java_library", "java_test_suite")
-
-java_library(
-    name = "support",
-    testonly = True,
-    srcs = [
-        "Browser.java",
-        "GatewayTestSupport.java",
-    ],
-    deps = [
-        "//libs/test/src/test/java/lab/test:test-test-lib",
-        "//projects/gateway/src/main/java/lab/gateway",
-        "@maven//:org_assertj_assertj_core",
-        "@maven//:org_springframework_boot_spring_boot_test",
-        "@maven//:org_springframework_security_spring_security_crypto",
-        "@maven//:org_springframework_session_spring_session_core",
-        "@maven//:org_springframework_spring_beans",
-        "@maven//:org_springframework_spring_context",
-        "@maven//:org_springframework_spring_test",
-        "@maven//:org_springframework_spring_web",
-        "@maven//:org_springframework_spring_webflux",
-    ],
-)
+load("//tools/bazel:java.bzl", "java_junit5_test", "java_test_suite")
 
 java_test_suite(
     name = "gateway",
-    srcs = glob(
-        ["*Test.java"],
-        exclude = ["RedisSessionTest.java"],
-    ),
+    srcs = [
+        "Browser.java",
+        "CsrfControllerTest.java",
+        "FormLoginTest.java",
+        "GatewayApplicationTest.java",
+        "GatewayLogoutTest.java",
+        "GatewayPrincipalTest.java",
+        "GatewayTestSupport.java",
+        "GatewayUsersTest.java",
+        "MopsRoutingTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "//projects/gateway/src/main:main_lib",
@@ -37,7 +22,6 @@ java_test_suite(
         "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
     deps = [
-        ":support",
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
@@ -46,28 +30,29 @@ java_test_suite(
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
         "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
         "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
+        "@maven//:org_testcontainers_testcontainers",
     ],
 )
 
-# Separate only so the Docker tag stays off the rest of the package.
-java_test_suite(
-    name = "redis_tests",
+java_junit5_test(
+    name = "RedisSessionTest",
     srcs = ["RedisSessionTest.java"],
-    runner = "junit5",
     tags = [
         "requires-docker",
         "requires-network",
     ],
+    test_class = "lab.gateway.RedisSessionTest",
     runtime_deps = [
         "//projects/gateway/src/main:main_lib",
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -76,18 +61,25 @@ java_test_suite(
         "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
     deps = [
-        ":support",
+        ":gateway-test-lib",
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:io_projectreactor_netty_reactor_netty_core",
+        "@maven//:io_projectreactor_netty_reactor_netty_http",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
+        "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
         "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
         "@maven//:org_springframework_spring_test",
+        "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
     ],

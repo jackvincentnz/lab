@@ -9,9 +9,11 @@
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
   - [Bazel](docs/bazel.md)
+  - [Gazelle](docs/gazelle.md)
   - [pre-commit](docs/pre-commit.md)
   - [Renovate](docs/renovate.md)
   - [Protobuf upgrades](docs/protobuf-upgrades.md)
 - Architecture decision records
   - [Overview](docs/adr/README.md)
+  - [Accepted: Java BUILD files](docs/adr/java-build-files.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)

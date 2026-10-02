@@ -2,6 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "web",
+    srcs = [
+        "DevelopmentIdentityFilterTest.java",
+        "IdentityHolderFilterTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -13,12 +17,9 @@ java_test_suite(
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "//libs/identity/src/main/java/lab/libs/identity/web",
-        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",

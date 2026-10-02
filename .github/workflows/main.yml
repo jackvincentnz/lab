@@ -38,6 +38,16 @@ jobs:
       - name: Print build version
         run: tools/bazel/output_workspace_status.sh
 
+      - name: Check BUILD files are up to date
+        run: |
+          bazel \
+            --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
+            run \
+            --config=ci \
+            --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
+            //tools/gazelle \
+            -- -mode=diff
+
       - name: Build & test (no-coverage targets)
         run: |
           bazel \

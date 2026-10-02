@@ -2,7 +2,19 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "domain",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Aggregate.java",
+        "BaseRepository.java",
+        "DomainEvent.java",
+        "DuplicateException.java",
+        "EventReductionException.java",
+        "EventSourcedAggregate.java",
+        "ExternalId.java",
+        "InternalId.java",
+        "NotFoundException.java",
+        "StringValue.java",
+        "ValidationException.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:org_apache_commons_commons_lang3",

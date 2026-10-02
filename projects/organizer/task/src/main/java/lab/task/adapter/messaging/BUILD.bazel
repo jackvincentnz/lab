@@ -2,11 +2,23 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "messaging",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "DomainEventPublisher.java",
+        "EventMapper.java",
+        "EventMapperFactory.java",
+        "KafkaTopicConfig.java",
+        "TaskAddedEventMapper.java",
+        "TaskCompletedEventMapper.java",
+    ],
     visibility = [
         "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
         "//projects/organizer/task/src/test/java/lab/task:__pkg__",
         "//projects/organizer/task/src/test/java/lab/task/adapter:__subpackages__",
+    ],
+    exports = [
+        "//projects/organizer/task/src/main/proto:task_api_java",
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_springframework_kafka_spring_kafka",
     ],
     runtime_deps = [
         "@maven//:io_confluent_kafka_protobuf_serializer",

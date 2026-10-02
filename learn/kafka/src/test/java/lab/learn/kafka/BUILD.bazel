@@ -3,6 +3,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 java_test_suite(
     name = "kafka",
     timeout = "moderate",
+    srcs = [
+        "EmbeddedKafkaIntegrationTest.java",
+        "KafkaApplicationTest.java",
+    ],
     runner = "junit5",
     tags = ["requires-network"],
     runtime_deps = [
@@ -16,11 +20,9 @@ java_test_suite(
     deps = [
         "//learn/kafka/src/main/java/lab/learn/kafka",
         "//learn/kafka/src/main/proto:kafka_java",
-        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
-        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_kafka_spring_kafka",
         "@maven//:org_springframework_kafka_spring_kafka_test",

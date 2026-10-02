@@ -2,7 +2,8 @@
 
 Bazel builds, tests, and runs everything in this repository. Run it from the
 repository root. See the [Bazel contribution guidelines](contributing/bazel.md)
-for BUILD file conventions.
+for BUILD file conventions, and [Gazelle](gazelle.md) for the tool that
+generates Java BUILD file dependencies.
 
 ## Outputs
 

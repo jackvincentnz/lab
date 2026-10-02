@@ -2,10 +2,21 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "gateway",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "CsrfController.java",
+        "GatewayApplication.java",
+        "GatewayLogout.java",
+        "GatewayPrincipal.java",
+        "GatewayUsers.java",
+        "SecurityConfiguration.java",
+    ],
     visibility = [
         "//projects/gateway/src/main:__pkg__",
         "//projects/gateway/src/test:__subpackages__",
+    ],
+    exports = [
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_web",
     ],
     deps = [
         "@maven//:io_projectreactor_reactor_core",

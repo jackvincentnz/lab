@@ -2,7 +2,11 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "domain",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Entry.java",
+        "EntryId.java",
+        "EntryRepository.java",
+    ],
     visibility = ["//projects/organizer/journal/src:__subpackages__"],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",

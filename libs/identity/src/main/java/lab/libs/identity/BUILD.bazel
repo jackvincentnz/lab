@@ -2,6 +2,9 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "identity",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Identity.java",
+        "IdentityHolder.java",
+    ],
     visibility = ["//visibility:public"],
 )

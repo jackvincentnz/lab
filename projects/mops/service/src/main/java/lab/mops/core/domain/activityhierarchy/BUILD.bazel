@@ -2,7 +2,19 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "activityhierarchy",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "ActivityHierarchy.java",
+        "ActivityHierarchyCreatedEvent.java",
+        "ActivityHierarchyId.java",
+        "ActivityHierarchyRepository.java",
+        "ActivityType.java",
+        "ActivityTypeId.java",
+        "ActivityTypeNotFoundException.java",
+        "DuplicateActivityTypeNameException.java",
+        "NestedActivityTypeAddedEvent.java",
+        "NotEmptyHierarchyException.java",
+        "RootActivityTypeAddedEvent.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core:__subpackages__",

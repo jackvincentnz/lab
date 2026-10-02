@@ -21,6 +21,8 @@ bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
 
+bazel_dep(name = "gazelle", version = "0.47.0", dev_dependency = True)
+
 git_override(
     module_name = "rules_playwright",
     commit = "bf4a6acf00321e30df612e4af8ef900f51bc4fe3",

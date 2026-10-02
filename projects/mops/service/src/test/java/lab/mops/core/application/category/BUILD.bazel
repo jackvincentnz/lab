@@ -2,6 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "category",
+    srcs = [
+        "CategoryCommandServiceTest.java",
+        "CategoryQueryServiceTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",

@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "messaging",
-    srcs = glob(["*.java"]),
+    srcs = ["TaskEventConsumer.java"],
     visibility = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter:__subpackages__",
         "//projects/organizer/autojournal/src/test/java/lab/autojournal/adapter/messaging:__pkg__",
@@ -18,6 +18,5 @@ java_library(
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_kafka_spring_kafka",
         "@maven//:org_springframework_spring_context",
-        "@maven//:org_springframework_spring_messaging",
     ],
 )
