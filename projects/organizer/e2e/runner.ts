@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import Dockerode from "dockerode";
 import {
@@ -14,17 +15,11 @@ import type { ContentToCopy, Environment } from "testcontainers/build/types";
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
 const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.load/tarball.tar`;
-const TASKLIST_TAG = "jackvincent/lab-tasklist:latest";
 const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.load/tarball.tar`;
-const JOURNAL_APP_TAG = "jackvincent/lab-journal-app:latest";
 const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.load/tarball.tar`;
-const TASK_TAG = "jackvincent/lab-task:latest";
 const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.load/tarball.tar`;
-const JOURNAL_TAG = "jackvincent/lab-journal:latest";
 const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.load/tarball.tar`;
-const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
-const PROXY_TAG = "lab/proxy:latest";
 const PROXY_PORT = 5000;
 const KAFKA_IMAGE = "confluentinc/cp-kafka:8.3.2";
 const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.3.2";
@@ -154,12 +149,12 @@ async function startSchemaRegistry(network: StartedNetwork) {
 
 function loadContainers() {
   return {
-    loadedTask: loadContainer(TASK_TARBALL, TASK_TAG),
-    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_TAG),
-    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_TAG),
-    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_TAG),
-    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_TAG),
-    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_TAG),
+    loadedTask: loadContainer(TASK_TARBALL),
+    loadedJournal: loadContainer(JOURNAL_TARBALL),
+    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL),
+    loadedTasklist: loadContainer(TASKLIST_TARBALL),
+    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL),
+    loadedProxy: loadContainer(PROXY_TARBALL),
   };
 }
 
@@ -287,12 +282,24 @@ async function startProxy(
     .start();
 }
 
-async function loadContainer(tarballPath: string, imageTag: string) {
-  return loadImage(tarballPath).then(() => new GenericContainer(imageTag));
+async function loadContainer(tarballPath: string) {
+  return loadImage(tarballPath).then(
+    () => new GenericContainer(imageId(tarballPath)),
+  );
 }
 
 async function loadImage(tarballPath: string) {
   return DOCKER.loadImage(fs.createReadStream(tarballPath));
+}
+
+// Starts by image ID because another run can move the tarball's mutable tag
+// between this run's load and its container start.
+function imageId(tarballPath: string) {
+  const manifest = execFileSync("tar", ["-xOf", tarballPath, "manifest.json"], {
+    encoding: "utf8",
+  });
+  const [{ Config }] = JSON.parse(manifest) as [{ Config: string }];
+  return Config.replace("blobs/sha256/", "sha256:");
 }
 
 async function cleanup(targets: StartedResource[]) {

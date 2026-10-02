@@ -1,4 +1,5 @@
 import Dockerode from "dockerode";
+import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import {
   GenericContainer,
@@ -16,9 +17,7 @@ if (!RUNFILES) {
 }
 
 const APP_TARBALL = `${RUNFILES}/_main/projects/mops/app/deliver.load/tarball.tar`;
-const APP_TAG = "jackvincent/lab-mops-app:latest";
 const SERVICE_TARBALL = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.load/tarball.tar`;
-const SERVICE_TAG = "jackvincent/lab-mops:latest";
 
 const DOCKER = new Dockerode();
 
@@ -32,8 +31,8 @@ export default async function globalSetup() {
     cleanupTargets.push(network);
 
     const [serviceContainer, appContainer] = await Promise.all([
-      loadContainer(SERVICE_TARBALL, SERVICE_TAG),
-      loadContainer(APP_TARBALL, APP_TAG),
+      loadContainer(SERVICE_TARBALL),
+      loadContainer(APP_TARBALL),
     ]);
 
     const service = await startService(serviceContainer, network);
@@ -83,9 +82,19 @@ async function startApp(container: GenericContainer, network: StartedNetwork) {
     .start();
 }
 
-async function loadContainer(tarballPath: string, imageTag: string) {
+async function loadContainer(tarballPath: string) {
   await DOCKER.loadImage(fs.createReadStream(tarballPath));
-  return new GenericContainer(imageTag);
+  return new GenericContainer(imageId(tarballPath));
+}
+
+// Starts by image ID because another run can move the tarball's mutable tag
+// between this run's load and its container start.
+function imageId(tarballPath: string) {
+  const manifest = execFileSync("tar", ["-xOf", tarballPath, "manifest.json"], {
+    encoding: "utf8",
+  });
+  const [{ Config }] = JSON.parse(manifest) as [{ Config: string }];
+  return Config.replace("blobs/sha256/", "sha256:");
 }
 
 async function cleanup(targets: StartedResource[]) {
