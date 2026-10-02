@@ -1,0 +1,6 @@
+interface:
+  display_name: "Dependency Upgrade"
+  short_description: "Upgrade or pin a dependency and keep its behavior"
+  default_prompt: "Use $dependency-upgrade to make this dependency change and fix what it breaks."
+policy:
+  allow_implicit_invocation: true
