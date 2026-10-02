@@ -11,10 +11,7 @@ Collect all feedback on the PR before you change code. Set `PR` to the PR
 number.
 
 - Reviews: `gh api repos/jackvincentnz/lab/pulls/$PR/reviews`. Review bodies
-  can hold comments too, such as CodeRabbit nitpicks. A `PENDING` review is
-  the user's own unsubmitted review. Only its author can see it. Read its
-  comments with
-  `gh api repos/jackvincentnz/lab/pulls/$PR/reviews/<review id>/comments`.
+  can hold comments too, such as CodeRabbit nitpicks.
 - Inline threads:
 
   ```sh
@@ -53,8 +50,7 @@ Present the plan and wait for the user's go-ahead.
    and push.
 2. Reply to each thread with what changed:
    `gh api repos/jackvincentnz/lab/pulls/$PR/comments/<databaseId>/replies -f body='...'`,
-   using the first comment's `databaseId`. You cannot reply to comments in a
-   pending review, so describe how you addressed them in your report.
+   using the first comment's `databaseId`.
 3. Resolve only the threads that you fixed:
 
    ```sh
