@@ -46,7 +46,8 @@ Present the plan and wait for the user's go-ahead.
 
 ## Apply
 
-1. Make the approved fixes, [validate](../validate/SKILL.md) them, then commit
+1. Make the approved fixes,
+   [validate](../../../CONTRIBUTING.md#validating-a-change) them, then commit
    and push.
 2. Reply to each thread with what changed:
    `gh api repos/jackvincentnz/lab/pulls/$PR/comments/<databaseId>/replies -f body='...'`,

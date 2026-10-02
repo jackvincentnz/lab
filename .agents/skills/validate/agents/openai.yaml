@@ -1,6 +1,0 @@
-interface:
-  display_name: "Validate"
-  short_description: "Run the validation scope for the changed paths"
-  default_prompt: "Use $validate to run the tests and checks this change needs and report the results."
-policy:
-  allow_implicit_invocation: true
