@@ -13,6 +13,7 @@ oci_image(
     tars = [
         ":nginx_conf_tar",
     ],
+    visibility = ["//projects/organizer/e2e:__pkg__"],
 )
 
 # Tag and run a local container with:
