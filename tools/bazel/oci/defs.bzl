@@ -18,6 +18,8 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     ### Targets
 
     - `:[name].load` - oci_load target, with stamping configured for the tags.
+    - `:[name].tar` - tarball of the oci_load target.
+    - `:[name].image` - OCI image layout, for reading the image ID.
     - `:push` - oci_push target, with stamping configured for the tags.
 
     Args:
@@ -68,6 +70,11 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         name = "%s.tar" % name,
         srcs = [":%s" % name],
         output_group = "tarball",
+        visibility = visibility,
+    )
+    native.filegroup(
+        name = "%s.image" % name,
+        srcs = [image],
         visibility = visibility,
     )
 

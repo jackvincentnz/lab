@@ -1,4 +1,3 @@
-import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import Dockerode from "dockerode";
 import {
@@ -15,11 +14,17 @@ import type { ContentToCopy, Environment } from "testcontainers/build/types";
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
 const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.load/tarball.tar`;
+const TASKLIST_IMAGE = `${RUNFILES}/_main/projects/organizer/tasklist/image`;
 const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.load/tarball.tar`;
+const JOURNAL_APP_IMAGE = `${RUNFILES}/_main/projects/organizer/journal_app/image`;
 const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.load/tarball.tar`;
+const TASK_IMAGE = `${RUNFILES}/_main/projects/organizer/task/src/main/image`;
 const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.load/tarball.tar`;
+const JOURNAL_IMAGE = `${RUNFILES}/_main/projects/organizer/journal/src/main/image`;
 const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.load/tarball.tar`;
+const AUTOJOURNAL_IMAGE = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/image`;
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
+const PROXY_IMAGE = `${RUNFILES}/_main/infra/local/proxy/image`;
 const PROXY_PORT = 5000;
 const KAFKA_IMAGE = "confluentinc/cp-kafka:8.3.2";
 const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.3.2";
@@ -149,12 +154,12 @@ async function startSchemaRegistry(network: StartedNetwork) {
 
 function loadContainers() {
   return {
-    loadedTask: loadContainer(TASK_TARBALL),
-    loadedJournal: loadContainer(JOURNAL_TARBALL),
-    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL),
-    loadedTasklist: loadContainer(TASKLIST_TARBALL),
-    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL),
-    loadedProxy: loadContainer(PROXY_TARBALL),
+    loadedTask: loadContainer(TASK_TARBALL, TASK_IMAGE),
+    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_IMAGE),
+    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_IMAGE),
+    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_IMAGE),
+    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_IMAGE),
+    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_IMAGE),
   };
 }
 
@@ -282,9 +287,9 @@ async function startProxy(
     .start();
 }
 
-async function loadContainer(tarballPath: string) {
+async function loadContainer(tarballPath: string, imagePath: string) {
   return loadImage(tarballPath).then(
-    () => new GenericContainer(imageId(tarballPath)),
+    () => new GenericContainer(imageId(imagePath)),
   );
 }
 
@@ -293,13 +298,20 @@ async function loadImage(tarballPath: string) {
 }
 
 // Starts by image ID because another run can move the tarball's mutable tag
-// between this run's load and its container start.
-function imageId(tarballPath: string) {
-  const manifest = execFileSync("tar", ["-xOf", tarballPath, "manifest.json"], {
-    encoding: "utf8",
-  });
-  const [{ Config }] = JSON.parse(manifest) as [{ Config: string }];
-  return Config.replace("blobs/sha256/", "sha256:");
+// between this run's load and its container start. Docker uses the config
+// digest as the image ID.
+function imageId(imagePath: string) {
+  const index = readJson<{ manifests: [{ digest: string }] }>(
+    `${imagePath}/index.json`,
+  );
+  const manifest = readJson<{ config: { digest: string } }>(
+    `${imagePath}/blobs/${index.manifests[0].digest.replace(":", "/")}`,
+  );
+  return manifest.config.digest;
+}
+
+function readJson<T>(path: string) {
+  return JSON.parse(fs.readFileSync(path, "utf8")) as T;
 }
 
 async function cleanup(targets: StartedResource[]) {

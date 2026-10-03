@@ -1,5 +1,4 @@
 import Dockerode from "dockerode";
-import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import {
   GenericContainer,
@@ -17,7 +16,9 @@ if (!RUNFILES) {
 }
 
 const APP_TARBALL = `${RUNFILES}/_main/projects/mops/app/deliver.load/tarball.tar`;
+const APP_IMAGE = `${RUNFILES}/_main/projects/mops/app/image`;
 const SERVICE_TARBALL = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.load/tarball.tar`;
+const SERVICE_IMAGE = `${RUNFILES}/_main/projects/mops/service/src/main/image`;
 
 const DOCKER = new Dockerode();
 
@@ -31,8 +32,8 @@ export default async function globalSetup() {
     cleanupTargets.push(network);
 
     const [serviceContainer, appContainer] = await Promise.all([
-      loadContainer(SERVICE_TARBALL),
-      loadContainer(APP_TARBALL),
+      loadContainer(SERVICE_TARBALL, SERVICE_IMAGE),
+      loadContainer(APP_TARBALL, APP_IMAGE),
     ]);
 
     const service = await startService(serviceContainer, network);
@@ -82,19 +83,26 @@ async function startApp(container: GenericContainer, network: StartedNetwork) {
     .start();
 }
 
-async function loadContainer(tarballPath: string) {
+async function loadContainer(tarballPath: string, imagePath: string) {
   await DOCKER.loadImage(fs.createReadStream(tarballPath));
-  return new GenericContainer(imageId(tarballPath));
+  return new GenericContainer(imageId(imagePath));
 }
 
 // Starts by image ID because another run can move the tarball's mutable tag
-// between this run's load and its container start.
-function imageId(tarballPath: string) {
-  const manifest = execFileSync("tar", ["-xOf", tarballPath, "manifest.json"], {
-    encoding: "utf8",
-  });
-  const [{ Config }] = JSON.parse(manifest) as [{ Config: string }];
-  return Config.replace("blobs/sha256/", "sha256:");
+// between this run's load and its container start. Docker uses the config
+// digest as the image ID.
+function imageId(imagePath: string) {
+  const index = readJson<{ manifests: [{ digest: string }] }>(
+    `${imagePath}/index.json`,
+  );
+  const manifest = readJson<{ config: { digest: string } }>(
+    `${imagePath}/blobs/${index.manifests[0].digest.replace(":", "/")}`,
+  );
+  return manifest.config.digest;
+}
+
+function readJson<T>(path: string) {
+  return JSON.parse(fs.readFileSync(path, "utf8")) as T;
 }
 
 async function cleanup(targets: StartedResource[]) {
