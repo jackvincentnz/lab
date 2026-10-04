@@ -236,7 +236,7 @@ async function startRouter(network: StartedNetwork) {
   };
 
   return new GenericContainer(
-    "ghcr.io/apollographql/router:v2.17.0@sha256:b4e70cbcff5a5c3a8825aa2b201257b57a2052bbe2d7751e74d129ebaa09ffe6",
+    "ghcr.io/apollographql/router:v2.18.0@sha256:5b02af03e8f0268b8fcf85132c9e54ea36a1029b0823b00bb9151f698a991215",
   )
     .withCopyContentToContainer(contentToCopy)
     .withEnvironment(environment)
