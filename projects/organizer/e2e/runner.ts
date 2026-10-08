@@ -2,6 +2,7 @@ import fs from "node:fs";
 import Dockerode from "dockerode";
 import {
   GenericContainer,
+  ImageName,
   Wait,
   Network,
   type StartedNetwork,
@@ -26,10 +27,30 @@ const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_TAG = "lab/proxy:latest";
 const PROXY_PORT = 5000;
-const KAFKA_IMAGE = "confluentinc/cp-kafka:8.3.2";
-const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.3.2";
+const KAFKA_IMAGE =
+  "confluentinc/cp-kafka:8.3.2@sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48";
+const SCHEMA_REGISTRY_IMAGE =
+  "confluentinc/cp-schema-registry:8.3.2@sha256:482d3048b3f6029bae5794b5c3b5e2eea8d61ca064dacd32241315e818fd8d7c";
 
 const DOCKER = new Dockerode();
+
+// Kafka needs the release tag for version checks; Docker needs the digest reference.
+class PinnedKafkaImageName extends ImageName {
+  override readonly string: string;
+
+  constructor(imageName: ImageName, reference: string) {
+    super(imageName.registry, imageName.image, imageName.tag);
+    this.string = reference;
+  }
+}
+
+class PinnedKafkaContainer extends KafkaContainer {
+  constructor(reference: string) {
+    super(reference.split("@")[0]);
+    this.imageName = new PinnedKafkaImageName(this.imageName, reference);
+    this.createOpts.Image = reference;
+  }
+}
 
 type StartedResource = StartedNetwork | StartedTestContainer;
 
@@ -132,7 +153,7 @@ export default async function globalSetup() {
 }
 
 async function startKafka(network: StartedNetwork) {
-  return new KafkaContainer(KAFKA_IMAGE)
+  return new PinnedKafkaContainer(KAFKA_IMAGE)
     .withNetworkAliases("broker")
     .withNetwork(network)
     .start();

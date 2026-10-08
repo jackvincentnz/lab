@@ -282,7 +282,7 @@ oci.pull(
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    tag = "alpine-slim",
+    tag = "1.31.6-alpine-slim",
 )
 oci.toolchains(name = "lab_oci")
 use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
