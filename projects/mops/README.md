@@ -42,6 +42,20 @@ token is handled as a fixed development identity. The direct targets above, the 
 the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=local`; the
 delivered image ships with no profile and rejects unidentified requests.
 
+## Chat updates
+
+The app subscribes to `chatUpdated(id: ID!)` using `graphql-transport-ws`. Each
+connection receives the current chat snapshot, followed by snapshots after saved
+chat changes commit. Reconnecting catches up from the database; the app keeps
+completed chats subscribed until another chat is selected or the view unmounts.
+Snapshots include pending messages, tool approvals, edits, retries, and cancellation.
+Model completions still run asynchronously and arrive as complete messages.
+
+The Vite and app nginx proxies forward `/ws/graphql` directly to Mops `/graphql`.
+The service authenticates the WebSocket upgrade with the same identity token
+rules as HTTP. Direct local development uses the existing development identity.
+The edge gateway WebSocket proxy is tracked separately in #953.
+
 ## Tests
 
 Run service tests:

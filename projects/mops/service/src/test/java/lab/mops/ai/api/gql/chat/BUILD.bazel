@@ -6,6 +6,7 @@ java_test_suite(
         "ChatDataFetcherTest.java",
         "ChatMapperTest.java",
         "ChatMutationTest.java",
+        "ChatSubscriptionTest.java",
     ],
     runner = "junit5",
     runtime_deps = [
@@ -20,10 +21,12 @@ java_test_suite(
         "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/resources/schema:java",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
         "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_reactivestreams_reactive_streams",
     ],
 )

@@ -6,6 +6,7 @@ java_library(
         "ChatDataFetcher.java",
         "ChatMapper.java",
         "ChatMutation.java",
+        "ChatSubscription.java",
     ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/ai:__pkg__",
@@ -18,7 +19,9 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/resources/schema:java",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:io_projectreactor_reactor_core",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
         "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_tx",
     ],
 )

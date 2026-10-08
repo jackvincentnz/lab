@@ -5,6 +5,7 @@ java_library(
     srcs = [
         "AssistantMessageRetriedEvent.java",
         "Chat.java",
+        "ChatChangedEvent.java",
         "ChatId.java",
         "ChatMessageAddedEvent.java",
         "ChatMessageCancelledEvent.java",
