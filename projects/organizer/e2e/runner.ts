@@ -14,17 +14,17 @@ import type { ContentToCopy, Environment } from "testcontainers/build/types";
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
 const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.load/tarball.tar`;
-const TASKLIST_IMAGE = `${RUNFILES}/_main/projects/organizer/tasklist/image`;
+const TASKLIST_INDEX = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.index`;
 const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.load/tarball.tar`;
-const JOURNAL_APP_IMAGE = `${RUNFILES}/_main/projects/organizer/journal_app/image`;
+const JOURNAL_APP_INDEX = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.index`;
 const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.load/tarball.tar`;
-const TASK_IMAGE = `${RUNFILES}/_main/projects/organizer/task/src/main/image`;
+const TASK_INDEX = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.index`;
 const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.load/tarball.tar`;
-const JOURNAL_IMAGE = `${RUNFILES}/_main/projects/organizer/journal/src/main/image`;
+const JOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.index`;
 const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.load/tarball.tar`;
-const AUTOJOURNAL_IMAGE = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/image`;
+const AUTOJOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.index`;
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
-const PROXY_IMAGE = `${RUNFILES}/_main/infra/local/proxy/image`;
+const PROXY_INDEX = `${RUNFILES}/_main/infra/local/proxy/index`;
 const PROXY_PORT = 5000;
 const KAFKA_IMAGE = "confluentinc/cp-kafka:8.3.2";
 const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.3.2";
@@ -154,12 +154,12 @@ async function startSchemaRegistry(network: StartedNetwork) {
 
 function loadContainers() {
   return {
-    loadedTask: loadContainer(TASK_TARBALL, TASK_IMAGE),
-    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_IMAGE),
-    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_IMAGE),
-    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_IMAGE),
-    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_IMAGE),
-    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_IMAGE),
+    loadedTask: loadContainer(TASK_TARBALL, TASK_INDEX),
+    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_INDEX),
+    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_INDEX),
+    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_INDEX),
+    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_INDEX),
+    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_INDEX),
   };
 }
 
@@ -287,9 +287,9 @@ async function startProxy(
     .start();
 }
 
-async function loadContainer(tarballPath: string, imagePath: string) {
+async function loadContainer(tarballPath: string, indexPath: string) {
   return loadImage(tarballPath).then(
-    () => new GenericContainer(imageId(imagePath)),
+    () => new GenericContainer(imageId(indexPath)),
   );
 }
 
@@ -298,20 +298,13 @@ async function loadImage(tarballPath: string) {
 }
 
 // Starts by image ID because another run can move the tarball's mutable tag
-// between this run's load and its container start. Docker uses the config
-// digest as the image ID.
-function imageId(imagePath: string) {
-  const index = readJson<{ manifests: [{ digest: string }] }>(
-    `${imagePath}/index.json`,
-  );
-  const manifest = readJson<{ config: { digest: string } }>(
-    `${imagePath}/blobs/${index.manifests[0].digest.replace(":", "/")}`,
-  );
-  return manifest.config.digest;
-}
-
-function readJson<T>(path: string) {
-  return JSON.parse(fs.readFileSync(path, "utf8")) as T;
+// between this run's load and its container start. Docker's containerd image
+// store uses the digest of the loaded image index as the image ID.
+function imageId(indexPath: string) {
+  const layout = JSON.parse(
+    fs.readFileSync(`${indexPath}/index.json`, "utf8"),
+  ) as { manifests: [{ digest: string }] };
+  return layout.manifests[0].digest;
 }
 
 async function cleanup(targets: StartedResource[]) {

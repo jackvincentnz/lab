@@ -4,7 +4,7 @@ This module contains common oci macros.
 
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
 load("@bazel_skylib//rules:write_file.bzl", "write_file")
-load("@rules_oci//oci:defs.bzl", "oci_load", "oci_push", _oci_image = "oci_image")
+load("@rules_oci//oci:defs.bzl", "oci_image_index", "oci_load", "oci_push", _oci_image = "oci_image")
 load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
 def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
@@ -18,8 +18,8 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     ### Targets
 
     - `:[name].load` - oci_load target, with stamping configured for the tags.
-    - `:[name].tar` - tarball of the oci_load target.
-    - `:[name].image` - OCI image layout, for reading the image ID.
+    - `:[name].tar` - OCI-format tarball of the oci_load target.
+    - `:[name].index` - image index that the tarball loads, for reading the image ID.
     - `:push` - oci_push target, with stamping configured for the tags.
 
     Args:
@@ -39,7 +39,9 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     write_file(
         name = "_tags_tmpl",
         out = "_tags.txt.tmpl",
-        content = ["{0}:VERSION".format(repository)],
+        # Docker's containerd image store looks up an OCI tarball's tag only by
+        # its fully qualified name.
+        content = ["docker.io/{0}:VERSION".format(repository)],
     )
 
     expand_template(
@@ -50,6 +52,15 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         template = ":_tags_tmpl",
     )
 
+    index_label = "%s.index" % name
+
+    # rules_oci writes an OCI-format tarball only from an image index.
+    oci_image_index(
+        name = index_label,
+        images = [image],
+        visibility = visibility,
+    )
+
     load_label = "%s.load" % name
 
     # Tag and run a local container with:
@@ -57,7 +68,8 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     # $ docker run --rm jackvincent/lab-<repo_suffix>:latest
     oci_load(
         name = load_label,
-        image = image,
+        format = "oci",
+        image = ":%s" % index_label,
         repo_tags = ":_stamped_tags",
         visibility = visibility,
     )
@@ -70,11 +82,6 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         name = "%s.tar" % name,
         srcs = [":%s" % name],
         output_group = "tarball",
-        visibility = visibility,
-    )
-    native.filegroup(
-        name = "%s.image" % name,
-        srcs = [image],
         visibility = visibility,
     )
 

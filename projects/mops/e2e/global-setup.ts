@@ -16,9 +16,9 @@ if (!RUNFILES) {
 }
 
 const APP_TARBALL = `${RUNFILES}/_main/projects/mops/app/deliver.load/tarball.tar`;
-const APP_IMAGE = `${RUNFILES}/_main/projects/mops/app/image`;
+const APP_INDEX = `${RUNFILES}/_main/projects/mops/app/deliver.index`;
 const SERVICE_TARBALL = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.load/tarball.tar`;
-const SERVICE_IMAGE = `${RUNFILES}/_main/projects/mops/service/src/main/image`;
+const SERVICE_INDEX = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.index`;
 
 const DOCKER = new Dockerode();
 
@@ -32,8 +32,8 @@ export default async function globalSetup() {
     cleanupTargets.push(network);
 
     const [serviceContainer, appContainer] = await Promise.all([
-      loadContainer(SERVICE_TARBALL, SERVICE_IMAGE),
-      loadContainer(APP_TARBALL, APP_IMAGE),
+      loadContainer(SERVICE_TARBALL, SERVICE_INDEX),
+      loadContainer(APP_TARBALL, APP_INDEX),
     ]);
 
     const service = await startService(serviceContainer, network);
@@ -83,26 +83,19 @@ async function startApp(container: GenericContainer, network: StartedNetwork) {
     .start();
 }
 
-async function loadContainer(tarballPath: string, imagePath: string) {
+async function loadContainer(tarballPath: string, indexPath: string) {
   await DOCKER.loadImage(fs.createReadStream(tarballPath));
-  return new GenericContainer(imageId(imagePath));
+  return new GenericContainer(imageId(indexPath));
 }
 
 // Starts by image ID because another run can move the tarball's mutable tag
-// between this run's load and its container start. Docker uses the config
-// digest as the image ID.
-function imageId(imagePath: string) {
-  const index = readJson<{ manifests: [{ digest: string }] }>(
-    `${imagePath}/index.json`,
-  );
-  const manifest = readJson<{ config: { digest: string } }>(
-    `${imagePath}/blobs/${index.manifests[0].digest.replace(":", "/")}`,
-  );
-  return manifest.config.digest;
-}
-
-function readJson<T>(path: string) {
-  return JSON.parse(fs.readFileSync(path, "utf8")) as T;
+// between this run's load and its container start. Docker's containerd image
+// store uses the digest of the loaded image index as the image ID.
+function imageId(indexPath: string) {
+  const layout = JSON.parse(
+    fs.readFileSync(`${indexPath}/index.json`, "utf8"),
+  ) as { manifests: [{ digest: string }] };
+  return layout.manifests[0].digest;
 }
 
 async function cleanup(targets: StartedResource[]) {
