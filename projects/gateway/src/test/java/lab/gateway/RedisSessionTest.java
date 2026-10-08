@@ -21,7 +21,7 @@ import org.testcontainers.containers.GenericContainer;
 class RedisSessionTest {
   static final GenericContainer<?> REDIS =
       new GenericContainer<>(
-              "redis:7.4.11-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499")
+              "redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0")
           .withExposedPorts(6379);
 
   static {
