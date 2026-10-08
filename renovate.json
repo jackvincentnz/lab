@@ -4,6 +4,15 @@
   "pre-commit": {
     "enabled": true
   },
+  "regex": {
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/vendor/**",
+      "**/examples/**",
+      "**/__fixtures__/**"
+    ]
+  },
   "customManagers": [
     {
       "customType": "regex",
