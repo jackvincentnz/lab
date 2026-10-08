@@ -19,7 +19,7 @@ public class RedisTest {
   public GenericContainer redis =
       new GenericContainer(
               DockerImageName.parse(
-                  "redis:5.0.3-alpine@sha256:f8c22abc77f3f9cc1c2516062e4a2a71375859d7922da3faf9e4160e6ba4c3c2"))
+                  "redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0"))
           .withExposedPorts(6379);
 
   @Test
