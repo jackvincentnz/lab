@@ -5,9 +5,6 @@ import type { PropsWithChildren } from "react";
 import { AppShell, Burger, Group, Text } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 
-// TODO: Move out to provider wrapper instead.
-import "@mantine/core/styles.css";
-
 import { NavbarLinks } from "./NavbarLinks";
 
 import classes from "./Shell.module.css";
@@ -42,7 +39,7 @@ export function Shell({ title, children }: PropsWithChildren<AppShellProps>) {
       <AppShell.Navbar p="md">
         <Group className={classes["nav-header"]}>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <Text>Organizer</Text>
+          <Text>{title}</Text>
         </Group>
 
         <AppShell.Section grow>

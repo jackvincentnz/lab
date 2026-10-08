@@ -11,11 +11,11 @@
   },
   "types": "src/index.d.ts",
   "scripts": {
-    "build": "bazel build //libs/bubbles",
+    "build": "bazel build //libs/bubbles:pkg",
     "storybook": "ibazel run //libs/bubbles:storybook",
     "build-storybook": "bazel build //libs/bubbles:build_storybook",
-    "build-storybook-docker": "bazel run //libs/bubbles:load",
-    "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
+    "build-storybook-docker": "bazel run //libs/bubbles:deliver",
+    "run-docker": "docker run -p 3005:80 jackvincent/lab-bubbles:latest"
   },
   "peerDependencies": {
     "@mantine/core": "9.6.3",
