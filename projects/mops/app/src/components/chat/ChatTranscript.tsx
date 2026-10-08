@@ -216,7 +216,8 @@ function AssistantMessage({
         <>
           <Alert color="red" variant="light">
             <Text size="sm">
-              Failed to generate response. Please try again.
+              {message.content ||
+                "Failed to generate response. Please try again."}
             </Text>
           </Alert>
           <ChatMessageActions

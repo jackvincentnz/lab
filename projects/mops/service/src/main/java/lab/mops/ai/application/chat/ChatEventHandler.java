@@ -14,11 +14,8 @@ import lab.mops.ai.domain.chat.ToolCallStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-// FIXME: there is no guarantee these will run, so an assistant message could remain PENDING
 @Component
 public class ChatEventHandler {
 
@@ -45,8 +42,6 @@ public class ChatEventHandler {
     this.chatContextBuilder = chatContextBuilder;
   }
 
-  @Async
-  @EventListener
   public void onPendingAssistantMessageAdded(PendingAssistantMessageAddedEvent event) {
     LOG.debug(
         "Handling pending assistant message [{}], in chat [{}]",
@@ -54,6 +49,10 @@ public class ChatEventHandler {
         event.chatId());
 
     var chat = chatRepository.getById(event.chatId());
+    if (chat.getMessages().stream()
+        .noneMatch(m -> m.getId().equals(event.pendingAssistantMessageId()) && m.isPending())) {
+      return;
+    }
     var tools = toolProvider.getTools();
     var conversationHistory = new ArrayList<>(chatContextBuilder.buildHistory(chat));
 
@@ -61,7 +60,11 @@ public class ChatEventHandler {
     var response = completionService.getResponse(conversationHistory);
     while (response.hasToolCalls() && !hasPendingToolApprovals(tools, response.getToolCalls())) {
       if (++completionCounter >= MAX_COMPLETIONS) {
-        throw new RuntimeException("Max completions reached");
+        chat.failMessage(
+            event.pendingAssistantMessageId(),
+            "The assistant reached its completion limit. Please retry the response.");
+        chatRepository.save(chat);
+        return;
       }
 
       LOG.debug("Response has tools calls and none need approval");
@@ -140,15 +143,32 @@ public class ChatEventHandler {
         .toList();
   }
 
-  @Async
-  @EventListener
   public void onToolCallApproved(ToolCallApprovedEvent event) {
     var chat = chatRepository.getById(event.chatId());
-    var toolCall = chat.getToolCallById(event.messageId(), event.toolCallId());
+    var message =
+        chat.getMessages().stream()
+            .filter(m -> m.getId().equals(event.messageId()) && m.isCompleted())
+            .findFirst();
+    if (message.isEmpty()) {
+      return;
+    }
+    var toolCall =
+        message.get().getToolCalls().stream()
+            .filter(t -> t.id().equals(event.toolCallId()))
+            .findFirst();
+    if (toolCall.isEmpty()
+        || toolCall.get().status() != ToolCallStatus.APPROVED
+        || toolCall.get().result() != null) {
+      return;
+    }
+    var approvedToolCall = toolCall.get();
 
     var result =
         executeToolCall(
-            new ToolCall(toolCall.id().toString(), toolCall.name(), toolCall.arguments()));
+            new ToolCall(
+                approvedToolCall.id().toString(),
+                approvedToolCall.name(),
+                approvedToolCall.arguments()));
 
     chat.recordToolResult(event.messageId(), event.toolCallId(), result);
 

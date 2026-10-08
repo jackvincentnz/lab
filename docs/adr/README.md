@@ -14,6 +14,8 @@ to Accepted in both when it is adopted.
 - [Java BUILD files](java-build-files.md) generates Java `srcs`, `deps`, and `exports` with Gazelle,
   checked in CI.
 
+- [Durable chat delivery](chat-outbox.md) persists chat work and local tool effects atomically.
+
 ## Proposed
 
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the

@@ -1,0 +1,22 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "outbox",
+    srcs = [
+        "ChatOutbox.java",
+        "ChatOutboxCallback.java",
+        "ChatOutboxScheduler.java",
+        "ChatOutboxWorker.java",
+    ],
+    visibility = ["//projects/mops/service/src:__subpackages__"],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/ai/domain/chat"],
+    deps = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
+        "@maven//:org_slf4j_slf4j_api",
+        "@maven//:org_springframework_data_spring_data_relational",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)
