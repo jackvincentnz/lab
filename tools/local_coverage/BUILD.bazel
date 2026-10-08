@@ -1,0 +1,11 @@
+load("//tools/bazel:shell.bzl", "sh_test")
+
+sh_test(
+    name = "feedback_test",
+    srcs = ["feedback_test.sh"],
+    data = [
+        "feedback.py",
+        "feedback_test.py",
+    ],
+    tags = ["no-coverage"],
+)
