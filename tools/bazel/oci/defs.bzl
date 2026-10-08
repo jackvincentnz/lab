@@ -1,5 +1,6 @@
-"""
-This module contains common oci macros.
+"""# OCI images and delivery
+
+Shared OCI image creation, local loading and remote delivery.
 """
 
 load("@aspect_bazel_lib//lib:expand_template.bzl", "expand_template")
@@ -134,6 +135,12 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     )
 
 def oci_image(name, **kwargs):
+    """Declare an [OCI image](https://github.com/bazel-contrib/rules_oci/blob/v2.3.0/docs/image.md) with the upstream attributes.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     _oci_image(
         name = name,
         **kwargs

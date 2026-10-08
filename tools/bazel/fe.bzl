@@ -1,5 +1,6 @@
-"""
-This module contains common front end macros.
+"""# Frontend applications and libraries
+
+Declare Vite applications and reusable frontend libraries.
 """
 
 load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
@@ -44,30 +45,30 @@ def fe_app(
         visibility = ["//visibility:private"]):
     """Declare one flattened Vite application per Bazel package.
 
-    Emits the named Vite dev server, src_ts, src, build, preview, test_ts,
-    test_run, test_watch, test_ui and, when present, stories.
-    By default, discover TypeScript under src/ in the calling package, separating
+    Emits the named Vite dev server, `src_ts`, `src`, `build`, `preview`, `test_ts`,
+    `test_run`, `test_watch`, `test_ui` and, when present, `stories`.
+    By default, discover TypeScript under `src/` in the calling package, separating
     production, tests/helpers and stories. Explicit source lists override these
-    defaults (including []); keep overrides disjoint. Keep app-specific Vite/Vitest
+    defaults (including `[]`); keep overrides disjoint. Keep app-specific Vite/Vitest
     configuration in the calling package; tests consume compiled JS. Stories
     compile separately for an app-owned Storybook configuration.
 
     Args:
         name: Target name for the Vite dev server (normally the package basename).
-        srcs: Production sources; defaults to src/**/*.ts(x), excluding the
+        srcs: Production sources; defaults to `src/**/*.ts(x)`, excluding the
             test/helper and story patterns below.
         deps: Libraries imported by production TypeScript (e.g. React or generated
             GraphQL code). Used for typechecking and included in Vite runfiles.
         assets: Assets imported by production sources.
         data: Files and packages consumed by Vite/Vitest at runtime, rather than
-            by application TypeScript compilation: index.html, package.json,
+            by application TypeScript compilation: `index.html`, `package.json`,
             public files, Vite/PostCSS config and the packages those configs
-            import (e.g. postcss-preset-mantine or coverage_config).
-        test_srcs: Test sources; defaults to *.test/spec.ts(x) under src/, plus
-            TypeScript in src/test/, __tests__/ and __fixtures__/ directories.
+            import (e.g. postcss-preset-mantine or `coverage_config`).
+        test_srcs: Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus
+            TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.
         test_tags: Tags for the cacheable Vitest test target.
-        stories: Story sources; defaults to src/**/*.stories.ts(x).
+        stories: Story sources; defaults to `src/**/*.stories.ts(x)`.
         story_deps: Additional story dependencies (e.g. @storybook/react).
         visibility: Visibility of entry points, compiled src and stories.
     """
