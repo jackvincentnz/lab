@@ -243,6 +243,20 @@ rules_ts_ext.deps(
 use_repo(rules_ts_ext, "npm_typescript")
 
 ####################################################################################################
+# aspect_rules_swc setup
+####################################################################################################
+
+swc = use_extension("@aspect_rules_swc//swc:extensions.bzl", "swc")
+swc.toolchain(
+    name = "swc",
+    # tsconfig-to-swcconfig 3.x requires SWC 1.16.2 or newer.
+    swc_version = "v1.16.2",
+)
+use_repo(swc, "swc_toolchains")
+
+register_toolchains("@swc_toolchains//:all")
+
+####################################################################################################
 # rules_playwright setup
 ####################################################################################################
 
