@@ -1,0 +1,37 @@
+#* Adapted from Stardoc func.vm, licensed under Apache-2.0.
+   Code blocks keep signature fragments from becoming Docsify routes. *#
+<a id="${funcInfo.functionName}"></a>
+
+#[[##]]# ${funcInfo.functionName}
+
+```starlark
+${util.loadStatement($funcInfo.functionName)}
+
+#set ($signature = $util.funcSummary($funcInfo).replaceAll("<[^>]+>", ""))
+${signature}
+```
+
+${funcInfo.docString}
+
+#if (!$funcInfo.getParameterList().isEmpty())
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+#foreach ($param in $funcInfo.getParameterList())
+| <a id="${funcInfo.functionName}-${param.name}"></a>$param.name | #if(!$param.docString.isEmpty()) ${util.markdownCellFormat($param.docString)} #else <p align="center"> - </p> #end  | #if(!$param.getDefaultValue().isEmpty()) ${util.markdownCodeSpan($param.defaultValue)} #else none #end|
+#end
+#end
+#if (!$funcInfo.getReturn().docString.isEmpty())
+
+**RETURNS**
+
+${funcInfo.getReturn().docString}
+#end
+#if (!$funcInfo.getDeprecated().docString.isEmpty())
+
+**DEPRECATED**
+
+${funcInfo.getDeprecated().docString}
+#end

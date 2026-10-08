@@ -1,3 +1,4 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:ts.bzl", "ts_project")
@@ -40,4 +41,25 @@ js_library(
 js_library(
     name = "package_json",
     srcs = ["package.json"],
+)
+
+bzl_library(
+    name = "vitest",
+    srcs = ["vitest.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        "//tools/bazel:js",
+        "@npm//:vitest_bzl_library",
+    ],
+)
+
+exports_files(
+    ["vitest.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
 )
