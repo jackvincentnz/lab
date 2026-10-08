@@ -24,6 +24,9 @@ java_test_suite(
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
     ],
 )
 
@@ -42,8 +45,6 @@ java_junit5_test(
         "@maven//:org_postgresql_postgresql",
         "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
         "@maven//:org_springframework_boot_spring_boot_starter_test",
-        "@maven//:org_testcontainers_testcontainers_jdbc",
-        "@maven//:org_testcontainers_testcontainers_postgresql",
     ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
@@ -57,5 +58,8 @@ java_junit5_test(
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
     ],
 )

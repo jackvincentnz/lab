@@ -20,7 +20,9 @@ import org.testcontainers.containers.GenericContainer;
 @RequiresDocker
 class RedisSessionTest {
   static final GenericContainer<?> REDIS =
-      new GenericContainer<>("redis:7.4-alpine").withExposedPorts(6379);
+      new GenericContainer<>(
+              "redis:7.4.11-alpine@sha256:858f009f9709ce576febc734aa78b8f6d624b82571f9ddb6bda4377c833b3499")
+          .withExposedPorts(6379);
 
   static {
     REDIS.start();
