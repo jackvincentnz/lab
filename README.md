@@ -52,6 +52,8 @@ Project-specific setup and commands live in each project README (for example,
 `projects/organizer/README.md`).
 
 See [Contributing](CONTRIBUTING.md) for commit hooks, validation, and the PR workflow.
+See the [development workflow](docs/development-workflow.md) for the path from
+setup through local feedback, review, and image delivery.
 
 ## Tooling
 

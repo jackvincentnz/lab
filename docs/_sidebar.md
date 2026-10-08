@@ -7,6 +7,7 @@
     - [Dependencies](docs/contributing/dependencies.md)
     - [Markdown](docs/contributing/markdown.md)
   - [Style](docs/style.md)
+  - [Development workflow](docs/development-workflow.md)
   - [Development tools](docs/tools.md)
   - [Bazel](docs/bazel.md)
   - [Gazelle](docs/gazelle.md)
