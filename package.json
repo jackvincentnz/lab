@@ -9,9 +9,15 @@
   },
   "scripts": {
     "build": "bazel build //...",
+    "commit": "cz",
     "test": "bazel test //...",
     "lint": "pre-commit run eslint --all-files",
     "format": "pre-commit run prettier --all-files"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
   },
   "dependencies": {
     "@apollo/client": "4.3.1",
@@ -55,6 +61,8 @@
     "@vitejs/plugin-react": "6.1.1",
     "@vitest/coverage-v8": "5.0.3",
     "@vitest/ui": "5.0.3",
+    "commitizen": "4.3.2",
+    "cz-conventional-changelog": "3.3.0",
     "dockerode": "5.0.1",
     "eslint": "10.11.0",
     "eslint-config-prettier": "10.1.8",
