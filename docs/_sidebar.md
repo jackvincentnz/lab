@@ -9,6 +9,7 @@
   - [Style](docs/style.md)
   - [Development tools](docs/tools.md)
   - [Bazel](docs/bazel.md)
+  - [Coverage](docs/coverage.md)
   - [Gazelle](docs/gazelle.md)
   - [pre-commit](docs/pre-commit.md)
   - [Renovate](docs/renovate.md)
