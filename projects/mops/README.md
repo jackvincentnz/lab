@@ -52,6 +52,12 @@ Run service tests:
 bazel test //projects/mops/service/...
 ```
 
+H2 remains the default database for the service and its existing tests. The
+`PostgresLineItemRepositoryTest` target uses Testcontainers and is tagged
+`requires-docker`; it checks migrations, child collection persistence, and
+duplicate row protection against Postgres. Use `--config=codex-cloud` to skip
+Docker tests when running without a Docker engine.
+
 See the [Mops App test commands](app/README.md#development) for one-off and watch runs.
 
 Run the full-stack Playwright smoke test:

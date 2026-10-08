@@ -1,0 +1,35 @@
+load("//tools/bazel:java.bzl", "java_junit5_test")
+
+java_junit5_test(
+    name = "PostgresLineItemRepositoryTest",
+    size = "medium",
+    srcs = ["PostgresLineItemRepositoryTest.java"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    test_class = "lab.mops.core.infrastructure.persistence.PostgresLineItemRepositoryTest",
+    runtime_deps = [
+        "//projects/mops/service/src/main:main_lib",
+        "@maven//:org_flywaydb_flyway_database_postgresql",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_postgresql_postgresql",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_springframework_spring_tx",
+        "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
+    ],
+)
