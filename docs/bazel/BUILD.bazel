@@ -1,0 +1,140 @@
+load("//tools/bazel:docs.bzl", "macro_docs", "update_docs")
+
+macro_docs(
+    name = "fe",
+    src = "//tools/bazel:fe.bzl",
+    symbol_names = [
+        "fe_app",
+        "fe_library",
+    ],
+    deps = ["//tools/bazel:fe"],
+)
+
+macro_docs(
+    name = "graphql",
+    src = "//tools/bazel:graphql.bzl",
+    symbol_names = ["graphql_codegen"],
+    deps = ["//tools/bazel:graphql"],
+)
+
+macro_docs(
+    name = "java",
+    src = "//tools/bazel:java.bzl",
+    symbol_names = [
+        "java_binary",
+        "java_library",
+        "java_test_suite",
+        "java_junit5_test",
+    ],
+    deps = ["//tools/bazel:java"],
+)
+
+macro_docs(
+    name = "js",
+    src = "//tools/bazel:js.bzl",
+    symbol_names = [
+        "js_library",
+        "js_run_binary",
+        "js_run_devserver",
+        "js_test",
+        "js_binary",
+        "js_image_layer",
+    ],
+    deps = ["//tools/bazel:js"],
+)
+
+macro_docs(
+    name = "pkg",
+    src = "//tools/bazel:pkg.bzl",
+    symbol_names = ["tar"],
+    deps = ["//tools/bazel:pkg"],
+)
+
+macro_docs(
+    name = "ts",
+    src = "//tools/bazel:ts.bzl",
+    symbol_names = [
+        "ts_project",
+        "node_ts_project",
+        "ts_config",
+    ],
+    deps = ["//tools/bazel:ts"],
+)
+
+macro_docs(
+    name = "vite",
+    src = "//tools/bazel/vite:vite.bzl",
+    symbol_names = [
+        "vite_build",
+        "vite_dev_server",
+    ],
+    deps = ["//tools/bazel/vite"],
+)
+
+macro_docs(
+    name = "vitest",
+    src = "//tools/bazel/vitest:vitest.bzl",
+    symbol_names = [
+        "vitest_run",
+        "vitest_watch",
+    ],
+    deps = ["//tools/bazel/vitest"],
+)
+
+macro_docs(
+    name = "storybook",
+    src = "//tools/bazel/storybook:storybook.bzl",
+    symbol_names = [
+        "storybook_build",
+        "storybook_dev_server",
+    ],
+    deps = ["//tools/bazel/storybook"],
+)
+
+macro_docs(
+    name = "dgs",
+    src = "//tools/bazel/dgs:codegen.bzl",
+    symbol_names = [
+        "dgs_codegen",
+        "dgs_codegen_library",
+    ],
+    deps = ["//tools/bazel/dgs:codegen_docs"],
+)
+
+macro_docs(
+    name = "oci",
+    src = "//tools/bazel/oci:defs.bzl",
+    symbol_names = [
+        "oci_deliver",
+        "oci_image",
+    ],
+    deps = ["//tools/bazel/oci:defs"],
+)
+
+macro_docs(
+    name = "docs",
+    src = "//tools/bazel:docs.bzl",
+    symbol_names = [
+        "macro_docs",
+        "update_docs",
+    ],
+    deps = ["//tools/bazel:docs"],
+)
+
+update_docs(
+    name = "update",
+    targets = [
+        ":docs_update",
+        ":fe_update",
+        ":graphql_update",
+        ":java_update",
+        ":js_update",
+        ":pkg_update",
+        ":ts_update",
+        ":vite_update",
+        ":vitest_update",
+        ":storybook_update",
+        ":dgs_update",
+        ":oci_update",
+    ],
+)

@@ -1,1 +1,26 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+
 exports_files(["check_then_push.sh"])
+
+bzl_library(
+    name = "defs",
+    srcs = ["defs.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        "@aspect_bazel_lib//lib:expand_template",
+        "@bazel_skylib//rules:write_file",
+        "@rules_oci//oci:defs",
+        "@rules_shell//shell:rules_bzl",
+    ],
+)
+
+exports_files(
+    ["defs.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+)

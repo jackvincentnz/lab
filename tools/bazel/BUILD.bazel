@@ -1,5 +1,118 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
+
 config_setting(
     name = "coverage_enabled",
     values = {"collect_code_coverage": "true"},
     visibility = ["//visibility:public"],
+)
+
+bzl_library(
+    name = "fe",
+    srcs = ["fe.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        ":js",
+        ":ts",
+        "//tools/bazel/vite",
+        "//tools/bazel/vitest",
+    ],
+)
+
+bzl_library(
+    name = "graphql",
+    srcs = ["graphql.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        ":ts",
+        "@npm//:@graphql-codegen/cli_bzl_library",
+    ],
+)
+
+bzl_library(
+    name = "java",
+    srcs = ["java.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        # contrib_rules_jvm loads this but omits it from its Starlark deps.
+        "@bazel_skylib//rules:run_binary",
+        "@contrib_rules_jvm//java:defs",
+        "@rules_java//java:rules",
+    ],
+)
+
+bzl_library(
+    name = "js",
+    srcs = ["js.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = ["@aspect_rules_js//js:defs"],
+)
+
+bzl_library(
+    name = "pkg",
+    srcs = ["pkg.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        "@rules_pkg//:pkg.bzl",
+        "@rules_pkg//pkg:rules_pkg_lib",
+    ],
+)
+
+bzl_library(
+    name = "ts",
+    srcs = ["ts.bzl"],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+    deps = [
+        "@aspect_rules_swc//swc:defs",
+        "@aspect_rules_ts//ts:defs",
+        "@bazel_skylib//lib:partial",
+    ],
+)
+
+exports_files(
+    [
+        "fe.bzl",
+        "graphql.bzl",
+        "java.bzl",
+        "js.bzl",
+        "pkg.bzl",
+        "ts.bzl",
+    ],
+    visibility = [
+        "//docs/bazel:__pkg__",
+        "//tools/bazel:__subpackages__",
+    ],
+)
+
+bzl_library(
+    name = "docs",
+    srcs = ["docs.bzl"],
+    visibility = ["//docs/bazel:__pkg__"],
+    deps = [
+        ":js",
+        "@aspect_bazel_lib//lib:write_source_files",
+        "@stardoc//stardoc:stardoc_lib",
+    ],
+)
+
+exports_files(
+    ["docs.bzl"],
+    visibility = ["//docs/bazel:__pkg__"],
 )

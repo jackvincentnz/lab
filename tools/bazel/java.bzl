@@ -1,5 +1,6 @@
-"""
-This module contains common java macros to avoid direct dependencies on external rules.
+"""# Java
+
+Shared Java wrappers keep external rules and test defaults in one place.
 """
 
 load(
@@ -20,18 +21,40 @@ _TEST_RUNTIME_DEPS = [
 ]
 
 def java_binary(name, **kwargs):
+    """Declare a Java binary with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     _java_binary(
         name = name,
         **kwargs
     )
 
 def java_library(name, **kwargs):
+    """Declare a Java library with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     _java_library(
         name = name,
         **kwargs
     )
 
 def java_test_suite(name, **kwargs):
+    """Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_test_suite).
+
+    Infers test class names using the .nz. and .lab. package prefixes and applies
+    the shared test defaults: small size, the test Spring profile unless set
+    explicitly, and Logback added to runtime dependencies.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     _java_test_suite(
         name = name,
         package_prefixes = [".nz.", ".lab."],
@@ -39,6 +62,15 @@ def java_test_suite(name, **kwargs):
     )
 
 def java_junit5_test(name, **kwargs):
+    """Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_junit5_test).
+
+    Defaults to small size and the test Spring profile unless set explicitly,
+    and adds Logback to runtime dependencies.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     _java_junit5_test(
         name = name,
         **_test_defaults(kwargs)
