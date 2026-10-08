@@ -1,5 +1,7 @@
 # Testing guidelines
 
+See [coverage](../coverage.md) for collection, report limits, and local feedback.
+
 ## Test pyramid
 
 - Unit test every class with logic, so that most behavior is checked by fast,
