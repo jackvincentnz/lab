@@ -12,6 +12,26 @@ Keep each PR focused on one problem. Use conventional commit messages, such as
 [commit types](#commit-types) and the [style guide](docs/style.md) for commit
 and source formatting conventions.
 
+For interactive help writing a conventional commit, install the repository's
+dependencies and run [Commitizen](https://github.com/commitizen/cz-cli) from the
+repository root:
+
+```sh
+bazel run -- @pnpm --dir "$PWD" install --frozen-lockfile
+git add <files>
+bazel run -- @pnpm --dir "$PWD" run commit
+```
+
+The repository-local adapter prompts for the type, optional scope, summary,
+body, breaking changes, and issue references, then commits the staged changes.
+Choose the type using [commit types](#commit-types). The existing pre-commit
+and Commitlint hooks still run. If a hook fails, fix and stage the changes,
+then reuse the message with:
+
+```sh
+bazel run -- @pnpm --dir "$PWD" run commit --retry
+```
+
 Follow the conventions of the code around your change, so that each project
 stays consistent. A project may choose its own architectural style within its
 boundary.
