@@ -1,5 +1,6 @@
 packages:
   - "libs/bubbles"
+  - "libs/test-utils"
   - "projects/mops/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"

@@ -2,7 +2,7 @@
 This module contains common front end macros.
 """
 
-load("//tools/bazel:js.bzl", "js_library", "js_run_devserver")
+load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/vite:vite.bzl", "vite_build", "vite_dev_server")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run", "vitest_watch")
@@ -311,7 +311,7 @@ def _tests(name, deps):
         name = "_test_ts",
         srcs = native.glob(["__tests__/**/*"]) + native.glob(["__fixtures__/**/*"], allow_empty = True),
         deps = deps + [
-            "//tools/bazel/vitest:utils",
+            "//:node_modules/@lab/test-utils",
         ],
     )
 
@@ -329,7 +329,7 @@ def _tests(name, deps):
         chdir = None,
     )
 
-    js_run_devserver(
+    vitest_watch(
         name = "test_ui",
         args = [
             "--ui",
@@ -342,10 +342,10 @@ def _tests(name, deps):
             ":_test_ts",
             "//:node_modules/@vitest/ui",
         ],
-        tool = "//tools/bazel/vitest:vitest_binary",
+        chdir = None,
     )
 
-    js_run_devserver(
+    vitest_watch(
         name = "test_watch",
         args = [
             "--config",
@@ -356,5 +356,5 @@ def _tests(name, deps):
             "//tools/bazel/vitest:package_json",
             ":_test_ts",
         ],
-        tool = "//tools/bazel/vitest:vitest_binary",
+        chdir = None,
     )

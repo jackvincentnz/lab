@@ -36,3 +36,22 @@ named after the directory.
   `src/test`, with no tests, so that other tests depend on its
   `<name>-test-lib` target, such as
   `//libs/test/src/test/java/lab/test:test-test-lib`.
+
+## Frontend tests
+
+Import `render`, `screen`, `userEvent` and Vitest helpers from `@lab/test-utils`.
+The shared render composes Mantine and modals, with optional `mockedProvider`
+(Apollo mocks), `route` and `path` (memory routing). Supply a `wrapper` for
+app-specific providers; Mops keeps Statsig in its local render wrapper.
+
+Import `@lab/test-utils/setup` in app setup files for DOM matchers, cleanup and
+browser mocks. App-specific mocks stay in those files. Mops calls
+`mockMatchMedia(true)` to retain its media-query behavior; the default is false.
+
+Use `bazelVitestConfig` from `tools/bazel/vitest/config.ts` and `mergeConfig`
+for app Vite configuration. Pass test discovery and coverage patterns relative
+to the app's Vite root, and set `setupFiles` for app-specific setup. The shared
+workspace-root config uses the same defaults with workspace-relative patterns.
+Keep proxies, build plugins and app overrides in the app config. Bazel tests
+consume compiled `.js` files; TypeScript runfiles exist for coverage remapping
+and must not be discovered as a second copy of each test.
