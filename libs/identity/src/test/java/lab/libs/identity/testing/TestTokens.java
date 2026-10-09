@@ -55,7 +55,7 @@ public final class TestTokens {
     return (RSAPrivateKey) generateKeyPair().getPrivate();
   }
 
-  /** Starts a token addressed to one vertical, valid for five minutes from now. */
+  /** Starts a token addressed to one service, valid for five minutes from now. */
   public static Token forAudience(String audience) {
     return new Token(audience);
   }

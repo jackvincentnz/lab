@@ -7,13 +7,13 @@ import java.util.stream.Collectors;
 import lab.libs.identity.Identity;
 import org.springframework.security.oauth2.jwt.Jwt;
 
-/** Claims of the identity token a trusted issuer mints for the vertical it is addressed to. */
+/** Claims of the identity token a trusted issuer mints for the service it is addressed to. */
 public final class IdentityClaims {
 
   /** Active tenant UUID. */
   public static final String TENANT = "tenant";
 
-  /** Space-separated scopes granted to the session for this vertical. */
+  /** Space-separated scopes granted to the session for this service. */
   public static final String SCOPE = "scope";
 
   /** How the caller authenticated at the issuer: {@code form}, {@code oidc}, or {@code bearer}. */

@@ -14,7 +14,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 /**
  * Authenticates requests that carry no {@code Authorization} header as a fixed identity, so a
- * vertical can run without an issuer in front of it. A request that does carry a token is left to
+ * service can run without an issuer in front of it. A request that does carry a token is left to
  * bearer authentication, so an invalid token is still rejected.
  */
 public final class DevelopmentIdentityFilter extends OncePerRequestFilter {

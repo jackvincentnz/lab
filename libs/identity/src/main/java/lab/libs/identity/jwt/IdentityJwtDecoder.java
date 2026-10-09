@@ -12,9 +12,9 @@ public final class IdentityJwtDecoder {
 
   /**
    * @param jwkSetUri where the issuer publishes its signing keys. Fetched on the first token and
-   *     refreshed when a token names an unknown key, so the vertical starts without the issuer.
+   *     refreshed when a token names an unknown key, so the service starts without the issuer.
    * @param issuer the value every accepted token must carry in {@code iss}.
-   * @param audience the name of this vertical, which every accepted token must be addressed to.
+   * @param audience the name of this service, which every accepted token must be addressed to.
    */
   public static JwtDecoder create(String jwkSetUri, String issuer, String audience) {
     var decoder = NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
