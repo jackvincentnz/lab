@@ -28,12 +28,11 @@ class IdentityTokenMinterTest extends TestBase {
   private final Caller caller =
       new Caller(
           UUID.randomUUID(), UUID.randomUUID(), List.of("mops:read", "mops:write"), randomString());
-  private final String sessionId = randomString();
   private final String audience = randomString();
 
   @Test
   void mint_signsWithTheGatewayKeyNamedByKid() throws Exception {
-    var jwt = SignedJWT.parse(minter.mint(caller, sessionId, audience));
+    var jwt = SignedJWT.parse(minter.mint(caller, audience));
 
     assertThat(jwt.getHeader().getKeyID()).isEqualTo(key.keyId());
     assertThat(jwt.getHeader().getAlgorithm().getName()).isEqualTo("RS256");
@@ -42,7 +41,7 @@ class IdentityTokenMinterTest extends TestBase {
 
   @Test
   void mint_carriesTheIdentityContract() throws Exception {
-    var claims = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
+    var claims = SignedJWT.parse(minter.mint(caller, audience)).getJWTClaimsSet();
 
     assertThat(claims.getIssuer()).isEqualTo(properties.issuer());
     assertThat(claims.getAudience()).containsExactly(audience);
@@ -52,13 +51,12 @@ class IdentityTokenMinterTest extends TestBase {
     assertThat(claims.getStringClaim("tenant")).isEqualTo(caller.tenant().toString());
     assertThat(claims.getStringClaim("scope")).isEqualTo("mops:read mops:write");
     assertThat(claims.getStringListClaim("amr")).containsExactly(caller.authenticationMethod());
-    assertThat(claims.getStringClaim("sid")).isEqualTo(sessionId);
   }
 
   @Test
   void mint_givesEveryTokenItsOwnId() throws Exception {
-    var first = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
-    var second = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
+    var first = SignedJWT.parse(minter.mint(caller, audience)).getJWTClaimsSet();
+    var second = SignedJWT.parse(minter.mint(caller, audience)).getJWTClaimsSet();
 
     assertThat(first.getJWTID()).isNotBlank().isNotEqualTo(second.getJWTID());
   }

@@ -71,7 +71,6 @@ class IdentityContractTest extends GatewayTestSupport {
         .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
     assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly("form");
-    assertThat(jwt.getClaimAsString(IdentityClaims.SESSION_ID)).isEqualTo(browser.session);
   }
 
   @Test

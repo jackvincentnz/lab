@@ -19,9 +19,6 @@ public final class IdentityClaims {
   /** How the caller authenticated at the issuer: {@code form}, {@code oidc}, or {@code bearer}. */
   public static final String AUTHENTICATION_METHODS = "amr";
 
-  /** Issuer session the token was minted for. */
-  public static final String SESSION_ID = "sid";
-
   private IdentityClaims() {}
 
   /** Builds the identity from a token that {@link IdentityClaimsValidator} has accepted. */

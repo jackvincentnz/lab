@@ -78,7 +78,6 @@ public final class TestTokens {
     private UUID tenantId = UUID.randomUUID();
     private Set<String> scopes;
     private List<String> authenticationMethods = List.of("form");
-    private String sessionId = UUID.randomUUID().toString();
     private Instant issuedAt = Instant.now();
     private Duration validFor = Duration.ofMinutes(5);
     private String keyId = DEV_KEY_ID;
@@ -111,11 +110,6 @@ public final class TestTokens {
 
     public Token authenticationMethods(String... methods) {
       this.authenticationMethods = List.of(methods);
-      return this;
-    }
-
-    public Token sessionId(String sessionId) {
-      this.sessionId = sessionId;
       return this;
     }
 
@@ -163,7 +157,6 @@ public final class TestTokens {
               .claim(IdentityClaims.TENANT, tenantId.toString())
               .claim(IdentityClaims.SCOPE, String.join(" ", scopes))
               .claim(IdentityClaims.AUTHENTICATION_METHODS, authenticationMethods)
-              .claim(IdentityClaims.SESSION_ID, sessionId)
               .build();
       var header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(keyId).build();
       var jwt = new SignedJWT(header, claims);

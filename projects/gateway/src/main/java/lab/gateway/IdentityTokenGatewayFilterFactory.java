@@ -8,7 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 /**
@@ -44,8 +43,7 @@ public class IdentityTokenGatewayFilterFactory
                     () ->
                         new ResponseStatusException(
                             HttpStatus.UNAUTHORIZED, "The route needs a gateway session")))
-            .zipWith(exchange.getSession().map(WebSession::getId))
-            .map(caller -> minter.mint(caller.getT1(), caller.getT2(), config.getAudience()))
+            .map(caller -> minter.mint(caller, config.getAudience()))
             .flatMap(
                 token ->
                     chain.filter(

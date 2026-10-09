@@ -29,7 +29,7 @@ public final class IdentityTokenMinter {
   }
 
   /** A token for one forwarded request, addressed to the vertical named by {@code audience}. */
-  public String mint(Caller caller, String sessionId, String audience) {
+  public String mint(Caller caller, String audience) {
     var issuedAt = clock.instant();
     var claims =
         JwtClaimsSet.builder()
@@ -42,7 +42,6 @@ public final class IdentityTokenMinter {
             .claim(IdentityClaims.TENANT, caller.tenant().toString())
             .claim(IdentityClaims.SCOPE, String.join(" ", caller.scopes()))
             .claim(IdentityClaims.AUTHENTICATION_METHODS, List.of(caller.authenticationMethod()))
-            .claim(IdentityClaims.SESSION_ID, sessionId)
             .build();
     var header = JwsHeader.with(SignatureAlgorithm.RS256).keyId(key.keyId()).build();
     return encoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();

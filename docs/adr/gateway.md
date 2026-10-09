@@ -77,12 +77,11 @@ is signed with the gateway's private key and carries:
 | `tenant`            | Active tenant UUID                                         |
 | `scope`             | Space-separated scopes, for example `mops:read mops:write` |
 | `amr`               | How the caller authenticated: `form`, `oidc`, or `bearer`  |
-| `sid`               | Gateway session                                            |
 | `iat`, `exp`, `jti` | Issued at, expiry, and a unique token ID                   |
 
 One token grows by adding claims, so the contract extends without a new header per fact. Claims
-describe how the caller was authenticated and what session and tenant they act under, which only
-the gateway knows. Anything a vertical could look up by principal and tenant stays a lookup.
+describe how the caller was authenticated and what tenant they act under, which only the gateway
+knows. Anything a vertical could look up by principal and tenant stays a lookup.
 
 A vertical verifies the signature, issuer, audience, and expiry against the JWK set the gateway
 publishes, and trusts nothing else about the caller. Tokens name their key by `kid`, so rotating
