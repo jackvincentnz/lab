@@ -22,8 +22,9 @@ import org.springframework.util.Assert;
 /**
  * The RSA key pair the gateway signs identity tokens with. Its {@code kid} is the RFC 7638
  * thumbprint of the public key, so the name is the same on every replica that holds the key and
- * changes whenever the key does. Verticals cache keys by {@code kid} and refetch only when a token
- * names one they do not hold, so a reused name would leave them verifying against a stale key.
+ * changes whenever the key does. Downstream services cache keys by {@code kid} and refetch only
+ * when a token names one they do not hold, so a reused name would leave them verifying against a
+ * stale key.
  */
 public final class SigningKey {
 
@@ -102,7 +103,7 @@ public final class SigningKey {
     return key;
   }
 
-  /** The public half as the JWK set document verticals fetch. */
+  /** The public half as the JWK set document downstream services fetch. */
   public Map<String, Object> publicJwkSet() {
     return new JWKSet(key.toPublicJWK()).toJSONObject();
   }

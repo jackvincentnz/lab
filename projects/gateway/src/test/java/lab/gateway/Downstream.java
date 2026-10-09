@@ -7,8 +7,8 @@ import reactor.netty.DisposableServer;
 import reactor.netty.http.server.HttpServer;
 
 /**
- * A stub vertical that answers with its name and the path it received, and reflects the browser
- * credentials it was sent as response headers so tests can assert what crossed the gateway.
+ * A stub downstream service that answers with its name and the path it received, and reflects the
+ * browser credentials it was sent as response headers so tests can assert what crossed the gateway.
  */
 final class Downstream implements AutoCloseable {
 
@@ -45,7 +45,7 @@ final class Downstream implements AutoCloseable {
     return new Downstream(server, requests);
   }
 
-  /** How many requests crossed the gateway to this vertical. */
+  /** How many requests crossed the gateway to this service. */
   int requests() {
     return requests.get();
   }

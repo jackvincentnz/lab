@@ -16,7 +16,9 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
-/** What a vertical receives in place of the browser's credentials, verified as Mops would. */
+/**
+ * What a downstream service receives in place of the browser's credentials, verified as Mops would.
+ */
 class IdentityContractTest extends GatewayTestSupport {
 
   private static Downstream mopsService;
@@ -138,7 +140,7 @@ class IdentityContractTest extends GatewayTestSupport {
             .returnResult(String.class)
             .getResponseHeaders()
             .get(Downstream.AUTHORIZATION);
-    assertThat(forwarded).as("one Authorization header reached the vertical").hasSize(1);
+    assertThat(forwarded).as("one Authorization header reached the service").hasSize(1);
     return bearer(forwarded.get(0));
   }
 

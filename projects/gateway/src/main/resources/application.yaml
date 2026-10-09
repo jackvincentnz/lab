@@ -14,7 +14,7 @@ spring:
           default-filters:
             # Browser credentials end at the gateway, after session authentication.
             - RemoveRequestHeader=Cookie
-            # Verticals trust only the token the gateway mints, never one the client sent.
+            # Downstream services trust only the token the gateway mints, never one the client sent.
             - RemoveRequestHeader=Authorization
           routes:
             # Routes match in order, so the API route sits above the app catch-all.

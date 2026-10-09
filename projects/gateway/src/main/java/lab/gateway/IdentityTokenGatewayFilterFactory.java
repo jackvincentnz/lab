@@ -11,10 +11,10 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 /**
- * Route filter {@code IdentityToken=<audience>}: forwards the session's identity to the vertical as
- * a bearer token. A request the gateway did not authenticate is refused rather than forwarded,
- * since a vertical running without an issuer may treat a tokenless request as its development
- * identity.
+ * Route filter {@code IdentityToken=<audience>}: forwards the caller's identity to the downstream
+ * service as a bearer token. A request the gateway did not authenticate is refused rather than
+ * forwarded, since a service running without an issuer may treat a tokenless request as its
+ * development identity.
  */
 @Component
 public class IdentityTokenGatewayFilterFactory
@@ -54,7 +54,7 @@ public class IdentityTokenGatewayFilterFactory
                             .build()));
   }
 
-  /** The vertical a route forwards to, which every token it carries is addressed to. */
+  /** The downstream service a route forwards to, which every token it carries is addressed to. */
   public static class Config {
     private String audience;
 
@@ -63,7 +63,7 @@ public class IdentityTokenGatewayFilterFactory
     }
 
     public void setAudience(String audience) {
-      Assert.hasText(audience, "IdentityToken needs the audience of the vertical it forwards to");
+      Assert.hasText(audience, "IdentityToken needs the audience of the service it forwards to");
       this.audience = audience;
     }
   }

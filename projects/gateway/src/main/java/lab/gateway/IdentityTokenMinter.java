@@ -13,7 +13,7 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 
-/** Mints the identity token a vertical receives in place of the browser's credentials. */
+/** Mints the identity token a downstream service receives in place of the browser's credentials. */
 public final class IdentityTokenMinter {
 
   private final IdentityTokenProperties properties;
@@ -28,7 +28,7 @@ public final class IdentityTokenMinter {
     this.clock = clock;
   }
 
-  /** A token for one forwarded request, addressed to the vertical named by {@code audience}. */
+  /** A token for one forwarded request, addressed to the service named by {@code audience}. */
   public String mint(Caller caller, String audience) {
     var issuedAt = clock.instant();
     var claims =

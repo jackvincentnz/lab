@@ -7,7 +7,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 import org.springframework.util.Assert;
 
 /**
- * How the gateway signs the identity token it hands to verticals.
+ * How the gateway signs the identity token it hands to downstream services.
  *
  * @param issuer the value every minted token carries in {@code iss}.
  * @param validFor how long a minted token is accepted after it is issued.

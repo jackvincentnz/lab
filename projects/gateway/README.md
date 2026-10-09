@@ -1,8 +1,8 @@
 # Gateway
 
-Edge gateway for the lab verticals, built on Spring Boot and Spring Cloud Gateway. It is the
+Edge gateway for the lab services, built on Spring Boot and Spring Cloud Gateway. It is the
 only public entry point and owns authentication, sessions, and the identity contract handed to
-verticals. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
+downstream services. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
 
 The service routes one public host to Mops, forwards each API request with a signed identity
 token, and exposes public health and JWK set endpoints.
