@@ -1,76 +1,19 @@
-import {
-  render as testingLibraryRender,
-  type RenderResult,
-} from "@testing-library/react";
-import { InMemoryCache } from "@apollo/client";
-import { MantineProvider } from "@mantine/core";
-import {
-  MockedProvider,
-  type MockedProviderProps,
-} from "@apollo/client/testing/react";
-import { ModalsProvider } from "@mantine/modals";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { render as sharedRender, type Options } from "@lab/test-utils";
 import { StatsigProvider } from "@statsig/react-bindings";
-import type { PropsWithChildren } from "react";
+import type { PropsWithChildren, ReactNode } from "react";
 import { statsigClient } from "./statsig";
 
-export interface Options {
-  mockedProvider?: MockedProviderProps;
-  route?: string;
-  path?: string;
+export function render(
+  ui: ReactNode,
+  options?: Options,
+): ReturnType<typeof sharedRender> {
+  return sharedRender(ui, { ...options, wrapper: StatsigWrapper });
 }
 
-export function render(ui: React.ReactNode, options?: Options): RenderResult {
-  return testingLibraryRender(ui, {
-    wrapper: ({ children }: PropsWithChildren) => (
-      <StatsigProvider client={statsigClient as never}>
-        <MantineProvider>
-          <ModalsProvider>
-            <RouterWrapper route={options?.route} path={options?.path}>
-              <ApolloWrapper mockedProvider={options?.mockedProvider}>
-                {children}
-              </ApolloWrapper>
-            </RouterWrapper>
-          </ModalsProvider>
-        </MantineProvider>
-      </StatsigProvider>
-    ),
-  });
-}
-
-function ApolloWrapper({
-  children,
-  mockedProvider,
-}: PropsWithChildren<{ mockedProvider?: MockedProviderProps }>) {
-  if (!mockedProvider) {
-    return children;
-  }
-
+function StatsigWrapper({ children }: PropsWithChildren) {
   return (
-    <MockedProvider cache={new InMemoryCache()} {...mockedProvider}>
+    <StatsigProvider client={statsigClient as never}>
       {children}
-    </MockedProvider>
-  );
-}
-
-function RouterWrapper({
-  children,
-  route,
-  path,
-}: PropsWithChildren<{ route?: string; path?: string }>) {
-  if (!route) {
-    return children;
-  }
-
-  if (!path) {
-    return <MemoryRouter initialEntries={[route]}>{children}</MemoryRouter>;
-  }
-
-  return (
-    <MemoryRouter initialEntries={[route]}>
-      <Routes>
-        <Route path={path} element={<>{children}</>} />
-      </Routes>
-    </MemoryRouter>
+    </StatsigProvider>
   );
 }

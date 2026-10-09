@@ -30,9 +30,10 @@ fe_app(
         "//:node_modules/postcss-simple-vars",
         "//:node_modules/vitest",
         "//projects/mops/app/public",
-        "//tools/bazel/vitest:coverage_config",
+        "//tools/bazel/vitest:test_config",
     ],
     test_deps = [
+        "//:node_modules/@lab/test-utils",
         "//:node_modules/@testing-library/jest-dom",
         "//:node_modules/@testing-library/react",
         "//:node_modules/@testing-library/user-event",

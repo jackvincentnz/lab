@@ -1,17 +1,10 @@
-import { MantineProvider } from "@mantine/core";
 import type { MockLink } from "@apollo/client/testing";
-import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
   GetTasksDocument,
   type GetTasksQuery,
 } from "../../__generated__/graphql";
-import {
-  expect,
-  it,
-  render,
-  screen,
-} from "../../../../../../tools/bazel/vitest/test-utils"; // FIXME: setup @lab/test-utils package to avoid relative jungle
+import { expect, it, render, screen } from "@lab/test-utils";
 import DisplayTasks from "../DisplayTasks";
 
 const title = "My Task";
@@ -29,14 +22,7 @@ const mocks: readonly MockLink.MockedResponse<GetTasksQuery>[] = [
 ];
 
 it("renders without error", async () => {
-  render(
-    // FIXME: move providers into custom render
-    <MantineProvider>
-      <MockedProvider mocks={mocks}>
-        <DisplayTasks />
-      </MockedProvider>
-    </MantineProvider>,
-  );
+  render(<DisplayTasks />, { mockedProvider: { mocks } });
 
   expect(await screen.findByText(title)).toBeInTheDocument();
 });

@@ -1,1 +1,1 @@
-import "../../../../../tools/bazel/vitest/setup";
+import "@lab/test-utils/setup";

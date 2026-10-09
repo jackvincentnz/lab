@@ -25,9 +25,9 @@ fe_app(
         "//:node_modules/@vitejs/plugin-react",
         "//:node_modules/jsdom",
         "//:node_modules/vitest",
-        "//tools/bazel/vitest:coverage_config",
+        "//tools/bazel/vitest:test_config",
     ],
-    test_deps = ["//tools/bazel/vitest:utils"],
+    test_deps = ["//:node_modules/@lab/test-utils"],
     deps = [
         "//:node_modules/@apollo/client",
         "//:node_modules/@lab/bubbles",

@@ -1,0 +1,23 @@
+load("//tools/bazel:fe.bzl", "fe_library")
+
+fe_library(
+    name = "src",
+    test_deps = [
+        "//:node_modules/@lab/bubbles",
+        "//:node_modules/@mantine/dates",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/dayjs",
+    ],
+    visibility = ["//libs/test-utils:__pkg__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/react-router-dom",
+        "//:node_modules/vitest",
+    ],
+)
