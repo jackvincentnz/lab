@@ -85,7 +85,9 @@ class IdentityContractTest extends GatewayTestSupport {
             .get()
             .uri("/api/graphql")
             .header(
-                HttpHeaders.AUTHORIZATION, "Bearer " + randomString(), "Basic " + randomString())
+                HttpHeaders.AUTHORIZATION,
+                "Bearer " + signBearer(bearerClaims(USER).build(), BEARER_KEY),
+                "Basic " + randomString())
             .exchange()
             .expectStatus()
             .isOk()
@@ -120,7 +122,9 @@ class IdentityContractTest extends GatewayTestSupport {
         .authenticatedClient()
         .get()
         .uri("/spend")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString())
+        .header(
+            HttpHeaders.AUTHORIZATION,
+            "Bearer " + signBearer(bearerClaims(USER).build(), BEARER_KEY))
         .exchange()
         .expectStatus()
         .isOk()

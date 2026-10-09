@@ -3,6 +3,8 @@ lab:
   gateway:
     token:
       ephemeral-key: true
+    bearer:
+      ephemeral-key: true
     users:
       - username: admin
         password: "{noop}admin"

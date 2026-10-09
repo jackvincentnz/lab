@@ -77,6 +77,9 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
+        // A bearer header is never sent by the browser on its own, so the resource server exempts
+        // bearer requests from CSRF.
+        .oauth2ResourceServer(server -> server.jwt(withDefaults()))
         .csrf(csrf -> csrf.csrfTokenRepository(csrfTokens))
         .logout(ServerHttpSecurity.LogoutSpec::disable)
         .addFilterAt(GatewayLogout.filter(csrfTokens), SecurityWebFiltersOrder.LOGOUT)

@@ -58,6 +58,17 @@ PEM RSA private key through the environment, see [Signing key](docs/signing-key.
 LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //projects/gateway
 ```
 
+## Bearer tokens
+
+API clients can send `Authorization: Bearer <jwt>` instead of using a session. The `local`
+profile generates the verification key at startup and logs its private half for minting. Anywhere
+else, supply an X.509 PEM RSA public key through the environment, see
+[Bearer tokens](docs/bearer-tokens.md) for the key and how to mint a token:
+
+```zsh
+LAB_GATEWAY_BEARER_PUBLIC_KEY="$(cat bearer-public.pem)" bazel run //projects/gateway
+```
+
 ## Tests
 
 Run service tests:
