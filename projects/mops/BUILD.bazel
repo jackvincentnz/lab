@@ -24,4 +24,5 @@ multirun(
         ":app",
     ],
     jobs = 0,
+    visibility = ["//projects/gateway:__pkg__"],
 )

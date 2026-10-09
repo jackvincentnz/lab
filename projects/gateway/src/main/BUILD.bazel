@@ -15,14 +15,21 @@ java_library(
     ],
 )
 
+# Spring Boot starts and stops Redis from compose.yaml around the local run. The compose
+# dependency stays on this run target so a delivered image never carries it.
 java_binary(
     name = "main",
+    data = ["//projects/gateway:compose.yaml"],
     env = {"SPRING_PROFILES_ACTIVE": "local"},
+    jvm_flags = [
+        "-Dspring.docker.compose.file=$$JAVA_RUNFILES/$(rlocationpath //projects/gateway:compose.yaml)",
+    ],
     main_class = "lab.gateway.GatewayApplication",
     visibility = [
         "//projects/gateway:__pkg__",
     ],
     runtime_deps = [
         ":main_lib",
+        "@maven//:org_springframework_boot_spring_boot_docker_compose",
     ],
 )

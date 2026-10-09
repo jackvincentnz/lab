@@ -9,22 +9,23 @@ token, and exposes public health and JWK set endpoints.
 
 ## Getting started
 
-Start Redis, run the service, and log in as `admin` with password `admin`:
+Start the gateway, Redis, and the Mops service and app, then open `http://localhost:3006` and
+log in as `admin` with password `admin`:
 
 ```zsh
-docker compose -f projects/gateway/compose.yaml up -d
+bazel run //projects/gateway:start
+```
+
+Run the gateway and Redis on their own:
+
+```zsh
 bazel run //projects/gateway
 ```
 
-The Bazel run target activates the `local` profile, which supplies the `admin` user.
-
-Run Mops through the gateway by starting the Mops service and app alongside it, then open
-`http://localhost:3006`:
-
-```zsh
-bazel run //projects/mops
-bazel run //projects/gateway
-```
+Both targets need a running Docker engine, activate the `local` profile, which supplies the
+`admin` user, and start Redis from `compose.yaml`. Ctrl-C stops everything they started. See
+[Local stack](docs/local-stack.md) for what runs and how it is wired, and the
+[Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
