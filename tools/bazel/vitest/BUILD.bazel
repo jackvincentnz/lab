@@ -1,7 +1,6 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
 load("//tools/bazel:js.bzl", "js_library")
-load("//tools/bazel:ts.bzl", "ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -9,38 +8,29 @@ vitest_bin.vitest_binary(
     name = "vitest_binary",
 )
 
-ts_project(
-    name = "utils",
-    srcs = [
-        "setup.ts",
-        "test-utils.ts",
-    ],
-    deps = [
-        "//:node_modules/@testing-library/jest-dom",
-        "//:node_modules/@testing-library/react",
-        "//:node_modules/@testing-library/user-event",
-        "//:node_modules/vitest",
-    ],
-)
-
 js_library(
     name = "vite_config",
     srcs = ["vite.config.ts"],
-    deps = [
-        ":coverage_config",
-        "//:node_modules/jsdom",
-    ],
-)
-
-js_library(
-    name = "coverage_config",
-    srcs = ["coverage.ts"],
-    deps = ["//:node_modules/@vitest/coverage-v8"],
+    deps = [":test_config"],
 )
 
 js_library(
     name = "package_json",
     srcs = ["package.json"],
+)
+
+js_library(
+    name = "test_config",
+    srcs = [
+        "config.ts",
+        "coverage.ts",
+    ],
+    deps = [
+        "//:node_modules/@lab/test-utils",
+        "//:node_modules/@vitest/coverage-v8",
+        "//:node_modules/jsdom",
+        "//:node_modules/vitest",
+    ],
 )
 
 bzl_library(
