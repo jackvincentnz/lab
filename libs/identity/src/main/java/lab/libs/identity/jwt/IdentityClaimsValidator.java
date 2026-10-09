@@ -11,8 +11,8 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 
 /**
- * Checks that a signed token carries the identity contract for one vertical: the trusted issuer,
- * this vertical in the audience, an expiry, UUID principal and tenant, and a scope string.
+ * Checks that a signed token carries the identity contract for one service: the trusted issuer,
+ * this service in the audience, an expiry, UUID principal and tenant, and a scope string.
  */
 public final class IdentityClaimsValidator implements OAuth2TokenValidator<Jwt> {
 
