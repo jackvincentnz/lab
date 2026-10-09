@@ -3,6 +3,7 @@ load("//tools/bazel:java.bzl", "java_library")
 java_library(
     name = "gateway",
     srcs = [
+        "AccessLogWebFilter.java",
         "Caller.java",
         "CsrfController.java",
         "GatewayApplication.java",
@@ -31,6 +32,7 @@ java_library(
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_reactor_core",
+        "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",

@@ -3,6 +3,8 @@ load("//tools/bazel:java.bzl", "java_junit5_test", "java_test_suite")
 java_test_suite(
     name = "gateway",
     srcs = [
+        "AccessLogTest.java",
+        "AccessLogWebFilterTest.java",
         "Browser.java",
         "CallerTest.java",
         "CsrfControllerTest.java",
@@ -33,6 +35,9 @@ java_test_suite(
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:ch_qos_logback_logback_classic",
+        "@maven//:ch_qos_logback_logback_core",
+        "@maven//:com_jayway_jsonpath_json_path",
         "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
@@ -40,6 +45,7 @@ java_test_suite(
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
+        "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
