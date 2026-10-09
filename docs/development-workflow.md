@@ -1,120 +1,76 @@
-# Development workflow
+# Developer experience
 
-This is the current path from onboarding to delivered container images. The
-short local loop uses pinned tools, incremental builds, and watch targets;
-repository-wide checks give feedback before changes reach `main`.
+This monorepo is designed to help humans and agents turn changes into validated,
+deployable artifacts with minimal setup, consistent commands, and fast feedback.
+The aim is to reduce cognitive load, preserve flow, and make problems visible
+while they are still easy to fix.
 
 ```mermaid
 flowchart TD
-  Setup["Setup: Bazelisk, repo tools, Docker, hooks"] --> Edit["Edit: build, test, run locally"]
-  Edit --> Commit["Commit: format, lint, commit message"]
-  Commit --> PR["PR to main: CI and review"]
-  PR -->|"Checks pass; feedback addressed"| Merge["Merge to main"]
-  PR -->|"Failure or review feedback"| Edit
-  Merge --> Main["Main CI: BUILD check, tests, coverage"]
-  Main -->|"Tests pass"| Images["Deliver: digest check, push new images and tags"]
-  Main -->|"Failure"| Edit
-  Images --> Boundary["Docker Hub: production rollout is not defined here"]
+  Setup["Setup: pinned tools and dependencies"] --> Work["Iterate: build, test, run"]
+  Work --> Commit["Commit: formatting, lint, message checks"]
+  Commit --> PR["PR: broad CI feedback and review"]
+  PR -->|"Feedback"| Work
+  PR -->|"Green checks and review addressed"| Main["Merge: repeat checks on main"]
+  Main -->|"Tests pass"| Images["Deliver: versioned images ready for deployment"]
 ```
 
-## Setup once
+## Reduce cognitive load
 
-Start with the [getting started guide](../README.md#getting-started) for
-Bazelisk, `bazel run tools:bazel_env`, Docker, and the initial build and test.
-The [development tools guide](tools.md) explains how direnv exposes the
-Bazel-managed tools on `PATH`. Bazelisk selects the repository's Bazel version,
-and the repository pins the toolchains and dependencies used by its targets.
-Install both commit hooks using [pre-commit setup](pre-commit.md#setup).
+The [setup guide](../README.md#getting-started) establishes Bazelisk, Docker,
+and [repository-managed tools](tools.md) in a few commands. Pinned versions
+reduce differences between contributors' environments. Bazel resolves declared
+build dependencies, so running a target does not require remembering separate
+package installation and compilation steps. Project READMEs cover runtime
+requirements such as credentials and local infrastructure.
 
-Read the project README for local dependencies and configuration before running
-it. Keep credentials and real data out of this public repository.
+The same interface applies across languages and projects: `bazel build` to
+build, `bazel test` to validate, and `bazel run` to start a runnable target.
+For example, `bazel run //projects/mops` starts its service and app together.
+[Project guides](../README.md#getting-started) name the available targets.
+Humans learn the conventions once; agents have fewer commands to discover or
+infer when moving between projects.
 
-## Keep the local loop short
+Shared [contribution conventions](../CONTRIBUTING.md), [agent guidance](../AGENTS.md),
+and [repository skills](https://github.com/jackvincentnz/lab/tree/main/.agents/skills) make expectations discoverable and
+repeatable.
 
-Run commands from the repository root. Build or test the target being changed
-while iterating, then widen validation as described in
-[Contributing](../CONTRIBUTING.md#validating-a-change): the whole project for a
-project change, or the whole repository for shared code, tools, configuration,
-or dependency changes. This checks consumers before review without requiring a
-full repository run after every edit.
+## Preserve flow
 
-Bazel reuses unchanged action outputs and cached test results. The default
-[Bazel configuration](../.bazelrc) also enables a local disk cache. Keep the
-checkout's default output base and startup options so that the server and cache
-can be reused; see [Bazel outputs](bazel.md#outputs) for logs and cache behavior.
-CI uses a [BuildBuddy remote cache and build event service](../.github/workflows/ci.bazelrc).
+Incremental builds and cached test results reuse unchanged work. The
+[local disk cache](../.bazelrc) and [BuildBuddy remote cache in CI](../.github/workflows/ci.bazelrc)
+reduce repeated execution, shortening the edit-to-feedback loop. Contributors
+can focus on the relevant targets while iterating, then widen validation before
+review. [Watch commands](../projects/mops/app/README.md#development) rebuild and
+reload the app or rerun tests as sources change.
 
-Choose the run mode from the project guide:
+[Renovate](renovate.md) proposes dependency updates and CI refreshes generated
+lockfiles where needed, reducing routine maintenance so contributors can spend
+more attention on useful changes.
 
-- [Mops](../projects/mops/README.md#getting-started) runs its service and app
-  together or separately, with local configuration documented there.
-- [Mops App](../projects/mops/app/README.md#development) provides `ibazel`
-  watch commands for the app and Vitest, plus a production bundle preview.
-  Watching rebuilds changed inputs before Vite or Vitest reloads them.
-- [Organizer](../projects/organizer/README.md#getting-started) can build and
-  load images before starting the Docker stack, or run with existing images.
-  The existing-image path skips builds, so it does not include new source changes.
+Artifacts use a [shared source version](../tools/bazel/output_workspace_status.sh),
+avoiding separate version bookkeeping for each component. After tests pass on
+`main`, [delivery](../tools/bazel/deliver_changed.sh) publishes changed images
+with version and `latest` tags, skipping images already present by digest.
+These artifacts are ready for deployment; production rollout is outside the
+repository's current workflow.
 
-Use the [testing guidelines](contributing/testing.md) to keep most behavior in
-focused unit tests and reserve infrastructure tests for behavior that needs
-real wiring. Docker-tagged tests require a running engine. The Docker-free
-validation option in [Contributing](../CONTRIBUTING.md#validating-a-change)
-omits those tests, and that omission belongs in the PR's validation results.
+## Make feedback fast and useful
 
-## Feedback and protection of main
+Feedback covers different failure modes at successive stages:
 
-| Stage                 | Feedback                                                                                                        | What it catches                                                                              |
-| --------------------- | --------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Local build and test  | Compiler/type errors, test failures, and logs under `dist/testlogs`.                                            | Broken targets and behavior in the selected scope.                                           |
-| Local run and watch   | Rebuild/reload feedback and observed app or service behavior.                                                   | Runtime and UI problems that tests can miss.                                                 |
-| Commit                | [Configured hooks](../.pre-commit-config.yaml) format and lint applicable files; Commitlint checks the message. | Formatting, static analysis, and commit convention errors before pushing.                    |
-| PR CI                 | Gazelle diff check, `no-coverage` tests, coverage for the remaining tests, and pre-commit.                      | Stale Java BUILD files, regressions across projects, and repository style failures.          |
-| PR reports and review | JUnit check reports, Codecov reports, and reviewer feedback.                                                    | Failed test cases, coverage changes, and design or behavior gaps that automated checks miss. |
-| Main CI               | Repeats BUILD, test, and coverage checks after merge.                                                           | Integration failures on the merged revision.                                                 |
-| Image delivery        | Registry digest lookup and image push output.                                                                   | Whether an image is already present and whether publishing succeeds.                         |
+| Stage           | Feedback                                                                                                                          |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Local iteration | Compilation, type checks, frontend and backend tests, and observed app behavior.                                                  |
+| Commit          | [Formatting, linting, and conventional commit checks](pre-commit.md).                                                             |
+| PR and main     | [BUILD consistency, repository-wide tests, JUnit reports, and coverage](../.github/workflows/main.yml), with review before merge. |
 
-The [Build workflow](../.github/workflows/main.yml) runs on PRs targeting `main`
-and pushes to `main`. Its common job checks Gazelle output before testing all
-`no-coverage` targets and running coverage on the remaining tests. JUnit reports
-are published even after a test failure; coverage is uploaded to Codecov. The
-PR-only job runs pre-commit. A newer revision cancels an older run for the same
-PR, so validation should be assessed on the latest revision.
+Coverage reports show which code tests exercise and where gaps remain. Tests,
+coverage, static checks, and review together build confidence in a green check.
+The [validation guidance](../CONTRIBUTING.md#validating-a-change) expands checks
+to the whole project, or the repository for shared changes, helping catch
+regressions in consumers before they reach the trunk. Clear commands and failure
+reports help humans and agents use the same correction loop.
 
-Before merging, follow [the PR process](../CONTRIBUTING.md#pull-requests-and-ci):
-record validation, address review feedback, and ensure checks pass. Local hooks,
-project validation, repository-wide CI, and review are successive opportunities
-to catch issues before they reach the trunk. They do not prove every runtime
-scenario, and the workflow file alone does not establish GitHub branch
-protection settings. A failure on `main` needs a corrective change through the
-same feedback loop.
-
-## Image delivery and versioning
-
-On `main`, the common CI job logs into Docker Hub and runs
-[`deliver_changed.sh`](../tools/bazel/deliver_changed.sh) after the BUILD, test,
-and coverage steps succeed. It discovers targets tagged `deliverable` and runs
-them in parallel with release stamping. PR runs do not publish images.
-Dependency submission and the Codecov upload occur after delivery, so an image
-may have been pushed even if one of those later steps fails.
-
-The [OCI macro](../tools/bazel/oci/defs.bzl) defines repositories named
-`jackvincent/lab-<repo_suffix>` and
-[checks each image digest](../tools/bazel/oci/check_then_push.sh) before pushing.
-If that digest is already in the registry, it skips the push and new tags. For
-a new image, it pushes `latest` and the stamped version tag. Delivery therefore
-tracks changed image contents, rather than assigning every image a new tag on
-every merge.
-
-The [weekly tag workflow](../.github/workflows/weekly-tag.yaml) creates an ISO
-year/week Git tag on the scheduled revision each Monday at 07:00 UTC.
-[`output_workspace_status.sh`](../tools/bazel/output_workspace_status.sh)
-derives `STABLE_VERSION` from the nearest matching tag, the commit distance,
-and the abbreviated Git SHA: `<year>.<week>.<distance>-<sha>`.
-The [release configuration](../.bazelrc) enables that stamp for delivery.
-Version tags identify the source revision that published an image; `latest`
-moves when a new image is pushed.
-
-The implemented delivery path ends at Docker Hub. This repository does not
-define a production rollout, promotion, rollback, or production health check
-in these workflows. Publishing an image is the available delivery mechanism;
-deploying it to a production environment is outside this documented path.
+A future setup script or guided skill could reduce onboarding to one entry
+point; today, the linked setup steps define that path.
