@@ -40,7 +40,9 @@ The token's claims are described in the [Edge gateway ADR](../../docs/adr/gatewa
 The `local` profile sets `mops.identity.development.enabled=true`, so a request that carries no
 token is handled as a fixed development identity. The direct targets above, the e2e image, and
 the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=local`; the
-delivered image ships with no profile and rejects unidentified requests.
+delivered image ships with no profile and rejects unidentified requests. The
+[gateway stack](../gateway/README.md#getting-started) keeps the profile but turns the development
+identity off, because every request it forwards carries a token.
 
 ## Tests
 

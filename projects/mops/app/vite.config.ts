@@ -12,6 +12,8 @@ export default defineConfig({
     preserveSymlinks: process.env.VITEST === "true",
   },
   server: {
+    // Node binds "localhost" to ::1 only on macOS, and the gateway connects to the app over IPv4.
+    host: "127.0.0.1",
     proxy: {
       "/api": {
         target: "http://127.0.0.1:8080",
