@@ -35,7 +35,7 @@ class RedisSessionTest {
   static void properties(DynamicPropertyRegistry registry) {
     registry.add("spring.data.redis.host", REDIS::getHost);
     registry.add("spring.data.redis.port", () -> REDIS.getMappedPort(6379));
-    GatewayTestSupport.configureUsers(registry);
+    GatewayTestSupport.configureGateway(registry);
   }
 
   @Test

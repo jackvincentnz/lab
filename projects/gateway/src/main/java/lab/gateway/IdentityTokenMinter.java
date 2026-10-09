@@ -1,0 +1,49 @@
+package lab.gateway;
+
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import java.time.Clock;
+import java.util.List;
+import java.util.UUID;
+import lab.libs.identity.jwt.IdentityClaims;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.JwsHeader;
+import org.springframework.security.oauth2.jwt.JwtClaimsSet;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+
+/** Mints the identity token a downstream service receives in place of the browser's credentials. */
+public final class IdentityTokenMinter {
+
+  private final IdentityTokenProperties properties;
+  private final SigningKey key;
+  private final JwtEncoder encoder;
+  private final Clock clock;
+
+  public IdentityTokenMinter(IdentityTokenProperties properties, SigningKey key, Clock clock) {
+    this.properties = properties;
+    this.key = key;
+    this.encoder = new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(key.jwk())));
+    this.clock = clock;
+  }
+
+  /** A token for one forwarded request, addressed to the service named by {@code audience}. */
+  public String mint(Caller caller, String audience) {
+    var issuedAt = clock.instant();
+    var claims =
+        JwtClaimsSet.builder()
+            .issuer(properties.issuer())
+            .audience(List.of(audience))
+            .subject(caller.principal().toString())
+            .issuedAt(issuedAt)
+            .expiresAt(issuedAt.plus(properties.validFor()))
+            .id(UUID.randomUUID().toString())
+            .claim(IdentityClaims.TENANT, caller.tenant().toString())
+            .claim(IdentityClaims.SCOPE, String.join(" ", caller.scopes()))
+            .claim(IdentityClaims.AUTHENTICATION_METHODS, List.of(caller.authenticationMethod()))
+            .build();
+    var header = JwsHeader.with(SignatureAlgorithm.RS256).keyId(key.keyId()).build();
+    return encoder.encode(JwtEncoderParameters.from(header, claims)).getTokenValue();
+  }
+}

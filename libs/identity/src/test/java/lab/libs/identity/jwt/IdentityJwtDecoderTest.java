@@ -37,7 +37,6 @@ class IdentityJwtDecoderTest {
             .principal(principalId)
             .tenant(tenantId)
             .scopes("mops:read")
-            .sessionId("session-1")
             .mint();
 
     var jwt = decoder.decode(token);
@@ -45,7 +44,6 @@ class IdentityJwtDecoderTest {
     assertThat(IdentityClaims.identity(jwt).principalId()).isEqualTo(principalId);
     assertThat(IdentityClaims.identity(jwt).tenantId()).isEqualTo(tenantId);
     assertThat(IdentityClaims.identity(jwt).scopes()).containsExactly("mops:read");
-    assertThat(jwt.getClaimAsString(IdentityClaims.SESSION_ID)).isEqualTo("session-1");
     assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly("form");
   }
