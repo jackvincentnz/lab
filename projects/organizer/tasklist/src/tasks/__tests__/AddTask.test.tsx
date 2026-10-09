@@ -1,6 +1,4 @@
-import { MantineProvider } from "@mantine/core";
 import type { MockLink } from "@apollo/client/testing";
-import { MockedProvider } from "@apollo/client/testing/react";
 import type { ReactNode } from "react";
 
 import {
@@ -16,7 +14,7 @@ import {
   userEvent,
   vi,
   waitFor,
-} from "../../../../../../tools/bazel/vitest/test-utils";
+} from "@lab/test-utils";
 import AddTask from "../AddTask";
 import DisplayTasks from "../DisplayTasks";
 
@@ -24,11 +22,7 @@ function renderWithMocks(
   mocks: readonly MockLink.MockedResponse[],
   ui: ReactNode = <AddTask />,
 ) {
-  render(
-    <MantineProvider>
-      <MockedProvider mocks={mocks}>{ui}</MockedProvider>
-    </MantineProvider>,
-  );
+  render(ui, { mockedProvider: { mocks } });
 }
 
 function addTaskMock(

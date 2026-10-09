@@ -51,10 +51,10 @@ ts_project(
     ),
     deps = [
         ":src",
+        "//:node_modules/@lab/test-utils",
         "//:node_modules/@mantine/core",
         "//:node_modules/@types/react",
         "//:node_modules/react",
-        "//tools/bazel/vitest:utils",
     ],
 )
 

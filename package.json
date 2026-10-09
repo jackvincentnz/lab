@@ -37,6 +37,7 @@
     "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
+    "@lab/test-utils": "workspace:*",
     "@playwright/test": "1.56.1",
     "@apollo/rover": "0.41.0",
     "@eslint/js": "10.0.1",
