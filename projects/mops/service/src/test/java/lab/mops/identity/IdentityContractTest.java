@@ -84,7 +84,7 @@ class IdentityContractTest {
   }
 
   @Test
-  void request_withTokenForAnotherVertical_isRejected() {
+  void request_withTokenForAnotherService_isRejected() {
     var token = TestTokens.forAudience("organizer").mint();
 
     assertThat(mvc.get().uri("/identity-probe").header(HttpHeaders.AUTHORIZATION, bearer(token)))

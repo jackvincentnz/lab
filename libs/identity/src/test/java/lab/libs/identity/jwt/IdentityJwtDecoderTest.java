@@ -70,7 +70,7 @@ class IdentityJwtDecoderTest {
   }
 
   @Test
-  void decode_rejectsTokenForAnotherVertical() {
+  void decode_rejectsTokenForAnotherService() {
     var token = TestTokens.forAudience("organizer").mint();
 
     assertThatThrownBy(() -> decoder.decode(token)).isInstanceOf(JwtException.class);

@@ -12,7 +12,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
  *
  * @param issuer the value every accepted token must carry in {@code iss}.
  * @param jwkSetUri where the issuer publishes its signing keys.
- * @param audience the name this vertical expects in the token's {@code aud} claim.
+ * @param audience the name this service expects in the token's {@code aud} claim.
  * @param development the identity to assume when a request carries no token. Off by default so a
  *     Mops instance rejects anything the issuer did not identify.
  */
