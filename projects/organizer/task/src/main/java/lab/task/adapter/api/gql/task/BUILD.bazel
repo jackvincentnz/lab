@@ -2,11 +2,16 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "task",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "TaskDataFetcher.java",
+        "TaskMapper.java",
+        "TaskMutation.java",
+    ],
     visibility = [
         "//projects/organizer/task/src/main/java/lab/task/adapter:__pkg__",
         "//projects/organizer/task/src/test/java/lab/task/adapter/api/gql/task:__pkg__",
     ],
+    exports = ["//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema"],
     deps = [
         "//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema",
         "//projects/organizer/task/src/main/java/lab/task/application/task",

@@ -1,9 +1,11 @@
-load("//tools/bazel:java.bzl", "java_library")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
-java_library(
+java_test_suite(
     name = "testing",
-    testonly = True,
-    srcs = glob(["*.java"]),
+    srcs = [
+        "JwkSetServer.java",
+        "TestTokens.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",

@@ -2,6 +2,7 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import lab.test.RequiresDocker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,9 +17,12 @@ import org.testcontainers.containers.GenericContainer;
 
 /** Covers what only a real Redis shows: the session is stored there and logout deletes it. */
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@RequiresDocker
 class RedisSessionTest {
   static final GenericContainer<?> REDIS =
-      new GenericContainer<>("redis:7.4-alpine").withExposedPorts(6379);
+      new GenericContainer<>(
+              "redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0")
+          .withExposedPorts(6379);
 
   static {
     REDIS.start();

@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "persistence",
-    srcs = glob(["*.java"]),
+    srcs = ["InMemoryAggregateStore.java"],
     visibility = ["//visibility:public"],
     deps = ["//libs/ddd/src/main/java/lab/libs/ddd/domain"],
 )

@@ -20,6 +20,9 @@ jobs:
       contents: write
     if: ${{ github.actor == 'renovate[bot]' || startsWith(github.head_ref, 'renovate/') }}
     env:
+      # rules_android, pulled in by rules_jvm_external and by protobuf through
+      # rules_kotlin, creates an empty Android SDK repository only when
+      # ANDROID_HOME is unset or empty. Runners set it, so the SDK fetch fails.
       ANDROID_HOME: ""
       IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
       REPIN_PUSH_TOKEN: ${{ secrets.REPIN_PUSH_TOKEN }}

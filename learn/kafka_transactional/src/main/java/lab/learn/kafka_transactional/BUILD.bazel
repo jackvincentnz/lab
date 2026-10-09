@@ -2,8 +2,13 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "kafka_transactional",
-    srcs = glob(["*.java"]),
+    srcs = ["Application.java"],
     visibility = ["//learn/kafka_transactional:__subpackages__"],
+    exports = [
+        "@maven//:org_apache_kafka_kafka_clients",
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_spring_jdbc",
+    ],
     deps = [
         "@maven//:org_apache_kafka_kafka_clients",
         "@maven//:org_springframework_boot_spring_boot",

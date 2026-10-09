@@ -1,4 +1,4 @@
-load("//tools/bazel:java.bzl", "DGS_TEST_DEPS", "DGS_TEST_RUNTIME_DEPS", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_library", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_library", "java_test_suite")
 
 # TODO: We should hoist these resources to common package for integration tests to avoid this in each package
 java_library(
@@ -12,15 +12,37 @@ java_library(
 )
 
 java_test_suite(
-    name = "tests",
-    runtime_deps = [":test_resources"] + SPRING_TEST_RUNTIME_DEPS + DGS_TEST_RUNTIME_DEPS,
+    name = "gql",
+    srcs = [
+        "EntriesDataFetcherTest.java",
+        "EntryMapperTest.java",
+        "EntryMutationTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        ":test_resources",
+        "@maven//:com_netflix_graphql_dgs_dgs_starter",
+        "@maven//:com_netflix_graphql_dgs_dgs_starter_test",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
     deps = [
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql",
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema",
         "//projects/organizer/journal/src/main/java/lab/journal/application/entry",
         "//projects/organizer/journal/src/main/java/lab/journal/config",
         "//projects/organizer/journal/src/main/java/lab/journal/domain",
-        "//third_party/dgs:client",
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
-    ] + SPRING_TEST_DEPS + DGS_TEST_DEPS,
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs",
+        "@maven//:com_netflix_graphql_dgs_graphql_dgs_spring_graphql_test",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
+    ],
 )

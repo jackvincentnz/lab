@@ -1,0 +1,16 @@
+load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+
+gazelle_binary(
+    name = "gazelle_bin",
+    languages = ["@contrib_rules_jvm//java/gazelle"],
+)
+
+gazelle(
+    name = "gazelle",
+    args = [
+        # Test classes annotated @RequiresDocker get their own target, so runners without Docker
+        # can filter them out by tag.
+        '-java-annotation-to-attribute=lab.test.RequiresDocker=tags=["requires-docker","requires-network"]',
+    ],
+    gazelle = ":gazelle_bin",
+)

@@ -2,7 +2,7 @@ package lab.mops.core.domain.category;
 
 import static lab.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import lab.libs.ddd.domain.DuplicateException;
 import lab.test.TestBase;

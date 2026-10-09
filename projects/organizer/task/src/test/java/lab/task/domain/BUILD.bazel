@@ -1,9 +1,23 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "domain",
+    srcs = [
+        "TaskAddedEventTest.java",
+        "TaskCompletedEventTest.java",
+        "TaskIdTest.java",
+        "TaskTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
     deps = [
-        "//libs/ddd/src/test/java/lab/libs/ddd/domain/test",
+        "//libs/ddd/src/test/java/lab/libs/ddd/domain/test:test-test-lib",
         "//projects/organizer/task/src/main/java/lab/task/domain",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
     ],
 )

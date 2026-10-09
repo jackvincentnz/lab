@@ -2,13 +2,17 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "task",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "TaskCommandService.java",
+        "TaskQueryService.java",
+    ],
     visibility = [
         "//projects/organizer/task/src/main/java/lab/task/adapter:__subpackages__",
         "//projects/organizer/task/src/main/java/lab/task/application:__pkg__",
         "//projects/organizer/task/src/test/java/lab/task/adapter:__subpackages__",
         "//projects/organizer/task/src/test/java/lab/task/application/task:__pkg__",
     ],
+    exports = ["//projects/organizer/task/src/main/java/lab/task/domain"],
     deps = [
         "//projects/organizer/task/src/main/java/lab/task/domain",
         "@maven//:org_springframework_spring_context",

@@ -2,6 +2,7 @@ import fs from "node:fs";
 import Dockerode from "dockerode";
 import {
   GenericContainer,
+  ImageName,
   Wait,
   Network,
   type StartedNetwork,
@@ -14,22 +15,42 @@ import type { ContentToCopy, Environment } from "testcontainers/build/types";
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
 const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.load/tarball.tar`;
-const TASKLIST_TAG = "jackvincent/lab-tasklist:latest";
+const TASKLIST_INDEX = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.index`;
 const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.load/tarball.tar`;
-const JOURNAL_APP_TAG = "jackvincent/lab-journal-app:latest";
+const JOURNAL_APP_INDEX = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.index`;
 const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.load/tarball.tar`;
-const TASK_TAG = "jackvincent/lab-task:latest";
+const TASK_INDEX = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.index`;
 const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.load/tarball.tar`;
-const JOURNAL_TAG = "jackvincent/lab-journal:latest";
+const JOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.index`;
 const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.load/tarball.tar`;
-const AUTOJOURNAL_TAG = "jackvincent/lab-autojournal:latest";
+const AUTOJOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.index`;
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
-const PROXY_TAG = "lab/proxy:latest";
+const PROXY_INDEX = `${RUNFILES}/_main/infra/local/proxy/index`;
 const PROXY_PORT = 5000;
-const KAFKA_IMAGE = "confluentinc/cp-kafka:8.3.2";
-const SCHEMA_REGISTRY_IMAGE = "confluentinc/cp-schema-registry:8.3.2";
+const KAFKA_IMAGE =
+  "confluentinc/cp-kafka:8.3.2@sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48";
+const SCHEMA_REGISTRY_IMAGE =
+  "confluentinc/cp-schema-registry:8.3.2@sha256:482d3048b3f6029bae5794b5c3b5e2eea8d61ca064dacd32241315e818fd8d7c";
 
 const DOCKER = new Dockerode();
+
+// Kafka needs the release tag for version checks; Docker needs the digest reference.
+class PinnedKafkaImageName extends ImageName {
+  override readonly string: string;
+
+  constructor(imageName: ImageName, reference: string) {
+    super(imageName.registry, imageName.image, imageName.tag);
+    this.string = reference;
+  }
+}
+
+class PinnedKafkaContainer extends KafkaContainer {
+  constructor(reference: string) {
+    super(reference.split("@")[0]);
+    this.imageName = new PinnedKafkaImageName(this.imageName, reference);
+    this.createOpts.Image = reference;
+  }
+}
 
 type StartedResource = StartedNetwork | StartedTestContainer;
 
@@ -132,7 +153,7 @@ export default async function globalSetup() {
 }
 
 async function startKafka(network: StartedNetwork) {
-  return new KafkaContainer(KAFKA_IMAGE)
+  return new PinnedKafkaContainer(KAFKA_IMAGE)
     .withNetworkAliases("broker")
     .withNetwork(network)
     .start();
@@ -154,12 +175,12 @@ async function startSchemaRegistry(network: StartedNetwork) {
 
 function loadContainers() {
   return {
-    loadedTask: loadContainer(TASK_TARBALL, TASK_TAG),
-    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_TAG),
-    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_TAG),
-    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_TAG),
-    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_TAG),
-    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_TAG),
+    loadedTask: loadContainer(TASK_TARBALL, TASK_INDEX),
+    loadedJournal: loadContainer(JOURNAL_TARBALL, JOURNAL_INDEX),
+    loadedAutojournal: loadContainer(AUTOJOURNAL_TARBALL, AUTOJOURNAL_INDEX),
+    loadedTasklist: loadContainer(TASKLIST_TARBALL, TASKLIST_INDEX),
+    loadedJournalApp: loadContainer(JOURNAL_APP_TARBALL, JOURNAL_APP_INDEX),
+    loadedProxy: loadContainer(PROXY_TARBALL, PROXY_INDEX),
   };
 }
 
@@ -236,7 +257,7 @@ async function startRouter(network: StartedNetwork) {
   };
 
   return new GenericContainer(
-    "ghcr.io/apollographql/router:v2.17.0@sha256:b4e70cbcff5a5c3a8825aa2b201257b57a2052bbe2d7751e74d129ebaa09ffe6",
+    "ghcr.io/apollographql/router:v2.18.0@sha256:5b02af03e8f0268b8fcf85132c9e54ea36a1029b0823b00bb9151f698a991215",
   )
     .withCopyContentToContainer(contentToCopy)
     .withEnvironment(environment)
@@ -287,12 +308,24 @@ async function startProxy(
     .start();
 }
 
-async function loadContainer(tarballPath: string, imageTag: string) {
-  return loadImage(tarballPath).then(() => new GenericContainer(imageTag));
+async function loadContainer(tarballPath: string, indexPath: string) {
+  return loadImage(tarballPath).then(
+    () => new GenericContainer(imageId(indexPath)),
+  );
 }
 
 async function loadImage(tarballPath: string) {
   return DOCKER.loadImage(fs.createReadStream(tarballPath));
+}
+
+// Starts by image ID because another run can move the tarball's mutable tag
+// between this run's load and its container start. Docker's containerd image
+// store uses the digest of the loaded image index as the image ID.
+function imageId(indexPath: string) {
+  const layout = JSON.parse(
+    fs.readFileSync(`${indexPath}/index.json`, "utf8"),
+  ) as { manifests: [{ digest: string }] };
+  return layout.manifests[0].digest;
 }
 
 async function cleanup(targets: StartedResource[]) {

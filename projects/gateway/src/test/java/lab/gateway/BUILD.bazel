@@ -1,72 +1,99 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_library", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_junit5_test", "java_test_suite")
 
-java_library(
-    name = "support",
-    testonly = True,
+java_test_suite(
+    name = "gateway",
     srcs = [
         "Browser.java",
+        "CsrfControllerTest.java",
         "Downstream.java",
+        "FormLoginTest.java",
+        "GatewayApplicationTest.java",
+        "GatewayLogoutTest.java",
+        "GatewayPrincipalTest.java",
         "GatewayTestSupport.java",
+        "GatewayUsersTest.java",
+        "IdentityContractTest.java",
+        "IdentityTokenGatewayFilterFactoryTest.java",
+        "IdentityTokenMinterTest.java",
+        "MopsRoutingTest.java",
+        "SigningKeyTest.java",
     ],
-    deps = SPRING_TEST_DEPS + [
-        "//libs/test/src/test/java/lab/test",
+    runner = "junit5",
+    tags = ["requires-network"],
+    runtime_deps = [
+        "//projects/gateway/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "//libs/identity/src/main/java/lab/libs/identity/jwt",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:io_projectreactor_netty_reactor_netty_core",
         "@maven//:io_projectreactor_netty_reactor_netty_http",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_assertj_assertj_core",
-        "@maven//:org_springframework_security_spring_security_crypto",
-        "@maven//:org_springframework_session_spring_session_core",
-        "@maven//:org_springframework_spring_context",
-        "@maven//:org_springframework_spring_web",
-        "@maven//:org_springframework_spring_webflux",
-    ],
-)
-
-# Spring suites bind a port and connect to it, which the sandbox treats as network access.
-java_test_suite(
-    name = "tests",
-    srcs = glob(
-        ["*Test.java"],
-        exclude = ["RedisSessionTest.java"],
-    ),
-    tags = ["requires-network"],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
-        "//projects/gateway/src/main:main_lib",
-    ],
-    deps = SPRING_TEST_DEPS + [
-        ":support",
-        "//libs/identity/src/main/java/lab/libs/identity",
-        "//libs/identity/src/main/java/lab/libs/identity/jwt",
-        "//projects/gateway/src/main/java/lab/gateway",
-        "@maven//:com_nimbusds_nimbus_jose_jwt",
-        "@maven//:io_projectreactor_reactor_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
+        "@maven//:org_testcontainers_testcontainers",
     ],
 )
 
-# Separate only so the Docker tag stays off the rest of the package.
-java_test_suite(
-    name = "redis_tests",
+java_junit5_test(
+    name = "RedisSessionTest",
     srcs = ["RedisSessionTest.java"],
     tags = [
         "requires-docker",
         "requires-network",
     ],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+    test_class = "lab.gateway.RedisSessionTest",
+    runtime_deps = [
         "//projects/gateway/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
-    deps = SPRING_TEST_DEPS + [
-        ":support",
+    deps = [
+        ":gateway-test-lib",
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "//libs/identity/src/main/java/lab/libs/identity/jwt",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
+        "@maven//:io_projectreactor_netty_reactor_netty_core",
+        "@maven//:io_projectreactor_netty_reactor_netty_http",
+        "@maven//:io_projectreactor_reactor_core",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_crypto",
+        "@maven//:org_springframework_security_spring_security_oauth2_jose",
+        "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_session_spring_session_core",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_springframework_spring_web",
         "@maven//:org_springframework_spring_webflux",
         "@maven//:org_testcontainers_testcontainers",
     ],

@@ -2,13 +2,21 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "category",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "CategoryDataFetcher.java",
+        "CategoryDataLoader.java",
+        "CategoryMapper.java",
+        "CategoryMutation.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core:__pkg__",
         "//projects/mops/service/src/test/java/lab/mops/core/api/gql/category:__pkg__",
     ],
+    exports = [
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
+        "//projects/mops/service/src/main/resources/schema:java",
+    ],
     deps = [
-        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/java/lab/mops/core/application/category",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",

@@ -9,17 +9,37 @@ import java.util.List;
 import java.util.UUID;
 import lab.libs.ddd.domain.DomainEvent;
 import lab.libs.ddd.domain.InternalId;
+import lab.test.RequiresDocker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.utility.DockerImageName;
 
-@SpringBootTest(
-    properties = {
-      "spring.datasource.url=jdbc:tc:postgresql:latest:///databasename",
-      "spring.sql.init.mode=always"
-    })
+@SpringBootTest(properties = "spring.sql.init.mode=always")
+@RequiresDocker
 class EventRepositoryTest {
+
+  static final PostgreSQLContainer POSTGRES =
+      new PostgreSQLContainer(
+              DockerImageName.parse(
+                      "postgres:18.6@sha256:74935e72241653ca55e0414067e6d8763aceb8a810eb51b452253ec3dcfc4336")
+                  .withRepository("postgres"))
+          .withDatabaseName("databasename");
+
+  static {
+    POSTGRES.start();
+  }
+
+  @DynamicPropertySource
+  static void properties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
+    registry.add("spring.datasource.username", POSTGRES::getUsername);
+    registry.add("spring.datasource.password", POSTGRES::getPassword);
+  }
 
   @Autowired EventRepository eventRepository;
 

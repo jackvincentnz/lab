@@ -1,0 +1,6 @@
+interface:
+  display_name: "PR Review Follow-up"
+  short_description: "Plan, fix, and reply to review feedback on a PR"
+  default_prompt: "Use $pr-review-followup to collect the review feedback on this PR and propose a plan."
+policy:
+  allow_implicit_invocation: true

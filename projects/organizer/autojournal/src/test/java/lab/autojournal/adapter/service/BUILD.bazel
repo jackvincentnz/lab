@@ -1,13 +1,24 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "service",
+    srcs = [
+        "GqlJournalServiceAdapterTest.java",
+        "GqlTaskServiceAdapterTest.java",
+        "RecordingGraphqlServer.java",
+    ],
+    runner = "junit5",
     tags = ["requires-network"],
     runtime_deps = [
         "@maven//:org_eclipse_jetty_jetty_reactive_httpclient",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
     ],
     deps = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter/service",
         "@maven//:com_fasterxml_jackson_core_jackson_databind",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
     ],
 )

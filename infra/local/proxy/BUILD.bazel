@@ -1,4 +1,4 @@
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_image_index", "oci_load")
 load("//tools/bazel:pkg.bzl", "tar")
 
 tar(
@@ -15,13 +15,23 @@ oci_image(
     ],
 )
 
+# rules_oci writes an OCI-format tarball only from an image index.
+oci_image_index(
+    name = "index",
+    images = [":image"],
+    visibility = ["//projects/organizer/e2e:__pkg__"],
+)
+
 # Tag and run a local container with:
 # $ bazel run :load
 # $ docker run --rm lab/proxy:latest
 oci_load(
     name = "load",
-    image = ":image",
-    repo_tags = ["lab/proxy:latest"],
+    format = "oci",
+    image = ":index",
+    # Docker's containerd image store looks up an OCI tarball's tag only by its
+    # fully qualified name.
+    repo_tags = ["docker.io/lab/proxy:latest"],
     visibility = [
         "//projects/organizer:__pkg__",
     ],

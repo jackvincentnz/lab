@@ -2,11 +2,16 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "gql",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "EntriesDataFetcher.java",
+        "EntryMapper.java",
+        "EntryMutation.java",
+    ],
     visibility = [
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api:__pkg__",
         "//projects/organizer/journal/src/test/java/lab/journal/adapter/api/gql:__pkg__",
     ],
+    exports = ["//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema"],
     deps = [
         "//projects/organizer/journal/src/main/java/lab/journal/adapter/api/gql/schema",
         "//projects/organizer/journal/src/main/java/lab/journal/application/entry",

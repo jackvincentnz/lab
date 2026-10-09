@@ -2,9 +2,10 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "mops",
-    srcs = glob(["*.java"]),
+    srcs = ["MopsApplication.java"],
     visibility = [
         "//projects/mops/service/src/main:__pkg__",
+        "//projects/mops/service/src/test/java/lab/mops:__pkg__",
     ],
     deps = [
         "@maven//:org_springframework_boot_spring_boot",

@@ -2,11 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "autojournal",
-    srcs = glob(["*.java"]),
+    srcs = ["AutoJournalApplication.java"],
     visibility = [
         "//projects/organizer/autojournal/src/main:__pkg__",
         "//projects/organizer/autojournal/src/test/java/lab/autojournal:__pkg__",
     ],
+    exports = ["@maven//:org_springframework_kafka_spring_kafka"],
     runtime_deps = [
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter",
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/application",

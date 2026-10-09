@@ -2,12 +2,31 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "chat",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "AddUserMessageCommand.java",
+        "ApproveToolCallCommand.java",
+        "ChatCommandService.java",
+        "ChatContextBuilder.java",
+        "ChatEventHandler.java",
+        "ChatQueryService.java",
+        "EditUserMessageCommand.java",
+        "MessageMapper.java",
+        "RejectToolCallCommand.java",
+        "RetryAssistantMessageCommand.java",
+        "StartChatCommand.java",
+        "Tool.java",
+        "ToolDefinition.java",
+        "ToolProvider.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/ai/api:__subpackages__",
         "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/ai/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/ai/application/chat:__pkg__",
+    ],
+    exports = [
+        "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
+        "//projects/mops/service/src/main/java/lab/mops/ai/domain/chat",
     ],
     deps = [
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",

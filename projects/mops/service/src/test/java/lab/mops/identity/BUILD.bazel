@@ -1,16 +1,31 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "identity",
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
-        "//projects/mops/service/src/main:main_lib",
+    srcs = [
+        "DevelopmentIdentityTest.java",
+        "IdentityContractTest.java",
+        "IdentityProbe.java",
     ],
-    deps = SPRING_TEST_DEPS + [
+    runner = "junit5",
+    runtime_deps = [
+        "//projects/mops/service/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
         "//libs/identity/src/main/java/lab/libs/identity",
-        "//libs/identity/src/test/java/lab/libs/identity/testing",
+        "//libs/identity/src/test/java/lab/libs/identity/testing:testing-test-lib",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_boot_spring_boot_webmvc_test",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_spring_beans",
         "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
     ],
 )

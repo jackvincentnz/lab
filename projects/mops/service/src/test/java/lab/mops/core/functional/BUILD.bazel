@@ -1,17 +1,34 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "functional",
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
-        "//projects/mops/service/src/main:main_lib",
+    srcs = [
+        "ActivityFunctionalTest.java",
+        "BudgetFunctionalTest.java",
+        "CategoryFunctionalTest.java",
+        "LineItemFunctionalTest.java",
     ],
-    deps = SPRING_TEST_DEPS + [
+    runner = "junit5",
+    runtime_deps = [
+        "//projects/mops/service/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/resources/schema:java",
-        "//projects/mops/service/src/test/java/lab/mops/client",
+        "//projects/mops/service/src/test/java/lab/mops/client:client-test-lib",
         "@maven//:com_jayway_jsonpath_json_path",
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_tx",
     ],
 )

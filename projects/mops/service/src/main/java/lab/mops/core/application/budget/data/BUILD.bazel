@@ -2,7 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "data",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "ResolvedBudget.java",
+        "ResolvedCategorization.java",
+        "ResolvedLineItem.java",
+        "Spend.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/main/java/lab/mops/core/api/ai:__subpackages__",

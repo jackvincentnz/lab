@@ -1,12 +1,28 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "messaging",
+    srcs = [
+        "DomainEventPublisherTest.java",
+        "EventMapperFactoryTest.java",
+        "TaskAddedEventMapperTest.java",
+        "TaskCompletedEventMapperTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",
         "//projects/organizer/task/src/main/java/lab/task/domain",
         "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_kafka_spring_kafka",
     ],
 )

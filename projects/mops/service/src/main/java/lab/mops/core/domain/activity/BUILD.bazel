@@ -2,7 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "activity",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "Activity.java",
+        "ActivityCreatedEvent.java",
+        "ActivityId.java",
+        "ActivityRepository.java",
+    ],
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],

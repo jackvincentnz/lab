@@ -2,8 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "http",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "BufferedResponseReader.java",
+        "LoggingHttpRequestInterceptor.java",
+    ],
     visibility = ["//visibility:public"],
+    exports = ["@maven//:org_springframework_spring_web"],
     deps = [
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_spring_web",

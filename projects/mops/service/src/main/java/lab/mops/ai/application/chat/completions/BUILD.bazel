@@ -2,7 +2,15 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "completions",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "AssistantMessage.java",
+        "CompletionService.java",
+        "Message.java",
+        "MessageRole.java",
+        "ToolCall.java",
+        "ToolResultMessage.java",
+        "UserMessage.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat:__pkg__",
         "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",

@@ -9,7 +9,7 @@ bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_jvm_external", version = "7.1")
 bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.5")
-bazel_dep(name = "aspect_rules_js", version = "3.4.1")
+bazel_dep(name = "aspect_rules_js", version = "3.5.1")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
 bazel_dep(name = "rules_playwright", version = "0.0.0")
@@ -20,6 +20,13 @@ bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
+
+bazel_dep(name = "gazelle", version = "0.54.0", dev_dependency = True)
+bazel_dep(name = "rules_go", version = "0.59.0", dev_dependency = True)
+
+# Gazelle requires Go 1.24.12; select it ahead of contrib_rules_jvm's older SDK.
+go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk", dev_dependency = True)
+go_sdk.download(version = "1.24.12")
 
 git_override(
     module_name = "rules_playwright",
@@ -35,8 +42,8 @@ http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_j
 
 http_jar(
     name = "opentelemetry-javaagent",
-    sha256 = "bbf83c151b6400709e2f225bdd07a04f839d9d13b8b93464241333fd25d3e3ba",
-    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.31.1/opentelemetry-javaagent.jar",
+    sha256 = "f787eb6c7f3d18e69a431e108a15278d25ee37f83d68b678f621e063f3988f82",
+    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.32.0/opentelemetry-javaagent.jar",
 )
 
 ####################################################################################################
@@ -107,7 +114,7 @@ maven.install(
         "jakarta.servlet:jakarta.servlet-api",
         "io.confluent:kafka-protobuf-serializer:8.3.2",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.7.0",
-        "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core
+        "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core, at the 4.4.0 it declares; Clikt 5 changed the CliktCommand constructor, so codegen fails with NoSuchMethodError
         "com.squareup.okhttp3:okhttp-jvm:5.5.0",
         "org.apache.tomcat.embed:tomcat-embed-core:11.0.26",
         "org.apache.tomcat.embed:tomcat-embed-el:11.0.26",
@@ -259,7 +266,7 @@ use_repo(playwright, "playwright")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:1757cd00d659232351082492eb14b7c1df37a719c0675c95c1bee7e7b526c149",
+    digest = "sha256:a2ac1add0a54d130fb71a7042de6836acaff10a6ee43f8bd013a5c8290335f32",
     image = "gcr.io/distroless/java17-debian13",
     platforms = [
         "linux/amd64",
@@ -275,7 +282,7 @@ oci.pull(
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    tag = "alpine-slim",
+    tag = "1.31.6-alpine-slim",
 )
 oci.toolchains(name = "lab_oci")
 use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")

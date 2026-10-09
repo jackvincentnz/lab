@@ -4,26 +4,25 @@
   "pre-commit": {
     "enabled": true
   },
+  "regex": {
+    "ignorePaths": [
+      "**/node_modules/**",
+      "**/bower_components/**",
+      "**/vendor/**",
+      "**/examples/**",
+      "**/__fixtures__/**"
+    ]
+  },
   "customManagers": [
     {
       "customType": "regex",
-      "managerFilePatterns": ["/^projects/organizer/e2e/runner\\.ts$/"],
+      "description": "Update digest-pinned Docker images in source files",
+      "managerFilePatterns": ["{projects,learn,libs}/**/*.{java,ts}"],
       "matchStrings": [
-        "\"(?<depName>ghcr\\.io/apollographql/router):(?<currentValue>v?[^@\"]+)@(?<currentDigest>sha256:[a-f0-9]+)\""
+        "[\"'](?<depName>[a-z0-9][a-z0-9._:/-]*):(?<currentValue>[A-Za-z0-9_.-]+)@(?<currentDigest>sha256:[a-f0-9]{64})[\"']"
       ],
-      "datasourceTemplate": "docker"
-    },
-    {
-      "customType": "regex",
-      "description": "Update Confluent images",
-      "managerFilePatterns": [
-        "/^projects/organizer/e2e/runner\\.ts$/",
-        "/^learn/testcontainers/src/test/java/lab/learn/testcontainers/kafka/KafkaTest\\.java$/"
-      ],
-      "matchStrings": [
-        "(?<depName>confluentinc/cp-(?:kafka|schema-registry)):(?<currentValue>[A-Za-z0-9_.-]+)"
-      ],
-      "datasourceTemplate": "docker"
+      "datasourceTemplate": "docker",
+      "versioningTemplate": "docker"
     },
     {
       "customType": "regex",

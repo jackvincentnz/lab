@@ -2,11 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "task",
-    srcs = glob(["*.java"]),
+    srcs = ["TaskApplication.java"],
     visibility = [
         "//projects/organizer/task/src/main:__pkg__",
         "//projects/organizer/task/src/test/java/lab/task:__pkg__",
     ],
+    exports = ["//libs/tenancy/src/main/java/lab/libs/tenancy/filter"],
     runtime_deps = [
         "//projects/organizer/task/src/main/java/lab/task/adapter",
         "//projects/organizer/task/src/main/java/lab/task/application",

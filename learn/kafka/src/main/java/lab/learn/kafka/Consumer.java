@@ -2,6 +2,7 @@ package lab.learn.kafka;
 
 import static lab.learn.kafka.Producer.TOPIC;
 
+import lab.learn.kafka.proto.SimpleMessage;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;

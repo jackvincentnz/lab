@@ -1,21 +1,65 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_junit5_test", "java_test_suite")
 
 java_test_suite(
     name = "persistence",
+    srcs = [
+        "AggregateFactoryTest.java",
+        "AggregateStoreTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
+    deps = [
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
+        "//libs/ddd/src/main/java/lab/libs/ddd/es/persistence",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
+    ],
+)
+
+java_junit5_test(
+    name = "EventRepositoryTest",
+    srcs = ["EventRepositoryTest.java"],
     tags = [
         "requires-docker",
         "requires-network",
     ],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS + [
+    test_class = "lab.libs.ddd.es.persistence.EventRepositoryTest",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
         "@maven//:org_postgresql_postgresql",
         "@maven//:org_springframework_boot_spring_boot_starter_jdbc",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
     ],
-    deps = SPRING_TEST_DEPS + [
+    deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//libs/ddd/src/main/java/lab/libs/ddd/es/persistence",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "@maven//:com_fasterxml_jackson_core_jackson_annotations",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
-        "@maven//:org_testcontainers_testcontainers_jdbc",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_testcontainers_testcontainers",
         "@maven//:org_testcontainers_testcontainers_postgresql",
     ],
 )

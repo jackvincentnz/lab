@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "journal",
-    srcs = glob(["*.java"]),
+    srcs = ["JournalApplication.java"],
     visibility = [
         "//projects/organizer/journal/src/main:__pkg__",
         "//projects/organizer/journal/src/test/java/lab/journal:__pkg__",

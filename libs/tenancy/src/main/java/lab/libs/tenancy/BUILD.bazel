@@ -2,7 +2,11 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "tenancy",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "SimpleTenantContext.java",
+        "TenantContext.java",
+        "TenantContextHolder.java",
+    ],
     visibility = ["//visibility:public"],
     deps = [
         "@maven//:org_springframework_spring_core",

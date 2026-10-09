@@ -2,10 +2,25 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "jwt",
+    srcs = [
+        "IdentityAuthenticationTest.java",
+        "IdentityClaimsTest.java",
+        "IdentityClaimsValidatorTest.java",
+        "IdentityJwtConverterTest.java",
+        "IdentityJwtDecoderTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
-        "//libs/identity/src/test/java/lab/libs/identity/testing",
+        "//libs/identity/src/test/java/lab/libs/identity/testing:testing-test-lib",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_security_spring_security_oauth2_core",
         "@maven//:org_springframework_security_spring_security_oauth2_jose",

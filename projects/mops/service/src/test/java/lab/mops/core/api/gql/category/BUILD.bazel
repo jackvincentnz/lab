@@ -2,7 +2,20 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "category",
+    srcs = [
+        "CategoryDataFetcherTest.java",
+        "CategoryDataLoaderTest.java",
+        "CategoryMapperTest.java",
+        "CategoryMutationTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
     deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/java/lab/mops/core/api/gql/category",
         "//projects/mops/service/src/main/java/lab/mops/core/application/category",
@@ -12,6 +25,10 @@ java_test_suite(
         "@maven//:com_graphql_java_java_dataloader",
         "@maven//:com_netflix_graphql_dgs_graphql_dgs",
         "@maven//:jakarta_servlet_jakarta_servlet_api",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_mockito_mockito_core",
+        "@maven//:org_mockito_mockito_junit_jupiter",
         "@maven//:org_springframework_spring_context",
     ],
 )

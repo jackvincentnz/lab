@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "filter",
-    srcs = glob(["*.java"]),
+    srcs = ["TenantFilter.java"],
     visibility = ["//visibility:public"],
     deps = [
         "//libs/tenancy/src/main/java/lab/libs/tenancy",

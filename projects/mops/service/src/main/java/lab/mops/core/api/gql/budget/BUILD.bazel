@@ -2,13 +2,17 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "budget",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "BudgetDataFetcher.java",
+        "BudgetMapper.java",
+        "BudgetMutation.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core:__pkg__",
         "//projects/mops/service/src/test/java/lab/mops/core/api/gql/budget:__pkg__",
     ],
+    exports = ["//projects/mops/service/src/main/resources/schema:java"],
     deps = [
-        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",

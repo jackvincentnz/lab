@@ -2,7 +2,12 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "persistence",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "AggregateFactory.java",
+        "AggregateStore.java",
+        "ConcurrentStreamWriteException.java",
+        "EventRepository.java",
+    ],
     visibility = ["//visibility:public"],
     runtime_deps = ["//libs/ddd/src/main/resources"],
     deps = [

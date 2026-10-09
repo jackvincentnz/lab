@@ -2,10 +2,29 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "gateway",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "CsrfController.java",
+        "GatewayApplication.java",
+        "GatewayLogout.java",
+        "GatewayPrincipal.java",
+        "GatewayUsers.java",
+        "IdentityTokenConfiguration.java",
+        "IdentityTokenGatewayFilterFactory.java",
+        "IdentityTokenMinter.java",
+        "IdentityTokenProperties.java",
+        "JwkSetController.java",
+        "SecurityConfiguration.java",
+        "SigningKey.java",
+    ],
     visibility = [
         "//projects/gateway/src/main:__pkg__",
         "//projects/gateway/src/test:__subpackages__",
+    ],
+    exports = [
+        "@maven//:com_nimbusds_nimbus_jose_jwt",
+        "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
+        "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_web",
     ],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
@@ -16,12 +35,10 @@ java_library(
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_config",
         "@maven//:org_springframework_security_spring_security_core",
-        "@maven//:org_springframework_security_spring_security_crypto",
         "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
         "@maven//:org_springframework_spring_context",
         "@maven//:org_springframework_spring_core",
         "@maven//:org_springframework_spring_web",
-        "@maven//:org_springframework_spring_webflux",
     ],
 )

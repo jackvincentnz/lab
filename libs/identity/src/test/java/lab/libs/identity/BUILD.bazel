@@ -2,5 +2,19 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "identity",
-    deps = ["//libs/identity/src/main/java/lab/libs/identity"],
+    srcs = [
+        "IdentityHolderTest.java",
+        "IdentityTest.java",
+    ],
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
+    deps = [
+        "//libs/identity/src/main/java/lab/libs/identity",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+    ],
 )

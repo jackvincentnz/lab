@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "gql",
-    srcs = glob(["*.java"]),
+    srcs = ["ResponseMessage.java"],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/ai/api/gql:__subpackages__",
         "//projects/mops/service/src/main/java/lab/mops/core/api/gql:__subpackages__",

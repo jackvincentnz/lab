@@ -2,14 +2,21 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "category",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "AddCategoryValueCommand.java",
+        "CategoryCommandService.java",
+        "CategoryQueryService.java",
+        "CreateCategoryCommand.java",
+        "UpdateCategoryNameCommand.java",
+        "UpdateCategoryValueNameCommand.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/application/category:__pkg__",
     ],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/core/domain/category"],
     deps = [
-        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
         "@maven//:org_springframework_spring_context",
     ],

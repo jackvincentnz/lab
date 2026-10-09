@@ -2,12 +2,17 @@ load("//tools/bazel:java.bzl", "java_library")
 
 java_library(
     name = "activity",
-    srcs = glob(["*.java"]),
+    srcs = [
+        "ActivityCommandService.java",
+        "ActivityQueryService.java",
+        "CreateActivityCommand.java",
+    ],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/api:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/core/application/activity:__pkg__",
     ],
+    exports = ["//projects/mops/service/src/main/java/lab/mops/core/domain/activity"],
     deps = [
         "//projects/mops/service/src/main/java/lab/mops/core/domain/activity",
         "@maven//:org_springframework_spring_context",

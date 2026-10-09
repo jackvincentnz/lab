@@ -1,10 +1,19 @@
-load("//tools/bazel:java.bzl", "SPRING_TEST_DEPS", "SPRING_TEST_RUNTIME_DEPS", "java_test_suite")
+load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tests",
+    name = "journal",
+    srcs = ["JournalApplicationTest.java"],
     resources = ["//projects/organizer/journal/src/main/resources"],
-    runtime_deps = SPRING_TEST_RUNTIME_DEPS,
+    runner = "junit5",
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
     deps = [
         "//projects/organizer/journal/src/main/java/lab/journal",
-    ] + SPRING_TEST_DEPS,
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_boot_spring_boot_test",
+    ],
 )
