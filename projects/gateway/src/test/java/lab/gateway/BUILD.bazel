@@ -4,6 +4,7 @@ java_test_suite(
     name = "gateway",
     srcs = [
         "Browser.java",
+        "CallerTest.java",
         "CsrfControllerTest.java",
         "Downstream.java",
         "FormLoginTest.java",

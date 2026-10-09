@@ -38,15 +38,14 @@ public class IdentityTokenGatewayFilterFactory
     return (exchange, chain) ->
         exchange
             .<Authentication>getPrincipal()
-            .map(Authentication::getPrincipal)
-            .ofType(GatewayPrincipal.class)
+            .flatMap(authentication -> Mono.justOrEmpty(Caller.of(authentication)))
             .switchIfEmpty(
                 Mono.error(
                     () ->
                         new ResponseStatusException(
                             HttpStatus.UNAUTHORIZED, "The route needs a gateway session")))
             .zipWith(exchange.getSession().map(WebSession::getId))
-            .map(identity -> minter.mint(identity.getT1(), identity.getT2(), config.getAudience()))
+            .map(caller -> minter.mint(caller.getT1(), caller.getT2(), config.getAudience()))
             .flatMap(
                 token ->
                     chain.filter(

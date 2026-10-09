@@ -16,9 +16,6 @@ import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 /** Mints the identity token a vertical receives in place of the browser's credentials. */
 public final class IdentityTokenMinter {
 
-  /** Form login is the only way to authenticate at the gateway today. */
-  static final List<String> AUTHENTICATION_METHODS = List.of("form");
-
   private final IdentityTokenProperties properties;
   private final SigningKey key;
   private final JwtEncoder encoder;
@@ -32,19 +29,19 @@ public final class IdentityTokenMinter {
   }
 
   /** A token for one forwarded request, addressed to the vertical named by {@code audience}. */
-  public String mint(GatewayPrincipal principal, String sessionId, String audience) {
+  public String mint(Caller caller, String sessionId, String audience) {
     var issuedAt = clock.instant();
     var claims =
         JwtClaimsSet.builder()
             .issuer(properties.issuer())
             .audience(List.of(audience))
-            .subject(principal.principal().toString())
+            .subject(caller.principal().toString())
             .issuedAt(issuedAt)
             .expiresAt(issuedAt.plus(properties.validFor()))
             .id(UUID.randomUUID().toString())
-            .claim(IdentityClaims.TENANT, principal.tenant().toString())
-            .claim(IdentityClaims.SCOPE, String.join(" ", principal.scopes()))
-            .claim(IdentityClaims.AUTHENTICATION_METHODS, AUTHENTICATION_METHODS)
+            .claim(IdentityClaims.TENANT, caller.tenant().toString())
+            .claim(IdentityClaims.SCOPE, String.join(" ", caller.scopes()))
+            .claim(IdentityClaims.AUTHENTICATION_METHODS, List.of(caller.authenticationMethod()))
             .claim(IdentityClaims.SESSION_ID, sessionId)
             .build();
     var header = JwsHeader.with(SignatureAlgorithm.RS256).keyId(key.keyId()).build();

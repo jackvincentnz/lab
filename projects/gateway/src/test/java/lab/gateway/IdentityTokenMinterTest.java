@@ -25,20 +25,15 @@ class IdentityTokenMinterTest extends TestBase {
   private final IdentityTokenMinter minter =
       new IdentityTokenMinter(properties, key, fixedClock(now));
 
-  private final GatewayPrincipal principal =
-      new GatewayPrincipal(
-          new GatewayUsers.ConfiguredUser(
-              randomString(),
-              "{noop}" + randomString(),
-              UUID.randomUUID(),
-              UUID.randomUUID(),
-              List.of("mops:read", "mops:write")));
+  private final Caller caller =
+      new Caller(
+          UUID.randomUUID(), UUID.randomUUID(), List.of("mops:read", "mops:write"), randomString());
   private final String sessionId = randomString();
   private final String audience = randomString();
 
   @Test
   void mint_signsWithTheGatewayKeyNamedByKid() throws Exception {
-    var jwt = SignedJWT.parse(minter.mint(principal, sessionId, audience));
+    var jwt = SignedJWT.parse(minter.mint(caller, sessionId, audience));
 
     assertThat(jwt.getHeader().getKeyID()).isEqualTo(key.keyId());
     assertThat(jwt.getHeader().getAlgorithm().getName()).isEqualTo("RS256");
@@ -47,23 +42,23 @@ class IdentityTokenMinterTest extends TestBase {
 
   @Test
   void mint_carriesTheIdentityContract() throws Exception {
-    var claims = SignedJWT.parse(minter.mint(principal, sessionId, audience)).getJWTClaimsSet();
+    var claims = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
 
     assertThat(claims.getIssuer()).isEqualTo(properties.issuer());
     assertThat(claims.getAudience()).containsExactly(audience);
-    assertThat(claims.getSubject()).isEqualTo(principal.principal().toString());
+    assertThat(claims.getSubject()).isEqualTo(caller.principal().toString());
     assertThat(claims.getIssueTime()).isEqualTo(Date.from(now));
     assertThat(claims.getExpirationTime()).isEqualTo(Date.from(now.plus(validFor)));
-    assertThat(claims.getStringClaim("tenant")).isEqualTo(principal.tenant().toString());
+    assertThat(claims.getStringClaim("tenant")).isEqualTo(caller.tenant().toString());
     assertThat(claims.getStringClaim("scope")).isEqualTo("mops:read mops:write");
-    assertThat(claims.getStringListClaim("amr")).containsExactly("form");
+    assertThat(claims.getStringListClaim("amr")).containsExactly(caller.authenticationMethod());
     assertThat(claims.getStringClaim("sid")).isEqualTo(sessionId);
   }
 
   @Test
   void mint_givesEveryTokenItsOwnId() throws Exception {
-    var first = SignedJWT.parse(minter.mint(principal, sessionId, audience)).getJWTClaimsSet();
-    var second = SignedJWT.parse(minter.mint(principal, sessionId, audience)).getJWTClaimsSet();
+    var first = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
+    var second = SignedJWT.parse(minter.mint(caller, sessionId, audience)).getJWTClaimsSet();
 
     assertThat(first.getJWTID()).isNotBlank().isNotEqualTo(second.getJWTID());
   }

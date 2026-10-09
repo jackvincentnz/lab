@@ -3,6 +3,7 @@ load("//tools/bazel:java.bzl", "java_library")
 java_library(
     name = "gateway",
     srcs = [
+        "Caller.java",
         "CsrfController.java",
         "GatewayApplication.java",
         "GatewayLogout.java",
