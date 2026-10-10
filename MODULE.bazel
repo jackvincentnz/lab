@@ -8,7 +8,7 @@ bazel_dep(name = "protobuf", version = "36.2")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_jvm_external", version = "7.1")
 bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
-bazel_dep(name = "rules_nodejs", version = "6.7.5")
+bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "aspect_rules_js", version = "3.5.1")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
@@ -22,7 +22,7 @@ bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
 
 bazel_dep(name = "gazelle", version = "0.54.0", dev_dependency = True)
-bazel_dep(name = "rules_go", version = "0.59.0", dev_dependency = True)
+bazel_dep(name = "rules_go", version = "0.64.2", dev_dependency = True)
 
 # Gazelle requires Go 1.24.12; select it ahead of contrib_rules_jvm's older SDK.
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk", dev_dependency = True)
@@ -99,7 +99,7 @@ maven.install(
         "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux",
         "org.springframework.session:spring-session-data-redis",
         "redis.clients:jedis",
-        "org.postgresql:postgresql:42.7.13",
+        "org.postgresql:postgresql:42.7.14",
         "org.springframework.boot:spring-boot-starter-test",
         "org.springframework.kafka:spring-kafka-test",
         "org.testcontainers:testcontainers",
@@ -123,7 +123,7 @@ maven.install(
     ],
     boms = [
         # First wins
-        "io.netty:netty-bom:4.2.18.Final",
+        "io.netty:netty-bom:4.2.19.Final",
         "com.google.protobuf:protobuf-bom:4.36.2",
         "org.springframework.boot:spring-boot-dependencies:4.1.1",
         "org.springframework.cloud:spring-cloud-dependencies:2025.1.3",
