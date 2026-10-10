@@ -27,6 +27,9 @@ Both targets need a running Docker engine, activate the `local` profile, which s
 [Local stack](docs/local-stack.md) for what runs and how it is wired, and the
 [Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
+Redis publishes on host port 6379 unless `GATEWAY_REDIS_PORT` sets another, so stacks in
+several worktrees can run at once.
+
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
 
