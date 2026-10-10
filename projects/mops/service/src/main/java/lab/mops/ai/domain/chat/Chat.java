@@ -85,6 +85,9 @@ public class Chat extends Aggregate<ChatId> {
     message.addPendingToolCalls(toolCalls);
 
     registerEvent(new PendingToolCallsAddedEvent(getId(), Collections.unmodifiableList(toolCalls)));
+    toolCalls.stream()
+        .filter(t -> t.status() == ToolCallStatus.APPROVED)
+        .forEach(t -> registerEvent(new ToolCallApprovedEvent(getId(), messageId, t.id())));
   }
 
   public void approveToolCall(MessageId messageId, ToolCallId toolCallId) {
@@ -116,12 +119,22 @@ public class Chat extends Aggregate<ChatId> {
   }
 
   private void checkPendingToolCallsCompleted(Message message) {
-    if (message.getToolCalls().stream()
-        .noneMatch(t -> t.status() == ToolCallStatus.PENDING_APPROVAL)) {
+    if (message == getLastMessage()
+        && message.getToolCalls().stream()
+            .allMatch(
+                t ->
+                    t.status() == ToolCallStatus.REJECTED
+                        || (t.status() == ToolCallStatus.APPROVED && t.result() != null))) {
       var assistantMessage = Message.assistantMessage();
       messages.add(assistantMessage);
       registerEvent(new PendingToolsCompletedEvent(getId(), assistantMessage.getId()));
     }
+  }
+
+  public void failMessage(MessageId messageId, String reason) {
+    var message = getMessage(messageId, MessageType.ASSISTANT);
+    message.fail(reason);
+    registerEvent(new ChatMessageFailedEvent(getId(), messageId, reason));
   }
 
   public void completeMessage(MessageId messageId, String content) {

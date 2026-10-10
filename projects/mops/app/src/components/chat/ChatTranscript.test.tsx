@@ -43,7 +43,8 @@ describe("ChatTranscript", () => {
           createAssistantMessage({
             id: "assistant-1",
             status: "FAILED",
-            content: null,
+            content:
+              "The assistant reached its completion limit. Please retry the response.",
           }),
         ]}
         onSaveEdit={async () => false}
@@ -55,6 +56,11 @@ describe("ChatTranscript", () => {
       />,
     );
 
+    expect(
+      screen.getByText(
+        "The assistant reached its completion limit. Please retry the response.",
+      ),
+    ).toBeVisible();
     await userEvent.click(
       screen.getByRole("button", { name: "Retry message" }),
     );

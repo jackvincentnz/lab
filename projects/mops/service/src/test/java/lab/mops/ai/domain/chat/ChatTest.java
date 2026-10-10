@@ -816,4 +816,49 @@ class ChatTest extends TestBase {
     var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
     assertThat(event.timestamp()).isEqualTo(chat.getMessages().get(1).getTimestamp());
   }
+
+  @Test
+  void recordToolResult_otherApprovedToolStillRunning_waitsForAllResults() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var first =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    var second =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    chat.addPendingToolCalls(messageId, java.util.List.of(first, second));
+
+    chat.recordToolResult(messageId, first.id(), randomString());
+    assertThat(chat.getMessages()).hasSize(2);
+
+    chat.recordToolResult(messageId, second.id(), randomString());
+    assertThat(chat.getMessages()).hasSize(3);
+    assertThat(chat.getMessages().get(2).isPending()).isTrue();
+  }
+
+  @Test
+  void failMessage_pendingMessage_persistsReasonAndAllowsRetry() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(1);
+    var reason = randomString();
+
+    chat.failMessage(message.getId(), reason);
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.FAILED);
+    assertThat(message.getContent()).contains(reason);
+    chat.retryAssistantMessage(message.getId());
+    assertThat(chat.getMessages().get(1).isPending()).isTrue();
+  }
+
+  @Test
+  void rejectToolCall_deliveredTwice_createsOneContinuation() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var call =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(messageId, List.of(call));
+    chat.rejectToolCall(messageId, call.id());
+    chat.rejectToolCall(messageId, call.id());
+    assertThat(chat.getMessages()).hasSize(3);
+  }
 }

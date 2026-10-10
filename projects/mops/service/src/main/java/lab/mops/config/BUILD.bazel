@@ -9,7 +9,10 @@ java_library(
         "IdentityProperties.java",
         "SecurityConfig.java",
     ],
-    visibility = ["//projects/mops/service/src/main:__pkg__"],
+    visibility = [
+        "//projects/mops/service/src/main:__pkg__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/infrastructure/outbox:__pkg__",
+    ],
     exports = [
         "//libs/identity/src/main/java/lab/libs/identity",
         "@maven//:org_springframework_ai_spring_ai_model",

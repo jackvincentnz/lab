@@ -132,6 +132,12 @@ public class Message {
     this.content = content;
   }
 
+  void fail(String reason) {
+    Objects.requireNonNull(reason, "reason must not be null");
+    updateStatus(MessageStatus.FAILED);
+    this.content = reason;
+  }
+
   void cancel() {
     updateStatus(MessageStatus.CANCELLED);
   }

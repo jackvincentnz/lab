@@ -3,8 +3,10 @@ package lab.mops.ai.application.chat;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional
 public class ChatCommandService {
 
   private final ChatRepository chatRepository;
@@ -20,6 +22,7 @@ public class ChatCommandService {
   }
 
   public Chat addUserMessage(AddUserMessageCommand command) {
+    chatRepository.lockById(command.chatId());
     var chat = chatRepository.getById(command.chatId());
 
     chat.addUserMessage(command.content());
@@ -28,6 +31,7 @@ public class ChatCommandService {
   }
 
   public Chat editUserMessage(EditUserMessageCommand command) {
+    chatRepository.lockById(command.chatId());
     var chat = chatRepository.getById(command.chatId());
 
     chat.editUserMessage(command.messageId(), command.content());
@@ -36,6 +40,7 @@ public class ChatCommandService {
   }
 
   public Chat retryAssistantMessage(RetryAssistantMessageCommand command) {
+    chatRepository.lockById(command.chatId());
     var chat = chatRepository.getById(command.chatId());
 
     chat.retryAssistantMessage(command.messageId());
@@ -44,6 +49,7 @@ public class ChatCommandService {
   }
 
   public Chat approveToolCall(ApproveToolCallCommand command) {
+    chatRepository.lockById(command.chatId());
     var chat = chatRepository.getById(command.chatId());
 
     chat.approveToolCall(command.messageId(), command.toolCallId());
@@ -52,6 +58,7 @@ public class ChatCommandService {
   }
 
   public Chat rejectToolCall(RejectToolCallCommand command) {
+    chatRepository.lockById(command.chatId());
     var chat = chatRepository.getById(command.chatId());
 
     chat.rejectToolCall(command.messageId(), command.toolCallId());
