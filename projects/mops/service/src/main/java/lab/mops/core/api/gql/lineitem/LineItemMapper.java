@@ -13,6 +13,7 @@ import lab.mops.api.gql.types.Quarter;
 import lab.mops.api.gql.types.QuarterlyTotal;
 import lab.mops.api.gql.types.Spend;
 import lab.mops.api.gql.types.SpendTotals;
+import lab.mops.core.application.budget.BudgetProperties;
 import lab.mops.core.domain.budget.LineItemSpendAnnualTotal;
 import lab.mops.core.domain.budget.LineItemSpendMonthlyTotal;
 import lab.mops.core.domain.budget.LineItemSpendQuarterlyTotal;
@@ -22,6 +23,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class LineItemMapper {
 
+  private final BudgetProperties budgetProperties;
+
+  public LineItemMapper(BudgetProperties budgetProperties) {
+    this.budgetProperties = budgetProperties;
+  }
+
   public LineItem map(lab.mops.core.domain.budget.LineItem lineItem) {
     return LineItem.newBuilder()
         .id(lineItem.getId().toString())
@@ -30,7 +37,8 @@ public class LineItemMapper {
         .categorizations(
             lineItem.getCategorizations().stream().map(this::mapCategorization).toList())
         .spending(lineItem.getSpending().stream().map(this::mapSpend).toList())
-        .spendTotals(mapSpendTotals(lineItem.getSpendTotals()))
+        .spendTotals(
+            mapSpendTotals(lineItem.getSpendTotals(budgetProperties.fiscalYearStartMonth())))
         .createdAt(lineItem.getCreatedAt().toString())
         .updatedAt(lineItem.getUpdatedAt().toString())
         .build();

@@ -10,6 +10,7 @@ import lab.mops.api.gql.types.Month;
 import lab.mops.api.gql.types.MonthlyTotal;
 import lab.mops.api.gql.types.Quarter;
 import lab.mops.api.gql.types.QuarterlyTotal;
+import lab.mops.core.application.budget.BudgetProperties;
 import lab.mops.core.domain.budget.Budget;
 import lab.mops.core.domain.budget.LineItem;
 import lab.mops.core.domain.budget.Spend;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 class LineItemMapperTest extends TestBase {
 
-  LineItemMapper lineItemMapper = new LineItemMapper();
+  LineItemMapper lineItemMapper = new LineItemMapper(new BudgetProperties(java.time.Month.JANUARY));
 
   @Test
   void map_mapsLineItem_id() {
@@ -159,6 +160,24 @@ class LineItemMapperTest extends TestBase {
             tuple(Quarter.Q1, 2024, BigDecimal.valueOf(150)),
             tuple(Quarter.Q1, 2025, BigDecimal.valueOf(300)),
             tuple(Quarter.Q2, 2025, BigDecimal.valueOf(300)));
+  }
+
+  @Test
+  void map_withFiscalYearStartingInApril_mapsQuarterlyTotalsByFiscalQuarter() {
+    var mapper = new LineItemMapper(new BudgetProperties(java.time.Month.APRIL));
+    var lineItem = newLineItem();
+    var marchAmount = BigDecimal.valueOf(randomInt());
+    var aprilAmount = BigDecimal.valueOf(randomInt());
+    lineItem.planSpend(Spend.of(LocalDate.of(2025, java.time.Month.MARCH, 1), marchAmount));
+    lineItem.planSpend(Spend.of(LocalDate.of(2025, java.time.Month.APRIL, 1), aprilAmount));
+
+    var result = mapper.map(lineItem);
+
+    assertThat(result.getSpendTotals().getQuarterlyTotals())
+        .extracting(
+            QuarterlyTotal::getQuarter, QuarterlyTotal::getFiscalYear, QuarterlyTotal::getTotal)
+        .containsExactly(
+            tuple(Quarter.Q4, 2024, marchAmount), tuple(Quarter.Q1, 2025, aprilAmount));
   }
 
   @Test

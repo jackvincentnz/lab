@@ -73,9 +73,7 @@ public class LineItem extends Aggregate<LineItemId> {
     return spending;
   }
 
-  public LineItemSpendTotals getSpendTotals() {
-    var fiscalYearStartMonth = Month.JANUARY;
-
+  public LineItemSpendTotals getSpendTotals(Month fiscalYearStartMonth) {
     return SpendingAggregator.getSpendTotals(spending, fiscalYearStartMonth);
   }
 

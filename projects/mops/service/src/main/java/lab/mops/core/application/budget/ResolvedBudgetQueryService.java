@@ -26,13 +26,17 @@ public class ResolvedBudgetQueryService {
 
   private final CategoryRepository categoryRepository;
 
+  private final BudgetProperties budgetProperties;
+
   public ResolvedBudgetQueryService(
       BudgetRepository budgetRepository,
       LineItemRepository lineItemRepository,
-      CategoryRepository categoryRepository) {
+      CategoryRepository categoryRepository,
+      BudgetProperties budgetProperties) {
     this.budgetRepository = budgetRepository;
     this.lineItemRepository = lineItemRepository;
     this.categoryRepository = categoryRepository;
+    this.budgetProperties = budgetProperties;
   }
 
   public Collection<ResolvedBudget> resolveBudgets() {
@@ -74,7 +78,7 @@ public class ResolvedBudgetQueryService {
         lineItem.getName(),
         resolvedCategorizations,
         resolvedSpending,
-        lineItem.getSpendTotals());
+        lineItem.getSpendTotals(budgetProperties.fiscalYearStartMonth()));
   }
 
   private boolean categoryAndValueExist(
