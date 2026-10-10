@@ -1,4 +1,7 @@
+load("@rules_spring//springboot:springboot.bzl", "springboot")
 load("//tools/bazel:java.bzl", "java_binary", "java_library")
+load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 
 java_library(
     name = "main_lib",
@@ -8,6 +11,7 @@ java_library(
     ],
     runtime_deps = [
         "//projects/gateway/src/main/java/lab/gateway",
+        "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
         "@maven//:org_springframework_boot_spring_boot_starter_security",
         "@maven//:org_springframework_boot_spring_boot_starter_session_data_redis",
@@ -32,4 +36,35 @@ java_binary(
         ":main_lib",
         "@maven//:org_springframework_boot_spring_boot_docker_compose",
     ],
+)
+
+springboot(
+    name = "main_spring",
+    boot_app_class = "lab.gateway.GatewayApplication",
+    boot_launcher_class = "org.springframework.boot.loader.launch.JarLauncher",
+    java_library = ":main_lib",
+)
+
+tar(
+    name = "tar",
+    srcs = [":main_spring.jar"],
+    include_runfiles = True,
+    strip_prefix = ".",
+)
+
+oci_image(
+    name = "image",
+    base = "@distroless_java",
+    entrypoint = [
+        "java",
+        "-jar",
+        "/main_spring.jar",
+    ],
+    tars = [":tar"],
+)
+
+oci_deliver(
+    name = "deliver",
+    image = ":image",
+    repo_suffix = "gateway",
 )
