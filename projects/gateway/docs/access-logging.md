@@ -46,8 +46,7 @@ response is complete.
 
 - `RequestIdWebFilter` runs first and adds `request_id`.
 - A filter in the security chain, after authentication, adds the caller fields from the security
-  context.
-- Logout adds the caller fields of the session it ends.
+  context. It runs before logout, so a logout record names the caller who logged out.
 - `AccessLogHandler` reads `method`, `path`, `status`, `duration_ms`, and `source_ip` from the
   request and response.
 
