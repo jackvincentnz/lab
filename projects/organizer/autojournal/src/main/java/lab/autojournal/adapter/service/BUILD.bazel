@@ -5,6 +5,8 @@ java_library(
     srcs = [
         "GqlJournalServiceAdapter.java",
         "GqlTaskServiceAdapter.java",
+        "GraphqlRequests.java",
+        "GraphqlServiceException.java",
         "JournalServiceProperties.java",
         "Task.java",
         "TaskServiceProperties.java",

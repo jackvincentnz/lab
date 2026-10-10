@@ -32,7 +32,6 @@ public class GqlJournalServiceAdapter implements JournalService {
                 .build(),
             new AddEntryProjectionRoot().id());
 
-    // TODO: handle errors
-    client.reactiveExecuteQuery(request.serialize()).block();
+    GraphqlRequests.execute(client, request.serialize());
   }
 }
