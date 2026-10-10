@@ -1,24 +1,78 @@
 load("@aspect_rules_js//npm:defs.bzl", "npm_package")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
+
+SRC_PATHS = [
+    "src/**/*.tsx",
+    "src/**/*.ts",
+]
+
+TEST_PATHS = [
+    "src/**/*.test.tsx",
+    "src/**/*.test.ts",
+]
+
+STORY_PATHS = [
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+]
+
+ts_project(
+    name = "src_ts",
+    srcs = glob(
+        include = SRC_PATHS,
+        exclude = TEST_PATHS + STORY_PATHS,
+    ),
+    deps = [
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/dates",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/dayjs",
+        "//:node_modules/react",
+        "//libs/packages/client",
+    ],
+)
+
+js_library(
+    name = "src",
+    srcs = glob(["src/**/*.css"]),
+    deps = [":src_ts"],
+)
+
+ts_project(
+    name = "stories",
+    srcs = glob(STORY_PATHS),
+    deps = [
+        ":src",
+        "//:node_modules/@storybook/react",
+    ],
+)
 
 npm_package(
     name = "pkg",
     srcs = [
         "package.json",
-        "//libs/bubbles/src",
+        ":src",
     ],
     visibility = ["//visibility:public"],
 )
 
-STORYBOOK_SRCS = [
+# Storybook discovers TypeScript stories and resolves their source imports.
+STORYBOOK_SRCS = glob(
+    SRC_PATHS,
+    exclude = TEST_PATHS,
+) + [
     ".storybook/main.ts",
     ".storybook/preview.tsx",
 ]
 
 STORYBOOK_DEPS = [
-    "//libs/bubbles/src:stories",
+    ":stories",
     "//:node_modules/@mantine/core",
     "//:node_modules/@mantine/dates",
     "//:node_modules/@mantine/hooks",
@@ -53,9 +107,9 @@ oci_image(
     tars = [":tar"],
 )
 
-oci_load(
-    name = "load",
+oci_deliver(
+    name = "deliver",
     image = ":image",
-    repo_tags = ["lab/bubbles:latest"],
+    repo_suffix = "bubbles",
     visibility = ["//:__pkg__"],
 )

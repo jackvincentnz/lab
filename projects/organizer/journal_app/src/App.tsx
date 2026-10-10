@@ -4,6 +4,8 @@ import { MantineProvider } from "@mantine/core";
 import { Shell } from "@lab/bubbles";
 import { EntriesPage } from "./entries";
 
+import "@mantine/core/styles.css";
+
 const client = new ApolloClient({
   link: new HttpLink({ uri: "/graphql" }),
   cache: new InMemoryCache(),
