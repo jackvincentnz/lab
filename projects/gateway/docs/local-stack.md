@@ -21,6 +21,10 @@ The gateway's run target depends on Spring Boot's Docker Compose support, which 
 container to accept connections, and points Spring Session at the port the container publishes.
 On shutdown it runs `docker compose stop`, so the container is kept and reused by the next run.
 
+The host port is `GATEWAY_REDIS_PORT`, default 6379. Docker Compose reads it from the gateway's
+environment, and Spring connects to whatever port the container publishes, so no Spring property
+changes with it.
+
 `bazel run` does not run from the project directory, so the run target passes the compose file as
 a runfile through `spring.docker.compose.file`. The dependency sits on the run target only; the
 library a delivered image would be built from does not carry it, and Spring skips the integration

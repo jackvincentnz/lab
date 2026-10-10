@@ -1,8 +1,14 @@
 package lab.mops.ai.functional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import jakarta.servlet.http.HttpServletResponse;
+import java.time.Duration;
+import java.util.List;
+import lab.mops.ai.domain.chat.ChatId;
+import lab.mops.ai.domain.chat.ChatRepository;
+import lab.mops.api.gql.types.ChatMessage;
 import lab.mops.api.gql.types.ChatMessageStatus;
 import lab.mops.api.gql.types.ChatMessageType;
 import lab.mops.client.TestClient;
@@ -10,13 +16,47 @@ import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Import(FakeChatModelConfig.class)
 @Transactional
 class ChatFunctionalTest extends TestBase {
 
+  private static final Duration COMPLETION_TIMEOUT = Duration.ofSeconds(10);
+
   @Autowired TestClient client;
+
+  @Autowired FakeChatModel chatModel;
+
+  @Autowired ChatRepository chatRepository;
+
+  // Not transactional because the completion runs on an async thread that only sees committed rows.
+  @Test
+  @Transactional(propagation = Propagation.NOT_SUPPORTED)
+  void addUserMessage_scriptedReply_completesAssistantMessage() {
+    var firstReply = randomString();
+    var secondReply = randomString();
+    chatModel.reply(firstReply);
+    chatModel.reply(secondReply);
+
+    var chatId = client.startChat(randomString()).getChat().getId();
+    try {
+      awaitCompleted(chatId, 1, firstReply);
+
+      var content = randomString();
+      client.addUserMessage(chatId, content);
+
+      var messages = awaitCompleted(chatId, 3, secondReply);
+      assertThat(messages).hasSize(4);
+      assertThat(messages.get(2).getContent()).isEqualTo(content);
+      assertThat(messages.get(3).getType()).isEqualTo(ChatMessageType.ASSISTANT);
+    } finally {
+      chatRepository.deleteById(ChatId.fromString(chatId));
+    }
+  }
 
   @Test
   void startChat_startsChat() {
@@ -153,5 +193,16 @@ class ChatFunctionalTest extends TestBase {
     assertThat(messages.get(1).getId()).isNotEqualTo(messageId);
     assertThat(messages.get(1).getStatus()).isEqualTo(ChatMessageStatus.PENDING);
     assertThat(messages.get(1).getType()).isEqualTo(ChatMessageType.ASSISTANT);
+  }
+
+  private List<ChatMessage> awaitCompleted(String chatId, int index, String content) {
+    return await()
+        .atMost(COMPLETION_TIMEOUT)
+        .until(
+            () -> client.chat(chatId).getMessages(),
+            messages ->
+                messages.size() > index
+                    && messages.get(index).getStatus() == ChatMessageStatus.COMPLETED
+                    && content.equals(messages.get(index).getContent()));
   }
 }
