@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lab.libs.ddd.domain.EventSourcedAggregate;
 import lab.libs.ddd.domain.InternalId;
+import lab.libs.ddd.domain.NotFoundException;
 
 public abstract class InMemoryAggregateStore<
     I extends InternalId, A extends EventSourcedAggregate<I>> {
@@ -19,7 +20,7 @@ public abstract class InMemoryAggregateStore<
     if (aggregates.containsKey(id)) {
       return aggregates.get(id);
     }
-    throw new RuntimeException(String.format("Aggregate: %s does not exist", id));
+    throw new NotFoundException(id);
   }
 
   public Collection<A> getAll() {
