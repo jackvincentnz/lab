@@ -1,0 +1,110 @@
+"Read-only local exploration. Lists use zero-based pages and limits of 1–100 (default 50)."
+type Query {
+  signals(query: String, limit: Int, page: Int): [Signal!]!
+  signal(id: ID!): Signal
+  problems(limit: Int, page: Int): [Problem!]!
+  problem(id: ID!): Problem
+  solutions(limit: Int, page: Int): [Solution!]!
+  solution(id: ID!): Solution
+  strategy: Strategy!
+}
+
+type Signal {
+  id: ID!
+  title: String!
+  content: String!
+  source: String
+  "Server capture time in ISO-8601; not the observation's origin date."
+  capturedAt: String!
+  problems: [ProblemSignal!]!
+  solutions: [SolutionSignal!]!
+}
+
+type Problem {
+  id: ID!
+  title: String!
+  description: String!
+  impact: String
+  desiredOutcome: String
+  questions: [RefinementQuestion!]!
+  decisions: [RefinementDecision!]!
+  createdAt: String!
+  updatedAt: String!
+  signals: [ProblemSignal!]!
+  solutions: [SolutionProblem!]!
+}
+
+type Solution {
+  id: ID!
+  title: String!
+  approach: String!
+  scope: String
+  tradeoffs: String
+  effort: String
+  questions: [RefinementQuestion!]!
+  decisions: [RefinementDecision!]!
+  createdAt: String!
+  updatedAt: String!
+  signals: [SolutionSignal!]!
+  problems: [SolutionProblem!]!
+}
+
+type Strategy {
+  id: ID!
+  content: String
+  updatedAt: String
+}
+
+type ProblemSignal {
+  id: ID!
+  rationale: String!
+  linkedAt: String!
+  problem: Problem!
+  signal: Signal!
+}
+
+type SolutionSignal {
+  id: ID!
+  rationale: String!
+  linkedAt: String!
+  solution: Solution!
+  signal: Signal!
+}
+
+type SolutionProblem {
+  id: ID!
+  rationale: String!
+  linkedAt: String!
+  solution: Solution!
+  problem: Problem!
+}
+
+enum QuestionStatus {
+  OPEN
+  ANSWERED
+}
+
+type RefinementQuestion {
+  id: ID!
+  problemId: ID
+  solutionId: ID
+  question: String!
+  status: QuestionStatus!
+  answer: String
+  context: String
+  source: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type RefinementDecision {
+  id: ID!
+  problemId: ID
+  solutionId: ID
+  decision: String!
+  rationale: String
+  source: String
+  revisitWhen: String
+  createdAt: String!
+  updatedAt: String!
+}

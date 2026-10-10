@@ -1,0 +1,18 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "testing",
+    testonly = True,
+    srcs = glob(["*.java"]),
+    visibility = ["//projects/wide/service/src/test:__subpackages__"],
+    deps = [
+        "//libs/test/src/test/java/lab/test",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_core",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_testcontainers_testcontainers",
+        "@maven//:org_testcontainers_testcontainers_junit_jupiter",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
+    ],
+)

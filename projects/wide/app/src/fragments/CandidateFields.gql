@@ -1,0 +1,9 @@
+fragment CandidateFields on Solution {
+  id
+  title
+  approach
+  scope
+  tradeoffs
+  effort
+  updatedAt
+}

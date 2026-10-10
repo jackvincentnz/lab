@@ -1,0 +1,15 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "config",
+    srcs = glob(["*.java"]),
+    visibility = [
+        "//projects/wide/service/src/main:__pkg__",
+        "//projects/wide/service/src/test:__subpackages__",
+    ],
+    deps = [
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "@maven//:org_springframework_ai_spring_ai_model",
+        "@maven//:org_springframework_spring_context",
+    ],
+)

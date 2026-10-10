@@ -1,0 +1,21 @@
+load("@aspect_bazel_lib//lib:copy_to_bin.bzl", "copy_to_bin")
+load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen_library")
+
+dgs_codegen_library(
+    name = "java",
+    package_name = "lab.wide.api.gql",
+    schemas = [":schema"],
+    visibility = [
+        "//projects/wide/service/src/main/java/lab/wide/api:__pkg__",
+        "//projects/wide/service/src/test:__subpackages__",
+    ],
+)
+
+copy_to_bin(
+    name = "schema",
+    srcs = ["schema.graphqls"],
+    visibility = [
+        "//projects/wide/app:__subpackages__",
+        "//projects/wide/service/src/main:__pkg__",
+    ],
+)

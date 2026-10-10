@@ -1,0 +1,22 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+command(
+    name = "service",
+    command = "//projects/wide/service/src/main",
+    environment = {"SPRING_PROFILES_ACTIVE": "local"},
+)
+
+command(
+    name = "app",
+    args = ["--open"],
+    command = "//projects/wide/app",
+)
+
+multirun(
+    name = "wide",
+    commands = [
+        ":service",
+        ":app",
+    ],
+    jobs = 0,
+)

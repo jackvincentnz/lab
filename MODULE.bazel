@@ -81,6 +81,7 @@ maven.install(
         "org.apache.kafka:kafka_2.13",
         "org.eclipse.jetty:jetty-reactive-httpclient",
         "org.springframework.boot:spring-boot-starter-flyway",
+        "org.flywaydb:flyway-database-postgresql",
         "org.springframework.ai:spring-ai-starter-mcp-server-webmvc",
         "org.springframework.ai:spring-ai-starter-model-google-genai",
         "org.springframework.ai:spring-ai-starter-model-ollama",
