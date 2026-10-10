@@ -3,11 +3,17 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 java_test_suite(
     name = "springdata",
     srcs = [
+        "ConvertersTest.java",
+        "ExternalIdToStringConverterTest.java",
         "InternalIdToUUIDConverterTest.java",
+        "StringToExternalIdConverterFactoryTest.java",
+        "StringToExternalIdConverterTest.java",
         "StringToStringValueConverterFactoryTest.java",
         "StringToStringValueConverterTest.java",
         "StringValueToStringConverterTest.java",
+        "TestExternalId.java",
         "TestValue.java",
+        "UUIDToInternalIdConverterFactoryTest.java",
         "UUIDToInternalIdConverterTest.java",
     ],
     runner = "junit5",
