@@ -105,9 +105,9 @@ in front of the load balancer. The mechanism is a deferred decision.
 
 ### Access logging
 
-One structured record per authenticated request: source IP, `tenant_id`, `principal_id`,
-authentication method, path, status, and a request ID forwarded to the service. Tokens and
-cookies are never logged.
+One structured record per request: source IP, path, status, and a request ID forwarded to the
+service, with `tenant_id`, `principal_id`, and authentication method present when the gateway
+authenticated the caller. Tokens and cookies are never logged.
 
 ## First Iteration
 

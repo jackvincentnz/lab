@@ -14,7 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
-/** Proves the record reaches the console as structured JSON and the ID reaches the service. */
+/** Proves records reach the console as structured JSON and the ID reaches the service. */
 @ExtendWith(OutputCaptureExtension.class)
 class AccessLogTest extends GatewayTestSupport {
 
@@ -75,11 +75,12 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void apiRequest_withoutSession_returnsIdWithoutRecord(CapturedOutput output) {
+  void apiRequest_withoutSession_logsRecordWithoutCallerFields(CapturedOutput output) {
+    var path = "/api/" + randomString();
     var requestId =
         client()
             .get()
-            .uri("/api/" + randomString())
+            .uri(path)
             .accept(MediaType.APPLICATION_JSON)
             .exchange()
             .expectStatus()
@@ -88,7 +89,31 @@ class AccessLogTest extends GatewayTestSupport {
             .getResponseHeaders()
             .getFirst(AccessLogWebFilter.REQUEST_ID);
 
-    assertThat(requestId).isNotBlank();
-    assertThat(output.getOut()).doesNotContain(requestId);
+    assertThat(record(output, requestId))
+        .containsEntry("path", path)
+        .containsEntry("status", 401)
+        .containsEntry("request_id", requestId)
+        .containsKey("source_ip")
+        .doesNotContainKeys("tenant_id", "principal_id", "authentication_method");
+  }
+
+  @Test
+  void loginSubmission_withWrongPassword_logsRecordWithoutThePassword(CapturedOutput output) {
+    var password = randomString();
+
+    var requestId =
+        browser()
+            .login(password)
+            .expectStatus()
+            .isFound()
+            .returnResult(String.class)
+            .getResponseHeaders()
+            .getFirst(AccessLogWebFilter.REQUEST_ID);
+
+    assertThat(record(output, requestId))
+        .containsEntry("path", "/login")
+        .containsEntry("status", 302)
+        .doesNotContainKeys("tenant_id", "principal_id", "authentication_method");
+    assertThat(output.getOut()).doesNotContain(password);
   }
 }

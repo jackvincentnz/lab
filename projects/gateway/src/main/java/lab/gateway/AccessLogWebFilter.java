@@ -1,6 +1,7 @@
 package lab.gateway;
 
 import java.net.InetSocketAddress;
+import java.util.Optional;
 import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,17 +16,17 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
 /**
- * Gives every request an ID minted here and writes one access record for each request that arrived
- * with a gateway session.
+ * Gives every request an ID minted here and writes one access record for it. The record names the
+ * caller only when the request arrived with a gateway session.
  *
  * <p>The ID replaces any the client sent, so a client cannot choose the ID that downstream services
  * and the access log correlate on. It is forwarded as {@value #REQUEST_ID} and returned on the
  * response under the same name.
  *
  * <p>The filter runs ahead of the security chain so that responses the chain ends early, such as a
- * CSRF rejection, still carry the ID and are still logged. The caller is read from the session as
- * the request arrived, which is what the security chain authenticates the request with. The record
- * is written as the response commits, once error handlers have set the final status.
+ * CSRF rejection or a 401, still carry the ID and are still logged. The caller is read from the
+ * session as the request arrived, which is what the security chain authenticates the request with.
+ * The record is written as the response commits, once error handlers have set the final status.
  */
 @Component
 public class AccessLogWebFilter implements WebFilter, Ordered {
@@ -60,7 +61,8 @@ public class AccessLogWebFilter implements WebFilter, Ordered {
     return securityContexts
         .load(exchange)
         .mapNotNull(SecurityContext::getAuthentication)
-        .flatMap(authentication -> Mono.justOrEmpty(Caller.of(authentication)))
+        .map(Caller::of)
+        .defaultIfEmpty(Optional.empty())
         .doOnNext(
             caller ->
                 response.beforeCommit(
@@ -68,15 +70,23 @@ public class AccessLogWebFilter implements WebFilter, Ordered {
         .then(Mono.defer(() -> chain.filter(forwarded)));
   }
 
-  /** Writes named fields only, so no header, cookie, or token value can reach the log. */
-  private static void record(ServerWebExchange exchange, Caller caller, String requestId) {
+  /**
+   * Writes named fields only, so no header, cookie, token, or request body value can reach the log.
+   * The caller's fields are left out, rather than written empty, when there is no caller.
+   */
+  private static void record(
+      ServerWebExchange exchange, Optional<Caller> caller, String requestId) {
     var request = exchange.getRequest();
     var status = exchange.getResponse().getStatusCode();
-    log.atInfo()
-        .addKeyValue("source_ip", sourceIp(request))
-        .addKeyValue("tenant_id", caller.tenant())
-        .addKeyValue("principal_id", caller.principal())
-        .addKeyValue("authentication_method", caller.authenticationMethod())
+    var record = log.atInfo().addKeyValue("source_ip", sourceIp(request));
+    if (caller.isPresent()) {
+      record =
+          record
+              .addKeyValue("tenant_id", caller.get().tenant())
+              .addKeyValue("principal_id", caller.get().principal())
+              .addKeyValue("authentication_method", caller.get().authenticationMethod());
+    }
+    record
         .addKeyValue("path", request.getPath().value())
         .addKeyValue("status", status == null ? 200 : status.value())
         .addKeyValue("request_id", requestId)

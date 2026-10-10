@@ -41,7 +41,7 @@ Downstream targets default to local dev and are overridable per environment, for
 | `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.                        |
 
 Every response carries a gateway-minted `X-Request-ID`, which is also forwarded downstream. See
-[Access logging](docs/access-logging.md) for the record written per authenticated request.
+[Access logging](docs/access-logging.md) for the record written per request.
 
 GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
 from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.

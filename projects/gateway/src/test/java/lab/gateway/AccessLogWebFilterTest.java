@@ -126,12 +126,38 @@ class AccessLogWebFilterTest extends TestBase {
   }
 
   @Test
-  void filter_withoutSession_logsNothing() {
-    var exchange = MockServerWebExchange.from(request("/" + randomString()));
+  void filter_withoutSession_logsRecordWithoutCallerFields() {
+    var path = "/" + randomString();
+    var exchange = MockServerWebExchange.from(request(path));
 
     run(exchange, HttpStatus.UNAUTHORIZED);
 
-    assertThat(records.list).isEmpty();
+    assertThat(onlyRecord())
+        .containsOnlyKeys("source_ip", "path", "status", "request_id")
+        .containsEntry(
+            "source_ip", exchange.getRequest().getRemoteAddress().getAddress().getHostAddress())
+        .containsEntry("path", path)
+        .containsEntry("status", HttpStatus.UNAUTHORIZED.value())
+        .containsEntry(
+            "request_id",
+            exchange.getResponse().getHeaders().getFirst(AccessLogWebFilter.REQUEST_ID));
+  }
+
+  @Test
+  void filter_withoutSession_neverLogsCredentials() {
+    var bearer = randomString();
+    var cookie = randomString();
+    var exchange =
+        MockServerWebExchange.from(
+            request("/" + randomString())
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer)
+                .header(HttpHeaders.COOKIE, "SESSION=" + cookie));
+
+    run(exchange, HttpStatus.UNAUTHORIZED);
+
+    var event = records.list.get(0);
+    var logged = event.getFormattedMessage() + " " + event.getKeyValuePairs();
+    assertThat(logged).doesNotContain(bearer).doesNotContain(cookie);
   }
 
   @Test
