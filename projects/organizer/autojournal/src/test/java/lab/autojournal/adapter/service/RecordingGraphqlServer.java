@@ -11,6 +11,7 @@ class RecordingGraphqlServer implements AutoCloseable {
 
   private final HttpServer server;
   private final AtomicReference<String> requestBody = new AtomicReference<>();
+  private int responseStatus = 200;
   private String responseBody = "{}";
 
   RecordingGraphqlServer() throws IOException {
@@ -24,6 +25,11 @@ class RecordingGraphqlServer implements AutoCloseable {
   }
 
   void respondWith(String responseBody) {
+    respondWith(200, responseBody);
+  }
+
+  void respondWith(int responseStatus, String responseBody) {
+    this.responseStatus = responseStatus;
     this.responseBody = responseBody;
   }
 
@@ -36,7 +42,7 @@ class RecordingGraphqlServer implements AutoCloseable {
       requestBody.set(new String(exchange.getRequestBody().readAllBytes(), StandardCharsets.UTF_8));
       var bytes = responseBody.getBytes(StandardCharsets.UTF_8);
       exchange.getResponseHeaders().add("Content-Type", "application/json");
-      exchange.sendResponseHeaders(200, bytes.length);
+      exchange.sendResponseHeaders(responseStatus, bytes.length);
       exchange.getResponseBody().write(bytes);
     }
   }
