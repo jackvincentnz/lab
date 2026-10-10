@@ -43,7 +43,7 @@ final class Downstream implements AutoCloseable {
                       .forEach(authorization -> response.addHeader(AUTHORIZATION, authorization));
                   request
                       .requestHeaders()
-                      .getAll(AccessLogWebFilter.REQUEST_ID)
+                      .getAll(RequestIdWebFilter.HEADER)
                       .forEach(id -> response.addHeader(REQUEST_ID, id));
                   return response.sendString(Mono.just(name + " " + request.uri()));
                 })

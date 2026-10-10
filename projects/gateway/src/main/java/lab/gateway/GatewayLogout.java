@@ -21,6 +21,7 @@ final class GatewayLogout {
     var filter = new LogoutWebFilter();
     filter.setLogoutHandler(
         new DelegatingServerLogoutHandler(
+            AccessLogObservation.callerOnLogout(),
             new SecurityContextServerLogoutHandler(),
             new CsrfServerLogoutHandler(csrfTokens),
             new WebSessionServerLogoutHandler()));
