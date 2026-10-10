@@ -2,8 +2,11 @@ package lab.task.adapter.api.gql.task;
 
 import com.netflix.graphql.dgs.DgsComponent;
 import com.netflix.graphql.dgs.DgsQuery;
+import com.netflix.graphql.dgs.exceptions.DgsBadRequestException;
+import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import java.util.Comparator;
 import java.util.List;
+import lab.libs.ddd.domain.NotFoundException;
 import lab.task.adapter.gql.schema.types.Task;
 import lab.task.application.task.TaskQueryService;
 import lab.task.domain.TaskId;
@@ -30,11 +33,24 @@ public class TaskDataFetcher {
         .toList();
   }
 
+  // DGS reports its own exception types as BAD_REQUEST or NOT_FOUND; any other exception is
+  // reported as INTERNAL.
   @DgsQuery
   public Task task(String id) {
-    // TODO: error handing (not found, id format, id length)
-    var task = taskQueryService.getTask(TaskId.fromString(id));
+    var taskId = parseTaskId(id);
 
-    return taskMapper.map(task);
+    try {
+      return taskMapper.map(taskQueryService.getTask(taskId));
+    } catch (NotFoundException e) {
+      throw new DgsEntityNotFoundException(e.getMessage());
+    }
+  }
+
+  private static TaskId parseTaskId(String id) {
+    try {
+      return TaskId.fromString(id);
+    } catch (IllegalArgumentException e) {
+      throw new DgsBadRequestException(String.format("Invalid task id [%s]", id));
+    }
   }
 }
