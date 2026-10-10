@@ -22,6 +22,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -29,6 +30,9 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.Resource;
 
 @ExtendWith(MockitoExtension.class)
 class SpringChatClientTest extends TestBase {
@@ -44,7 +48,8 @@ class SpringChatClientTest extends TestBase {
   @BeforeEach
   void setup() {
     springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+        new SpringChatClient(
+            chatModel, new TestTools(), messageMapper, approvalPolicy, systemPrompt());
   }
 
   @Test
@@ -98,7 +103,8 @@ class SpringChatClientTest extends TestBase {
     when(chatModel.getOptions())
         .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
     springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+        new SpringChatClient(
+            chatModel, new TestTools(), messageMapper, approvalPolicy, systemPrompt());
 
     var chatResponse =
         ChatResponse.builder()
@@ -122,6 +128,44 @@ class SpringChatClientTest extends TestBase {
   }
 
   @Test
+  void getResponse_prependsTheSystemPromptFromTheClasspath() {
+    var chatResponse =
+        ChatResponse.builder()
+            .generations(List.of(new Generation(new AssistantMessage(randomString()))))
+            .build();
+    var promptCaptor = ArgumentCaptor.forClass(Prompt.class);
+
+    when(messageMapper.map(anyList())).thenReturn(List.of());
+    when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+    when(messageMapper.map(chatResponse))
+        .thenReturn(lab.mops.ai.application.chat.completions.AssistantMessage.of(randomString()));
+
+    springChatClient.getResponse(List.of(new UserMessage(randomString())));
+
+    verify(chatModel).call(promptCaptor.capture());
+    var systemMessage = promptCaptor.getValue().getInstructions().get(0);
+
+    assertThat(systemMessage).isInstanceOf(SystemMessage.class);
+    assertThat(systemMessage.getText())
+        .startsWith("You are a skilled expert in planning and budgeting for marketing campaigns.\n")
+        .contains("type QuarterlyTotal {\n  quarter: Quarter!\n  fiscalYear: Int!\n")
+        .contains("4. **Call the tools.**")
+        .endsWith("6. **Ask the user if they need anything else.**\n");
+  }
+
+  @Test
+  void constructor_missingSystemPrompt_failsFast() {
+    var missing = new ClassPathResource(randomString());
+
+    assertThatThrownBy(
+            () ->
+                new SpringChatClient(
+                    chatModel, new TestTools(), messageMapper, approvalPolicy, missing))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageStartingWith("System prompt resource not found: ");
+  }
+
+  @Test
   void getTools_returnsAvailableTools() {
     var tools =
         springChatClient.getTools().stream().map(t -> t.getToolDefinition().name()).toList();
@@ -134,6 +178,10 @@ class SpringChatClientTest extends TestBase {
             name -> {
               assertThat(tools).contains(name);
             });
+  }
+
+  private static Resource systemPrompt() {
+    return new DefaultResourceLoader().getResource(SpringChatClient.SYSTEM_PROMPT_LOCATION);
   }
 
   static class TestTools implements BudgetTools {

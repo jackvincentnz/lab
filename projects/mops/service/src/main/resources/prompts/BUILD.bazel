@@ -1,0 +1,5 @@
+filegroup(
+    name = "prompts",
+    srcs = ["system.txt"],
+    visibility = ["//projects/mops/service/src/main/java/lab/mops/ai/infrastructure/llm:__pkg__"],
+)

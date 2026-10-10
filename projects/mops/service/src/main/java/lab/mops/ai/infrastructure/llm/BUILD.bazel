@@ -3,13 +3,13 @@ load("//tools/bazel:java.bzl", "java_library")
 java_library(
     name = "llm",
     srcs = [
-        "Constants.java",
         "EnvironmentToolApprovalPolicy.java",
         "SpringChatClient.java",
         "SpringMessageMapper.java",
         "SpringTool.java",
         "ToolApprovalPolicy.java",
     ],
+    resources = ["//projects/mops/service/src/main/resources/prompts"],
     visibility = [
         "//projects/mops/service/src/main/java/lab/mops/ai:__pkg__",
         "//projects/mops/service/src/main/java/lab/mops/ai/api:__subpackages__",
@@ -25,6 +25,7 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat/completions",
         "//projects/mops/service/src/main/java/lab/mops/core/api/ai",
         "@maven//:org_springframework_ai_spring_ai_model",
+        "@maven//:org_springframework_spring_beans",
         "@maven//:org_springframework_spring_context",
         "@maven//:org_springframework_spring_core",
     ],
