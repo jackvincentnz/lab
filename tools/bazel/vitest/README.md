@@ -32,6 +32,10 @@ build configuration are excluded from measured production lines. Modules with no
 executable statements contribute no lines. Bazel's combined report can contain
 empty baseline records (`LF:0`); these add no lines to the denominator.
 
+Use the [coverage inventory report](../../coverage_report/README.md) to compare LCOV
+with tracked source files and explicit exclusions, including sources absent
+from the report, and compare completeness across equivalent collection runs.
+
 ## Checking changes to the integration
 
 Do not treat a successful test run or the existence of an LCOV file as proof of

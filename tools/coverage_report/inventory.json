@@ -1,0 +1,38 @@
+{
+  "include": ["**/*.java", "**/*.ts", "**/*.tsx"],
+  "collectorScopes": {
+    "tools/bazel/vitest/vite.config.ts": ["libs/**"]
+  },
+  "exclude": [
+    {
+      "pattern": "**/src/test/**",
+      "reason": "Test sources are outside the production source inventory.",
+      "source": "docs/contributing/testing.md"
+    },
+    {
+      "pattern": "**/e2e/**",
+      "reason": "End-to-end test infrastructure is outside the production source inventory.",
+      "source": ".bazelrc"
+    },
+    {
+      "pattern": "tools/**",
+      "reason": "Build and test tooling is outside the production source inventory.",
+      "source": "tools/BUILD.bazel"
+    },
+    {
+      "pattern": "**/.storybook/**",
+      "reason": "Storybook configuration is outside the production source inventory.",
+      "source": "libs/bubbles/BUILD.bazel"
+    },
+    {
+      "pattern": "**/vite.config.ts",
+      "reason": "Build and test configuration is outside the production source inventory.",
+      "source": "tools/bazel/fe.bzl"
+    },
+    {
+      "pattern": "**/codegen.ts",
+      "reason": "Code generation configuration is outside the production source inventory.",
+      "source": "tools/bazel/fe.bzl"
+    }
+  ]
+}
