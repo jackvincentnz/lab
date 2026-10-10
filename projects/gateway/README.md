@@ -27,8 +27,9 @@ Both targets need a running Docker engine, activate the `local` profile, which s
 [Local stack](docs/local-stack.md) for what runs and how it is wired, and the
 [Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
-Redis publishes on host port 6379 unless `GATEWAY_REDIS_PORT` sets another, so stacks in
-several worktrees can run at once.
+The gateway listens on port 3006 and Redis publishes on host port 6379 unless `GATEWAY_PORT` and
+`GATEWAY_REDIS_PORT` set others, so stacks in several worktrees can run at once. Mops looks up the
+gateway's keys on 3006, so with `:start` on another port also set `MOPS_IDENTITY_JWKSETURI`.
 
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
@@ -68,7 +69,7 @@ bazel test //projects/gateway/...
 
 ## Local endpoints
 
-- Service base URL: `http://localhost:3006`
+- Service base URL: `http://localhost:3006`, or the port in `GATEWAY_PORT`
 - Health: `/actuator/health`
 
 ## Project map

@@ -1,4 +1,4 @@
-server.port: 3006
+server.port: ${GATEWAY_PORT:3006}
 server.reactive.session.cookie.secure: true
 server.reactive.session.cookie.same-site: lax
 spring:
