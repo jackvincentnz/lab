@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -19,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -29,6 +31,8 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
   @Mock LineItemRepository lineItemRepository;
 
   @Mock CategoryRepository categoryRepository;
+
+  @Spy BudgetProperties budgetProperties = new BudgetProperties(Month.APRIL);
 
   @InjectMocks ResolvedBudgetQueryService resolvedBudgetQueryService;
 
@@ -73,7 +77,7 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
     assertThat(resultSpend.getSpendDay()).isEqualTo(spend.getSpendDay());
     assertThat(resultSpend.getAmount()).isEqualTo(spend.getAmount());
 
-    assertThat(resolvedLineItem.spendTotals()).isEqualTo(lineItem.getSpendTotals());
+    assertThat(resolvedLineItem.spendTotals()).isEqualTo(lineItem.getSpendTotals(Month.APRIL));
   }
 
   @Test

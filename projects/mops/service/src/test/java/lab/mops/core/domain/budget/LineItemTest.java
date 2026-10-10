@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import lab.libs.ddd.domain.ValidationException;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
@@ -121,7 +122,7 @@ class LineItemTest extends TestBase {
   void getSpendTotals_withNoSpend_returnsZero() {
     var lineItem = newLineItem();
 
-    assertThat(lineItem.getSpendTotals().grandTotal()).isEqualTo(BigDecimal.ZERO);
+    assertThat(lineItem.getSpendTotals(Month.JANUARY).grandTotal()).isEqualTo(BigDecimal.ZERO);
   }
 
   @Test
@@ -133,7 +134,8 @@ class LineItemTest extends TestBase {
     lineItem.planSpend(spend1);
     lineItem.planSpend(spend2);
 
-    assertThat(lineItem.getSpendTotals().grandTotal()).isEqualTo(BigDecimal.valueOf(300.00));
+    assertThat(lineItem.getSpendTotals(Month.JANUARY).grandTotal())
+        .isEqualTo(BigDecimal.valueOf(300.00));
   }
 
   private Budget newBudget() {
