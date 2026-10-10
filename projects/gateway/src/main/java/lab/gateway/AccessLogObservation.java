@@ -5,7 +5,6 @@ import org.springframework.http.server.reactive.observation.ServerRequestObserva
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.web.server.authentication.logout.ServerLogoutHandler;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
 import reactor.core.publisher.Mono;
@@ -36,7 +35,7 @@ final class AccessLogObservation {
   /**
    * Adds the caller behind an authentication, or nothing when the gateway did not establish one.
    */
-  static void addCaller(ServerWebExchange exchange, Authentication authentication) {
+  private static void addCaller(ServerWebExchange exchange, Authentication authentication) {
     Caller.of(authentication)
         .ifPresent(
             caller -> {
@@ -56,11 +55,5 @@ final class AccessLogObservation {
             .mapNotNull(SecurityContext::getAuthentication)
             .doOnNext(authentication -> addCaller(exchange, authentication))
             .then(Mono.defer(() -> chain.filter(exchange)));
-  }
-
-  /** Adds the caller being logged out, so the logout record names who it was. */
-  static ServerLogoutHandler callerOnLogout() {
-    return (exchange, authentication) ->
-        Mono.fromRunnable(() -> addCaller(exchange.getExchange(), authentication));
   }
 }

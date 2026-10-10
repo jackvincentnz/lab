@@ -14,7 +14,6 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.web.server.WebFilterExchange;
 import reactor.core.publisher.Mono;
 
 class AccessLogObservationTest extends TestBase {
@@ -90,19 +89,5 @@ class AccessLogObservationTest extends TestBase {
         .block();
 
     assertThat(context.getHighCardinalityKeyValues()).isEmpty();
-  }
-
-  @Test
-  void callerOnLogout_withGatewayCaller_addsLoggedOutCaller() {
-    var principal = principal();
-
-    AccessLogObservation.callerOnLogout()
-        .logout(new WebFilterExchange(exchange, next -> Mono.empty()), signedIn(principal))
-        .block();
-
-    assertThat(highCardinality(AccessLogObservation.PRINCIPAL_ID))
-        .isEqualTo(principal.principal().toString());
-    assertThat(highCardinality(AccessLogObservation.TENANT_ID))
-        .isEqualTo(principal.tenant().toString());
   }
 }
