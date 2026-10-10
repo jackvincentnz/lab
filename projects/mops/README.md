@@ -65,7 +65,9 @@ bazel test //projects/mops/e2e
 - Service base URL: `http://localhost:8080`
 - MCP streamable HTTP endpoint: `/sse`
 - GraphQL HTTP + WS: `/graphql`
-- App dev server (Vite default): `http://localhost:5173` (proxies `/api` and `/ws` to the service)
+- App dev server: `http://localhost:5173` (proxies `/api` and `/ws` to the service)
+
+Set `MOPS_PORT`, `MOPS_APP_PORT` or `GATEWAY_PORT` to move the service, the app, or the JWKS lookup off these ports; the app proxy and the eval runner follow `MOPS_PORT`.
 
 ## Project map
 
@@ -73,7 +75,7 @@ bazel test //projects/mops/e2e
 - `projects/mops/service/src/main/resources/schema/schema.graphqls`: GraphQL schema.
 - `projects/mops/service/bruno_collection`: Bruno API request collection.
 - `projects/mops/app/src`: React app sources.
-- `projects/mops/eval`: evaluation runner and question sets (hits the service at `localhost:8080`).
+- `projects/mops/eval`: evaluation runner and question sets (hits the service at `localhost:${MOPS_PORT:-8080}`).
 
 ## Related docs
 
