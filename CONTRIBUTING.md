@@ -64,6 +64,7 @@ Choose the type by the effect of the change, not by the files it touches:
 
 - [Bazel](docs/contributing/bazel.md).
 - [Java](docs/contributing/java.md).
+- [TypeScript performance](docs/contributing/typescript.md).
 - [Testing](docs/contributing/testing.md).
 - [Dependencies](docs/contributing/dependencies.md).
 - [Markdown](docs/contributing/markdown.md).
