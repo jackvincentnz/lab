@@ -8,12 +8,14 @@ import reactor.netty.http.server.HttpServer;
 
 /**
  * A stub downstream service that answers with its name and the path it received, and reflects the
- * browser credentials it was sent as response headers so tests can assert what crossed the gateway.
+ * browser credentials and request ID it was sent as response headers so tests can assert what
+ * crossed the gateway.
  */
 final class Downstream implements AutoCloseable {
 
   static final String COOKIE = "X-Downstream-Cookie";
   static final String AUTHORIZATION = "X-Downstream-Authorization";
+  static final String REQUEST_ID = "X-Downstream-Request-ID";
 
   private final DisposableServer server;
   private final AtomicInteger requests;
@@ -39,6 +41,10 @@ final class Downstream implements AutoCloseable {
                       .requestHeaders()
                       .getAll(HttpHeaders.AUTHORIZATION)
                       .forEach(authorization -> response.addHeader(AUTHORIZATION, authorization));
+                  request
+                      .requestHeaders()
+                      .getAll(AccessLogWebFilter.REQUEST_ID)
+                      .forEach(id -> response.addHeader(REQUEST_ID, id));
                   return response.sendString(Mono.just(name + " " + request.uri()));
                 })
             .bindNow();

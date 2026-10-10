@@ -22,6 +22,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
+import org.springframework.security.web.server.context.ServerSecurityContextRepository;
+import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.csrf.WebSessionServerCsrfTokenRepository;
 import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
 import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
@@ -51,13 +53,22 @@ public class SecurityConfiguration {
             .doOnNext(result -> ((CredentialsContainer) result).eraseCredentials());
   }
 
+  /** Shared with the access log, so it reads the caller from where the security chain does. */
+  @Bean
+  ServerSecurityContextRepository securityContextRepository() {
+    return new WebSessionServerSecurityContextRepository();
+  }
+
   @Bean
   SecurityWebFilterChain securityWebFilterChain(
-      ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
+      ServerHttpSecurity http,
+      ReactiveAuthenticationManager authenticationManager,
+      ServerSecurityContextRepository securityContexts) {
     var csrfTokens = new WebSessionServerCsrfTokenRepository();
     var loginPage = new LoginPageGeneratingWebFilter();
     loginPage.setFormLoginEnabled(true);
     return http.authenticationManager(authenticationManager)
+        .securityContextRepository(securityContexts)
         .authorizeExchange(
             exchanges ->
                 exchanges

@@ -29,6 +29,11 @@ spring:
               uri: ${lab.gateway.mops.app-uri}
               predicates:
                 - Path=/**
+logging:
+  structured:
+    format:
+      # One JSON object per line with key-value pairs as flat top-level fields.
+      console: logstash
 management:
   endpoints:
     web:
