@@ -1,0 +1,16 @@
+load("//tools/bazel:js.bzl", "js_binary")
+
+js_binary(
+    name = "format",
+    data = ["//:node_modules/prettier"],
+    entry_point = "format.mjs",
+    visibility = ["//docs/bazel:__pkg__"],
+)
+
+exports_files(
+    [
+        "func.vm",
+        "rule.vm",
+    ],
+    visibility = ["//docs/bazel:__pkg__"],
+)

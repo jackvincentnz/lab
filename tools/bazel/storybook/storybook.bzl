@@ -1,10 +1,19 @@
-"""
-This module contains common storybook macros.
+"""# Storybook
+
+Shared Storybook build and development server defaults.
 """
 
 load("//tools/bazel:js.bzl", "js_run_binary", "js_run_devserver")
 
 def storybook_build(name, **kwargs):
+    """Build Storybook in the calling package by default.
+
+    Emits storybook-static and sets CACHE_DIR to .cache.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     js_run_binary(
         name = name,
         srcs = kwargs.pop("srcs", []),
@@ -20,6 +29,14 @@ def storybook_build(name, **kwargs):
     )
 
 def storybook_dev_server(name, **kwargs):
+    """Run Storybook on port 6006 in the calling package by default.
+
+    Sets CACHE_DIR to .cache.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
     js_run_devserver(
         name = name,
         chdir = kwargs.pop("chdir", native.package_name()),

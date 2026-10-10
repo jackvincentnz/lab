@@ -21,6 +21,7 @@ bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
 bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
 
+bazel_dep(name = "stardoc", version = "0.8.1", dev_dependency = True)
 bazel_dep(name = "gazelle", version = "0.54.0", dev_dependency = True)
 bazel_dep(name = "rules_go", version = "0.59.0", dev_dependency = True)
 
@@ -216,6 +217,8 @@ npm = use_extension(
 )
 npm.npm_translate_lock(
     name = "npm",
+    # Stardoc needs the Starlark libraries generated for npm binary macros.
+    generate_bzl_library_targets = True,
     pnpm_lock = "//:pnpm-lock.yaml",
 )
 use_repo(npm, "npm")

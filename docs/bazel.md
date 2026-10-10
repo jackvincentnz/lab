@@ -5,6 +5,9 @@ repository root. See the [Bazel contribution guidelines](contributing/bazel.md)
 for BUILD file conventions, and [Gazelle](gazelle.md) for the tool that
 generates Java BUILD file dependencies.
 
+See the [generated macro reference](bazel/README.md) for the APIs and defaults
+of the wrappers in `tools/bazel/`.
+
 ## Outputs
 
 `.bazelrc` sets `--symlink_prefix=dist/`, so the convenience symlinks are

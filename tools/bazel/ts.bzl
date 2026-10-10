@@ -1,5 +1,6 @@
-"""
-This module contains common ts macros to avoid direct dependencies on external rules.
+"""# TypeScript
+
+Shared TypeScript configuration and transpilation defaults.
 """
 
 load("@aspect_rules_swc//swc:defs.bzl", "swc")
@@ -7,7 +8,17 @@ load("@aspect_rules_ts//ts:defs.bzl", _ts_config = "ts_config", _ts_project = "t
 load("@bazel_skylib//lib:partial.bzl", "partial")
 
 def ts_project(name, **kwargs):
-    """ts_project() macro with default tsconfig and aligning params.
+    """Compile TypeScript with the repository's shared configuration and SWC.
+
+    Defaults tsconfig to //:tsconfig_base, enables declarations, declaration
+    maps, source maps and JSON module resolution, and uses SWC with //:.swcrc.
+    Each default can be overridden. Coverage builds include the original
+    sources in runtime data so Vitest can remap coverage.
+
+    Args:
+        name: Target name.
+        **kwargs: Attributes passed to
+            [ts_project](https://github.com/aspect-build/rules_ts/blob/v3.10.1/ts/defs.bzl).
     """
 
     source_map = kwargs.pop("source_map", True)
@@ -37,6 +48,15 @@ def ts_project(name, **kwargs):
     )
 
 def node_ts_project(name, **kwargs):
+    """Compile Node TypeScript using ts_project's shared defaults.
+
+    Defaults to //:tsconfig_node and SWC with //:.swcrc.node, and adds Node type
+    declarations to deps. Configuration and transpiler can be overridden.
+
+    Args:
+        name: Target name.
+        **kwargs: Attributes passed to ts_project.
+    """
     ts_project(
         name = name,
 
@@ -54,6 +74,12 @@ def node_ts_project(name, **kwargs):
     )
 
 def ts_config(name, **kwargs):
+    """Declare a [TypeScript configuration](https://github.com/aspect-build/rules_ts/blob/v3.10.1/ts/defs.bzl).
+
+    Args:
+        name: Target name.
+        **kwargs: Attributes passed to the upstream ts_config rule.
+    """
     _ts_config(
         name = name,
         **kwargs
