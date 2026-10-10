@@ -10,6 +10,7 @@ import lab.mops.ai.application.chat.completions.AssistantMessage;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.Message;
 import lab.mops.core.api.ai.BudgetTools;
+import lab.springai.tools.DateTimeTools;
 import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ToolContext;
@@ -29,7 +30,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   private final ChatOptions chatOptions;
 
-  private final BudgetTools budgetTools;
+  private final Object[] toolObjects;
 
   private final SpringMessageMapper messageMapper;
 
@@ -38,11 +39,12 @@ class SpringChatClient implements CompletionService, ToolProvider {
   SpringChatClient(
       ChatModel chatModel,
       BudgetTools budgetTools,
+      DateTimeTools dateTimeTools,
       SpringMessageMapper messageMapper,
       ToolApprovalPolicy approvalPolicy) {
     this.chatModel = chatModel;
-    this.budgetTools = budgetTools;
-    this.chatOptions = buildChatOptions(chatModel, budgetTools);
+    this.toolObjects = new Object[] {budgetTools, dateTimeTools};
+    this.chatOptions = buildChatOptions(chatModel, toolObjects);
     this.messageMapper = messageMapper;
     this.approvalPolicy = approvalPolicy;
   }
@@ -53,9 +55,9 @@ class SpringChatClient implements CompletionService, ToolProvider {
    * attach must be derived from the model's defaults rather than built from scratch. Mutating the
    * defaults also preserves the configured model, temperature, and other provider settings.
    */
-  private static ChatOptions buildChatOptions(ChatModel chatModel, BudgetTools budgetTools) {
+  private static ChatOptions buildChatOptions(ChatModel chatModel, Object[] toolObjects) {
     var toolCallbacks =
-        Arrays.stream(ToolCallbacks.from(budgetTools))
+        Arrays.stream(ToolCallbacks.from(toolObjects))
             .map(NonExecutingToolCallback::new)
             .toArray(ToolCallback[]::new);
 
@@ -84,7 +86,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   @Override
   public List<Tool> getTools() {
-    return Arrays.stream(ToolCallbacks.from(budgetTools))
+    return Arrays.stream(ToolCallbacks.from(toolObjects))
         .map(cb -> new SpringTool(cb, approvalPolicy))
         .collect(Collectors.toUnmodifiableList());
   }

@@ -14,6 +14,7 @@ import java.util.List;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.core.api.ai.BudgetTools;
 import lab.mops.core.application.budget.data.ResolvedBudget;
+import lab.springai.tools.DateTimeTools;
 import lab.test.TestBase;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,8 @@ class SpringChatClientTest extends TestBase {
   @BeforeEach
   void setup() {
     springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+        new SpringChatClient(
+            chatModel, new TestTools(), new DateTimeTools(), messageMapper, approvalPolicy);
   }
 
   @Test
@@ -98,7 +100,8 @@ class SpringChatClientTest extends TestBase {
     when(chatModel.getOptions())
         .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
     springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+        new SpringChatClient(
+            chatModel, new TestTools(), new DateTimeTools(), messageMapper, approvalPolicy);
 
     var chatResponse =
         ChatResponse.builder()
@@ -118,7 +121,7 @@ class SpringChatClientTest extends TestBase {
 
     assertThat(options).isInstanceOf(GoogleGenAiChatOptions.class);
     assertThat(options.getModel()).isEqualTo("gemini-test");
-    assertThat(((GoogleGenAiChatOptions) options).getToolCallbacks()).hasSize(2);
+    assertThat(((GoogleGenAiChatOptions) options).getToolCallbacks()).hasSize(3);
   }
 
   @Test
@@ -126,7 +129,7 @@ class SpringChatClientTest extends TestBase {
     var tools =
         springChatClient.getTools().stream().map(t -> t.getToolDefinition().name()).toList();
 
-    assertThat(tools).hasSize(2);
+    assertThat(tools).hasSize(3);
     Arrays.stream(TestTools.class.getMethods())
         .filter(method -> method.isAnnotationPresent(Tool.class))
         .map(Method::getName)
@@ -134,6 +137,14 @@ class SpringChatClientTest extends TestBase {
             name -> {
               assertThat(tools).contains(name);
             });
+  }
+
+  @Test
+  void getTools_includesDateTimeTools() {
+    var tools =
+        springChatClient.getTools().stream().map(t -> t.getToolDefinition().name()).toList();
+
+    assertThat(tools).contains("getCurrentDateTime");
   }
 
   static class TestTools implements BudgetTools {
