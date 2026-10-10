@@ -29,6 +29,7 @@ java_library(
         "@maven//:com_nimbusds_nimbus_jose_jwt",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
+        "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
     ],
     deps = [
