@@ -4,9 +4,6 @@ java_library(
     name = "gateway",
     srcs = [
         "AccessLogWebFilter.java",
-        "BearerKey.java",
-        "BearerTokenConfiguration.java",
-        "BearerTokenProperties.java",
         "Caller.java",
         "CsrfController.java",
         "GatewayApplication.java",
@@ -40,6 +37,7 @@ java_library(
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_boot_spring_boot",
         "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+        "@maven//:org_springframework_boot_spring_boot_security_oauth2_resource_server",
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_config",
         "@maven//:org_springframework_security_spring_security_core",

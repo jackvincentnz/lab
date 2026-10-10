@@ -16,7 +16,9 @@ import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
@@ -82,6 +84,7 @@ public final class TestTokens {
     private Duration validFor = Duration.ofMinutes(5);
     private String keyId = DEV_KEY_ID;
     private RSAPrivateKey signingKey = devPrivateKey();
+    private final Map<String, Object> overrides = new LinkedHashMap<>();
 
     private Token(String audience) {
       this.audience = Objects.requireNonNull(audience, "audience");
@@ -145,8 +148,14 @@ public final class TestTokens {
       return this;
     }
 
+    /** Sets a claim after the defaults, for tokens that break the contract in a specific way. */
+    public Token claim(String name, Object value) {
+      overrides.put(name, value);
+      return this;
+    }
+
     public String mint() {
-      var claims =
+      var builder =
           new JWTClaimsSet.Builder()
               .issuer(issuer)
               .audience(audience)
@@ -156,8 +165,9 @@ public final class TestTokens {
               .jwtID(UUID.randomUUID().toString())
               .claim(IdentityClaims.TENANT, tenantId.toString())
               .claim(IdentityClaims.SCOPE, String.join(" ", scopes))
-              .claim(IdentityClaims.AUTHENTICATION_METHODS, authenticationMethods)
-              .build();
+              .claim(IdentityClaims.AUTHENTICATION_METHODS, authenticationMethods);
+      overrides.forEach(builder::claim);
+      var claims = builder.build();
       var header = new JWSHeader.Builder(JWSAlgorithm.RS256).keyID(keyId).build();
       var jwt = new SignedJWT(header, claims);
       try {

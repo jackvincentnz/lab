@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lab.libs.identity.jwt.IdentityClaimsValidator;
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -16,6 +18,8 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint.DelegateEntry;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -57,6 +61,16 @@ public class SecurityConfiguration {
   @Bean
   ServerSecurityContextRepository securityContextRepository() {
     return new WebSessionServerSecurityContextRepository();
+  }
+
+  /**
+   * Added to the decoder Spring Boot builds from {@code spring.security.oauth2.resourceserver.jwt},
+   * so a bearer without the claims a caller is built from is a 401 rather than a failed request.
+   */
+  @Bean
+  OAuth2TokenValidator<Jwt> bearerClaimsValidator(OAuth2ResourceServerProperties properties) {
+    var jwt = properties.getJwt();
+    return new IdentityClaimsValidator(jwt.getIssuerUri(), jwt.getAudiences().get(0));
   }
 
   @Bean

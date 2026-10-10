@@ -2,11 +2,10 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.Duration;
-import java.time.Instant;
 import java.util.List;
 import lab.libs.identity.jwt.IdentityClaims;
 import lab.libs.identity.jwt.IdentityJwtDecoder;
+import lab.libs.identity.testing.TestTokens;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,7 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-/** API clients authenticated by a bearer JWT signed with the static client key. */
+/** API clients authenticated by a bearer JWT from the configured issuer. */
 class BearerTokenTest extends GatewayTestSupport {
 
   private static Downstream mopsService;
@@ -49,25 +48,17 @@ class BearerTokenTest extends GatewayTestSupport {
   }
 
   @Test
-  void bearerRequest_withLocallyMintedToken_reachesMopsWithTheIdentityTokenOfASession() {
+  void bearerRequest_withIssuerToken_reachesMopsWithTheIdentityTokenOfASession() {
     var session = mopsDecoder().decode(forwardedToken(browser().login().authenticatedClient()));
 
-    var bearer =
-        mopsDecoder()
-            .decode(
-                forwardedToken(bearerClient(signBearer(bearerClaims(USER).build(), BEARER_KEY))));
+    var bearer = mopsDecoder().decode(forwardedToken(bearerClient(bearer(USER).mint())));
 
     assertThat(bearer.getHeaders()).isEqualTo(session.getHeaders());
     assertThat(bearer.getClaims().keySet()).isEqualTo(session.getClaims().keySet());
-    for (var claim :
-        List.of(
-            JwtClaimNames.ISS,
-            JwtClaimNames.AUD,
-            JwtClaimNames.SUB,
-            IdentityClaims.TENANT,
-            IdentityClaims.SCOPE)) {
+    for (var claim : List.of(JwtClaimNames.ISS, JwtClaimNames.AUD)) {
       assertThat(bearer.getClaims().get(claim)).as(claim).isEqualTo(session.getClaims().get(claim));
     }
+    assertThat(IdentityClaims.identity(bearer)).isEqualTo(IdentityClaims.identity(session));
     assertThat(session.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly(Caller.FORM);
     assertThat(bearer.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
@@ -76,7 +67,7 @@ class BearerTokenTest extends GatewayTestSupport {
 
   @Test
   void bearerRequest_forwardsTheGatewayTokenInPlaceOfTheClientToken() {
-    var clientToken = signBearer(bearerClaims(USER).build(), BEARER_KEY);
+    var clientToken = bearer(USER).mint();
 
     var forwarded = forwardedToken(bearerClient(clientToken));
 
@@ -88,7 +79,7 @@ class BearerTokenTest extends GatewayTestSupport {
   void bearerRequest_withUnsafeMethodAndNoCsrfToken_reachesTheService() {
     var before = mopsService.requests();
 
-    bearerClient(signBearer(bearerClaims(USER).build(), BEARER_KEY))
+    bearerClient(bearer(USER).mint())
         .post()
         .uri("/api/graphql")
         .contentType(MediaType.APPLICATION_JSON)
@@ -102,7 +93,7 @@ class BearerTokenTest extends GatewayTestSupport {
 
   @Test
   void bearerRequest_createsNoSession() {
-    bearerClient(signBearer(bearerClaims(USER).build(), BEARER_KEY))
+    bearerClient(bearer(USER).mint())
         .get()
         .uri("/api/graphql")
         .exchange()
@@ -114,38 +105,27 @@ class BearerTokenTest extends GatewayTestSupport {
 
   @Test
   void bearerRequest_withExpiredToken_isUnauthorized() {
-    var issuedAt = Instant.now().minus(Duration.ofHours(1));
-
-    assertRejected(
-        signBearer(
-            bearerClaims(USER)
-                .issuedAt(issuedAt)
-                .expiresAt(issuedAt.plus(Duration.ofMinutes(5)))
-                .build(),
-            BEARER_KEY));
+    assertRejected(bearer(USER).expired().mint());
   }
 
   @Test
   void bearerRequest_fromAnotherIssuer_isUnauthorized() {
-    assertRejected(signBearer(bearerClaims(USER).issuer(randomString()).build(), BEARER_KEY));
+    assertRejected(bearer(USER).issuer(randomString()).mint());
   }
 
   @Test
   void bearerRequest_forAnotherAudience_isUnauthorized() {
-    assertRejected(
-        signBearer(bearerClaims(USER).audience(List.of(randomString())).build(), BEARER_KEY));
+    assertRejected(TestTokens.forAudience(randomString()).issuer(BEARER_ISSUER).mint());
   }
 
   @Test
   void bearerRequest_signedWithAnotherKey_isUnauthorized() {
-    assertRejected(signBearer(bearerClaims(USER).build(), keyPair()));
+    assertRejected(bearer(USER).signedWith(TestTokens.foreignPrivateKey()).mint());
   }
 
   @Test
   void bearerRequest_withNonUuidTenant_isUnauthorized() {
-    assertRejected(
-        signBearer(
-            bearerClaims(USER).claim(IdentityClaims.TENANT, randomString()).build(), BEARER_KEY));
+    assertRejected(bearer(USER).claim(IdentityClaims.TENANT, randomString()).mint());
   }
 
   @Test

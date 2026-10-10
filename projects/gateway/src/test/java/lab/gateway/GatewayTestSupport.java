@@ -1,19 +1,10 @@
 package lab.gateway;
 
-import com.nimbusds.jose.jwk.JWKSet;
-import com.nimbusds.jose.jwk.RSAKey;
-import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.NoSuchAlgorithmException;
-import java.security.interfaces.RSAPublicKey;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import lab.libs.identity.jwt.IdentityClaims;
+import lab.libs.identity.testing.JwkSetServer;
+import lab.libs.identity.testing.TestTokens;
 import lab.test.TestBase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -22,11 +13,6 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
-import org.springframework.security.oauth2.jwt.JwsHeader;
-import org.springframework.security.oauth2.jwt.JwtClaimsSet;
-import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.session.ReactiveMapSessionRepository;
 import org.springframework.session.ReactiveSessionRepository;
 import org.springframework.session.config.annotation.web.server.EnableSpringWebSession;
@@ -51,8 +37,11 @@ abstract class GatewayTestSupport extends TestBase {
           UUID.randomUUID(),
           List.of("mops:read", "mops:write"));
 
-  /** The key pair client bearer tokens are signed with; the gateway holds only its public half. */
-  static final KeyPair BEARER_KEY = keyPair();
+  static final String BEARER_ISSUER = "https://issuer.lab.test";
+  static final String BEARER_AUDIENCE = "lab-gateway";
+
+  /** Publishes the keys bearer tokens are signed with, as the configured issuer does. */
+  static final JwkSetServer BEARER_KEYS = JwkSetServer.start(TestTokens.devJwkSet());
 
   @LocalServerPort int port;
 
@@ -63,7 +52,8 @@ abstract class GatewayTestSupport extends TestBase {
 
   static void configureGateway(DynamicPropertyRegistry registry) {
     registry.add("lab.gateway.token.ephemeral-key", () -> true);
-    registry.add("lab.gateway.bearer.public-key", () -> publicKeyPem(BEARER_KEY));
+    registry.add("spring.security.oauth2.resourceserver.jwt.issuer-uri", () -> BEARER_ISSUER);
+    registry.add("spring.security.oauth2.resourceserver.jwt.jwk-set-uri", BEARER_KEYS::uri);
     registry.add("lab.gateway.users[0].username", USER::username);
     registry.add("lab.gateway.users[0].password", USER::password);
     registry.add("lab.gateway.users[0].principal", USER::principal);
@@ -72,41 +62,13 @@ abstract class GatewayTestSupport extends TestBase {
     registry.add("lab.gateway.users[0].scopes[1]", () -> USER.scopes().get(1));
   }
 
-  static KeyPair keyPair() {
-    try {
-      var generator = KeyPairGenerator.getInstance("RSA");
-      generator.initialize(2048);
-      return generator.generateKeyPair();
-    } catch (NoSuchAlgorithmException e) {
-      throw new IllegalStateException(e);
-    }
-  }
-
-  static String publicKeyPem(KeyPair pair) {
-    return "-----BEGIN PUBLIC KEY-----\n"
-        + Base64.getMimeEncoder(64, "\n".getBytes()).encodeToString(pair.getPublic().getEncoded())
-        + "\n-----END PUBLIC KEY-----\n";
-  }
-
-  /** Claims of a client bearer token the gateway accepts, for the given user. */
-  static JwtClaimsSet.Builder bearerClaims(GatewayUsers.ConfiguredUser user) {
-    var issuedAt = Instant.now();
-    return JwtClaimsSet.builder()
-        .issuer("lab-bearer")
-        .audience(List.of("lab-gateway"))
-        .subject(user.principal().toString())
-        .issuedAt(issuedAt)
-        .expiresAt(issuedAt.plus(Duration.ofMinutes(5)))
-        .claim(IdentityClaims.TENANT, user.tenant().toString())
-        .claim(IdentityClaims.SCOPE, String.join(" ", user.scopes()));
-  }
-
-  static String signBearer(JwtClaimsSet claims, KeyPair key) {
-    var jwk =
-        new RSAKey.Builder((RSAPublicKey) key.getPublic()).privateKey(key.getPrivate()).build();
-    return new NimbusJwtEncoder(new ImmutableJWKSet<>(new JWKSet(jwk)))
-        .encode(JwtEncoderParameters.from(JwsHeader.with(SignatureAlgorithm.RS256).build(), claims))
-        .getTokenValue();
+  /** A bearer token from the configured issuer for the given user, addressed to the gateway. */
+  static TestTokens.Token bearer(GatewayUsers.ConfiguredUser user) {
+    return TestTokens.forAudience(BEARER_AUDIENCE)
+        .issuer(BEARER_ISSUER)
+        .principal(user.principal())
+        .tenant(user.tenant())
+        .scopes(user.scopes().toArray(String[]::new));
   }
 
   WebTestClient client() {

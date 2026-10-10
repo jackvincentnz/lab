@@ -16,19 +16,19 @@ log in as `admin` with password `admin`:
 bazel run //projects/gateway:start
 ```
 
-Run the gateway and Redis on their own:
+Run the gateway, Redis, and the mock issuer on their own:
 
 ```zsh
 bazel run //projects/gateway
 ```
 
 Both targets need a running Docker engine, activate the `local` profile, which supplies the
-`admin` user, and start Redis from `compose.yaml`. Ctrl-C stops everything they started. See
-[Local stack](docs/local-stack.md) for what runs and how it is wired, and the
+`admin` user, and start Redis and the mock issuer from `compose.yaml`. Ctrl-C stops everything
+they started. See [Local stack](docs/local-stack.md) for what runs and how it is wired, and the
 [Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
-Redis publishes on host port 6379 unless `GATEWAY_REDIS_PORT` sets another, so stacks in
-several worktrees can run at once.
+Redis publishes on host port 6379 unless `GATEWAY_REDIS_PORT` sets another, and the mock issuer
+on 3007 unless `GATEWAY_ISSUER_PORT` does, so stacks in several worktrees can run at once.
 
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
@@ -60,13 +60,14 @@ LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //proje
 
 ## Bearer tokens
 
-API clients can send `Authorization: Bearer <jwt>` instead of using a session. The `local`
-profile generates the verification key at startup and logs its private half for minting. Anywhere
-else, supply an X.509 PEM RSA public key through the environment, see
-[Bearer tokens](docs/bearer-tokens.md) for the key and how to mint a token:
+API clients can send `Authorization: Bearer <jwt>` instead of using a session. The `local` profile
+trusts the mock issuer. Anywhere else, configure the issuer through the environment, see
+[Bearer tokens](docs/bearer-tokens.md) for how to get a local token and configure another issuer:
 
 ```zsh
-LAB_GATEWAY_BEARER_PUBLIC_KEY="$(cat bearer-public.pem)" bazel run //projects/gateway
+SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=https://issuer.example.com \
+SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=https://issuer.example.com/jwks \
+  bazel run //projects/gateway
 ```
 
 ## Tests

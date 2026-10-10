@@ -5,7 +5,6 @@ java_test_suite(
     srcs = [
         "AccessLogTest.java",
         "AccessLogWebFilterTest.java",
-        "BearerKeyTest.java",
         "BearerTokenTest.java",
         "Browser.java",
         "CallerTest.java",
@@ -35,6 +34,7 @@ java_test_suite(
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
+        "//libs/identity/src/test/java/lab/libs/identity/testing:testing-test-lib",
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:ch_qos_logback_logback_classic",
@@ -84,6 +84,7 @@ java_junit5_test(
         ":gateway-test-lib",
         "//libs/identity/src/main/java/lab/libs/identity",
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
+        "//libs/identity/src/test/java/lab/libs/identity/testing:testing-test-lib",
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:ch_qos_logback_logback_classic",

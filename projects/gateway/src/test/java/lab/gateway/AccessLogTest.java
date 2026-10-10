@@ -92,9 +92,7 @@ class AccessLogTest extends GatewayTestSupport {
         client()
             .get()
             .uri(path)
-            .header(
-                HttpHeaders.AUTHORIZATION,
-                "Bearer " + signBearer(bearerClaims(caller).build(), BEARER_KEY))
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer(caller).mint())
             .exchange()
             .expectStatus()
             .isOk()

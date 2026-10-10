@@ -3,11 +3,18 @@ lab:
   gateway:
     token:
       ephemeral-key: true
-    bearer:
-      ephemeral-key: true
     users:
       - username: admin
         password: "{noop}admin"
         principal: "11111111-1111-1111-1111-111111111111"
         tenant: "22222222-2222-2222-2222-222222222222"
         scopes: ["mops:read", "mops:write"]
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # The mock issuer from compose.yaml. With the JWK set URI also set, the gateway fetches
+          # only the issuer's keys and skips OIDC discovery.
+          issuer-uri: http://localhost:${GATEWAY_ISSUER_PORT:3007}/lab
+          jwk-set-uri: http://localhost:${GATEWAY_ISSUER_PORT:3007}/lab/jwks
