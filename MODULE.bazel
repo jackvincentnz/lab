@@ -120,6 +120,10 @@ maven.install(
         "org.apache.tomcat.embed:tomcat-embed-core:11.0.26",
         "org.apache.tomcat.embed:tomcat-embed-el:11.0.26",
         "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.26",
+        "com.fasterxml.jackson.core:jackson-core:2.21.7",
+        "com.fasterxml.jackson.core:jackson-databind:2.21.7",
+        "tools.jackson.core:jackson-core:3.1.7",
+        "tools.jackson.core:jackson-databind:3.1.7",
     ],
     boms = [
         # First wins
