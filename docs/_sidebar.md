@@ -18,3 +18,15 @@
   - [Overview](docs/adr/README.md)
   - [Accepted: Java BUILD files](docs/adr/java-build-files.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
+- Projects
+  - [Gateway](projects/gateway/README.md)
+    - [Access logging](projects/gateway/docs/access-logging.md)
+    - [Local stack](projects/gateway/docs/local-stack.md)
+    - [Signing key](projects/gateway/docs/signing-key.md)
+  - [Mops](projects/mops/README.md)
+    - [Mops App](projects/mops/app/README.md)
+  - [Organizer](projects/organizer/README.md)
+    - [Journal App](projects/organizer/journal_app/README.md)
+    - [Tasklist](projects/organizer/tasklist/README.md)
+- Libraries
+  - [Bubbles](libs/bubbles/README.md)
