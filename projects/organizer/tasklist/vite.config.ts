@@ -33,9 +33,9 @@ export default defineConfig({
     css: false,
   },
   server: {
-    port: 3000,
+    port: Number(process.env.ORGANIZER_TASKLIST_PORT ?? 3000),
     proxy: {
-      "/graphql": "http://localhost:4000",
+      "/graphql": `http://localhost:${process.env.ORGANIZER_ROUTER_PORT ?? 4000}`,
     },
   },
 });
