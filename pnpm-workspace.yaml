@@ -13,6 +13,7 @@ packageExtensions:
     peerDependencies:
       node-gyp: "*"
 overrides:
+  "@graphql-tools/utils": 12.0.3
   qs: 6.16.0
   tmp: 0.2.7
 # Disabling pnpm [hoisting](https://pnpm.io/npmrc#hoist) by setting `hoist: false` is recommended on
