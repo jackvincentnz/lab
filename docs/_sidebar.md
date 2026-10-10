@@ -18,6 +18,7 @@
   - [Overview](docs/adr/README.md)
   - [Accepted: Java BUILD files](docs/adr/java-build-files.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
+  - [Proposed: Gateway CSRF](docs/adr/gateway-csrf.md)
 - Projects
   - [Gateway](projects/gateway/README.md)
     - [Access logging](projects/gateway/docs/access-logging.md)
