@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.util.List;
 import lab.libs.ddd.domain.EventSourcedAggregate;
 import lab.libs.ddd.domain.InternalId;
+import lab.libs.ddd.domain.NotFoundException;
 import org.junit.jupiter.api.Test;
 
 class InMemoryAggregateStoreTest {
@@ -40,7 +41,11 @@ class InMemoryAggregateStoreTest {
 
   @Test
   void get_throwsForMissingAggregate() {
-    assertThrows(RuntimeException.class, () -> testRepository.get(new TestId()));
+    var id = new TestId();
+
+    var exception = assertThrows(NotFoundException.class, () -> testRepository.get(id));
+
+    assertThat(exception).hasMessageContaining(id.toString());
   }
 
   static final class TestRepository extends InMemoryAggregateStore<TestId, TestAggregate> {}
