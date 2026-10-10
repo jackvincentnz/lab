@@ -31,6 +31,7 @@ java_library(
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_security_spring_security_oauth2_jose",
         "@maven//:org_springframework_security_spring_security_web",
+        "@maven//:org_springframework_spring_web",
     ],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",

@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.Ordered;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.stereotype.Component;
@@ -17,7 +18,7 @@ import reactor.core.publisher.Mono;
 
 /**
  * Gives every request an ID minted here and writes one access record for it. The record names the
- * caller only when the request arrived with a gateway session.
+ * caller when the request arrived with a gateway session or the security chain authenticated it.
  *
  * <p>The ID replaces any the client sent, so a client cannot choose the ID that downstream services
  * and the access log correlate on. It is forwarded as {@value #REQUEST_ID} and returned on the
@@ -26,12 +27,17 @@ import reactor.core.publisher.Mono;
  * <p>The filter runs ahead of the security chain so that responses the chain ends early, such as a
  * CSRF rejection or a 401, still carry the ID and are still logged. The caller is read from the
  * session as the request arrived, which is what the security chain authenticates the request with.
- * The record is written as the response commits, once error handlers have set the final status.
+ * A bearer request carries no session, so {@link #authenticatedCaller()} runs inside the chain and
+ * hands back the caller it authenticated, which the record prefers. The record is written as the
+ * response commits, once error handlers have set the final status.
  */
 @Component
 public class AccessLogWebFilter implements WebFilter, Ordered {
 
   static final String REQUEST_ID = "X-Request-ID";
+
+  private static final String AUTHENTICATED_CALLER =
+      AccessLogWebFilter.class.getName() + ".authenticatedCaller";
 
   private static final Logger log = LoggerFactory.getLogger(AccessLogWebFilter.class);
 
@@ -71,11 +77,27 @@ public class AccessLogWebFilter implements WebFilter, Ordered {
   }
 
   /**
+   * Records the caller the security chain authenticated. It runs after authentication, so the
+   * chain's own security context holds the session or bearer caller for this request.
+   */
+  static WebFilter authenticatedCaller() {
+    return (exchange, chain) ->
+        ReactiveSecurityContextHolder.getContext()
+            .mapNotNull(SecurityContext::getAuthentication)
+            .flatMap(authentication -> Mono.justOrEmpty(Caller.of(authentication)))
+            .doOnNext(caller -> exchange.getAttributes().put(AUTHENTICATED_CALLER, caller))
+            .then(Mono.defer(() -> chain.filter(exchange)));
+  }
+
+  /**
    * Writes named fields only, so no header, cookie, token, or request body value can reach the log.
    * The caller's fields are left out, rather than written empty, when there is no caller.
    */
   private static void record(
-      ServerWebExchange exchange, Optional<Caller> caller, String requestId) {
+      ServerWebExchange exchange, Optional<Caller> sessionCaller, String requestId) {
+    var caller =
+        Optional.ofNullable(exchange.<Caller>getAttribute(AUTHENTICATED_CALLER))
+            .or(() -> sessionCaller);
     var request = exchange.getRequest();
     var status = exchange.getResponse().getStatusCode();
     var record = log.atInfo().addKeyValue("source_ip", sourceIp(request));

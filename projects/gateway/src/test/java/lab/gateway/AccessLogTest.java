@@ -3,13 +3,16 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.jayway.jsonpath.JsonPath;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -72,6 +75,39 @@ class AccessLogTest extends GatewayTestSupport {
         .containsEntry("path", path)
         .containsEntry("status", 200)
         .containsKey("source_ip");
+  }
+
+  @Test
+  void apiRequest_withBearerToken_logsRecordWithTheTokenCaller(CapturedOutput output) {
+    var caller =
+        new GatewayUsers.ConfiguredUser(
+            randomString(),
+            "{noop}" + randomString(),
+            UUID.randomUUID(),
+            UUID.randomUUID(),
+            List.of(randomString()));
+    var path = "/api/" + randomString();
+
+    var requestId =
+        client()
+            .get()
+            .uri(path)
+            .header(
+                HttpHeaders.AUTHORIZATION,
+                "Bearer " + signBearer(bearerClaims(caller).build(), BEARER_KEY))
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .returnResult(String.class)
+            .getResponseHeaders()
+            .getFirst(AccessLogWebFilter.REQUEST_ID);
+
+    assertThat(record(output, requestId))
+        .containsEntry("tenant_id", caller.tenant().toString())
+        .containsEntry("principal_id", caller.principal().toString())
+        .containsEntry("authentication_method", Caller.BEARER)
+        .containsEntry("path", path)
+        .containsEntry("status", 200);
   }
 
   @Test
