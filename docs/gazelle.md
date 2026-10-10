@@ -34,6 +34,12 @@ CI runs this check before building, and fails when it prints a diff.
 - A `# gazelle:` directive in another BUILD file applies to that directory and below, such as
   `# gazelle:java_module_granularity module` for a target built from subdirectories.
 
+## Frontend automation
+
+Frontend dependencies are maintained by hand. The proposed
+[frontend BUILD automation decision](adr/frontend-build-automation.md) evaluates Aspect's
+flat-package support, adaptation needed for `fe_app`, and sharing the Java binary and CI check.
+
 ## Errors
 
 - **`Unable to find package for import in any dependency`.** No target or Maven artifact provides
