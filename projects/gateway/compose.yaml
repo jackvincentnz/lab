@@ -3,3 +3,31 @@ services:
     image: redis:8.10.2-alpine@sha256:3811787313eba226a2ef38658c6ccb91cd5e110edc89c37767de373120a0e5a0
     ports:
       - "127.0.0.1:${GATEWAY_REDIS_PORT:-6379}:6379"
+  # Local bearer token issuer. A client_credentials request to the lab issuer returns a token
+  # addressed to the gateway, for the local admin user's principal and tenant.
+  mock-oauth2-server:
+    image: ghcr.io/navikt/mock-oauth2-server:6.0.5@sha256:5ed2f078c6503147860a5114f06414257bb7eeccc68b0e806bdf0869f2602509
+    ports:
+      - "127.0.0.1:${GATEWAY_ISSUER_PORT:-3007}:8080"
+    environment:
+      JSON_CONFIG: >-
+        {
+          "tokenCallbacks": [
+            {
+              "issuerId": "lab",
+              "tokenExpiry": 300,
+              "requestMappings": [
+                {
+                  "requestParam": "grant_type",
+                  "match": "client_credentials",
+                  "claims": {
+                    "sub": "11111111-1111-1111-1111-111111111111",
+                    "aud": ["lab-gateway"],
+                    "tenant": "22222222-2222-2222-2222-222222222222",
+                    "scope": "mops:read mops:write"
+                  }
+                }
+              ]
+            }
+          ]
+        }
