@@ -12,8 +12,6 @@ import lab.mops.eval.loader.Eval;
 
 public class Scorer {
 
-  static final Client CLIENT = new Client();
-
   static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
   static final List<String> SCORE_WORDS = List.of("Awful", "Poor", "Good", "Perfect");
@@ -66,7 +64,15 @@ public class Scorer {
             .build();
 
     var responseString =
-        CLIENT.models.generateContent("gemini-2.0-flash-lite", systemPrompt, config).text();
+        GeminiClient.INSTANCE
+            .models
+            .generateContent("gemini-2.0-flash-lite", systemPrompt, config)
+            .text();
+
+    return toScore(responseString);
+  }
+
+  static Score toScore(String responseString) {
     var response = parseResponse(responseString);
 
     var labelIndex = SCORE_WORDS.indexOf(response.scoreLabel());
@@ -96,5 +102,11 @@ public class Scorer {
     } catch (JsonProcessingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  // The Gemini client reads its API key when constructed, so it is created on first use rather
+  // than when Scorer loads, which lets the score mapping run without a key.
+  private static final class GeminiClient {
+    static final Client INSTANCE = new Client();
   }
 }
