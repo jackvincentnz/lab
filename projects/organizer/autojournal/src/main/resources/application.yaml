@@ -1,15 +1,15 @@
-server.port: 3002
+server.port: ${ORGANIZER_AUTOJOURNAL_PORT:3002}
 lab:
   services:
     task:
-      graphql-url: http://localhost:3001/graphql
+      graphql-url: http://localhost:${ORGANIZER_TASK_PORT:3001}/graphql
     journal:
-      graphql-url: http://localhost:3003/graphql
+      graphql-url: http://localhost:${ORGANIZER_JOURNAL_PORT:3003}/graphql
 spring:
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: localhost:${ORGANIZER_KAFKA_PORT:9092}
     properties:
-      schema.registry.url: http://localhost:8081
+      schema.registry.url: http://localhost:${ORGANIZER_SCHEMA_REGISTRY_PORT:8081}
     consumer:
       auto-offset-reset: earliest
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer

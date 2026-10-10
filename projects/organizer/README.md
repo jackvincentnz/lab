@@ -23,6 +23,12 @@ Run the local environment using existing images (skips Bazel builds) with:
 bazel run //projects/organizer:local_environment
 ```
 
+Each local port has an `ORGANIZER_<COMPONENT>_PORT` variable that overrides it,
+for example `ORGANIZER_JOURNAL_PORT=3103 bazel run //projects/organizer/journal/src/main`.
+The services, Vite dev servers, and Docker environment read the same variables, so
+set them for every component you run. The list of ports and variables is at the top
+of [`infra/local/docker-compose.yml`](../../infra/local/docker-compose.yml).
+
 ## End-to-end tests
 
 The E2E suite exercises routing and task completion through the delivered apps,
