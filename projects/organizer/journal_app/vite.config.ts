@@ -31,8 +31,6 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.js",
     css: false,
-    // Journal has no component tests yet; keep the standard targets usable.
-    passWithNoTests: true,
   },
   server: {
     port: 3004,
