@@ -9,7 +9,8 @@ import okhttp3.RequestBody;
 
 public class ChatClient {
 
-  private static final String CHAT_URL = "http://localhost:8080/chats";
+  private static final String CHAT_URL =
+      "http://localhost:" + System.getenv().getOrDefault("MOPS_PORT", "8080") + "/chats";
 
   private static final MediaType JSON = MediaType.get("application/json");
 
