@@ -1,40 +1,35 @@
 import { MantineProvider } from "@mantine/core";
+import type { MockLink } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
-  afterEach,
+  GetTasksDocument,
+  type GetTasksQuery,
+} from "../../__generated__/graphql";
+import {
   expect,
   it,
   render,
   screen,
-  vi,
 } from "../../../../../../tools/bazel/vitest/test-utils";
 import TasksPage from "../TasksPage";
 
-afterEach(() => {
-  vi.unstubAllGlobals();
-});
-
 it("renders the add form and the task list", async () => {
   const title = "Buy milk";
-  // TasksPage builds its own HttpLink client, so the test stubs fetch instead of using MockedProvider.
-  const fetch = vi.fn(
-    async () =>
-      new Response(
-        JSON.stringify({
-          data: {
-            allTasks: [
-              { __typename: "Task", id: "1", title, isCompleted: false },
-            ],
-          },
-        }),
-        { headers: { "content-type": "application/json" } },
-      ),
-  );
-  vi.stubGlobal("fetch", fetch);
+  const mocks: readonly MockLink.MockedResponse<GetTasksQuery>[] = [
+    {
+      request: { query: GetTasksDocument },
+      result: {
+        data: { allTasks: [{ id: "1", title, isCompleted: false }] },
+      },
+    },
+  ];
 
   render(
     <MantineProvider>
-      <TasksPage />
+      <MockedProvider mocks={mocks}>
+        <TasksPage />
+      </MockedProvider>
     </MantineProvider>,
   );
 
@@ -42,5 +37,4 @@ it("renders the add form and the task list", async () => {
     screen.getByRole("textbox", { name: "Task name" }),
   ).toBeInTheDocument();
   expect(await screen.findByText(title)).toBeInTheDocument();
-  expect(fetch).toHaveBeenCalledWith("/graphql", expect.anything());
 });
