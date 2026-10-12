@@ -1,3 +1,4 @@
 package lab.mops.ai.domain.chat;
 
-public record ChatMessageCompletedEvent(ChatId chatId, MessageId messageId, String content) {}
+public record ChatMessageCompletedEvent(ChatId chatId, MessageId messageId, String content)
+    implements ChatChangedEvent {}

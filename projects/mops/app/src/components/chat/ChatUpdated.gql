@@ -1,0 +1,21 @@
+subscription ChatUpdated($id: ID!) {
+  chatUpdated(id: $id) {
+    id
+    messages {
+      id
+      type
+      status
+      content
+      toolCalls {
+        id
+        name
+        arguments
+        status
+      }
+      createdAt
+      updatedAt
+    }
+    createdAt
+    updatedAt
+  }
+}

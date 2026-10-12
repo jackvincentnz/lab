@@ -16,7 +16,8 @@ sequenceDiagram
     Chat-->>AEH: Trigger onPending Event
 
     C->>C: Show "Assistant Thinking..."
-    C->>Chat: Poll chat for status
+    C->>Chat: Subscribe to chat state
+    Chat-->>C: Current chat snapshot
 
     Note over AEH: Process Message
     AEH->>Chat: Get Chat History
@@ -30,7 +31,7 @@ sequenceDiagram
 
     alt Standard Response
         AEH->>Chat: Update Chat (Assistant: completed)
-        Chat-->>C: Poll returns message content
+        Chat-->>C: Subscription delivers saved chat state
     else Tool Call Required
         AEH->>AEH: Context || Call Tool(s)
 

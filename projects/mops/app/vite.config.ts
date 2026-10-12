@@ -22,7 +22,8 @@ export default defineConfig({
       },
       "/ws": {
         target: "ws://127.0.0.1:8080",
-        changeOrigin: true,
+        ws: true,
+        // Keep Host aligned with the browser Origin for Spring's same-origin check.
         rewrite: (path) => path.replace(/^\/ws/, ""),
       },
     },

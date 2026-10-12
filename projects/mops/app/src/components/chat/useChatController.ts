@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useMutation, useQuery } from "@apollo/client/react";
+import { useState } from "react";
+import { useMutation, useSubscription } from "@apollo/client/react";
 import {
   AddUserMessageDocument,
   ApproveToolCallDocument,
   EditUserMessageDocument,
-  GetChatDocument,
+  ChatUpdatedDocument,
   RejectToolCallDocument,
   RetryAssistantMessageDocument,
   StartChatDocument,
@@ -14,8 +14,8 @@ import {
   type ApproveToolCallMutationVariables,
   type EditUserMessageMutation,
   type EditUserMessageMutationVariables,
-  type GetChatQuery,
-  type GetChatQueryVariables,
+  type ChatUpdatedSubscription,
+  type ChatUpdatedSubscriptionVariables,
   type RejectToolCallMutation,
   type RejectToolCallMutationVariables,
   type RetryAssistantMessageMutation,
@@ -24,9 +24,6 @@ import {
   type StartChatMutationVariables,
 } from "../../__generated__/graphql";
 import { CHAT_HISTORY_VIEW, CHAT_VIEW, type ViewType } from "./chatView";
-import { isPendingAssistantMessage } from "./chatPredicates";
-
-const POLL_INTERVAL = 500;
 
 export function useChatController() {
   const [currentChatId, setCurrentChatId] = useState<string | null>(null);
@@ -37,97 +34,45 @@ export function useChatController() {
     setInput("");
   };
 
-  const {
-    data: chatData,
-    loading: chatLoading,
-    startPolling,
-    stopPolling,
-  } = useQuery<GetChatQuery, GetChatQueryVariables>(GetChatDocument, {
+  const { data: chatData, loading: chatLoading } = useSubscription<
+    ChatUpdatedSubscription,
+    ChatUpdatedSubscriptionVariables
+  >(ChatUpdatedDocument, {
     variables: { id: currentChatId || "" },
     skip: !currentChatId,
-    pollInterval: POLL_INTERVAL,
-    fetchPolicy: "cache-and-network",
+    // Subscription snapshots own the view; a slower mutation response must not overwrite them.
+    fetchPolicy: "no-cache",
   });
 
   const [startChat, { loading: startingChat }] = useMutation<
     StartChatMutation,
     StartChatMutationVariables
-  >(StartChatDocument, {
-    // TODO: confirm if onCompleted use is a best practice, vs other async event patterns
-    onCompleted: (data) => {
-      if (data.startChat.success && data.startChat.chat) {
-        setCurrentChatId(data.startChat.chat.id);
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
+  >(StartChatDocument);
 
   const [addUserMessage, { loading: addingMessage }] = useMutation<
     AddUserMessageMutation,
     AddUserMessageMutationVariables
-  >(AddUserMessageDocument, {
-    onCompleted: (data) => {
-      if (data.addUserMessage.success) {
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
+  >(AddUserMessageDocument);
 
   const [editUserMessage, { loading: editingMessage }] = useMutation<
     EditUserMessageMutation,
     EditUserMessageMutationVariables
-  >(EditUserMessageDocument, {
-    onCompleted: (data) => {
-      if (data.editUserMessage.success) {
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
+  >(EditUserMessageDocument);
 
   const [retryAssistantMessage, { loading: retryingMessage }] = useMutation<
     RetryAssistantMessageMutation,
     RetryAssistantMessageMutationVariables
-  >(RetryAssistantMessageDocument, {
-    onCompleted: (data) => {
-      if (data.retryAssistantMessage.success) {
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
+  >(RetryAssistantMessageDocument);
 
   const [approveToolCall, { loading: approvingToolCall }] = useMutation<
     ApproveToolCallMutation,
     ApproveToolCallMutationVariables
-  >(ApproveToolCallDocument, {
-    onCompleted: (data) => {
-      if (data.approveToolCall.success) {
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
+  >(ApproveToolCallDocument);
 
   const [rejectToolCall, { loading: rejectingToolCall }] = useMutation<
     RejectToolCallMutation,
     RejectToolCallMutationVariables
-  >(RejectToolCallDocument, {
-    onCompleted: (data) => {
-      if (data.rejectToolCall.success) {
-        startPolling(POLL_INTERVAL);
-      }
-    },
-  });
-
-  useEffect(() => {
-    if (chatData?.chat?.messages) {
-      const hasPendingAssistantMessages = chatData.chat.messages.some(
-        isPendingAssistantMessage,
-      );
-
-      if (!hasPendingAssistantMessages) {
-        stopPolling();
-      }
-    }
-  }, [chatData?.chat?.messages, stopPolling]);
+  >(RejectToolCallDocument);
 
   async function sendMessage() {
     const messageContent = input.trim();
@@ -136,11 +81,14 @@ export function useChatController() {
     setInput("");
 
     if (!currentChatId) {
-      await startChat({
+      const result = await startChat({
         variables: {
           input: { content: messageContent },
         },
       });
+      if (result.data?.startChat.success && result.data.startChat.chat) {
+        setCurrentChatId(result.data.startChat.chat.id);
+      }
       return;
     }
 
@@ -248,7 +196,7 @@ export function useChatController() {
     setInput,
     isLoading,
     editingMessage,
-    messages: chatData?.chat?.messages || [],
+    messages: currentChatId ? chatData?.chatUpdated?.messages || [] : [],
     handleNewChat,
     handleShowChats,
     handleSelectChat,

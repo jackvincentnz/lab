@@ -37,6 +37,10 @@ type Mutation {
   rejectToolCall(input: RejectToolCallInput!): RejectToolCallResponse!
 }
 
+type Subscription {
+  chatUpdated(id: ID!): Chat!
+}
+
 # Objects
 
 type Budget {
