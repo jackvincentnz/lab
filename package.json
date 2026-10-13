@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@playwright/test": "1.56.1",
-    "@apollo/rover": "0.41.0",
+    "@apollo/rover": "1.0.0",
     "@eslint/js": "10.0.1",
     "@graphql-codegen/cli": "7.4.3",
     "@graphql-codegen/client-preset": "6.2.0",
