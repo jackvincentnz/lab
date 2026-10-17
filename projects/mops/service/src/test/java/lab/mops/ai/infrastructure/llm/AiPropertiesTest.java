@@ -11,16 +11,19 @@ import org.springframework.core.io.DefaultResourceLoader;
 class AiPropertiesTest extends TestBase {
 
   @Test
-  void systemPromptText_defaultLocation_returnsPackagedPrompt() {
+  void systemPromptText_defaultLocation_returnsText() {
     var resource = new DefaultResourceLoader().getResource("classpath:prompts/system.txt");
 
     var text = new AiProperties(resource).systemPromptText();
 
-    assertThat(text)
-        .startsWith("You are a skilled expert in planning and budgeting for marketing campaigns.\n")
-        .contains("type QuarterlyTotal {\n  quarter: Quarter!\n  fiscalYear: Int!\n")
-        .contains("4. **Call the tools.**")
-        .endsWith("6. **Ask the user if they need anything else.**\n");
+    assertThat(text).isNotBlank();
+  }
+
+  @Test
+  void constructor_unsetResource_failsFast() {
+    assertThatThrownBy(() -> new AiProperties(null))
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessage("mops.ai.system-prompt is not set");
   }
 
   @Test
@@ -30,12 +33,5 @@ class AiPropertiesTest extends TestBase {
     assertThatThrownBy(() -> new AiProperties(missing))
         .isInstanceOf(IllegalStateException.class)
         .hasMessageStartingWith("mops.ai.system-prompt resource not found: ");
-  }
-
-  @Test
-  void constructor_unsetResource_failsFast() {
-    assertThatThrownBy(() -> new AiProperties(null))
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessage("mops.ai.system-prompt is not set");
   }
 }

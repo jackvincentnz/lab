@@ -42,13 +42,14 @@ class SpringChatClientTest extends TestBase {
 
   @Mock ToolApprovalPolicy approvalPolicy;
 
+  String systemPrompt;
+
   SpringChatClient springChatClient;
 
   @BeforeEach
   void setup() {
-    springChatClient =
-        new SpringChatClient(
-            chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties());
+    systemPrompt = randomString();
+    springChatClient = newClient();
   }
 
   @Test
@@ -101,9 +102,7 @@ class SpringChatClientTest extends TestBase {
   void getResponse_preservesTheModelsOwnOptionsType() {
     when(chatModel.getOptions())
         .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
-    springChatClient =
-        new SpringChatClient(
-            chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties());
+    springChatClient = newClient();
 
     var chatResponse =
         ChatResponse.builder()
@@ -127,16 +126,7 @@ class SpringChatClientTest extends TestBase {
   }
 
   @Test
-  void getResponse_sendsTheConfiguredSystemPromptFirst() {
-    var systemPromptText = randomString();
-    springChatClient =
-        new SpringChatClient(
-            chatModel,
-            new TestTools(),
-            messageMapper,
-            approvalPolicy,
-            new AiProperties(new ByteArrayResource(systemPromptText.getBytes(UTF_8))));
-
+  void getResponse_sendsTheInjectedSystemPromptFirst() {
     var chatResponse =
         ChatResponse.builder()
             .generations(List.of(new Generation(new AssistantMessage(randomString()))))
@@ -154,7 +144,7 @@ class SpringChatClientTest extends TestBase {
     var systemMessage = promptCaptor.getValue().getInstructions().get(0);
 
     assertThat(systemMessage).isInstanceOf(SystemMessage.class);
-    assertThat(systemMessage.getText()).isEqualTo(systemPromptText);
+    assertThat(systemMessage.getText()).isEqualTo(systemPrompt);
   }
 
   @Test
@@ -172,8 +162,10 @@ class SpringChatClientTest extends TestBase {
             });
   }
 
-  private AiProperties aiProperties() {
-    return new AiProperties(new ByteArrayResource(randomString().getBytes(UTF_8)));
+  private SpringChatClient newClient() {
+    var aiProperties = new AiProperties(new ByteArrayResource(systemPrompt.getBytes(UTF_8)));
+    return new SpringChatClient(
+        chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties);
   }
 
   static class TestTools implements BudgetTools {
