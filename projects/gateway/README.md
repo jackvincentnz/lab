@@ -47,8 +47,10 @@ Downstream targets default to local dev and are overridable per environment, for
 Every response carries a gateway-minted `X-Request-ID`, which is also forwarded downstream. See
 [Access logging](docs/access-logging.md) for the record written per request.
 
-GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
-from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
+WebSocket upgrades follow the same routes and session rules, so a GraphQL subscription socket
+reaches the Mops service at `/api/graphql`; see [WebSockets](docs/websockets.md) for the Origin
+check a browser socket must pass in Mops. Session-based API callers send the token from
+`/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
 
 ## Signing key
 
