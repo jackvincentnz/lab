@@ -37,8 +37,7 @@ public class LineItemMapper {
         .categorizations(
             lineItem.getCategorizations().stream().map(this::mapCategorization).toList())
         .spending(lineItem.getSpending().stream().map(this::mapSpend).toList())
-        .spendTotals(
-            mapSpendTotals(lineItem.getSpendTotals(budgetProperties.fiscalYearStartMonth())))
+        .spendTotals(mapSpendTotals(lineItem.getSpendTotals(budgetProperties.fiscalCalendar())))
         .createdAt(lineItem.getCreatedAt().toString())
         .updatedAt(lineItem.getUpdatedAt().toString())
         .build();

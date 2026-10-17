@@ -3,11 +3,14 @@ package lab.mops.core.domain.budget;
 import static lab.libs.ddd.domain.test.AggregateTestUtils.getLastEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.tuple;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import lab.libs.ddd.domain.ValidationException;
+import lab.mops.core.domain.time.Quarter;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -122,7 +125,32 @@ class LineItemTest extends TestBase {
   void getSpendTotals_withNoSpend_returnsZero() {
     var lineItem = newLineItem();
 
-    assertThat(lineItem.getSpendTotals(Month.JANUARY).grandTotal()).isEqualTo(BigDecimal.ZERO);
+    assertThat(lineItem.getSpendTotals(new FixedStartMonth(randomMonth())).grandTotal())
+        .isEqualTo(BigDecimal.ZERO);
+  }
+
+  @Test
+  void getSpendTotals_withAprilStart_groupsSpendByFiscalQuarterAndYear() {
+    var lineItem = newLineItem();
+    var lastDayOfFiscal2024 = BigDecimal.valueOf(randomInt());
+    var firstDayOfFiscal2025 = BigDecimal.valueOf(randomInt());
+    lineItem.planSpend(Spend.of(LocalDate.of(2025, Month.MARCH, 31), lastDayOfFiscal2024));
+    lineItem.planSpend(Spend.of(LocalDate.of(2025, Month.APRIL, 1), firstDayOfFiscal2025));
+
+    var result = lineItem.getSpendTotals(new FixedStartMonth(Month.APRIL));
+
+    assertThat(result.quarterlyTotals())
+        .extracting(
+            LineItemSpendQuarterlyTotal::quarter,
+            LineItemSpendQuarterlyTotal::fiscalYear,
+            LineItemSpendQuarterlyTotal::total)
+        .containsExactly(
+            tuple(Quarter.Q4, Year.of(2024), lastDayOfFiscal2024),
+            tuple(Quarter.Q1, Year.of(2025), firstDayOfFiscal2025));
+    assertThat(result.annualTotals())
+        .extracting(LineItemSpendAnnualTotal::year, LineItemSpendAnnualTotal::total)
+        .containsExactly(
+            tuple(Year.of(2024), lastDayOfFiscal2024), tuple(Year.of(2025), firstDayOfFiscal2025));
   }
 
   @Test
@@ -134,8 +162,12 @@ class LineItemTest extends TestBase {
     lineItem.planSpend(spend1);
     lineItem.planSpend(spend2);
 
-    assertThat(lineItem.getSpendTotals(Month.JANUARY).grandTotal())
+    assertThat(lineItem.getSpendTotals(new FixedStartMonth(randomMonth())).grandTotal())
         .isEqualTo(BigDecimal.valueOf(300.00));
+  }
+
+  private Month randomMonth() {
+    return Month.of(randomInt() % 12 + 1);
   }
 
   private Budget newBudget() {

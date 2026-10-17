@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Month;
 import java.util.Map;
+import lab.mops.core.domain.budget.FixedStartMonth;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.bind.Binder;
@@ -30,5 +31,14 @@ class BudgetPropertiesTest extends TestBase {
     var properties = binder.bindOrCreate("mops.budget", BudgetProperties.class);
 
     assertThat(properties.fiscalYearStartMonth()).isEqualTo(Month.APRIL);
+  }
+
+  @Test
+  void fiscalCalendar_withStartMonth_startsCalendarInThatMonth() {
+    var startMonth = Month.of(randomInt() % 12 + 1);
+
+    var calendar = new BudgetProperties(startMonth).fiscalCalendar();
+
+    assertThat(calendar).isEqualTo(new FixedStartMonth(startMonth));
   }
 }

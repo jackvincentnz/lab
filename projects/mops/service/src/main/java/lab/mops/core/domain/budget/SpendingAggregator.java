@@ -14,25 +14,21 @@ class SpendingAggregator {
   private SpendingAggregator() {}
 
   static LineItemSpendTotals getSpendTotals(
-      Collection<Spend> spending, Month fiscalYearStartMonth) {
-    var fyStartMonthInt = fiscalYearStartMonth.getValue();
-
+      Collection<Spend> spending, FiscalCalendar fiscalCalendar) {
     Map<MonthYearKey, BigDecimal> monthlyMap = new HashMap<>();
     Map<QuarterFiscalYearKey, BigDecimal> quarterlyMap = new HashMap<>();
-    Map<Integer, BigDecimal> annualMap = new HashMap<>();
+    Map<Year, BigDecimal> annualMap = new HashMap<>();
     var grandTotal = BigDecimal.ZERO;
 
     for (Spend spend : spending) {
       var amount = spend.getAmount();
       var spendDay = spend.getSpendDay();
 
-      var quarter = (spendDay.getMonthValue() + (12 - fyStartMonthInt)) % 12 / 3 + 1;
-      var fiscalYear =
-          spendDay.getMonthValue() < fyStartMonthInt ? spendDay.getYear() - 1 : spendDay.getYear();
+      var fiscalYear = fiscalCalendar.fiscalYearOf(spendDay);
 
       var monthYearKey = new MonthYearKey(spendDay.getMonth(), Year.of(spendDay.getYear()));
       var quarterFiscalYearKey =
-          new QuarterFiscalYearKey(Quarter.fromInt(quarter), Year.of(fiscalYear));
+          new QuarterFiscalYearKey(fiscalCalendar.quarterOf(spendDay), fiscalYear);
 
       monthlyMap.merge(monthYearKey, amount, BigDecimal::add);
       quarterlyMap.merge(quarterFiscalYearKey, amount, BigDecimal::add);
@@ -64,7 +60,7 @@ class SpendingAggregator {
 
     var annualTotals =
         annualMap.entrySet().stream()
-            .map(e -> new LineItemSpendAnnualTotal(Year.of(e.getKey()), e.getValue()))
+            .map(e -> new LineItemSpendAnnualTotal(e.getKey(), e.getValue()))
             .sorted(Comparator.comparing(LineItemSpendAnnualTotal::year))
             .toList();
 

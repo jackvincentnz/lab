@@ -163,24 +163,6 @@ class LineItemMapperTest extends TestBase {
   }
 
   @Test
-  void map_withFiscalYearStartingInApril_mapsQuarterlyTotalsByFiscalQuarter() {
-    var mapper = new LineItemMapper(new BudgetProperties(java.time.Month.APRIL));
-    var lineItem = newLineItem();
-    var marchAmount = BigDecimal.valueOf(randomInt());
-    var aprilAmount = BigDecimal.valueOf(randomInt());
-    lineItem.planSpend(Spend.of(LocalDate.of(2025, java.time.Month.MARCH, 1), marchAmount));
-    lineItem.planSpend(Spend.of(LocalDate.of(2025, java.time.Month.APRIL, 1), aprilAmount));
-
-    var result = mapper.map(lineItem);
-
-    assertThat(result.getSpendTotals().getQuarterlyTotals())
-        .extracting(
-            QuarterlyTotal::getQuarter, QuarterlyTotal::getFiscalYear, QuarterlyTotal::getTotal)
-        .containsExactly(
-            tuple(Quarter.Q4, 2024, marchAmount), tuple(Quarter.Q1, 2025, aprilAmount));
-  }
-
-  @Test
   void map_mapsSpendTotals_annualTotals() {
     var lineItem = newLineItem();
     lineItem.planSpend(

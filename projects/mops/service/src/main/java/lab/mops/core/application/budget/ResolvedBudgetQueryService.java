@@ -78,7 +78,7 @@ public class ResolvedBudgetQueryService {
         lineItem.getName(),
         resolvedCategorizations,
         resolvedSpending,
-        lineItem.getSpendTotals(budgetProperties.fiscalYearStartMonth()));
+        lineItem.getSpendTotals(budgetProperties.fiscalCalendar()));
   }
 
   private boolean categoryAndValueExist(

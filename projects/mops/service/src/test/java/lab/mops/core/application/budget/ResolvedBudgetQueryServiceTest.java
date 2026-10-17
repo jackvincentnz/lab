@@ -77,7 +77,8 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
     assertThat(resultSpend.getSpendDay()).isEqualTo(spend.getSpendDay());
     assertThat(resultSpend.getAmount()).isEqualTo(spend.getAmount());
 
-    assertThat(resolvedLineItem.spendTotals()).isEqualTo(lineItem.getSpendTotals(Month.APRIL));
+    assertThat(resolvedLineItem.spendTotals())
+        .isEqualTo(lineItem.getSpendTotals(budgetProperties.fiscalCalendar()));
   }
 
   @Test

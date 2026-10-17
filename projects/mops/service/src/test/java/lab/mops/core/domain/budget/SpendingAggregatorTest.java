@@ -23,7 +23,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.now(), BigDecimal.valueOf(200)),
             Spend.of(LocalDate.of(3025, 1, 1), BigDecimal.valueOf(300)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     assertThat(result.grandTotal()).isEqualTo(BigDecimal.valueOf(600));
   }
@@ -59,7 +59,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2025, Month.DECEMBER, 15), BigDecimal.valueOf(12)),
             Spend.of(LocalDate.of(2026, Month.JANUARY, 1), BigDecimal.valueOf(13)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     assertThat(result.monthlyTotals())
         .extracting(
@@ -102,7 +102,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2025, Month.DECEMBER, 1), BigDecimal.valueOf(4)),
             Spend.of(LocalDate.of(2026, Month.JANUARY, 1), BigDecimal.valueOf(5)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     assertThat(result.quarterlyTotals())
         .extracting(
@@ -137,7 +137,8 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2026, Month.JANUARY, 1), BigDecimal.valueOf(4)),
             Spend.of(LocalDate.of(2026, Month.FEBRUARY, 1), BigDecimal.valueOf(1)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.FEBRUARY);
+    var result =
+        SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.FEBRUARY));
 
     assertThat(result.quarterlyTotals())
         .extracting(
@@ -154,6 +155,46 @@ class SpendingAggregatorTest extends TestBase {
   }
 
   @Test
+  void getSpendTotals_withOctoberStart_sumsQuarterlyTotalsAcrossCalendarYearEnd() {
+    var spendingSet =
+        Set.of(
+            Spend.of(LocalDate.of(2025, Month.SEPTEMBER, 30), BigDecimal.valueOf(1)),
+            Spend.of(LocalDate.of(2025, Month.OCTOBER, 1), BigDecimal.valueOf(2)),
+            Spend.of(LocalDate.of(2025, Month.DECEMBER, 31), BigDecimal.valueOf(3)),
+            Spend.of(LocalDate.of(2026, Month.JANUARY, 1), BigDecimal.valueOf(4)));
+
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.OCTOBER));
+
+    assertThat(result.quarterlyTotals())
+        .extracting(
+            LineItemSpendQuarterlyTotal::quarter,
+            LineItemSpendQuarterlyTotal::fiscalYear,
+            LineItemSpendQuarterlyTotal::total)
+        .containsExactly(
+            tuple(Quarter.Q4, Year.of(2024), BigDecimal.valueOf(1)),
+            tuple(Quarter.Q1, Year.of(2025), BigDecimal.valueOf(5)),
+            tuple(Quarter.Q2, Year.of(2025), BigDecimal.valueOf(4)));
+  }
+
+  @Test
+  void getSpendTotals_withAprilStart_sumsAnnualTotalsByFiscalYear() {
+    var spendingSet =
+        Set.of(
+            Spend.of(LocalDate.of(2025, Month.JANUARY, 1), BigDecimal.valueOf(1)),
+            Spend.of(LocalDate.of(2025, Month.MARCH, 31), BigDecimal.valueOf(2)),
+            Spend.of(LocalDate.of(2025, Month.APRIL, 1), BigDecimal.valueOf(4)),
+            Spend.of(LocalDate.of(2026, Month.MARCH, 31), BigDecimal.valueOf(8)));
+
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.APRIL));
+
+    assertThat(result.annualTotals())
+        .extracting(LineItemSpendAnnualTotal::year, LineItemSpendAnnualTotal::total)
+        .containsExactly(
+            tuple(Year.of(2024), BigDecimal.valueOf(3)),
+            tuple(Year.of(2025), BigDecimal.valueOf(12)));
+  }
+
+  @Test
   void getSpendTotals_sumsAnnualTotals() {
     var spendingSet =
         Set.of(
@@ -164,7 +205,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2026, Month.JANUARY, 1), BigDecimal.valueOf(300)),
             Spend.of(LocalDate.of(2026, Month.JANUARY, 2), BigDecimal.valueOf(300)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     assertThat(result.annualTotals())
         .extracting(LineItemSpendAnnualTotal::year, LineItemSpendAnnualTotal::total)
@@ -193,7 +234,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2025, Month.JULY, 1), BigDecimal.valueOf(3)),
             Spend.of(LocalDate.of(2025, Month.JUNE, 1), BigDecimal.valueOf(2)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     var monthlyTotals = new ArrayList<>(result.monthlyTotals());
     assertThat(monthlyTotals)
@@ -226,7 +267,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2025, Month.APRIL, 1), BigDecimal.valueOf(1)),
             Spend.of(LocalDate.of(2025, Month.JULY, 1), BigDecimal.valueOf(1)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     var quarterlyTotals = new ArrayList<>(result.quarterlyTotals());
     assertThat(quarterlyTotals)
@@ -248,7 +289,7 @@ class SpendingAggregatorTest extends TestBase {
             Spend.of(LocalDate.of(2024, Month.JANUARY, 1), BigDecimal.valueOf(1)),
             Spend.of(LocalDate.of(2025, Month.JANUARY, 1), BigDecimal.valueOf(1)));
 
-    var result = SpendingAggregator.getSpendTotals(spendingSet, Month.JANUARY);
+    var result = SpendingAggregator.getSpendTotals(spendingSet, new FixedStartMonth(Month.JANUARY));
 
     var annualTotals = new ArrayList<>(result.annualTotals());
     assertThat(annualTotals)
