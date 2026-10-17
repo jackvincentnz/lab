@@ -45,8 +45,7 @@ jobs:
             run \
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
-            //tools/gazelle \
-            -- -mode=diff
+            //tools/gazelle:check
 
       - name: Build & test (no-coverage targets)
         run: |
