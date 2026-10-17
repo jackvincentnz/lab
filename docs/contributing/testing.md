@@ -1,6 +1,6 @@
 # Testing guidelines
 
-See [coverage](../coverage.md) for collection, report limits, and local feedback.
+See [coverage](../coverage.md) for how coverage is collected and how to read it.
 
 ## Test pyramid
 
