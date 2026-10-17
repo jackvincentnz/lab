@@ -6,10 +6,10 @@ Shared Vite build and development server defaults.
 load("//tools/bazel:js.bzl", "js_run_binary", "js_run_devserver")
 
 def vite_build(name, **kwargs):
-    """Build a Vite application and declare a preview server named preview.
+    """Build a Vite application and declare a preview server named `preview`.
 
-    Runs in the calling package by default, emits the dist directory, and
-    prepends build to args. The preview server uses strict port allocation
+    Runs in the calling package by default, emits the `dist` directory, and
+    prepends `build` to args. The preview server uses strict port allocation
     and listens on all interfaces.
 
     Args:

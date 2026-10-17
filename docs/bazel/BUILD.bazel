@@ -1,140 +1,103 @@
-load("//tools/bazel:docs.bzl", "macro_docs", "update_docs")
+load("//tools/bazel:docs.bzl", "stardoc", "write_source_files")
 
-macro_docs(
-    name = "fe",
-    src = "//tools/bazel:fe.bzl",
-    symbol_names = [
-        "fe_app",
-        "fe_library",
-    ],
-    deps = ["//tools/bazel:fe"],
-)
-
-macro_docs(
-    name = "graphql",
-    src = "//tools/bazel:graphql.bzl",
-    symbol_names = ["graphql_codegen"],
-    deps = ["//tools/bazel:graphql"],
-)
-
-macro_docs(
-    name = "java",
-    src = "//tools/bazel:java.bzl",
-    symbol_names = [
-        "java_binary",
-        "java_library",
-        "java_test_suite",
-        "java_junit5_test",
-    ],
-    deps = ["//tools/bazel:java"],
-)
-
-macro_docs(
-    name = "js",
-    src = "//tools/bazel:js.bzl",
-    symbol_names = [
-        "js_library",
-        "js_run_binary",
-        "js_run_devserver",
-        "js_test",
-        "js_binary",
-        "js_image_layer",
-    ],
-    deps = ["//tools/bazel:js"],
-)
-
-macro_docs(
-    name = "pkg",
-    src = "//tools/bazel:pkg.bzl",
-    symbol_names = ["tar"],
-    deps = ["//tools/bazel:pkg"],
-)
-
-macro_docs(
-    name = "ts",
-    src = "//tools/bazel:ts.bzl",
-    symbol_names = [
-        "ts_project",
-        "node_ts_project",
-        "ts_config",
-    ],
-    deps = ["//tools/bazel:ts"],
-)
-
-macro_docs(
-    name = "vite",
-    src = "//tools/bazel/vite:vite.bzl",
-    symbol_names = [
-        "vite_build",
-        "vite_dev_server",
-    ],
-    deps = ["//tools/bazel/vite"],
-)
-
-macro_docs(
-    name = "vitest",
-    src = "//tools/bazel/vitest:vitest.bzl",
-    symbol_names = [
-        "vitest_run",
-        "vitest_watch",
-    ],
-    deps = ["//tools/bazel/vitest"],
-)
-
-macro_docs(
-    name = "storybook",
-    src = "//tools/bazel/storybook:storybook.bzl",
-    symbol_names = [
-        "storybook_build",
-        "storybook_dev_server",
-    ],
-    deps = ["//tools/bazel/storybook"],
-)
-
-macro_docs(
+stardoc(
     name = "dgs",
-    src = "//tools/bazel/dgs:codegen.bzl",
-    symbol_names = [
-        "dgs_codegen",
-        "dgs_codegen_library",
-    ],
-    deps = ["//tools/bazel/dgs:codegen_docs"],
+    out = "dgs_stardoc.md",
+    input = "//tools/bazel/dgs:codegen.bzl",
+    deps = ["//tools/bazel/dgs:codegen_bzl"],
 )
 
-macro_docs(
-    name = "oci",
-    src = "//tools/bazel/oci:defs.bzl",
-    symbol_names = [
-        "oci_deliver",
-        "oci_image",
-    ],
-    deps = ["//tools/bazel/oci:defs"],
-)
-
-macro_docs(
+stardoc(
     name = "docs",
-    src = "//tools/bazel:docs.bzl",
-    symbol_names = [
-        "macro_docs",
-        "update_docs",
-    ],
+    out = "docs_stardoc.md",
+    input = "//tools/bazel:docs.bzl",
     deps = ["//tools/bazel:docs"],
 )
 
-update_docs(
+stardoc(
+    name = "fe",
+    out = "fe_stardoc.md",
+    input = "//tools/bazel:fe.bzl",
+    deps = ["//tools/bazel:fe"],
+)
+
+stardoc(
+    name = "graphql",
+    out = "graphql_stardoc.md",
+    input = "//tools/bazel:graphql.bzl",
+    deps = ["//tools/bazel:graphql"],
+)
+
+stardoc(
+    name = "java",
+    out = "java_stardoc.md",
+    input = "//tools/bazel:java.bzl",
+    deps = ["//tools/bazel:java"],
+)
+
+stardoc(
+    name = "js",
+    out = "js_stardoc.md",
+    input = "//tools/bazel:js.bzl",
+    deps = ["//tools/bazel:js"],
+)
+
+stardoc(
+    name = "oci",
+    out = "oci_stardoc.md",
+    input = "//tools/bazel/oci:defs.bzl",
+    deps = ["//tools/bazel/oci:defs"],
+)
+
+stardoc(
+    name = "pkg",
+    out = "pkg_stardoc.md",
+    input = "//tools/bazel:pkg.bzl",
+    deps = ["//tools/bazel:pkg"],
+)
+
+stardoc(
+    name = "storybook",
+    out = "storybook_stardoc.md",
+    input = "//tools/bazel/storybook:storybook.bzl",
+    deps = ["//tools/bazel/storybook"],
+)
+
+stardoc(
+    name = "ts",
+    out = "ts_stardoc.md",
+    input = "//tools/bazel:ts.bzl",
+    deps = ["//tools/bazel:ts"],
+)
+
+stardoc(
+    name = "vite",
+    out = "vite_stardoc.md",
+    input = "//tools/bazel/vite:vite.bzl",
+    deps = ["//tools/bazel/vite"],
+)
+
+stardoc(
+    name = "vitest",
+    out = "vitest_stardoc.md",
+    input = "//tools/bazel/vitest:vitest.bzl",
+    deps = ["//tools/bazel/vitest"],
+)
+
+write_source_files(
     name = "update",
-    targets = [
-        ":docs_update",
-        ":fe_update",
-        ":graphql_update",
-        ":java_update",
-        ":js_update",
-        ":pkg_update",
-        ":ts_update",
-        ":vite_update",
-        ":vitest_update",
-        ":storybook_update",
-        ":dgs_update",
-        ":oci_update",
-    ],
+    files = {
+        "dgs.md": ":dgs",
+        "docs.md": ":docs",
+        "fe.md": ":fe",
+        "graphql.md": ":graphql",
+        "java.md": ":java",
+        "js.md": ":js",
+        "oci.md": ":oci",
+        "pkg.md": ":pkg",
+        "storybook.md": ":storybook",
+        "ts.md": ":ts",
+        "vite.md": ":vite",
+        "vitest.md": ":vitest",
+    },
 )

@@ -2,48 +2,55 @@
 
 # Documentation generation
 
-Generate formatted Starlark reference pages and check committed copies.
+Shared Stardoc and source-file update wrappers.
 
-<a id="macro_docs"></a>
+<a id="stardoc"></a>
 
-## macro_docs
+## stardoc
 
-```starlark
-load("//tools/bazel:docs.bzl", "macro_docs")
+<pre>
+load("//tools/bazel:docs.bzl", "stardoc")
 
-macro_docs(name, src, deps, symbol_names)
-```
+stardoc(<a href="#stardoc-name">name</a>, <a href="#stardoc-kwargs">**kwargs</a>)
+</pre>
 
-Generate a Markdown page from Starlark docstrings and test its freshness.
+Generate Markdown from Starlark docstrings with [Stardoc](https://github.com/bazelbuild/stardoc).
 
-Formats Stardoc output with the repository's Prettier version before the
-diff test, so generation and pre-commit agree on the committed Markdown.
-Emits name, name + "_update", and name + "_update_test" targets.
+Renders labels in this repository without a repository name by default,
+so load statements match the ones BUILD files use.
 
-**PARAMETERS**
-
-| Name                                             | Description                                                   | Default Value |
-| :----------------------------------------------- | :------------------------------------------------------------ | :------------ |
-| <a id="macro_docs-name"></a>name                 | Page basename, without .md.                                   | none          |
-| <a id="macro_docs-src"></a>src                   | Starlark source file to document.                             | none          |
-| <a id="macro_docs-deps"></a>deps                 | Starlark library targets containing the source and its loads. | none          |
-| <a id="macro_docs-symbol_names"></a>symbol_names | Public symbols to include, excluding imported APIs.           | none          |
-
-<a id="update_docs"></a>
-
-## update_docs
-
-```starlark
-load("//tools/bazel:docs.bzl", "update_docs")
-
-update_docs(name, targets)
-```
-
-Update all generated pages with Aspect's write_source_files runner.
 
 **PARAMETERS**
 
-| Name                                    | Description                           | Default Value |
-| :-------------------------------------- | :------------------------------------ | :------------ |
-| <a id="update_docs-name"></a>name       | Update runner target name.            | none          |
-| <a id="update_docs-targets"></a>targets | Update targets emitted by macro_docs. | none          |
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="stardoc-name"></a>name |  Target name.   |  none |
+| <a id="stardoc-kwargs"></a>kwargs |  Additional attributes passed to the underlying macro.   |  none |
+
+
+<a id="write_source_files"></a>
+
+## write_source_files
+
+<pre>
+load("//tools/bazel:docs.bzl", "write_source_files")
+
+write_source_files(<a href="#write_source_files-name">name</a>, <a href="#write_source_files-kwargs">**kwargs</a>)
+</pre>
+
+Copy generated files into the source tree with [write_source_files](https://github.com/bazel-contrib/bazel-lib/blob/main/lib/write_source_files.bzl).
+
+`bazel run` the target to update the files. Its diff tests fail when a
+committed file differs from the generated one.
+
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="write_source_files-name"></a>name |  Target name.   |  none |
+| <a id="write_source_files-kwargs"></a>kwargs |  Additional attributes passed to the underlying macro.   |  none |
+
+

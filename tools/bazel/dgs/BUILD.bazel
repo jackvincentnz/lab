@@ -12,19 +12,10 @@ java_binary(
 )
 
 bzl_library(
-    name = "codegen_docs",
+    name = "codegen_bzl",
     srcs = ["codegen.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
     deps = ["//tools/bazel:java"],
 )
 
-exports_files(
-    ["codegen.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
-)
+exports_files(["codegen.bzl"])

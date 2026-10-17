@@ -14,7 +14,7 @@ load(
 )
 
 def js_library(name, **kwargs):
-    """Declare a [js_library](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_library.bzl) with the upstream attributes.
+    """Declare a [js_library](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.
@@ -26,7 +26,7 @@ def js_library(name, **kwargs):
     )
 
 def js_run_binary(name, **kwargs):
-    """Declare a [js_run_binary](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_run_binary.bzl) with the upstream attributes.
+    """Declare a [js_run_binary](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.
@@ -38,7 +38,7 @@ def js_run_binary(name, **kwargs):
     )
 
 def js_run_devserver(name, **kwargs):
-    """Declare a [js_run_devserver](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_run_devserver.bzl) with the upstream attributes.
+    """Declare a [js_run_devserver](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.
@@ -50,7 +50,7 @@ def js_run_devserver(name, **kwargs):
     )
 
 def js_test(name, **kwargs):
-    """Declare a [js_test](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_binary.bzl) with the upstream attributes.
+    """Declare a [js_test](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.
@@ -62,7 +62,7 @@ def js_test(name, **kwargs):
     )
 
 def js_binary(name, **kwargs):
-    """Declare a [js_binary](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_binary.bzl) with the upstream attributes.
+    """Declare a [js_binary](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.
@@ -74,7 +74,7 @@ def js_binary(name, **kwargs):
     )
 
 def js_image_layer(name, **kwargs):
-    """Declare a [js_image_layer](https://github.com/aspect-build/rules_js/blob/v3.5.1/js/private/js_image_layer.bzl) with the upstream attributes.
+    """Declare a [js_image_layer](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
     Args:
         name: Target name.

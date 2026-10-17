@@ -135,7 +135,7 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     )
 
 def oci_image(name, **kwargs):
-    """Declare an [OCI image](https://github.com/bazel-contrib/rules_oci/blob/v2.3.0/docs/image.md) with the upstream attributes.
+    """Declare an [OCI image](https://github.com/bazel-contrib/rules_oci/blob/main/docs/image.md) with the upstream attributes.
 
     Args:
         name: Target name.

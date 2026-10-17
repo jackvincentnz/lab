@@ -5,9 +5,6 @@ repository root. See the [Bazel contribution guidelines](contributing/bazel.md)
 for BUILD file conventions, and [Gazelle](gazelle.md) for the tool that
 generates Java BUILD file dependencies.
 
-See the [generated macro reference](bazel/README.md) for the APIs and defaults
-of the wrappers in `tools/bazel/`.
-
 ## Outputs
 
 `.bazelrc` sets `--symlink_prefix=dist/`, so the convenience symlinks are
@@ -31,3 +28,32 @@ tests have no network access unless their target is tagged `requires-network`.
 A test that binds or connects to a socket without the tag fails with errors such
 as `Operation not permitted`. See [testing](contributing/testing.md#bazel-test-targets)
 for how test targets are tagged.
+
+## Macro reference
+
+[Stardoc](https://github.com/bazelbuild/stardoc) generates a page from the
+docstrings of each module in `tools/bazel/`:
+
+- [DGS Java code generation](bazel/dgs.md).
+- [Documentation generation](bazel/docs.md).
+- [Frontend applications and libraries](bazel/fe.md).
+- [GraphQL clients](bazel/graphql.md).
+- [Java](bazel/java.md).
+- [JavaScript](bazel/js.md).
+- [OCI images and delivery](bazel/oci.md).
+- [Packaging](bazel/pkg.md).
+- [Storybook](bazel/storybook.md).
+- [TypeScript](bazel/ts.md).
+- [Vite](bazel/vite.md).
+- [Vitest](bazel/vitest.md).
+
+Edit the docstrings rather than the pages, then regenerate the pages so that
+their diff tests in `bazel test //...` pass:
+
+```sh
+bazel run //docs/bazel:update
+```
+
+To document another module, add a `bzl_library` beside it, and a `stardoc`
+target and `update` entry in `docs/bazel/BUILD.bazel`, then link its page here
+and in `docs/_sidebar.md`.

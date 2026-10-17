@@ -9,17 +9,8 @@ vite_bin.vite_binary(
 bzl_library(
     name = "vite",
     srcs = ["vite.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
     deps = ["//tools/bazel:js"],
 )
 
-exports_files(
-    ["vite.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
-)
+exports_files(["vite.bzl"])

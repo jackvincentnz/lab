@@ -21,7 +21,7 @@ _TEST_RUNTIME_DEPS = [
 ]
 
 def java_binary(name, **kwargs):
-    """Declare a Java binary with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+    """Declare a [java_binary](https://bazel.build/reference/be/java#java_binary).
 
     Args:
         name: Target name.
@@ -33,7 +33,7 @@ def java_binary(name, **kwargs):
     )
 
 def java_library(name, **kwargs):
-    """Declare a Java library with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+    """Declare a [java_library](https://bazel.build/reference/be/java#java_library).
 
     Args:
         name: Target name.
@@ -45,9 +45,9 @@ def java_library(name, **kwargs):
     )
 
 def java_test_suite(name, **kwargs):
-    """Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_test_suite).
+    """Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_test_suite).
 
-    Infers test class names using the .nz. and .lab. package prefixes and applies
+    Infers test class names using the `.nz.` and `.lab.` package prefixes and applies
     the shared test defaults: small size, the test Spring profile unless set
     explicitly, and Logback added to runtime dependencies.
 
@@ -62,7 +62,7 @@ def java_test_suite(name, **kwargs):
     )
 
 def java_junit5_test(name, **kwargs):
-    """Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_junit5_test).
+    """Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_junit5_test).
 
     Defaults to small size and the test Spring profile unless set explicitly,
     and adds Logback to runtime dependencies.

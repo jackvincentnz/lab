@@ -8,81 +8,92 @@ Shared Java wrappers keep external rules and test defaults in one place.
 
 ## java_binary
 
-```starlark
+<pre>
 load("//tools/bazel:java.bzl", "java_binary")
 
-java_binary(name, **kwargs)
-```
+java_binary(<a href="#java_binary-name">name</a>, <a href="#java_binary-kwargs">**kwargs</a>)
+</pre>
 
-Declare a Java binary with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+Declare a [java_binary](https://bazel.build/reference/be/java#java_binary).
 
 **PARAMETERS**
 
-| Name                                  | Description                                          | Default Value |
-| :------------------------------------ | :--------------------------------------------------- | :------------ |
-| <a id="java_binary-name"></a>name     | Target name.                                         | none          |
-| <a id="java_binary-kwargs"></a>kwargs | Additional attributes passed to the underlying rule. | none          |
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="java_binary-name"></a>name |  Target name.   |  none |
+| <a id="java_binary-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
 
 <a id="java_junit5_test"></a>
 
 ## java_junit5_test
 
-```starlark
+<pre>
 load("//tools/bazel:java.bzl", "java_junit5_test")
 
-java_junit5_test(name, **kwargs)
-```
+java_junit5_test(<a href="#java_junit5_test-name">name</a>, <a href="#java_junit5_test-kwargs">**kwargs</a>)
+</pre>
 
-Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_junit5_test).
+Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_junit5_test).
 
 Defaults to small size and the test Spring profile unless set explicitly,
 and adds Logback to runtime dependencies.
 
+
 **PARAMETERS**
 
-| Name                                       | Description                                          | Default Value |
-| :----------------------------------------- | :--------------------------------------------------- | :------------ |
-| <a id="java_junit5_test-name"></a>name     | Target name.                                         | none          |
-| <a id="java_junit5_test-kwargs"></a>kwargs | Additional attributes passed to the underlying rule. | none          |
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="java_junit5_test-name"></a>name |  Target name.   |  none |
+| <a id="java_junit5_test-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
 
 <a id="java_library"></a>
 
 ## java_library
 
-```starlark
+<pre>
 load("//tools/bazel:java.bzl", "java_library")
 
-java_library(name, **kwargs)
-```
+java_library(<a href="#java_library-name">name</a>, <a href="#java_library-kwargs">**kwargs</a>)
+</pre>
 
-Declare a Java library with [rules_java](https://github.com/bazelbuild/rules_java/blob/9.9.0/java/defs.bzl).
+Declare a [java_library](https://bazel.build/reference/be/java#java_library).
 
 **PARAMETERS**
 
-| Name                                   | Description                                          | Default Value |
-| :------------------------------------- | :--------------------------------------------------- | :------------ |
-| <a id="java_library-name"></a>name     | Target name.                                         | none          |
-| <a id="java_library-kwargs"></a>kwargs | Additional attributes passed to the underlying rule. | none          |
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="java_library-name"></a>name |  Target name.   |  none |
+| <a id="java_library-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
 
 <a id="java_test_suite"></a>
 
 ## java_test_suite
 
-```starlark
+<pre>
 load("//tools/bazel:java.bzl", "java_test_suite")
 
-java_test_suite(name, **kwargs)
-```
+java_test_suite(<a href="#java_test_suite-name">name</a>, <a href="#java_test_suite-kwargs">**kwargs</a>)
+</pre>
 
-Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/v0.34.0/README.md#java_test_suite).
+Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_test_suite).
 
-Infers test class names using the .nz. and .lab. package prefixes and applies
+Infers test class names using the `.nz.` and `.lab.` package prefixes and applies
 the shared test defaults: small size, the test Spring profile unless set
 explicitly, and Logback added to runtime dependencies.
 
+
 **PARAMETERS**
 
-| Name                                      | Description                                          | Default Value |
-| :---------------------------------------- | :--------------------------------------------------- | :------------ |
-| <a id="java_test_suite-name"></a>name     | Target name.                                         | none          |
-| <a id="java_test_suite-kwargs"></a>kwargs | Additional attributes passed to the underlying rule. | none          |
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="java_test_suite-name"></a>name |  Target name.   |  none |
+| <a id="java_test_suite-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
+
