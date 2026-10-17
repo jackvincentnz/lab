@@ -3524,6 +3524,19 @@
     "@@aspect_rules_js+//npm:extensions.bzl%pnpm": {
       "11.28.3": "sha512-1JdgoTsXVZSHdaXUyxvEuocf8tyUGt+FFjDQRO1yL5tb6L5XvvkxZgmMgMcGvWEsKC0FUm3R0K5mAYjAhoIPNQ=="
     },
+    "@@aspect_rules_swc+//swc:extensions.bzl%swc": {
+      "v1.16.18": {
+        "darwin-arm64": "sha256-XyRR0J+3ffl/dl/U21/We4N8rwLRVxBcrCaPTv6ckts=",
+        "darwin-x64": "sha256-du6A2V7IS1C+2UAyiUUH4V/gfWVBS238IlV1Ew5mRcE=",
+        "linux-arm64-gnu": "sha256-+HrfyDWUYgMAox7038kIn8+XLwrrazOK9QodUCmVg6k=",
+        "linux-arm64-musl": "sha256-zdPsVe/mnaY4aka+LvfsuIUivlab1OeB+8Xd19lkhnw=",
+        "linux-x64-gnu": "sha256-ON8T62TzhnVU626tGJBCrNLKv0kOzF4zKuzcCvciC2Y=",
+        "linux-x64-musl": "sha256-85n0nYnF2Sm1YYIa2aD5nTk0nOsgQUsfIWcxto0PC3g=",
+        "win32-arm64-msvc": "sha256-RCvaFu6lLRJO59GyiPUjQBJlbOMS03C8FAz+rHHnkUY=",
+        "win32-ia32-msvc": "sha256-NkX++uig1bZMSx9oLWuK8JskUvqIS69gKe+Kopvt7n8=",
+        "win32-x64-msvc": "sha256-WQqJuLBfzya+9zSQ4y6tuvt8kTWAGHZOzvnKqOvqsNA="
+      }
+    },
     "@@aspect_tools_telemetry+//:extension.bzl%telemetry": {
       "notice_version": "3"
     },
