@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface LineItemRepository extends BaseRepository<LineItem, LineItemId> {
 
   Collection<LineItem> findByBudgetId(BudgetId budgetId);
+
+  Collection<LineItem> findByBudgetIdIn(Collection<BudgetId> budgetIds);
 }
