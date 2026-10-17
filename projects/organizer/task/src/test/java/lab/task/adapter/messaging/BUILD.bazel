@@ -16,9 +16,11 @@ java_test_suite(
     ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/organizer/task/src/main/java/lab/task/adapter/messaging",
         "//projects/organizer/task/src/main/java/lab/task/domain",
         "@maven//:com_google_protobuf_protobuf_java",
+        "@maven//:org_apache_kafka_kafka_clients",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
