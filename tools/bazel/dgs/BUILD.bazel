@@ -1,3 +1,4 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("//tools/bazel:java.bzl", "java_binary")
 
 java_binary(
@@ -9,3 +10,12 @@ java_binary(
         "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_core",
     ],
 )
+
+bzl_library(
+    name = "codegen_bzl",
+    srcs = ["codegen.bzl"],
+    visibility = ["//visibility:public"],
+    deps = ["//tools/bazel:java"],
+)
+
+exports_files(["codegen.bzl"])

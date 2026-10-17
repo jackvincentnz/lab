@@ -1,0 +1,103 @@
+load("//tools/bazel:docs.bzl", "stardoc", "write_source_files")
+
+stardoc(
+    name = "dgs",
+    out = "dgs_stardoc.md",
+    input = "//tools/bazel/dgs:codegen.bzl",
+    deps = ["//tools/bazel/dgs:codegen_bzl"],
+)
+
+stardoc(
+    name = "docs",
+    out = "docs_stardoc.md",
+    input = "//tools/bazel:docs.bzl",
+    deps = ["//tools/bazel:docs"],
+)
+
+stardoc(
+    name = "fe",
+    out = "fe_stardoc.md",
+    input = "//tools/bazel:fe.bzl",
+    deps = ["//tools/bazel:fe"],
+)
+
+stardoc(
+    name = "graphql",
+    out = "graphql_stardoc.md",
+    input = "//tools/bazel:graphql.bzl",
+    deps = ["//tools/bazel:graphql"],
+)
+
+stardoc(
+    name = "java",
+    out = "java_stardoc.md",
+    input = "//tools/bazel:java.bzl",
+    deps = ["//tools/bazel:java"],
+)
+
+stardoc(
+    name = "js",
+    out = "js_stardoc.md",
+    input = "//tools/bazel:js.bzl",
+    deps = ["//tools/bazel:js"],
+)
+
+stardoc(
+    name = "oci",
+    out = "oci_stardoc.md",
+    input = "//tools/bazel/oci:defs.bzl",
+    deps = ["//tools/bazel/oci:defs"],
+)
+
+stardoc(
+    name = "pkg",
+    out = "pkg_stardoc.md",
+    input = "//tools/bazel:pkg.bzl",
+    deps = ["//tools/bazel:pkg"],
+)
+
+stardoc(
+    name = "storybook",
+    out = "storybook_stardoc.md",
+    input = "//tools/bazel/storybook:storybook.bzl",
+    deps = ["//tools/bazel/storybook"],
+)
+
+stardoc(
+    name = "ts",
+    out = "ts_stardoc.md",
+    input = "//tools/bazel:ts.bzl",
+    deps = ["//tools/bazel:ts"],
+)
+
+stardoc(
+    name = "vite",
+    out = "vite_stardoc.md",
+    input = "//tools/bazel/vite:vite.bzl",
+    deps = ["//tools/bazel/vite"],
+)
+
+stardoc(
+    name = "vitest",
+    out = "vitest_stardoc.md",
+    input = "//tools/bazel/vitest:vitest.bzl",
+    deps = ["//tools/bazel/vitest"],
+)
+
+write_source_files(
+    name = "update",
+    files = {
+        "dgs.md": ":dgs",
+        "docs.md": ":docs",
+        "fe.md": ":fe",
+        "graphql.md": ":graphql",
+        "java.md": ":java",
+        "js.md": ":js",
+        "oci.md": ":oci",
+        "pkg.md": ":pkg",
+        "storybook.md": ":storybook",
+        "ts.md": ":ts",
+        "vite.md": ":vite",
+        "vitest.md": ":vitest",
+    },
+)
