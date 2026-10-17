@@ -16,11 +16,10 @@ import lab.mops.core.domain.budget.Spend;
 import lab.mops.core.domain.category.Category;
 import lab.mops.core.domain.category.CategoryRepository;
 import lab.test.TestBase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,9 +31,16 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
 
   @Mock CategoryRepository categoryRepository;
 
-  @Spy BudgetProperties budgetProperties = new BudgetProperties(Month.APRIL);
+  BudgetProperties budgetProperties = new BudgetProperties(Month.APRIL);
 
-  @InjectMocks ResolvedBudgetQueryService resolvedBudgetQueryService;
+  ResolvedBudgetQueryService resolvedBudgetQueryService;
+
+  @BeforeEach
+  void setUp() {
+    resolvedBudgetQueryService =
+        new ResolvedBudgetQueryService(
+            budgetRepository, lineItemRepository, categoryRepository, budgetProperties);
+  }
 
   @Test
   void resolveBudgets_mapsBudgets() {
