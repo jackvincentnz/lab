@@ -1,15 +1,13 @@
 package lab.task.adapter.messaging;
 
 import com.google.protobuf.Message;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Supplier;
 import lab.libs.ddd.domain.DomainEvent;
-import lab.libs.messaging.EventIdHeader;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,25 +18,16 @@ public class DomainEventPublisher {
 
   protected static final String TASK_TOPIC = "task";
 
+  protected static final String EVENT_ID_HEADER = "event-id";
+
   private final KafkaTemplate<String, Message> kafkaTemplate;
 
   private final EventMapperFactory eventMapperFactory;
 
-  private final Supplier<UUID> eventIdSupplier;
-
-  @Autowired
   public DomainEventPublisher(
       KafkaTemplate<String, Message> kafkaTemplate, EventMapperFactory eventMapperFactory) {
-    this(kafkaTemplate, eventMapperFactory, UUID::randomUUID);
-  }
-
-  DomainEventPublisher(
-      KafkaTemplate<String, Message> kafkaTemplate,
-      EventMapperFactory eventMapperFactory,
-      Supplier<UUID> eventIdSupplier) {
     this.kafkaTemplate = kafkaTemplate;
     this.eventMapperFactory = eventMapperFactory;
-    this.eventIdSupplier = eventIdSupplier;
     initializeProducer();
   }
 
@@ -48,7 +37,7 @@ public class DomainEventPublisher {
   }
 
   public void publish(List<DomainEvent> appliedEvents) {
-    appliedEvents.stream().map(this::map).map(this::toRecord).forEach(this::sendRecord);
+    appliedEvents.stream().map(this::map).forEach(this::sendMessage);
   }
 
   private Message map(DomainEvent domainEvent) {
@@ -56,20 +45,8 @@ public class DomainEventPublisher {
     return mapper.map(domainEvent);
   }
 
-  /*
-   * This service has no outbox or event store to give an event a lasting id, so the id is minted
-   * here. Kafka redelivers a record with the id it was sent with, but publishing the same event
-   * again from this side mints a new id, which an outbox would fix.
-   */
-  private ProducerRecord<String, Message> toRecord(Message message) {
-    var record = new ProducerRecord<String, Message>(TASK_TOPIC, message);
-    record.headers().add(EventIdHeader.NAME, EventIdHeader.toBytes(eventIdSupplier.get()));
-    return record;
-  }
-
-  private void sendRecord(ProducerRecord<String, Message> record) {
-    var message = record.value();
-    var future = kafkaTemplate.send(record);
+  private void sendMessage(Message message) {
+    var future = kafkaTemplate.send(toRecord(message));
 
     future.whenComplete(
         (result, ex) -> {
@@ -89,5 +66,16 @@ public class DomainEventPublisher {
             throw new RuntimeException(failedToSendMsg, ex);
           }
         });
+  }
+
+  /*
+   * Without an outbox the id lives only on this record: Kafka keeps it when it redelivers the
+   * record, but publishing the same event again mints a new id.
+   */
+  private static ProducerRecord<String, Message> toRecord(Message message) {
+    var record = new ProducerRecord<String, Message>(TASK_TOPIC, message);
+    var eventId = UUID.randomUUID().toString().getBytes(StandardCharsets.UTF_8);
+    record.headers().add(EVENT_ID_HEADER, eventId);
+    return record;
   }
 }

@@ -6,12 +6,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import com.google.protobuf.StringValue;
-import java.util.UUID;
 import lab.autojournal.application.TaskEventHandler;
-import lab.libs.messaging.EventIdHeader;
 import lab.task.api.TaskAddedEvent;
 import lab.task.api.TaskCompletedEvent;
-import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -20,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class TaskEventConsumerTest extends TestBase {
+class TaskEventConsumerTest {
 
   @Mock TaskEventHandler taskEventHandler;
 
@@ -30,7 +27,7 @@ class TaskEventConsumerTest extends TestBase {
   void on_handlesTaskCompletedEvents() {
     var taskCompletedEvent = TaskCompletedEvent.getDefaultInstance();
 
-    taskEventConsumer.on(taskCompletedEvent, eventIdHeader(UUID.randomUUID()));
+    taskEventConsumer.on(taskCompletedEvent);
 
     verify(taskEventHandler).handle(any(lab.autojournal.application.TaskCompletedEvent.class));
   }
@@ -42,23 +39,10 @@ class TaskEventConsumerTest extends TestBase {
     var mappedCaptor =
         ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
 
-    taskEventConsumer.on(taskCompletedEvent, eventIdHeader(UUID.randomUUID()));
+    taskEventConsumer.on(taskCompletedEvent);
 
     verify(taskEventHandler).handle(mappedCaptor.capture());
     assertThat(mappedCaptor.getValue().taskId()).isEqualTo(taskId);
-  }
-
-  @Test
-  void on_eventIdHeader_mapsEventId() {
-    var eventId = UUID.randomUUID();
-    var taskCompletedEvent = TaskCompletedEvent.newBuilder().setTaskId(randomId()).build();
-    var mappedCaptor =
-        ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
-
-    taskEventConsumer.on(taskCompletedEvent, eventIdHeader(eventId));
-
-    verify(taskEventHandler).handle(mappedCaptor.capture());
-    assertThat(mappedCaptor.getValue().eventId()).isEqualTo(eventId);
   }
 
   @Test
@@ -73,9 +57,5 @@ class TaskEventConsumerTest extends TestBase {
     var unknown = StringValue.getDefaultInstance();
 
     assertThrows(RuntimeException.class, () -> taskEventConsumer.on(unknown));
-  }
-
-  private static byte[] eventIdHeader(UUID eventId) {
-    return EventIdHeader.toBytes(eventId);
   }
 }

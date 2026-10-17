@@ -1,7 +1,0 @@
-load("//tools/bazel:java.bzl", "java_library")
-
-java_library(
-    name = "messaging",
-    srcs = ["EventIdHeader.java"],
-    visibility = ["//:__subpackages__"],
-)

@@ -25,7 +25,6 @@ java_library(
     ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
-        "//libs/messaging/src/main/java/lab/libs/messaging",
         "//projects/organizer/task/src/main/java/lab/task/domain",
         "//projects/organizer/task/src/main/proto:task_api_java",
         "@maven//:com_google_protobuf_protobuf_java",
