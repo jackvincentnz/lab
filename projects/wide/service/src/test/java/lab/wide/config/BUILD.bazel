@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "config",
+    deps = [
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/config",
+        "@maven//:org_springframework_ai_spring_ai_model",
+    ],
+)

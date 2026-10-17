@@ -1,0 +1,10 @@
+{
+  "name": "wide-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ibazel run //projects/wide/app",
+    "build": "bazel build //projects/wide/app:build",
+    "test": "ibazel run //projects/wide/app:test_watch"
+  }
+}

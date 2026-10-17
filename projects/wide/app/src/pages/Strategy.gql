@@ -1,0 +1,7 @@
+query Strategy {
+  strategy {
+    id
+    content
+    updatedAt
+  }
+}

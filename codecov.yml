@@ -27,6 +27,11 @@ component_management:
       name: Organizer
       paths:
         - "projects/organizer/**"
+    - component_id: wide
+      name: WIDE
+      paths:
+        - "projects/wide/app/**"
+        - "projects/wide/service/**"
     - component_id: libs
       name: Shared libraries
       paths:

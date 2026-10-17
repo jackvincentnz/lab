@@ -1,0 +1,12 @@
+interface:
+  display_name: "WIDE refinement"
+  short_description: "Refine an opportunity into understood delivery options"
+  default_prompt: "Help me refine the selected WIDE opportunity and save the problems, candidate solutions, and source links."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "wide"
+      description: "WIDE local signal, strategy, problem, and solution store"
+      transport: "streamable_http"
+      url: "http://127.0.0.1:8095/mcp"

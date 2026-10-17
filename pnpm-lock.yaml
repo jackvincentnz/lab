@@ -208,6 +208,8 @@ importers:
 
   projects/organizer/tasklist: {}
 
+  projects/wide/app: {}
+
 packages:
 
   '@adobe/css-tools@4.5.0':

@@ -1,6 +1,7 @@
 packages:
   - "libs/bubbles"
   - "projects/mops/app"
+  - "projects/wide/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"
 packageExtensions:
