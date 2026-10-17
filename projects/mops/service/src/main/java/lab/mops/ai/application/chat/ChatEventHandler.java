@@ -3,10 +3,16 @@ package lab.mops.ai.application.chat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
 import lab.mops.ai.application.chat.completions.CompletionService;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.ToolResultMessage;
+import lab.mops.ai.domain.chat.Chat;
+import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
+import lab.mops.ai.domain.chat.MessageId;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
@@ -14,17 +20,19 @@ import lab.mops.ai.domain.chat.ToolCallStatus;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.event.EventListener;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionalEventListener;
 
-// FIXME: there is no guarantee these will run, so an assistant message could remain PENDING
 @Component
 public class ChatEventHandler {
 
   private static final Logger LOG = LoggerFactory.getLogger(ChatEventHandler.class);
 
   protected static final int MAX_COMPLETIONS = 10;
+
+  private static final int MAX_SAVE_ATTEMPTS = 3;
 
   private final ChatRepository chatRepository;
 
@@ -46,14 +54,28 @@ public class ChatEventHandler {
   }
 
   @Async
-  @EventListener
+  @TransactionalEventListener(fallbackExecution = true)
   public void onPendingAssistantMessageAdded(PendingAssistantMessageAddedEvent event) {
-    LOG.debug(
-        "Handling pending assistant message [{}], in chat [{}]",
-        event.pendingAssistantMessageId(),
-        event.chatId());
+    var chatId = event.chatId();
+    var messageId = event.pendingAssistantMessageId();
+    LOG.debug("Handling pending assistant message [{}], in chat [{}]", messageId, chatId);
 
-    var chat = chatRepository.getById(event.chatId());
+    try {
+      var chat = chatRepository.getById(chatId);
+      if (!isPending(chat, messageId)) {
+        return;
+      }
+
+      var response = respond(chat, messageId);
+      update(chatId, latest -> isPending(latest, messageId), response);
+    } catch (RuntimeException e) {
+      LOG.warn("Failed to respond to message [{}], in chat [{}]", messageId, chatId, e);
+      update(
+          chatId, latest -> isPending(latest, messageId), latest -> latest.failMessage(messageId));
+    }
+  }
+
+  private Consumer<Chat> respond(Chat chat, MessageId messageId) {
     var tools = toolProvider.getTools();
     var conversationHistory = new ArrayList<>(chatContextBuilder.buildHistory(chat));
 
@@ -61,7 +83,8 @@ public class ChatEventHandler {
     var response = completionService.getResponse(conversationHistory);
     while (response.hasToolCalls() && !hasPendingToolApprovals(tools, response.getToolCalls())) {
       if (++completionCounter >= MAX_COMPLETIONS) {
-        throw new RuntimeException("Max completions reached");
+        LOG.warn("Message [{}] reached the completion limit", messageId);
+        return latest -> latest.failMessage(messageId);
       }
 
       LOG.debug("Response has tools calls and none need approval");
@@ -77,13 +100,16 @@ public class ChatEventHandler {
     if (hasPendingToolApprovals(tools, response.getToolCalls())) {
       LOG.debug("Response has pending tool calls, adding to chat for approval");
       var toolCalls = mapToolCalls(tools, response.getToolCalls());
-      chat.addPendingToolCalls(event.pendingAssistantMessageId(), toolCalls);
-    } else {
-      LOG.debug("Response has no pending tool calls, completing pending message");
-      chat.completeMessage(event.pendingAssistantMessageId(), response.getContent().orElseThrow());
+      return latest -> latest.addPendingToolCalls(messageId, toolCalls);
     }
 
-    chatRepository.save(chat);
+    LOG.debug("Response has no pending tool calls, completing pending message");
+    var content = response.getContent().orElseThrow();
+    return latest -> latest.completeMessage(messageId, content);
+  }
+
+  private static boolean isPending(Chat chat, MessageId messageId) {
+    return chat.getMessages().stream().anyMatch(m -> m.getId().equals(messageId) && m.isPending());
   }
 
   private boolean hasPendingToolApprovals(Collection<Tool> tools, Collection<ToolCall> toolCalls) {
@@ -141,18 +167,71 @@ public class ChatEventHandler {
   }
 
   @Async
-  @EventListener
+  @TransactionalEventListener(fallbackExecution = true)
   public void onToolCallApproved(ToolCallApprovedEvent event) {
-    var chat = chatRepository.getById(event.chatId());
-    var toolCall = chat.getToolCallById(event.messageId(), event.toolCallId());
+    var chatId = event.chatId();
+    var messageId = event.messageId();
+    var toolCallId = event.toolCallId();
 
-    var result =
-        executeToolCall(
-            new ToolCall(toolCall.id().toString(), toolCall.name(), toolCall.arguments()));
+    try {
+      var toolCall = awaitingResult(chatRepository.getById(chatId), messageId, toolCallId);
+      if (toolCall.isEmpty()) {
+        return;
+      }
 
-    chat.recordToolResult(event.messageId(), event.toolCallId(), result);
+      var result =
+          executeToolCall(
+              new ToolCall(
+                  toolCallId.toString(), toolCall.get().name(), toolCall.get().arguments()));
 
-    chatRepository.save(chat);
+      update(
+          chatId,
+          latest -> awaitingResult(latest, messageId, toolCallId).isPresent(),
+          latest -> latest.recordToolResult(messageId, toolCallId, result));
+    } catch (RuntimeException e) {
+      LOG.warn("Failed to execute tool call [{}], in chat [{}]", toolCallId, chatId, e);
+      update(
+          chatId,
+          latest -> awaitingResult(latest, messageId, toolCallId).isPresent(),
+          latest -> latest.failMessage(messageId));
+    }
+  }
+
+  private static Optional<lab.mops.ai.domain.chat.ToolCall> awaitingResult(
+      Chat chat, MessageId messageId, ToolCallId toolCallId) {
+    return chat.getMessages().stream()
+        .filter(m -> m.getId().equals(messageId) && m.isCompleted())
+        .flatMap(m -> m.getToolCalls().stream())
+        .filter(
+            t ->
+                t.id().equals(toolCallId)
+                    && t.status() == ToolCallStatus.APPROVED
+                    && t.result() == null)
+        .findFirst();
+  }
+
+  /**
+   * Applies a change to the latest saved chat while the work is still current. Commands and sibling
+   * tool calls save the same chat concurrently, so a save that loses the version check reloads the
+   * chat instead of repeating the model or tool call.
+   */
+  private void update(ChatId chatId, Predicate<Chat> isCurrent, Consumer<Chat> change) {
+    for (var attempt = 1; ; attempt++) {
+      var chat = chatRepository.getById(chatId);
+      if (!isCurrent.test(chat)) {
+        return;
+      }
+
+      change.accept(chat);
+      try {
+        chatRepository.save(chat);
+        return;
+      } catch (OptimisticLockingFailureException e) {
+        if (attempt == MAX_SAVE_ATTEMPTS) {
+          throw e;
+        }
+      }
+    }
   }
 
   private String executeToolCall(ToolCall toolCall) {

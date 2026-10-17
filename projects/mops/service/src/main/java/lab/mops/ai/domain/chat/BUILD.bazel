@@ -10,6 +10,7 @@ java_library(
         "ChatMessageCancelledEvent.java",
         "ChatMessageCompletedEvent.java",
         "ChatMessageEditedEvent.java",
+        "ChatMessageFailedEvent.java",
         "ChatRepository.java",
         "ChatStartedEvent.java",
         "Message.java",

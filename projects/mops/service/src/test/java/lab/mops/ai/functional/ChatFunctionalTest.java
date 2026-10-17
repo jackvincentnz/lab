@@ -59,6 +59,22 @@ class ChatFunctionalTest extends TestBase {
   }
 
   @Test
+  @Transactional(propagation = Propagation.NOT_SUPPORTED)
+  void startChat_providerFails_failsAssistantMessage() {
+    // No scripted reply, so the fake provider throws.
+    var chatId = client.startChat(randomString()).getChat().getId();
+    try {
+      await()
+          .atMost(COMPLETION_TIMEOUT)
+          .until(
+              () -> client.chat(chatId).getMessages().get(1).getStatus(),
+              ChatMessageStatus.FAILED::equals);
+    } finally {
+      chatRepository.deleteById(ChatId.fromString(chatId));
+    }
+  }
+
+  @Test
   void startChat_startsChat() {
     var content = randomString();
 

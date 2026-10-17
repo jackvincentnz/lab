@@ -1,10 +1,12 @@
 package lab.mops.ai.application.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -15,9 +17,8 @@ import lab.mops.ai.application.chat.completions.Message;
 import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.ai.domain.chat.Chat;
-import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
-import lab.mops.ai.domain.chat.MessageId;
+import lab.mops.ai.domain.chat.MessageStatus;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
@@ -30,6 +31,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.OptimisticLockingFailureException;
 
 @ExtendWith(MockitoExtension.class)
 class ChatEventHandlerTest extends TestBase {
@@ -119,8 +121,11 @@ class ChatEventHandlerTest extends TestBase {
         .thenReturn(toolCompletion)
         .thenReturn(finalCompletion);
 
-    assertThatThrownBy(() -> chatEventHandler.onPendingAssistantMessageAdded(event))
-        .isInstanceOf(RuntimeException.class);
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    verify(completionService, times(ChatEventHandler.MAX_COMPLETIONS)).getResponse(anyList());
+    verify(chatRepository).save(chat);
   }
 
   @Test
@@ -152,32 +157,113 @@ class ChatEventHandlerTest extends TestBase {
 
   @Test
   void onToolCallApproved_shouldExecuteToolCallAndRecordResult() {
-    var chatId = ChatId.create();
-    var messageId = MessageId.create();
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
     var toolCallId = ToolCallId.create();
-    var event = new ToolCallApprovedEvent(chatId, messageId, toolCallId);
-
-    var chat = mock(Chat.class);
-    when(chatRepository.getById(chatId)).thenReturn(chat);
-
-    var toolCall = mock(lab.mops.ai.domain.chat.ToolCall.class);
     var toolName = randomString();
     var toolCallArgs = randomString();
-    when(toolCall.id()).thenReturn(toolCallId);
-    when(toolCall.name()).thenReturn(toolName);
-    when(toolCall.arguments()).thenReturn(toolCallArgs);
-
-    when(chat.getToolCallById(event.messageId(), event.toolCallId())).thenReturn(toolCall);
-
+    chat.addPendingToolCalls(
+        messageId,
+        List.of(
+            lab.mops.ai.domain.chat.ToolCall.of(
+                toolCallId, toolName, toolCallArgs, ToolCallStatus.APPROVED)));
+    var event = new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId);
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
     var tool = mockTool(toolName);
     when(toolProvider.getTools()).thenReturn(List.of(tool));
-
     var toolCallResult = randomString();
     when(tool.call(toolCallArgs)).thenReturn(toolCallResult);
 
     chatEventHandler.onToolCallApproved(event);
+    chatEventHandler.onToolCallApproved(event);
 
-    verify(chat).recordToolResult(messageId, toolCallId, toolCallResult);
+    assertThat(chat.getToolCallById(messageId, toolCallId).result()).isEqualTo(toolCallResult);
+    verify(tool, times(1)).call(toolCallArgs);
+    verify(chatRepository, times(1)).save(chat);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_cancelledOrRemovedMessage_skipsCompletion() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    chat.addUserMessage(randomString());
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+    chat.editUserMessage(chat.getMessages().get(0).getId(), randomString());
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    verifyNoInteractions(completionService, toolProvider);
+  }
+
+  @Test
+  void onToolCallApproved_rejectedTool_doesNotExecute() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var toolCallId = ToolCallId.create();
+    chat.addPendingToolCalls(
+        messageId,
+        List.of(
+            lab.mops.ai.domain.chat.ToolCall.of(
+                toolCallId, randomString(), randomString(), ToolCallStatus.REJECTED)));
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+
+    chatEventHandler.onToolCallApproved(
+        new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId));
+
+    verifyNoInteractions(toolProvider);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_completionFails_failsMessage() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(toolProvider.getTools()).thenReturn(List.of());
+    when(completionService.getResponse(anyList())).thenThrow(new RuntimeException());
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_concurrentSave_doesNotRepeatCompletion() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(toolProvider.getTools()).thenReturn(List.of());
+    when(completionService.getResponse(anyList())).thenReturn(AssistantMessage.of(randomString()));
+    doThrow(new OptimisticLockingFailureException(randomString())).when(chatRepository).save(chat);
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    verify(completionService, times(1)).getResponse(anyList());
+    assertThat(chat.getMessages().get(1).isCompleted()).isTrue();
+  }
+
+  @Test
+  void onToolCallApproved_toolFails_failsMessage() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var toolCallId = ToolCallId.create();
+    var toolName = randomString();
+    var toolCallArgs = randomString();
+    chat.addPendingToolCalls(
+        messageId,
+        List.of(
+            lab.mops.ai.domain.chat.ToolCall.of(
+                toolCallId, toolName, toolCallArgs, ToolCallStatus.APPROVED)));
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    var tool = mockTool(toolName);
+    when(toolProvider.getTools()).thenReturn(List.of(tool));
+    when(tool.call(toolCallArgs)).thenThrow(new RuntimeException());
+
+    chatEventHandler.onToolCallApproved(
+        new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId));
+
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
     verify(chatRepository).save(chat);
   }
 

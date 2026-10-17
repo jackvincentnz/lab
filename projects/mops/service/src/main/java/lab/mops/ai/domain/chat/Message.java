@@ -132,6 +132,10 @@ public class Message {
     this.content = content;
   }
 
+  void fail() {
+    updateStatus(MessageStatus.FAILED);
+  }
+
   void cancel() {
     updateStatus(MessageStatus.CANCELLED);
   }
