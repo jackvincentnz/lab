@@ -1,0 +1,42 @@
+load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:ts.bzl", "ts_project")
+
+ts_project(
+    name = "spend",
+    srcs = [
+        "SpendPage.tsx",
+        "index.ts",
+        "mappers.ts",
+    ],
+    visibility = ["//projects/mops/app:__subpackages__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+        "//projects/mops/app/src/pages/spend/components/spend-table",
+    ],
+)
+
+ts_project(
+    name = "spend_tests",
+    testonly = True,
+    srcs = [
+        "SpendPage.test.tsx",
+        "mappers.test.ts",
+    ],
+    visibility = ["//projects/mops/app:__pkg__"],
+    deps = [
+        ":spend",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+        "//projects/mops/app/src/test",
+    ],
+)
+
+js_library(
+    name = "gql",
+    srcs = glob(["*.gql"]),
+    visibility = ["//projects/mops/app:__pkg__"],
+)

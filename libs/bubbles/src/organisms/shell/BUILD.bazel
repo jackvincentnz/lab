@@ -1,0 +1,51 @@
+load("//tools/bazel:ts.bzl", "ts_project")
+
+ts_project(
+    name = "shell",
+    srcs = [
+        "NavbarLinks.tsx",
+        "Shell.tsx",
+        "index.ts",
+        "vite-env.d.ts",
+    ],
+    assets = [
+        "NavbarLinks.module.css",
+        "Shell.module.css",
+    ],
+    visibility = ["//libs/bubbles:__subpackages__"],
+    deps = [
+        "//:node_modules/@types/react",
+        "//:node_modules/vite",
+        "//libs/bubbles:node_modules/@mantine/core",
+        "//libs/bubbles:node_modules/@mantine/hooks",
+        "//libs/bubbles:node_modules/@tabler/icons-react",
+        "//libs/bubbles:node_modules/react",
+    ],
+)
+
+ts_project(
+    name = "shell_tests",
+    testonly = True,
+    srcs = [
+        "NavbarLinks.test.tsx",
+        "Shell.test.tsx",
+    ],
+    visibility = ["//libs/bubbles/src:__pkg__"],
+    deps = [
+        ":shell",
+        "//:node_modules/@types/react",
+        "//libs/bubbles:node_modules/@mantine/core",
+        "//libs/bubbles:node_modules/react",
+        "//tools/bazel/vitest:utils",
+    ],
+)
+
+ts_project(
+    name = "stories",
+    srcs = ["Shell.stories.ts"],
+    visibility = ["//libs/bubbles:__pkg__"],
+    deps = [
+        ":shell",
+        "//:node_modules/@storybook/react",
+    ],
+)

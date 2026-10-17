@@ -1,0 +1,16 @@
+load("//tools/bazel:ts.bzl", "ts_project")
+
+ts_project(
+    name = "providers",
+    srcs = ["StatsigProvider.tsx"],
+    visibility = ["//projects/mops/app:__subpackages__"],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@statsig/react-bindings",
+        "//:node_modules/@statsig/session-replay",
+        "//:node_modules/@statsig/web-analytics",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+    ],
+)

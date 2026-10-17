@@ -1,0 +1,52 @@
+load("//tools/bazel:ts.bzl", "ts_project")
+
+ts_project(
+    name = "shell",
+    srcs = [
+        "AsideResizeHandle.tsx",
+        "Navbar.tsx",
+        "Shell.tsx",
+        "ShellHeader.tsx",
+        "index.ts",
+        "navigation.ts",
+        "shellState.ts",
+        "vite-env.d.ts",
+    ],
+    assets = [
+        "Navbar.module.css",
+        "logo.png",
+    ],
+    visibility = ["//projects/mops/app:__subpackages__"],
+    deps = [
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@statsig/react-bindings",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//:node_modules/react-router-dom",
+        "//:node_modules/vite",
+        "//projects/mops/app/src/components/chat",
+    ],
+)
+
+ts_project(
+    name = "shell_tests",
+    testonly = True,
+    srcs = [
+        "AsideResizeHandle.test.tsx",
+        "Navbar.test.tsx",
+        "Shell.test.tsx",
+        "shellState.test.ts",
+    ],
+    visibility = ["//projects/mops/app:__pkg__"],
+    deps = [
+        ":shell",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//:node_modules/vitest",
+        "//projects/mops/app/src/test",
+    ],
+)
