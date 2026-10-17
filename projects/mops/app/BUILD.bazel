@@ -2,13 +2,16 @@ load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bazel:fe.bzl", "fe_app")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
 
 # aspect:js enabled
-# aspect:js_visibility //projects/mops/app:__subpackages__
-# aspect:js_visibility {dirname}_tests //projects/mops/app:__pkg__
-# gazelle:exclude codegen.ts
-# gazelle:exclude vite.config.ts
+# aspect:generation_mode update_only
+# aspect:js_files src/**/*.{ts,tsx}
+# aspect:js_test_files src/**/*.{test,spec}.{ts,tsx}
+# aspect:js_test_files src/test/**/*.{ts,tsx}
+# aspect:js_project_naming_convention src
+# aspect:js_tests_naming_convention tests
 # aspect:js_resolve **/__generated__/graphql //projects/mops/app/src/__generated__:graphql_codegen_ts
 # gazelle:exclude public
 
@@ -21,17 +24,13 @@ js_library(
 
 js_library(
     name = "gql",
-    srcs = [
-        "//projects/mops/app/src:gql",
-        "//projects/mops/app/src/components/chat:gql",
-        "//projects/mops/app/src/pages/spend:gql",
-    ],
+    srcs = glob(["src/**/*.gql"]),
     visibility = ["//projects/mops/app/src/__generated__:__pkg__"],
 )
 
 fe_app(
     name = "app",
-    srcs = ["//projects/mops/app/src"],
+    srcs = [":src"],
     data = [
         "index.html",
         "package.json",
@@ -45,17 +44,7 @@ fe_app(
         "//tools/bazel/vitest:coverage_config",
     ],
     test_tags = ["exclusive"],
-    tests = [
-        "//projects/mops/app/src:src_tests",
-        "//projects/mops/app/src/components/chat:chat_tests",
-        "//projects/mops/app/src/components/shell:shell_tests",
-        "//projects/mops/app/src/components/table-minimal:table-minimal_tests",
-        "//projects/mops/app/src/pages/plan:plan_tests",
-        "//projects/mops/app/src/pages/settings:settings_tests",
-        "//projects/mops/app/src/pages/spend:spend_tests",
-        "//projects/mops/app/src/pages/spend/components/spend-table:spend-table_tests",
-        "//projects/mops/app/src/test",
-    ],
+    tests = [":tests"],
     visibility = ["//projects/mops:__pkg__"],
 )
 
@@ -89,3 +78,121 @@ oci_deliver(
 )
 
 npm_link_all_packages(name = "node_modules")
+
+ts_project(
+    name = "src",
+    srcs = [
+        "src/App.tsx",
+        "src/Router.tsx",
+        "src/components/chat/Chat.tsx",
+        "src/components/chat/ChatHeader.tsx",
+        "src/components/chat/ChatHistory.tsx",
+        "src/components/chat/ChatInput.tsx",
+        "src/components/chat/ChatMessageActions.tsx",
+        "src/components/chat/ChatTranscript.tsx",
+        "src/components/chat/MarkdownContent.tsx",
+        "src/components/chat/ToolCallApproval.tsx",
+        "src/components/chat/chatPredicates.ts",
+        "src/components/chat/chatView.ts",
+        "src/components/chat/index.ts",
+        "src/components/chat/useChatController.ts",
+        "src/components/shell/AsideResizeHandle.tsx",
+        "src/components/shell/Navbar.tsx",
+        "src/components/shell/Shell.tsx",
+        "src/components/shell/ShellHeader.tsx",
+        "src/components/shell/index.ts",
+        "src/components/shell/navigation.ts",
+        "src/components/shell/shellState.ts",
+        "src/components/table-minimal/Table.tsx",
+        "src/components/table-minimal/data.ts",
+        "src/components/table-minimal/index.ts",
+        "src/csrfFetch.ts",
+        "src/main.tsx",
+        "src/pages/plan/PlanPage.tsx",
+        "src/pages/plan/index.ts",
+        "src/pages/settings/SettingsPage.tsx",
+        "src/pages/settings/index.ts",
+        "src/pages/spend/SpendPage.tsx",
+        "src/pages/spend/components/spend-table/SpendTable.tsx",
+        "src/pages/spend/components/spend-table/columns.tsx",
+        "src/pages/spend/components/spend-table/index.ts",
+        "src/pages/spend/components/spend-table/types.ts",
+        "src/pages/spend/index.ts",
+        "src/pages/spend/mappers.ts",
+        "src/providers/StatsigProvider.tsx",
+        "src/theme.ts",
+        "src/vite-env.d.ts",
+    ],
+    assets = [
+        "src/components/shell/Navbar.module.css",
+        "src/components/shell/logo.png",
+        "src/components/table-minimal/Table.module.css",
+        "src/pages/spend/components/spend-table/SpendTable.module.css",
+    ],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/hooks",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@statsig/react-bindings",
+        "//:node_modules/@statsig/session-replay",
+        "//:node_modules/@statsig/web-analytics",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/@types/react-dom",
+        "//:node_modules/dayjs",
+        "//:node_modules/graphql-ws",
+        "//:node_modules/mantine-datatable",
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/react-markdown",
+        "//:node_modules/react-router-dom",
+        "//:node_modules/remark-gfm",
+        "//:node_modules/vite",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+    ],
+)
+
+ts_project(
+    name = "tests",
+    testonly = True,
+    srcs = [
+        "src/components/chat/ChatHistory.test.tsx",
+        "src/components/chat/ChatInput.test.tsx",
+        "src/components/chat/ChatTranscript.test.tsx",
+        "src/components/chat/ToolCallApproval.test.tsx",
+        "src/components/chat/chatPredicates.test.ts",
+        "src/components/chat/useChatController.test.tsx",
+        "src/components/shell/AsideResizeHandle.test.tsx",
+        "src/components/shell/Navbar.test.tsx",
+        "src/components/shell/Shell.test.tsx",
+        "src/components/shell/shellState.test.ts",
+        "src/components/table-minimal/Table.test.tsx",
+        "src/csrfFetch.test.ts",
+        "src/pages/plan/PlanPage.test.tsx",
+        "src/pages/settings/SettingsPage.test.tsx",
+        "src/pages/spend/SpendPage.test.tsx",
+        "src/pages/spend/components/spend-table/SpendTable.test.tsx",
+        "src/pages/spend/mappers.test.ts",
+        "src/test/index.ts",
+        "src/test/random.ts",
+        "src/test/render.tsx",
+        "src/test/setup.ts",
+        "src/test/statsig.ts",
+    ],
+    deps = [
+        ":src",
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@mantine/modals",
+        "//:node_modules/@statsig/react-bindings",
+        "//:node_modules/@testing-library/jest-dom",
+        "//:node_modules/@testing-library/react",
+        "//:node_modules/@testing-library/user-event",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//:node_modules/react-router-dom",
+        "//:node_modules/vitest",
+        "//projects/mops/app/src/__generated__:graphql_codegen_ts",
+    ],
+)

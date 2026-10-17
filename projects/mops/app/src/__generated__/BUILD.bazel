@@ -7,5 +7,5 @@ graphql_codegen(
         "//projects/mops/app:gql",
         "//projects/mops/service/src/main/resources/schema",
     ],
-    visibility = ["//projects/mops/app:__subpackages__"],
+    visibility = ["//projects/mops/app:__pkg__"],
 )

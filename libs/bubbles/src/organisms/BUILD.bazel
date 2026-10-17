@@ -1,8 +1,0 @@
-load("//tools/bazel:ts.bzl", "ts_project")
-
-ts_project(
-    name = "organisms",
-    srcs = ["index.ts"],
-    visibility = ["//libs/bubbles:__subpackages__"],
-    deps = ["//libs/bubbles/src/organisms/shell"],
-)
