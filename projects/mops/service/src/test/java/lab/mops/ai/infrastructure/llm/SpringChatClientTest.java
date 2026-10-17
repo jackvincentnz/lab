@@ -1,5 +1,6 @@
 package lab.mops.ai.infrastructure.llm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,9 +31,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.annotation.Tool;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
+import org.springframework.core.io.ByteArrayResource;
 
 @ExtendWith(MockitoExtension.class)
 class SpringChatClientTest extends TestBase {
@@ -49,7 +48,7 @@ class SpringChatClientTest extends TestBase {
   void setup() {
     springChatClient =
         new SpringChatClient(
-            chatModel, new TestTools(), messageMapper, approvalPolicy, systemPrompt());
+            chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties());
   }
 
   @Test
@@ -104,7 +103,7 @@ class SpringChatClientTest extends TestBase {
         .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
     springChatClient =
         new SpringChatClient(
-            chatModel, new TestTools(), messageMapper, approvalPolicy, systemPrompt());
+            chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties());
 
     var chatResponse =
         ChatResponse.builder()
@@ -128,7 +127,16 @@ class SpringChatClientTest extends TestBase {
   }
 
   @Test
-  void getResponse_prependsTheSystemPromptFromTheClasspath() {
+  void getResponse_sendsTheConfiguredSystemPromptFirst() {
+    var systemPromptText = randomString();
+    springChatClient =
+        new SpringChatClient(
+            chatModel,
+            new TestTools(),
+            messageMapper,
+            approvalPolicy,
+            new AiProperties(new ByteArrayResource(systemPromptText.getBytes(UTF_8))));
+
     var chatResponse =
         ChatResponse.builder()
             .generations(List.of(new Generation(new AssistantMessage(randomString()))))
@@ -146,23 +154,7 @@ class SpringChatClientTest extends TestBase {
     var systemMessage = promptCaptor.getValue().getInstructions().get(0);
 
     assertThat(systemMessage).isInstanceOf(SystemMessage.class);
-    assertThat(systemMessage.getText())
-        .startsWith("You are a skilled expert in planning and budgeting for marketing campaigns.\n")
-        .contains("type QuarterlyTotal {\n  quarter: Quarter!\n  fiscalYear: Int!\n")
-        .contains("4. **Call the tools.**")
-        .endsWith("6. **Ask the user if they need anything else.**\n");
-  }
-
-  @Test
-  void constructor_missingSystemPrompt_failsFast() {
-    var missing = new ClassPathResource(randomString());
-
-    assertThatThrownBy(
-            () ->
-                new SpringChatClient(
-                    chatModel, new TestTools(), messageMapper, approvalPolicy, missing))
-        .isInstanceOf(IllegalStateException.class)
-        .hasMessageStartingWith("System prompt resource not found: ");
+    assertThat(systemMessage.getText()).isEqualTo(systemPromptText);
   }
 
   @Test
@@ -180,8 +172,8 @@ class SpringChatClientTest extends TestBase {
             });
   }
 
-  private static Resource systemPrompt() {
-    return new DefaultResourceLoader().getResource(SpringChatClient.SYSTEM_PROMPT_LOCATION);
+  private AiProperties aiProperties() {
+    return new AiProperties(new ByteArrayResource(randomString().getBytes(UTF_8)));
   }
 
   static class TestTools implements BudgetTools {

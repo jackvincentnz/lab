@@ -1,8 +1,5 @@
 package lab.mops.ai.infrastructure.llm;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -23,14 +20,10 @@ import org.springframework.ai.support.ToolCallbacks;
 import org.springframework.ai.tool.ToolCallback;
 import org.springframework.ai.tool.definition.ToolDefinition;
 import org.springframework.ai.tool.metadata.ToolMetadata;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
 class SpringChatClient implements CompletionService, ToolProvider {
-
-  static final String SYSTEM_PROMPT_LOCATION = "classpath:prompts/system.txt";
 
   private final ChatModel chatModel;
 
@@ -49,29 +42,13 @@ class SpringChatClient implements CompletionService, ToolProvider {
       BudgetTools budgetTools,
       SpringMessageMapper messageMapper,
       ToolApprovalPolicy approvalPolicy,
-      @Value(SYSTEM_PROMPT_LOCATION) Resource systemPrompt) {
+      AiProperties aiProperties) {
     this.chatModel = chatModel;
-    this.systemPrompt = readSystemPrompt(systemPrompt);
+    this.systemPrompt = aiProperties.systemPromptText();
     this.budgetTools = budgetTools;
     this.chatOptions = buildChatOptions(chatModel, budgetTools);
     this.messageMapper = messageMapper;
     this.approvalPolicy = approvalPolicy;
-  }
-
-  /**
-   * Reads the prompt once at construction so a packaging mistake stops startup instead of failing
-   * the first chat request.
-   */
-  private static String readSystemPrompt(Resource resource) {
-    if (!resource.exists()) {
-      throw new IllegalStateException("System prompt resource not found: " + resource);
-    }
-
-    try {
-      return resource.getContentAsString(StandardCharsets.UTF_8);
-    } catch (IOException e) {
-      throw new UncheckedIOException("Failed to read system prompt resource: " + resource, e);
-    }
   }
 
   /**
