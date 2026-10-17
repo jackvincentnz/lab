@@ -40,7 +40,9 @@ The token's claims are described in the [Edge gateway ADR](../../docs/adr/gatewa
 The `local` profile sets `mops.identity.development.enabled=true`, so a request that carries no
 token is handled as a fixed development identity. The direct targets above, the e2e image, and
 the eval runner's service all activate that profile through `SPRING_PROFILES_ACTIVE=local`; the
-delivered image ships with no profile and rejects unidentified requests.
+delivered image ships with no profile and rejects unidentified requests. The
+[gateway stack](../gateway/README.md#getting-started) keeps the profile but turns the development
+identity off, because every request it forwards carries a token.
 
 ## Tests
 
@@ -63,7 +65,9 @@ bazel test //projects/mops/e2e
 - Service base URL: `http://localhost:8080`
 - MCP streamable HTTP endpoint: `/sse`
 - GraphQL HTTP + WS: `/graphql`
-- App dev server (Vite default): `http://localhost:5173` (proxies `/api` and `/ws` to the service)
+- App dev server: `http://localhost:5173` (proxies `/api` and `/ws` to the service)
+
+Set `MOPS_PORT`, `MOPS_APP_PORT` or `GATEWAY_PORT` to move the service, the app, or the JWKS lookup off these ports; the app proxy and the eval runner follow `MOPS_PORT`.
 
 ## Project map
 
@@ -71,7 +75,7 @@ bazel test //projects/mops/e2e
 - `projects/mops/service/src/main/resources/schema/schema.graphqls`: GraphQL schema.
 - `projects/mops/service/bruno_collection`: Bruno API request collection.
 - `projects/mops/app/src`: React app sources.
-- `projects/mops/eval`: evaluation runner and question sets (hits the service at `localhost:8080`).
+- `projects/mops/eval`: evaluation runner and question sets (hits the service at `localhost:${MOPS_PORT:-8080}`).
 
 ## Related docs
 

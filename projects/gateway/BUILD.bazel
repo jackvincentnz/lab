@@ -1,4 +1,29 @@
+load("@rules_multirun//:defs.bzl", "command", "multirun")
+
+exports_files(
+    ["compose.yaml"],
+    visibility = ["//projects/gateway/src/main:__pkg__"],
+)
+
 alias(
     name = "gateway",
     actual = "//projects/gateway/src/main",
+)
+
+command(
+    name = "mops",
+    command = "//projects/mops",
+    # Every request reaches Mops through the gateway with a signed identity token, so a request
+    # without one is misrouted and must fail instead of being served as the development identity.
+    environment = {"MOPS_IDENTITY_DEVELOPMENT_ENABLED": "false"},
+)
+
+# Runs the gateway, which starts Redis from compose.yaml, together with the Mops service and app.
+multirun(
+    name = "start",
+    commands = [
+        ":gateway",
+        ":mops",
+    ],
+    jobs = 0,
 )

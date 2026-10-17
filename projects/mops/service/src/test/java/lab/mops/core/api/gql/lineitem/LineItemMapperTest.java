@@ -10,6 +10,7 @@ import lab.mops.api.gql.types.Month;
 import lab.mops.api.gql.types.MonthlyTotal;
 import lab.mops.api.gql.types.Quarter;
 import lab.mops.api.gql.types.QuarterlyTotal;
+import lab.mops.core.application.budget.BudgetProperties;
 import lab.mops.core.domain.budget.Budget;
 import lab.mops.core.domain.budget.LineItem;
 import lab.mops.core.domain.budget.Spend;
@@ -19,7 +20,7 @@ import org.junit.jupiter.api.Test;
 
 class LineItemMapperTest extends TestBase {
 
-  LineItemMapper lineItemMapper = new LineItemMapper();
+  LineItemMapper lineItemMapper = new LineItemMapper(new BudgetProperties(java.time.Month.JANUARY));
 
   @Test
   void map_mapsLineItem_id() {

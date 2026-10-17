@@ -6,6 +6,7 @@ java_test_suite(
         "BudgetIdTest.java",
         "BudgetTest.java",
         "CategorizationTest.java",
+        "FixedStartMonthTest.java",
         "LineItemIdTest.java",
         "LineItemTest.java",
         "SpendTest.java",

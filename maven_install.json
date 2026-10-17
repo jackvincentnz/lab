@@ -44,6 +44,7 @@
     "org.springframework.ai:spring-ai-starter-model-ollama": 1768708354,
     "org.springframework.ai:spring-ai-starter-model-openai": -867978546,
     "org.springframework.boot:spring-boot-dependencies": 98615043,
+    "org.springframework.boot:spring-boot-docker-compose": 772418187,
     "org.springframework.boot:spring-boot-loader": 1745496505,
     "org.springframework.boot:spring-boot-starter-actuator": -1082017891,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 39840922,
@@ -637,6 +638,8 @@
     "org.springframework.boot:spring-boot-data-jdbc:jar:sources": -1426645420,
     "org.springframework.boot:spring-boot-data-redis": 1742450287,
     "org.springframework.boot:spring-boot-data-redis:jar:sources": -1506969287,
+    "org.springframework.boot:spring-boot-docker-compose": 1968629906,
+    "org.springframework.boot:spring-boot-docker-compose:jar:sources": 392268912,
     "org.springframework.boot:spring-boot-flyway": 1122814817,
     "org.springframework.boot:spring-boot-flyway:jar:sources": -1430554758,
     "org.springframework.boot:spring-boot-graphql": -155780470,
@@ -884,6 +887,7 @@
     "org.springframework.ai:spring-ai-starter-model-google-genai": "org.springframework.ai:spring-ai-starter-model-google-genai:2.0.1",
     "org.springframework.ai:spring-ai-starter-model-ollama": "org.springframework.ai:spring-ai-starter-model-ollama:2.0.1",
     "org.springframework.ai:spring-ai-starter-model-openai": "org.springframework.ai:spring-ai-starter-model-openai:2.0.1",
+    "org.springframework.boot:spring-boot-docker-compose": "org.springframework.boot:spring-boot-docker-compose:4.1.1",
     "org.springframework.boot:spring-boot-loader": "org.springframework.boot:spring-boot-loader:4.1.1",
     "org.springframework.boot:spring-boot-starter-actuator": "org.springframework.boot:spring-boot-starter-actuator:4.1.1",
     "org.springframework.boot:spring-boot-starter-data-jdbc": "org.springframework.boot:spring-boot-starter-data-jdbc:4.1.1",
@@ -2895,6 +2899,13 @@
       },
       "version": "4.1.1"
     },
+    "org.springframework.boot:spring-boot-docker-compose": {
+      "shasums": {
+        "jar": "23e26aa285338ba381db45e7da9bf5d94bc6cd91e8dad627ae67b3fc793b8a23",
+        "sources": "03ca9e03cf773df00f84adb67b3f9333776efd94245ce1c6f6d139eb3e6d1c29"
+      },
+      "version": "4.1.1"
+    },
     "org.springframework.boot:spring-boot-flyway": {
       "shasums": {
         "jar": "61db32d08f2b1b04cf006e916575da22ecee0a2e0bb0604aca26c04f7bd4aa0e",
@@ -4863,6 +4874,10 @@
       "org.springframework.boot:spring-boot-netty",
       "org.springframework.boot:spring-boot-transaction",
       "org.springframework.data:spring-data-redis"
+    ],
+    "org.springframework.boot:spring-boot-docker-compose": [
+      "org.springframework.boot:spring-boot-autoconfigure",
+      "tools.jackson.core:jackson-databind"
     ],
     "org.springframework.boot:spring-boot-flyway": [
       "org.flywaydb:flyway-core",
@@ -9205,6 +9220,11 @@
       "org.springframework.boot.data.redis.health",
       "org.springframework.boot.data.redis.testcontainers"
     ],
+    "org.springframework.boot:spring-boot-docker-compose": [
+      "org.springframework.boot.docker.compose.core",
+      "org.springframework.boot.docker.compose.lifecycle",
+      "org.springframework.boot.docker.compose.service.connection"
+    ],
     "org.springframework.boot:spring-boot-flyway": [
       "org.springframework.boot.flyway",
       "org.springframework.boot.flyway.actuate.endpoint",
@@ -11560,6 +11580,8 @@
       "org.springframework.boot:spring-boot-data-jdbc:jar:sources",
       "org.springframework.boot:spring-boot-data-redis",
       "org.springframework.boot:spring-boot-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-docker-compose",
+      "org.springframework.boot:spring-boot-docker-compose:jar:sources",
       "org.springframework.boot:spring-boot-flyway",
       "org.springframework.boot:spring-boot-flyway:jar:sources",
       "org.springframework.boot:spring-boot-graphql",
@@ -12346,6 +12368,8 @@
       "org.springframework.boot:spring-boot-data-jdbc:jar:sources",
       "org.springframework.boot:spring-boot-data-redis",
       "org.springframework.boot:spring-boot-data-redis:jar:sources",
+      "org.springframework.boot:spring-boot-docker-compose",
+      "org.springframework.boot:spring-boot-docker-compose:jar:sources",
       "org.springframework.boot:spring-boot-flyway",
       "org.springframework.boot:spring-boot-flyway:jar:sources",
       "org.springframework.boot:spring-boot-graphql",

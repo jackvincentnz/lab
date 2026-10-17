@@ -21,7 +21,8 @@ Run these commands from the repository root:
 | Preview the production bundle.          | `bazel run //projects/organizer/tasklist:preview`     |
 
 The dev server listens at `http://localhost:3000/task/` and proxies `/graphql`
-to `http://localhost:4000`. Use `ibazel` during development so source changes are
+to `http://localhost:4000`. Set `ORGANIZER_TASKLIST_PORT` and `ORGANIZER_ROUTER_PORT` to
+change these ports. Use `ibazel` during development so source changes are
 recompiled before Vite or Vitest reloads them.
 
 From this directory, `pnpm dev`, `pnpm build`, and `pnpm test` run the development,

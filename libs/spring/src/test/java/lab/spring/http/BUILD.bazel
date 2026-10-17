@@ -2,7 +2,10 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "http",
-    srcs = ["BufferedResponseReaderTest.java"],
+    srcs = [
+        "BufferedResponseReaderTest.java",
+        "LoggingHttpRequestInterceptorTest.java",
+    ],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -11,9 +14,12 @@ java_test_suite(
     ],
     deps = [
         "//libs/spring/src/main/java/lab/spring/http",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "@maven//:ch_qos_logback_logback_classic",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
+        "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_spring_web",
     ],
 )

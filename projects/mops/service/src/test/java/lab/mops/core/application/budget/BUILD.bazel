@@ -4,6 +4,7 @@ java_test_suite(
     name = "budget",
     srcs = [
         "BudgetCommandServiceTest.java",
+        "BudgetPropertiesTest.java",
         "BudgetQueryServiceTest.java",
         "ResolvedBudgetQueryServiceTest.java",
     ],
@@ -22,5 +23,6 @@ java_test_suite(
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_mockito_mockito_core",
         "@maven//:org_mockito_mockito_junit_jupiter",
+        "@maven//:org_springframework_boot_spring_boot",
     ],
 )

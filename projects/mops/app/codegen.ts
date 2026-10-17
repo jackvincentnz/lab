@@ -1,25 +1,6 @@
-import type { CodegenConfig } from "@graphql-codegen/cli";
+import { clientCodegenConfig } from "../../../tools/bazel/graphql/codegen.ts";
 
-const config: CodegenConfig = {
+export default clientCodegenConfig({
   schema: "../service/src/main/resources/schema/schema.graphqls",
-  documents: ["./src/**/*.gql"],
-  generates: {
-    "./src/__generated__/": {
-      preset: "client",
-      plugins: [],
-      presetConfig: {
-        gqlTagName: "gql",
-      },
-      config: {
-        useTypeImports: true,
-        scalars: {
-          Date: "string",
-          BigDecimal: "number",
-        },
-      },
-    },
-  },
-  ignoreNoDocuments: true,
-};
-
-export default config;
+  scalars: { Date: "string", BigDecimal: "number" },
+});

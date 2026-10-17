@@ -1,6 +1,7 @@
 package lab.mops.core.application.budget;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import lab.mops.core.application.budget.data.ResolvedBudget;
@@ -26,30 +27,51 @@ public class ResolvedBudgetQueryService {
 
   private final CategoryRepository categoryRepository;
 
+  private final BudgetProperties budgetProperties;
+
   public ResolvedBudgetQueryService(
       BudgetRepository budgetRepository,
       LineItemRepository lineItemRepository,
-      CategoryRepository categoryRepository) {
+      CategoryRepository categoryRepository,
+      BudgetProperties budgetProperties) {
     this.budgetRepository = budgetRepository;
     this.lineItemRepository = lineItemRepository;
     this.categoryRepository = categoryRepository;
+    this.budgetProperties = budgetProperties;
   }
 
   public Collection<ResolvedBudget> resolveBudgets() {
-    return budgetRepository.findAll().stream().map(this::resolveBudget).toList();
-  }
+    var budgets = budgetRepository.findAll();
+    if (budgets.isEmpty()) {
+      return List.of();
+    }
 
-  private ResolvedBudget resolveBudget(Budget budget) {
-    var lineItems = lineItemRepository.findByBudgetId(budget.getId());
+    var budgetIds = budgets.stream().map(Budget::getId).toList();
+    var lineItemsByBudgetId =
+        lineItemRepository.findByBudgetIdIn(budgetIds).stream()
+            .collect(Collectors.groupingBy(LineItem::getBudgetId));
 
     var lineItemCategories =
-        lineItems.stream()
+        lineItemsByBudgetId.values().stream()
+            .flatMap(Collection::stream)
             .flatMap(l -> l.getCategorizations().stream())
             .map(Categorization::getCategoryId)
             .collect(Collectors.toSet());
 
     var categoriesById = categoryRepository.mapById(lineItemCategories);
 
+    return budgets.stream()
+        .map(
+            budget ->
+                resolveBudget(
+                    budget,
+                    lineItemsByBudgetId.getOrDefault(budget.getId(), List.of()),
+                    categoriesById))
+        .toList();
+  }
+
+  private ResolvedBudget resolveBudget(
+      Budget budget, List<LineItem> lineItems, Map<CategoryId, Category> categoriesById) {
     var resolvedLineItems =
         lineItems.stream().map(lineItem -> resolveLineItem(lineItem, categoriesById)).toList();
 
@@ -74,7 +96,7 @@ public class ResolvedBudgetQueryService {
         lineItem.getName(),
         resolvedCategorizations,
         resolvedSpending,
-        lineItem.getSpendTotals());
+        lineItem.getSpendTotals(budgetProperties.fiscalCalendar()));
   }
 
   private boolean categoryAndValueExist(

@@ -53,7 +53,7 @@ class DevelopmentIdentityTest {
   }
 
   /**
-   * The vertical could not evaluate the token, so the caller is not told it was rejected: the
+   * The service could not evaluate the token, so the caller is not told it was rejected: the
    * request fails as a server error, which the servlet container reports as 500.
    */
   @Test

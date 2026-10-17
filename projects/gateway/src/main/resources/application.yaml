@@ -1,4 +1,4 @@
-server.port: 3006
+server.port: ${GATEWAY_PORT:3006}
 server.reactive.session.cookie.secure: true
 server.reactive.session.cookie.same-site: lax
 spring:
@@ -14,6 +14,8 @@ spring:
           default-filters:
             # Browser credentials end at the gateway, after session authentication.
             - RemoveRequestHeader=Cookie
+            # Downstream services trust only the token the gateway mints, never one the client sent.
+            - RemoveRequestHeader=Authorization
           routes:
             # Routes match in order, so the API route sits above the app catch-all.
             - id: mops-api
@@ -22,10 +24,16 @@ spring:
                 - Path=/api/**
               filters:
                 - RewritePath=/api/?(?<path>.*), /$\{path}
+                - IdentityToken=mops
             - id: mops-app
               uri: ${lab.gateway.mops.app-uri}
               predicates:
                 - Path=/**
+logging:
+  structured:
+    format:
+      # One JSON object per line with key-value pairs as flat top-level fields.
+      console: logstash
 management:
   endpoints:
     web:

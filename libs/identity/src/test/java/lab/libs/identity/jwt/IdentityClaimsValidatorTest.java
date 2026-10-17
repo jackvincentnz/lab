@@ -30,7 +30,7 @@ class IdentityClaimsValidatorTest {
   }
 
   @Test
-  void validate_fails_whenAudienceIsAnotherVertical() {
+  void validate_fails_whenAudienceIsAnotherService() {
     var result = validator.validate(contractToken(claims -> claims.audience(List.of("organizer"))));
 
     assertFailure(result, "aud");

@@ -1,0 +1,18 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "gql",
+    srcs = ["GraphqlExceptionAdvice.java"],
+    visibility = [
+        "//projects/organizer/task/src/main/java/lab/task/adapter:__pkg__",
+        "//projects/organizer/task/src/test/java/lab/task/adapter/api/gql:__pkg__",
+    ],
+    exports = ["@maven//:com_graphql_java_graphql_java"],
+    deps = [
+        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
+        "@maven//:com_graphql_java_graphql_java",
+        "@maven//:com_netflix_graphql_dgs_graphql_error_types",
+        "@maven//:org_springframework_graphql_spring_graphql",
+        "@maven//:org_springframework_spring_web",
+    ],
+)

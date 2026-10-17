@@ -25,12 +25,8 @@ public class CategoryDataLoader implements MappedBatchLoader<CategoryId, Categor
 
   @Override
   public CompletionStage<Map<CategoryId, Category>> load(Set<CategoryId> ids) {
-    // TODO: Ensure we get a security context in the categoryQueryService by using
-    //  DelegatingSecurityContextExecutor:
-    //  https://www.baeldung.com/spring-security-async-principal-propagation
-    //  See also:
-    //  https://docs.spring.io/spring-security/reference/features/integrations/concurrency.html
-
+    // The batch runs on the common pool without the request's SecurityContextHolder,
+    // IdentityHolder or TenantContextHolder, so nothing it calls may read them.
     return CompletableFuture.supplyAsync(() -> categoryQueryService.mapById(ids));
   }
 }

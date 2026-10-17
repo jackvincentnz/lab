@@ -52,6 +52,8 @@ Project-specific setup and commands live in each project README (for example,
 `projects/organizer/README.md`).
 
 See [Contributing](CONTRIBUTING.md) for commit hooks, validation, and the PR workflow.
+See the [developer experience](docs/development-workflow.md) for how the monorepo
+supports humans and agents from setup through feedback and image delivery.
 
 ## Tooling
 

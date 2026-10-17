@@ -8,7 +8,7 @@ import java.net.InetSocketAddress;
 import java.nio.charset.StandardCharsets;
 
 /**
- * Serves a JWK set over HTTP the way an issuer does, so a vertical under test can fetch it.
+ * Serves a JWK set over HTTP the way an issuer does, so a service under test can fetch it.
  *
  * <p>Bound to the IPv6 loopback because the Bazel sandbox admits loopback traffic by address and
  * treats a dual-stack socket's mapped IPv4 loopback as foreign.

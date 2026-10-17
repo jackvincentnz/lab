@@ -85,6 +85,7 @@ maven.install(
         "org.springframework.ai:spring-ai-starter-model-google-genai",
         "org.springframework.ai:spring-ai-starter-model-ollama",
         "org.springframework.ai:spring-ai-starter-model-openai",
+        "org.springframework.boot:spring-boot-docker-compose",
         "org.springframework.boot:spring-boot-loader",
         "org.springframework.boot:spring-boot-starter-actuator",
         "org.springframework.boot:spring-boot-starter-data-jdbc",

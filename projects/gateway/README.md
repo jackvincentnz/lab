@@ -1,44 +1,63 @@
 # Gateway
 
-Edge gateway for the lab verticals, built on Spring Boot and Spring Cloud Gateway. It is the
+Edge gateway for the lab services, built on Spring Boot and Spring Cloud Gateway. It is the
 only public entry point and owns authentication, sessions, and the identity contract handed to
-verticals. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
+downstream services. See the [Edge gateway ADR](../../docs/adr/gateway.md) for the design.
 
-The service routes one public host to Mops and exposes a public health endpoint.
+The service routes one public host to Mops, forwards each API request with a signed identity
+token, and exposes public health and JWK set endpoints.
 
 ## Getting started
 
-Start Redis, run the service, and log in as `admin` with password `admin`:
+Start the gateway, Redis, and the Mops service and app, then open `http://localhost:3006` and
+log in as `admin` with password `admin`:
 
 ```zsh
-docker compose -f projects/gateway/compose.yaml up -d
+bazel run //projects/gateway:start
+```
+
+Run the gateway and Redis on their own:
+
+```zsh
 bazel run //projects/gateway
 ```
 
-The Bazel run target activates the `local` profile, which supplies the `admin` user.
+Both targets need a running Docker engine, activate the `local` profile, which supplies the
+`admin` user, and start Redis from `compose.yaml`. Ctrl-C stops everything they started. See
+[Local stack](docs/local-stack.md) for what runs and how it is wired, and the
+[Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
-Run Mops through the gateway by starting the Mops service and app alongside it, then open
-`http://localhost:3006`:
-
-```zsh
-bazel run //projects/mops
-bazel run //projects/gateway
-```
+The gateway listens on port 3006 and Redis publishes on host port 6379 unless `GATEWAY_PORT` and
+`GATEWAY_REDIS_PORT` set others, so stacks in several worktrees can run at once. Mops reads
+`GATEWAY_PORT` too, to find the gateway's keys.
 
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
 
 ## Routes
 
-| Public path        | Downstream                                   | Notes                      |
-| ------------------ | -------------------------------------------- | -------------------------- |
-| `/actuator/health` | Gateway                                      | Public.                    |
-| `/api/csrf`        | Gateway                                      | Session CSRF token.        |
-| `/api/**`          | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. |
-| `/**`              | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.  |
+| Public path              | Downstream                                   | Notes                                            |
+| ------------------------ | -------------------------------------------- | ------------------------------------------------ |
+| `/actuator/health`       | Gateway                                      | Public.                                          |
+| `/.well-known/jwks.json` | Gateway                                      | Public. Keys that verify identity tokens.        |
+| `/api/csrf`              | Gateway                                      | Session CSRF token.                              |
+| `/api/**`                | Mops service, `lab.gateway.mops.service-uri` | `/api` prefix is stripped. Identity token added. |
+| `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.                        |
+
+Every response carries a gateway-minted `X-Request-ID`, which is also forwarded downstream. See
+[Access logging](docs/access-logging.md) for the record written per request.
 
 GraphQL subscriptions over WebSocket are not proxied. Session-based API callers send the token
 from `/api/csrf` as `X-CSRF-TOKEN` on unsafe requests; the Mops app does this itself.
+
+## Signing key
+
+The `local` profile generates the token signing key at startup. Anywhere else, supply a PKCS#8
+PEM RSA private key through the environment, see [Signing key](docs/signing-key.md):
+
+```zsh
+LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //projects/gateway
+```
 
 ## Tests
 
@@ -50,7 +69,7 @@ bazel test //projects/gateway/...
 
 ## Local endpoints
 
-- Service base URL: `http://localhost:3006`
+- Service base URL: `http://localhost:3006`, or the port in `GATEWAY_PORT`
 - Health: `/actuator/health`
 
 ## Project map
