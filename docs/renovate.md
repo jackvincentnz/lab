@@ -25,6 +25,8 @@ The existing custom managers cover:
 - Docker image references embedded in project files.
 - `rules_jvm_external` Maven BOMs declared in `MODULE.bazel`.
 - GitHub release assets used by multitool and the OpenTelemetry Java agent.
+- The `rules_playwright` browser version in `MODULE.bazel`, tracked as
+  `@playwright/test` so that it updates in the same PR as the npm package.
 
 ## References
 
