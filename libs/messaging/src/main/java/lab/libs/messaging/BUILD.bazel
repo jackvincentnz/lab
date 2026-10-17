@@ -1,0 +1,8 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "messaging",
+    srcs = ["CloudEventHeaders.java"],
+    visibility = ["//:__subpackages__"],
+    deps = ["@maven//:org_apache_kafka_kafka_clients"],
+)
