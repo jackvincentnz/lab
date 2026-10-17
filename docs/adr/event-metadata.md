@@ -93,7 +93,8 @@ contract with no schema, so `libs/messaging` holds them for both sides.
   value.
 - A consumer cannot read Schema Registry framing: add `event-type`, or evaluate an envelope.
 - A producer gains an outbox or event store: mint `event-id` there so a republish keeps it.
-- A party outside this repository consumes the events: adopt CloudEvents for that contract.
+- A party outside this repository consumes the events: publish them through a separate public
+  contract, using CloudEvents, and leave the internal headers as they are.
 
 ## References
 
