@@ -19,3 +19,5 @@ to Accepted in both when it is adopted.
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
+- [Event metadata](event-metadata.md) carries broker event metadata as Kafka record headers, not
+  on the domain event.
