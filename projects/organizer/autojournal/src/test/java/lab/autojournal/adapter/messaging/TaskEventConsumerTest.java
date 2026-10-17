@@ -6,6 +6,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import com.google.protobuf.StringValue;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 import lab.autojournal.application.TaskEventHandler;
 import lab.task.api.TaskAddedEvent;
@@ -29,7 +30,7 @@ class TaskEventConsumerTest extends TestBase {
   void on_handlesTaskCompletedEvents() {
     var taskCompletedEvent = TaskCompletedEvent.getDefaultInstance();
 
-    taskEventConsumer.on(taskCompletedEvent);
+    taskEventConsumer.on(taskCompletedEvent, null);
 
     verify(taskEventHandler).handle(any(lab.autojournal.application.TaskCompletedEvent.class));
   }
@@ -41,36 +42,44 @@ class TaskEventConsumerTest extends TestBase {
     var mappedCaptor =
         ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
 
-    taskEventConsumer.on(taskCompletedEvent);
+    taskEventConsumer.on(taskCompletedEvent, null);
 
     verify(taskEventHandler).handle(mappedCaptor.capture());
     assertThat(mappedCaptor.getValue().taskId()).isEqualTo(taskId);
   }
 
   @Test
-  void on_taskCompletedWithEventId_mapsEventId() {
+  void on_eventIdHeader_mapsEventId() {
     var eventId = UUID.randomUUID();
-    var taskCompletedEvent =
-        TaskCompletedEvent.newBuilder()
-            .setTaskId(randomId())
-            .setEventId(eventId.toString())
-            .build();
+    var taskCompletedEvent = TaskCompletedEvent.newBuilder().setTaskId(randomId()).build();
     var mappedCaptor =
         ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
 
-    taskEventConsumer.on(taskCompletedEvent);
+    taskEventConsumer.on(taskCompletedEvent, bytes(eventId.toString()));
 
     verify(taskEventHandler).handle(mappedCaptor.capture());
     assertThat(mappedCaptor.getValue().eventId()).contains(eventId);
   }
 
   @Test
-  void on_taskCompletedWithoutEventId_mapsEmptyEventId() {
+  void on_noEventIdHeader_mapsEmptyEventId() {
     var taskCompletedEvent = TaskCompletedEvent.newBuilder().setTaskId(randomId()).build();
     var mappedCaptor =
         ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
 
-    taskEventConsumer.on(taskCompletedEvent);
+    taskEventConsumer.on(taskCompletedEvent, null);
+
+    verify(taskEventHandler).handle(mappedCaptor.capture());
+    assertThat(mappedCaptor.getValue().eventId()).isEmpty();
+  }
+
+  @Test
+  void on_malformedEventIdHeader_mapsEmptyEventId() {
+    var taskCompletedEvent = TaskCompletedEvent.newBuilder().setTaskId(randomId()).build();
+    var mappedCaptor =
+        ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
+
+    taskEventConsumer.on(taskCompletedEvent, bytes(randomString()));
 
     verify(taskEventHandler).handle(mappedCaptor.capture());
     assertThat(mappedCaptor.getValue().eventId()).isEmpty();
@@ -88,5 +97,9 @@ class TaskEventConsumerTest extends TestBase {
     var unknown = StringValue.getDefaultInstance();
 
     assertThrows(RuntimeException.class, () -> taskEventConsumer.on(unknown));
+  }
+
+  private static byte[] bytes(String value) {
+    return value.getBytes(StandardCharsets.UTF_8);
   }
 }

@@ -2,15 +2,15 @@ package lab.autojournal.adapter.messaging;
 
 import com.google.protobuf.Message;
 import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
 import lab.autojournal.application.TaskEventHandler;
+import lab.libs.messaging.CloudEventHeaders;
 import lab.task.api.TaskAddedEvent;
 import lab.task.api.TaskCompletedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.annotation.KafkaHandler;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,18 +29,14 @@ public class TaskEventConsumer {
   }
 
   @KafkaHandler
-  public void on(TaskCompletedEvent taskCompletedEvent) {
+  public void on(
+      TaskCompletedEvent taskCompletedEvent,
+      @Header(name = CloudEventHeaders.ID, required = false) byte[] eventId) {
     LOGGER.info(String.format("Handling [%s]", taskCompletedEvent.getClass().getName()));
 
     taskEventHandler.handle(
         new lab.autojournal.application.TaskCompletedEvent(
-            taskCompletedEvent.getTaskId(), eventId(taskCompletedEvent.getEventId())));
-  }
-
-  // Proto3 reads an absent string as empty, which is what messages published before events
-  // carried an id contain.
-  private static Optional<UUID> eventId(String eventId) {
-    return eventId.isEmpty() ? Optional.empty() : Optional.of(UUID.fromString(eventId));
+            taskCompletedEvent.getTaskId(), CloudEventHeaders.parseId(eventId)));
   }
 
   @KafkaHandler(isDefault = true)

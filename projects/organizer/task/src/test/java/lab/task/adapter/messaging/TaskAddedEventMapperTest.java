@@ -5,10 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.time.Instant;
 import lab.task.domain.TaskAddedEvent;
 import lab.task.domain.TaskId;
-import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
-class TaskAddedEventMapperTest extends TestBase {
+class TaskAddedEventMapperTest {
 
   TaskAddedEventMapper taskAddedEventMapper = new TaskAddedEventMapper();
 
@@ -40,14 +39,5 @@ class TaskAddedEventMapperTest extends TestBase {
     var result = taskAddedEventMapper.map(TaskAddedEvent.of(TaskId.create(), title, createdAt));
 
     assertThat(result.getCreatedAt()).isEqualTo(createdAt.toString());
-  }
-
-  @Test
-  void map_taskAdded_mapsEventId() {
-    var event = TaskAddedEvent.of(TaskId.create(), randomString(), Instant.now());
-
-    var result = taskAddedEventMapper.map(event);
-
-    assertThat(result.getEventId()).isEqualTo(event.getEventId().toString());
   }
 }

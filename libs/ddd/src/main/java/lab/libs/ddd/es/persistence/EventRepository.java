@@ -3,11 +3,8 @@ package lab.libs.ddd.es.persistence;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import java.nio.charset.StandardCharsets;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
@@ -25,8 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 @Repository
 public class EventRepository {
-  private static final String EVENT_ID_FIELD = "eventId";
-
   private final NamedParameterJdbcTemplate jdbcTemplate;
 
   private final ObjectMapper objectMapper =
@@ -118,8 +113,6 @@ public class EventRepository {
         """
         SELECT ID,
                TRANSACTION_ID::text,
-               STREAM_ID,
-               VERSION,
                EVENT_TYPE,
                JSON_DATA
           FROM ES_EVENT
@@ -136,32 +129,12 @@ public class EventRepository {
     try {
       String eventType = rs.getString("EVENT_TYPE");
       PGobject jsonObj = (PGobject) rs.getObject("JSON_DATA");
-      // A tree holds decimals as doubles by default, which drops the nanoseconds of an Instant.
-      var json =
-          (ObjectNode)
-              objectMapper
-                  .reader()
-                  .with(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
-                  .readTree(jsonObj.getValue());
-      if (!json.hasNonNull(EVENT_ID_FIELD)) {
-        var legacyEventId =
-            legacyEventId(rs.getObject("STREAM_ID", UUID.class), rs.getInt("VERSION"));
-        json.put(EVENT_ID_FIELD, legacyEventId.toString());
-      }
+      String json = jsonObj.getValue();
       Class<DomainEvent<InternalId>> clazz =
           (Class<DomainEvent<InternalId>>) Class.forName(eventType);
-      return objectMapper.treeToValue(json, clazz);
+      return objectMapper.readValue(json, clazz);
     } catch (SQLException | ClassNotFoundException | JsonProcessingException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  /*
-   * Events stored before events carried an id have none in their JSON. Their position in the
-   * stream is unique and never changes, so an id derived from it stays the same on every read,
-   * which a random id would not.
-   */
-  static UUID legacyEventId(UUID streamId, int version) {
-    return UUID.nameUUIDFromBytes((streamId + ":" + version).getBytes(StandardCharsets.UTF_8));
   }
 }

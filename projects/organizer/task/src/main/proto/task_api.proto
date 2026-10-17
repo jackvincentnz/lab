@@ -10,10 +10,8 @@ message TaskAddedEvent {
   string task_id = 1;
   string title = 2;
   string createdAt = 3;
-  string event_id = 4;
 }
 
 message TaskCompletedEvent {
   string task_id = 1;
-  string event_id = 2;
 }

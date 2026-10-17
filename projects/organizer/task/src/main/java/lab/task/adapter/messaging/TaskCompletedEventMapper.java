@@ -9,7 +9,6 @@ public class TaskCompletedEventMapper
   public TaskCompletedEvent map(lab.task.domain.TaskCompletedEvent taskCompletedEvent) {
     return TaskCompletedEvent.newBuilder()
         .setTaskId(taskCompletedEvent.getAggregateId().toString())
-        .setEventId(taskCompletedEvent.getEventId().toString())
         .build();
   }
 }
