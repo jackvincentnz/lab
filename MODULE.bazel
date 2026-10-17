@@ -80,6 +80,7 @@ maven.install(
         "org.apache.kafka:kafka-streams-test-utils",
         "org.apache.kafka:kafka_2.13",
         "org.eclipse.jetty:jetty-reactive-httpclient",
+        "org.flywaydb:flyway-database-postgresql",
         "org.springframework.boot:spring-boot-starter-flyway",
         "org.springframework.ai:spring-ai-starter-mcp-server-webmvc",
         "org.springframework.ai:spring-ai-starter-model-google-genai",
