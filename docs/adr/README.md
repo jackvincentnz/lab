@@ -16,6 +16,8 @@ to Accepted in both when it is adopted.
 
 ## Proposed
 
+- [Frontend BUILD automation](frontend-build-automation.md) keeps frontend dependencies
+  hand-written, because Gazelle's JS/TS extension cannot maintain `fe_app`.
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.

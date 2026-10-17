@@ -18,6 +18,7 @@
 - Architecture decision records
   - [Overview](docs/adr/README.md)
   - [Accepted: Java BUILD files](docs/adr/java-build-files.md)
+  - [Proposed: Frontend BUILD automation](docs/adr/frontend-build-automation.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
   - [Proposed: Gateway CSRF](docs/adr/gateway-csrf.md)
 - Projects
