@@ -6,7 +6,7 @@ import {
   render,
   screen,
   userEvent,
-} from "../../../../../tools/bazel/vitest/test-utils";
+} from "@lab/test-utils";
 import { NavbarLinks } from "./NavbarLinks";
 
 describe("NavbarLinks", () => {
