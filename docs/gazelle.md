@@ -4,8 +4,9 @@
 `exports` of Java BUILD targets from the source files and their imports. See the
 [Java BUILD files decision](adr/java-build-files.md) for why, and the
 [Bazel contribution guidelines](contributing/bazel.md#java-build-files) for what to write by hand.
-Frontend BUILD files are written by hand; see the
-[frontend BUILD automation decision](adr/frontend-build-automation.md).
+Frontend BUILD files are written by hand; the
+[frontend BUILD automation decision](adr/frontend-build-automation.md) proposes generating their
+TypeScript targets too.
 
 ## Running
 
