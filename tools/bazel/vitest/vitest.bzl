@@ -9,7 +9,7 @@ load("//tools/bazel:js.bzl", "js_run_devserver")
 def vitest_run(name, **kwargs):
     """Run cacheable Vitest tests in the calling package by default.
 
-    Prepends run to args and defaults the test size to small.
+    Prepends `run` to args and defaults the test size to small.
 
     Args:
         name: Target name.
@@ -27,7 +27,7 @@ def vitest_run(name, **kwargs):
 def vitest_watch(name, **kwargs):
     """Run Vitest in watch mode in the calling package by default.
 
-    Prepends watch to args; pass --ui in args to open the test UI.
+    Prepends `watch` to args; pass `--ui` in args to open the test UI.
 
     Args:
         name: Target name.

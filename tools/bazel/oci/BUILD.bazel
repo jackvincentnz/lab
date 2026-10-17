@@ -5,10 +5,7 @@ exports_files(["check_then_push.sh"])
 bzl_library(
     name = "defs",
     srcs = ["defs.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
     deps = [
         "@aspect_bazel_lib//lib:expand_template",
         "@bazel_skylib//rules:write_file",
@@ -17,10 +14,4 @@ bzl_library(
     ],
 )
 
-exports_files(
-    ["defs.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
-)
+exports_files(["defs.bzl"])

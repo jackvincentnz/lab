@@ -10,15 +10,15 @@ load("@bazel_skylib//lib:partial.bzl", "partial")
 def ts_project(name, **kwargs):
     """Compile TypeScript with the repository's shared configuration and SWC.
 
-    Defaults tsconfig to //:tsconfig_base, enables declarations, declaration
-    maps, source maps and JSON module resolution, and uses SWC with //:.swcrc.
+    Defaults `tsconfig` to `//:tsconfig_base`, enables declarations, declaration
+    maps, source maps and JSON module resolution, and uses SWC with `//:.swcrc`.
     Each default can be overridden. Coverage builds include the original
     sources in runtime data so Vitest can remap coverage.
 
     Args:
         name: Target name.
         **kwargs: Attributes passed to
-            [ts_project](https://github.com/aspect-build/rules_ts/blob/v3.10.1/ts/defs.bzl).
+            [ts_project](https://github.com/aspect-build/rules_ts/blob/main/ts/defs.bzl).
     """
 
     source_map = kwargs.pop("source_map", True)
@@ -50,12 +50,12 @@ def ts_project(name, **kwargs):
 def node_ts_project(name, **kwargs):
     """Compile Node TypeScript using ts_project's shared defaults.
 
-    Defaults to //:tsconfig_node and SWC with //:.swcrc.node, and adds Node type
+    Defaults to `//:tsconfig_node` and SWC with `//:.swcrc.node`, and adds Node type
     declarations to deps. Configuration and transpiler can be overridden.
 
     Args:
         name: Target name.
-        **kwargs: Attributes passed to ts_project.
+        **kwargs: Attributes passed to `ts_project`.
     """
     ts_project(
         name = name,
@@ -74,11 +74,11 @@ def node_ts_project(name, **kwargs):
     )
 
 def ts_config(name, **kwargs):
-    """Declare a [TypeScript configuration](https://github.com/aspect-build/rules_ts/blob/v3.10.1/ts/defs.bzl).
+    """Declare a [TypeScript configuration](https://github.com/aspect-build/rules_ts/blob/main/ts/defs.bzl).
 
     Args:
         name: Target name.
-        **kwargs: Attributes passed to the upstream ts_config rule.
+        **kwargs: Attributes passed to the upstream `ts_config` rule.
     """
     _ts_config(
         name = name,

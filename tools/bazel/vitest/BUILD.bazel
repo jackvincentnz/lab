@@ -46,20 +46,11 @@ js_library(
 bzl_library(
     name = "vitest",
     srcs = ["vitest.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
     deps = [
         "//tools/bazel:js",
         "@npm//:vitest_bzl_library",
     ],
 )
 
-exports_files(
-    ["vitest.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
-)
+exports_files(["vitest.bzl"])

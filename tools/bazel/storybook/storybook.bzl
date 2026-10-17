@@ -8,7 +8,7 @@ load("//tools/bazel:js.bzl", "js_run_binary", "js_run_devserver")
 def storybook_build(name, **kwargs):
     """Build Storybook in the calling package by default.
 
-    Emits storybook-static and sets CACHE_DIR to .cache.
+    Emits `storybook-static` and sets `CACHE_DIR` to `.cache`.
 
     Args:
         name: Target name.
@@ -31,7 +31,7 @@ def storybook_build(name, **kwargs):
 def storybook_dev_server(name, **kwargs):
     """Run Storybook on port 6006 in the calling package by default.
 
-    Sets CACHE_DIR to .cache.
+    Sets `CACHE_DIR` to `.cache`.
 
     Args:
         name: Target name.

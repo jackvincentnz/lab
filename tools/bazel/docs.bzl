@@ -1,60 +1,38 @@
 """# Documentation generation
 
-Generate formatted Starlark reference pages and check committed copies.
+Shared Stardoc and source-file update wrappers.
 """
 
-load("@aspect_bazel_lib//lib:write_source_files.bzl", "write_source_files")
-load("@stardoc//stardoc:stardoc.bzl", "stardoc")
-load("//tools/bazel:js.bzl", "js_run_binary")
+load("@aspect_bazel_lib//lib:write_source_files.bzl", _write_source_files = "write_source_files")
+load("@stardoc//stardoc:stardoc.bzl", _stardoc = "stardoc")
 
-def macro_docs(name, src, deps, symbol_names):
-    """Generate a Markdown page from Starlark docstrings and test its freshness.
+def stardoc(name, **kwargs):
+    """Generate Markdown from Starlark docstrings with [Stardoc](https://github.com/bazelbuild/stardoc).
 
-    Formats Stardoc output with the repository's Prettier version before the
-    diff test, so generation and pre-commit agree on the committed Markdown.
-    Emits name, name + "_update", and name + "_update_test" targets.
+    Renders labels in this repository without a repository name by default,
+    so load statements match the ones BUILD files use.
 
     Args:
-        name: Page basename, without .md.
-        src: Starlark source file to document.
-        deps: Starlark library targets containing the source and its loads.
-        symbol_names: Public symbols to include, excluding imported APIs.
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying macro.
     """
-    stardoc(
-        name = name + "_stardoc",
-        input = src,
-        deps = deps,
-        out = name + ".raw.md",
-        func_template = "//tools/bazel/docs:func.vm",
-        rule_template = "//tools/bazel/docs:rule.vm",
-        render_main_repo_name = False,
-        symbol_names = symbol_names,
-    )
-
-    js_run_binary(
+    _stardoc(
         name = name,
-        tool = "//tools/bazel/docs:format",
-        srcs = [":" + name + "_stardoc"],
-        args = [
-            "$(rootpath :" + name + "_stardoc)",
-        ],
-        stdout = name + "-docgen.md",
+        render_main_repo_name = kwargs.pop("render_main_repo_name", False),
+        **kwargs
     )
 
-    write_source_files(
-        name = name + "_update",
-        files = {name + ".md": ":" + name},
-        tags = ["no-coverage"],
-    )
+def write_source_files(name, **kwargs):
+    """Copy generated files into the source tree with [write_source_files](https://github.com/bazel-contrib/bazel-lib/blob/main/lib/write_source_files.bzl).
 
-def update_docs(name, targets):
-    """Update all generated pages with Aspect's write_source_files runner.
+    `bazel run` the target to update the files. Its diff tests fail when a
+    committed file differs from the generated one.
 
     Args:
-        name: Update runner target name.
-        targets: Update targets emitted by macro_docs.
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying macro.
     """
-    write_source_files(
+    _write_source_files(
         name = name,
-        additional_update_targets = targets,
+        **kwargs
     )

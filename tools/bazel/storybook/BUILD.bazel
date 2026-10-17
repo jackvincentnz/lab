@@ -9,17 +9,8 @@ storybook_bin.storybook_binary(
 bzl_library(
     name = "storybook",
     srcs = ["storybook.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
+    visibility = ["//visibility:public"],
     deps = ["//tools/bazel:js"],
 )
 
-exports_files(
-    ["storybook.bzl"],
-    visibility = [
-        "//docs/bazel:__pkg__",
-        "//tools/bazel:__subpackages__",
-    ],
-)
+exports_files(["storybook.bzl"])
