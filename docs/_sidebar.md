@@ -31,3 +31,8 @@
     - [Tasklist](projects/organizer/tasklist/README.md)
 - Libraries
   - [Bubbles](libs/bubbles/README.md)
+  - [DDD](libs/ddd/README.md)
+  - [Identity](libs/identity/README.md)
+  - [Spring](libs/spring/README.md)
+  - [Tenancy](libs/tenancy/README.md)
+  - [Test](libs/test/README.md)
