@@ -1,3 +1,10 @@
 package lab.autojournal.application;
 
-public record TaskCompletedEvent(String taskId) {}
+import java.util.Optional;
+import java.util.UUID;
+
+/**
+ * @param eventId identifies this event across redeliveries; empty when the producer published it
+ *     before events carried an id.
+ */
+public record TaskCompletedEvent(String taskId, Optional<UUID> eventId) {}

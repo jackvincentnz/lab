@@ -2,6 +2,8 @@ package lab.autojournal.adapter.messaging;
 
 import com.google.protobuf.Message;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lab.autojournal.application.TaskEventHandler;
 import lab.task.api.TaskAddedEvent;
 import lab.task.api.TaskCompletedEvent;
@@ -31,7 +33,14 @@ public class TaskEventConsumer {
     LOGGER.info(String.format("Handling [%s]", taskCompletedEvent.getClass().getName()));
 
     taskEventHandler.handle(
-        new lab.autojournal.application.TaskCompletedEvent(taskCompletedEvent.getTaskId()));
+        new lab.autojournal.application.TaskCompletedEvent(
+            taskCompletedEvent.getTaskId(), eventId(taskCompletedEvent.getEventId())));
+  }
+
+  // Proto3 reads an absent string as empty, which is what messages published before events
+  // carried an id contain.
+  private static Optional<UUID> eventId(String eventId) {
+    return eventId.isEmpty() ? Optional.empty() : Optional.of(UUID.fromString(eventId));
   }
 
   @KafkaHandler(isDefault = true)

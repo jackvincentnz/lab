@@ -11,6 +11,7 @@ public class TaskAddedEventMapper
         .setTaskId(taskAddedEvent.getAggregateId().toString())
         .setTitle(taskAddedEvent.getTitle())
         .setCreatedAt(taskAddedEvent.getCreatedAt().toString())
+        .setEventId(taskAddedEvent.getEventId().toString())
         .build();
   }
 }

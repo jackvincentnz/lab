@@ -5,6 +5,7 @@ java_test_suite(
     srcs = [
         "AggregateTest.java",
         "BaseRepositoryTest.java",
+        "DomainEventTest.java",
         "EventSourcedAggregateTest.java",
         "ExternalIdTest.java",
         "InternalIdTest.java",

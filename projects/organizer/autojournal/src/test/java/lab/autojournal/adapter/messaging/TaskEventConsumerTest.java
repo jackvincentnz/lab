@@ -6,9 +6,11 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 
 import com.google.protobuf.StringValue;
+import java.util.UUID;
 import lab.autojournal.application.TaskEventHandler;
 import lab.task.api.TaskAddedEvent;
 import lab.task.api.TaskCompletedEvent;
+import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -17,7 +19,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class TaskEventConsumerTest {
+class TaskEventConsumerTest extends TestBase {
 
   @Mock TaskEventHandler taskEventHandler;
 
@@ -43,6 +45,35 @@ class TaskEventConsumerTest {
 
     verify(taskEventHandler).handle(mappedCaptor.capture());
     assertThat(mappedCaptor.getValue().taskId()).isEqualTo(taskId);
+  }
+
+  @Test
+  void on_taskCompletedWithEventId_mapsEventId() {
+    var eventId = UUID.randomUUID();
+    var taskCompletedEvent =
+        TaskCompletedEvent.newBuilder()
+            .setTaskId(randomId())
+            .setEventId(eventId.toString())
+            .build();
+    var mappedCaptor =
+        ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
+
+    taskEventConsumer.on(taskCompletedEvent);
+
+    verify(taskEventHandler).handle(mappedCaptor.capture());
+    assertThat(mappedCaptor.getValue().eventId()).contains(eventId);
+  }
+
+  @Test
+  void on_taskCompletedWithoutEventId_mapsEmptyEventId() {
+    var taskCompletedEvent = TaskCompletedEvent.newBuilder().setTaskId(randomId()).build();
+    var mappedCaptor =
+        ArgumentCaptor.forClass(lab.autojournal.application.TaskCompletedEvent.class);
+
+    taskEventConsumer.on(taskCompletedEvent);
+
+    verify(taskEventHandler).handle(mappedCaptor.capture());
+    assertThat(mappedCaptor.getValue().eventId()).isEmpty();
   }
 
   @Test
