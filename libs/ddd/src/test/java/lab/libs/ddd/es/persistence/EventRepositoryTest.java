@@ -99,6 +99,19 @@ class EventRepositoryTest extends TestBase {
   }
 
   @Test
+  void readEvents_timeWithNanoseconds_keepsNanoseconds() {
+    var streamId = new TestId();
+    // Instant.now() has only microseconds on some platforms, so nanoseconds are set explicitly.
+    var time = Instant.ofEpochSecond(Instant.now().getEpochSecond(), 123_456_789);
+    var event = new TimeEvent(streamId, time);
+
+    eventRepository.appendEvents(streamId.toUUID(), 0, List.of(event));
+
+    var timeEvent = (TimeEvent) eventRepository.readEvents(streamId.toUUID()).get(0);
+    assertThat(timeEvent.time).isEqualTo(time);
+  }
+
+  @Test
   void readEvents_appendedEvent_keepsEventId() {
     var streamId = UUID.randomUUID();
     var event = new TestEvent(streamId, randomString());

@@ -3,6 +3,7 @@ package lab.libs.ddd.es.persistence;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -135,7 +136,13 @@ public class EventRepository {
     try {
       String eventType = rs.getString("EVENT_TYPE");
       PGobject jsonObj = (PGobject) rs.getObject("JSON_DATA");
-      var json = (ObjectNode) objectMapper.readTree(jsonObj.getValue());
+      // A tree holds decimals as doubles by default, which drops the nanoseconds of an Instant.
+      var json =
+          (ObjectNode)
+              objectMapper
+                  .reader()
+                  .with(DeserializationFeature.USE_BIG_DECIMAL_FOR_FLOATS)
+                  .readTree(jsonObj.getValue());
       if (!json.hasNonNull(EVENT_ID_FIELD)) {
         var legacyEventId =
             legacyEventId(rs.getObject("STREAM_ID", UUID.class), rs.getInt("VERSION"));
