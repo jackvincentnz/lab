@@ -6,8 +6,6 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import com.netflix.graphql.dgs.exceptions.DgsBadRequestException;
-import com.netflix.graphql.dgs.exceptions.DgsEntityNotFoundException;
 import java.util.List;
 import lab.libs.ddd.domain.NotFoundException;
 import lab.task.application.task.TaskQueryService;
@@ -57,32 +55,27 @@ class TaskDataFetcherTest extends TestBase {
   }
 
   @Test
-  void task_withUnknownId_throwsEntityNotFound() {
+  void task_withUnknownId_throwsNotFoundException() {
     var id = TaskId.fromString(randomId());
     when(taskQueryService.getTask(id)).thenThrow(new NotFoundException(id));
 
     assertThatThrownBy(() -> taskDataFetcher.task(id.toString()))
-        .isInstanceOf(DgsEntityNotFoundException.class)
-        .hasMessageContaining(id.toString());
+        .isInstanceOf(NotFoundException.class);
   }
 
   @Test
-  void task_withMalformedId_throwsBadRequest() {
+  void task_withMalformedId_throwsIllegalArgumentException() {
     var id = randomString();
 
-    assertThatThrownBy(() -> taskDataFetcher.task(id))
-        .isInstanceOf(DgsBadRequestException.class)
-        .hasMessageContaining(id);
+    assertThatThrownBy(() -> taskDataFetcher.task(id)).isInstanceOf(IllegalArgumentException.class);
     verifyNoInteractions(taskQueryService);
   }
 
   @Test
-  void task_withOverlongId_throwsBadRequest() {
+  void task_withOverlongId_throwsIllegalArgumentException() {
     var id = randomId() + randomString();
 
-    assertThatThrownBy(() -> taskDataFetcher.task(id))
-        .isInstanceOf(DgsBadRequestException.class)
-        .hasMessageContaining(id);
+    assertThatThrownBy(() -> taskDataFetcher.task(id)).isInstanceOf(IllegalArgumentException.class);
     verifyNoInteractions(taskQueryService);
   }
 }

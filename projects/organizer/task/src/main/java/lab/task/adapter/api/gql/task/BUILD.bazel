@@ -13,7 +13,6 @@ java_library(
     ],
     exports = ["//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema"],
     deps = [
-        "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/organizer/task/src/main/java/lab/task/adapter/api/gql/schema",
         "//projects/organizer/task/src/main/java/lab/task/application/task",
         "//projects/organizer/task/src/main/java/lab/task/domain",
