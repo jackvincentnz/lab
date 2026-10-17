@@ -31,13 +31,11 @@ export default defineConfig({
     environment: "jsdom",
     setupFiles: "./src/test/setup.js",
     css: false,
-    // Journal has no component tests yet; keep the standard targets usable.
-    passWithNoTests: true,
   },
   server: {
-    port: 3004,
+    port: Number(process.env.ORGANIZER_JOURNAL_APP_PORT ?? 3004),
     proxy: {
-      "/graphql": "http://localhost:4000",
+      "/graphql": `http://localhost:${process.env.ORGANIZER_ROUTER_PORT ?? 4000}`,
     },
   },
 });

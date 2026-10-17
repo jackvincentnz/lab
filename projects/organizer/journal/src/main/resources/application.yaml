@@ -1,1 +1,1 @@
-server.port: 3003
+server.port: ${ORGANIZER_JOURNAL_PORT:3003}

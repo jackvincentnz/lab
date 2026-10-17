@@ -5,6 +5,8 @@ java_library(
     srcs = [
         "GqlJournalServiceAdapter.java",
         "GqlTaskServiceAdapter.java",
+        "GraphqlRequests.java",
+        "GraphqlServiceException.java",
         "JournalServiceProperties.java",
         "Task.java",
         "TaskServiceProperties.java",
@@ -13,7 +15,10 @@ java_library(
         "//projects/organizer/autojournal/src/main/java/lab/autojournal/adapter:__subpackages__",
         "//projects/organizer/autojournal/src/test/java/lab/autojournal/adapter:__subpackages__",
     ],
-    exports = ["//projects/organizer/autojournal/src/main/java/lab/autojournal/application"],
+    exports = [
+        "//projects/organizer/autojournal/src/main/java/lab/autojournal/application",
+        "//third_party/dgs:client",
+    ],
     runtime_deps = [
         "@maven//:org_springframework_boot_spring_boot_starter_validation",
     ],
