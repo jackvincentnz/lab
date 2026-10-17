@@ -13,8 +13,8 @@ to Accepted in both when it is adopted.
 
 - [Java BUILD files](java-build-files.md) generates Java `srcs`, `deps`, and `exports` with Gazelle,
   checked in CI.
-
-- [Durable chat delivery](chat-outbox.md) persists chat work and local tool effects atomically.
+- [Chat work delivery](chat-work-delivery.md) runs chat work after commit and marks failed work
+  `FAILED` instead of leaving it `PENDING`.
 
 ## Proposed
 

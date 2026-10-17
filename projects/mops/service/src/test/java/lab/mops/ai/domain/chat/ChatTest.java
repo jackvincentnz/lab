@@ -825,7 +825,7 @@ class ChatTest extends TestBase {
         ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
     var second =
         ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
-    chat.addPendingToolCalls(messageId, java.util.List.of(first, second));
+    chat.addPendingToolCalls(messageId, List.of(first, second));
 
     chat.recordToolResult(messageId, first.id(), randomString());
     assertThat(chat.getMessages()).hasSize(2);
@@ -836,15 +836,32 @@ class ChatTest extends TestBase {
   }
 
   @Test
-  void failMessage_pendingMessage_persistsReasonAndAllowsRetry() {
+  void addPendingToolCalls_withApprovedCall_registersApprovedEventForThatCallOnly() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var approved =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    var pending =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+
+    chat.addPendingToolCalls(messageId, List.of(approved, pending));
+
+    assertThat(AggregateTestUtils.countEventsOfType(chat, ToolCallApprovedEvent.class)).isOne();
+    assertThat(AggregateTestUtils.getLastEvent(chat, ToolCallApprovedEvent.class).toolCallId())
+        .isEqualTo(approved.id());
+  }
+
+  @Test
+  void failMessage_pendingMessage_failsAndAllowsRetry() {
     var chat = Chat.start(randomString());
     var message = chat.getMessages().get(1);
-    var reason = randomString();
 
-    chat.failMessage(message.getId(), reason);
+    chat.failMessage(message.getId());
 
     assertThat(message.getStatus()).isEqualTo(MessageStatus.FAILED);
-    assertThat(message.getContent()).contains(reason);
+    assertThat(AggregateTestUtils.getLastEvent(chat, ChatMessageFailedEvent.class).messageId())
+        .isEqualTo(message.getId());
     chat.retryAssistantMessage(message.getId());
     assertThat(chat.getMessages().get(1).isPending()).isTrue();
   }

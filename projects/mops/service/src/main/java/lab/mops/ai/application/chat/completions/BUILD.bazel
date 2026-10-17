@@ -15,6 +15,7 @@ java_library(
         "//projects/mops/service/src/main/java/lab/mops/ai/application/chat:__pkg__",
         "//projects/mops/service/src/main/java/lab/mops/ai/infrastructure:__subpackages__",
         "//projects/mops/service/src/test/java/lab/mops/ai/application/chat:__subpackages__",
+        "//projects/mops/service/src/test/java/lab/mops/ai/functional:__pkg__",
         "//projects/mops/service/src/test/java/lab/mops/ai/infrastructure:__subpackages__",
     ],
 )

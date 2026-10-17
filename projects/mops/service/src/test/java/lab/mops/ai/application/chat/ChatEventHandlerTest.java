@@ -2,6 +2,7 @@ package lab.mops.ai.application.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -17,6 +18,7 @@ import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatRepository;
+import lab.mops.ai.domain.chat.MessageStatus;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
@@ -29,6 +31,7 @@ import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.OptimisticLockingFailureException;
 
 @ExtendWith(MockitoExtension.class)
 class ChatEventHandlerTest extends TestBase {
@@ -120,9 +123,7 @@ class ChatEventHandlerTest extends TestBase {
 
     chatEventHandler.onPendingAssistantMessageAdded(event);
 
-    var failed = chat.getMessages().get(1);
-    assertThat(failed.getStatus()).isEqualTo(lab.mops.ai.domain.chat.MessageStatus.FAILED);
-    assertThat(failed.getContent().orElseThrow()).contains("completion limit");
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
     verify(completionService, times(ChatEventHandler.MAX_COMPLETIONS)).getResponse(anyList());
     verify(chatRepository).save(chat);
   }
@@ -211,6 +212,59 @@ class ChatEventHandlerTest extends TestBase {
         new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId));
 
     verifyNoInteractions(toolProvider);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_completionFails_failsMessage() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(toolProvider.getTools()).thenReturn(List.of());
+    when(completionService.getResponse(anyList())).thenThrow(new RuntimeException());
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_concurrentSave_doesNotRepeatCompletion() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(toolProvider.getTools()).thenReturn(List.of());
+    when(completionService.getResponse(anyList())).thenReturn(AssistantMessage.of(randomString()));
+    doThrow(new OptimisticLockingFailureException(randomString())).when(chatRepository).save(chat);
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    verify(completionService, times(1)).getResponse(anyList());
+    assertThat(chat.getMessages().get(1).isCompleted()).isTrue();
+  }
+
+  @Test
+  void onToolCallApproved_toolFails_failsMessage() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var toolCallId = ToolCallId.create();
+    var toolName = randomString();
+    var toolCallArgs = randomString();
+    chat.addPendingToolCalls(
+        messageId,
+        List.of(
+            lab.mops.ai.domain.chat.ToolCall.of(
+                toolCallId, toolName, toolCallArgs, ToolCallStatus.APPROVED)));
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    var tool = mockTool(toolName);
+    when(toolProvider.getTools()).thenReturn(List.of(tool));
+    when(tool.call(toolCallArgs)).thenThrow(new RuntimeException());
+
+    chatEventHandler.onToolCallApproved(
+        new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId));
+
+    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    verify(chatRepository).save(chat);
   }
 
   Tool mockTool(String name, boolean needsApproval) {

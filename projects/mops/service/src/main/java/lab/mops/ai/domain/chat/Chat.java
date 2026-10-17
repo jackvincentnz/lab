@@ -131,10 +131,12 @@ public class Chat extends Aggregate<ChatId> {
     }
   }
 
-  public void failMessage(MessageId messageId, String reason) {
+  public void failMessage(MessageId messageId) {
     var message = getMessage(messageId, MessageType.ASSISTANT);
-    message.fail(reason);
-    registerEvent(new ChatMessageFailedEvent(getId(), messageId, reason));
+
+    message.fail();
+
+    registerEvent(new ChatMessageFailedEvent(getId(), messageId));
   }
 
   public void completeMessage(MessageId messageId, String content) {
