@@ -7,6 +7,7 @@ import {
   render,
   screen,
   userEvent,
+  within,
 } from "../../../../../tools/bazel/vitest/test-utils";
 import { Shell } from "./Shell";
 
@@ -16,7 +17,12 @@ describe("Shell", () => {
       wrapper: MantineProvider,
     });
 
-    expect(screen.getByText("Page title")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("banner")).getByText("Page title"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("navigation")).getByText("Page title"),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Tasks" })).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveTextContent("Page content");
   });
