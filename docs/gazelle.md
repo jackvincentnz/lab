@@ -4,6 +4,8 @@
 `exports` of Java BUILD targets from the source files and their imports. See the
 [Java BUILD files decision](adr/java-build-files.md) for why, and the
 [Bazel contribution guidelines](contributing/bazel.md#java-build-files) for what to write by hand.
+Frontend BUILD files are written by hand; see the
+[frontend BUILD automation decision](adr/frontend-build-automation.md).
 
 ## Running
 
@@ -33,12 +35,6 @@ CI runs this check before building, and fails when it prints a diff.
   code, and Java packages that more than one Maven artifact provides.
 - A `# gazelle:` directive in another BUILD file applies to that directory and below, such as
   `# gazelle:java_module_granularity module` for a target built from subdirectories.
-
-## Frontend automation
-
-Frontend dependencies are maintained by hand. The proposed
-[frontend BUILD automation decision](adr/frontend-build-automation.md) evaluates Aspect's
-flat-package support, adaptation needed for `fe_app`, and sharing the Java binary and CI check.
 
 ## Errors
 

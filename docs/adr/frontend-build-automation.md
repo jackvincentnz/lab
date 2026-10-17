@@ -2,106 +2,70 @@
 
 ## Status
 
-Proposed; no frontend generator or target-layout change is adopted.
+Proposed.
 
 Date: 2026-10-07
+Decision owner: Jack Vincent
 
 ## Context
 
-[Issue #46](https://github.com/jackvincentnz/lab/issues/46) asks whether Gazelle can maintain
-dependencies for flattened frontends and share Java's binary and CI check.
-[Java generation](java-build-files.md) is already accepted.
+[Gazelle](../gazelle.md) generates Java BUILD files, checked in CI. Frontend BUILD files are
+written by hand. Each app is one package with one [`fe_app`](../../tools/bazel/fe.bzl) call, which
+globs `src/` recursively and expands into separate production, test, and story `ts_project` targets.
+People maintain its three dependency lists: `deps`, `test_deps`, and `story_deps`. Nothing reports
+a dependency that is no longer imported.
 
-[`fe_app`](../../tools/bazel/fe.bzl) declares production, test/helper, and optional story
-compilation in one BUILD call. It discovers sources recursively, puts production imports in
-`deps`, and adds `test_deps` and `story_deps` to the respective compilations. Its `data` serves
-Vite/Vitest runtime inputs. The inner `src_ts`, `test_ts`, and `stories` targets are created by
-the macro; they are not separate calls that Gazelle can edit.
+[Aspect's JS/TS Gazelle extension](https://github.com/aspect-build/aspect-gazelle/tree/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js)
+is the maintained option. It handles one package per app: with
+`# gazelle:generation_mode update_only`, one `ts_project` in an existing BUILD file owns the
+sources of subdirectories that have no BUILD file of their own. But it writes separate
+`ts_project` and `js_library` targets, each with its own `deps`. It has no way to fill the three
+lists of one macro call: `map_kind` renames a rule kind and keeps its attributes, so mapping
+`ts_project` to `fe_app` would treat each source group as a whole app.
 
-## Findings
+## Decision
 
-### Flat packages are supported
+Keep frontend dependencies hand-written in `fe_app`, and keep one package per app. Do not split
+apps into directory packages, or `fe_app` into separate calls, only to fit the extension.
 
-Aspect's JS/TS extension does not require a BUILD file per source directory. With
-`# gazelle:generation_mode update_only`, Gazelle 0.54.0's [walker][walker] collects recursive files within an
-existing Bazel package. Nested BUILD files remain package boundaries. The upstream
-[fixture input][flat-in] and [expected output][flat-out] demonstrate one `ts_project` owning
-`a/lib-a.ts` and `a/a2/lib-a2.ts`, while depending on a separate existing `a/a1` package.
-The repository's `src/__generated__` BUILD packages can therefore remain separate.
+This accepts that unused frontend dependencies stay until someone removes them.
 
-This directive limits BUILD-file creation, not creation of additional rules in an existing
-BUILD file. Scope it to frontend packages; applying it globally would also change Java's
-generation behavior. The older `js_generation_mode` directive is deprecated.
+## Consequences
 
-### The existing macro needs adaptation
+- The `fe_app` interface and the frontend BUILD files stay as they are, with no new tooling.
+- Frontend deps can drift from imports, as Java deps did before Gazelle. A missing dependency
+  fails the `tsc` check; an unused one goes unnoticed.
 
-The extension's [generation][generate] and [kind definitions][kinds] describe separate
-`ts_project`/`js_library` source-group rules with a `deps` attribute. Its
-[custom-group fixture][groups] emits separate production, test, and custom targets.
-It has no `fe_app` kind or ownership of `test_deps` and `story_deps`.
+## Alternatives considered
 
-Gazelle's [`map_kind`][gazelle-reference] changes a rule's kind and load, preserving the
-attribute schema. It does not combine three generated rules into one macro call or rename
-their dependency attributes. Mapping `ts_project` to `fe_app` would treat each source group
-as a whole app and can emit unsupported attributes such as `testonly` or `tsconfig`.
-Naming generated targets `src_ts` and `test_ts` instead would collide with the macro's
-expanded targets. Thus flat source collection is supported, but maintaining the present
-`fe_app` interface requires generator adaptation, not directives alone.
+- **Aspect's extension with `fe_app` replaced by separate `ts_project` calls.** Fits the
+  extension's model, keeps one package per app, and needs no custom code. It changes the macro
+  contract: the BUILD file would hold the compilation targets and the macro only the Vite and
+  Vitest targets. Runtime inputs that no source imports, such as Vite and PostCSS config, stay
+  hand-written, and imports of [generated GraphQL code](../../tools/bazel/graphql.bzl) need a
+  `# gazelle:js_resolve` directive, as generated Java code does.
+- **A Gazelle language that writes `fe_app`.** Keeps the macro, but the repository would own
+  import parsing, resolution, and the macro's test and story patterns.
+- **Aspect's extension in the existing `//tools/gazelle` binary.** `gazelle_binary` accepts several
+  languages, so one binary and one `-mode=diff` CI check would cover Java and frontend. Building the
+  extension from source needs rules_go 0.63.0 and Go 1.27.0, where this repository uses 0.59.0 and
+  1.24.12, and a Rust and LLVM toolchain for its cgo import parser. None of this has been built
+  here.
+- **Aspect's prebuilt runner.** Needs no compilation, but its fixed language set has no Java, so
+  Java would need the existing binary as well: two generators and two checks.
 
-### One binary and check are possible, with integration work
+## Reconsider when
 
-Gazelle 0.54.0's [`gazelle_binary`][gazelle-binary] accepts multiple Go language libraries
-exporting `NewLanguage`. Aspect's [JS library][js-build] and [constructor][js-language]
-fit that interface alongside `contrib_rules_jvm`. A compatible source-built extension could
-use the existing `//tools/gazelle` invocation and `-mode=diff` CI check.
+- Unused frontend dependencies slow builds or reviews: evaluate Aspect's extension with separate
+  `ts_project` calls, in the existing Gazelle binary.
+- The repository moves to rules_go 0.63.0 and Go 1.27.0 or later: the combined binary costs only
+  the Rust and LLVM toolchain.
 
-This is source-level compatibility, not a tested combined build. The evaluated upstream
-[module][js-module] and [Go module][js-go-module] require rules_go 0.63.0 and Go 1.27.0;
-this repository selects rules_go 0.59.0 and Go 1.24.12. Its Rust parser links through cgo,
-and upstream [documents][js-readme] LLVM/Rust toolchains and root build flags. These costs
-need a separate reviewed integration proof on macOS and Linux.
+## References
 
-Aspect's [prebuilt runner][aspect-readme] avoids compiling that parser, but its fixed
-language set excludes the `contrib_rules_jvm` Java extension. It cannot simply replace
-the repository's combined binary. Two binaries could share a CI step, at the cost of two
-generation paths.
-
-## Recommendation for review
-
-Keep current frontend dependency maintenance until choosing an adaptation approach.
-Do not split source directories merely to accommodate Gazelle.
-
-| Option                                                  | Benefit                                                        | Tradeoff                                                                                |
-| ------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| Keep manual `fe_app` deps.                              | Preserves the existing interface with no new tooling.          | Unused dependency cleanup remains manual.                                               |
-| Adapt a generator to `fe_app`.                          | Can preserve one call and automate its three dependency lists. | Repository-specific generation, indexing, and source classification must be maintained. |
-| Expose separate compilation calls for Aspect to manage. | Reuses its existing source-group model within flat packages.   | Changes the macro contract and BUILD ownership; requires an explicit layout decision.   |
-
-An adaptation would need to mirror the macro's test/helper/story patterns and explicit
-source overrides, account for dependencies inherited from production, and resolve hidden
-outputs such as [`graphql_codegen_ts`](../../tools/bazel/graphql.bzl). Runtime configuration,
-assets, implicit type dependencies, and workspace npm links also need ownership decisions;
-import parsing alone does not establish all Vite/Vitest runtime inputs.
-
-## Evidence and limits
-
-Evaluated Aspect upstream commit
-[`e60bf5b9`](https://github.com/aspect-build/aspect-gazelle/commit/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c)
-and repository code. The fixtures above are upstream expected results, not locally executed
-tests. No JS/TS extension, combined binary, or adapted `fe_app` generator was built here.
-The recommendation leaves the implementation choice open.
-
-[flat-in]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/tests/gazelle_generation_mode/none/BUILD.in
-[flat-out]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/tests/gazelle_generation_mode/none/BUILD.out
-[walker]: https://github.com/bazel-contrib/bazel-gazelle/blob/v0.54.0/v2/walk/walk.go
-[generate]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/generate.go
-[kinds]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/kinds.go
-[groups]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/tests/groups_simple_files/BUILD.out
-[gazelle-reference]: https://github.com/bazel-contrib/bazel-gazelle/blob/v0.54.0/gazelle-reference.md#directives
-[gazelle-binary]: https://github.com/bazel-contrib/bazel-gazelle/blob/v0.54.0/internal/gazelle_binary.bzl
-[js-build]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/BUILD.bazel
-[js-language]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/language.go
-[js-module]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/MODULE.bazel
-[js-go-module]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/go.mod
-[js-readme]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/README.md#build-setup
-[aspect-readme]: https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/README.md
+- [Aspect JS/TS extension and its build setup](https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/README.md),
+  at the evaluated commit.
+- [Flat package fixture](https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/tests/gazelle_generation_mode/none/BUILD.out)
+  and [source group fixture](https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/language/js/tests/groups_simple_files/BUILD.out).
+- [Aspect prebuilt runner and its languages](https://github.com/aspect-build/aspect-gazelle/blob/e60bf5b9a1244d52bc962edd4dde90f3c48cb18c/README.md#prebuilt).
+- [Gazelle directives](https://github.com/bazel-contrib/bazel-gazelle/blob/v0.54.0/gazelle-reference.md#directives).
