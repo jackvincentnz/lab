@@ -8,6 +8,8 @@ java_library(
         "BudgetId.java",
         "BudgetRepository.java",
         "Categorization.java",
+        "FiscalCalendar.java",
+        "FixedStartMonth.java",
         "LineItem.java",
         "LineItemAddedEvent.java",
         "LineItemCategorizedEvent.java",
@@ -24,7 +26,10 @@ java_library(
     visibility = [
         "//projects/mops/service/src:__subpackages__",
     ],
-    exports = ["//projects/mops/service/src/main/java/lab/mops/core/domain/category"],
+    exports = [
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/category",
+        "//projects/mops/service/src/main/java/lab/mops/core/domain/time",
+    ],
     deps = [
         "//libs/ddd/src/main/java/lab/libs/ddd/domain",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",

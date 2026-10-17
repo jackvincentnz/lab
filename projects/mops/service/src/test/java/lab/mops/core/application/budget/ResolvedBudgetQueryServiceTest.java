@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,9 +16,9 @@ import lab.mops.core.domain.budget.Spend;
 import lab.mops.core.domain.category.Category;
 import lab.mops.core.domain.category.CategoryRepository;
 import lab.test.TestBase;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -30,7 +31,16 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
 
   @Mock CategoryRepository categoryRepository;
 
-  @InjectMocks ResolvedBudgetQueryService resolvedBudgetQueryService;
+  BudgetProperties budgetProperties = new BudgetProperties(Month.APRIL);
+
+  ResolvedBudgetQueryService resolvedBudgetQueryService;
+
+  @BeforeEach
+  void setUp() {
+    resolvedBudgetQueryService =
+        new ResolvedBudgetQueryService(
+            budgetRepository, lineItemRepository, categoryRepository, budgetProperties);
+  }
 
   @Test
   void resolveBudgets_mapsBudgets() {
@@ -73,7 +83,8 @@ class ResolvedBudgetQueryServiceTest extends TestBase {
     assertThat(resultSpend.getSpendDay()).isEqualTo(spend.getSpendDay());
     assertThat(resultSpend.getAmount()).isEqualTo(spend.getAmount());
 
-    assertThat(resolvedLineItem.spendTotals()).isEqualTo(lineItem.getSpendTotals());
+    assertThat(resolvedLineItem.spendTotals())
+        .isEqualTo(lineItem.getSpendTotals(budgetProperties.fiscalCalendar()));
   }
 
   @Test
