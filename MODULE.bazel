@@ -24,9 +24,10 @@ bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
 bazel_dep(name = "gazelle", version = "0.54.0", dev_dependency = True)
 bazel_dep(name = "rules_go", version = "0.64.2", dev_dependency = True)
 
-# Gazelle requires Go 1.24.12; select it ahead of contrib_rules_jvm's older SDK.
+# rules_go's go.mod requires Go 1.25 and builds with 1.26.7; select that toolchain
+# ahead of contrib_rules_jvm's older SDK.
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk", dev_dependency = True)
-go_sdk.download(version = "1.24.12")
+go_sdk.download(version = "1.26.7")
 
 git_override(
     module_name = "rules_playwright",
