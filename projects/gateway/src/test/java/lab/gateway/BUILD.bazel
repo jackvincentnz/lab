@@ -20,6 +20,8 @@ java_test_suite(
         "IdentityTokenMinterTest.java",
         "MopsRoutingTest.java",
         "SigningKeyTest.java",
+        "WebSocketDownstream.java",
+        "WebSocketProxyTest.java",
     ],
     runner = "junit5",
     tags = ["requires-network"],
