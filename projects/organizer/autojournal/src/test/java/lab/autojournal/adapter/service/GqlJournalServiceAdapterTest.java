@@ -64,6 +64,20 @@ class GqlJournalServiceAdapterTest extends TestBase {
     }
   }
 
+  @Test
+  void addEntry_addEntryNull_throwsNamingField() throws Exception {
+    try (var server = new RecordingGraphqlServer()) {
+      var gqlJournalServiceAdapter = newAdapter(server);
+      var responseJson = objectMapper.createObjectNode();
+      responseJson.putObject("data").putNull("addEntry");
+      server.respondWith(responseJson.toString());
+
+      assertThatThrownBy(() -> gqlJournalServiceAdapter.addEntry(randomString()))
+          .isInstanceOf(GraphqlServiceException.class)
+          .hasMessage("GraphQL request returned null data.addEntry");
+    }
+  }
+
   private String addEntryResponse(String entryId) {
     var responseJson = objectMapper.createObjectNode();
     responseJson.putObject("data").putObject("addEntry").put("id", entryId);

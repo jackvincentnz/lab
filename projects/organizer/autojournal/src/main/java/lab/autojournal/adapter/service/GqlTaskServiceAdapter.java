@@ -28,7 +28,7 @@ public class GqlTaskServiceAdapter implements TaskService {
             TaskGraphQLQuery.newRequest().id(taskId).build(),
             new TaskProjectionRoot<>().id().title());
 
-    var response = GraphqlRequests.execute(client, query.serialize());
+    var response = GraphqlRequests.execute(client, query.serialize(), "task", taskId);
     var task =
         response.extractValueAsObject(
             "data.task", new TypeRef<lab.autojournal.adapter.service.Task>() {});

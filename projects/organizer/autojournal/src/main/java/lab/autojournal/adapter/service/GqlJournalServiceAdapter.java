@@ -32,6 +32,6 @@ public class GqlJournalServiceAdapter implements JournalService {
                 .build(),
             new AddEntryProjectionRoot().id());
 
-    GraphqlRequests.execute(client, request.serialize());
+    GraphqlRequests.execute(client, request.serialize(), "addEntry");
   }
 }

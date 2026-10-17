@@ -10,12 +10,30 @@ final class GraphqlRequests {
   private GraphqlRequests() {}
 
   /**
-   * Executes the query and returns a response that carries data.
+   * Executes the query and returns a response whose {@code data.<field>} is not null.
    *
-   * <p>The DGS client returns GraphQL errors and a missing {@code data} field as an ordinary
-   * response, so callers would otherwise treat a failed request as success.
+   * <p>The DGS client returns GraphQL errors, a missing {@code data} field, and a null field as an
+   * ordinary response, so callers would otherwise treat a failed request as success.
    */
-  static GraphQLResponse execute(WebClientGraphQLClient client, String query) {
+  static GraphQLResponse execute(WebClientGraphQLClient client, String query, String field) {
+    return requireField(execute(client, query), field, "");
+  }
+
+  /** Like {@link #execute(WebClientGraphQLClient, String, String)}, naming the requested id. */
+  static GraphQLResponse execute(
+      WebClientGraphQLClient client, String query, String field, String id) {
+    return requireField(execute(client, query), field, " for id " + id);
+  }
+
+  private static GraphQLResponse requireField(
+      GraphQLResponse response, String field, String context) {
+    if (response.getData().get(field) == null) {
+      throw new GraphqlServiceException("GraphQL request returned null data." + field + context);
+    }
+    return response;
+  }
+
+  private static GraphQLResponse execute(WebClientGraphQLClient client, String query) {
     GraphQLResponse response;
     try {
       response = client.reactiveExecuteQuery(query).block();

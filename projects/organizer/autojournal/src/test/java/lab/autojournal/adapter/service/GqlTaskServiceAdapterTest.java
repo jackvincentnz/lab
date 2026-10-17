@@ -67,6 +67,21 @@ class GqlTaskServiceAdapterTest extends TestBase {
     }
   }
 
+  @Test
+  void getTask_taskNull_throwsNamingFieldAndId() throws Exception {
+    try (var server = new RecordingGraphqlServer()) {
+      var taskServiceAdapter = newAdapter(server);
+      var taskId = randomId();
+      var responseJson = objectMapper.createObjectNode();
+      responseJson.putObject("data").putNull("task");
+      server.respondWith(responseJson.toString());
+
+      assertThatThrownBy(() -> taskServiceAdapter.getTask(taskId))
+          .isInstanceOf(GraphqlServiceException.class)
+          .hasMessage("GraphQL request returned null data.task for id " + taskId);
+    }
+  }
+
   private String taskResponse(String taskId, String taskTitle) {
     var responseJson = objectMapper.createObjectNode();
     responseJson.putObject("data").putObject("task").put("id", taskId).put("title", taskTitle);
