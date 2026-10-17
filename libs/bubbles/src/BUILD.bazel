@@ -1,62 +1,13 @@
-load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
-SRC_PATHS = [
-    "**/*.tsx",
-    "**/*.ts",
-]
-
-TEST_PATHS = [
-    "**/*.test.tsx",
-    "**/*.test.ts",
-]
-
-STORY_PATHS = [
-    "**/*.stories.ts",
-    "**/*.stories.tsx",
-]
-
-ts_project(
-    name = "src_ts",
-    srcs = glob(
-        include = SRC_PATHS,
-        exclude = TEST_PATHS + STORY_PATHS,
-    ),
-    deps = [
-        "//:node_modules/@mantine/core",
-        "//:node_modules/@mantine/dates",
-        "//:node_modules/@mantine/hooks",
-        "//:node_modules/@tabler/icons-react",
-        "//:node_modules/@types/react",
-        "//:node_modules/dayjs",
-        "//:node_modules/react",
-        "//libs/packages/client",
-    ],
-)
-
-js_library(
-    name = "src",
-    srcs = glob(["**/*.css"]),
-    visibility = ["//libs/bubbles:__pkg__"],
-    deps = [":src_ts"],
-)
-
-ts_project(
-    name = "test_ts",
-    testonly = True,
-    srcs = glob(
-        TEST_PATHS,
-        allow_empty = True,
-    ),
-    deps = [
-        ":src",
-        "//:node_modules/@mantine/core",
-        "//:node_modules/@types/react",
-        "//:node_modules/react",
-        "//tools/bazel/vitest:utils",
-    ],
-)
+# aspect:js enabled
+# aspect:generation_mode update_only
+# aspect:js_project_naming_convention src
+# aspect:js_tests_naming_convention tests
+# aspect:js_files stories **/*.stories.{ts,tsx}
+# aspect:js_visibility //libs/bubbles:__pkg__
+# aspect:js_visibility stories //libs/bubbles:__pkg__
 
 # Libraries have no Vite app config, so the shared config runs from the workspace root.
 vitest_run(
@@ -67,7 +18,7 @@ vitest_run(
     ],
     chdir = None,
     data = [
-        ":test_ts",
+        ":tests",
         "//:node_modules/react-dom",
         "//tools/bazel/vitest:package_json",
         "//tools/bazel/vitest:vite_config",
@@ -75,11 +26,62 @@ vitest_run(
 )
 
 ts_project(
+    name = "src",
+    srcs = [
+        "components/MonthRangePicker/MonthRangePicker.tsx",
+        "components/MonthRangePicker/index.ts",
+        "index.ts",
+        "organisms/index.ts",
+        "organisms/shell/NavbarLinks.tsx",
+        "organisms/shell/Shell.tsx",
+        "organisms/shell/index.ts",
+        "vite-env.d.ts",
+    ],
+    assets = [
+        "organisms/shell/NavbarLinks.module.css",
+        "organisms/shell/Shell.module.css",
+    ],
+    visibility = ["//libs/bubbles:__pkg__"],
+    deps = [
+        "//:node_modules/@types/react",
+        "//:node_modules/vite",
+        "//libs/bubbles:node_modules/@mantine/core",
+        "//libs/bubbles:node_modules/@mantine/dates",
+        "//libs/bubbles:node_modules/@mantine/hooks",
+        "//libs/bubbles:node_modules/@tabler/icons-react",
+        "//libs/bubbles:node_modules/dayjs",
+        "//libs/bubbles:node_modules/react",
+    ],
+)
+
+ts_project(
+    name = "tests",
+    testonly = True,
+    srcs = [
+        "components/MonthRangePicker/MonthRangePicker.test.tsx",
+        "organisms/shell/NavbarLinks.test.tsx",
+        "organisms/shell/Shell.test.tsx",
+    ],
+    deps = [
+        ":src",
+        "//:node_modules/@types/react",
+        "//libs/bubbles:node_modules/@mantine/core",
+        "//libs/bubbles:node_modules/react",
+        "//tools/bazel/vitest:utils",
+    ],
+)
+
+ts_project(
     name = "stories",
-    srcs = glob(STORY_PATHS),
+    srcs = [
+        "components/MonthRangePicker/MonthRangePicker.stories.tsx",
+        "organisms/shell/Shell.stories.ts",
+    ],
     visibility = ["//libs/bubbles:__pkg__"],
     deps = [
         ":src",
         "//:node_modules/@storybook/react",
+        "//:node_modules/@types/react",
+        "//libs/bubbles:node_modules/react",
     ],
 )

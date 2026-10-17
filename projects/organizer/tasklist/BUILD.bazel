@@ -1,7 +1,19 @@
+load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/bazel:fe.bzl", "fe_app")
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:pkg.bzl", "tar")
+load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
+
+# aspect:js enabled
+# aspect:generation_mode update_only
+# aspect:js_files src/**/*.{ts,tsx}
+# aspect:js_test_files src/**/__tests__/**/*.{ts,tsx}
+# aspect:js_test_files src/test/**/*.{ts,tsx}
+# aspect:js_project_naming_convention src
+# aspect:js_tests_naming_convention tests
+# aspect:js_resolve **/__generated__/graphql //projects/organizer/tasklist/src/__generated__:graphql_codegen_ts
+# gazelle:exclude public
 
 js_library(
     name = "codegen",
@@ -18,29 +30,19 @@ js_library(
 
 fe_app(
     name = "tasklist",
+    srcs = [":src"],
     data = [
         "index.html",
         "package.json",
         "vite.config.ts",
         "//:node_modules/@vitejs/plugin-react",
         "//:node_modules/jsdom",
+        "//:node_modules/vite",
         "//:node_modules/vitest",
         "//projects/organizer/tasklist/public",
         "//tools/bazel/vitest:coverage_config",
     ],
-    test_deps = ["//tools/bazel/vitest:utils"],
-    deps = [
-        "//:node_modules/@apollo/client",
-        "//:node_modules/@lab/bubbles",
-        "//:node_modules/@mantine/core",
-        "//:node_modules/@tabler/icons-react",
-        "//:node_modules/@types/react",
-        "//:node_modules/@types/react-dom",
-        "//:node_modules/react",
-        "//:node_modules/react-dom",
-        "//:node_modules/vite",
-        "//projects/organizer/tasklist/src/__generated__:graphql_codegen_ts",
-    ],
+    tests = [":tests"],
 )
 
 tar(
@@ -68,5 +70,52 @@ oci_deliver(
     visibility = [
         "//projects/organizer:__pkg__",
         "//projects/organizer/e2e:__pkg__",
+    ],
+)
+
+npm_link_all_packages(name = "node_modules")
+
+ts_project(
+    name = "src",
+    srcs = [
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/tasks/AddTask.tsx",
+        "src/tasks/DisplayTasks.tsx",
+        "src/tasks/TasksPage.tsx",
+        "src/tasks/index.ts",
+        "src/vite-env.d.ts",
+    ],
+    deps = [
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@lab/bubbles",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@tabler/icons-react",
+        "//:node_modules/@types/react",
+        "//:node_modules/@types/react-dom",
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/vite",
+        "//projects/organizer/tasklist/src/__generated__:graphql_codegen_ts",
+    ],
+)
+
+ts_project(
+    name = "tests",
+    testonly = True,
+    srcs = [
+        "src/tasks/__tests__/AddTask.test.tsx",
+        "src/tasks/__tests__/DisplayTasks.test.tsx",
+        "src/tasks/__tests__/TasksPage.test.tsx",
+        "src/test/setup.ts",
+    ],
+    deps = [
+        ":src",
+        "//:node_modules/@apollo/client",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//projects/organizer/tasklist/src/__generated__:graphql_codegen_ts",
+        "//tools/bazel/vitest:utils",
     ],
 )

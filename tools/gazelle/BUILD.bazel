@@ -1,4 +1,16 @@
+load("@aspect_gazelle_prebuilt//:def.bzl", "aspect_gazelle")
 load("@gazelle//:def.bzl", "gazelle", "gazelle_binary")
+load("@rules_multirun//:defs.bzl", "multirun")
+
+# Runs both generators, so `bazel run //tools/gazelle -- -mode=diff` checks every BUILD file.
+multirun(
+    name = "gazelle",
+    commands = [
+        ":java",
+        ":js",
+    ],
+    print_command = False,
+)
 
 gazelle_binary(
     name = "gazelle_bin",
@@ -6,11 +18,17 @@ gazelle_binary(
 )
 
 gazelle(
-    name = "gazelle",
+    name = "java",
     args = [
         # Test classes annotated @RequiresDocker get their own target, so runners without Docker
         # can filter them out by tag.
         '-java-annotation-to-attribute=lab.test.RequiresDocker=tags=["requires-docker","requires-network"]',
     ],
     gazelle = ":gazelle_bin",
+)
+
+# Aspect's prebuilt runner ships the JS/TS language compiled, but not Java.
+aspect_gazelle(
+    name = "js",
+    languages = ["js"],
 )

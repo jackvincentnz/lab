@@ -49,6 +49,14 @@ tsconfig_to_swcconfig.t2s(
     visibility = [":__subpackages__"],
 )
 
+# Frontend directives use the aspect: prefix, which only Aspect's runner reads, so the Java
+# generator does not warn about them. Frontend packages enable the JS/TS language themselves.
+# aspect:js disabled
+# aspect:js_tsconfig disabled
+# aspect:map_kind ts_project ts_project //tools/bazel:ts.bzl
+# aspect:map_kind js_library js_library //tools/bazel:js.bzl
+# aspect:map_kind npm_package npm_package //tools/bazel:js.bzl
+
 # gazelle:java_maven_install_file maven_install.json
 # gazelle:map_kind java_library java_library //tools/bazel:java.bzl
 # gazelle:map_kind java_binary java_binary //tools/bazel:java.bzl

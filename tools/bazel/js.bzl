@@ -11,6 +11,7 @@ load(
     _js_run_devserver = "js_run_devserver",
     _js_test = "js_test",
 )
+load("@aspect_rules_js//npm:defs.bzl", _npm_package = "npm_package")
 
 def js_library(name, **kwargs):
     _js_library(
@@ -44,6 +45,12 @@ def js_binary(name, **kwargs):
 
 def js_image_layer(name, **kwargs):
     _js_image_layer(
+        name = name,
+        **kwargs
+    )
+
+def npm_package(name, **kwargs):
+    _npm_package(
         name = name,
         **kwargs
     )

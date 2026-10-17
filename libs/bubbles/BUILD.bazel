@@ -1,7 +1,12 @@
-load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load")
+load("//tools/bazel:js.bzl", "npm_package")
 load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build", "storybook_dev_server")
+
+# aspect:js enabled
+# aspect:js_npm_package_target_name pkg
+# gazelle:exclude .storybook
 
 npm_package(
     name = "pkg",
@@ -59,3 +64,5 @@ oci_load(
     repo_tags = ["lab/bubbles:latest"],
     visibility = ["//:__pkg__"],
 )
+
+npm_link_all_packages(name = "node_modules")
