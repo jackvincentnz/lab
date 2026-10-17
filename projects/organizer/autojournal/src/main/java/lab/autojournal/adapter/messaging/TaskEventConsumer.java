@@ -3,7 +3,7 @@ package lab.autojournal.adapter.messaging;
 import com.google.protobuf.Message;
 import java.util.List;
 import lab.autojournal.application.TaskEventHandler;
-import lab.libs.messaging.CloudEventHeaders;
+import lab.libs.messaging.EventIdHeader;
 import lab.task.api.TaskAddedEvent;
 import lab.task.api.TaskCompletedEvent;
 import org.slf4j.Logger;
@@ -30,13 +30,12 @@ public class TaskEventConsumer {
 
   @KafkaHandler
   public void on(
-      TaskCompletedEvent taskCompletedEvent,
-      @Header(name = CloudEventHeaders.ID, required = false) byte[] eventId) {
+      TaskCompletedEvent taskCompletedEvent, @Header(EventIdHeader.NAME) byte[] eventId) {
     LOGGER.info(String.format("Handling [%s]", taskCompletedEvent.getClass().getName()));
 
     taskEventHandler.handle(
         new lab.autojournal.application.TaskCompletedEvent(
-            taskCompletedEvent.getTaskId(), CloudEventHeaders.parseId(eventId)));
+            taskCompletedEvent.getTaskId(), EventIdHeader.fromBytes(eventId)));
   }
 
   @KafkaHandler(isDefault = true)

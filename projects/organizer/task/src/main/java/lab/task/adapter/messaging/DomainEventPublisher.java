@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
 import lab.libs.ddd.domain.DomainEvent;
-import lab.libs.messaging.CloudEventHeaders;
+import lab.libs.messaging.EventIdHeader;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +19,6 @@ public class DomainEventPublisher {
   private static final Logger LOGGER = LoggerFactory.getLogger(DomainEventPublisher.class);
 
   protected static final String TASK_TOPIC = "task";
-
-  protected static final String EVENT_SOURCE = "/organizer/task";
 
   private final KafkaTemplate<String, Message> kafkaTemplate;
 
@@ -65,11 +63,7 @@ public class DomainEventPublisher {
    */
   private ProducerRecord<String, Message> toRecord(Message message) {
     var record = new ProducerRecord<String, Message>(TASK_TOPIC, message);
-    CloudEventHeaders.set(
-        record.headers(),
-        eventIdSupplier.get(),
-        message.getDescriptorForType().getFullName(),
-        EVENT_SOURCE);
+    record.headers().add(EventIdHeader.NAME, EventIdHeader.toBytes(eventIdSupplier.get()));
     return record;
   }
 

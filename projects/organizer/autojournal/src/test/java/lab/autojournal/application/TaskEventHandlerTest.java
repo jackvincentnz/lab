@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,7 +24,7 @@ class TaskEventHandlerTest {
   @Test
   void handle_addsJournalEntryContainingTaskTitle_whenTaskCompleted() {
     var taskId = "taskId";
-    var taskCompletedEvent = new TaskCompletedEvent(taskId, Optional.of(UUID.randomUUID()));
+    var taskCompletedEvent = new TaskCompletedEvent(taskId, UUID.randomUUID());
     var task = new Task(taskId, "task title");
 
     var entryCaptor = ArgumentCaptor.forClass(String.class);

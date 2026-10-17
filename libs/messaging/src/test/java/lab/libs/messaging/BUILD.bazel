@@ -2,7 +2,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
     name = "messaging",
-    srcs = ["CloudEventHeadersTest.java"],
+    srcs = ["EventIdHeaderTest.java"],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -12,7 +12,6 @@ java_test_suite(
     deps = [
         "//libs/messaging/src/main/java/lab/libs/messaging",
         "//libs/test/src/test/java/lab/test:test-test-lib",
-        "@maven//:org_apache_kafka_kafka_clients",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
     ],
