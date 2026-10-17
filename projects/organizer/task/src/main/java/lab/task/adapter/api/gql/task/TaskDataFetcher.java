@@ -32,7 +32,6 @@ public class TaskDataFetcher {
 
   @DgsQuery
   public Task task(String id) {
-    // TODO: error handing (not found, id format, id length)
     var task = taskQueryService.getTask(TaskId.fromString(id));
 
     return taskMapper.map(task);
