@@ -1,5 +1,6 @@
 package lab.mops.ai.infrastructure.llm;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
@@ -22,6 +23,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.ai.chat.messages.AssistantMessage;
+import org.springframework.ai.chat.messages.SystemMessage;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.model.Generation;
@@ -29,6 +31,7 @@ import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.google.genai.GoogleGenAiChatOptions;
 import org.springframework.ai.model.tool.ToolCallingChatOptions;
 import org.springframework.ai.tool.annotation.Tool;
+import org.springframework.core.io.ByteArrayResource;
 
 @ExtendWith(MockitoExtension.class)
 class SpringChatClientTest extends TestBase {
@@ -39,12 +42,14 @@ class SpringChatClientTest extends TestBase {
 
   @Mock ToolApprovalPolicy approvalPolicy;
 
+  String systemPrompt;
+
   SpringChatClient springChatClient;
 
   @BeforeEach
   void setup() {
-    springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+    systemPrompt = randomString();
+    springChatClient = newClient();
   }
 
   @Test
@@ -97,8 +102,7 @@ class SpringChatClientTest extends TestBase {
   void getResponse_preservesTheModelsOwnOptionsType() {
     when(chatModel.getOptions())
         .thenReturn(GoogleGenAiChatOptions.builder().model("gemini-test").build());
-    springChatClient =
-        new SpringChatClient(chatModel, new TestTools(), messageMapper, approvalPolicy);
+    springChatClient = newClient();
 
     var chatResponse =
         ChatResponse.builder()
@@ -122,6 +126,28 @@ class SpringChatClientTest extends TestBase {
   }
 
   @Test
+  void getResponse_sendsTheInjectedSystemPromptFirst() {
+    var chatResponse =
+        ChatResponse.builder()
+            .generations(List.of(new Generation(new AssistantMessage(randomString()))))
+            .build();
+    var promptCaptor = ArgumentCaptor.forClass(Prompt.class);
+
+    when(messageMapper.map(anyList())).thenReturn(List.of());
+    when(chatModel.call(any(Prompt.class))).thenReturn(chatResponse);
+    when(messageMapper.map(chatResponse))
+        .thenReturn(lab.mops.ai.application.chat.completions.AssistantMessage.of(randomString()));
+
+    springChatClient.getResponse(List.of(new UserMessage(randomString())));
+
+    verify(chatModel).call(promptCaptor.capture());
+    var systemMessage = promptCaptor.getValue().getInstructions().get(0);
+
+    assertThat(systemMessage).isInstanceOf(SystemMessage.class);
+    assertThat(systemMessage.getText()).isEqualTo(systemPrompt);
+  }
+
+  @Test
   void getTools_returnsAvailableTools() {
     var tools =
         springChatClient.getTools().stream().map(t -> t.getToolDefinition().name()).toList();
@@ -134,6 +160,12 @@ class SpringChatClientTest extends TestBase {
             name -> {
               assertThat(tools).contains(name);
             });
+  }
+
+  private SpringChatClient newClient() {
+    var aiProperties = new AiProperties(new ByteArrayResource(systemPrompt.getBytes(UTF_8)));
+    return new SpringChatClient(
+        chatModel, new TestTools(), messageMapper, approvalPolicy, aiProperties);
   }
 
   static class TestTools implements BudgetTools {

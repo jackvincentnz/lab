@@ -27,6 +27,8 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   private final ChatModel chatModel;
 
+  private final String systemPrompt;
+
   private final ChatOptions chatOptions;
 
   private final BudgetTools budgetTools;
@@ -39,8 +41,10 @@ class SpringChatClient implements CompletionService, ToolProvider {
       ChatModel chatModel,
       BudgetTools budgetTools,
       SpringMessageMapper messageMapper,
-      ToolApprovalPolicy approvalPolicy) {
+      ToolApprovalPolicy approvalPolicy,
+      AiProperties aiProperties) {
     this.chatModel = chatModel;
+    this.systemPrompt = aiProperties.systemPromptText();
     this.budgetTools = budgetTools;
     this.chatOptions = buildChatOptions(chatModel, budgetTools);
     this.messageMapper = messageMapper;
@@ -77,7 +81,7 @@ class SpringChatClient implements CompletionService, ToolProvider {
 
   private Prompt buildPrompt(List<Message> messages) {
     var allMessages = new ArrayList<>(messageMapper.map(messages));
-    allMessages.add(0, new SystemMessage(Constants.SYSTEM_PROMPT));
+    allMessages.add(0, new SystemMessage(systemPrompt));
 
     return new Prompt(allMessages, chatOptions);
   }
