@@ -1,10 +1,10 @@
 package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.awaitility.Awaitility.await;
 
 import com.jayway.jsonpath.JsonPath;
 import java.time.Duration;
-import java.time.Instant;
 import java.util.Map;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -41,14 +41,13 @@ class AccessLogTest extends GatewayTestSupport {
    * The access record carrying {@code requestId}, parsed. The request's observation stops once the
    * response is complete, which can be just after the client has read it, so this waits briefly.
    */
-  private static Map<String, Object> record(CapturedOutput output, String requestId)
-      throws InterruptedException {
-    var deadline = Instant.now().plus(Duration.ofSeconds(5));
-    var lines = output.getOut().lines().filter(line -> isRecord(line, requestId)).toList();
-    while (lines.isEmpty() && Instant.now().isBefore(deadline)) {
-      Thread.sleep(10);
-      lines = output.getOut().lines().filter(line -> isRecord(line, requestId)).toList();
-    }
+  private static Map<String, Object> record(CapturedOutput output, String requestId) {
+    var lines =
+        await()
+            .atMost(Duration.ofSeconds(5))
+            .until(
+                () -> output.getOut().lines().filter(line -> isRecord(line, requestId)).toList(),
+                found -> !found.isEmpty());
     assertThat(lines).hasSize(1);
     return JsonPath.parse(lines.get(0)).read("$");
   }
@@ -58,7 +57,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void anyRequest_logsRecord(CapturedOutput output) throws InterruptedException {
+  void anyRequest_logsRecord(CapturedOutput output) {
     var requestId =
         client()
             .get()
@@ -80,8 +79,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void apiRequest_withSession_logsCallerAndTheIdTheServiceReceived(CapturedOutput output)
-      throws InterruptedException {
+  void apiRequest_withSession_logsCallerAndTheIdTheServiceReceived(CapturedOutput output) {
     var path = "/api/" + randomString();
     var clientId = randomString();
     var result =
@@ -112,8 +110,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void apiRequest_withoutSession_logsRecordWithoutCallerFields(CapturedOutput output)
-      throws InterruptedException {
+  void apiRequest_withoutSession_logsRecordWithoutCallerFields(CapturedOutput output) {
     var path = "/api/" + randomString();
     var requestId =
         client()
@@ -136,8 +133,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void loginSubmission_withWrongPassword_logsRecordWithoutThePassword(CapturedOutput output)
-      throws InterruptedException {
+  void loginSubmission_withWrongPassword_logsRecordWithoutThePassword(CapturedOutput output) {
     var password = randomString();
 
     var requestId =
@@ -158,8 +154,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void logout_withSession_logsTheCallerWhoLoggedOut(CapturedOutput output)
-      throws InterruptedException {
+  void logout_withSession_logsTheCallerWhoLoggedOut(CapturedOutput output) {
     var requestId =
         browser()
             .login()
@@ -182,8 +177,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void unsafeRequest_withoutCsrfToken_logsRejection(CapturedOutput output)
-      throws InterruptedException {
+  void unsafeRequest_withoutCsrfToken_logsRejection(CapturedOutput output) {
     var path = "/api/" + randomString();
     var browser = browser().login();
 

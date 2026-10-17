@@ -165,7 +165,14 @@ class AccessLogHandlerTest extends TestBase {
   }
 
   @Test
-  void supportsContext_otherContext_isFalse() {
+  void supportsContext_withServerRequestContext_isTrue() {
+    var context = context(MockServerHttpRequest.get("/" + randomString()).build());
+
+    assertThat(handler.supportsContext(context)).isTrue();
+  }
+
+  @Test
+  void supportsContext_withOtherContext_isFalse() {
     assertThat(handler.supportsContext(new Observation.Context())).isFalse();
   }
 }

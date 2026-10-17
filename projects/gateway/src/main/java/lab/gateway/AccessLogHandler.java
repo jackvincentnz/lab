@@ -76,7 +76,7 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
     return value == null ? record : record.addKeyValue(key, value);
   }
 
-  /** The socket peer; forwarded headers are not trusted here. */
+  /** The socket peer rather than X-Forwarded-For, which any client can set to another address. */
   private static String sourceIp(ServerHttpRequest request) {
     InetSocketAddress remote = request.getRemoteAddress();
     if (remote == null) {
