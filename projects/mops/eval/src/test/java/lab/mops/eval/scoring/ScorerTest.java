@@ -64,15 +64,24 @@ class ScorerTest extends TestBase {
   @Test
   void toScore_emptyLabel_throws() {
     assertThatThrownBy(() -> Scorer.toScore(responseJson(randomString(), "")))
-        .isInstanceOf(RuntimeException.class)
-        .hasMessage("Unknown score label: ");
+        .isExactlyInstanceOf(RuntimeException.class)
+        .hasMessage("Missing score label");
+  }
+
+  @Test
+  void toScore_blankLabel_throws() {
+    assertThatThrownBy(() -> Scorer.toScore(responseJson(randomString(), "  ")))
+        .isExactlyInstanceOf(RuntimeException.class)
+        .hasMessage("Missing score label");
   }
 
   @Test
   void toScore_missingLabel_throws() {
     var response = "{\"descriptionOfQuality\": \"%s\"}".formatted(randomString());
 
-    assertThatThrownBy(() -> Scorer.toScore(response)).isInstanceOf(RuntimeException.class);
+    assertThatThrownBy(() -> Scorer.toScore(response))
+        .isExactlyInstanceOf(RuntimeException.class)
+        .hasMessage("Missing score label");
   }
 
   @Test

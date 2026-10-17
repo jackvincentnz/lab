@@ -75,6 +75,10 @@ public class Scorer {
   static Score toScore(String responseString) {
     var response = parseResponse(responseString);
 
+    if (response.scoreLabel() == null || response.scoreLabel().isBlank()) {
+      throw new RuntimeException("Missing score label");
+    }
+
     var labelIndex = SCORE_WORDS.indexOf(response.scoreLabel());
     if (labelIndex < 0) {
       throw new RuntimeException("Unknown score label: " + response.scoreLabel());
