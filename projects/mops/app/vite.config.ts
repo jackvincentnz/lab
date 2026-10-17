@@ -3,6 +3,8 @@ import type { PluginOption } from "vite";
 import { defineConfig } from "vitest/config";
 import { bazelCoverage } from "../../../tools/bazel/vitest/coverage.ts";
 
+const servicePort = Number(process.env.MOPS_PORT ?? 8080);
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [preserveHtmlEntrySymlinks()],
@@ -14,14 +16,15 @@ export default defineConfig({
   server: {
     // Node binds "localhost" to ::1 only on macOS, and the gateway connects to the app over IPv4.
     host: "127.0.0.1",
+    port: Number(process.env.MOPS_APP_PORT ?? 5173),
     proxy: {
       "/api": {
-        target: "http://127.0.0.1:8080",
+        target: `http://127.0.0.1:${servicePort}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
       "/ws": {
-        target: "ws://127.0.0.1:8080",
+        target: `ws://127.0.0.1:${servicePort}`,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/ws/, ""),
       },

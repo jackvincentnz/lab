@@ -19,7 +19,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 @ConfigurationProperties("mops.identity")
 public record IdentityProperties(
     @DefaultValue("lab-gateway") String issuer,
-    @DefaultValue("http://localhost:3006/.well-known/jwks.json") String jwkSetUri,
+    String jwkSetUri,
     @DefaultValue("mops") String audience,
     @DefaultValue Development development) {
 

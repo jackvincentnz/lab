@@ -14,6 +14,7 @@ java_library(
     exports = ["//projects/mops/service/src/main/resources/schema:java"],
     deps = [
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/application/lineitem",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",

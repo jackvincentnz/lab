@@ -1,5 +1,6 @@
 load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:ts.bzl", "ts_project")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
 SRC_PATHS = [
     "**/*.tsx",
@@ -39,6 +40,38 @@ js_library(
     srcs = glob(["**/*.css"]),
     visibility = ["//libs/bubbles:__pkg__"],
     deps = [":src_ts"],
+)
+
+ts_project(
+    name = "test_ts",
+    testonly = True,
+    srcs = glob(
+        TEST_PATHS,
+        allow_empty = True,
+    ),
+    deps = [
+        ":src",
+        "//:node_modules/@mantine/core",
+        "//:node_modules/@types/react",
+        "//:node_modules/react",
+        "//tools/bazel/vitest:utils",
+    ],
+)
+
+# Libraries have no Vite app config, so the shared config runs from the workspace root.
+vitest_run(
+    name = "test",
+    args = [
+        "--config",
+        "$(rootpath //tools/bazel/vitest:vite_config)",
+    ],
+    chdir = None,
+    data = [
+        ":test_ts",
+        "//:node_modules/react-dom",
+        "//tools/bazel/vitest:package_json",
+        "//tools/bazel/vitest:vite_config",
+    ],
 )
 
 ts_project(

@@ -1,12 +1,14 @@
-# Local port reservations:
-# 3000: tasklist
-# 3001: task
-# 3002: autojournal
-# 3003: journal
-# 3004: journal_app
+# Local port reservations, overridable with the variable in brackets:
+# 3000: tasklist (ORGANIZER_TASKLIST_PORT)
+# 3001: task (ORGANIZER_TASK_PORT)
+# 3002: autojournal (ORGANIZER_AUTOJOURNAL_PORT)
+# 3003: journal (ORGANIZER_JOURNAL_PORT)
+# 3004: journal_app (ORGANIZER_JOURNAL_APP_PORT)
 # 3005: bubbles
-# 4000: router
-# 8080: proxy
+# 4000: router (ORGANIZER_ROUTER_PORT)
+# 8080: proxy (ORGANIZER_PROXY_PORT)
+# 8081: schema registry (ORGANIZER_SCHEMA_REGISTRY_PORT)
+# 9092: Kafka (ORGANIZER_KAFKA_PORT)
 
 ---
 services:
@@ -14,7 +16,7 @@ services:
     image: confluentinc/cp-kafka:8.3.2@sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48
     container_name: broker
     ports:
-      - "9092:9092"
+      - "${ORGANIZER_KAFKA_PORT:-9092}:9092"
     environment:
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
       KAFKA_NODE_ID: 1
@@ -24,7 +26,7 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT_INTERNAL
       KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,PLAINTEXT_INTERNAL://broker:29092,CONTROLLER://broker:29093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_INTERNAL:PLAINTEXT,CONTROLLER:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_INTERNAL://broker:29092
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:${ORGANIZER_KAFKA_PORT:-9092},PLAINTEXT_INTERNAL://broker:29092
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
       KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
@@ -41,7 +43,7 @@ services:
     depends_on:
       - broker
     ports:
-      - "8081:8081"
+      - "${ORGANIZER_SCHEMA_REGISTRY_PORT:-8081}:8081"
     environment:
       SCHEMA_REGISTRY_HOST_NAME: schema-registry
       SCHEMA_REGISTRY_KAFKASTORE_BOOTSTRAP_SERVERS: "broker:29092"
@@ -54,7 +56,7 @@ services:
       broker:
         condition: service_healthy
     ports:
-      - "3001:3001"
+      - "${ORGANIZER_TASK_PORT:-3001}:3001"
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
@@ -64,7 +66,7 @@ services:
     hostname: journal
     container_name: journal
     ports:
-      - "3003:3003"
+      - "${ORGANIZER_JOURNAL_PORT:-3003}:3003"
 
   autojournal:
     image: jackvincent/lab-autojournal:latest
@@ -78,10 +80,10 @@ services:
       journal:
         condition: service_started
     ports:
-      - "3002:3002"
+      - "${ORGANIZER_AUTOJOURNAL_PORT:-3002}:3002"
     environment:
-      LAB_SERVICES_TASK_GRAPHQL_URL: http://host.docker.internal:3001/graphql
-      LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://host.docker.internal:3003/graphql
+      LAB_SERVICES_TASK_GRAPHQL_URL: http://host.docker.internal:${ORGANIZER_TASK_PORT:-3001}/graphql
+      LAB_SERVICES_JOURNAL_GRAPHQL_URL: http://host.docker.internal:${ORGANIZER_JOURNAL_PORT:-3003}/graphql
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "broker:29092"
       SPRING_KAFKA_PROPERTIES_SCHEMA_REGISTRY_URL: http://schema-registry:8081
     extra_hosts:
@@ -92,14 +94,14 @@ services:
     hostname: tasklist
     container_name: tasklist
     ports:
-      - "3000:80"
+      - "${ORGANIZER_TASKLIST_PORT:-3000}:80"
 
   journal_app:
     image: jackvincent/lab-journal-app:latest
     hostname: journal_app
     container_name: journal_app
     ports:
-      - "3004:80"
+      - "${ORGANIZER_JOURNAL_APP_PORT:-3004}:80"
 
   proxy:
     image: lab/proxy:latest
@@ -110,12 +112,12 @@ services:
       - tasklist
       - journal_app
     ports:
-      - "8080:8080"
+      - "${ORGANIZER_PROXY_PORT:-8080}:8080"
     environment:
       NGINX_PORT: 8080
-      TASK_APP_HOST: http://host.docker.internal:3000
-      JOURNAL_APP_HOST: http://host.docker.internal:3004
-      ROUTER_HOST: http://host.docker.internal:4000
+      TASK_APP_HOST: http://host.docker.internal:${ORGANIZER_TASKLIST_PORT:-3000}
+      JOURNAL_APP_HOST: http://host.docker.internal:${ORGANIZER_JOURNAL_APP_PORT:-3004}
+      ROUTER_HOST: http://host.docker.internal:${ORGANIZER_ROUTER_PORT:-4000}
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
@@ -127,7 +129,7 @@ services:
       - task
       - journal
     ports:
-      - "4000:4000"
+      - "${ORGANIZER_ROUTER_PORT:-4000}:4000"
     volumes:
       - type: bind
         source: ./router/schema/supergraph.graphql
@@ -138,8 +140,8 @@ services:
     environment:
       APOLLO_ROUTER_SUPERGRAPH_PATH: schema/local.graphql
       APOLLO_ROUTER_CONFIG_PATH: config/router.conf
-      TASK_ROUTING_URL: http://host.docker.internal:3001/graphql
-      JOURNAL_ROUTING_URL: http://host.docker.internal:3003/graphql
+      TASK_ROUTING_URL: http://host.docker.internal:${ORGANIZER_TASK_PORT:-3001}/graphql
+      JOURNAL_ROUTING_URL: http://host.docker.internal:${ORGANIZER_JOURNAL_PORT:-3003}/graphql
     command: --hot-reload
     extra_hosts:
       - "host.docker.internal:host-gateway"

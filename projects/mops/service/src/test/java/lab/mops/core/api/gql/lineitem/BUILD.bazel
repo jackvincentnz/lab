@@ -17,6 +17,7 @@ java_test_suite(
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/mops/service/src/main/java/lab/mops/common/api/gql",
         "//projects/mops/service/src/main/java/lab/mops/core/api/gql/lineitem",
+        "//projects/mops/service/src/main/java/lab/mops/core/application/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/application/lineitem",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/budget",
         "//projects/mops/service/src/main/java/lab/mops/core/domain/category",

@@ -3,6 +3,7 @@ load("//tools/bazel:java.bzl", "java_test_suite")
 java_test_suite(
     name = "llm",
     srcs = [
+        "AiPropertiesTest.java",
         "EnvironmentToolApprovalPolicyTest.java",
         "SpringChatClientTest.java",
         "SpringMessageMapperTest.java",

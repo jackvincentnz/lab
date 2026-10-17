@@ -1,8 +1,8 @@
 load("//tools/bazel:java.bzl", "java_test_suite")
 
 java_test_suite(
-    name = "tools",
-    srcs = ["DateTimeToolsTest.java"],
+    name = "loader",
+    srcs = ["EvalLoaderTest.java"],
     runner = "junit5",
     runtime_deps = [
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -10,9 +10,9 @@ java_test_suite(
         "@maven//:org_junit_platform_junit_platform_reporting",
     ],
     deps = [
-        "//libs/spring_ai_tools/src/main/java/lab/springai/tools",
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//projects/mops/eval/src/main/java/lab/mops/eval",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
-        "@maven//:org_springframework_spring_context",
     ],
 )
