@@ -8,6 +8,12 @@
   transactions, sessions, security wiring, and wire protocols such as GraphQL
   and HTTP, so that slow tests cover only what needs real infrastructure.
 
+## Layout
+
+- Write a test as arrange, act, and assert, separated by blank lines, and make
+  each step one thing you could name in a few words, so that a reader sees what
+  the test does before reading how.
+
 ## Java tests
 
 Use a Mops mapper or mutation test, such as
