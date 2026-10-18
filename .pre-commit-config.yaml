@@ -66,3 +66,16 @@ repos:
     rev: 44.166.0
     hooks:
       - id: renovate-config-validator
+
+  # Report coverage of changed lines on demand; see docs/tools.md
+  - repo: local
+    hooks:
+      - id: diff-cover
+        name: diff-cover
+        entry: diff-cover dist/out/_coverage/_coverage_report.dat --compare-branch=origin/main --include-untracked
+        language: python
+        additional_dependencies: ["diff-cover==10.6.0"]
+        pass_filenames: false
+        always_run: true
+        stages: [manual]
+        verbose: true
