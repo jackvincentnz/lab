@@ -6,7 +6,7 @@ bazel_dep(name = "bazelrc-preset.bzl", version = "1.9.2")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "36.2")
 bazel_dep(name = "rules_java", version = "9.9.0")
-bazel_dep(name = "rules_jvm_external", version = "7.1")
+bazel_dep(name = "rules_jvm_external", version = "7.2")
 bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.6")
 bazel_dep(name = "aspect_rules_js", version = "3.5.1")
@@ -118,9 +118,9 @@ maven.install(
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.7.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core, at the 4.4.0 it declares; Clikt 5 changed the CliktCommand constructor, so codegen fails with NoSuchMethodError
         "com.squareup.okhttp3:okhttp-jvm:5.5.0",
-        "org.apache.tomcat.embed:tomcat-embed-core:11.0.26",
-        "org.apache.tomcat.embed:tomcat-embed-el:11.0.26",
-        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.26",
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.27",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.27",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.27",
     ],
     boms = [
         # First wins
@@ -278,13 +278,13 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:f761b94f2cb9e8e05e2943d5f773609596113ef69b54e2433a996d109a8f78b7",
+    digest = "sha256:ebd058041a732a2b2dc0b606e34572dd8e0034de6a4aa4d50d8c13a240ac6005",
     image = "nginx",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    tag = "1.31.6-alpine-slim",
+    tag = "1.31.7-alpine-slim",
 )
 oci.toolchains(name = "lab_oci")
 use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
