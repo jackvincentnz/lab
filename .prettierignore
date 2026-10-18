@@ -4,3 +4,5 @@ dist/
 pnpm-lock.yaml
 maven_install.json
 supergraph.graphql
+# Stardoc output, checked by diff tests in //docs/bazel
+docs/bazel/*.md

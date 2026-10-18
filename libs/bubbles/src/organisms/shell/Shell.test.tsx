@@ -1,5 +1,3 @@
-import { MantineProvider } from "@mantine/core";
-
 import {
   describe,
   expect,
@@ -7,23 +5,27 @@ import {
   render,
   screen,
   userEvent,
-} from "../../../../../tools/bazel/vitest/test-utils";
+  within,
+} from "@lab/test-utils";
 import { Shell } from "./Shell";
 
 describe("Shell", () => {
   it("renders the title, navigation and content", () => {
-    render(<Shell title="Page title">Page content</Shell>, {
-      wrapper: MantineProvider,
-    });
+    render(<Shell title="Page title">Page content</Shell>);
 
-    expect(screen.getByText("Page title")).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("banner")).getByText("Page title"),
+    ).toBeInTheDocument();
+    expect(
+      within(screen.getByRole("navigation")).getByText("Page title"),
+    ).toBeInTheDocument();
     expect(screen.getByRole("link", { name: "Tasks" })).toBeInTheDocument();
     expect(screen.getByRole("main")).toHaveTextContent("Page content");
   });
 
   it("toggles both menu buttons together", async () => {
     const user = userEvent.setup();
-    render(<Shell title="Page title" />, { wrapper: MantineProvider });
+    render(<Shell title="Page title" />);
     const [headerBurger, navbarBurger] = screen.getAllByRole("button");
     // Mantine marks the open state on the burger icon inside each button.
     const isOpened = (button: HTMLElement) =>

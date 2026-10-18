@@ -1,3 +1,4 @@
+import "@mantine/core/styles.css";
 import { ApolloClient, HttpLink, InMemoryCache } from "@apollo/client";
 import { ApolloProvider } from "@apollo/client/react";
 import { MantineProvider } from "@mantine/core";

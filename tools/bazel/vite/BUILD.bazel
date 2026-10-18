@@ -1,6 +1,16 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@npm//:vite/package_json.bzl", vite_bin = "bin")
 
 vite_bin.vite_binary(
     name = "vite_binary",
     visibility = ["//visibility:public"],
 )
+
+bzl_library(
+    name = "vite",
+    srcs = ["vite.bzl"],
+    visibility = ["//visibility:public"],
+    deps = ["//tools/bazel:js"],
+)
+
+exports_files(["vite.bzl"])

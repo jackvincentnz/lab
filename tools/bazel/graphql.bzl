@@ -1,4 +1,7 @@
-"""Shared GraphQL client-preset code generation for frontend apps."""
+"""# GraphQL clients
+
+Shared GraphQL client-preset code generation for frontend apps.
+"""
 
 load("@npm//:@graphql-codegen/cli/package_json.bzl", graphql_codegen_bin = "bin")
 load("//tools/bazel:ts.bzl", "ts_project")

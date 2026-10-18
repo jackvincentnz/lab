@@ -19,6 +19,10 @@ Combines:
 
 ## Getting started
 
+Apps that use Bubbles render it inside `MantineProvider` and import
+`@mantine/core/styles.css` once at the app root, plus
+`@mantine/dates/styles.css` when they use date components.
+
 In this directory, you can run:
 
 ### Development server
@@ -47,7 +51,7 @@ Builds storybook for production to `dist/bin/libs/bubbles/storybook-static`.
 ```shell
 pnpm build-storybook-docker
 # or
-bazel run //libs/bubbles:load
+bazel run //libs/bubbles:deliver
 ```
 
 Builds and tags storybook docker image which can be run with docker.
@@ -61,7 +65,7 @@ Depends on building and tagging with `pnpm build-storybook-docker` first.
    ```shell
    pnpm run-docker
    # or
-   docker run -p 3005:80 lab/bubbles:latest
+   docker run -p 3005:80 jackvincent/lab-bubbles:latest
    ```
 
 2. Open storybook in the browser [http://localhost:3005/](http://localhost:3005/).
