@@ -26,6 +26,7 @@ ignoreWorkspaceRootCheck: true
 allowBuilds:
   {
     "@apollo/rover": false,
+    "@swc/core": false,
     cpu-features: false,
     esbuild: false,
     protobufjs: false,

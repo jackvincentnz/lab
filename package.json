@@ -44,6 +44,7 @@
     "@graphql-codegen/client-preset": "6.2.3",
     "@storybook/react": "10.6.2",
     "@storybook/react-vite": "10.6.2",
+    "@swc/core": "1.16.18",
     "@testcontainers/kafka": "12.2.1",
     "@testing-library/jest-dom": "7.0.1",
     "@testing-library/react": "16.3.3",
