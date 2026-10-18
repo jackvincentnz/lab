@@ -1,6 +1,4 @@
-import { MantineProvider } from "@mantine/core";
 import type { MockLink } from "@apollo/client/testing";
-import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
   GetTasksDocument,
@@ -15,7 +13,7 @@ import {
   userEvent,
   vi,
   waitFor,
-} from "../../../../../../tools/bazel/vitest/test-utils"; // FIXME: setup @lab/test-utils package to avoid relative jungle
+} from "@lab/test-utils";
 import DisplayTasks from "../DisplayTasks";
 
 const title = "My Task";
@@ -33,14 +31,7 @@ const mocks: readonly MockLink.MockedResponse<GetTasksQuery>[] = [
 ];
 
 it("renders without error", async () => {
-  render(
-    // FIXME: move providers into custom render
-    <MantineProvider>
-      <MockedProvider mocks={mocks}>
-        <DisplayTasks />
-      </MockedProvider>
-    </MantineProvider>,
-  );
+  render(<DisplayTasks />, { mockedProvider: { mocks } });
 
   expect(await screen.findByText(title)).toBeInTheDocument();
 });
@@ -50,30 +41,26 @@ it("marks a clicked task completed and shows the refetched state", async () => {
   const markTaskCompleted = vi.fn(() => ({
     data: { markTaskCompleted: { id } },
   }));
-  const { container } = render(
-    <MantineProvider>
-      <MockedProvider
-        mocks={[
-          ...mocks,
-          {
-            request: {
-              query: MarkTaskCompletedDocument,
-              variables: { input: { id } },
-            },
-            result: markTaskCompleted,
+  const { container } = render(<DisplayTasks />, {
+    mockedProvider: {
+      mocks: [
+        ...mocks,
+        {
+          request: {
+            query: MarkTaskCompletedDocument,
+            variables: { input: { id } },
           },
-          {
-            request: { query: GetTasksDocument },
-            result: {
-              data: { allTasks: [{ id, title, isCompleted: true }] },
-            },
+          result: markTaskCompleted,
+        },
+        {
+          request: { query: GetTasksDocument },
+          result: {
+            data: { allTasks: [{ id, title, isCompleted: true }] },
           },
-        ]}
-      >
-        <DisplayTasks />
-      </MockedProvider>
-    </MantineProvider>,
-  );
+        },
+      ],
+    },
+  });
 
   await userEvent.click(await screen.findByText(title));
 

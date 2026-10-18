@@ -1,6 +1,3 @@
-import { MantineProvider } from "@mantine/core";
-import type { PropsWithChildren } from "react";
-
 import {
   describe,
   expect,
@@ -10,7 +7,7 @@ import {
   userEvent,
   vi,
   waitFor,
-} from "../../../../../tools/bazel/vitest/test-utils";
+} from "@lab/test-utils";
 import { MonthRangePicker, type MonthYear } from "./MonthRangePicker";
 
 const JAN_TO_MAR_2024: [MonthYear, MonthYear] = [
@@ -18,14 +15,9 @@ const JAN_TO_MAR_2024: [MonthYear, MonthYear] = [
   { year: 2024, month: 3 },
 ];
 
-// jsdom has no layout, so Mantine would otherwise hide the dropdown as detached from its button.
-function TestProvider({ children }: PropsWithChildren) {
-  return <MantineProvider env="test">{children}</MantineProvider>;
-}
-
 describe("MonthRangePicker", () => {
   it("prompts for a range when no initial range is given", () => {
-    render(<MonthRangePicker />, { wrapper: TestProvider });
+    render(<MonthRangePicker />);
 
     expect(
       screen.getByRole("button", { name: "Select Range" }),
@@ -33,9 +25,7 @@ describe("MonthRangePicker", () => {
   });
 
   it("prefixes the range with the label", () => {
-    render(<MonthRangePicker label="Period" initialRange={JAN_TO_MAR_2024} />, {
-      wrapper: TestProvider,
-    });
+    render(<MonthRangePicker label="Period" initialRange={JAN_TO_MAR_2024} />);
 
     expect(
       screen.getByRole("button", { name: "Period: Jan '24 - Mar '24" }),
@@ -50,7 +40,6 @@ describe("MonthRangePicker", () => {
           { year: 2024, month: 5 },
         ]}
       />,
-      { wrapper: TestProvider },
     );
 
     expect(screen.getByRole("button", { name: "May '24" })).toBeInTheDocument();
@@ -61,7 +50,6 @@ describe("MonthRangePicker", () => {
     const onChange = vi.fn();
     render(
       <MonthRangePicker initialRange={JAN_TO_MAR_2024} onChange={onChange} />,
-      { wrapper: TestProvider },
     );
 
     await user.click(screen.getByRole("button", { name: "Jan '24 - Mar '24" }));
@@ -87,7 +75,6 @@ describe("MonthRangePicker", () => {
     const onChange = vi.fn();
     render(
       <MonthRangePicker initialRange={JAN_TO_MAR_2024} onChange={onChange} />,
-      { wrapper: TestProvider },
     );
 
     await user.click(screen.getByRole("button", { name: "Jan '24 - Mar '24" }));

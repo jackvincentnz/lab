@@ -63,7 +63,7 @@ def fe_app(
         data: Files and packages consumed by Vite/Vitest at runtime, rather than
             by application TypeScript compilation: `index.html`, `package.json`,
             public files, Vite/PostCSS config and the packages those configs
-            import (e.g. postcss-preset-mantine or `coverage_config`).
+            import (e.g. postcss-preset-mantine or `test_config`).
         test_srcs: Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus
             TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.

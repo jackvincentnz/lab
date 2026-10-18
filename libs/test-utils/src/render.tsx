@@ -1,6 +1,7 @@
 import {
   render as testingLibraryRender,
   type RenderResult,
+  type RenderOptions,
 } from "@testing-library/react";
 import { InMemoryCache } from "@apollo/client";
 import { MantineProvider } from "@mantine/core";
@@ -10,32 +11,47 @@ import {
 } from "@apollo/client/testing/react";
 import { ModalsProvider } from "@mantine/modals";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { StatsigProvider } from "@statsig/react-bindings";
 import type { PropsWithChildren } from "react";
-import { statsigClient } from "./statsig";
 
-export interface Options {
+export interface Options extends Omit<RenderOptions, "wrapper"> {
+  wrapper?: React.ComponentType<PropsWithChildren>;
   mockedProvider?: MockedProviderProps;
   route?: string;
   path?: string;
 }
 
-export function render(ui: React.ReactNode, options?: Options): RenderResult {
+export function render(
+  ui: React.ReactNode,
+  options: Options = {},
+): RenderResult {
+  const {
+    wrapper: Wrapper = ReactFragment,
+    route,
+    path,
+    mockedProvider,
+    ...renderOptions
+  } = options;
   return testingLibraryRender(ui, {
+    ...renderOptions,
     wrapper: ({ children }: PropsWithChildren) => (
-      <StatsigProvider client={statsigClient as never}>
-        <MantineProvider>
+      <Wrapper>
+        {/* Skip transitions: jsdom has no layout, so Mantine would hide a dropdown as detached. */}
+        <MantineProvider env="test">
           <ModalsProvider>
-            <RouterWrapper route={options?.route} path={options?.path}>
-              <ApolloWrapper mockedProvider={options?.mockedProvider}>
+            <RouterWrapper route={route} path={path}>
+              <ApolloWrapper mockedProvider={mockedProvider}>
                 {children}
               </ApolloWrapper>
             </RouterWrapper>
           </ModalsProvider>
         </MantineProvider>
-      </StatsigProvider>
+      </Wrapper>
     ),
   });
+}
+
+function ReactFragment({ children }: PropsWithChildren) {
+  return children;
 }
 
 function ApolloWrapper({
