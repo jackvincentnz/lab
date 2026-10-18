@@ -13,7 +13,7 @@
   - [Bazel](docs/bazel.md)
     - [DGS Java code generation](docs/bazel/dgs.md)
     - [Documentation generation](docs/bazel/docs.md)
-    - [Frontend applications and libraries](docs/bazel/fe.md)
+    - [Frontend applications](docs/bazel/fe.md)
     - [GraphQL clients](docs/bazel/graphql.md)
     - [Java](docs/bazel/java.md)
     - [JavaScript](docs/bazel/js.md)

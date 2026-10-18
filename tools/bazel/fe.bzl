@@ -1,6 +1,6 @@
-"""# Frontend applications and libraries
+"""# Frontend applications
 
-Declare Vite applications and reusable frontend libraries.
+Declare Vite applications.
 """
 
 load("//tools/bazel:js.bzl", "js_library")

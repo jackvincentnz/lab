@@ -1,8 +1,8 @@
 <!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
-# Frontend applications and libraries
+# Frontend applications
 
-Declare Vite applications and reusable frontend libraries.
+Declare Vite applications.
 
 <a id="fe_app"></a>
 
@@ -42,92 +42,5 @@ compile separately for an app-owned Storybook configuration.
 | <a id="fe_app-stories"></a>stories |  Story sources; defaults to `src/**/*.stories.ts(x)`.   |  `None` |
 | <a id="fe_app-story_deps"></a>story_deps |  Additional story dependencies (e.g. @storybook/react).   |  `[]` |
 | <a id="fe_app-visibility"></a>visibility |  Visibility of entry points, compiled src and stories.   |  `["//visibility:private"]` |
-
-
-<a id="fe_library"></a>
-
-## fe_library
-
-<pre>
-load("//tools/bazel:fe.bzl", "fe_library")
-
-fe_library(<a href="#fe_library-name">name</a>, <a href="#fe_library-deps">deps</a>, <a href="#fe_library-test_deps">test_deps</a>, <a href="#fe_library-visibility">visibility</a>)
-</pre>
-
-Legacy directory-level frontend library; use fe_app for new applications.
-
-Retained for existing directory-level consumers; migrate them separately.
-
-### Requirements
-
-- The package follows the prescribed [package structure](#package-structure).
-- The package uses Vitest test syntax.
-
-### Package structure
-
-- `*.{ts,tsx}` - sources
-- `*.{svg,css}` - assets
-- `__tests__/*.test.{ts,tsx}` - tests
-- `__tests__/*` - test sources
-- `__fixtures__/*` - test fixtures
-
-### Targets
-
-See all expanded targets with `bazel query "//path/to/package/..."`
-
-For example:
-```shell
-bazel query "//path/to/library/..."
-```
-
-#### Build targets
-
-- `...` - Type check and transpile whole package including test sources.
-- `:[target_name]` - The js_library which can be included in the deps of downstream rules.
-- `:stories` - The stories which can be included in a storybook.
-
-For example:
-
-```shell
-# e.g. Type check and transpile whole package including test sources.
-
-bazel build //path/to/library/...
-```
-
-#### Test targets
-
-- `:test` - runs tests in `./__tests__/` with vitest.
-
-For example:
-
-```shell
-# e.g. Run tests as a single cacheable run.
-
-bazel test //path/to/library:test
-```
-
-#### Run targets
-
-- `:test_watch` - runs tests in watch mode.
-- `:test_ui` - launches browser to run tests in ui mode.
-
-For example:
-
-```shell
-# e.g. Run tests in watch mode.
-
-ibazel run //path/to/library:test_watch
-```
-
-
-**PARAMETERS**
-
-
-| Name  | Description | Default Value |
-| :------------- | :------------- | :------------- |
-| <a id="fe_library-name"></a>name |  Target name   |  none |
-| <a id="fe_library-deps"></a>deps |  Deps required to build the lib   |  `[]` |
-| <a id="fe_library-test_deps"></a>test_deps |  Deps required to build the test lib   |  `[]` |
-| <a id="fe_library-visibility"></a>visibility |  visibility of the lib   |  `["//visibility:private"]` |
 
 
