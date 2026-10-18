@@ -20,8 +20,8 @@ little behavior may pass entities between the API and storage directly.
 ## Layout
 
 - Write a method as a sequence of short steps separated by blank lines, so that
-  its shape is visible at a glance. In tests, arrange, act, and assert are always
-  separate steps.
+  its shape is visible at a glance. See [testing](testing.md#layout) for how this
+  applies to tests.
 
 ## Spring
 
