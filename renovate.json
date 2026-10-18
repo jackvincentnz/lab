@@ -108,6 +108,13 @@
       "separateMajorMinor": false
     },
     {
+      "description": "Group Docker image digest-only updates separately from version updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "groupName": "Docker digests",
+      "groupSlug": "docker-digests"
+    },
+    {
       "description": "Update Confluent Platform",
       "matchPackageNames": [
         "confluentinc/cp-*",
