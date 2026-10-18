@@ -245,6 +245,22 @@ rules_ts_ext.deps(
 use_repo(rules_ts_ext, "npm_typescript")
 
 ####################################################################################################
+# aspect_rules_swc setup
+####################################################################################################
+
+swc = use_extension(
+    "@aspect_rules_swc//swc:extensions.bzl",
+    "swc",
+    dev_dependency = True,
+)
+
+# The SWC that rules_swc defaults to rejects the es2023 target, so use the @swc/core version in package.json.
+swc.toolchain(
+    name = "swc",
+    swc_version_from = "//:package.json",
+)
+
+####################################################################################################
 # rules_playwright setup
 ####################################################################################################
 

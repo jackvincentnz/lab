@@ -3,10 +3,10 @@
   "compileOnSave": false,
 
   "compilerOptions": {
-    "target": "es2022",
+    "target": "es2023",
     "module": "esnext",
     "moduleResolution": "bundler",
-    "lib": ["es2022", "dom"],
+    "lib": ["es2023", "dom"],
     "types": [],
 
     "strict": true,
