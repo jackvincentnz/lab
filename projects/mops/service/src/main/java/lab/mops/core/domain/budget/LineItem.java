@@ -1,5 +1,6 @@
 package lab.mops.core.domain.budget;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -69,7 +70,7 @@ public class LineItem extends Aggregate<LineItemId> {
   }
 
   public Set<Spend> getSpending() {
-    return spending;
+    return Collections.unmodifiableSet(spending);
   }
 
   public LineItemSpendTotals getSpendTotals(FiscalCalendar fiscalCalendar) {
@@ -77,7 +78,7 @@ public class LineItem extends Aggregate<LineItemId> {
   }
 
   public Set<Categorization> getCategorizations() {
-    return categorizations;
+    return Collections.unmodifiableSet(categorizations);
   }
 
   static LineItem add(Budget budget, String name) {
