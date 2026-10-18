@@ -12,6 +12,18 @@ Keep each PR focused on one problem. Use conventional commit messages, such as
 [commit types](#commit-types) and the [style guide](docs/style.md) for commit
 and source formatting conventions.
 
+To be prompted for each part of a conventional commit instead, stage your
+changes and run [Commitizen](https://github.com/commitizen/cz-cli) from the
+repository root:
+
+```sh
+pnpm install
+pnpm commit
+```
+
+The pre-commit and Commitlint hooks still check the commit. If a hook fails,
+fix and stage the changes, then run `pnpm commit --retry` to reuse the message.
+
 Follow the conventions of the code around your change, so that each project
 stays consistent. A project may choose its own architectural style within its
 boundary.
