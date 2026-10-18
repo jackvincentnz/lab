@@ -9,6 +9,14 @@ as [Mops](../../projects/mops/service), split each feature into `api`,
 `application`, `domain`, and `infrastructure` packages. CRUD-style services with
 little behavior may pass entities between the API and storage directly.
 
+## Naming
+
+- Name a variable, field, or parameter after its type in camelCase, such as
+  `budgetRepository` for a `BudgetRepository` and `jdbcTemplate` for a
+  `JdbcTemplate`, so that readers see what it is without looking it up.
+  Shorten only where the type repeats the enclosing context, such as `id` for
+  the `LineItemId` field of `LineItem`, and never to an abbreviation.
+
 ## Spring
 
 - Prefer Spring Boot auto-configuration and Spring defaults, such as leaving
