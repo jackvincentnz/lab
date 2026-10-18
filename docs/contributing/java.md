@@ -17,6 +17,12 @@ little behavior may pass entities between the API and storage directly.
   Shorten only where the type repeats the enclosing context, such as `id` for
   the `LineItemId` field of `LineItem`, and never to an abbreviation.
 
+## Layout
+
+- Write a method as a sequence of short steps separated by blank lines, so that
+  its shape is visible at a glance. In tests, arrange, act, and assert are always
+  separate steps.
+
 ## Spring
 
 - Prefer Spring Boot auto-configuration and Spring defaults, such as leaving
