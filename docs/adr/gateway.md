@@ -1,11 +1,10 @@
+---
+status: Proposed
+date: 2026-09-26
+owner: Jack Vincent
+---
+
 # Edge Gateway
-
-## Status
-
-Proposed.
-
-Date: 2026-09-26
-Decision owner: Jack Vincent
 
 ## Context
 

@@ -1,11 +1,10 @@
+---
+status: Proposed
+date: 2026-09-27
+owner: Jack Vincent
+---
+
 # Gateway CSRF
-
-## Status
-
-Proposed.
-
-Date: 2026-09-27
-Decision owner: Jack Vincent
 
 ## Context
 
