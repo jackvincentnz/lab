@@ -4,10 +4,10 @@ java_test_suite(
     name = "gateway",
     srcs = [
         "AccessLogHandlerTest.java",
-        "AccessLogObservationTest.java",
         "AccessLogTest.java",
         "Browser.java",
         "CallerTest.java",
+        "CallerWebFilterTest.java",
         "CsrfControllerTest.java",
         "Downstream.java",
         "FormLoginTest.java",

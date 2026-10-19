@@ -17,15 +17,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import reactor.core.publisher.Mono;
 
-class AccessLogObservationTest extends TestBase {
+class CallerWebFilterTest extends TestBase {
 
+  private final CallerWebFilter callerWebFilter = new CallerWebFilter();
   private final MockServerWebExchange exchange =
       MockServerWebExchange.from(MockServerHttpRequest.get("/" + randomString()));
   private final ServerRequestObservationContext observationContext =
       new ServerRequestObservationContext(
           exchange.getRequest(), exchange.getResponse(), exchange.getAttributes());
 
-  AccessLogObservationTest() {
+  CallerWebFilterTest() {
     exchange
         .getAttributes()
         .put(
@@ -33,12 +34,46 @@ class AccessLogObservationTest extends TestBase {
             observationContext);
   }
 
-  private Authentication signedIn(GatewayPrincipal principal) {
-    return UsernamePasswordAuthenticationToken.authenticated(
-        principal, null, principal.getAuthorities());
+  @Test
+  void filter_withGatewayCaller_addsCallerAsHighCardinalityOnly() {
+    var gatewayPrincipal = gatewayPrincipal();
+
+    callerWebFilter
+        .filter(exchange, next -> Mono.empty())
+        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(signedIn(gatewayPrincipal)))
+        .block();
+
+    assertThat(observationContext.getHighCardinalityKeyValues())
+        .containsExactlyInAnyOrder(
+            KeyValue.of(AccessLogObservation.TENANT_ID, gatewayPrincipal.tenant().toString()),
+            KeyValue.of(AccessLogObservation.PRINCIPAL_ID, gatewayPrincipal.principal().toString()),
+            KeyValue.of(AccessLogObservation.AUTHENTICATION_METHOD, Caller.FORM));
+    assertThat(observationContext.getLowCardinalityKeyValues()).isEmpty();
   }
 
-  private GatewayPrincipal principal() {
+  @Test
+  void filter_withoutAuthentication_addsNothingAndContinues() {
+    var continued = new AtomicBoolean();
+
+    callerWebFilter.filter(exchange, next -> Mono.fromRunnable(() -> continued.set(true))).block();
+
+    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
+    assertThat(continued).isTrue();
+  }
+
+  @Test
+  void filter_withOtherAuthentication_addsNothing() {
+    var testingAuthenticationToken = new TestingAuthenticationToken(randomString(), randomString());
+
+    callerWebFilter
+        .filter(exchange, next -> Mono.empty())
+        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(testingAuthenticationToken))
+        .block();
+
+    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
+  }
+
+  private GatewayPrincipal gatewayPrincipal() {
     return new GatewayPrincipal(
         new GatewayUsers.ConfiguredUser(
             randomString(),
@@ -48,44 +83,8 @@ class AccessLogObservationTest extends TestBase {
             List.of(randomString())));
   }
 
-  @Test
-  void callerFilter_withGatewayCaller_addsCallerAsHighCardinalityOnly() {
-    var principal = principal();
-
-    AccessLogObservation.callerFilter()
-        .filter(exchange, next -> Mono.empty())
-        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(signedIn(principal)))
-        .block();
-
-    assertThat(observationContext.getHighCardinalityKeyValues())
-        .containsExactlyInAnyOrder(
-            KeyValue.of(AccessLogObservation.TENANT_ID, principal.tenant().toString()),
-            KeyValue.of(AccessLogObservation.PRINCIPAL_ID, principal.principal().toString()),
-            KeyValue.of(AccessLogObservation.AUTHENTICATION_METHOD, Caller.FORM));
-    assertThat(observationContext.getLowCardinalityKeyValues()).isEmpty();
-  }
-
-  @Test
-  void callerFilter_withoutAuthentication_addsNothingAndContinues() {
-    var continued = new AtomicBoolean();
-
-    AccessLogObservation.callerFilter()
-        .filter(exchange, next -> Mono.fromRunnable(() -> continued.set(true)))
-        .block();
-
-    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
-    assertThat(continued).isTrue();
-  }
-
-  @Test
-  void callerFilter_withOtherAuthentication_addsNothing() {
-    var authentication = new TestingAuthenticationToken(randomString(), randomString());
-
-    AccessLogObservation.callerFilter()
-        .filter(exchange, next -> Mono.empty())
-        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication))
-        .block();
-
-    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
+  private Authentication signedIn(GatewayPrincipal gatewayPrincipal) {
+    return UsernamePasswordAuthenticationToken.authenticated(
+        gatewayPrincipal, null, gatewayPrincipal.getAuthorities());
   }
 }

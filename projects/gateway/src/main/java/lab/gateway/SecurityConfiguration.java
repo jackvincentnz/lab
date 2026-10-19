@@ -66,7 +66,7 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
-        .addFilterAfter(AccessLogObservation.callerFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
+        .addFilterAfter(new CallerWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
         .csrf(csrf -> csrf.csrfTokenRepository(csrfTokens))
         .logout(ServerHttpSecurity.LogoutSpec::disable)
         .addFilterAt(GatewayLogout.filter(csrfTokens), SecurityWebFiltersOrder.LOGOUT)

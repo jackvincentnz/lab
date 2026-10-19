@@ -14,8 +14,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * Writes one access record for each request when the request's observation stops, after the
- * response is complete, from the request, the response, and the fields {@link AccessLogObservation}
- * added along the way.
+ * response is complete, from the request, the response, and the fields {@link RequestIdWebFilter}
+ * and {@link CallerWebFilter} added along the way.
  *
  * <p>The record is built from named fields only, so no header, cookie, token, or request body value
  * can reach the log. A field is left out, rather than written empty, when it is unknown.

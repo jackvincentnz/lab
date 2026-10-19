@@ -45,14 +45,16 @@ observation, and `AccessLogHandler` writes the record when the observation stops
 response is complete.
 
 - `RequestIdWebFilter` runs first and adds `request_id`.
-- A filter in the security chain, after authentication, adds the caller fields from the security
-  context. It runs before logout, so a logout record names the caller who logged out.
+- `CallerWebFilter` runs in the security chain after authentication and adds the caller fields
+  from the security context. It runs before logout, so a logout record names the caller who
+  logged out.
 - `AccessLogHandler` reads `method`, `path`, `status`, `duration_ms`, and `source_ip` from the
   request and response.
 
 Added fields are high-cardinality key values, so they never become tags on the
-`http.server.requests` metric. A new field is added the same way: add it to the observation where
-the gateway learns it, and name it in `AccessLogHandler`.
+`http.server.requests` metric. `AccessLogObservation` names these fields and adds them. A new field
+is added the same way: name it in `AccessLogObservation`, add it where the gateway learns it, and
+list it in `AccessLogHandler`.
 
 ## Request ID
 

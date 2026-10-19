@@ -6,6 +6,7 @@ java_library(
         "AccessLogHandler.java",
         "AccessLogObservation.java",
         "Caller.java",
+        "CallerWebFilter.java",
         "CsrfController.java",
         "GatewayApplication.java",
         "GatewayLogout.java",
@@ -29,7 +30,6 @@ java_library(
         "@maven//:org_springframework_cloud_spring_cloud_gateway_server_webflux",
         "@maven//:org_springframework_security_spring_security_core",
         "@maven//:org_springframework_security_spring_security_web",
-        "@maven//:org_springframework_spring_web",
     ],
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
