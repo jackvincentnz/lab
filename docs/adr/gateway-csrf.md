@@ -4,8 +4,8 @@
 
 Proposed.
 
-Date: 2026-09-27
-Decision owner: Jack Vincent
+- **Date:** 2026-09-27
+- **Decision owner:** Jack Vincent
 
 ## Context
 
