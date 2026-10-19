@@ -4,8 +4,10 @@
 
 Proposed.
 
-Date: 2026-09-26
-Decision owner: Jack Vincent
+| Field | Value |
+| --- | --- |
+| Date | 2026-09-26 |
+| Decision owner | Jack Vincent |
 
 ## Context
 
