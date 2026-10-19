@@ -17,8 +17,17 @@ little behavior may pass entities between the API and storage directly.
   Shorten only where the type repeats the enclosing context, such as `id` for
   the `LineItemId` field of `LineItem`, and never to an abbreviation.
 
+## Classes
+
+- Give each class one role and name it for that role, such as a `WebFilter` or
+  a Kafka listener in a class of its own, so that readers find behavior by its
+  name.
+
 ## Layout
 
+- Order a class top down, following Clean Code's stepdown rule: put each private
+  method below the first method that calls it, so that details appear as a
+  reader needs them.
 - Write a method as a sequence of short steps separated by blank lines, so that
   its shape is visible at a glance. See [testing](testing.md#layout) for how this
   applies to tests.
