@@ -47,7 +47,7 @@ authenticated browser session; the provider-supported protocol, SDK, and session
 implementation choices, not mandated here.
 
 For external API and MCP callers, the gateway validates authorization-server-issued access tokens,
-including issuer, signature, expiry, and the audience of the *public* API or MCP resource. OAuth
+including issuer, signature, expiry, and the audience of the _public_ API or MCP resource. OAuth
 client registration and user consent for third-party access belong to the authorization server.
 The provider does not need to know about private downstream services.
 
