@@ -18,8 +18,8 @@ the 401 rather than the login redirect.
 
 The handshake the service receives is built like a proxied API request:
 
-- `Authorization: Bearer <identity token>`, minted for the route's audience. Any `Authorization`
-  the client sent is dropped.
+- `Authorization: Bearer <identity token>`, minted for the route's audience. A bearer the client
+  sent is verified as on an API request; any other `Authorization` is dropped.
 - No `Cookie`.
 - The gateway's `X-Request-ID`.
 - `Host` set to the service's own address.

@@ -3,6 +3,8 @@ package lab.gateway;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import lab.libs.identity.testing.JwkSetServer;
+import lab.libs.identity.testing.TestTokens;
 import lab.test.TestBase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -35,6 +37,12 @@ abstract class GatewayTestSupport extends TestBase {
           UUID.randomUUID(),
           List.of("mops:read", "mops:write"));
 
+  static final String BEARER_ISSUER = "https://issuer.lab.test";
+  static final String BEARER_AUDIENCE = "lab-gateway";
+
+  /** Publishes the keys bearer tokens are signed with, as the configured issuer does. */
+  static final JwkSetServer BEARER_KEYS = JwkSetServer.start(TestTokens.devJwkSet());
+
   @LocalServerPort int port;
 
   @DynamicPropertySource
@@ -44,12 +52,23 @@ abstract class GatewayTestSupport extends TestBase {
 
   static void configureGateway(DynamicPropertyRegistry registry) {
     registry.add("lab.gateway.token.ephemeral-key", () -> true);
+    registry.add("spring.security.oauth2.resourceserver.jwt.issuer-uri", () -> BEARER_ISSUER);
+    registry.add("spring.security.oauth2.resourceserver.jwt.jwk-set-uri", BEARER_KEYS::uri);
     registry.add("lab.gateway.users[0].username", USER::username);
     registry.add("lab.gateway.users[0].password", USER::password);
     registry.add("lab.gateway.users[0].principal", USER::principal);
     registry.add("lab.gateway.users[0].tenant", USER::tenant);
     registry.add("lab.gateway.users[0].scopes[0]", () -> USER.scopes().get(0));
     registry.add("lab.gateway.users[0].scopes[1]", () -> USER.scopes().get(1));
+  }
+
+  /** A bearer token from the configured issuer for the given user, addressed to the gateway. */
+  static TestTokens.Token bearer(GatewayUsers.ConfiguredUser user) {
+    return TestTokens.forAudience(BEARER_AUDIENCE)
+        .issuer(BEARER_ISSUER)
+        .principal(user.principal())
+        .tenant(user.tenant())
+        .scopes(user.scopes().toArray(String[]::new));
   }
 
   WebTestClient client() {

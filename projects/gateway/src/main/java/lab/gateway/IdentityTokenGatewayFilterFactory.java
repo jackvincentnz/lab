@@ -42,7 +42,7 @@ public class IdentityTokenGatewayFilterFactory
                 Mono.error(
                     () ->
                         new ResponseStatusException(
-                            HttpStatus.UNAUTHORIZED, "The route needs a gateway session")))
+                            HttpStatus.UNAUTHORIZED, "The route needs an authenticated caller")))
             .map(caller -> minter.mint(caller, config.getAudience()))
             .flatMap(
                 token ->

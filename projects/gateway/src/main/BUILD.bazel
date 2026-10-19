@@ -13,14 +13,15 @@ java_library(
         "//projects/gateway/src/main/java/lab/gateway",
         "@maven//:org_springframework_boot_spring_boot_loader",
         "@maven//:org_springframework_boot_spring_boot_starter_actuator",
+        "@maven//:org_springframework_boot_spring_boot_starter_oauth2_resource_server",
         "@maven//:org_springframework_boot_spring_boot_starter_security",
         "@maven//:org_springframework_boot_spring_boot_starter_session_data_redis",
         "@maven//:org_springframework_cloud_spring_cloud_starter_gateway_server_webflux",
     ],
 )
 
-# Spring Boot starts and stops Redis from compose.yaml around the local run. The compose
-# dependency stays on this run target so a delivered image never carries it.
+# Spring Boot starts and stops Redis and the mock issuer from compose.yaml around the local run.
+# The compose dependency stays on this run target so a delivered image never carries it.
 java_binary(
     name = "main",
     data = ["//projects/gateway:compose.yaml"],

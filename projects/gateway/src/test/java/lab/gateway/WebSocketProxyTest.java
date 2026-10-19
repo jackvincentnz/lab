@@ -55,7 +55,7 @@ class WebSocketProxyTest extends GatewayTestSupport {
         httpClient
             .newWebSocketBuilder()
             .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString())
-            .header(HttpHeaders.AUTHORIZATION, BEARER + randomString());
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString());
 
     var handshake = handshake(webSocketBuilder);
 

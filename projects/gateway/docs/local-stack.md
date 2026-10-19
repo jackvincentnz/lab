@@ -8,6 +8,7 @@ the Mops app dev server. Everything shares one terminal, and Ctrl-C stops all of
 | ------------ | ---- | ------------------------------------ |
 | Gateway      | 3006 | `//projects/gateway`                 |
 | Redis        | 6379 | The gateway, from `compose.yaml`     |
+| Mock issuer  | 3007 | The gateway, from `compose.yaml`     |
 | Mops service | 8080 | `//projects/mops`                    |
 | Mops app     | 5173 | `//projects/mops`, which opens a tab |
 
@@ -24,6 +25,11 @@ On shutdown it runs `docker compose stop`, so the container is kept and reused b
 The host port is `GATEWAY_REDIS_PORT`, default 6379. Docker Compose reads it from the gateway's
 environment, and Spring connects to whatever port the container publishes, so no Spring property
 changes with it.
+
+The same compose file runs the mock bearer token issuer, which the `local` profile trusts. Its host
+port is `GATEWAY_ISSUER_PORT`, default 3007. The issuer URI is part of every token, so the `local`
+profile reads the same variable for `issuer-uri` and `jwk-set-uri`. See
+[Bearer tokens](bearer-tokens.md).
 
 `bazel run` does not run from the project directory, so the run target passes the compose file as
 a runfile through `spring.docker.compose.file`. The dependency sits on the run target only; the

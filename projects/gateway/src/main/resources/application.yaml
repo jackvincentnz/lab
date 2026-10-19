@@ -4,6 +4,13 @@ server.reactive.session.cookie.same-site: lax
 spring:
   application:
     name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # Client bearer tokens must be addressed to the gateway, so an identity token minted for a
+          # downstream service is never accepted as a client credential.
+          audiences: lab-gateway
   session:
     redis:
       namespace: lab:gateway:sessions
