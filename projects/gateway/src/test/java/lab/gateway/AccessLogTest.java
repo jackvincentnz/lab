@@ -37,25 +37,6 @@ class AccessLogTest extends GatewayTestSupport {
     registry.add("lab.gateway.mops.service-uri", mopsService::uri);
   }
 
-  /**
-   * The access record carrying {@code requestId}, parsed. The request's observation stops once the
-   * response is complete, which can be just after the client has read it, so this waits briefly.
-   */
-  private static Map<String, Object> record(CapturedOutput output, String requestId) {
-    var lines =
-        await("the access record for request " + requestId)
-            .atMost(Duration.ofSeconds(5))
-            .until(
-                () -> output.getOut().lines().filter(line -> isRecord(line, requestId)).toList(),
-                found -> !found.isEmpty());
-    assertThat(lines).hasSize(1);
-    return JsonPath.parse(lines.get(0)).read("$");
-  }
-
-  private static boolean isRecord(String line, String requestId) {
-    return line.startsWith("{") && line.contains("\"Access\"") && line.contains(requestId);
-  }
-
   @Test
   void health_withoutSession_logsRecord(CapturedOutput output) {
     var requestId =
@@ -198,5 +179,24 @@ class AccessLogTest extends GatewayTestSupport {
         .containsEntry("path", path)
         .containsEntry("status", 403)
         .containsEntry("request_id", requestId);
+  }
+
+  /**
+   * The access record carrying {@code requestId}, parsed. The request's observation stops once the
+   * response is complete, which can be just after the client has read it, so this waits briefly.
+   */
+  private static Map<String, Object> record(CapturedOutput output, String requestId) {
+    var lines =
+        await("the access record for request " + requestId)
+            .atMost(Duration.ofSeconds(5))
+            .until(
+                () -> output.getOut().lines().filter(line -> isRecord(line, requestId)).toList(),
+                found -> !found.isEmpty());
+    assertThat(lines).hasSize(1);
+    return JsonPath.parse(lines.get(0)).read("$");
+  }
+
+  private static boolean isRecord(String line, String requestId) {
+    return line.startsWith("{") && line.contains("\"Access\"") && line.contains(requestId);
   }
 }

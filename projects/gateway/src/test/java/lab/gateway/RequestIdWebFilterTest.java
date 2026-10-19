@@ -17,33 +17,6 @@ class RequestIdWebFilterTest extends TestBase {
   private final RequestIdWebFilter requestIdWebFilter = new RequestIdWebFilter();
   private final AtomicReference<ServerWebExchange> forwarded = new AtomicReference<>();
 
-  /** An exchange carrying a request observation, the way HttpWebHandlerAdapter hands it over. */
-  private MockServerWebExchange exchange(MockServerHttpRequest.BaseBuilder<?> request) {
-    var exchange = MockServerWebExchange.from(request);
-    exchange
-        .getAttributes()
-        .put(
-            ServerRequestObservationContext.CURRENT_OBSERVATION_CONTEXT_ATTRIBUTE,
-            new ServerRequestObservationContext(
-                exchange.getRequest(), exchange.getResponse(), exchange.getAttributes()));
-    return exchange;
-  }
-
-  private void run(ServerWebExchange exchange) {
-    requestIdWebFilter
-        .filter(
-            exchange,
-            next -> {
-              forwarded.set(next);
-              return next.getResponse().setComplete();
-            })
-        .block();
-  }
-
-  private static String returned(ServerWebExchange exchange) {
-    return exchange.getResponse().getHeaders().getFirst(RequestIdWebFilter.HEADER);
-  }
-
   @Test
   void filter_anyRequest_addsReturnedIdToObservation() {
     var exchange = exchange(MockServerHttpRequest.get("/" + randomString()));
@@ -105,5 +78,32 @@ class RequestIdWebFilterTest extends TestBase {
     run(second);
 
     assertThat(returned(first)).isNotEqualTo(returned(second));
+  }
+
+  /** An exchange carrying a request observation, the way HttpWebHandlerAdapter hands it over. */
+  private MockServerWebExchange exchange(MockServerHttpRequest.BaseBuilder<?> request) {
+    var exchange = MockServerWebExchange.from(request);
+    exchange
+        .getAttributes()
+        .put(
+            ServerRequestObservationContext.CURRENT_OBSERVATION_CONTEXT_ATTRIBUTE,
+            new ServerRequestObservationContext(
+                exchange.getRequest(), exchange.getResponse(), exchange.getAttributes()));
+    return exchange;
+  }
+
+  private void run(ServerWebExchange exchange) {
+    requestIdWebFilter
+        .filter(
+            exchange,
+            next -> {
+              forwarded.set(next);
+              return next.getResponse().setComplete();
+            })
+        .block();
+  }
+
+  private static String returned(ServerWebExchange exchange) {
+    return exchange.getResponse().getHeaders().getFirst(RequestIdWebFilter.HEADER);
   }
 }

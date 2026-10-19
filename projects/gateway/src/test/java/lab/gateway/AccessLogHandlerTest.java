@@ -40,32 +40,6 @@ class AccessLogHandlerTest extends TestBase {
     logger.detachAppender(listAppender);
   }
 
-  private String sourceIp() {
-    return "192.0.2." + (1 + randomInt() % 254);
-  }
-
-  private int port() {
-    return 1024 + randomInt() % 64512;
-  }
-
-  private ServerRequestObservationContext observationContext(MockServerHttpRequest request) {
-    return new ServerRequestObservationContext(
-        request, new MockServerHttpResponse(), new HashMap<>());
-  }
-
-  private void observe(ServerRequestObservationContext observationContext, HttpStatus status) {
-    accessLogHandler.onStart(observationContext);
-    observationContext.getResponse().setStatusCode(status);
-    accessLogHandler.onStop(observationContext);
-  }
-
-  private Map<String, Object> onlyRecord() {
-    assertThat(listAppender.list).hasSize(1);
-    assertThat(listAppender.list.get(0).getFormattedMessage()).isEqualTo("Access");
-    return listAppender.list.get(0).getKeyValuePairs().stream()
-        .collect(Collectors.toMap(pair -> pair.key, pair -> pair.value));
-  }
-
   @Test
   void onStop_withCaller_logsEveryField() {
     var path = "/api/" + randomString();
@@ -219,5 +193,31 @@ class AccessLogHandlerTest extends TestBase {
     var supported = accessLogHandler.supportsContext(observationContext);
 
     assertThat(supported).isFalse();
+  }
+
+  private String sourceIp() {
+    return "192.0.2." + (1 + randomInt() % 254);
+  }
+
+  private ServerRequestObservationContext observationContext(MockServerHttpRequest request) {
+    return new ServerRequestObservationContext(
+        request, new MockServerHttpResponse(), new HashMap<>());
+  }
+
+  private int port() {
+    return 1024 + randomInt() % 64512;
+  }
+
+  private void observe(ServerRequestObservationContext observationContext, HttpStatus status) {
+    accessLogHandler.onStart(observationContext);
+    observationContext.getResponse().setStatusCode(status);
+    accessLogHandler.onStop(observationContext);
+  }
+
+  private Map<String, Object> onlyRecord() {
+    assertThat(listAppender.list).hasSize(1);
+    assertThat(listAppender.list.get(0).getFormattedMessage()).isEqualTo("Access");
+    return listAppender.list.get(0).getKeyValuePairs().stream()
+        .collect(Collectors.toMap(pair -> pair.key, pair -> pair.value));
   }
 }
