@@ -52,7 +52,9 @@ paths focused assertions even when the total is high.
 
 Collect coverage for the tests of the code you changed, then run
 [changed-line coverage](tools.md#changed-line-coverage) to list the changed
-lines those tests miss. It does not list a changed file that the report omits,
-so check collection for any such file. A local run measures only the selected
-targets, not the repository. Then run the broader
+lines those tests miss. It does not list a changed file that the report omits;
+[missing sources](../tools/coverage_report/README.md) lists every production
+file the report has no record for, so run it to find such a file. A local run
+measures only the selected targets, so its count means something only for a
+full `//...` collection. Then run the broader
 [validation](../CONTRIBUTING.md#validating-a-change).
