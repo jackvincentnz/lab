@@ -21,17 +21,17 @@ Logstash format, one object per line, so the record's fields are flat top-level 
 }
 ```
 
-| Field                   | Source                                                                    |
-| ----------------------- | ------------------------------------------------------------------------- |
-| `method`                | The request's HTTP method.                                                |
-| `path`                  | The public path, before routes rewrite it. The query string is omitted.   |
-| `status`                | The status the gateway returned, including ones the security chain set.   |
-| `duration_ms`           | Time from the request arriving to the response completing.                |
-| `source_ip`             | The socket peer. Forwarded headers such as `X-Forwarded-For` are ignored. |
-| `request_id`            | A UUID the gateway mints for this request.                                |
-| `tenant_id`             | The authenticated caller's active tenant.                                 |
-| `principal_id`          | The authenticated caller's principal.                                     |
-| `authentication_method` | How the caller authenticated, as the identity token's `amr` value.        |
+| Field                   | Source                                                                                                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `method`                | The request's HTTP method.                                                                                                                                    |
+| `path`                  | The public path, before routes rewrite it. The query string is omitted.                                                                                       |
+| `status`                | The status the gateway returned, including ones the security chain set.                                                                                       |
+| `duration_ms`           | Time from the request arriving to the response completing.                                                                                                    |
+| `source_ip`             | The remote address as the server reports it: the socket peer, unless Spring Boot detects a cloud platform and reads `X-Forwarded-For` from its load balancer. |
+| `request_id`            | A UUID the gateway mints for this request.                                                                                                                    |
+| `tenant_id`             | The authenticated caller's active tenant.                                                                                                                     |
+| `principal_id`          | The authenticated caller's principal.                                                                                                                         |
+| `authentication_method` | How the caller authenticated, as the identity token's `amr` value.                                                                                            |
 
 A field the gateway does not know for a request is left out rather than written empty. The record
 is built from named fields only, so header values, cookies, tokens, and request bodies such as the

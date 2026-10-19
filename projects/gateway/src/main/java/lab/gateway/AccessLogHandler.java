@@ -82,7 +82,7 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
     return value == null ? loggingEventBuilder : loggingEventBuilder.addKeyValue(key, value);
   }
 
-  /** The socket peer rather than X-Forwarded-For, which any client can set to another address. */
+  /** The remote address as the server reports it, which Spring Boot derives from the platform. */
   private static String sourceIp(ServerHttpRequest request) {
     InetSocketAddress remoteAddress = request.getRemoteAddress();
     if (remoteAddress == null) {
