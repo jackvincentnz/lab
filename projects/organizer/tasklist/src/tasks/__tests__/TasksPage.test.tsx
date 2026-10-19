@@ -1,17 +1,10 @@
-import { MantineProvider } from "@mantine/core";
 import type { MockLink } from "@apollo/client/testing";
-import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
   GetTasksDocument,
   type GetTasksQuery,
 } from "../../__generated__/graphql";
-import {
-  expect,
-  it,
-  render,
-  screen,
-} from "../../../../../../tools/bazel/vitest/test-utils";
+import { expect, it, render, screen } from "@lab/test-utils";
 import TasksPage from "../TasksPage";
 
 it("renders the add form and the task list", async () => {
@@ -25,13 +18,7 @@ it("renders the add form and the task list", async () => {
     },
   ];
 
-  render(
-    <MantineProvider>
-      <MockedProvider mocks={mocks}>
-        <TasksPage />
-      </MockedProvider>
-    </MantineProvider>,
-  );
+  render(<TasksPage />, { mockedProvider: { mocks } });
 
   expect(
     screen.getByRole("textbox", { name: "Task name" }),

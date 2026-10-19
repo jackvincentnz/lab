@@ -1,5 +1,6 @@
 packages:
   - "libs/bubbles"
+  - "libs/test-utils"
   - "projects/mops/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"
@@ -13,7 +14,7 @@ packageExtensions:
     peerDependencies:
       node-gyp: "*"
 overrides:
-  qs: 6.16.0
+  qs: 6.16.1
   tmp: 0.2.7
 # Disabling pnpm [hoisting](https://pnpm.io/npmrc#hoist) by setting `hoist: false` is recommended on
 # projects using rules_js so that pnpm outside of Bazel lays out a node_modules tree similar to what
@@ -26,6 +27,7 @@ ignoreWorkspaceRootCheck: true
 allowBuilds:
   {
     "@apollo/rover": false,
+    "@swc/core": false,
     cpu-features: false,
     esbuild: false,
     protobufjs: false,

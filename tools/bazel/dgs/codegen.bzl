@@ -1,5 +1,6 @@
-"""
-Rule for generate dgs java types from a graphql schema
+"""# DGS Java code generation
+
+Generate Java types and clients from GraphQL schemas.
 """
 
 load("//tools/bazel:java.bzl", "java_library")
@@ -73,14 +74,17 @@ exit "$exit_code"
     ]
 
 dgs_codegen = rule(
+    doc = "Generate a Java source jar from GraphQL schemas with DGS client generation and BigDecimal mapped to java.math.BigDecimal.",
     implementation = _dgs_codegen,
     attrs = {
         "schemas": attr.label_list(
+            doc = "GraphQL schema files to generate Java sources from.",
             mandatory = True,
             allow_empty = False,
             allow_files = [".graphqls"],
         ),
         "package_name": attr.string(
+            doc = "Java package for the generated sources.",
             mandatory = True,
         ),
         "_codegen_binary": attr.label(
@@ -98,6 +102,16 @@ dgs_codegen = rule(
 )
 
 def dgs_codegen_library(name, **kwargs):
+    """Generate GraphQL Java sources and compile them into a Java library.
+
+    Creates name + "_srcs" using dgs_codegen, then a Java library named name.
+    The library includes the DGS shared core, Jackson annotations, and GraphQL
+    Java dependencies. Visibility defaults to private.
+
+    Args:
+        name: Target name.
+        **kwargs: Attributes passed to dgs_codegen, plus visibility for the Java library.
+    """
     visibility = kwargs.pop("visibility", ["//visibility:private"])
 
     dgs_codegen(

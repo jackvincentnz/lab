@@ -3,8 +3,10 @@ load("//tools/bazel:java.bzl", "java_library")
 java_library(
     name = "gateway",
     srcs = [
-        "AccessLogWebFilter.java",
+        "AccessLogHandler.java",
+        "AccessLogObservation.java",
         "Caller.java",
+        "CallerWebFilter.java",
         "CsrfController.java",
         "GatewayApplication.java",
         "GatewayLogout.java",
@@ -15,6 +17,7 @@ java_library(
         "IdentityTokenMinter.java",
         "IdentityTokenProperties.java",
         "JwkSetController.java",
+        "RequestIdWebFilter.java",
         "SecurityConfiguration.java",
         "SigningKey.java",
     ],
@@ -31,6 +34,8 @@ java_library(
     deps = [
         "//libs/identity/src/main/java/lab/libs/identity/jwt",
         "@maven//:com_nimbusds_nimbus_jose_jwt",
+        "@maven//:io_micrometer_micrometer_commons",
+        "@maven//:io_micrometer_micrometer_observation",
         "@maven//:io_projectreactor_reactor_core",
         "@maven//:org_slf4j_slf4j_api",
         "@maven//:org_springframework_boot_spring_boot",

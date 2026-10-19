@@ -1,5 +1,7 @@
 # Testing guidelines
 
+See [coverage](../coverage.md) for how coverage is collected and how to read it.
+
 ## Test pyramid
 
 - Unit test every class with logic, so that most behavior is checked by fast,
@@ -7,6 +9,12 @@
 - Use Spring context or Testcontainers tests only for SQL, migrations,
   transactions, sessions, security wiring, and wire protocols such as GraphQL
   and HTTP, so that slow tests cover only what needs real infrastructure.
+
+## Layout
+
+- Write a test as arrange, act, and assert, separated by blank lines, and make
+  each step one thing you could name in a few words, so that a reader sees what
+  the test does before reading how.
 
 ## Java tests
 
@@ -36,3 +44,16 @@ named after the directory.
   `src/test`, with no tests, so that other tests depend on its
   `<name>-test-lib` target, such as
   `//libs/test/src/test/java/lab/test:test-test-lib`.
+
+## Frontend tests
+
+- Import `render`, `screen`, `userEvent` and the Vitest API from
+  [`@lab/test-utils`](../../libs/test-utils/src/index.ts), so that every
+  component renders inside the same Mantine, modal, router and Apollo providers.
+  Pass `mockedProvider`, `route` and `path` to `render` for Apollo mocks and
+  routing, and `wrapper` for any other provider.
+- Build an app's `vite.config.ts` with `mergeConfig(bazelVitestConfig(), ...)`
+  from [`tools/bazel/vitest/config.ts`](../../tools/bazel/vitest/config.ts), so
+  that test discovery, coverage and the shared setup stay the same in every app.
+  Point `setupFiles` at an app setup file only for app-specific mocks, and
+  import `@lab/test-utils/setup` from it, as Mops does.

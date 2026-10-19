@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.Month;
 import lab.libs.ddd.domain.ValidationException;
+import lab.mops.core.domain.category.CategoryId;
+import lab.mops.core.domain.category.CategoryValueId;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 
@@ -116,6 +118,24 @@ class LineItemTest extends TestBase {
     lineItem.planSpend(spend1);
 
     assertThatThrownBy(() -> lineItem.planSpend(spend2)).isInstanceOf(ValidationException.class);
+  }
+
+  @Test
+  void getSpending_whenModified_throws() {
+    var lineItem = newLineItem();
+    var spend = Spend.of(LocalDate.now(), BigDecimal.valueOf(randomInt(), 2));
+
+    assertThatThrownBy(() -> lineItem.getSpending().add(spend))
+        .isInstanceOf(UnsupportedOperationException.class);
+  }
+
+  @Test
+  void getCategorizations_whenModified_throws() {
+    var lineItem = newLineItem();
+    var categorization = Categorization.of(CategoryId.create(), CategoryValueId.create());
+
+    assertThatThrownBy(() -> lineItem.getCategorizations().add(categorization))
+        .isInstanceOf(UnsupportedOperationException.class);
   }
 
   @Test

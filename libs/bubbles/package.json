@@ -11,19 +11,19 @@
   },
   "types": "src/index.d.ts",
   "scripts": {
-    "build": "bazel build //libs/bubbles",
+    "build": "bazel build //libs/bubbles:pkg",
     "storybook": "ibazel run //libs/bubbles:storybook",
     "build-storybook": "bazel build //libs/bubbles:build_storybook",
-    "build-storybook-docker": "bazel run //libs/bubbles:load",
-    "run-docker": "docker run -p 3005:80 lab/bubbles:latest"
+    "build-storybook-docker": "bazel run //libs/bubbles:deliver",
+    "run-docker": "docker run -p 3005:80 jackvincent/lab-bubbles:latest"
   },
   "peerDependencies": {
-    "@mantine/core": "9.6.3",
-    "@mantine/dates": "9.6.3",
-    "@mantine/hooks": "9.6.3",
+    "@mantine/core": "9.7.2",
+    "@mantine/dates": "9.7.2",
+    "@mantine/hooks": "9.7.2",
     "dayjs": "1.11.23",
-    "@tabler/icons-react": "3.48.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "@tabler/icons-react": "3.49.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
   }
 }

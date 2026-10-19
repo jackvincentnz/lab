@@ -1,11 +1,10 @@
+---
+status: Accepted
+date: 2026-09-30
+owner: Jack Vincent
+---
+
 # Java BUILD files
-
-## Status
-
-Accepted.
-
-Date: 2026-09-30
-Decision owner: Jack Vincent
 
 ## Context
 

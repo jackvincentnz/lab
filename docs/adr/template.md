@@ -1,11 +1,10 @@
+---
+status: Proposed
+date: YYYY-MM-DD
+owner: Name
+---
+
 # Title Of The Decision
-
-## Status
-
-Proposed.
-
-Date: YYYY-MM-DD
-Decision owner: Name
 
 ## Context
 

@@ -4,15 +4,13 @@
   "pre-commit": {
     "enabled": true
   },
-  "regex": {
-    "ignorePaths": [
-      "**/node_modules/**",
-      "**/bower_components/**",
-      "**/vendor/**",
-      "**/examples/**",
-      "**/__fixtures__/**"
-    ]
-  },
+  "ignorePaths": [
+    "**/node_modules/**",
+    "**/bower_components/**",
+    "**/vendor/**",
+    "**/examples/**",
+    "**/__fixtures__/**"
+  ],
   "customManagers": [
     {
       "customType": "regex",
@@ -57,6 +55,17 @@
       "datasourceTemplate": "github-release-attachments",
       "versioningTemplate": "semver",
       "autoReplaceStringTemplate": "{{#if newDigest}}{{#if (equals currentDigest newDigest)}}{{{replaceString}}}{{else}}{{{replace currentDigest newDigest (replace currentValue newValue replaceString)}}}{{/if}}{{else}}{{{replaceString}}}{{/if}}"
+    },
+    {
+      "customType": "regex",
+      "description": "Update the rules_playwright browser version with @playwright/test",
+      "managerFilePatterns": ["/^MODULE\\.bazel$/"],
+      "matchStrings": [
+        "playwright_version\\s*=\\s*\"(?<currentValue>[^\"\\s]+)\""
+      ],
+      "datasourceTemplate": "npm",
+      "depNameTemplate": "@playwright/test",
+      "versioningTemplate": "npm"
     }
   ],
   "packageRules": [
@@ -89,6 +98,21 @@
         "!com.google.protobuf:protobuf-bom",
         "!@playwright/test"
       ]
+    },
+    {
+      "description": "Update @playwright/test and the rules_playwright browser version together, below 1.57 until rules_playwright supports the Chrome for Testing downloads that Playwright 1.57 and later use",
+      "matchPackageNames": ["@playwright/test"],
+      "allowedVersions": "<1.57",
+      "groupName": "Playwright",
+      "groupSlug": "playwright",
+      "separateMajorMinor": false
+    },
+    {
+      "description": "Group Docker image digest-only updates separately from version updates",
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["digest"],
+      "groupName": "Docker digests",
+      "groupSlug": "docker-digests"
     },
     {
       "description": "Update Confluent Platform",
