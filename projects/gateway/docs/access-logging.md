@@ -25,7 +25,7 @@ Logstash format, one object per line, so the record's fields are flat top-level 
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `method`                | The request's HTTP method.                                                                                                                                    |
 | `path`                  | The public path, before routes rewrite it. The query string is omitted.                                                                                       |
-| `status`                | The status the gateway returned, including ones the security chain set.                                                                                       |
+| `status`                | The status the gateway returned, including ones the security chain set. Omitted when the client disconnected before the response was committed.               |
 | `duration_ms`           | Time from the request arriving to the response completing.                                                                                                    |
 | `source_ip`             | The remote address as the server reports it: the socket peer, unless Spring Boot detects a cloud platform and reads `X-Forwarded-For` from its load balancer. |
 | `request_id`            | A UUID the gateway mints for this request.                                                                                                                    |
@@ -72,4 +72,6 @@ that point is recorded without them even when it carries a session. A request re
 missing CSRF token is one: it is recorded with its path and the 403 status only. A successful
 login is recorded without a caller, and a logout with the caller who logged out.
 
-A request whose client disconnects before the response completes is recorded without `status`.
+A request whose client disconnects before the response is committed is recorded without `status`,
+because the client received none. A client that disconnects after the response is committed
+received its status, so the record keeps it.

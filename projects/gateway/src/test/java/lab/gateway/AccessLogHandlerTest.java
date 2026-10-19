@@ -136,13 +136,14 @@ class AccessLogHandlerTest extends TestBase {
     var observationContext =
         observationContext(MockServerHttpRequest.get("/" + randomString()).build());
 
+    accessLogHandler.onStart(observationContext);
     accessLogHandler.onStop(observationContext);
 
-    assertThat(onlyRecord()).doesNotContainKeys("status", "duration_ms", "source_ip", "request_id");
+    assertThat(onlyRecord()).doesNotContainKeys("status", "source_ip", "request_id");
   }
 
   @Test
-  void onStop_withAbortedConnection_omitsStatus() {
+  void onStop_abortedBeforeCommit_omitsStatus() {
     var observationContext =
         observationContext(MockServerHttpRequest.get("/" + randomString()).build());
     observationContext.setConnectionAborted(true);
@@ -150,6 +151,21 @@ class AccessLogHandlerTest extends TestBase {
     observe(observationContext, HttpStatus.OK);
 
     assertThat(onlyRecord()).doesNotContainKey("status");
+  }
+
+  @Test
+  void onStop_abortedAfterCommit_logsTheStatus() {
+    var observationContext =
+        observationContext(MockServerHttpRequest.get("/" + randomString()).build());
+    accessLogHandler.onStart(observationContext);
+
+    observationContext.getResponse().setStatusCode(HttpStatus.OK);
+    observationContext.getResponse().setComplete().block();
+    observationContext.setConnectionAborted(true);
+
+    accessLogHandler.onStop(observationContext);
+
+    assertThat(onlyRecord()).containsEntry("status", HttpStatus.OK.value());
   }
 
   @Test

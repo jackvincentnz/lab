@@ -54,18 +54,19 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
             .addKeyValue("method", request.getMethod().name())
             .addKeyValue("path", request.getPath().value());
 
-    var status = context.getResponse().getStatusCode();
-    // An aborted request has no status the client received.
-    if (status != null && !context.isConnectionAborted()) {
+    var response = context.getResponse();
+    var status = response.getStatusCode();
+    // As in Spring's request observation convention, a client that disconnected before the
+    // response was committed received no status, and one that disconnected after it did.
+    var statusUnknown = context.isConnectionAborted() && !response.isCommitted();
+    if (status != null && !statusUnknown) {
       loggingEventBuilder = loggingEventBuilder.addKeyValue("status", status.value());
     }
 
-    Long started = context.get(STARTED);
-    if (started != null) {
-      loggingEventBuilder =
-          loggingEventBuilder.addKeyValue(
-              "duration_ms", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started));
-    }
+    long started = context.getRequired(STARTED);
+    loggingEventBuilder =
+        loggingEventBuilder.addKeyValue(
+            "duration_ms", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started));
 
     loggingEventBuilder = addIfKnown(loggingEventBuilder, "source_ip", sourceIp(request));
     for (var field : FIELDS) {
