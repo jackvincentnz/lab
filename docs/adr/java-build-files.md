@@ -1,7 +1,7 @@
 ---
 status: Accepted
 date: 2026-09-30
-decision-owner: Jack Vincent
+owner: Jack Vincent
 ---
 
 # Java BUILD files
