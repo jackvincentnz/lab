@@ -1,7 +1,7 @@
 ---
 status: Proposed
 date: YYYY-MM-DD
-decision-owner: Name
+owner: Name
 ---
 
 # Title Of The Decision
