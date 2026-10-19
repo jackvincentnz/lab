@@ -43,7 +43,7 @@ class AccessLogTest extends GatewayTestSupport {
    */
   private static Map<String, Object> record(CapturedOutput output, String requestId) {
     var lines =
-        await()
+        await("the access record for request " + requestId)
             .atMost(Duration.ofSeconds(5))
             .until(
                 () -> output.getOut().lines().filter(line -> isRecord(line, requestId)).toList(),
@@ -57,7 +57,7 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   @Test
-  void anyRequest_logsRecord(CapturedOutput output) {
+  void health_withoutSession_logsRecord(CapturedOutput output) {
     var requestId =
         client()
             .get()

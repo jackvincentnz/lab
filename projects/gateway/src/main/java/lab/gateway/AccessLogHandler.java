@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 class AccessLogHandler implements ObservationHandler<ServerRequestObservationContext> {
 
-  private static final Logger log = LoggerFactory.getLogger(AccessLogHandler.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(AccessLogHandler.class);
 
   private static final String STARTED = AccessLogHandler.class.getName() + ".started";
 
@@ -48,42 +48,49 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
   public void onStop(ServerRequestObservationContext context) {
     // The carrier is the request as it arrived, before routes rewrite its path.
     var request = context.getCarrier();
-    var record =
-        log.atInfo()
+    var loggingEventBuilder =
+        LOGGER
+            .atInfo()
             .addKeyValue("method", request.getMethod().name())
             .addKeyValue("path", request.getPath().value());
-    var status = context.getResponse() == null ? null : context.getResponse().getStatusCode();
+
+    var status = context.getResponse().getStatusCode();
     // An aborted request has no status the client received.
     if (status != null && !context.isConnectionAborted()) {
-      record = record.addKeyValue("status", status.value());
+      loggingEventBuilder = loggingEventBuilder.addKeyValue("status", status.value());
     }
+
     Long started = context.get(STARTED);
     if (started != null) {
-      record =
-          record.addKeyValue(
+      loggingEventBuilder =
+          loggingEventBuilder.addKeyValue(
               "duration_ms", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started));
     }
-    record = addIfKnown(record, "source_ip", sourceIp(request));
+
+    loggingEventBuilder = addIfKnown(loggingEventBuilder, "source_ip", sourceIp(request));
     for (var field : FIELDS) {
-      KeyValue value = context.getHighCardinalityKeyValue(field);
-      record = addIfKnown(record, field, value == null ? null : value.getValue());
+      KeyValue keyValue = context.getHighCardinalityKeyValue(field);
+      loggingEventBuilder =
+          addIfKnown(loggingEventBuilder, field, keyValue == null ? null : keyValue.getValue());
     }
-    record.log("Access");
+
+    loggingEventBuilder.log("Access");
   }
 
   private static LoggingEventBuilder addIfKnown(
-      LoggingEventBuilder record, String key, String value) {
-    return value == null ? record : record.addKeyValue(key, value);
+      LoggingEventBuilder loggingEventBuilder, String key, String value) {
+    return value == null ? loggingEventBuilder : loggingEventBuilder.addKeyValue(key, value);
   }
 
   /** The socket peer rather than X-Forwarded-For, which any client can set to another address. */
   private static String sourceIp(ServerHttpRequest request) {
-    InetSocketAddress remote = request.getRemoteAddress();
-    if (remote == null) {
+    InetSocketAddress remoteAddress = request.getRemoteAddress();
+    if (remoteAddress == null) {
       return null;
     }
-    return remote.getAddress() == null
-        ? remote.getHostString()
-        : remote.getAddress().getHostAddress();
+
+    return remoteAddress.isUnresolved()
+        ? remoteAddress.getHostString()
+        : remoteAddress.getAddress().getHostAddress();
   }
 }

@@ -2,6 +2,7 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.micrometer.common.KeyValue;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -20,14 +21,16 @@ class AccessLogObservationTest extends TestBase {
 
   private final MockServerWebExchange exchange =
       MockServerWebExchange.from(MockServerHttpRequest.get("/" + randomString()));
-  private final ServerRequestObservationContext context =
+  private final ServerRequestObservationContext observationContext =
       new ServerRequestObservationContext(
           exchange.getRequest(), exchange.getResponse(), exchange.getAttributes());
 
   AccessLogObservationTest() {
     exchange
         .getAttributes()
-        .put(ServerRequestObservationContext.CURRENT_OBSERVATION_CONTEXT_ATTRIBUTE, context);
+        .put(
+            ServerRequestObservationContext.CURRENT_OBSERVATION_CONTEXT_ATTRIBUTE,
+            observationContext);
   }
 
   private Authentication signedIn(GatewayPrincipal principal) {
@@ -45,11 +48,6 @@ class AccessLogObservationTest extends TestBase {
             List.of(randomString())));
   }
 
-  private String highCardinality(String key) {
-    var value = context.getHighCardinalityKeyValue(key);
-    return value == null ? null : value.getValue();
-  }
-
   @Test
   void callerFilter_withGatewayCaller_addsCallerAsHighCardinalityOnly() {
     var principal = principal();
@@ -59,12 +57,12 @@ class AccessLogObservationTest extends TestBase {
         .contextWrite(ReactiveSecurityContextHolder.withAuthentication(signedIn(principal)))
         .block();
 
-    assertThat(highCardinality(AccessLogObservation.TENANT_ID))
-        .isEqualTo(principal.tenant().toString());
-    assertThat(highCardinality(AccessLogObservation.PRINCIPAL_ID))
-        .isEqualTo(principal.principal().toString());
-    assertThat(highCardinality(AccessLogObservation.AUTHENTICATION_METHOD)).isEqualTo(Caller.FORM);
-    assertThat(context.getLowCardinalityKeyValues()).isEmpty();
+    assertThat(observationContext.getHighCardinalityKeyValues())
+        .containsExactlyInAnyOrder(
+            KeyValue.of(AccessLogObservation.TENANT_ID, principal.tenant().toString()),
+            KeyValue.of(AccessLogObservation.PRINCIPAL_ID, principal.principal().toString()),
+            KeyValue.of(AccessLogObservation.AUTHENTICATION_METHOD, Caller.FORM));
+    assertThat(observationContext.getLowCardinalityKeyValues()).isEmpty();
   }
 
   @Test
@@ -75,19 +73,19 @@ class AccessLogObservationTest extends TestBase {
         .filter(exchange, next -> Mono.fromRunnable(() -> continued.set(true)))
         .block();
 
-    assertThat(context.getHighCardinalityKeyValues()).isEmpty();
+    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
     assertThat(continued).isTrue();
   }
 
   @Test
   void callerFilter_withOtherAuthentication_addsNothing() {
+    var authentication = new TestingAuthenticationToken(randomString(), randomString());
+
     AccessLogObservation.callerFilter()
         .filter(exchange, next -> Mono.empty())
-        .contextWrite(
-            ReactiveSecurityContextHolder.withAuthentication(
-                new TestingAuthenticationToken(randomString(), randomString())))
+        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication))
         .block();
 
-    assertThat(context.getHighCardinalityKeyValues()).isEmpty();
+    assertThat(observationContext.getHighCardinalityKeyValues()).isEmpty();
   }
 }

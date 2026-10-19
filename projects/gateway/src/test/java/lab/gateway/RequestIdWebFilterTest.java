@@ -2,6 +2,7 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import io.micrometer.common.KeyValue;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import lab.test.TestBase;
@@ -13,7 +14,7 @@ import org.springframework.web.server.ServerWebExchange;
 
 class RequestIdWebFilterTest extends TestBase {
 
-  private final RequestIdWebFilter filter = new RequestIdWebFilter();
+  private final RequestIdWebFilter requestIdWebFilter = new RequestIdWebFilter();
   private final AtomicReference<ServerWebExchange> forwarded = new AtomicReference<>();
 
   /** An exchange carrying a request observation, the way HttpWebHandlerAdapter hands it over. */
@@ -29,7 +30,7 @@ class RequestIdWebFilterTest extends TestBase {
   }
 
   private void run(ServerWebExchange exchange) {
-    filter
+    requestIdWebFilter
         .filter(
             exchange,
             next -> {
@@ -49,10 +50,11 @@ class RequestIdWebFilterTest extends TestBase {
 
     run(exchange);
 
-    var context = ServerRequestObservationContext.findCurrent(exchange.getAttributes()).get();
-    assertThat(context.getHighCardinalityKeyValue(AccessLogObservation.REQUEST_ID).getValue())
-        .isEqualTo(returned(exchange));
-    assertThat(context.getLowCardinalityKeyValue(AccessLogObservation.REQUEST_ID)).isNull();
+    var observationContext =
+        ServerRequestObservationContext.findCurrent(exchange.getAttributes()).orElseThrow();
+    assertThat(observationContext.getHighCardinalityKeyValues())
+        .containsExactly(KeyValue.of(AccessLogObservation.REQUEST_ID, returned(exchange)));
+    assertThat(observationContext.getLowCardinalityKeyValues()).isEmpty();
   }
 
   @Test
@@ -65,24 +67,26 @@ class RequestIdWebFilterTest extends TestBase {
 
     run(exchange);
 
-    var sent = forwarded.get().getRequest().getHeaders().get(RequestIdWebFilter.HEADER);
-    assertThat(sent).hasSize(1);
-    assertThat(UUID.fromString(sent.get(0))).isNotNull();
-    assertThat(sent.get(0)).isNotEqualTo(clientId);
+    var forwardedIds = forwarded.get().getRequest().getHeaders().get(RequestIdWebFilter.HEADER);
+    assertThat(forwardedIds)
+        .singleElement()
+        .isNotEqualTo(clientId)
+        .isEqualTo(UUID.fromString(forwardedIds.get(0)).toString());
     assertThat(exchange.getResponse().getHeaders().get(RequestIdWebFilter.HEADER))
-        .containsExactly(sent.get(0));
+        .isEqualTo(forwardedIds);
   }
 
   @Test
   void filter_withDownstreamRequestId_returnsGatewayId() {
     var exchange = exchange(MockServerHttpRequest.get("/" + randomString()));
+    var downstreamId = randomString();
 
-    filter
+    requestIdWebFilter
         .filter(
             exchange,
             next -> {
               forwarded.set(next);
-              next.getResponse().getHeaders().set(RequestIdWebFilter.HEADER, randomString());
+              next.getResponse().getHeaders().set(RequestIdWebFilter.HEADER, downstreamId);
               return next.getResponse().setComplete();
             })
         .block();
