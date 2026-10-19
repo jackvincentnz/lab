@@ -39,6 +39,10 @@ explains the reasoning behind each guideline here.
   declaration files of dependencies are not type-checked on every build. The
   [`ts_project` wrapper](../../tools/bazel/ts.bzl) transpiles with SWC and
   type-checks with `tsc`.
+- Set the language level only through `target` and `lib` in the shared
+  tsconfig files, so that type checking and SWC output agree. The root
+  [`BUILD.bazel`](../../BUILD.bazel) generates the SWC configs from them, and
+  Bazel runs the `@swc/core` version in `package.json`.
 - Measure before changing a compiler setting, and say in the PR what you
   measured, so that settings change for a demonstrated reason.
 

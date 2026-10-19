@@ -1,6 +1,16 @@
+load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@npm//:storybook/package_json.bzl", storybook_bin = "bin")
 
 storybook_bin.storybook_binary(
     name = "storybook_binary",
     visibility = ["//visibility:public"],
 )
+
+bzl_library(
+    name = "storybook",
+    srcs = ["storybook.bzl"],
+    visibility = ["//visibility:public"],
+    deps = ["//tools/bazel:js"],
+)
+
+exports_files(["storybook.bzl"])

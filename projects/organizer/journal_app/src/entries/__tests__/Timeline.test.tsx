@@ -1,23 +1,14 @@
-import { MantineProvider } from "@mantine/core";
-
-import {
-  expect,
-  it,
-  render,
-  screen,
-} from "../../../../../../tools/bazel/vitest/test-utils";
+import { expect, it, render, screen } from "@lab/test-utils";
 import { Timeline } from "../Timeline";
 
 it("renders the title, message and time of each item", () => {
   render(
-    <MantineProvider>
-      <Timeline
-        items={[
-          { title: "First title", message: "First message", when: "Monday" },
-          { title: "Second title", message: "Second message", when: "Tuesday" },
-        ]}
-      />
-    </MantineProvider>,
+    <Timeline
+      items={[
+        { title: "First title", message: "First message", when: "Monday" },
+        { title: "Second title", message: "Second message", when: "Tuesday" },
+      ]}
+    />,
   );
 
   expect(screen.getByText("First title")).toBeInTheDocument();
@@ -29,11 +20,7 @@ it("renders the title, message and time of each item", () => {
 });
 
 it("renders no items when the list is empty", () => {
-  const { container } = render(
-    <MantineProvider>
-      <Timeline items={[]} />
-    </MantineProvider>,
-  );
+  const { container } = render(<Timeline items={[]} />);
 
   expect(
     container.querySelector(".mantine-Timeline-root"),

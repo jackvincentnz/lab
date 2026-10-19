@@ -1,17 +1,10 @@
-import { MantineProvider } from "@mantine/core";
 import type { MockLink } from "@apollo/client/testing";
-import { MockedProvider } from "@apollo/client/testing/react";
 
 import {
   GetEntriesDocument,
   type GetEntriesQuery,
 } from "../../__generated__/graphql";
-import {
-  expect,
-  it,
-  render,
-  screen,
-} from "../../../../../../tools/bazel/vitest/test-utils";
+import { expect, it, render, screen } from "@lab/test-utils";
 import { EntriesPage } from "../EntriesPage";
 
 function renderPage(allEntries: GetEntriesQuery["allEntries"]) {
@@ -24,13 +17,7 @@ function renderPage(allEntries: GetEntriesQuery["allEntries"]) {
     },
   ];
 
-  return render(
-    <MantineProvider>
-      <MockedProvider mocks={mocks}>
-        <EntriesPage />
-      </MockedProvider>
-    </MantineProvider>,
-  );
+  return render(<EntriesPage />, { mockedProvider: { mocks } });
 }
 
 it("renders each entry's message as its title and body with its time", async () => {

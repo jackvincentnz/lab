@@ -40,6 +40,16 @@
         },
         subMaxLevel: 3,
         plugins: [
+          // Docsify reads a bare fragment link such as Stardoc's parameter
+          // links as a page route, so point it at the anchor on this page.
+          function (hook, vm) {
+            hook.afterEach(function (html) {
+              return html.replace(
+                /href="#([^/"][^"]*)"/g,
+                'href="#' + vm.route.path + '?id=$1"',
+              );
+            });
+          },
           EditOnGithubPlugin.create(
             "https://github.com/jackvincentnz/lab/blob/main/",
           ),
