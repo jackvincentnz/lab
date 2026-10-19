@@ -16,6 +16,8 @@ to Accepted in both when it is adopted.
 
 ## Proposed
 
+- [Frontend BUILD automation](frontend-build-automation.md) generates frontend TypeScript targets
+  and deps with Aspect's Gazelle runner, one package per app, around a thinner `fe_app`.
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
