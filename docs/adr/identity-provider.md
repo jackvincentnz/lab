@@ -1,11 +1,10 @@
+---
+status: Proposed
+date: 2026-10-17
+owner: Jack Vincent
+---
+
 # Identity Provider
-
-## Status
-
-Proposed.
-
-Date: 2026-10-17
-Decision owner: Jack Vincent
 
 ## Context
 
