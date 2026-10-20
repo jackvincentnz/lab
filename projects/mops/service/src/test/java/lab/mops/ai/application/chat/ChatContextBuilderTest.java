@@ -74,6 +74,23 @@ class ChatContextBuilderTest extends TestBase {
   }
 
   @Test
+  void buildHistory_toolCallAwaitingApproval_addsNoResult() {
+    var chat = mock(Chat.class);
+    var assistantMessage = mock(lab.mops.ai.domain.chat.Message.class);
+    when(assistantMessage.isCompleted()).thenReturn(true);
+    when(assistantMessage.getType()).thenReturn(MessageType.ASSISTANT);
+
+    var toolCall = mock(ToolCall.class);
+    when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
+    when(chat.getMessages()).thenReturn(List.of(assistantMessage));
+    when(messageMapper.map(assistantMessage)).thenReturn(mock(Message.class));
+
+    var history = chatContextBuilder.buildHistory(chat);
+
+    assertThat(history).hasSize(1);
+  }
+
+  @Test
   void buildHistory_shouldAddRejectedToolCalls() {
     var chat = mock(Chat.class);
     var assistantMessage = mock(lab.mops.ai.domain.chat.Message.class);

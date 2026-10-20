@@ -1,9 +1,11 @@
 package lab.mops.ai.application.chat;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -264,6 +266,44 @@ class ChatEventHandlerTest extends TestBase {
 
     assertThat(chat.getMessages().get(1).isFailed()).isTrue();
     verify(chatRepository).save(chat);
+  }
+
+  @Test
+  void onPendingAssistantMessageAdded_mixedToolCalls_storesApprovedAndPendingCalls() {
+    var chat = Chat.start(randomString());
+    var event = AggregateTestUtils.getLastEvent(chat, PendingAssistantMessageAddedEvent.class);
+    var approvalTool = mockTool(randomString(), true);
+    var automaticTool = mockTool(randomString(), false);
+    var completion =
+        AssistantMessage.of(
+            List.of(
+                new ToolCall(
+                    randomString(), approvalTool.getToolDefinition().name(), randomString()),
+                new ToolCall(
+                    randomString(), automaticTool.getToolDefinition().name(), randomString())));
+
+    when(chatRepository.getById(chat.getId())).thenReturn(chat);
+    when(toolProvider.getTools()).thenReturn(List.of(approvalTool, automaticTool));
+    when(chatContextBuilder.buildHistory(chat)).thenReturn(List.of());
+    when(completionService.getResponse(anyList())).thenReturn(completion);
+
+    chatEventHandler.onPendingAssistantMessageAdded(event);
+
+    var toolCalls = chat.getMessages().get(1).getToolCalls();
+    assertThat(toolCalls).hasSize(2);
+    var approvalCall = toolCallNamed(toolCalls, approvalTool.getToolDefinition().name());
+    var automaticCall = toolCallNamed(toolCalls, automaticTool.getToolDefinition().name());
+    assertThat(approvalCall.isPendingApproval()).isTrue();
+    assertThat(automaticCall.isApproved()).isTrue();
+    assertThat(AggregateTestUtils.getLastEvent(chat, ToolCallApprovedEvent.class).toolCallId())
+        .isEqualTo(automaticCall.id());
+    verify(completionService, times(1)).getResponse(anyList());
+    verify(automaticTool, never()).call(any());
+  }
+
+  private static lab.mops.ai.domain.chat.ToolCall toolCallNamed(
+      List<lab.mops.ai.domain.chat.ToolCall> toolCalls, String name) {
+    return toolCalls.stream().filter(t -> t.name().equals(name)).findFirst().orElseThrow();
   }
 
   Tool mockTool(String name, boolean needsApproval) {
