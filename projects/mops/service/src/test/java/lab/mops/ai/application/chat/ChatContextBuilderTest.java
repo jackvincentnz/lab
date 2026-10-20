@@ -12,7 +12,6 @@ import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.MessageType;
 import lab.mops.ai.domain.chat.ToolCall;
 import lab.mops.ai.domain.chat.ToolCallId;
-import lab.mops.ai.domain.chat.ToolCallStatus;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,8 +81,10 @@ class ChatContextBuilderTest extends TestBase {
     when(assistantMessage.isCompleted()).thenReturn(true);
     when(assistantMessage.getType()).thenReturn(MessageType.ASSISTANT);
 
-    var toolCall =
-        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.REJECTED);
+    var toolCall = mock(ToolCall.class);
+    when(toolCall.id()).thenReturn(ToolCallId.create());
+    when(toolCall.name()).thenReturn(randomString());
+    when(toolCall.isRejected()).thenReturn(true);
     when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
 
     when(chat.getMessages()).thenReturn(List.of(assistantMessage));
