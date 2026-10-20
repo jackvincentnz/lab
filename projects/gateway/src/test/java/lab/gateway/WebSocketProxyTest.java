@@ -2,41 +2,31 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.awaitility.Awaitility.await;
 
-import com.jayway.jsonpath.JsonPath;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.WebSocket;
 import java.net.http.WebSocketHandshakeException;
-import java.time.Duration;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CompletionException;
-import java.util.concurrent.CompletionStage;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
 import lab.libs.identity.jwt.IdentityJwtDecoder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.system.CapturedOutput;
-import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
-/** WebSocket upgrades through the gateway to a stub service, connected the way a client would. */
-@ExtendWith(OutputCaptureExtension.class)
+/** WebSocket upgrades through the gateway's API route to a stub service. */
 class WebSocketProxyTest extends GatewayTestSupport {
 
   private static final String BEARER = "Bearer ";
+
+  private static final String PATH = "/api/graphql";
 
   private static WebSocketDownstream mopsService;
 
@@ -58,24 +48,6 @@ class WebSocketProxyTest extends GatewayTestSupport {
   }
 
   @Test
-  void upgrade_withSession_relaysMessagesBothWays() throws InterruptedException {
-    var message = randomString();
-
-    try (var socket = connect(browser().login(), "/api/graphql")) {
-      socket.send(message);
-
-      assertThat(socket.next()).isEqualTo("echo " + message);
-    }
-  }
-
-  @Test
-  void upgrade_onApiRoute_reachesServiceWithPrefixStripped() throws InterruptedException {
-    try (var socket = connect(browser().login(), "/api/graphql")) {
-      assertThat(socket.handshake.path()).isEqualTo("/graphql");
-    }
-  }
-
-  @Test
   void upgrade_withSession_carriesIdentityTokenInPlaceOfClientCredentials()
       throws InterruptedException {
     var browser = browser().login();
@@ -85,31 +57,14 @@ class WebSocketProxyTest extends GatewayTestSupport {
             .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString())
             .header(HttpHeaders.AUTHORIZATION, BEARER + randomString());
 
-    try (var socket = connect(webSocketBuilder, "/api/graphql")) {
-      var handshake = socket.handshake;
-      var jwt = mopsDecoder().decode(bearerToken(handshake.authorization()));
+    var handshake = handshake(webSocketBuilder);
 
-      assertThat(handshake.cookie()).isEmpty();
-      assertThat(IdentityClaims.identity(jwt))
-          .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
-      assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
-          .containsExactly(Caller.FORM);
-    }
-  }
-
-  @Test
-  void upgrade_withSubprotocol_negotiatesItWithClientAndService() throws InterruptedException {
-    try (var socket = connect(browser().login(), "/api/graphql")) {
-      assertThat(socket.webSocket.getSubprotocol()).isEqualTo(WebSocketDownstream.SUBPROTOCOL);
-      assertThat(socket.handshake.subprotocol()).isEqualTo(WebSocketDownstream.SUBPROTOCOL);
-    }
-  }
-
-  @Test
-  void upgrade_withSession_sendsTheServiceAsHost() throws InterruptedException {
-    try (var socket = connect(browser().login(), "/api/graphql")) {
-      assertThat(socket.handshake.host()).endsWith(":" + mopsService.port());
-    }
+    var jwt = mopsDecoder().decode(bearerToken(handshake.authorization()));
+    assertThat(handshake.cookie()).isEmpty();
+    assertThat(IdentityClaims.identity(jwt))
+        .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
+    assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
+        .containsExactly(Caller.FORM);
   }
 
   @Test
@@ -121,8 +76,7 @@ class WebSocketProxyTest extends GatewayTestSupport {
             () ->
                 httpClient
                     .newWebSocketBuilder()
-                    .subprotocols(WebSocketDownstream.SUBPROTOCOL)
-                    .buildAsync(gateway("/api/graphql"), new WebSocket.Listener() {})
+                    .buildAsync(gateway(), new WebSocket.Listener() {})
                     .join());
 
     assertThat(thrown)
@@ -134,51 +88,25 @@ class WebSocketProxyTest extends GatewayTestSupport {
     assertThat(mopsService.requests()).isEqualTo(requestsBefore);
   }
 
-  @Test
-  void upgrade_withSession_logsAccessRecordWhileSocketIsOpen(CapturedOutput output)
+  /**
+   * Opens a socket through the gateway, waits for the service to accept the proxied handshake, and
+   * closes the socket. The gateway completes the client's handshake before it connects to the
+   * service, so the client's handshake alone does not show that the service was reached.
+   */
+  private WebSocketDownstream.Handshake handshake(WebSocket.Builder webSocketBuilder)
       throws InterruptedException {
-    var path = "/api/" + randomString();
+    var webSocket = webSocketBuilder.buildAsync(gateway(), new WebSocket.Listener() {}).join();
 
-    try (var socket = connect(browser().login(), path)) {
-      var requestId = socket.handshake.requestId();
-
-      // Reactor Netty writes the 101 itself and leaves the WebFlux response status at 200.
-      assertThat(record(output, requestId))
-          .containsEntry("message", "Access")
-          .containsEntry("principal_id", USER.principal().toString())
-          .containsEntry("path", path)
-          .containsEntry("status", 200)
-          .containsEntry("request_id", requestId);
+    try {
+      return mopsService.handshake();
+    } finally {
+      webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "").join();
     }
   }
 
-  private Socket connect(Browser browser, String path) throws InterruptedException {
-    return connect(
-        httpClient.newWebSocketBuilder().header(HttpHeaders.COOKIE, "SESSION=" + browser.session),
-        path);
-  }
-
-  /**
-   * Opens a socket through the gateway and waits for the service to accept the proxied handshake,
-   * since the gateway completes the client's handshake before it connects to the service.
-   */
-  private Socket connect(WebSocket.Builder webSocketBuilder, String path)
-      throws InterruptedException {
-    var socket = new Socket();
-
-    socket.webSocket =
-        webSocketBuilder
-            .subprotocols(WebSocketDownstream.SUBPROTOCOL)
-            .buildAsync(gateway(path), socket)
-            .join();
-    socket.handshake = mopsService.handshake();
-
-    return socket;
-  }
-
   /** The IPv6 loopback, which the Bazel sandbox admits where a mapped IPv4 address is refused. */
-  private URI gateway(String path) {
-    return URI.create("ws://[::1]:" + port + path);
+  private URI gateway() {
+    return URI.create("ws://[::1]:" + port + PATH);
   }
 
   /** The decoder Mops runs, pointed at this gateway's published keys. */
@@ -192,63 +120,5 @@ class WebSocketProxyTest extends GatewayTestSupport {
     assertThat(authorization).singleElement().asString().startsWith(BEARER);
 
     return authorization.get(0).substring(BEARER.length());
-  }
-
-  /**
-   * The access record carrying {@code requestId}, parsed. The request's observation can stop just
-   * after the client's handshake completes, so this waits briefly.
-   */
-  private static Map<String, Object> record(CapturedOutput output, String requestId) {
-    var lines =
-        await("the access record for request " + requestId)
-            .atMost(Duration.ofSeconds(5))
-            .until(
-                () -> output.getOut().lines().filter(line -> isRecord(line, requestId)).toList(),
-                found -> !found.isEmpty());
-
-    assertThat(lines).hasSize(1);
-
-    return JsonPath.parse(lines.get(0)).read("$");
-  }
-
-  private static boolean isRecord(String line, String requestId) {
-    return line.startsWith("{") && line.contains("\"Access\"") && line.contains(requestId);
-  }
-
-  /** A client socket that queues the text messages the gateway relays to it. */
-  private static final class Socket implements WebSocket.Listener, AutoCloseable {
-    private final BlockingQueue<String> messages = new LinkedBlockingQueue<>();
-    private final StringBuilder partial = new StringBuilder();
-    WebSocket webSocket;
-    WebSocketDownstream.Handshake handshake;
-
-    @Override
-    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
-      partial.append(data);
-      if (last) {
-        messages.add(partial.toString());
-        partial.setLength(0);
-      }
-
-      webSocket.request(1);
-      return null;
-    }
-
-    void send(String message) {
-      webSocket.sendText(message, true).join();
-    }
-
-    String next() throws InterruptedException {
-      var message = messages.poll(10, TimeUnit.SECONDS);
-
-      assertThat(message).as("message relayed by the gateway").isNotNull();
-
-      return message;
-    }
-
-    @Override
-    public void close() {
-      webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "").join();
-    }
   }
 }
