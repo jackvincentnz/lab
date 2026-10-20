@@ -82,10 +82,8 @@ class ChatContextBuilderTest extends TestBase {
     when(assistantMessage.isCompleted()).thenReturn(true);
     when(assistantMessage.getType()).thenReturn(MessageType.ASSISTANT);
 
-    var toolCall = mock(ToolCall.class);
-    when(toolCall.id()).thenReturn(ToolCallId.create());
-    when(toolCall.name()).thenReturn(randomString());
-    when(toolCall.status()).thenReturn(ToolCallStatus.REJECTED);
+    var toolCall =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.REJECTED);
     when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
 
     when(chat.getMessages()).thenReturn(List.of(assistantMessage));
