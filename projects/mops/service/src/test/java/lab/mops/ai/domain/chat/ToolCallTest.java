@@ -41,6 +41,35 @@ class ToolCallTest extends TestBase {
   }
 
   @Test
+  void isCompleted_approvedWithResult_isTrue() {
+    var toolCall =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    toolCall.recordResult(randomString());
+
+    assertThat(toolCall.isCompleted()).isTrue();
+  }
+
+  @Test
+  void isCompleted_approvedWithoutResult_isFalse() {
+    var toolCall =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+
+    assertThat(toolCall.isCompleted()).isFalse();
+  }
+
+  @Test
+  void isRejected_afterReject_isTrue() {
+    var toolCall =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+
+    toolCall.reject();
+
+    assertThat(toolCall.isRejected()).isTrue();
+    assertThat(toolCall.isApproved()).isFalse();
+  }
+
+  @Test
   void of_setsId() {
     var id = ToolCallId.create();
 

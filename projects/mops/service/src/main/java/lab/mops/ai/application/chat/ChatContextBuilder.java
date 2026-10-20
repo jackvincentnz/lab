@@ -5,7 +5,6 @@ import java.util.List;
 import lab.mops.ai.application.chat.completions.Message;
 import lab.mops.ai.application.chat.completions.ToolResultMessage;
 import lab.mops.ai.domain.chat.Chat;
-import lab.mops.ai.domain.chat.ToolCallStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -35,7 +34,7 @@ public class ChatContextBuilder {
                           if (tc.result() != null) {
                             conversationHistory.add(
                                 new ToolResultMessage(tc.result(), tc.id().toString(), tc.name()));
-                          } else if (tc.status().equals(ToolCallStatus.REJECTED)) {
+                          } else if (tc.isRejected()) {
                             conversationHistory.add(
                                 new ToolResultMessage(
                                     REJECTED_TOOL_CALL_RESULT, tc.id().toString(), tc.name()));

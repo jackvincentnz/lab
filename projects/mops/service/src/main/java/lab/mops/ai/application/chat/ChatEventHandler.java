@@ -202,11 +202,7 @@ public class ChatEventHandler {
     return chat.getMessages().stream()
         .filter(m -> m.getId().equals(messageId) && m.isCompleted())
         .flatMap(m -> m.getToolCalls().stream())
-        .filter(
-            t ->
-                t.id().equals(toolCallId)
-                    && t.status() == ToolCallStatus.APPROVED
-                    && t.result() == null)
+        .filter(t -> t.id().equals(toolCallId) && t.isApproved() && !t.isCompleted())
         .findFirst();
   }
 

@@ -86,7 +86,7 @@ public class Chat extends Aggregate<ChatId> {
 
     registerEvent(new PendingToolCallsAddedEvent(getId(), Collections.unmodifiableList(toolCalls)));
     toolCalls.stream()
-        .filter(t -> t.status() == ToolCallStatus.APPROVED)
+        .filter(ToolCall::isApproved)
         .forEach(t -> registerEvent(new ToolCallApprovedEvent(getId(), messageId, t.id())));
   }
 
@@ -120,11 +120,7 @@ public class Chat extends Aggregate<ChatId> {
 
   private void checkPendingToolCallsCompleted(Message message) {
     if (message == getLastMessage()
-        && message.getToolCalls().stream()
-            .allMatch(
-                t ->
-                    t.status() == ToolCallStatus.REJECTED
-                        || (t.status() == ToolCallStatus.APPROVED && t.result() != null))) {
+        && message.getToolCalls().stream().allMatch(t -> t.isRejected() || t.isCompleted())) {
       var assistantMessage = Message.assistantMessage();
       messages.add(assistantMessage);
       registerEvent(new PendingToolsCompletedEvent(getId(), assistantMessage.getId()));
