@@ -27,7 +27,8 @@ therefore not a defect today.
 Keep in-process delivery and make each failure visible instead of silent:
 
 - Handlers are `@Async` `@TransactionalEventListener`, so they run after the saving transaction
-  commits. `fallbackExecution` also delivers events published outside a transaction.
+  commits. Every save runs in the repository's own transaction, so no event is published outside
+  one.
 - A handler that throws, or a completion loop that reaches its limit, marks the assistant message
   `FAILED`. The existing UI shows the failure and its retry action.
 - A handler reloads the chat after the model or tool call and applies its result only while the

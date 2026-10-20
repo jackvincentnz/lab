@@ -54,7 +54,7 @@ public class ChatEventHandler {
   }
 
   @Async
-  @TransactionalEventListener(fallbackExecution = true)
+  @TransactionalEventListener
   public void onPendingAssistantMessageAdded(PendingAssistantMessageAddedEvent event) {
     var chatId = event.chatId();
     var messageId = event.pendingAssistantMessageId();
@@ -167,7 +167,7 @@ public class ChatEventHandler {
   }
 
   @Async
-  @TransactionalEventListener(fallbackExecution = true)
+  @TransactionalEventListener
   public void onToolCallApproved(ToolCallApprovedEvent event) {
     var chatId = event.chatId();
     var messageId = event.messageId();
