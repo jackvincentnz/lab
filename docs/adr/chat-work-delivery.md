@@ -1,11 +1,10 @@
+---
+status: Accepted
+date: 2026-10-17
+owner: Jack Vincent
+---
+
 # Chat work delivery
-
-## Status
-
-Accepted.
-
-Date: 2026-10-17
-Decision owner: Jack Vincent
 
 ## Context
 
