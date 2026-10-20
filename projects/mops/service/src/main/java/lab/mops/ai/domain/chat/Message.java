@@ -79,6 +79,10 @@ public class Message {
     return status == MessageStatus.CANCELLED;
   }
 
+  public boolean isFailed() {
+    return status == MessageStatus.FAILED;
+  }
+
   public MessageStatus getStatus() {
     return status;
   }

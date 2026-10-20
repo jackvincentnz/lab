@@ -18,7 +18,6 @@ import lab.mops.ai.application.chat.completions.ToolCall;
 import lab.mops.ai.application.chat.completions.UserMessage;
 import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.ChatRepository;
-import lab.mops.ai.domain.chat.MessageStatus;
 import lab.mops.ai.domain.chat.PendingAssistantMessageAddedEvent;
 import lab.mops.ai.domain.chat.ToolCallApprovedEvent;
 import lab.mops.ai.domain.chat.ToolCallId;
@@ -123,7 +122,7 @@ class ChatEventHandlerTest extends TestBase {
 
     chatEventHandler.onPendingAssistantMessageAdded(event);
 
-    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    assertThat(chat.getMessages().get(1).isFailed()).isTrue();
     verify(completionService, times(ChatEventHandler.MAX_COMPLETIONS)).getResponse(anyList());
     verify(chatRepository).save(chat);
   }
@@ -152,7 +151,7 @@ class ChatEventHandlerTest extends TestBase {
     assertThat(assistantMessage.isCompleted()).isTrue();
     var toolCall = assistantMessage.getToolCalls().get(0);
     assertThat(toolCall.name()).isEqualTo(toolName);
-    assertThat(toolCall.status()).isEqualTo(ToolCallStatus.PENDING_APPROVAL);
+    assertThat(toolCall.isPendingApproval()).isTrue();
   }
 
   @Test
@@ -224,7 +223,7 @@ class ChatEventHandlerTest extends TestBase {
 
     chatEventHandler.onPendingAssistantMessageAdded(event);
 
-    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    assertThat(chat.getMessages().get(1).isFailed()).isTrue();
     verify(chatRepository).save(chat);
   }
 
@@ -263,7 +262,7 @@ class ChatEventHandlerTest extends TestBase {
     chatEventHandler.onToolCallApproved(
         new ToolCallApprovedEvent(chat.getId(), messageId, toolCallId));
 
-    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.FAILED);
+    assertThat(chat.getMessages().get(1).isFailed()).isTrue();
     verify(chatRepository).save(chat);
   }
 

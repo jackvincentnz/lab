@@ -15,7 +15,7 @@ class ToolCallTest extends TestBase {
 
     toolCall.approve();
 
-    assertThat(toolCall.status()).isEqualTo(ToolCallStatus.APPROVED);
+    assertThat(toolCall.isApproved()).isTrue();
   }
 
   @Test
@@ -37,7 +37,7 @@ class ToolCallTest extends TestBase {
 
     toolCall.reject();
 
-    assertThat(toolCall.status()).isEqualTo(ToolCallStatus.REJECTED);
+    assertThat(toolCall.isRejected()).isTrue();
   }
 
   @Test

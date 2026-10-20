@@ -75,7 +75,7 @@ class MessageTest extends TestBase {
   void userMessage_setsStatus() {
     var message = Message.userMessage(randomString());
 
-    assertThat(message.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+    assertThat(message.isCompleted()).isTrue();
   }
 
   @Test
@@ -129,7 +129,7 @@ class MessageTest extends TestBase {
 
     message.approveToolCall(toolCall.id());
 
-    assertThat(message.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.APPROVED);
+    assertThat(message.getToolCalls().get(0).isApproved()).isTrue();
   }
 
   @Test
@@ -195,7 +195,7 @@ class MessageTest extends TestBase {
 
     message.rejectToolCall(toolCall.id());
 
-    assertThat(message.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.REJECTED);
+    assertThat(message.getToolCalls().get(0).isRejected()).isTrue();
   }
 
   @Test
@@ -247,7 +247,7 @@ class MessageTest extends TestBase {
 
     message.fail();
 
-    assertThat(message.getStatus()).isEqualTo(MessageStatus.FAILED);
+    assertThat(message.isFailed()).isTrue();
   }
 
   @Test

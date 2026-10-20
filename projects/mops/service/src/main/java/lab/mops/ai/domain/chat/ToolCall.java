@@ -57,6 +57,10 @@ public final class ToolCall {
     return result;
   }
 
+  public boolean isPendingApproval() {
+    return status == ToolCallStatus.PENDING_APPROVAL;
+  }
+
   public boolean isApproved() {
     return status == ToolCallStatus.APPROVED;
   }
