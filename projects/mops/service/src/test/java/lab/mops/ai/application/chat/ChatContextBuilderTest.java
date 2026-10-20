@@ -12,7 +12,6 @@ import lab.mops.ai.domain.chat.Chat;
 import lab.mops.ai.domain.chat.MessageType;
 import lab.mops.ai.domain.chat.ToolCall;
 import lab.mops.ai.domain.chat.ToolCallId;
-import lab.mops.ai.domain.chat.ToolCallStatus;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,6 +74,23 @@ class ChatContextBuilderTest extends TestBase {
   }
 
   @Test
+  void buildHistory_toolCallAwaitingApproval_addsNoResult() {
+    var chat = mock(Chat.class);
+    var assistantMessage = mock(lab.mops.ai.domain.chat.Message.class);
+    when(assistantMessage.isCompleted()).thenReturn(true);
+    when(assistantMessage.getType()).thenReturn(MessageType.ASSISTANT);
+
+    var toolCall = mock(ToolCall.class);
+    when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
+    when(chat.getMessages()).thenReturn(List.of(assistantMessage));
+    when(messageMapper.map(assistantMessage)).thenReturn(mock(Message.class));
+
+    var history = chatContextBuilder.buildHistory(chat);
+
+    assertThat(history).hasSize(1);
+  }
+
+  @Test
   void buildHistory_shouldAddRejectedToolCalls() {
     var chat = mock(Chat.class);
     var assistantMessage = mock(lab.mops.ai.domain.chat.Message.class);
@@ -85,7 +101,7 @@ class ChatContextBuilderTest extends TestBase {
     var toolCall = mock(ToolCall.class);
     when(toolCall.id()).thenReturn(ToolCallId.create());
     when(toolCall.name()).thenReturn(randomString());
-    when(toolCall.status()).thenReturn(ToolCallStatus.REJECTED);
+    when(toolCall.isRejected()).thenReturn(true);
     when(assistantMessage.getToolCalls()).thenReturn(List.of(toolCall));
 
     when(chat.getMessages()).thenReturn(List.of(assistantMessage));

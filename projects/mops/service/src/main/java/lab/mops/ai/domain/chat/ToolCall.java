@@ -57,6 +57,23 @@ public final class ToolCall {
     return result;
   }
 
+  public boolean isPendingApproval() {
+    return status == ToolCallStatus.PENDING_APPROVAL;
+  }
+
+  public boolean isApproved() {
+    return status == ToolCallStatus.APPROVED;
+  }
+
+  public boolean isRejected() {
+    return status == ToolCallStatus.REJECTED;
+  }
+
+  /** An approved call whose result has been recorded. */
+  public boolean isCompleted() {
+    return isApproved() && result != null;
+  }
+
   public static ToolCall of(ToolCallId id, String name, String arguments, ToolCallStatus status) {
     return new ToolCall(id, name, arguments, status, null);
   }

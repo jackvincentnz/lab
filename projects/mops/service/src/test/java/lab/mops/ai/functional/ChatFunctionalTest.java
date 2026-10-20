@@ -6,6 +6,7 @@ import static org.awaitility.Awaitility.await;
 import jakarta.servlet.http.HttpServletResponse;
 import java.time.Duration;
 import java.util.List;
+import java.util.function.Predicate;
 import lab.mops.ai.domain.chat.ChatId;
 import lab.mops.ai.domain.chat.ChatRepository;
 import lab.mops.api.gql.types.ChatMessage;
@@ -53,6 +54,18 @@ class ChatFunctionalTest extends TestBase {
       assertThat(messages).hasSize(4);
       assertThat(messages.get(2).getContent()).isEqualTo(content);
       assertThat(messages.get(3).getType()).isEqualTo(ChatMessageType.ASSISTANT);
+    } finally {
+      chatRepository.deleteById(ChatId.fromString(chatId));
+    }
+  }
+
+  @Test
+  @Transactional(propagation = Propagation.NOT_SUPPORTED)
+  void startChat_providerFails_failsAssistantMessage() {
+    // No scripted reply, so the fake provider throws.
+    var chatId = client.startChat(randomString()).getChat().getId();
+    try {
+      awaitFailed(chatId, 1);
     } finally {
       chatRepository.deleteById(ChatId.fromString(chatId));
     }
@@ -196,13 +209,24 @@ class ChatFunctionalTest extends TestBase {
   }
 
   private List<ChatMessage> awaitCompleted(String chatId, int index, String content) {
+    return awaitMessage(
+        chatId,
+        index,
+        message ->
+            message.getStatus() == ChatMessageStatus.COMPLETED
+                && content.equals(message.getContent()));
+  }
+
+  private void awaitFailed(String chatId, int index) {
+    awaitMessage(chatId, index, message -> message.getStatus() == ChatMessageStatus.FAILED);
+  }
+
+  private List<ChatMessage> awaitMessage(
+      String chatId, int index, Predicate<ChatMessage> condition) {
     return await()
         .atMost(COMPLETION_TIMEOUT)
         .until(
             () -> client.chat(chatId).getMessages(),
-            messages ->
-                messages.size() > index
-                    && messages.get(index).getStatus() == ChatMessageStatus.COMPLETED
-                    && content.equals(messages.get(index).getContent()));
+            messages -> messages.size() > index && condition.test(messages.get(index)));
   }
 }

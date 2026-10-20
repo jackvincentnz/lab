@@ -62,7 +62,7 @@ class ChatTest extends TestBase {
     var chat = Chat.start(content);
 
     assertThat(chat.getMessages().get(1).getType()).isEqualTo(MessageType.ASSISTANT);
-    assertThat(chat.getMessages().get(1).getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(chat.getMessages().get(1).isPending()).isTrue();
   }
 
   @Test
@@ -80,7 +80,7 @@ class ChatTest extends TestBase {
 
     chat.addUserMessage(randomString());
 
-    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.CANCELLED);
+    assertThat(assistantMessage.isCancelled()).isTrue();
   }
 
   @Test
@@ -190,7 +190,7 @@ class ChatTest extends TestBase {
     chat.addUserMessage(randomString());
 
     assertThat(chat.getMessages().get(3).getType()).isEqualTo(MessageType.ASSISTANT);
-    assertThat(chat.getMessages().get(3).getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(chat.getMessages().get(3).isPending()).isTrue();
   }
 
   @Test
@@ -251,7 +251,7 @@ class ChatTest extends TestBase {
 
     var newAssistantMessage = chat.getMessages().get(1);
     assertThat(newAssistantMessage.getType()).isEqualTo(MessageType.ASSISTANT);
-    assertThat(newAssistantMessage.getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(newAssistantMessage.isPending()).isTrue();
     assertThat(newAssistantMessage).isNotEqualTo(assistantMessage);
   }
 
@@ -330,7 +330,7 @@ class ChatTest extends TestBase {
 
     chat.addPendingToolCalls(assistantMessage.getId(), toolCalls);
 
-    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+    assertThat(assistantMessage.isCompleted()).isTrue();
     assertThat(assistantMessage.getToolCalls()).containsExactlyElementsOf(toolCalls);
   }
 
@@ -406,7 +406,7 @@ class ChatTest extends TestBase {
 
     chat.approveToolCall(assistantMessage.getId(), toolCallId);
 
-    assertThat(assistantMessage.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.APPROVED);
+    assertThat(assistantMessage.getToolCalls().get(0).isApproved()).isTrue();
   }
 
   @Test
@@ -605,7 +605,7 @@ class ChatTest extends TestBase {
 
     chat.rejectToolCall(assistantMessage.getId(), toolCallId);
 
-    assertThat(assistantMessage.getToolCalls().get(0).status()).isEqualTo(ToolCallStatus.REJECTED);
+    assertThat(assistantMessage.getToolCalls().get(0).isRejected()).isTrue();
   }
 
   @Test
@@ -711,7 +711,7 @@ class ChatTest extends TestBase {
 
     chat.completeMessage(assistantMessage.getId(), content);
 
-    assertThat(assistantMessage.getStatus()).isEqualTo(MessageStatus.COMPLETED);
+    assertThat(assistantMessage.isCompleted()).isTrue();
     assertThat(assistantMessage.getContent()).hasValue(content);
   }
 
@@ -756,7 +756,7 @@ class ChatTest extends TestBase {
 
     var newMessage = chat.getMessages().get(1);
     assertThat(newMessage.getType()).isEqualTo(MessageType.ASSISTANT);
-    assertThat(newMessage.getStatus()).isEqualTo(MessageStatus.PENDING);
+    assertThat(newMessage.isPending()).isTrue();
     assertThat(newMessage.getId()).isNotEqualTo(message.getId());
   }
 
@@ -815,5 +815,67 @@ class ChatTest extends TestBase {
 
     var event = AggregateTestUtils.getLastEvent(chat, AssistantMessageRetriedEvent.class);
     assertThat(event.timestamp()).isEqualTo(chat.getMessages().get(1).getTimestamp());
+  }
+
+  @Test
+  void recordToolResult_otherApprovedToolStillRunning_waitsForAllResults() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var first =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    var second =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    chat.addPendingToolCalls(messageId, List.of(first, second));
+
+    chat.recordToolResult(messageId, first.id(), randomString());
+    assertThat(chat.getMessages()).hasSize(2);
+
+    chat.recordToolResult(messageId, second.id(), randomString());
+    assertThat(chat.getMessages()).hasSize(3);
+    assertThat(chat.getMessages().get(2).isPending()).isTrue();
+  }
+
+  @Test
+  void addPendingToolCalls_withApprovedCall_registersApprovedEventForThatCallOnly() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var approved =
+        ToolCall.of(ToolCallId.create(), randomString(), randomString(), ToolCallStatus.APPROVED);
+    var pending =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+
+    chat.addPendingToolCalls(messageId, List.of(approved, pending));
+
+    assertThat(AggregateTestUtils.countEventsOfType(chat, ToolCallApprovedEvent.class)).isOne();
+    assertThat(AggregateTestUtils.getLastEvent(chat, ToolCallApprovedEvent.class).toolCallId())
+        .isEqualTo(approved.id());
+  }
+
+  @Test
+  void failMessage_pendingMessage_failsAndAllowsRetry() {
+    var chat = Chat.start(randomString());
+    var message = chat.getMessages().get(1);
+
+    chat.failMessage(message.getId());
+
+    assertThat(message.isFailed()).isTrue();
+    assertThat(AggregateTestUtils.getLastEvent(chat, ChatMessageFailedEvent.class).messageId())
+        .isEqualTo(message.getId());
+    chat.retryAssistantMessage(message.getId());
+    assertThat(chat.getMessages().get(1).isPending()).isTrue();
+  }
+
+  @Test
+  void rejectToolCall_deliveredTwice_createsOneContinuation() {
+    var chat = Chat.start(randomString());
+    var messageId = chat.getMessages().get(1).getId();
+    var call =
+        ToolCall.of(
+            ToolCallId.create(), randomString(), randomString(), ToolCallStatus.PENDING_APPROVAL);
+    chat.addPendingToolCalls(messageId, List.of(call));
+    chat.rejectToolCall(messageId, call.id());
+    chat.rejectToolCall(messageId, call.id());
+    assertThat(chat.getMessages()).hasSize(3);
   }
 }

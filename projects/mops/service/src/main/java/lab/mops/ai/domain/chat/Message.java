@@ -79,6 +79,10 @@ public class Message {
     return status == MessageStatus.CANCELLED;
   }
 
+  public boolean isFailed() {
+    return status == MessageStatus.FAILED;
+  }
+
   public MessageStatus getStatus() {
     return status;
   }
@@ -130,6 +134,10 @@ public class Message {
     Objects.requireNonNull(content, "content must not be null");
     updateStatus(MessageStatus.COMPLETED);
     this.content = content;
+  }
+
+  void fail() {
+    updateStatus(MessageStatus.FAILED);
   }
 
   void cancel() {
