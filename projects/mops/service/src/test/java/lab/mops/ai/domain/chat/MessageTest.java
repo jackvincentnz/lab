@@ -242,6 +242,15 @@ class MessageTest extends TestBase {
   }
 
   @Test
+  void fail_setsFailedStatus() {
+    var message = Message.assistantMessage();
+
+    message.fail();
+
+    assertThat(message.getStatus()).isEqualTo(MessageStatus.FAILED);
+  }
+
+  @Test
   void cancel_setsCancelledStatus() {
     var message = Message.assistantMessage();
 
