@@ -39,6 +39,7 @@ def fe_app(
         data = [],
         test_srcs = None,
         test_deps = [],
+        test_args = [],
         test_tags = [],
         stories = None,
         story_deps = [],
@@ -67,6 +68,7 @@ def fe_app(
         test_srcs: Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus
             TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.
+        test_args: Extra Vitest CLI arguments for the cacheable test target.
         test_tags: Tags for the cacheable Vitest test target.
         stories: Story sources; defaults to `src/**/*.stories.ts(x)`.
         story_deps: Additional story dependencies (e.g. @storybook/react).
@@ -127,6 +129,7 @@ def fe_app(
 
     vitest_run(
         name = "test_run",
+        args = test_args,
         data = test_runtime,
         tags = test_tags,
         visibility = visibility,

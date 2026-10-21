@@ -56,6 +56,7 @@ jobs:
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --test_tag_filters=no-coverage \
+            --test_summary=short \
             //...
 
       - name: Coverage
@@ -66,7 +67,12 @@ jobs:
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --combined_report=lcov \
+            --test_summary=short \
             //...
+
+      - name: "Experiment: mops vitest timing (coverage)"
+        if: success() || failure()
+        run: tail -n 40 dist/testlogs/projects/mops/app/test_run/test.log || true
 
       - name: Copy test reports out of symlink forest
         if: success() || failure()
