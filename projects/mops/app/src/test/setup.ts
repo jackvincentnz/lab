@@ -21,3 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
+export const ciNonce = "exp/mops-shard-only-e-1-1792595027";
