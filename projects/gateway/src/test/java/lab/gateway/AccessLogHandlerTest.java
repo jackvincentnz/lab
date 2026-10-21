@@ -87,6 +87,30 @@ class AccessLogHandlerTest extends TestBase {
   }
 
   @Test
+  void onStop_withStatus_logsRequestLineStatusAndDurationAsMessage() {
+    var path = "/" + randomString();
+    var observationContext =
+        observationContext(MockServerHttpRequest.put(path + "?q=" + randomString()).build());
+
+    observe(observationContext, HttpStatus.NO_CONTENT);
+
+    var record = onlyRecord();
+    assertThat(onlyMessage()).isEqualTo("PUT " + path + " 204 " + record.get("duration_ms") + "ms");
+  }
+
+  @Test
+  void onStop_abortedBeforeCommit_logsUnknownStatusAsDashInMessage() {
+    var path = "/" + randomString();
+    var observationContext = observationContext(MockServerHttpRequest.get(path).build());
+    observationContext.setConnectionAborted(true);
+
+    observe(observationContext, HttpStatus.OK);
+
+    var record = onlyRecord();
+    assertThat(onlyMessage()).isEqualTo("GET " + path + " - " + record.get("duration_ms") + "ms");
+  }
+
+  @Test
   void onStop_withoutCaller_omitsCallerFields() {
     var path = "/" + randomString();
     var observationContext =
@@ -216,8 +240,12 @@ class AccessLogHandlerTest extends TestBase {
 
   private Map<String, Object> onlyRecord() {
     assertThat(listAppender.list).hasSize(1);
-    assertThat(listAppender.list.get(0).getFormattedMessage()).isEqualTo("Access");
     return listAppender.list.get(0).getKeyValuePairs().stream()
         .collect(Collectors.toMap(pair -> pair.key, pair -> pair.value));
+  }
+
+  private String onlyMessage() {
+    assertThat(listAppender.list).hasSize(1);
+    return listAppender.list.get(0).getFormattedMessage();
   }
 }

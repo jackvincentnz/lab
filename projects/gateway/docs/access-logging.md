@@ -7,7 +7,7 @@ Logstash format, one object per line, so the record's fields are flat top-level 
 ```json
 {
   "@timestamp": "2026-10-10T06:27:11.041653Z",
-  "message": "Access",
+  "message": "GET /api/graphql 200 50ms",
   "logger_name": "lab.gateway.AccessLogHandler",
   "method": "GET",
   "path": "/api/graphql",
@@ -36,6 +36,14 @@ Logstash format, one object per line, so the record's fields are flat top-level 
 A field the gateway does not know for a request is left out rather than written empty. The record
 is built from named fields only, so header values, cookies, tokens, and request bodies such as the
 login form never reach it.
+
+The message is the method, path, status, and duration, with `-` for an unknown status. The `local`
+profile logs plain text, like the other services, and plain text prints the message but not the
+fields:
+
+```text
+2026-10-10T19:27:11.041+13:00  INFO 4242 --- [gateway] [ctor-http-nio-3] lab.gateway.AccessLogHandler             : GET /api/graphql 200 50ms
+```
 
 ## How the record is built
 

@@ -50,13 +50,14 @@ class AccessLogTest extends GatewayTestSupport {
             .getResponseHeaders()
             .getFirst(RequestIdWebFilter.HEADER);
 
-    assertThat(record(output, requestId))
-        .containsEntry("message", "Access")
+    var record = record(output, requestId);
+    assertThat(record)
         .containsEntry("method", "GET")
         .containsEntry("path", "/actuator/health")
         .containsEntry("status", 200)
         .containsEntry("request_id", requestId)
         .containsKeys("source_ip", "duration_ms");
+    assertThat((String) record.get("message")).matches("GET /actuator/health 200 \\d+ms");
   }
 
   @Test
@@ -197,6 +198,8 @@ class AccessLogTest extends GatewayTestSupport {
   }
 
   private static boolean isRecord(String line, String requestId) {
-    return line.startsWith("{") && line.contains("\"Access\"") && line.contains(requestId);
+    return line.startsWith("{")
+        && line.contains("\"" + AccessLogHandler.class.getName() + "\"")
+        && line.contains(requestId);
   }
 }
