@@ -16,6 +16,8 @@ oci_deliver(<a href="#oci_deliver-image">image</a>, <a href="#oci_deliver-repo_s
 
 Bazel macro for delivering oci images to a local and remote repository.
 
+Every target is prefixed with `name`, so a package can deliver more than one image.
+
 See:
 - https://docs.aspect.build/guides/delivery/
 - https://github.com/bazel-contrib/rules_oci/blob/main/docs/load.md
@@ -23,10 +25,11 @@ See:
 
 ### Targets
 
-- `:[name]` - oci_load target, with stamping configured for the tags.
+- `:[name].load` - oci_load target, with stamping configured for the tags.
 - `:[name].tar` - OCI-format tarball of the oci_load target.
 - `:[name].index` - image index that the tarball loads, for reading the image ID.
-- `:push` - oci_push target, with stamping configured for the tags.
+- `:[name].push` - oci_push target, with stamping configured for the tags.
+- `:[name].check_then_push` - runs `:[name].push` only when the image is not already pushed.
 
 
 **PARAMETERS**
@@ -36,7 +39,7 @@ See:
 | :------------- | :------------- | :------------- |
 | <a id="oci_deliver-image"></a>image |  Image to pass to oci_image.   |  none |
 | <a id="oci_deliver-repo_suffix"></a>repo_suffix |  Suffix to be applied after jackvincent/lab-.   |  none |
-| <a id="oci_deliver-name"></a>name |  Name of the oci_load target.   |  `"load"` |
+| <a id="oci_deliver-name"></a>name |  Prefix for the macro's targets.   |  `"deliver"` |
 | <a id="oci_deliver-visibility"></a>visibility |  Visibility of tarball, typically for use in e2e testing.   |  `["//visibility:private"]` |
 
 

@@ -55,7 +55,7 @@ oci_image(
 )
 
 # Tag and run a local container with:
-# $ bazel run //projects/organizer/task/src/main:load
+# $ bazel run //projects/organizer/task/src/main:deliver.load
 # $ docker run --rm jackvincent/lab-task:latest
 oci_deliver(
     image = ":image",

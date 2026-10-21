@@ -53,7 +53,7 @@ oci_image(
 )
 
 # Tag and run a local container with:
-# $ bazel run //projects/organizer/autojournal/src/main:load
+# $ bazel run //projects/organizer/autojournal/src/main:deliver.load
 # $ docker run --rm jackvincent/lab-autojournal:latest
 oci_deliver(
     image = ":image",

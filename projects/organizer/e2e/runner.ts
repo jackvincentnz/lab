@@ -14,16 +14,16 @@ import type { ContentToCopy, Environment } from "testcontainers/build/types";
 
 const RUNFILES = process.env["JS_BINARY__RUNFILES"];
 
-const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/load/tarball.tar`;
-const TASKLIST_INDEX = `${RUNFILES}/_main/projects/organizer/tasklist/load.index`;
-const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/load/tarball.tar`;
-const JOURNAL_APP_INDEX = `${RUNFILES}/_main/projects/organizer/journal_app/load.index`;
-const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/load/tarball.tar`;
-const TASK_INDEX = `${RUNFILES}/_main/projects/organizer/task/src/main/load.index`;
-const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/load/tarball.tar`;
-const JOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/journal/src/main/load.index`;
-const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/load/tarball.tar`;
-const AUTOJOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/load.index`;
+const TASKLIST_TARBALL = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.load/tarball.tar`;
+const TASKLIST_INDEX = `${RUNFILES}/_main/projects/organizer/tasklist/deliver.index`;
+const JOURNAL_APP_TARBALL = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.load/tarball.tar`;
+const JOURNAL_APP_INDEX = `${RUNFILES}/_main/projects/organizer/journal_app/deliver.index`;
+const TASK_TARBALL = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.load/tarball.tar`;
+const TASK_INDEX = `${RUNFILES}/_main/projects/organizer/task/src/main/deliver.index`;
+const JOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.load/tarball.tar`;
+const JOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/journal/src/main/deliver.index`;
+const AUTOJOURNAL_TARBALL = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.load/tarball.tar`;
+const AUTOJOURNAL_INDEX = `${RUNFILES}/_main/projects/organizer/autojournal/src/main/deliver.index`;
 const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_INDEX = `${RUNFILES}/_main/infra/local/proxy/index`;
 const PROXY_PORT = 5000;
