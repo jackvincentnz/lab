@@ -21,4 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
-export const ciNonce = "exp/mops-shard-only-1-1792595024";
+export const ciNonce = "exp/mops-shard-only-2-1792595952";
