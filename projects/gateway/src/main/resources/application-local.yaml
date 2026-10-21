@@ -1,4 +1,8 @@
 # Local development only. Activated by the Bazel run target.
+logging:
+  structured:
+    format:
+      console: ""
 lab:
   gateway:
     token:

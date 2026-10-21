@@ -48,25 +48,18 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
   public void onStop(ServerRequestObservationContext context) {
     // The carrier is the request as it arrived, before routes rewrite its path.
     var request = context.getCarrier();
-    var loggingEventBuilder =
-        LOGGER
-            .atInfo()
-            .addKeyValue("method", request.getMethod().name())
-            .addKeyValue("path", request.getPath().value());
-
-    var response = context.getResponse();
-    var status = response.getStatusCode();
-    // As in Spring's request observation convention, a client that disconnected before the
-    // response was committed received no status, and one that disconnected after it did.
-    var statusUnknown = context.isConnectionAborted() && !response.isCommitted();
-    if (status != null && !statusUnknown) {
-      loggingEventBuilder = loggingEventBuilder.addKeyValue("status", status.value());
-    }
-
+    var method = request.getMethod().name();
+    var path = request.getPath().value();
+    var status = status(context);
     long started = context.getRequired(STARTED);
-    loggingEventBuilder =
-        loggingEventBuilder.addKeyValue(
-            "duration_ms", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started));
+    var durationMs = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - started);
+
+    var loggingEventBuilder =
+        LOGGER.atInfo().addKeyValue("method", method).addKeyValue("path", path);
+    if (status != null) {
+      loggingEventBuilder = loggingEventBuilder.addKeyValue("status", status);
+    }
+    loggingEventBuilder = loggingEventBuilder.addKeyValue("duration_ms", durationMs);
 
     loggingEventBuilder = addIfKnown(loggingEventBuilder, "source_ip", sourceIp(request));
     for (var field : FIELDS) {
@@ -75,7 +68,17 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
           addIfKnown(loggingEventBuilder, field, keyValue == null ? null : keyValue.getValue());
     }
 
-    loggingEventBuilder.log("Access");
+    loggingEventBuilder.log(
+        "{} {} {} {}ms", method, path, status == null ? "-" : status, durationMs);
+  }
+
+  private static Integer status(ServerRequestObservationContext context) {
+    var response = context.getResponse();
+    var status = response.getStatusCode();
+    // As in Spring's request observation convention, a client that disconnected before the
+    // response was committed received no status, and one that disconnected after it did.
+    var statusUnknown = context.isConnectionAborted() && !response.isCommitted();
+    return status == null || statusUnknown ? null : status.value();
   }
 
   private static LoggingEventBuilder addIfKnown(
