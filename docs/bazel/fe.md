@@ -11,8 +11,8 @@ Declare Vite applications.
 <pre>
 load("//tools/bazel:fe.bzl", "fe_app")
 
-fe_app(<a href="#fe_app-name">name</a>, <a href="#fe_app-srcs">srcs</a>, <a href="#fe_app-deps">deps</a>, <a href="#fe_app-assets">assets</a>, <a href="#fe_app-data">data</a>, <a href="#fe_app-test_srcs">test_srcs</a>, <a href="#fe_app-test_deps">test_deps</a>, <a href="#fe_app-test_args">test_args</a>, <a href="#fe_app-test_tags">test_tags</a>, <a href="#fe_app-stories">stories</a>,
-       <a href="#fe_app-story_deps">story_deps</a>, <a href="#fe_app-visibility">visibility</a>)
+fe_app(<a href="#fe_app-name">name</a>, <a href="#fe_app-srcs">srcs</a>, <a href="#fe_app-deps">deps</a>, <a href="#fe_app-assets">assets</a>, <a href="#fe_app-data">data</a>, <a href="#fe_app-test_srcs">test_srcs</a>, <a href="#fe_app-test_deps">test_deps</a>, <a href="#fe_app-test_args">test_args</a>, <a href="#fe_app-test_shard_count">test_shard_count</a>, <a href="#fe_app-test_tags">test_tags</a>,
+       <a href="#fe_app-stories">stories</a>, <a href="#fe_app-story_deps">story_deps</a>, <a href="#fe_app-visibility">visibility</a>)
 </pre>
 
 Declare one flattened Vite application per Bazel package.
@@ -39,6 +39,7 @@ compile separately for an app-owned Storybook configuration.
 | <a id="fe_app-test_srcs"></a>test_srcs |  Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.   |  `None` |
 | <a id="fe_app-test_deps"></a>test_deps |  Additional test compilation/runtime dependencies.   |  `[]` |
 | <a id="fe_app-test_args"></a>test_args |  Extra Vitest CLI arguments for the cacheable test target.   |  `[]` |
+| <a id="fe_app-test_shard_count"></a>test_shard_count |  Bazel shards for the cacheable test target; each shard runs a slice of test files.   |  `None` |
 | <a id="fe_app-test_tags"></a>test_tags |  Tags for the cacheable Vitest test target.   |  `[]` |
 | <a id="fe_app-stories"></a>stories |  Story sources; defaults to `src/**/*.stories.ts(x)`.   |  `None` |
 | <a id="fe_app-story_deps"></a>story_deps |  Additional story dependencies (e.g. @storybook/react).   |  `[]` |

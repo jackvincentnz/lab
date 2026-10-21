@@ -72,7 +72,7 @@ jobs:
 
       - name: "Experiment: mops vitest timing (coverage)"
         if: success() || failure()
-        run: tail -n 40 dist/testlogs/projects/mops/app/test_run/test.log || true
+        run: for f in $(find -L dist/testlogs/projects/mops/app/test_run -name test.log); do echo "$f"; tail -n 12 "$f"; done
 
       - name: Copy test reports out of symlink forest
         if: success() || failure()
