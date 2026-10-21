@@ -8,8 +8,10 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@rules_oci//oci:defs.bzl", "oci_image_index", "oci_load", "oci_push", _oci_image = "oci_image")
 load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
-def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
+def oci_deliver(image, repo_suffix, name = "deliver", visibility = ["//visibility:private"]):
     """Bazel macro for delivering oci images to a local and remote repository.
+
+    Every target is prefixed with `name`, so a package can deliver more than one image.
 
     See:
     - https://docs.aspect.build/guides/delivery/
@@ -21,14 +23,15 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     - `:[name].load` - oci_load target, with stamping configured for the tags.
     - `:[name].tar` - OCI-format tarball of the oci_load target.
     - `:[name].index` - image index that the tarball loads, for reading the image ID.
-    - `:push` - oci_push target, with stamping configured for the tags.
+    - `:[name].push` - oci_push target, with stamping configured for the tags.
+    - `:[name].check_then_push` - runs `:[name].push` only when the image is not already pushed.
 
     Args:
-      name: Macro name.
-
       image: Image to pass to oci_image.
 
       repo_suffix: Suffix to be applied after jackvincent/lab-.
+
+      name: Prefix for the macro's targets.
 
       visibility: Visibility of tarball, typically for use in e2e testing.
     """
@@ -37,20 +40,23 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     repository_name = "{0}-{1}".format(repo_prefix, repo_suffix)
     repository = "jackvincent/{0}".format(repository_name)
 
+    tags_tmpl_label = "_%s_tags_tmpl" % name
+    stamped_tags_label = "_%s_stamped_tags" % name
+
     write_file(
-        name = "_tags_tmpl",
-        out = "_tags.txt.tmpl",
+        name = tags_tmpl_label,
+        out = "_%s_tags.txt.tmpl" % name,
         # Docker's containerd image store looks up an OCI tarball's tag only by
         # its fully qualified name.
         content = ["docker.io/{0}:VERSION".format(repository)],
     )
 
     expand_template(
-        name = "_stamped_tags",
-        out = "_stamped.tags.txt",
+        name = stamped_tags_label,
+        out = "_%s_stamped.tags.txt" % name,
         stamp_substitutions = {"VERSION": "{{STABLE_VERSION}}"},
         substitutions = {"VERSION": "latest"},
-        template = ":_tags_tmpl",
+        template = ":%s" % tags_tmpl_label,
     )
 
     index_label = "%s.index" % name
@@ -65,30 +71,28 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     load_label = "%s.load" % name
 
     # Tag and run a local container with:
-    # $ bazel run :[oci_deliver name]
+    # $ bazel run :[name].load
     # $ docker run --rm jackvincent/lab-<repo_suffix>:latest
     oci_load(
         name = load_label,
         format = "oci",
         image = ":%s" % index_label,
-        repo_tags = ":_stamped_tags",
-        visibility = visibility,
-    )
-    native.alias(
-        name = name,
-        actual = load_label,
+        repo_tags = ":%s" % stamped_tags_label,
         visibility = visibility,
     )
     native.filegroup(
         name = "%s.tar" % name,
-        srcs = [":%s" % name],
+        srcs = [":%s" % load_label],
         output_group = "tarball",
         visibility = visibility,
     )
 
+    version_tmpl_label = "_%s_version_tmpl" % name
+    stamped_version_label = "_%s_stamped_version" % name
+
     write_file(
-        name = "_version_tmpl",
-        out = "_version.txt.tmpl",
+        name = version_tmpl_label,
+        out = "_%s_version.txt.tmpl" % name,
         content = [
             "latest",
             "VERSION",
@@ -96,40 +100,42 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
     )
 
     expand_template(
-        name = "_stamped_version",
-        out = "_stamped.version.txt",
+        name = stamped_version_label,
+        out = "_%s_stamped.version.txt" % name,
         stamp_substitutions = {"VERSION": "{{STABLE_VERSION}}"},
         substitutions = {"VERSION": "0.0.0"},
-        template = ":_version_tmpl",
+        template = ":%s" % version_tmpl_label,
     )
 
+    push_label = "%s.push" % name
+
     # Push and tag remote container with:
-    # $ bazel run :push
+    # $ bazel run :[name].push
     # Note: requires prior docker login
     oci_push(
-        name = "push",
+        name = push_label,
         image = image,
-        remote_tags = ":_stamped_version",
+        remote_tags = ":%s" % stamped_version_label,
         repository = repository,
     )
 
-    # First checks if a manifest has been previously pushed before executing :push above.
+    # First checks if a manifest has been previously pushed before executing the push above.
     # Useful to avoid re-tagging images that haven't changed.
     sh_binary(
-        name = "check_then_push",
+        name = "%s.check_then_push" % name,
         srcs = ["//tools/bazel/oci:check_then_push.sh"],
         args = [
             "--crane_path $(location @lab_oci_crane_toolchains//:current_toolchain)",
             "--jq_path $(location @jq_toolchains//:resolved_toolchain)",
             "--image_dir $(location %s)" % image,
             "--repository %s" % repository,
-            "--pusher_path $(location :push)",
+            "--pusher_path $(location :%s)" % push_label,
         ],
         data = [
             "@lab_oci_crane_toolchains//:current_toolchain",
             "@jq_toolchains//:resolved_toolchain",
             image,
-            ":push",
+            ":%s" % push_label,
         ],
         tags = ["deliverable"],
     )
