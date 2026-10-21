@@ -33,6 +33,7 @@ fe_app(
         "//projects/mops/app/public",
         "//tools/bazel/vitest:test_config",
     ],
+    test_args = ["--maxWorkers=1"],
     test_deps = [
         "//:node_modules/@lab/test-utils",
         "//:node_modules/@testing-library/jest-dom",
@@ -40,7 +41,6 @@ fe_app(
         "//:node_modules/@testing-library/user-event",
         "//:node_modules/vitest",
     ],
-    test_tags = ["exclusive"],
     visibility = ["//projects/mops:__pkg__"],
     deps = [
         "//:node_modules/@apollo/client",
