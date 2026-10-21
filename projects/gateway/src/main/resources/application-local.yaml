@@ -2,8 +2,6 @@
 logging:
   structured:
     format:
-      # Plain text, like the other services run locally. The access record's message carries the
-      # request line, status, and duration.
       console: ""
 lab:
   gateway:

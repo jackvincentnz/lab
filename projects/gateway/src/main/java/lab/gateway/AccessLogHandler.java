@@ -68,12 +68,10 @@ class AccessLogHandler implements ObservationHandler<ServerRequestObservationCon
           addIfKnown(loggingEventBuilder, field, keyValue == null ? null : keyValue.getValue());
     }
 
-    // The message repeats the fields a plain-text console needs, since it prints no key values.
     loggingEventBuilder.log(
         "{} {} {} {}ms", method, path, status == null ? "-" : status, durationMs);
   }
 
-  /** The status the client received, or null when it received none. */
   private static Integer status(ServerRequestObservationContext context) {
     var response = context.getResponse();
     var status = response.getStatusCode();
