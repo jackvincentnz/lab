@@ -22,6 +22,8 @@ java_test_suite(
         "MopsRoutingTest.java",
         "RequestIdWebFilterTest.java",
         "SigningKeyTest.java",
+        "WebSocketDownstream.java",
+        "WebSocketProxyTest.java",
     ],
     runner = "junit5",
     tags = ["requires-network"],
