@@ -8,7 +8,7 @@ load("@bazel_skylib//rules:write_file.bzl", "write_file")
 load("@rules_oci//oci:defs.bzl", "oci_image_index", "oci_load", "oci_push", _oci_image = "oci_image")
 load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 
-def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"]):
+def oci_deliver(image, repo_suffix, name = "load", visibility = ["//visibility:private"]):
     """Bazel macro for delivering oci images to a local and remote repository.
 
     See:
@@ -18,17 +18,17 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
 
     ### Targets
 
-    - `:[name].load` - oci_load target, with stamping configured for the tags.
+    - `:[name]` - oci_load target, with stamping configured for the tags.
     - `:[name].tar` - OCI-format tarball of the oci_load target.
     - `:[name].index` - image index that the tarball loads, for reading the image ID.
     - `:push` - oci_push target, with stamping configured for the tags.
 
     Args:
-      name: Macro name.
-
       image: Image to pass to oci_image.
 
       repo_suffix: Suffix to be applied after jackvincent/lab-.
+
+      name: Name of the oci_load target.
 
       visibility: Visibility of tarball, typically for use in e2e testing.
     """
@@ -62,21 +62,14 @@ def oci_deliver(name, image, repo_suffix, visibility = ["//visibility:private"])
         visibility = visibility,
     )
 
-    load_label = "%s.load" % name
-
     # Tag and run a local container with:
-    # $ bazel run :[oci_deliver name]
+    # $ bazel run :load
     # $ docker run --rm jackvincent/lab-<repo_suffix>:latest
     oci_load(
-        name = load_label,
+        name = name,
         format = "oci",
         image = ":%s" % index_label,
         repo_tags = ":_stamped_tags",
-        visibility = visibility,
-    )
-    native.alias(
-        name = name,
-        actual = load_label,
         visibility = visibility,
     )
     native.filegroup(

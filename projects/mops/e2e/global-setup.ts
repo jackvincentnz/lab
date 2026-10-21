@@ -15,10 +15,10 @@ if (!RUNFILES) {
   throw new Error("JS_BINARY__RUNFILES is not set");
 }
 
-const APP_TARBALL = `${RUNFILES}/_main/projects/mops/app/deliver.load/tarball.tar`;
-const APP_INDEX = `${RUNFILES}/_main/projects/mops/app/deliver.index`;
-const SERVICE_TARBALL = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.load/tarball.tar`;
-const SERVICE_INDEX = `${RUNFILES}/_main/projects/mops/service/src/main/deliver.index`;
+const APP_TARBALL = `${RUNFILES}/_main/projects/mops/app/load/tarball.tar`;
+const APP_INDEX = `${RUNFILES}/_main/projects/mops/app/load.index`;
+const SERVICE_TARBALL = `${RUNFILES}/_main/projects/mops/service/src/main/load/tarball.tar`;
+const SERVICE_INDEX = `${RUNFILES}/_main/projects/mops/service/src/main/load.index`;
 
 const DOCKER = new Dockerode();
 

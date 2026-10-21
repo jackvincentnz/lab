@@ -64,7 +64,6 @@ oci_image(
 )
 
 oci_deliver(
-    name = "deliver",
     image = ":image",
     repo_suffix = "gateway",
 )

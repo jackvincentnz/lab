@@ -51,7 +51,7 @@ Builds storybook for production to `dist/bin/libs/bubbles/storybook-static`.
 ```shell
 pnpm build-storybook-docker
 # or
-bazel run //libs/bubbles:deliver
+bazel run //libs/bubbles:load
 ```
 
 Builds and tags storybook docker image which can be run with docker.
