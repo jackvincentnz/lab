@@ -21,3 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
+export const ciNonce = "a-exclusive-1-1792592268";
