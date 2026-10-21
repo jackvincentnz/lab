@@ -1,9 +1,11 @@
 import { mockMatchMedia } from "@lab/test-utils/setup";
+import { cleanup } from "@testing-library/react";
 import { afterEach, vi } from "vitest";
 import type { PropsWithChildren } from "react";
 import { resetStatsigMock, statsigClient } from "./statsig";
 
 afterEach(() => {
+  cleanup();
   resetStatsigMock();
 });
 
