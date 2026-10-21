@@ -21,4 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
-export const ciNonce = "d-cpu2-workers2-2-1792593052";
+export const ciNonce = "d-cpu2-workers2-3-1792593396";
