@@ -24,6 +24,9 @@ common --repo_env=JAVA_HOME=../bazel_tools/jdk
 common --incompatible_enable_proto_toolchain_resolution
 common --@protobuf//bazel/toolchains:prefer_prebuilt_protoc
 
+# Opt out of Aspect ruleset usage telemetry.
+common --repo_env=DO_NOT_TRACK=1
+
 # passes an argument `--skipLibCheck` to *every* spawn of tsc
 build --@aspect_rules_ts//ts:skipLibCheck=always
 fetch --@aspect_rules_ts//ts:skipLibCheck=always
