@@ -56,6 +56,7 @@ jobs:
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --test_tag_filters=no-coverage \
+            --nocache_test_results \
             --test_summary=short \
             //...
 
@@ -67,6 +68,7 @@ jobs:
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --combined_report=lcov \
+            --nocache_test_results \
             --test_summary=short \
             //...
 
