@@ -12,7 +12,7 @@ export default mergeConfig(
     coverageExclude: ["src/pages/spend/components/spend-table/types.js"],
   }),
   defineConfig({
-    test: { maxWorkers: 1 },
+    test: { maxWorkers: 1, isolate: false },
     plugins: [preserveHtmlEntrySymlinks()],
     server: {
       // Node binds "localhost" to ::1 only on macOS, and the gateway connects to the app over IPv4.
