@@ -21,3 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
+export const ciNonce = "e-workers1-1-1792592273";
