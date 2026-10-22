@@ -33,7 +33,10 @@ fe_app(
         "//projects/mops/app/public",
         "//tools/bazel/vitest:test_config",
     ],
-    test_args = ["--maxWorkers=1", "--no-isolate"],
+    test_args = [
+        "--maxWorkers=1",
+        "--no-isolate",
+    ],
     test_deps = [
         "//:node_modules/@lab/test-utils",
         "//:node_modules/@testing-library/jest-dom",
