@@ -21,3 +21,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
+export const ciNonce = "exp/fe-scale-only-x5-shards8-1-1792629590";
