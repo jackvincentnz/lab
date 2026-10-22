@@ -23,4 +23,4 @@ vi.mock("@statsig/react-bindings", () => {
     }),
   };
 });
-export const ciNonce = "exp/fe-scale-only-x1-noisolate-1-1792629583";
+export const ciNonce = "exp/fe-scale-only-x1-noisolate-2-1792631526";
