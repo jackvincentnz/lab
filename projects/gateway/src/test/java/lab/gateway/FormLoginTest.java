@@ -49,7 +49,7 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
-  void apiPost_withoutCredentials_isForbidden() {
+  void apiPost_withoutCredentialsOrCsrfToken_isForbidden() {
     client()
         .post()
         .uri("/api/graphql")
