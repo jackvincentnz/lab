@@ -79,12 +79,13 @@ it("shows an error when the mutation fails", async () => {
 });
 
 it("refetches the task list after adding a task", async () => {
+  const existingTask = { id: "1", title: "Buy bread", isCompleted: false };
   const title = "Buy milk";
   renderWithMocks(
     [
-      getTasksMock([]),
-      addTaskMock(title, { data: { addTask: { id: "1" } } }),
-      getTasksMock([{ id: "1", title, isCompleted: false }]),
+      getTasksMock([existingTask]),
+      addTaskMock(title, { data: { addTask: { id: "2" } } }),
+      getTasksMock([existingTask, { id: "2", title, isCompleted: false }]),
     ],
     <>
       <AddTask />
@@ -92,6 +93,8 @@ it("refetches the task list after adding a task", async () => {
     </>,
   );
 
+  // Apollo dedupes a refetch into a still-pending identical query, which returns the old list.
+  await screen.findByText(existingTask.title);
   await userEvent.type(
     screen.getByRole("textbox", { name: "Task name" }),
     `${title}{Enter}`,
