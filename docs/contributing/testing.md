@@ -60,7 +60,8 @@ named after the directory.
 - Mock a module with `vi.mock` only in a setup file, and reset the mock's state
   after each test, as the Mops Statsig mock does, so that a test never sees
   another file's mock. Test files in a worker share loaded modules, so a module
-  that an earlier file loaded keeps that file's version of its imports.
+  that an earlier file loaded keeps that file's version of its imports. ESLint
+  rejects `vi.mock` and `vi.doMock` in test files.
 - Create spies and stubs with `vi.spyOn`, `vi.stubGlobal` and `vi.stubEnv`
   inside a test or a `beforeEach`, because Vitest restores them before every
   test. The shared setup also unmounts rendered components, switches back to

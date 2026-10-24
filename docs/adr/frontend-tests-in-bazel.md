@@ -76,7 +76,7 @@ test can fail because of a file that ran before it in the same worker.
   tests without overloading the runner and need no special scheduling.
 - A change that re-runs every test is not measurably faster or slower. The Java and Testcontainers
   tests set that time.
-- Tests must follow the mocking rule. Reviews enforce it until a lint rule does.
+- Tests must follow the mocking rule. ESLint rejects `vi.mock` and `vi.doMock` in test files.
 - A failure can depend on test order. To find the cause, re-run the target with `--isolate` and
   compare.
 - Shard counts grow with the number of test files, not their run time. A suite of slow files can
