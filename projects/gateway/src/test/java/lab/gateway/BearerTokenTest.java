@@ -206,7 +206,11 @@ class BearerTokenTest extends GatewayTestSupport {
         .accept(MediaType.TEXT_HTML)
         .exchange()
         .expectStatus()
-        .isUnauthorized();
+        .isUnauthorized()
+        .expectHeader()
+        .value(
+            HttpHeaders.WWW_AUTHENTICATE,
+            value -> assertThat(value).startsWith("Bearer").contains("error=\"invalid_token\""));
 
     assertThat(mopsService.requests()).isEqualTo(before);
   }

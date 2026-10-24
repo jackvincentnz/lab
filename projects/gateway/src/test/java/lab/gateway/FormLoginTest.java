@@ -6,6 +6,7 @@ import java.time.Duration;
 import java.util.Map;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.session.ReactiveSessionRepository;
@@ -37,7 +38,9 @@ class FormLoginTest extends GatewayTestSupport {
         .accept(MediaType.APPLICATION_JSON)
         .exchange()
         .expectStatus()
-        .isUnauthorized();
+        .isUnauthorized()
+        .expectHeader()
+        .valueEquals(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
   }
 
   @Test

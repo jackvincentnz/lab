@@ -99,7 +99,11 @@ class WebSocketProxyTest extends GatewayTestSupport {
         .cause()
         .isInstanceOfSatisfying(
             WebSocketHandshakeException.class,
-            exception -> assertThat(exception.getResponse().statusCode()).isEqualTo(401));
+            exception -> {
+              assertThat(exception.getResponse().statusCode()).isEqualTo(401);
+              assertThat(exception.getResponse().headers().firstValue(HttpHeaders.WWW_AUTHENTICATE))
+                  .contains("Bearer");
+            });
     assertThat(mopsService.requests()).isEqualTo(requestsBefore);
   }
 

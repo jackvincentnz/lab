@@ -4,8 +4,8 @@ API clients can call the gateway with `Authorization: Bearer <jwt>` instead of a
 gateway verifies the token against its configured issuer's key set, then mints its own identity
 token for the downstream service as it does for a session, with `amr` `bearer`. The client's token
 is never forwarded. Bearer requests need no CSRF token and create no session. An invalid or expired
-token gets `401`. A request that carries both a session and a bearer token gets `400`; the client
-must use one.
+token gets `401` with a `WWW-Authenticate: Bearer` challenge. A request that carries both a session
+and a bearer token gets `400`; the client must use one.
 
 ## Token contract
 

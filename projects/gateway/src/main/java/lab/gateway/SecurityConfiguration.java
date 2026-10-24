@@ -10,7 +10,6 @@ import lab.libs.identity.jwt.IdentityClaimsValidator;
 import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
@@ -20,11 +19,11 @@ import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.web.server.BearerTokenServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint.DelegateEntry;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
-import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.csrf.WebSessionServerCsrfTokenRepository;
 import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
@@ -107,7 +106,7 @@ public class SecurityConfiguration {
     var entryPoint =
         new DelegatingServerAuthenticationEntryPoint(
             new DelegateEntry(html, new RedirectServerAuthenticationEntryPoint("/login")));
-    entryPoint.setDefaultEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED));
+    entryPoint.setDefaultEntryPoint(new BearerTokenServerAuthenticationEntryPoint());
     return entryPoint;
   }
 }
