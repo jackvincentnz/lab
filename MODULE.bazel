@@ -2,14 +2,14 @@ module(name = "lab")
 
 bazel_dep(name = "aspect_bazel_lib", version = "2.22.5")
 bazel_dep(name = "bazel_skylib", version = "1.9.2")
-bazel_dep(name = "bazelrc-preset.bzl", version = "1.9.2")
+bazel_dep(name = "bazelrc-preset.bzl", version = "1.10.0")
 bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "36.2")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_jvm_external", version = "7.2")
 bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
-bazel_dep(name = "rules_nodejs", version = "6.7.6")
-bazel_dep(name = "aspect_rules_js", version = "3.5.1")
+bazel_dep(name = "rules_nodejs", version = "6.7.7")
+bazel_dep(name = "aspect_rules_js", version = "3.5.2")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
 bazel_dep(name = "rules_playwright", version = "0.0.0")
@@ -23,7 +23,7 @@ bazel_dep(name = "bazel_env.bzl", version = "0.10.0")
 
 bazel_dep(name = "stardoc", version = "0.8.1", dev_dependency = True)
 bazel_dep(name = "gazelle", version = "0.54.0", dev_dependency = True)
-bazel_dep(name = "rules_go", version = "0.64.2", dev_dependency = True)
+bazel_dep(name = "rules_go", version = "0.65.0", dev_dependency = True)
 
 # rules_go's go.mod requires Go 1.25 and builds with 1.26.7; select that toolchain
 # ahead of contrib_rules_jvm's older SDK.
@@ -44,8 +44,8 @@ http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_j
 
 http_jar(
     name = "opentelemetry-javaagent",
-    sha256 = "f787eb6c7f3d18e69a431e108a15278d25ee37f83d68b678f621e063f3988f82",
-    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.32.0/opentelemetry-javaagent.jar",
+    sha256 = "5f9d1f10056ed2b246fbb19543519b8066cda23d6aff19022dbdb84402d6c3ab",
+    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.33.0/opentelemetry-javaagent.jar",
 )
 
 ####################################################################################################
@@ -119,7 +119,7 @@ maven.install(
         "io.confluent:kafka-protobuf-serializer:8.3.2",
         "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.7.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core, at the 4.4.0 it declares; Clikt 5 changed the CliktCommand constructor, so codegen fails with NoSuchMethodError
-        "com.squareup.okhttp3:okhttp-jvm:5.5.0",
+        "com.squareup.okhttp3:okhttp-jvm:5.5.1",
         "org.apache.tomcat.embed:tomcat-embed-core:11.0.27",
         "org.apache.tomcat.embed:tomcat-embed-el:11.0.27",
         "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.27",
@@ -128,9 +128,9 @@ maven.install(
         # First wins
         "io.netty:netty-bom:4.2.19.Final",
         "com.google.protobuf:protobuf-bom:4.36.2",
-        "org.springframework.boot:spring-boot-dependencies:4.1.1",
-        "org.springframework.cloud:spring-cloud-dependencies:2025.1.3",
-        "org.springframework.ai:spring-ai-bom:2.0.1",
+        "org.springframework.boot:spring-boot-dependencies:4.1.2",
+        "org.springframework.cloud:spring-cloud-dependencies:2025.1.4",
+        "org.springframework.ai:spring-ai-bom:2.0.2",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.1.0",
         "org.testcontainers:testcontainers-bom:2.0.5",
     ],
@@ -298,13 +298,13 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:ebd058041a732a2b2dc0b606e34572dd8e0034de6a4aa4d50d8c13a240ac6005",
+    digest = "sha256:b899b0ef5345e14c01720a5ff83e716bacda65c7077a7363602ff7e7970bf88a",
     image = "nginx",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    tag = "1.31.7-alpine-slim",
+    tag = "1.31.8-alpine-slim",
 )
 oci.toolchains(name = "lab_oci")
 use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")
