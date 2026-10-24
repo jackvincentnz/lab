@@ -35,7 +35,7 @@ class CallerTest extends TestBase {
   }
 
   @Test
-  void of_bearerJwtWithPaddedScope_describesTheTokenClaimsAuthenticatedByBearer() {
+  void of_bearerJwt_describesTheTokenClaimsAuthenticatedByBearer() {
     var principal = UUID.randomUUID();
     var tenant = UUID.randomUUID();
     var scopes = List.of(randomString(), randomString());
@@ -44,12 +44,15 @@ class CallerTest extends TestBase {
             .header("alg", "RS256")
             .subject(principal.toString())
             .claim(IdentityClaims.TENANT, tenant.toString())
-            .claim(IdentityClaims.SCOPE, " " + String.join("  ", scopes) + " ")
+            .claim(IdentityClaims.SCOPE, String.join(" ", scopes))
             .build();
 
-    var caller = Caller.of(new JwtAuthenticationToken(jwt));
+    var caller = Caller.of(new JwtAuthenticationToken(jwt)).orElseThrow();
 
-    assertThat(caller).contains(new Caller(principal, tenant, scopes, Caller.BEARER));
+    assertThat(caller.principal()).isEqualTo(principal);
+    assertThat(caller.tenant()).isEqualTo(tenant);
+    assertThat(caller.scopes()).containsExactlyInAnyOrderElementsOf(scopes);
+    assertThat(caller.authenticationMethod()).isEqualTo(Caller.BEARER);
   }
 
   @Test

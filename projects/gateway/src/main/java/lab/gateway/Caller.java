@@ -32,14 +32,10 @@ public record Caller(
           new Caller(principal.principal(), principal.tenant(), principal.scopes(), FORM));
     }
     if (authentication instanceof JwtAuthenticationToken bearer) {
-      // The decoder has already validated these claims.
-      var jwt = bearer.getToken();
+      var identity = IdentityClaims.identity(bearer.getToken());
       return Optional.of(
           new Caller(
-              UUID.fromString(jwt.getSubject()),
-              UUID.fromString(jwt.getClaimAsString(IdentityClaims.TENANT)),
-              List.of(jwt.getClaimAsString(IdentityClaims.SCOPE).trim().split("\\s+")),
-              BEARER));
+              identity.principalId(), identity.tenantId(), List.copyOf(identity.scopes()), BEARER));
     }
     return Optional.empty();
   }
