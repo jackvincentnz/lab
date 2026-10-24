@@ -59,10 +59,11 @@ not mark them `exclusive`:
   `exclusive`.
 
 To keep each test target under about 30 seconds on one worker in CI, `fe_app` gives its test
-target one Bazel shard for every 100 test files once it has more than 100. At about 0.2 seconds
-for each file without isolation, a shard takes about 20 seconds. `bazelVitestConfig` maps Bazel's
-shard variables onto Vitest's `shard` option, so each shard runs a slice of the test files on one
-worker. An app with slower test files sets its own count with `test_shard_count`.
+target one Bazel shard for every 75 test files once it has more than 75. At about 0.3 seconds
+for each file without isolation while every test re-runs, a shard takes about 22 seconds.
+`bazelVitestConfig` maps Bazel's shard variables onto Vitest's `shard` option, so each shard runs
+a slice of the test files on one worker. An app with slower test files sets its own count with
+`test_shard_count`.
 
 This accepts that test files can affect each other through shared modules and global state. A
 test can fail because of a file that ran before it in the same worker.
@@ -97,8 +98,8 @@ How Bazel runs the tests:
   today's size.
 - **One-worker shards, with isolation.** Bazel's count is correct, and shards run in parallel when
   CPUs are free: 19 to 24 seconds today and 28 to 34 seconds for the slowest of 8 shards at five
-  times the size. Every shard still pays the isolation cost and starts Vitest again. Kept as the
-  way to split a suite that grows too long on one worker.
+  times the size. Every shard still pays the isolation cost and starts Vitest again. Sharding is
+  kept, without isolation, as the way to split a suite that grows too long on one worker.
 - **One test target for each file or folder.** Like a Java test target for each test class, each
   target is cached on its own. Only the changed area's tests re-run if test sources also compile
   in matching separate `ts_project` targets; today all of an app's tests compile together. Each

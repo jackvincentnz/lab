@@ -23,7 +23,7 @@ By default, discover TypeScript under `src/` in the calling package, separating
 production, tests/helpers and stories. Explicit source lists override these
 defaults (including `[]`); keep overrides disjoint. Keep app-specific Vite/Vitest
 configuration in the calling package; tests consume compiled JS. `test_run`
-gets one Bazel shard for every 100 test files once it has more than 100.
+gets one Bazel shard for every 75 test files once it has more than 75.
 Stories compile separately for an app-owned Storybook configuration.
 
 
@@ -39,7 +39,7 @@ Stories compile separately for an app-owned Storybook configuration.
 | <a id="fe_app-data"></a>data |  Files and packages consumed by Vite/Vitest at runtime, rather than by application TypeScript compilation: `index.html`, `package.json`, public files, Vite/PostCSS config and the packages those configs import (e.g. postcss-preset-mantine or `test_config`).   |  `[]` |
 | <a id="fe_app-test_srcs"></a>test_srcs |  Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.   |  `None` |
 | <a id="fe_app-test_deps"></a>test_deps |  Additional test compilation/runtime dependencies.   |  `[]` |
-| <a id="fe_app-test_shard_count"></a>test_shard_count |  Bazel shards for the cacheable Vitest test target, in place of the count derived from test files (e.g. for a suite of slow test files).   |  `None` |
+| <a id="fe_app-test_shard_count"></a>test_shard_count |  Bazel shards for the cacheable Vitest test target, in place of the count derived from test files (e.g. for a suite of slow test files); 0 disables sharding. Keep it at most the number of test files: Vitest fails a shard with no test files.   |  `None` |
 | <a id="fe_app-test_tags"></a>test_tags |  Tags for the cacheable Vitest test target.   |  `[]` |
 | <a id="fe_app-stories"></a>stories |  Story sources; defaults to `src/**/*.stories.ts(x)`.   |  `None` |
 | <a id="fe_app-story_deps"></a>story_deps |  Additional story dependencies (e.g. @storybook/react).   |  `[]` |

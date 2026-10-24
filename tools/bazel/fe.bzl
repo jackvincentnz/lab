@@ -33,9 +33,9 @@ _STORY_PATTERNS = [
 
 _TEST_FILE_SUFFIXES = (".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx")
 
-# Without isolation, one worker ran about 0.2 s per mops test file in CI, so 100 files take about
-# 20 s: under the ADR's 30 s target with room for slower files, and a third of the 60 s timeout.
-_TEST_FILES_PER_SHARD = 100
+# Without isolation, one worker ran about 0.3 s per mops test file in CI while every test re-ran,
+# so 75 files take about 22 s: under the ADR's 30 s target with room for slower files.
+_TEST_FILES_PER_SHARD = 75
 
 def _test_shard_count(test_srcs):
     test_files = len([src for src in test_srcs if src.endswith(_TEST_FILE_SUFFIXES)])
@@ -64,7 +64,7 @@ def fe_app(
     production, tests/helpers and stories. Explicit source lists override these
     defaults (including `[]`); keep overrides disjoint. Keep app-specific Vite/Vitest
     configuration in the calling package; tests consume compiled JS. `test_run`
-    gets one Bazel shard for every 100 test files once it has more than 100.
+    gets one Bazel shard for every 75 test files once it has more than 75.
     Stories compile separately for an app-owned Storybook configuration.
 
     Args:
@@ -82,7 +82,9 @@ def fe_app(
             TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.
         test_shard_count: Bazel shards for the cacheable Vitest test target, in place of
-            the count derived from test files (e.g. for a suite of slow test files).
+            the count derived from test files (e.g. for a suite of slow test files); 0
+            disables sharding. Keep it at most the number of test files: Vitest fails a
+            shard with no test files.
         test_tags: Tags for the cacheable Vitest test target.
         stories: Story sources; defaults to `src/**/*.stories.ts(x)`.
         story_deps: Additional story dependencies (e.g. @storybook/react).
@@ -144,7 +146,7 @@ def fe_app(
     vitest_run(
         name = "test_run",
         data = test_runtime,
-        shard_count = test_shard_count or _test_shard_count(test_srcs),
+        shard_count = _test_shard_count(test_srcs) if test_shard_count == None else test_shard_count,
         tags = test_tags,
         visibility = visibility,
     )
