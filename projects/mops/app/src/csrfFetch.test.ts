@@ -1,4 +1,4 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { createCsrfFetch } from "./csrfFetch";
 
 const tokenResponse = (token: string) =>
@@ -25,8 +25,6 @@ const sentHeader = (
   (
     fetchMock.mock.calls[call][1] as RequestInit & { headers: Headers }
   ).headers.get(name);
-
-afterEach(() => vi.unstubAllGlobals());
 
 describe("csrfFetch", () => {
   it("sends the gateway token with the original GraphQL request", async () => {

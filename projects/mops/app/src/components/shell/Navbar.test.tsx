@@ -37,8 +37,6 @@ describe("Navbar", () => {
         title: "Reset Data",
       }),
     );
-
-    openConfirmModal.mockRestore();
   });
 
   test("calls the reset endpoint after confirmation", async () => {
@@ -59,8 +57,6 @@ describe("Navbar", () => {
     );
 
     expect(fetchSpy).toHaveBeenCalledWith("/api/reset");
-
-    fetchSpy.mockRestore();
   });
 
   test("shows gated footer actions when the iam gate is enabled", () => {
