@@ -3,6 +3,8 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Set;
+import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
 import lab.libs.identity.testing.TestTokens;
 import org.junit.jupiter.api.AfterAll;
@@ -10,7 +12,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -35,18 +36,14 @@ class BearerTokenTest extends GatewayTestSupport {
   }
 
   @Test
-  void bearerRequest_withIssuerToken_reachesMopsWithTheIdentityTokenOfASession() {
-    var sessionJwt = mopsDecoder().decode(forwardedToken(browser().login().authenticatedClient()));
+  void bearerRequest_withIssuerToken_forwardsAnIdentityTokenForTheCaller() {
+    var token = bearer(USER).mint();
 
-    var bearerJwt = mopsDecoder().decode(forwardedToken(bearerClient(bearer(USER).mint())));
+    var jwt = mopsDecoder().decode(forwardedToken(bearerClient(token)));
 
-    assertThat(IdentityClaims.identity(bearerJwt)).isEqualTo(IdentityClaims.identity(sessionJwt));
-    assertThat(bearerJwt.getClaimAsString(JwtClaimNames.ISS))
-        .isEqualTo(sessionJwt.getClaimAsString(JwtClaimNames.ISS));
-    assertThat(bearerJwt.getAudience()).isEqualTo(sessionJwt.getAudience());
-    assertThat(sessionJwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
-        .containsExactly(Caller.FORM);
-    assertThat(bearerJwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
+    assertThat(IdentityClaims.identity(jwt))
+        .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
+    assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly(Caller.BEARER);
   }
 
