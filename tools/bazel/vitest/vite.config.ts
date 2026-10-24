@@ -6,6 +6,6 @@ export default defineConfig(
   bazelVitestConfig({
     include: ["**/*.{test,spec}.js"],
     coverageInclude: ["projects/**/src/**/*.js", "libs/**/*.js"],
-    setupFiles: "@lab/test-utils/setup",
+    setupFiles: [],
   }),
 );

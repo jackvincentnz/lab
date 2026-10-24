@@ -16,7 +16,8 @@ vitest_run(<a href="#vitest_run-name">name</a>, <a href="#vitest_run-kwargs">**k
 
 Run cacheable Vitest tests in the calling package by default.
 
-Prepends `run` to args and defaults the test size to small.
+Prepends `run` and `--maxWorkers=1` to args, so the test uses the one CPU Bazel reserves for
+it, and defaults the test size to small.
 
 
 **PARAMETERS**

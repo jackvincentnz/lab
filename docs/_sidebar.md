@@ -32,9 +32,9 @@
   - [Overview](docs/adr/README.md)
   - [Accepted: Java BUILD files](docs/adr/java-build-files.md)
   - [Accepted: Chat work delivery](docs/adr/chat-work-delivery.md)
+  - [Accepted: Front-end tests in Bazel](docs/adr/frontend-tests-in-bazel.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
   - [Proposed: Gateway CSRF](docs/adr/gateway-csrf.md)
-  - [Proposed: Front-end tests in Bazel](docs/adr/frontend-tests-in-bazel.md)
 - Projects
   - [Gateway](projects/gateway/README.md)
     - [Access logging](projects/gateway/docs/access-logging.md)
