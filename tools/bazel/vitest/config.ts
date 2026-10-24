@@ -17,14 +17,6 @@ export function bazelVitestConfig({
   setupFiles = "./src/test/setup.js",
 }: Options = {}): UserConfig {
   return {
-    // Vite cannot find the workspace root in runfiles, so let it read shared setup outside the app.
-    server: process.env.TEST_SRCDIR
-      ? {
-          fs: {
-            allow: [`${process.env.TEST_SRCDIR}/${process.env.TEST_WORKSPACE}`],
-          },
-        }
-      : {},
     resolve: {
       // Keep Vitest setup and test files inside Bazel's sandboxed runfiles tree.
       // TODO: Remove when https://github.com/jackvincentnz/lab/issues/771 is resolved.
@@ -37,6 +29,10 @@ export function bazelVitestConfig({
       environment: "jsdom",
       // A setup file runs before every test file, so shared cleanup hooks cover each file.
       setupFiles: ["@lab/test-utils/setup", setupFiles].flat(),
+      // Without isolation Vitest restores only `vi.spyOn` spies between files.
+      restoreMocks: true,
+      unstubGlobals: true,
+      unstubEnvs: true,
       // Per-file module loading and jsdom setup took most of the test time.
       isolate: false,
       // Parsing CSS is slow, and no test relies on it.

@@ -61,5 +61,12 @@ named after the directory.
   after each test, as the Mops Statsig mock does, so that a test never sees
   another file's mock. Test files in a worker share loaded modules, so a module
   that an earlier file loaded keeps that file's version of its imports.
-- Leave the DOM, storage and globals as you found them, or reset them in an
-  `afterEach`, so that a test passes whichever file ran before it.
+- Create spies and stubs with `vi.spyOn`, `vi.stubGlobal` and `vi.stubEnv`
+  inside a test or a `beforeEach`, because Vitest restores them before every
+  test. The shared setup also unmounts rendered components, switches back to
+  real timers and clears `localStorage` and `sessionStorage` after each test.
+- Reset any other state you change, such as a `vi.fn` implementation or a
+  window property, in an `afterEach`, so that a test passes whichever file ran
+  before it.
+- Make window patches in a setup file safe to repeat, because the setup file
+  runs again before each test file against the same window.

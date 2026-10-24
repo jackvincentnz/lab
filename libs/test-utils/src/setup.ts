@@ -4,10 +4,18 @@ import { afterEach, vi } from "vitest";
 
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
+  localStorage.clear();
+  sessionStorage.clear();
 });
 
-const { getComputedStyle } = window;
-window.getComputedStyle = (elt) => getComputedStyle(elt);
+// Vitest re-runs this file before each test file against one shared window, so wrap only once.
+const patched = Symbol.for("@lab/test-utils/setup");
+if (!Reflect.has(window, patched)) {
+  Reflect.set(window, patched, true);
+  const { getComputedStyle } = window;
+  window.getComputedStyle = (elt) => getComputedStyle(elt);
+}
 window.HTMLElement.prototype.scrollIntoView = () => {
   // jsdom has no layout to scroll.
 };
