@@ -8,7 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # So an identity token minted for a downstream service is not a client credential.
+          # A token the issuer minted for another resource is refused.
           audiences: lab-gateway
   session:
     redis:

@@ -1,12 +1,14 @@
 # Bearer tokens
 
 API clients can call the gateway with `Authorization: Bearer <jwt>` instead of a session. The
-gateway verifies the token against the key set its configured issuer publishes and forwards the
-same identity token to the downstream service that a session produces, with `amr` set to
-`bearer`. Bearer requests need no CSRF token and create no session. An invalid or expired token
-gets `401`.
+gateway verifies the token against its configured issuer's key set, then mints its own identity
+token for the downstream service as it does for a session, with `amr` `bearer`. The client's token
+is never forwarded. Bearer requests need no CSRF token and create no session. An invalid or expired
+token gets `401`.
 
 ## Token contract
+
+Any JWT access token from the issuer with these claims is accepted, whatever grant issued it.
 
 | Claim    | Value                                                      |
 | -------- | ---------------------------------------------------------- |
@@ -17,15 +19,15 @@ gets `401`.
 | `scope`  | Space-separated scopes, for example `mops:read mops:write` |
 | `exp`    | Expiry                                                     |
 
-The audience keeps an identity token minted for a downstream service from being accepted as a
-client credential.
+The audience must name the gateway, so a token the issuer minted for another resource is refused.
+An identity token the gateway minted fails the issuer and signature checks.
 
 ## Local issuer
 
 The `local` profile trusts the mock issuer that `compose.yaml` runs on port 3007, or
-`GATEWAY_ISSUER_PORT` when set, which Spring Boot starts together with Redis. A
-`client_credentials` request returns a token for the local `admin` user's principal and tenant,
-valid for five minutes:
+`GATEWAY_ISSUER_PORT` when set, which Spring Boot starts together with Redis. Its
+`client_credentials` grant returns a token for the local `admin` user's principal and tenant, valid
+for five minutes:
 
 ```zsh
 token=$(curl -s -d grant_type=client_credentials -d client_id=lab-cli -d client_secret=unused \

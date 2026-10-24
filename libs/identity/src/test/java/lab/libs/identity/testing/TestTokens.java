@@ -148,7 +148,6 @@ public final class TestTokens {
       return this;
     }
 
-    /** For tokens that break the contract in a specific way. */
     public Token claim(String name, Object value) {
       overrides.put(name, value);
       return this;

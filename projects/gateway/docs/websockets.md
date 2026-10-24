@@ -1,9 +1,9 @@
 # WebSockets
 
-A WebSocket upgrade is a `GET` request, so it matches the same routes and passes the same session
-check as any other request. Spring Cloud Gateway then switches the route's `http` URI to `ws`,
-accepts the client's handshake, and opens its own socket to the downstream service. Messages are
-relayed both ways, and a close on either side closes the other.
+A WebSocket upgrade is a `GET` request, so it matches the same routes and passes the same
+authentication check as any other request. Spring Cloud Gateway then switches the route's `http`
+URI to `ws`, accepts the client's handshake, and opens its own socket to the downstream service.
+Messages are relayed both ways, and a close on either side closes the other.
 
 ## What crosses the gateway
 
@@ -18,8 +18,8 @@ the 401 rather than the login redirect.
 
 The handshake the service receives is built like a proxied API request:
 
-- `Authorization: Bearer <identity token>`, minted for the route's audience. A bearer the client
-  sent is verified as on an API request; any other `Authorization` is dropped.
+- `Authorization: Bearer <identity token>`, minted for the route's audience. The client's own
+  `Authorization` is never forwarded; a bearer token in it is verified like one on any request.
 - No `Cookie`.
 - The gateway's `X-Request-ID`.
 - `Host` set to the service's own address.
