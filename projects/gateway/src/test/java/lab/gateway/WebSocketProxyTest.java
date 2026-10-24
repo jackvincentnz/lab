@@ -66,6 +66,23 @@ class WebSocketProxyTest extends GatewayTestSupport {
   }
 
   @Test
+  void upgrade_withBearerToken_carriesIdentityTokenMintedForTheCaller()
+      throws InterruptedException {
+    var webSocketBuilder =
+        httpClient
+            .newWebSocketBuilder()
+            .header(HttpHeaders.AUTHORIZATION, BEARER + bearer(USER).mint());
+
+    var handshake = handshake(webSocketBuilder);
+
+    var jwt = mopsDecoder().decode(bearerToken(handshake.authorization()));
+    assertThat(IdentityClaims.identity(jwt))
+        .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
+    assertThat(jwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
+        .containsExactly(Caller.BEARER);
+  }
+
+  @Test
   void upgrade_withoutSession_isUnauthorizedAndNeverReachesTheService() {
     var requestsBefore = mopsService.requests();
 

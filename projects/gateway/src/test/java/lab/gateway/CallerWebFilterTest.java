@@ -3,7 +3,6 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import io.micrometer.common.KeyValue;
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -115,7 +114,6 @@ class CallerWebFilterTest extends TestBase {
         Jwt.withTokenValue(randomString())
             .header("alg", "RS256")
             .subject(UUID.randomUUID().toString())
-            .issuedAt(Instant.now())
             .claim(IdentityClaims.TENANT, UUID.randomUUID().toString())
             .claim(IdentityClaims.SCOPE, randomString())
             .build();

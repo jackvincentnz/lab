@@ -65,14 +65,8 @@ LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //proje
 ## Bearer tokens
 
 API clients can send `Authorization: Bearer <jwt>` instead of using a session. The `local` profile
-trusts the mock issuer. Anywhere else, configure the issuer through the environment, see
-[Bearer tokens](docs/bearer-tokens.md) for how to get a local token and configure another issuer:
-
-```zsh
-SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_ISSUER_URI=https://issuer.example.com \
-SPRING_SECURITY_OAUTH2_RESOURCESERVER_JWT_JWK_SET_URI=https://issuer.example.com/jwks \
-  bazel run //projects/gateway
-```
+trusts the mock issuer, and [Bearer tokens](docs/bearer-tokens.md) says how to get a local token or
+trust another issuer.
 
 ## Tests
 

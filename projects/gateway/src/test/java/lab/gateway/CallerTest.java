@@ -2,7 +2,6 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import lab.libs.identity.jwt.IdentityClaims;
@@ -44,7 +43,6 @@ class CallerTest extends TestBase {
         Jwt.withTokenValue(randomString())
             .header("alg", "RS256")
             .subject(principal.toString())
-            .issuedAt(Instant.now())
             .claim(IdentityClaims.TENANT, tenant.toString())
             .claim(IdentityClaims.SCOPE, " " + String.join("  ", scopes) + " ")
             .build();
