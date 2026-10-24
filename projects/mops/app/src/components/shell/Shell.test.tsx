@@ -1,11 +1,6 @@
 import { describe, expect, render, screen, test, userEvent } from "../../test";
-import { vi } from "vitest";
 import { Shell } from "./Shell";
 import { ASIDE_OPENED_KEY } from "./shellState";
-
-vi.mock("../chat", () => ({
-  Chat: () => <div>Chat Panel</div>,
-}));
 
 describe("Shell", () => {
   test("renders the current page title", () => {
@@ -15,6 +10,7 @@ describe("Shell", () => {
       </Shell>,
       {
         route: "/spend",
+        mockedProvider: { mocks: [] },
       },
     );
 
@@ -30,6 +26,7 @@ describe("Shell", () => {
       </Shell>,
       {
         route: "/spend",
+        mockedProvider: { mocks: [] },
       },
     );
 

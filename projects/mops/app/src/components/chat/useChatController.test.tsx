@@ -1,262 +1,239 @@
+import { InMemoryCache } from "@apollo/client";
+import type { MockLink } from "@apollo/client/testing";
+import { MockedProvider } from "@apollo/client/testing/react";
+import type { PropsWithChildren } from "react";
 import {
   act,
-  beforeEach,
+  afterEach,
   describe,
   expect,
   renderHook,
   test,
+  vi,
   waitFor,
 } from "../../test";
-import { vi } from "vitest";
 import {
   AddUserMessageDocument,
   EditUserMessageDocument,
+  GetChatDocument,
   RetryAssistantMessageDocument,
   StartChatDocument,
+  type ChatMessageStatus,
 } from "../../__generated__/graphql";
 import { useChatController } from "./useChatController";
 
-const mockUseQuery = vi.fn();
-const mockUseMutation = vi.fn();
+const CHAT_ID = "chat-1";
+const TIMESTAMP = "2026-03-01T12:00:00.000Z";
+const POLL_INTERVAL = 500;
 
-vi.mock("@apollo/client/react", () => ({
-  useQuery: (...args: unknown[]) => mockUseQuery(...args),
-  useMutation: (...args: unknown[]) => mockUseMutation(...args),
-}));
-
-// TODO: explore why apollo is mocked vs using apollo testing functionality
 describe("useChatController", () => {
-  beforeEach(() => {
-    mockUseQuery.mockReset();
-    mockUseMutation.mockReset();
+  afterEach(() => {
+    vi.useRealTimers();
   });
 
   test("starts a new chat when sending the first message", async () => {
-    const apollo = setupApollo();
-    const { result } = renderHook(() => useChatController());
+    const startChat = mockMutation(
+      StartChatDocument,
+      { input: { content: "hello" } },
+      "startChat",
+    );
+    const { result } = renderChatController([
+      startChat.mock,
+      mockGetChat("COMPLETED"),
+    ]);
 
     act(() => {
       result.current.setInput("  hello  ");
     });
 
-    await waitFor(() => {
-      expect(result.current.input).toBe("  hello  ");
-    });
-
     await act(async () => {
       await result.current.sendMessage();
     });
 
-    expect(
-      apollo.getCalledMutation(StartChatDocument).mutate,
-    ).toHaveBeenCalledWith({
-      variables: {
-        input: {
-          content: "hello",
-        },
-      },
-    });
+    expect(startChat.result).toHaveBeenCalledOnce();
     expect(result.current.input).toBe("");
-
-    act(() => {
-      apollo.getCalledMutation(StartChatDocument).onCompleted({
-        startChat: {
-          success: true,
-          chat: { id: "chat-1" },
-        },
-      });
+    expect(result.current.currentChatId).toBe(CHAT_ID);
+    await waitFor(() => {
+      expect(result.current.messages).toHaveLength(2);
     });
-
-    expect(result.current.currentChatId).toBe("chat-1");
-    expect(apollo.startPolling).toHaveBeenCalledWith(500);
   });
 
   test("adds a user message to an existing chat", async () => {
-    const apollo = setupApollo();
-    const { result } = renderHook(() => useChatController());
+    const addUserMessage = mockMutation(
+      AddUserMessageDocument,
+      { input: { chatId: CHAT_ID, content: "next" } },
+      "addUserMessage",
+    );
+    const { result } = renderChatController([
+      mockGetChat("COMPLETED"),
+      addUserMessage.mock,
+    ]);
 
     act(() => {
-      result.current.handleSelectChat("chat-1");
+      result.current.handleSelectChat(CHAT_ID);
       result.current.setInput("next");
-    });
-
-    await waitFor(() => {
-      expect(result.current.currentChatId).toBe("chat-1");
-      expect(result.current.input).toBe("next");
     });
 
     await act(async () => {
       await result.current.sendMessage();
     });
 
-    expect(
-      apollo.getCalledMutation(AddUserMessageDocument).mutate,
-    ).toHaveBeenCalledWith({
-      variables: {
-        input: {
-          chatId: "chat-1",
-          content: "next",
-        },
-      },
-    });
+    expect(addUserMessage.result).toHaveBeenCalledOnce();
   });
 
-  test("saves an edited message for the current chat", async () => {
-    const apollo = setupApollo();
-    const { result } = renderHook(() => useChatController());
+  test("saves an edited message and polls for the new reply", async () => {
+    vi.useFakeTimers();
+    const editUserMessage = mockMutation(
+      EditUserMessageDocument,
+      {
+        input: { chatId: CHAT_ID, messageId: "message-1", content: "Updated" },
+      },
+      "editUserMessage",
+    );
+    const reply = mockGetChat("COMPLETED");
+    const { result } = renderChatController([
+      mockGetChat("COMPLETED"),
+      editUserMessage.mock,
+      reply,
+    ]);
 
     act(() => {
-      result.current.handleSelectChat("chat-1");
+      result.current.handleSelectChat(CHAT_ID);
     });
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL));
 
-    const mutation = apollo.getMutation(EditUserMessageDocument);
-    mutation.mutate.mockResolvedValueOnce({
-      data: {
-        editUserMessage: {
-          success: true,
-        },
-      },
-    });
+    const saving = result.current.handleSaveEdit("message-1", " Updated ");
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
 
-    let saved = false;
-    await act(async () => {
-      saved = await result.current.handleSaveEdit("message-1", " Updated ");
-    });
-
-    expect(
-      apollo.getMutation(EditUserMessageDocument).mutate,
-    ).toHaveBeenCalledWith({
-      variables: {
-        input: {
-          chatId: "chat-1",
-          messageId: "message-1",
-          content: "Updated",
-        },
-      },
-    });
-    expect(saved).toBe(true);
-
-    act(() => {
-      mutation.onCompleted({
-        editUserMessage: {
-          success: true,
-        },
-      });
-    });
-    expect(apollo.startPolling).toHaveBeenCalledWith(500);
+    expect(await saving).toBe(true);
+    expect(editUserMessage.result).toHaveBeenCalledOnce();
+    expect(reply.result).toHaveBeenCalledOnce();
   });
 
   test("retries assistant messages for the current chat", async () => {
-    const apollo = setupApollo();
-    const { result } = renderHook(() => useChatController());
+    const retryAssistantMessage = mockMutation(
+      RetryAssistantMessageDocument,
+      { input: { chatId: CHAT_ID, messageId: "assistant-1" } },
+      "retryAssistantMessage",
+    );
+    const { result } = renderChatController([
+      mockGetChat("COMPLETED"),
+      retryAssistantMessage.mock,
+    ]);
 
     act(() => {
-      result.current.handleSelectChat("chat-1");
+      result.current.handleSelectChat(CHAT_ID);
     });
 
     await act(async () => {
       await result.current.handleRetryMessage("assistant-1");
     });
 
-    expect(
-      apollo.getMutation(RetryAssistantMessageDocument).mutate,
-    ).toHaveBeenCalledWith({
-      variables: {
-        input: {
-          chatId: "chat-1",
-          messageId: "assistant-1",
-        },
-      },
-    });
+    expect(retryAssistantMessage.result).toHaveBeenCalledOnce();
   });
 
-  test("stops polling when there are no pending assistant messages", () => {
-    const stopPolling = vi.fn();
+  test("polls the chat until the assistant message completes", async () => {
+    vi.useFakeTimers();
+    const { result } = renderChatController([
+      mockGetChat("PENDING"),
+      mockGetChat("COMPLETED"),
+    ]);
 
-    setupApollo({
-      queryData: {
-        chat: {
-          id: "chat-1",
-          messages: [
-            {
-              id: "assistant-1",
-              type: "ASSISTANT",
-              status: "COMPLETED",
-              content: "done",
-              toolCalls: [],
-            },
-          ],
-        },
-      },
-      stopPolling,
+    act(() => {
+      result.current.handleSelectChat(CHAT_ID);
     });
 
-    renderHook(() => useChatController());
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
 
-    expect(stopPolling).toHaveBeenCalled();
+    expect(result.current.messages[1]?.status).toBe("COMPLETED");
+  });
+
+  test("stops polling when there are no pending assistant messages", async () => {
+    vi.useFakeTimers();
+    const getChat = {
+      ...mockGetChat("COMPLETED"),
+      maxUsageCount: Number.POSITIVE_INFINITY,
+    };
+    const { result } = renderChatController([getChat]);
+
+    act(() => {
+      result.current.handleSelectChat(CHAT_ID);
+    });
+
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 3));
+
+    expect(result.current.messages).toHaveLength(2);
+    expect(getChat.result).toHaveBeenCalledOnce();
   });
 });
 
-function setupApollo(options?: {
-  queryData?: unknown;
-  stopPolling?: ReturnType<typeof vi.fn>;
-}) {
-  const startPolling = vi.fn();
-  const stopPolling = options?.stopPolling ?? vi.fn();
-  const mutations = new Map<
-    unknown,
-    {
-      mutate: ReturnType<typeof vi.fn>;
-      onCompleted: (data: unknown) => void;
-    }[]
-  >();
-
-  mockUseQuery.mockReturnValue({
-    data: options?.queryData,
-    loading: false,
-    startPolling,
-    stopPolling,
+function renderChatController(mocks: MockLink.MockedResponse[]) {
+  return renderHook(() => useChatController(), {
+    wrapper: ({ children }: PropsWithChildren) => (
+      <MockedProvider cache={new InMemoryCache()} mocks={mocks}>
+        {children}
+      </MockedProvider>
+    ),
   });
+}
 
-  mockUseMutation.mockImplementation(
-    (
-      _document: unknown,
-      config?: { onCompleted?: (data: unknown) => void },
-    ) => {
-      const mutate = vi.fn().mockResolvedValue(undefined);
-      const existing = mutations.get(_document) ?? [];
-      existing.push({
-        mutate,
-        onCompleted: config?.onCompleted ?? (() => undefined),
-      });
-      mutations.set(_document, existing);
-
-      return [mutate, { loading: false }];
+function mockMutation(
+  query: MockLink.MockedResponse["request"]["query"],
+  variables: Record<string, unknown>,
+  field: string,
+) {
+  const result = vi.fn(() => ({
+    data: {
+      [field]: {
+        code: "200",
+        success: true,
+        message: "ok",
+        chat: {
+          id: CHAT_ID,
+          messages: [],
+          createdAt: TIMESTAMP,
+          updatedAt: TIMESTAMP,
+        },
+      },
     },
-  );
+  }));
+  const mock: MockLink.MockedResponse = {
+    request: { query, variables },
+    result,
+  };
+
+  return { mock, result };
+}
+
+function mockGetChat(assistantStatus: ChatMessageStatus) {
+  const result = vi.fn(() => ({
+    data: {
+      chat: {
+        id: CHAT_ID,
+        messages: [
+          message("message-1", "USER", "COMPLETED"),
+          message("assistant-1", "ASSISTANT", assistantStatus),
+        ],
+        createdAt: TIMESTAMP,
+        updatedAt: TIMESTAMP,
+      },
+    },
+  }));
 
   return {
-    startPolling,
-    stopPolling,
-    getMutation(document: unknown) {
-      const documentMutations = mutations.get(document);
-      if (!documentMutations?.length) {
-        throw new Error("Missing mutation mock");
-      }
+    request: { query: GetChatDocument, variables: { id: CHAT_ID } },
+    result,
+  } satisfies MockLink.MockedResponse;
+}
 
-      return documentMutations[documentMutations.length - 1];
-    },
-    getCalledMutation(document: unknown) {
-      const documentMutations = mutations.get(document);
-      const calledMutation = documentMutations?.find(
-        (mutation) => mutation.mutate.mock.calls.length > 0,
-      );
-
-      if (!calledMutation) {
-        throw new Error("Missing called mutation mock");
-      }
-
-      return calledMutation;
-    },
+function message(id: string, type: string, status: ChatMessageStatus) {
+  return {
+    id,
+    type,
+    status,
+    content: id,
+    toolCalls: [],
+    createdAt: TIMESTAMP,
+    updatedAt: TIMESTAMP,
   };
 }
