@@ -14,7 +14,7 @@ act for.
 
 Six controls are involved:
 
-1. Authentication of public credentials.
+1. Delegated authentication of public callers.
 2. Browser session management.
 3. The identity contract handed to downstream services.
 4. Per-tenant IP allowlisting.
@@ -40,26 +40,33 @@ Health endpoints are public.
 
 ### Authentication
 
-The gateway is both the OAuth2 client and the OAuth2 resource server. No downstream service is
-either.
+The gateway is the platform's public authentication and access-control boundary. It delegates
+credential verification, MFA, social login, and enterprise SAML/OIDC federation to an external
+identity provider or authentication broker. The gateway establishes and owns the application's
+authenticated browser session; the provider-supported protocol, SDK, and session integration are
+implementation choices, not mandated here.
 
-- **Browser.** OIDC authorization code flow via Spring Security `oauth2Login`.
-- **API clients.** Bearer JWTs validated against the provider's JWKS via Spring Security
-  `oauth2ResourceServer`, including per-service audience.
+For external API and MCP callers, the gateway validates authorization-server-issued access tokens,
+including issuer, signature, expiry, and the audience of the _public_ API or MCP resource. OAuth
+client registration and user consent for third-party access belong to the authorization server.
+The provider does not need to know about private downstream services.
 
 After authentication the gateway resolves the caller to platform identifiers. A tenant service
-owns principals, tenants, memberships, and per-tenant policy. The default is a lookup against it,
-once at login for browser callers and once per token for bearer callers. Having the provider mint
-tokens that already carry platform claims is a deferred alternative. The tenant service is a
-separate decision.
+owns platform principals, tenants, memberships, product authorization, and per-tenant policy. The
+default is a lookup against it, once at login for browser callers and once per token for bearer
+callers. Having the provider mint tokens that already carry platform claims is a deferred
+alternative. The tenant service is a separate decision.
 
 ### Sessions
 
 Browser sessions are server-side, Redis-backed, and referenced by an opaque `HttpOnly`, `Secure`,
 `SameSite=Lax` cookie. `Lax` because the provider's login callback is a cross-site navigation.
 
-The cookie is the browser credential. Provider tokens stay in the gateway. A session has one active
-tenant and a configured first-party scope set per service.
+The cookie is the browser credential. Provider tokens stay in the gateway. A session has one
+active tenant. A principal may belong to multiple tenants, and switching tenants may require
+additional authentication to satisfy that tenant's policy. Prefer provider-managed
+authentication and account linking where practical; tenant membership and platform authorization
+remain platform-owned. The precise session representation and policy mechanism are deferred.
 
 Session requests are CSRF-protected; see the [Gateway CSRF decision](gateway-csrf.md) for token
 validation and delivery. WebSocket upgrades are proxied under the same rules.
@@ -115,14 +122,14 @@ dependencies:
 
 - The gateway authenticates configured in-memory users with Spring form login. Each user carries
   a principal, tenant, and scopes. No external provider, no tenant service.
-- Browser sessions only. Bearer tokens are not accepted.
-- Fast follow: public bearer JWTs signed with a static gateway key, to test API access before a
-  provider exists.
+- API clients send bearer JWTs from one configured issuer, validated against its key set. Locally
+  a mock OAuth2 server is the issuer, to test API access before a provider exists.
 - Allowlisting and rate limiting are not enforced.
 - Routing to Mops, the signed identity token, CSRF, WebSocket proxying, and access logging are
   all in.
 
-OIDC login replaces form login later with the same session semantics.
+Delegated authentication replaces form login later while preserving the gateway's responsibility
+for authenticated application sessions. The integration may use standard OIDC or a provider SDK.
 
 ## Out Of Scope
 
@@ -143,8 +150,9 @@ OIDC login replaces form login later with the same session semantics.
 - **Kong, NGINX, or Envoy.** Rejected for now. They handle routing and bearer validation, but
   tenant resolution and the downstream contract need custom logic, and the team's expertise is
   Spring.
-- **Gateway as authorization server.** Rejected. Token issuance, consent, and client management
-  are a large surface the identity provider already supplies.
+- **Gateway as external authorization server.** Rejected. External OAuth access-token issuance,
+  consent, and client management are a large surface the provider already supplies. The gateway
+  still issues its own short-lived internal service identity tokens.
 - **Gateway owns the identity mapping.** Rejected. The gateway would grow into an identity system
   with its own admin surface.
 

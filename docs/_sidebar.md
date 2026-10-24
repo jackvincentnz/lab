@@ -35,6 +35,7 @@
   - [Accepted: Front-end tests in Bazel](docs/adr/frontend-tests-in-bazel.md)
   - [Proposed: Edge gateway](docs/adr/gateway.md)
   - [Proposed: Gateway CSRF](docs/adr/gateway-csrf.md)
+  - [Proposed: Identity provider](docs/adr/identity-provider.md)
 - Projects
   - [Gateway](projects/gateway/README.md)
     - [Access logging](projects/gateway/docs/access-logging.md)
