@@ -9,7 +9,8 @@ bazel coverage --combined_report=lcov //projects/mops/app:test_run //projects/or
 
 CI runs `bazel coverage --combined_report=lcov //...` and uploads
 `dist/out/_coverage/_coverage_report.dat` to Codecov. Each test's native Vitest
-LCOV is also available at `dist/testlogs/<package>/<target>/coverage.dat`.
+LCOV is also available at `dist/testlogs/<package>/<target>/coverage.dat`, or in
+`shard_<n>_of_<count>/` below it for a sharded target.
 Bazel caches that output with the test result and merges it with Java coverage.
 
 ## How the integration works

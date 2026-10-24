@@ -31,6 +31,18 @@ _STORY_PATTERNS = [
     "src/**/*.stories.tsx",
 ]
 
+_TEST_FILE_SUFFIXES = (".test.ts", ".test.tsx", ".spec.ts", ".spec.tsx")
+
+# Without isolation, one worker ran about 0.3 s per mops test file in CI while every test re-ran,
+# so 75 files take about 22 s: under the ADR's 30 s target with room for slower files.
+_TEST_FILES_PER_SHARD = 75
+
+def _test_shard_count(test_srcs):
+    test_files = len([src for src in test_srcs if src.endswith(_TEST_FILE_SUFFIXES)])
+    if test_files <= _TEST_FILES_PER_SHARD:
+        return None
+    return (test_files + _TEST_FILES_PER_SHARD - 1) // _TEST_FILES_PER_SHARD
+
 def fe_app(
         name,
         srcs = None,
@@ -39,6 +51,7 @@ def fe_app(
         data = [],
         test_srcs = None,
         test_deps = [],
+        test_shard_count = None,
         test_tags = [],
         stories = None,
         story_deps = [],
@@ -50,8 +63,9 @@ def fe_app(
     By default, discover TypeScript under `src/` in the calling package, separating
     production, tests/helpers and stories. Explicit source lists override these
     defaults (including `[]`); keep overrides disjoint. Keep app-specific Vite/Vitest
-    configuration in the calling package; tests consume compiled JS. Stories
-    compile separately for an app-owned Storybook configuration.
+    configuration in the calling package; tests consume compiled JS. `test_run`
+    gets one Bazel shard for every 75 test files once it has more than 75.
+    Stories compile separately for an app-owned Storybook configuration.
 
     Args:
         name: Target name for the Vite dev server (normally the package basename).
@@ -67,6 +81,10 @@ def fe_app(
         test_srcs: Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus
             TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.
+        test_shard_count: Bazel shards for the cacheable Vitest test target, in place of
+            the count derived from test files (e.g. for a suite of slow test files); 0
+            disables sharding. Keep it at most the number of test files: Vitest fails a
+            shard with no test files.
         test_tags: Tags for the cacheable Vitest test target.
         stories: Story sources; defaults to `src/**/*.stories.ts(x)`.
         story_deps: Additional story dependencies (e.g. @storybook/react).
@@ -128,6 +146,7 @@ def fe_app(
     vitest_run(
         name = "test_run",
         data = test_runtime,
+        shard_count = _test_shard_count(test_srcs) if test_shard_count == None else test_shard_count,
         tags = test_tags,
         visibility = visibility,
     )

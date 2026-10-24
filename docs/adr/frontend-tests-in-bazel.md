@@ -58,9 +58,12 @@ not mark them `exclusive`:
 - An app switches when its tests pass without isolation. The mops app switches first and drops
   `exclusive`.
 
-When a test target takes more than about 30 seconds on one worker in CI, shard it with
-`shard_count`. `bazelVitestConfig` maps Bazel's shard variables onto Vitest's `shard` option, so
-each shard runs a slice of the test files on one worker.
+To keep each test target under about 30 seconds on one worker in CI, `fe_app` gives its test
+target one Bazel shard for every 75 test files once it has more than 75. At about 0.3 seconds
+for each file without isolation while every test re-runs, a shard takes about 22 seconds.
+`bazelVitestConfig` maps Bazel's shard variables onto Vitest's `shard` option, so each shard runs
+a slice of the test files on one worker. An app with slower test files sets its own count with
+`test_shard_count`.
 
 This accepts that test files can affect each other through shared modules and global state. A
 test can fail because of a file that ran before it in the same worker.
@@ -76,7 +79,9 @@ test can fail because of a file that ran before it in the same worker.
 - Tests must follow the mocking rule. Reviews enforce it until a lint rule does.
 - A failure can depend on test order. To find the cause, re-run the target with `--isolate` and
   compare.
-- Shard counts must grow with each test suite.
+- Shard counts grow with the number of test files, not their run time. A suite of slow files can
+  pass 30 seconds a shard before it gets another shard, and a count set with `test_shard_count`
+  does not grow.
 
 ## Alternatives considered
 
@@ -93,8 +98,8 @@ How Bazel runs the tests:
   today's size.
 - **One-worker shards, with isolation.** Bazel's count is correct, and shards run in parallel when
   CPUs are free: 19 to 24 seconds today and 28 to 34 seconds for the slowest of 8 shards at five
-  times the size. Every shard still pays the isolation cost and starts Vitest again. Kept as the
-  way to split a suite that grows too long on one worker.
+  times the size. Every shard still pays the isolation cost and starts Vitest again. Sharding is
+  kept, without isolation, as the way to split a suite that grows too long on one worker.
 - **One test target for each file or folder.** Like a Java test target for each test class, each
   target is cached on its own. Only the changed area's tests re-run if test sources also compile
   in matching separate `ts_project` targets; today all of an app's tests compile together. Each
@@ -122,8 +127,9 @@ How the tests run inside Vitest:
 
 ## Reconsider when
 
-- A front-end test target takes more than about 30 seconds on one worker in CI: shard it so each
-  shard stays under about 30 seconds, or derive the shard count from the number of test files.
+- A front-end test shard takes more than about 30 seconds on one worker in CI: set
+  `test_shard_count` on that app, or lower the test files for each shard in `fe_app` when most
+  apps need it.
 - Order-dependent failures recur, or the mocking rule blocks a needed test: evaluate isolation
   only for files that mock modules.
 - An app grows into areas that change independently: evaluate a test target for each area, with

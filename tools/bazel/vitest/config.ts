@@ -1,3 +1,4 @@
+import { writeFileSync } from "node:fs";
 import type { UserConfig } from "vitest/config";
 import { bazelCoverage } from "./coverage.ts";
 
@@ -40,6 +41,21 @@ export function bazelVitestConfig({
       isolate: false,
       // Parsing CSS is slow, and no test relies on it.
       css: false,
+      shard: bazelShard(),
     },
   };
+}
+
+/** Map Bazel test sharding onto Vitest's `<index>/<count>` file slices. */
+function bazelShard(): string | undefined {
+  const { TEST_TOTAL_SHARDS, TEST_SHARD_INDEX, TEST_SHARD_STATUS_FILE } =
+    process.env;
+  if (!TEST_TOTAL_SHARDS) {
+    return undefined;
+  }
+  // Bazel fails a sharded test that does not acknowledge sharding.
+  if (TEST_SHARD_STATUS_FILE) {
+    writeFileSync(TEST_SHARD_STATUS_FILE, "");
+  }
+  return `${Number(TEST_SHARD_INDEX) + 1}/${TEST_TOTAL_SHARDS}`;
 }
