@@ -1,8 +1,15 @@
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("@npm//:tsconfig-to-swcconfig/package_json.bzl", tsconfig_to_swcconfig = "bin")
+load("//tools/bazel:js.bzl", "js_library")
 load("//tools/bazel:ts.bzl", "ts_config")
 
 npm_link_all_packages(name = "node_modules")
+
+js_library(
+    name = "pnpm_workspace",
+    srcs = ["pnpm-workspace.yaml"],
+    visibility = ["//tools/bazel/vitest:__pkg__"],
+)
 
 ts_config(
     name = "tsconfig",

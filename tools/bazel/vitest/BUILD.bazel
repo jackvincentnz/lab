@@ -25,6 +25,8 @@ js_library(
         "config.ts",
         "coverage.ts",
     ],
+    # Vite ends its workspace-root search at this file, so `server.fs.allow` covers shared setup.
+    data = ["//:pnpm_workspace"],
     deps = [
         "//:node_modules/@lab/test-utils",
         "//:node_modules/@vitest/coverage-v8",
