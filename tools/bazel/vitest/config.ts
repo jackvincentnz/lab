@@ -5,7 +5,6 @@ interface Options {
   include?: string[];
   coverageInclude?: string[];
   coverageExclude?: string[];
-  /** App-specific setup files, run after `@lab/test-utils/setup`. */
   setupFiles?: string | string[];
 }
 
