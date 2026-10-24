@@ -3,3 +3,6 @@ build --bes_backend=grpcs://remote.buildbuddy.io
 build --remote_cache=grpcs://remote.buildbuddy.io
 # Keep CI runners small; local dev enables disk cache in .bazelrc.
 build --disk_cache=
+# Test JVMs run for seconds, so C2 compilation and parallel GC threads cost the 4-CPU runner more
+# CPU than they save.
+test "--test_env=JAVA_TOOL_OPTIONS=-XX:TieredStopAtLevel=1 -XX:+UseSerialGC"
