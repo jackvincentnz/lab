@@ -20,6 +20,7 @@ java_library(
         "RequestIdWebFilter.java",
         "SecurityConfiguration.java",
         "SigningKey.java",
+        "SingleCredentialBearerTokenConverter.java",
     ],
     visibility = [
         "//projects/gateway/src/main:__pkg__",

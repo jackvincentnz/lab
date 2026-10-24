@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.Set;
-import java.util.UUID;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
 import org.junit.jupiter.api.AfterAll;
@@ -69,20 +68,15 @@ class IdentityContractTest extends GatewayTestSupport {
   }
 
   @Test
-  void serviceRequest_withSessionAndBearer_forwardsTheBearerCaller() {
+  void serviceRequest_withSessionAndBasicAuthorization_forwardsOnlyTheIdentityToken() {
     var browser = browser().login();
-    var bearerPrincipal = UUID.randomUUID();
-    var bearerTenant = UUID.randomUUID();
 
     var forwarded =
         browser
             .authenticatedClient()
             .get()
             .uri("/api/graphql")
-            .header(
-                HttpHeaders.AUTHORIZATION,
-                "Bearer " + bearer(USER).principal(bearerPrincipal).tenant(bearerTenant).mint(),
-                "Basic " + randomString())
+            .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString())
             .exchange()
             .expectStatus()
             .isOk()
@@ -93,7 +87,7 @@ class IdentityContractTest extends GatewayTestSupport {
     assertThat(forwarded).hasSize(1);
     Jwt jwt = mopsDecoder().decode(bearer(forwarded.get(0)));
     assertThat(IdentityClaims.identity(jwt))
-        .isEqualTo(new Identity(bearerPrincipal, bearerTenant, Set.copyOf(USER.scopes())));
+        .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
   }
 
   @Test
@@ -118,7 +112,7 @@ class IdentityContractTest extends GatewayTestSupport {
         .authenticatedClient()
         .get()
         .uri("/spend")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer(USER).mint())
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString())
         .exchange()
         .expectStatus()
         .isOk()

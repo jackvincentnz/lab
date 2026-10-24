@@ -31,6 +31,7 @@ import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
 import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
 import org.springframework.security.web.server.ui.LogoutPageGeneratingWebFilter;
 import org.springframework.security.web.server.util.matcher.MediaTypeServerWebExchangeMatcher;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -59,6 +60,9 @@ public class SecurityConfiguration {
   @Bean
   OAuth2TokenValidator<Jwt> bearerClaimsValidator(OAuth2ResourceServerProperties properties) {
     var jwt = properties.getJwt();
+    Assert.state(
+        jwt.getAudiences().size() == 1,
+        "spring.security.oauth2.resourceserver.jwt.audiences must name the gateway alone");
     return new IdentityClaimsValidator(jwt.getIssuerUri(), jwt.getAudiences().get(0));
   }
 
@@ -77,7 +81,11 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
-        .oauth2ResourceServer(server -> server.jwt(withDefaults()))
+        .oauth2ResourceServer(
+            server ->
+                server
+                    .bearerTokenConverter(new SingleCredentialBearerTokenConverter())
+                    .jwt(withDefaults()))
         .addFilterAfter(new CallerWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
         .csrf(csrf -> csrf.csrfTokenRepository(csrfTokens))
         .logout(ServerHttpSecurity.LogoutSpec::disable)

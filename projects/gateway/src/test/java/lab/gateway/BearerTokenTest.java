@@ -132,20 +132,28 @@ class BearerTokenTest extends GatewayTestSupport {
   }
 
   @Test
-  void bearerRequest_withInvalidTokenAlongsideASession_isUnauthorized() {
+  void bearerRequest_withValidTokenAndSession_isBadRequest() {
+    assertBadRequestWithSession(bearer(USER).mint());
+  }
+
+  @Test
+  void bearerRequest_withInvalidTokenAndSession_isBadRequest() {
+    assertBadRequestWithSession(randomString());
+  }
+
+  @Test
+  void bearerRequest_withUnknownSessionCookie_reachesTheService() {
     var before = mopsService.requests();
 
-    browser()
-        .login()
-        .authenticatedClient()
+    bearerClient(bearer(USER).mint())
         .get()
         .uri("/api/graphql")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString())
+        .cookie("SESSION", randomString())
         .exchange()
         .expectStatus()
-        .isUnauthorized();
+        .isOk();
 
-    assertThat(mopsService.requests()).isEqualTo(before);
+    assertThat(mopsService.requests()).isEqualTo(before + 1);
   }
 
   private static String forwardedToken(WebTestClient webTestClient) {
@@ -167,6 +175,26 @@ class BearerTokenTest extends GatewayTestSupport {
 
   private WebTestClient bearerClient(String token) {
     return client().mutate().defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token).build();
+  }
+
+  private void assertBadRequestWithSession(String token) {
+    var before = mopsService.requests();
+
+    browser()
+        .login()
+        .authenticatedClient()
+        .get()
+        .uri("/api/graphql")
+        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+        .exchange()
+        .expectStatus()
+        .isBadRequest()
+        .expectHeader()
+        .value(
+            HttpHeaders.WWW_AUTHENTICATE,
+            value -> assertThat(value).contains("error=\"invalid_request\""));
+
+    assertThat(mopsService.requests()).isEqualTo(before);
   }
 
   private void assertUnauthorizedNotRedirected(String token) {
