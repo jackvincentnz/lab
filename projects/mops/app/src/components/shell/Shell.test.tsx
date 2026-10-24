@@ -1,8 +1,20 @@
-import { describe, expect, render, screen, test, userEvent } from "../../test";
+import {
+  afterEach,
+  describe,
+  expect,
+  render,
+  screen,
+  test,
+  userEvent,
+} from "../../test";
 import { Shell } from "./Shell";
 import { ASIDE_OPENED_KEY } from "./shellState";
 
 describe("Shell", () => {
+  afterEach(() => {
+    window.sessionStorage.removeItem(ASIDE_OPENED_KEY);
+  });
+
   test("renders the current page title", () => {
     render(
       <Shell>
@@ -18,8 +30,6 @@ describe("Shell", () => {
   });
 
   test("tracks aside opened state in session storage", async () => {
-    window.sessionStorage.removeItem(ASIDE_OPENED_KEY);
-
     render(
       <Shell>
         <div>Page</div>

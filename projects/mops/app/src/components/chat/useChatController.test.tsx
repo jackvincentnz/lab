@@ -5,12 +5,12 @@ import type { PropsWithChildren } from "react";
 import {
   act,
   afterEach,
+  beforeEach,
   describe,
   expect,
   renderHook,
   test,
   vi,
-  waitFor,
 } from "../../test";
 import {
   AddUserMessageDocument,
@@ -27,11 +27,15 @@ const TIMESTAMP = "2026-03-01T12:00:00.000Z";
 const POLL_INTERVAL = 500;
 
 describe("useChatController", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+  });
+
   afterEach(() => {
     vi.useRealTimers();
   });
 
-  test("starts a new chat when sending the first message", async () => {
+  test("starts a new chat and polls for the reply", async () => {
     const startChat = mockMutation(
       StartChatDocument,
       { input: { content: "hello" } },
@@ -39,6 +43,7 @@ describe("useChatController", () => {
     );
     const { result } = renderChatController([
       startChat.mock,
+      mockGetChat("PENDING"),
       mockGetChat("COMPLETED"),
     ]);
 
@@ -46,43 +51,40 @@ describe("useChatController", () => {
       result.current.setInput("  hello  ");
     });
 
-    await act(async () => {
-      await result.current.sendMessage();
-    });
+    await runAndWaitForPoll(() => result.current.sendMessage());
 
     expect(startChat.result).toHaveBeenCalledOnce();
     expect(result.current.input).toBe("");
     expect(result.current.currentChatId).toBe(CHAT_ID);
-    await waitFor(() => {
-      expect(result.current.messages).toHaveLength(2);
-    });
+    expect(result.current.messages[1]?.status).toBe("COMPLETED");
   });
 
-  test("adds a user message to an existing chat", async () => {
+  test("adds a user message and polls for the reply", async () => {
     const addUserMessage = mockMutation(
       AddUserMessageDocument,
       { input: { chatId: CHAT_ID, content: "next" } },
       "addUserMessage",
     );
+    const reply = mockGetChat("COMPLETED");
     const { result } = renderChatController([
       mockGetChat("COMPLETED"),
       addUserMessage.mock,
+      mockGetChat("PENDING"),
+      reply,
     ]);
+    await selectChat(result);
 
     act(() => {
-      result.current.handleSelectChat(CHAT_ID);
       result.current.setInput("next");
     });
 
-    await act(async () => {
-      await result.current.sendMessage();
-    });
+    await runAndWaitForPoll(() => result.current.sendMessage());
 
     expect(addUserMessage.result).toHaveBeenCalledOnce();
+    expect(reply.result).toHaveBeenCalledOnce();
   });
 
-  test("saves an edited message and polls for the new reply", async () => {
-    vi.useFakeTimers();
+  test("saves an edited message and polls for the reply", async () => {
     const editUserMessage = mockMutation(
       EditUserMessageDocument,
       {
@@ -94,78 +96,92 @@ describe("useChatController", () => {
     const { result } = renderChatController([
       mockGetChat("COMPLETED"),
       editUserMessage.mock,
+      mockGetChat("PENDING"),
       reply,
     ]);
+    await selectChat(result);
 
-    act(() => {
-      result.current.handleSelectChat(CHAT_ID);
-    });
-    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL));
+    const saved = await runAndWaitForPoll(() =>
+      result.current.handleSaveEdit("message-1", " Updated "),
+    );
 
-    const saving = result.current.handleSaveEdit("message-1", " Updated ");
-    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
-
-    expect(await saving).toBe(true);
+    expect(saved).toBe(true);
     expect(editUserMessage.result).toHaveBeenCalledOnce();
     expect(reply.result).toHaveBeenCalledOnce();
   });
 
-  test("retries assistant messages for the current chat", async () => {
+  test("retries an assistant message and polls for the reply", async () => {
     const retryAssistantMessage = mockMutation(
       RetryAssistantMessageDocument,
       { input: { chatId: CHAT_ID, messageId: "assistant-1" } },
       "retryAssistantMessage",
     );
+    const reply = mockGetChat("COMPLETED");
     const { result } = renderChatController([
       mockGetChat("COMPLETED"),
       retryAssistantMessage.mock,
+      mockGetChat("PENDING"),
+      reply,
     ]);
+    await selectChat(result);
 
-    act(() => {
-      result.current.handleSelectChat(CHAT_ID);
-    });
-
-    await act(async () => {
-      await result.current.handleRetryMessage("assistant-1");
-    });
+    await runAndWaitForPoll(() =>
+      result.current.handleRetryMessage("assistant-1"),
+    );
 
     expect(retryAssistantMessage.result).toHaveBeenCalledOnce();
+    expect(reply.result).toHaveBeenCalledOnce();
   });
 
   test("polls the chat until the assistant message completes", async () => {
-    vi.useFakeTimers();
     const { result } = renderChatController([
       mockGetChat("PENDING"),
       mockGetChat("COMPLETED"),
     ]);
 
-    act(() => {
-      result.current.handleSelectChat(CHAT_ID);
-    });
-
-    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
+    await selectChat(result);
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL));
 
     expect(result.current.messages[1]?.status).toBe("COMPLETED");
   });
 
   test("stops polling when there are no pending assistant messages", async () => {
-    vi.useFakeTimers();
     const getChat = {
       ...mockGetChat("COMPLETED"),
       maxUsageCount: Number.POSITIVE_INFINITY,
     };
     const { result } = renderChatController([getChat]);
 
-    act(() => {
-      result.current.handleSelectChat(CHAT_ID);
-    });
-
-    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 3));
+    await selectChat(result);
+    await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
 
     expect(result.current.messages).toHaveLength(2);
     expect(getChat.result).toHaveBeenCalledOnce();
   });
 });
+
+type ChatController = ReturnType<typeof renderChatController>["result"];
+
+async function selectChat(result: ChatController) {
+  act(() => {
+    result.current.handleSelectChat(CHAT_ID);
+  });
+  await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL));
+}
+
+// Mock responses arrive after a short delay; a new chat id only starts its query after the
+// re-render that ends the first act, so the poll needs a second advance.
+async function runAndWaitForPoll<T>(action: () => Promise<T>) {
+  let value!: T;
+  await act(async () => {
+    const pending = action();
+    await vi.advanceTimersByTimeAsync(POLL_INTERVAL);
+    value = await pending;
+  });
+  await act(() => vi.advanceTimersByTimeAsync(POLL_INTERVAL * 2));
+
+  return value;
+}
 
 function renderChatController(mocks: MockLink.MockedResponse[]) {
   return renderHook(() => useChatController(), {
