@@ -1,13 +1,20 @@
-import { describe, expect, render, screen, test, userEvent } from "../../test";
-import { vi } from "vitest";
+import {
+  afterEach,
+  describe,
+  expect,
+  render,
+  screen,
+  test,
+  userEvent,
+} from "../../test";
 import { Shell } from "./Shell";
 import { ASIDE_OPENED_KEY } from "./shellState";
 
-vi.mock("../chat", () => ({
-  Chat: () => <div>Chat Panel</div>,
-}));
-
 describe("Shell", () => {
+  afterEach(() => {
+    window.sessionStorage.removeItem(ASIDE_OPENED_KEY);
+  });
+
   test("renders the current page title", () => {
     render(
       <Shell>
@@ -15,6 +22,7 @@ describe("Shell", () => {
       </Shell>,
       {
         route: "/spend",
+        mockedProvider: { mocks: [] },
       },
     );
 
@@ -22,14 +30,13 @@ describe("Shell", () => {
   });
 
   test("tracks aside opened state in session storage", async () => {
-    window.sessionStorage.removeItem(ASIDE_OPENED_KEY);
-
     render(
       <Shell>
         <div>Page</div>
       </Shell>,
       {
         route: "/spend",
+        mockedProvider: { mocks: [] },
       },
     );
 
