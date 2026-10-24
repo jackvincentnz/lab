@@ -51,6 +51,7 @@ def fe_app(
         data = [],
         test_srcs = None,
         test_deps = [],
+        test_shard_count = None,
         test_tags = [],
         stories = None,
         story_deps = [],
@@ -80,6 +81,8 @@ def fe_app(
         test_srcs: Test sources; defaults to `*.test/spec.ts(x)` under `src/`, plus
             TypeScript in `src/test/`, `__tests__/` and `__fixtures__/` directories.
         test_deps: Additional test compilation/runtime dependencies.
+        test_shard_count: Bazel shards for the cacheable Vitest test target, in place of
+            the count derived from test files (e.g. for a suite of slow test files).
         test_tags: Tags for the cacheable Vitest test target.
         stories: Story sources; defaults to `src/**/*.stories.ts(x)`.
         story_deps: Additional story dependencies (e.g. @storybook/react).
@@ -141,7 +144,7 @@ def fe_app(
     vitest_run(
         name = "test_run",
         data = test_runtime,
-        shard_count = _test_shard_count(test_srcs),
+        shard_count = test_shard_count or _test_shard_count(test_srcs),
         tags = test_tags,
         visibility = visibility,
     )

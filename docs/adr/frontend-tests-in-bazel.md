@@ -62,7 +62,7 @@ To keep each test target under about 30 seconds on one worker in CI, `fe_app` gi
 target one Bazel shard for every 100 test files once it has more than 100. At about 0.2 seconds
 for each file without isolation, a shard takes about 20 seconds. `bazelVitestConfig` maps Bazel's
 shard variables onto Vitest's `shard` option, so each shard runs a slice of the test files on one
-worker.
+worker. An app with slower test files sets its own count with `test_shard_count`.
 
 This accepts that test files can affect each other through shared modules and global state. A
 test can fail because of a file that ran before it in the same worker.
@@ -79,7 +79,8 @@ test can fail because of a file that ran before it in the same worker.
 - A failure can depend on test order. To find the cause, re-run the target with `--isolate` and
   compare.
 - Shard counts grow with the number of test files, not their run time. A suite of slow files can
-  pass 30 seconds a shard before it gets another shard.
+  pass 30 seconds a shard before it gets another shard, and a count set with `test_shard_count`
+  does not grow.
 
 ## Alternatives considered
 
@@ -125,8 +126,9 @@ How the tests run inside Vitest:
 
 ## Reconsider when
 
-- A front-end test shard takes more than about 30 seconds on one worker in CI: lower the test
-  files for each shard in `fe_app`, or let that target set its own shard count.
+- A front-end test shard takes more than about 30 seconds on one worker in CI: set
+  `test_shard_count` on that app, or lower the test files for each shard in `fe_app` when most
+  apps need it.
 - Order-dependent failures recur, or the mocking rule blocks a needed test: evaluate isolation
   only for files that mock modules.
 - An app grows into areas that change independently: evaluate a test target for each area, with
