@@ -77,8 +77,11 @@ test can fail because of a file that ran before it in the same worker.
 - A change that re-runs every test is not measurably faster or slower. The Java and Testcontainers
   tests set that time.
 - Tests must follow the mocking rule. ESLint rejects `vi.mock` and `vi.doMock` in test files.
-- A failure can depend on test order. To find the cause, re-run the target with `--isolate` and
-  compare.
+- A failure can depend on test order. Bazel runs the files in the same order every time, so such a
+  test passes until a new file changes the order. With `--runs_per_test`, each run shuffles the
+  files with its own seed, as the
+  [testing guidelines](../contributing/testing.md#frontend-tests) describe. To find the cause,
+  re-run the target with `--isolate` and compare.
 - Shard counts grow with the number of test files, not their run time. A suite of slow files can
   pass 30 seconds a shard before it gets another shard, and a count set with `test_shard_count`
   does not grow.

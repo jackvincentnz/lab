@@ -38,6 +38,7 @@ export function bazelVitestConfig({
       // Parsing CSS is slow, and no test relies on it.
       css: false,
       shard: bazelShard(),
+      sequence: bazelSequence(),
     },
   };
 }
@@ -54,4 +55,21 @@ function bazelShard(): string | undefined {
     writeFileSync(TEST_SHARD_STATUS_FILE, "");
   }
   return `${Number(TEST_SHARD_INDEX) + 1}/${TEST_TOTAL_SHARDS}`;
+}
+
+interface Sequence {
+  shuffle: { files: boolean };
+  seed: number;
+}
+
+/**
+ * Shuffle test files only when Bazel supplies a seed, so a normal run keeps its fixed order.
+ * Without isolation, a test can pass only because an earlier file left state behind.
+ */
+function bazelSequence(): Sequence | undefined {
+  const { TEST_RANDOM_SEED } = process.env;
+  if (!TEST_RANDOM_SEED) {
+    return undefined;
+  }
+  return { shuffle: { files: true }, seed: Number(TEST_RANDOM_SEED) };
 }
