@@ -10,7 +10,7 @@ gazelle(
     args = [
         # Test classes annotated @RequiresDocker get their own target, so runners without Docker
         # can filter them out by tag.
-        '-java-annotation-to-attribute=lab.test.RequiresDocker=tags=["requires-docker","requires-network"]',
+        '-java-annotation-to-attribute=lab.test.RequiresDocker=tags=["requires-docker","requires-network","cpu:2"]',
     ],
     gazelle = ":gazelle_bin",
 )

@@ -4,6 +4,7 @@ java_junit5_test(
     name = "RedisTest",
     srcs = ["RedisTest.java"],
     tags = [
+        "cpu:2",
         "requires-docker",
         "requires-network",
     ],

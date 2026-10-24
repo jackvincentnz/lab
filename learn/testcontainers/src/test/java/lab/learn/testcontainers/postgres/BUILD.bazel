@@ -4,6 +4,7 @@ java_junit5_test(
     name = "PostgresTest",
     srcs = ["PostgresTest.java"],
     tags = [
+        "cpu:2",
         "requires-docker",
         "requires-network",
     ],

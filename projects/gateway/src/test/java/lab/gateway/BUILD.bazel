@@ -73,6 +73,7 @@ java_junit5_test(
     name = "RedisSessionTest",
     srcs = ["RedisSessionTest.java"],
     tags = [
+        "cpu:2",
         "requires-docker",
         "requires-network",
     ],
