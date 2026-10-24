@@ -55,10 +55,7 @@ public class SecurityConfiguration {
             .doOnNext(result -> ((CredentialsContainer) result).eraseCredentials());
   }
 
-  /**
-   * Added to the decoder Spring Boot builds from {@code spring.security.oauth2.resourceserver.jwt},
-   * so a bearer without the claims a caller is built from is a 401 rather than a failed request.
-   */
+  /** So a bearer missing the caller claims is a 401, not a 500 from {@link Caller#of}. */
   @Bean
   OAuth2TokenValidator<Jwt> bearerClaimsValidator(OAuth2ResourceServerProperties properties) {
     var jwt = properties.getJwt();
@@ -80,8 +77,6 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
-        // A bearer header is never sent by the browser on its own, so the resource server exempts
-        // bearer requests from CSRF.
         .oauth2ResourceServer(server -> server.jwt(withDefaults()))
         .addFilterAfter(new CallerWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
         .csrf(csrf -> csrf.csrfTokenRepository(csrfTokens))

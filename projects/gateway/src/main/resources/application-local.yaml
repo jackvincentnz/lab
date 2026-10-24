@@ -14,7 +14,6 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # The mock issuer from compose.yaml. With the JWK set URI also set, the gateway fetches
-          # only the issuer's keys and skips OIDC discovery.
+          # Setting the JWK set URI too fetches only the keys and skips OIDC discovery.
           issuer-uri: http://localhost:${GATEWAY_ISSUER_PORT:3007}/lab
           jwk-set-uri: http://localhost:${GATEWAY_ISSUER_PORT:3007}/lab/jwks

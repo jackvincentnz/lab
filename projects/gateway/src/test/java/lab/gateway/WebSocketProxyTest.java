@@ -12,12 +12,10 @@ import java.util.Set;
 import java.util.concurrent.CompletionException;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
-import lab.libs.identity.jwt.IdentityJwtDecoder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -107,12 +105,6 @@ class WebSocketProxyTest extends GatewayTestSupport {
   /** The IPv6 loopback, which the Bazel sandbox admits where a mapped IPv4 address is refused. */
   private URI gateway() {
     return URI.create("ws://[::1]:" + port + PATH);
-  }
-
-  /** The decoder Mops runs, pointed at this gateway's published keys. */
-  private JwtDecoder mopsDecoder() {
-    return IdentityJwtDecoder.create(
-        "http://localhost:" + port + JwkSetController.PATH, "lab-gateway", "mops");
   }
 
   /** The token of the single bearer {@code Authorization} value the service received. */

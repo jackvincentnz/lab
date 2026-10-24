@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import lab.libs.identity.jwt.IdentityClaims;
-import lab.libs.identity.jwt.IdentityJwtDecoder;
 import lab.libs.identity.testing.TestTokens;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -12,12 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-/** API clients authenticated by a bearer JWT from the configured issuer. */
 class BearerTokenTest extends GatewayTestSupport {
 
   private static Downstream mopsService;
@@ -102,34 +99,36 @@ class BearerTokenTest extends GatewayTestSupport {
 
   @Test
   void bearerRequest_withExpiredToken_isUnauthorized() {
-    assertRejected(bearer(USER).expired().mint());
+    assertUnauthorizedNotRedirected(bearer(USER).expired().mint());
   }
 
   @Test
   void bearerRequest_fromAnotherIssuer_isUnauthorized() {
-    assertRejected(bearer(USER).issuer(randomString()).mint());
+    assertUnauthorizedNotRedirected(bearer(USER).issuer(randomString()).mint());
   }
 
   @Test
   void bearerRequest_forAnotherAudience_isUnauthorized() {
-    assertRejected(TestTokens.forAudience(randomString()).issuer(BEARER_ISSUER).mint());
+    assertUnauthorizedNotRedirected(
+        TestTokens.forAudience(randomString()).issuer(BEARER_ISSUER).mint());
   }
 
   @Test
   void bearerRequest_signedWithAnotherKey_isUnauthorized() {
-    assertRejected(bearer(USER).signedWith(TestTokens.foreignPrivateKey()).mint());
+    assertUnauthorizedNotRedirected(bearer(USER).signedWith(TestTokens.foreignPrivateKey()).mint());
   }
 
   @Test
   void bearerRequest_withNonUuidTenant_isUnauthorized() {
-    assertRejected(bearer(USER).claim(IdentityClaims.TENANT, randomString()).mint());
+    assertUnauthorizedNotRedirected(
+        bearer(USER).claim(IdentityClaims.TENANT, randomString()).mint());
   }
 
   @Test
   void bearerRequest_replayingAnIdentityToken_isUnauthorized() {
     var identityToken = forwardedToken(browser().login().authenticatedClient());
 
-    assertRejected(identityToken);
+    assertUnauthorizedNotRedirected(identityToken);
   }
 
   @Test
@@ -147,12 +146,6 @@ class BearerTokenTest extends GatewayTestSupport {
         .isUnauthorized();
 
     assertThat(mopsService.requests()).isEqualTo(before);
-  }
-
-  /** The decoder Mops runs, pointed at this gateway's published keys. */
-  private JwtDecoder mopsDecoder() {
-    return IdentityJwtDecoder.create(
-        "http://localhost:" + port + JwkSetController.PATH, "lab-gateway", "mops");
   }
 
   private static String forwardedToken(WebTestClient webTestClient) {
@@ -176,8 +169,7 @@ class BearerTokenTest extends GatewayTestSupport {
     return client().mutate().defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token).build();
   }
 
-  /** Rejected even from a browser, since the caller sent a credential rather than none. */
-  private void assertRejected(String token) {
+  private void assertUnauthorizedNotRedirected(String token) {
     var before = mopsService.requests();
 
     bearerClient(token)

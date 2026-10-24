@@ -148,7 +148,7 @@ public final class TestTokens {
       return this;
     }
 
-    /** Sets a claim after the defaults, for tokens that break the contract in a specific way. */
+    /** For tokens that break the contract in a specific way. */
     public Token claim(String name, Object value) {
       overrides.put(name, value);
       return this;

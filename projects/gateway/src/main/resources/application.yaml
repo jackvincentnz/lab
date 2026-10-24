@@ -8,8 +8,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          # Client bearer tokens must be addressed to the gateway, so an identity token minted for a
-          # downstream service is never accepted as a client credential.
+          # So an identity token minted for a downstream service is not a client credential.
           audiences: lab-gateway
   session:
     redis:

@@ -21,10 +21,8 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtAut
 public record Caller(
     UUID principal, UUID tenant, List<String> scopes, String authenticationMethod) {
 
-  /** The {@code amr} value for a session established by form login. */
   public static final String FORM = "form";
 
-  /** The {@code amr} value for a client bearer JWT the gateway verified. */
   public static final String BEARER = "bearer";
 
   /** The caller behind an authentication, or empty when the gateway did not establish one. */
@@ -34,7 +32,7 @@ public record Caller(
           new Caller(principal.principal(), principal.tenant(), principal.scopes(), FORM));
     }
     if (authentication instanceof JwtAuthenticationToken bearer) {
-      // The decoder has already checked these claims are UUIDs and a non-blank scope string.
+      // The decoder has already validated these claims.
       var jwt = bearer.getToken();
       return Optional.of(
           new Caller(

@@ -6,13 +6,11 @@ import java.util.List;
 import java.util.Set;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
-import lab.libs.identity.jwt.IdentityJwtDecoder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -40,12 +38,6 @@ class IdentityContractTest extends GatewayTestSupport {
   static void downstreamUris(DynamicPropertyRegistry registry) {
     registry.add("lab.gateway.mops.service-uri", mopsService::uri);
     registry.add("lab.gateway.mops.app-uri", mopsApp::uri);
-  }
-
-  /** The decoder Mops runs, pointed at this gateway's published keys. */
-  private JwtDecoder mopsDecoder() {
-    return IdentityJwtDecoder.create(
-        "http://localhost:" + port + JwkSetController.PATH, "lab-gateway", "mops");
   }
 
   @Test
