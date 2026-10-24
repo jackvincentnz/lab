@@ -2,6 +2,7 @@ package lab.gateway;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.time.Duration;
 import java.util.List;
@@ -11,13 +12,12 @@ import java.util.concurrent.atomic.AtomicReference;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.mock.http.server.reactive.MockServerHttpRequest;
 import org.springframework.mock.web.server.MockServerWebExchange;
+import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.security.web.server.context.SecurityContextServerWebExchange;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -57,8 +57,12 @@ class IdentityTokenGatewayFilterFactoryTest extends TestBase {
   }
 
   private void run(ServerWebExchange exchange) {
+    run(exchange, randomString());
+  }
+
+  private void run(ServerWebExchange exchange, String audience) {
     factory
-        .apply(config(randomString()))
+        .apply(config(audience))
         .filter(
             exchange,
             next -> {
@@ -75,11 +79,34 @@ class IdentityTokenGatewayFilterFactoryTest extends TestBase {
   }
 
   @Test
-  void filter_withoutGatewaySession_refusesTheRequest() {
-    assertThatThrownBy(() -> run(request()))
-        .isInstanceOf(ResponseStatusException.class)
-        .extracting(e -> ((ResponseStatusException) e).getStatusCode())
-        .isEqualTo(HttpStatus.UNAUTHORIZED);
+  void filter_withoutPrincipal_failsAsMisconfigured() {
+    var audience = randomString();
+
+    var thrown = catchThrowable(() -> run(request(), audience));
+
+    assertThat(thrown)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining(audience)
+        .hasMessageContaining("authentication was none");
+    assertThat(forwarded.get()).isNull();
+  }
+
+  @Test
+  void filter_withAuthenticationCallerCannotMap_failsAsMisconfigured() {
+    var audience = randomString();
+    var exchange =
+        new SecurityContextServerWebExchange(
+            request(),
+            Mono.just(
+                new SecurityContextImpl(
+                    new TestingAuthenticationToken(randomString(), null, randomString()))));
+
+    var thrown = catchThrowable(() -> run(exchange, audience));
+
+    assertThat(thrown)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining(audience)
+        .hasMessageContaining("authentication was TestingAuthenticationToken");
     assertThat(forwarded.get()).isNull();
   }
 
