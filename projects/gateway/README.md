@@ -45,7 +45,8 @@ Downstream targets default to local dev and are overridable per environment, for
 | `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.                        |
 
 Every response carries a gateway-minted `X-Request-ID`, which is also forwarded downstream. See
-[Access logging](docs/access-logging.md) for the record written per request.
+[Access logging](docs/access-logging.md) for the record written per request, and
+[Responses](docs/responses.md) for the status each kind of request gets.
 
 WebSocket upgrades follow the same routes and session rules. A GraphQL subscription client
 connects to `/api/graphql` on the gateway, and the Mops service receives it at `/graphql`; see
