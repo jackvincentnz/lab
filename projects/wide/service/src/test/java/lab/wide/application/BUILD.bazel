@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "application",
+    deps = [
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/java/lab/wide/infrastructure",
+        "@maven//:org_springframework_data_spring_data_commons",
+    ],
+)

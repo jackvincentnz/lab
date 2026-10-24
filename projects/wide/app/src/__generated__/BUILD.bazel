@@ -1,0 +1,11 @@
+load("//tools/bazel:graphql.bzl", "graphql_codegen")
+
+graphql_codegen(
+    name = "graphql_codegen",
+    srcs = [
+        "//projects/wide/app:codegen",
+        "//projects/wide/app:gql",
+        "//projects/wide/service/src/main/resources/schema",
+    ],
+    visibility = ["//projects/wide/app:__pkg__"],
+)

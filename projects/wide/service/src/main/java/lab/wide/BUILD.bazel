@@ -1,0 +1,11 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "wide",
+    srcs = glob(["*.java"]),
+    visibility = ["//projects/wide/service/src/main:__pkg__"],
+    deps = [
+        "@maven//:org_springframework_boot_spring_boot",
+        "@maven//:org_springframework_boot_spring_boot_autoconfigure",
+    ],
+)
