@@ -9,7 +9,8 @@ load("//tools/bazel:js.bzl", "js_run_devserver")
 def vitest_run(name, **kwargs):
     """Run cacheable Vitest tests in the calling package by default.
 
-    Prepends `run` to args and defaults the test size to small.
+    Prepends `run` and `--maxWorkers=1` to args, so the test uses the one CPU Bazel reserves for
+    it, and defaults the test size to small.
 
     Args:
         name: Target name.
@@ -18,7 +19,7 @@ def vitest_run(name, **kwargs):
     vitest_bin.vitest_test(
         name = name,
         testonly = True,
-        args = ["run"] + kwargs.pop("args", []),
+        args = ["run", "--maxWorkers=1"] + kwargs.pop("args", []),
         size = kwargs.pop("size", "small"),
         chdir = kwargs.pop("chdir", native.package_name()),
         **kwargs

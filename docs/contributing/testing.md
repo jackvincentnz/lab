@@ -55,5 +55,11 @@ named after the directory.
 - Build an app's `vite.config.ts` with `mergeConfig(bazelVitestConfig(), ...)`
   from [`tools/bazel/vitest/config.ts`](../../tools/bazel/vitest/config.ts), so
   that test discovery, coverage and the shared setup stay the same in every app.
-  Point `setupFiles` at an app setup file only for app-specific mocks, and
-  import `@lab/test-utils/setup` from it, as Mops does.
+  Point `setupFiles` at an app setup file only for app-specific mocks, as Mops
+  does; `@lab/test-utils/setup` runs before it.
+- Mock a module with `vi.mock` only in a setup file, and reset the mock's state
+  after each test, as the Mops Statsig mock does, so that a test never sees
+  another file's mock. Test files in a worker share loaded modules, so a module
+  that an earlier file loaded keeps that file's version of its imports.
+- Leave the DOM, storage and globals as you found them, or reset them in an
+  `afterEach`, so that a test passes whichever file ran before it.
