@@ -12,12 +12,10 @@ import java.util.Set;
 import java.util.concurrent.CompletionException;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
-import lab.libs.identity.jwt.IdentityJwtDecoder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -48,14 +46,12 @@ class WebSocketProxyTest extends GatewayTestSupport {
   }
 
   @Test
-  void upgrade_withSession_carriesIdentityTokenInPlaceOfClientCredentials()
-      throws InterruptedException {
+  void upgrade_withSession_carriesIdentityTokenAndNoCookie() throws InterruptedException {
     var browser = browser().login();
     var webSocketBuilder =
         httpClient
             .newWebSocketBuilder()
-            .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString())
-            .header(HttpHeaders.AUTHORIZATION, BEARER + randomString());
+            .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString());
 
     var handshake = handshake(webSocketBuilder);
 
@@ -84,7 +80,11 @@ class WebSocketProxyTest extends GatewayTestSupport {
         .cause()
         .isInstanceOfSatisfying(
             WebSocketHandshakeException.class,
-            exception -> assertThat(exception.getResponse().statusCode()).isEqualTo(401));
+            exception -> {
+              assertThat(exception.getResponse().statusCode()).isEqualTo(401);
+              assertThat(exception.getResponse().headers().firstValue(HttpHeaders.WWW_AUTHENTICATE))
+                  .contains("Bearer");
+            });
     assertThat(mopsService.requests()).isEqualTo(requestsBefore);
   }
 
@@ -107,12 +107,6 @@ class WebSocketProxyTest extends GatewayTestSupport {
   /** The IPv6 loopback, which the Bazel sandbox admits where a mapped IPv4 address is refused. */
   private URI gateway() {
     return URI.create("ws://[::1]:" + port + PATH);
-  }
-
-  /** The decoder Mops runs, pointed at this gateway's published keys. */
-  private JwtDecoder mopsDecoder() {
-    return IdentityJwtDecoder.create(
-        "http://localhost:" + port + JwkSetController.PATH, "lab-gateway", "mops");
   }
 
   /** The token of the single bearer {@code Authorization} value the service received. */

@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -89,6 +90,30 @@ class AccessLogTest extends GatewayTestSupport {
         .containsEntry("request_id", requestId)
         .containsKeys("source_ip", "duration_ms");
     assertThat(output.getOut()).doesNotContain(clientId);
+  }
+
+  @Test
+  void apiRequest_withBearerToken_logsRecordWithTheTokenCaller(CapturedOutput output) {
+    var path = "/api/" + randomString();
+
+    var requestId =
+        client()
+            .get()
+            .uri(path)
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer(USER).mint())
+            .exchange()
+            .expectStatus()
+            .isOk()
+            .returnResult(String.class)
+            .getResponseHeaders()
+            .getFirst(RequestIdWebFilter.HEADER);
+
+    assertThat(record(output, requestId))
+        .containsEntry("tenant_id", USER.tenant().toString())
+        .containsEntry("principal_id", USER.principal().toString())
+        .containsEntry("authentication_method", Caller.BEARER)
+        .containsEntry("path", path)
+        .containsEntry("status", 200);
   }
 
   @Test

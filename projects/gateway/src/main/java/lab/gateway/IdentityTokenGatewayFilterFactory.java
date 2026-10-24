@@ -1,13 +1,13 @@
 package lab.gateway;
 
+import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 
 /**
@@ -36,13 +36,18 @@ public class IdentityTokenGatewayFilterFactory
   public GatewayFilter apply(Config config) {
     return (exchange, chain) ->
         exchange
-            .<Authentication>getPrincipal()
-            .flatMap(authentication -> Mono.justOrEmpty(Caller.of(authentication)))
-            .switchIfEmpty(
-                Mono.error(
-                    () ->
-                        new ResponseStatusException(
-                            HttpStatus.UNAUTHORIZED, "The route needs a gateway session")))
+            .getPrincipal()
+            .map(Optional::of)
+            .defaultIfEmpty(Optional.empty())
+            .flatMap(
+                principal ->
+                    Mono.justOrEmpty(
+                            principal
+                                .filter(Authentication.class::isInstance)
+                                .map(Authentication.class::cast)
+                                .flatMap(Caller::of))
+                        .switchIfEmpty(
+                            Mono.error(() -> withoutCaller(config.getAudience(), principal))))
             .map(caller -> minter.mint(caller, config.getAudience()))
             .flatMap(
                 token ->
@@ -52,6 +57,19 @@ public class IdentityTokenGatewayFilterFactory
                             .request(
                                 request -> request.headers(headers -> headers.setBearerAuth(token)))
                             .build()));
+  }
+
+  /** Security authenticates every request on an identity route, so this is a misconfiguration. */
+  private static IllegalStateException withoutCaller(
+      String audience, Optional<? extends Principal> principal) {
+    var authentication = principal.map(found -> found.getClass().getSimpleName()).orElse("none");
+    return new IllegalStateException(
+        "Route to "
+            + audience
+            + " reached without a caller: authentication was "
+            + authentication
+            + ". Security must authenticate every request on this route with a session or bearer"
+            + " token.");
   }
 
   /** The downstream service a route forwards to, which every token it carries is addressed to. */

@@ -6,9 +6,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import lab.libs.identity.jwt.IdentityClaimsValidator;
+import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OAuth2ResourceServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager;
@@ -16,17 +17,20 @@ import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.CredentialsContainer;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
+import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.web.server.BearerTokenServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.DelegatingServerAuthenticationEntryPoint.DelegateEntry;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.ServerAuthenticationEntryPoint;
-import org.springframework.security.web.server.authentication.HttpStatusServerEntryPoint;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationEntryPoint;
 import org.springframework.security.web.server.csrf.WebSessionServerCsrfTokenRepository;
 import org.springframework.security.web.server.ui.DefaultResourcesWebFilter;
 import org.springframework.security.web.server.ui.LoginPageGeneratingWebFilter;
 import org.springframework.security.web.server.ui.LogoutPageGeneratingWebFilter;
 import org.springframework.security.web.server.util.matcher.MediaTypeServerWebExchangeMatcher;
+import org.springframework.util.Assert;
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -51,6 +55,16 @@ public class SecurityConfiguration {
             .doOnNext(result -> ((CredentialsContainer) result).eraseCredentials());
   }
 
+  /** So a bearer missing the caller claims is a 401, not a 500 from {@link Caller#of}. */
+  @Bean
+  OAuth2TokenValidator<Jwt> bearerClaimsValidator(OAuth2ResourceServerProperties properties) {
+    var jwt = properties.getJwt();
+    Assert.state(
+        jwt.getAudiences().size() == 1,
+        "spring.security.oauth2.resourceserver.jwt.audiences must name the gateway alone");
+    return new IdentityClaimsValidator(jwt.getIssuerUri(), jwt.getAudiences().get(0));
+  }
+
   @Bean
   SecurityWebFilterChain securityWebFilterChain(
       ServerHttpSecurity http, ReactiveAuthenticationManager authenticationManager) {
@@ -66,6 +80,11 @@ public class SecurityConfiguration {
                     .anyExchange()
                     .authenticated())
         .formLogin(withDefaults())
+        .oauth2ResourceServer(
+            server ->
+                server
+                    .bearerTokenConverter(new SingleCredentialBearerTokenConverter())
+                    .jwt(withDefaults()))
         .addFilterAfter(new CallerWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
         .csrf(csrf -> csrf.csrfTokenRepository(csrfTokens))
         .logout(ServerHttpSecurity.LogoutSpec::disable)
@@ -87,7 +106,7 @@ public class SecurityConfiguration {
     var entryPoint =
         new DelegatingServerAuthenticationEntryPoint(
             new DelegateEntry(html, new RedirectServerAuthenticationEntryPoint("/login")));
-    entryPoint.setDefaultEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED));
+    entryPoint.setDefaultEntryPoint(new BearerTokenServerAuthenticationEntryPoint());
     return entryPoint;
   }
 }

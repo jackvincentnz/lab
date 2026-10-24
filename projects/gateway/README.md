@@ -16,20 +16,20 @@ log in as `admin` with password `admin`:
 bazel run //projects/gateway:start
 ```
 
-Run the gateway and Redis on their own:
+Run the gateway, Redis, and the mock issuer on their own:
 
 ```zsh
 bazel run //projects/gateway
 ```
 
 Both targets need a running Docker engine, activate the `local` profile, which supplies the
-`admin` user, and start Redis from `compose.yaml`. Ctrl-C stops everything they started. See
-[Local stack](docs/local-stack.md) for what runs and how it is wired, and the
+`admin` user, and start Redis and the mock issuer from `compose.yaml`. Ctrl-C stops everything
+they started. See [Local stack](docs/local-stack.md) for what runs and how it is wired, and the
 [Mops README](../mops/README.md#environment-variables) for the API key the Mops service expects.
 
-The gateway listens on port 3006 and Redis publishes on host port 6379 unless `GATEWAY_PORT` and
-`GATEWAY_REDIS_PORT` set others, so stacks in several worktrees can run at once. Mops reads
-`GATEWAY_PORT` too, to find the gateway's keys.
+The gateway listens on port 3006, Redis publishes on host port 6379, and the mock issuer on 3007
+unless `GATEWAY_PORT`, `GATEWAY_REDIS_PORT`, and `GATEWAY_ISSUER_PORT` set others, so stacks in
+several worktrees can run at once. Mops reads `GATEWAY_PORT` too, to find the gateway's keys.
 
 Downstream targets default to local dev and are overridable per environment, for example
 `LAB_GATEWAY_MOPS_SERVICE_URI=http://mops:8080`.
@@ -45,7 +45,8 @@ Downstream targets default to local dev and are overridable per environment, for
 | `/**`                    | Mops app, `lab.gateway.mops.app-uri`         | Passed through unchanged.                        |
 
 Every response carries a gateway-minted `X-Request-ID`, which is also forwarded downstream. See
-[Access logging](docs/access-logging.md) for the record written per request.
+[Access logging](docs/access-logging.md) for the record written per request, and
+[Responses](docs/responses.md) for the status each kind of request gets.
 
 WebSocket upgrades follow the same routes and session rules. A GraphQL subscription client
 connects to `/api/graphql` on the gateway, and the Mops service receives it at `/graphql`; see
@@ -61,6 +62,12 @@ PEM RSA private key through the environment, see [Signing key](docs/signing-key.
 ```zsh
 LAB_GATEWAY_TOKEN_PRIVATE_KEY="$(cat gateway-signing-key.pem)" bazel run //projects/gateway
 ```
+
+## Bearer tokens
+
+API clients can send `Authorization: Bearer <jwt>` instead of using a session. The `local` profile
+trusts the mock issuer, and [Bearer tokens](docs/bearer-tokens.md) says how to get a local token or
+trust another issuer.
 
 ## Tests
 

@@ -1,16 +1,16 @@
 # WebSockets
 
-A WebSocket upgrade is a `GET` request, so it matches the same routes and passes the same session
-check as any other request. Spring Cloud Gateway then switches the route's `http` URI to `ws`,
-accepts the client's handshake, and opens its own socket to the downstream service. Messages are
-relayed both ways, and a close on either side closes the other.
+A WebSocket upgrade is a `GET` request, so it matches the same routes and passes the same
+authentication check as any other request. Spring Cloud Gateway then switches the route's `http`
+URI to `ws`, accepts the client's handshake, and opens its own socket to the downstream service.
+Messages are relayed both ways, and a close on either side closes the other.
 
 ## What crosses the gateway
 
-| Upgrade on | Without a session | With a session                                                                                      |
-| ---------- | ----------------- | --------------------------------------------------------------------------------------------------- |
-| `/api/**`  | 401               | Reaches the Mops service with the `/api` prefix stripped and an identity token, like an API request |
-| `/**`      | 401               | Reaches the Mops app with no identity token                                                         |
+| Upgrade on | Without a session or bearer token | With a session or a verified bearer token                                                           |
+| ---------- | --------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `/api/**`  | 401                               | Reaches the Mops service with the `/api` prefix stripped and an identity token, like an API request |
+| `/**`      | 401                               | Reaches the Mops app with no identity token                                                         |
 
 A socket that needs the caller's identity must open under `/api`, so a GraphQL subscription
 client connects to `/api/graphql`. A handshake carries no `Accept: text/html`, so a browser gets
@@ -18,8 +18,9 @@ the 401 rather than the login redirect.
 
 The handshake the service receives is built like a proxied API request:
 
-- `Authorization: Bearer <identity token>`, minted for the route's audience. Any `Authorization`
-  the client sent is dropped.
+- `Authorization: Bearer <identity token>`, minted for the route's audience. The client's own
+  `Authorization` is never forwarded: beside a session it is refused, and without one a bearer
+  token in it is verified like one on any request.
 - No `Cookie`.
 - The gateway's `X-Request-ID`.
 - `Host` set to the service's own address.

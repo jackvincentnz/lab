@@ -39,6 +39,7 @@
   - [Gateway](projects/gateway/README.md)
     - [Access logging](projects/gateway/docs/access-logging.md)
     - [Local stack](projects/gateway/docs/local-stack.md)
+    - [Responses](projects/gateway/docs/responses.md)
     - [Signing key](projects/gateway/docs/signing-key.md)
   - [Mops](projects/mops/README.md)
     - [Mops App](projects/mops/app/README.md)

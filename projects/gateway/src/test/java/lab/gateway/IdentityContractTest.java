@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.Set;
 import lab.libs.identity.Identity;
 import lab.libs.identity.jwt.IdentityClaims;
-import lab.libs.identity.jwt.IdentityJwtDecoder;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -40,12 +37,6 @@ class IdentityContractTest extends GatewayTestSupport {
   static void downstreamUris(DynamicPropertyRegistry registry) {
     registry.add("lab.gateway.mops.service-uri", mopsService::uri);
     registry.add("lab.gateway.mops.app-uri", mopsApp::uri);
-  }
-
-  /** The decoder Mops runs, pointed at this gateway's published keys. */
-  private JwtDecoder mopsDecoder() {
-    return IdentityJwtDecoder.create(
-        "http://localhost:" + port + JwkSetController.PATH, "lab-gateway", "mops");
   }
 
   @Test
@@ -76,26 +67,13 @@ class IdentityContractTest extends GatewayTestSupport {
   }
 
   @Test
-  void serviceRequest_replacesEveryClientAuthorizationHeader() {
-    var browser = browser().login();
+  void serviceRequest_withSessionAndBasicAuthorization_isBadRequest() {
+    assertBadRequestWithSession("Basic " + randomString());
+  }
 
-    var forwarded =
-        browser
-            .authenticatedClient()
-            .get()
-            .uri("/api/graphql")
-            .header(
-                HttpHeaders.AUTHORIZATION, "Bearer " + randomString(), "Basic " + randomString())
-            .exchange()
-            .expectStatus()
-            .isOk()
-            .returnResult(String.class)
-            .getResponseHeaders()
-            .get(Downstream.AUTHORIZATION);
-
-    assertThat(forwarded).hasSize(1);
-    Jwt jwt = mopsDecoder().decode(bearer(forwarded.get(0)));
-    assertThat(jwt.getSubject()).isEqualTo(USER.principal().toString());
+  @Test
+  void serviceRequest_withSessionAndBearerToken_isBadRequest() {
+    assertBadRequestWithSession("Bearer " + bearer(USER).mint());
   }
 
   @Test
@@ -120,12 +98,31 @@ class IdentityContractTest extends GatewayTestSupport {
         .authenticatedClient()
         .get()
         .uri("/spend")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + randomString())
         .exchange()
         .expectStatus()
         .isOk()
         .expectHeader()
         .doesNotExist(Downstream.AUTHORIZATION);
+  }
+
+  private void assertBadRequestWithSession(String authorization) {
+    var before = mopsService.requests();
+
+    browser()
+        .login()
+        .authenticatedClient()
+        .get()
+        .uri("/api/graphql")
+        .header(HttpHeaders.AUTHORIZATION, authorization)
+        .exchange()
+        .expectStatus()
+        .isBadRequest()
+        .expectHeader()
+        .value(
+            HttpHeaders.WWW_AUTHENTICATE,
+            value -> assertThat(value).contains("error=\"invalid_request\""));
+
+    assertThat(mopsService.requests()).isEqualTo(before);
   }
 
   private String forwardedToken(Browser browser, String path) {

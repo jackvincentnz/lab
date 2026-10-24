@@ -4,10 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 import java.util.UUID;
+import lab.libs.identity.jwt.IdentityClaims;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
 class CallerTest extends TestBase {
 
@@ -32,9 +35,32 @@ class CallerTest extends TestBase {
   }
 
   @Test
+  void of_bearerJwt_describesTheTokenClaimsAuthenticatedByBearer() {
+    var principal = UUID.randomUUID();
+    var tenant = UUID.randomUUID();
+    var scopes = List.of(randomString(), randomString());
+    var jwt =
+        Jwt.withTokenValue(randomString())
+            .header("alg", "RS256")
+            .subject(principal.toString())
+            .claim(IdentityClaims.TENANT, tenant.toString())
+            .claim(IdentityClaims.SCOPE, String.join(" ", scopes))
+            .build();
+
+    var caller = Caller.of(new JwtAuthenticationToken(jwt)).orElseThrow();
+
+    assertThat(caller.principal()).isEqualTo(principal);
+    assertThat(caller.tenant()).isEqualTo(tenant);
+    assertThat(caller.scopes()).containsExactlyInAnyOrderElementsOf(scopes);
+    assertThat(caller.authenticationMethod()).isEqualTo(Caller.BEARER);
+  }
+
+  @Test
   void of_authenticationTheGatewayDidNotEstablish_isEmpty() {
     var authentication = new TestingAuthenticationToken(randomString(), randomString());
 
-    assertThat(Caller.of(authentication)).isEmpty();
+    var caller = Caller.of(authentication);
+
+    assertThat(caller).isEmpty();
   }
 }

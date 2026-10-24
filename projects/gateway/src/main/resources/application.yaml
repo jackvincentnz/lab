@@ -4,6 +4,12 @@ server.reactive.session.cookie.same-site: lax
 spring:
   application:
     name: gateway
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # A token the issuer minted for another resource is refused.
+          audiences: lab-gateway
   session:
     redis:
       namespace: lab:gateway:sessions
