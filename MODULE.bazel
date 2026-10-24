@@ -30,6 +30,16 @@ bazel_dep(name = "rules_go", version = "0.65.0", dev_dependency = True)
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk", dev_dependency = True)
 go_sdk.download(version = "1.26.7")
 
+# 0.34.0 deadlocks the JUnit 5 runner's hostname lookup, so every Java test waits 5 seconds after
+# its last test. The patch backports bazel-contrib/rules_jvm#499. Setting no version keeps Renovate
+# proposing releases; the first release with the fix makes the patch fail to apply. See #1143 for
+# how to remove this override then.
+single_version_override(
+    module_name = "contrib_rules_jvm",
+    patch_strip = 1,
+    patches = ["//third_party/contrib_rules_jvm:hostname-deadlock.patch"],
+)
+
 git_override(
     module_name = "rules_playwright",
     commit = "bf4a6acf00321e30df612e4af8ef900f51bc4fe3",
