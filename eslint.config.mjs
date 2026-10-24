@@ -71,5 +71,25 @@ export default defineConfig(
       "@typescript-eslint/no-require-imports": "off",
     },
   },
+  {
+    files: ["**/*.{test,spec}.{ts,tsx}"],
+    rules: {
+      "no-restricted-properties": [
+        "error",
+        {
+          object: "vi",
+          property: "mock",
+          message:
+            "Mock modules in a setup file: test files share loaded modules, so a test-file mock leaks into or misses other files.",
+        },
+        {
+          object: "vi",
+          property: "doMock",
+          message:
+            "Mock modules in a setup file: test files share loaded modules, so a test-file mock leaks into or misses other files.",
+        },
+      ],
+    },
+  },
   eslintConfigPrettier,
 );
