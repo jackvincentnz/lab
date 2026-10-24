@@ -22,8 +22,9 @@ Emits the named Vite dev server, `src_ts`, `src`, `build`, `preview`, `test_ts`,
 By default, discover TypeScript under `src/` in the calling package, separating
 production, tests/helpers and stories. Explicit source lists override these
 defaults (including `[]`); keep overrides disjoint. Keep app-specific Vite/Vitest
-configuration in the calling package; tests consume compiled JS. Stories
-compile separately for an app-owned Storybook configuration.
+configuration in the calling package; tests consume compiled JS. `test_run`
+gets one Bazel shard for every 100 test files once it has more than 100.
+Stories compile separately for an app-owned Storybook configuration.
 
 
 **PARAMETERS**
