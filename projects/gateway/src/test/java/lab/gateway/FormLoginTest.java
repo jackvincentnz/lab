@@ -49,6 +49,32 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
+  void apiPost_withoutCredentials_isForbidden() {
+    client()
+        .post()
+        .uri("/api/graphql")
+        .contentType(MediaType.APPLICATION_JSON)
+        .bodyValue("{\"query\":\"" + randomString() + "\"}")
+        .exchange()
+        .expectStatus()
+        .isForbidden();
+  }
+
+  @Test
+  void pageLoad_withUnknownSessionCookie_redirectsToLogin() {
+    client()
+        .get()
+        .uri("/")
+        .accept(MediaType.TEXT_HTML)
+        .cookie("SESSION", randomString())
+        .exchange()
+        .expectStatus()
+        .isFound()
+        .expectHeader()
+        .valueEquals("Location", "/login");
+  }
+
+  @Test
   void login_rotatesSessionId() {
     var browser = browser().login();
 
