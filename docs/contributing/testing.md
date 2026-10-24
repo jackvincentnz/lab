@@ -71,3 +71,17 @@ named after the directory.
   before it.
 - Make window patches in a setup file safe to repeat, because the setup file
   runs again before each test file against the same window.
+- Run the tests in shuffled file orders after you change shared test setup or
+  add state that tests share, so that a test that passes only after another
+  file runs fails now, not when a new file changes the order:
+
+  ```bash
+  bazel test --runs_per_test=4 $(bazel query 'attr(generator_function, "^(fe_app|vitest_run)$", kind(js_test, //...))')
+  ```
+
+  Bazel numbers the runs 1 to 4 in `TEST_RANDOM_SEED`, and
+  `bazelVitestConfig` shuffles each shard's files with that seed; without a
+  seed, the order stays fixed. The same seeds give the same orders, so pass
+  `--test_env=TEST_RANDOM_SEED=$RANDOM` in place of `--runs_per_test` for a new
+  order. To repeat a failed order, pass the seed from the line
+  `Running tests with seed` in its test log.
