@@ -3,6 +3,7 @@ package lab.gateway;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
 
+import java.util.Optional;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -22,8 +23,8 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
       new SingleCredentialBearerTokenConverter();
 
   @Test
-  void convert_withBearerAndAuthenticatedSession_failsAsInvalidRequest() {
-    var exchange = exchange(randomString(), authenticatedSession());
+  void convert_withBearerAndLoggedInSession_failsAsInvalidRequest() {
+    var exchange = exchange(Optional.of(randomString()), loggedInSession());
 
     var thrown =
         catchThrowableOfType(
@@ -33,10 +34,11 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
   }
 
   @Test
-  void convert_withBearerAndUnauthenticatedSession_returnsTheBearerToken() {
+  void convert_withBearerAndEmptySession_returnsTheBearerToken() {
     var token = randomString();
+    var exchange = exchange(Optional.of(token), new MockWebSession());
 
-    var authentication = converter.convert(exchange(token, new MockWebSession())).block();
+    var authentication = converter.convert(exchange).block();
 
     assertThat(authentication)
         .isInstanceOfSatisfying(
@@ -46,19 +48,20 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
 
   @Test
   void convert_withoutBearer_isEmpty() {
-    var request = MockServerHttpRequest.get("/").build();
-    var exchange = MockServerWebExchange.builder(request).session(authenticatedSession()).build();
+    var exchange = exchange(Optional.empty(), loggedInSession());
 
-    assertThat(converter.convert(exchange).blockOptional()).isEmpty();
+    var authentication = converter.convert(exchange).blockOptional();
+
+    assertThat(authentication).isEmpty();
   }
 
-  private static MockServerWebExchange exchange(String token, MockWebSession session) {
-    var request =
-        MockServerHttpRequest.get("/").header(HttpHeaders.AUTHORIZATION, "Bearer " + token).build();
-    return MockServerWebExchange.builder(request).session(session).build();
+  private static MockServerWebExchange exchange(Optional<String> token, MockWebSession session) {
+    var request = MockServerHttpRequest.get("/");
+    token.ifPresent(value -> request.header(HttpHeaders.AUTHORIZATION, "Bearer " + value));
+    return MockServerWebExchange.builder(request.build()).session(session).build();
   }
 
-  private MockWebSession authenticatedSession() {
+  private MockWebSession loggedInSession() {
     var session = new MockWebSession();
     var authentication =
         UsernamePasswordAuthenticationToken.authenticated(randomString(), null, null);

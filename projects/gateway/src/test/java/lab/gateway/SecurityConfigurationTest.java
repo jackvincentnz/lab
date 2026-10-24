@@ -1,6 +1,7 @@
 package lab.gateway;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.List;
 import lab.test.TestBase;
@@ -9,23 +10,31 @@ import org.springframework.boot.security.oauth2.server.resource.autoconfigure.OA
 
 class SecurityConfigurationTest extends TestBase {
 
+  private final SecurityConfiguration securityConfiguration = new SecurityConfiguration();
+
   @Test
   void bearerClaimsValidator_withoutAudience_fails() {
-    assertBearerClaimsValidatorFails(List.of());
+    var properties = new OAuth2ResourceServerProperties();
+    properties.getJwt().setIssuerUri(randomString());
+    properties.getJwt().setAudiences(List.of());
+
+    var thrown = catchThrowable(() -> securityConfiguration.bearerClaimsValidator(properties));
+
+    assertThat(thrown)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("spring.security.oauth2.resourceserver.jwt.audiences");
   }
 
   @Test
   void bearerClaimsValidator_withTwoAudiences_fails() {
-    assertBearerClaimsValidatorFails(List.of(randomString(), randomString()));
-  }
-
-  private void assertBearerClaimsValidatorFails(List<String> audiences) {
     var properties = new OAuth2ResourceServerProperties();
     properties.getJwt().setIssuerUri(randomString());
-    properties.getJwt().setAudiences(audiences);
+    properties.getJwt().setAudiences(List.of(randomString(), randomString()));
 
-    assertThatIllegalStateException()
-        .isThrownBy(() -> new SecurityConfiguration().bearerClaimsValidator(properties))
-        .withMessageContaining("spring.security.oauth2.resourceserver.jwt.audiences");
+    var thrown = catchThrowable(() -> securityConfiguration.bearerClaimsValidator(properties));
+
+    assertThat(thrown)
+        .isInstanceOf(IllegalStateException.class)
+        .hasMessageContaining("spring.security.oauth2.resourceserver.jwt.audiences");
   }
 }

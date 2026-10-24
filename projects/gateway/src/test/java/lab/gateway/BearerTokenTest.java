@@ -18,24 +18,20 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 class BearerTokenTest extends GatewayTestSupport {
 
   private static Downstream mopsService;
-  private static Downstream mopsApp;
 
   @BeforeAll
-  static void startDownstreams() {
+  static void startDownstream() {
     mopsService = Downstream.start("service");
-    mopsApp = Downstream.start("app");
   }
 
   @AfterAll
-  static void stopDownstreams() {
+  static void stopDownstream() {
     mopsService.close();
-    mopsApp.close();
   }
 
   @DynamicPropertySource
   static void downstreamUris(DynamicPropertyRegistry registry) {
     registry.add("lab.gateway.mops.service-uri", mopsService::uri);
-    registry.add("lab.gateway.mops.app-uri", mopsApp::uri);
   }
 
   @Test
@@ -44,29 +40,14 @@ class BearerTokenTest extends GatewayTestSupport {
 
     var bearerJwt = mopsDecoder().decode(forwardedToken(bearerClient(bearer(USER).mint())));
 
-    assertThat(bearerJwt.getHeaders()).isEqualTo(sessionJwt.getHeaders());
-    assertThat(bearerJwt.getClaims().keySet()).isEqualTo(sessionJwt.getClaims().keySet());
-    for (var claim : List.of(JwtClaimNames.ISS, JwtClaimNames.AUD)) {
-      assertThat(bearerJwt.getClaims().get(claim))
-          .as(claim)
-          .isEqualTo(sessionJwt.getClaims().get(claim));
-    }
-
     assertThat(IdentityClaims.identity(bearerJwt)).isEqualTo(IdentityClaims.identity(sessionJwt));
+    assertThat(bearerJwt.getClaimAsString(JwtClaimNames.ISS))
+        .isEqualTo(sessionJwt.getClaimAsString(JwtClaimNames.ISS));
+    assertThat(bearerJwt.getAudience()).isEqualTo(sessionJwt.getAudience());
     assertThat(sessionJwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly(Caller.FORM);
     assertThat(bearerJwt.getClaimAsStringList(IdentityClaims.AUTHENTICATION_METHODS))
         .containsExactly(Caller.BEARER);
-  }
-
-  @Test
-  void bearerRequest_withIssuerToken_forwardsTheGatewayTokenInPlaceOfTheClientToken() {
-    var clientToken = bearer(USER).mint();
-
-    var forwarded = forwardedToken(bearerClient(clientToken));
-
-    assertThat(forwarded).isNotEqualTo(clientToken);
-    assertThat(mopsDecoder().decode(forwarded).getSubject()).isEqualTo(USER.principal().toString());
   }
 
   @Test

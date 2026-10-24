@@ -2,7 +2,6 @@ package lab.gateway;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.server.resource.BearerTokenError;
 import org.springframework.security.oauth2.server.resource.BearerTokenErrorCodes;
@@ -31,26 +30,23 @@ class SingleCredentialBearerTokenConverter implements ServerAuthenticationConver
         .convert(exchange)
         .flatMap(
             token ->
-                hasAuthenticatedSession(exchange)
+                hasLoggedInSession(exchange)
                     .flatMap(
-                        both ->
-                            both
+                        loggedIn ->
+                            loggedIn
                                 ? Mono.error(new OAuth2AuthenticationException(SESSION_AND_BEARER))
                                 : Mono.just(token)));
   }
 
-  private static Mono<Boolean> hasAuthenticatedSession(ServerWebExchange exchange) {
+  /** The repository stores a security context only after a successful login. */
+  private static Mono<Boolean> hasLoggedInSession(ServerWebExchange exchange) {
     return exchange
         .getSession()
         .map(
-            session -> {
-              SecurityContext context =
-                  session.getAttribute(
-                      WebSessionServerSecurityContextRepository
-                          .DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME);
-              return context != null
-                  && context.getAuthentication() != null
-                  && context.getAuthentication().isAuthenticated();
-            });
+            session ->
+                session.getAttribute(
+                        WebSessionServerSecurityContextRepository
+                            .DEFAULT_SPRING_SECURITY_CONTEXT_ATTR_NAME)
+                    != null);
   }
 }

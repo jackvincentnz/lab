@@ -35,7 +35,7 @@ class CallerTest extends TestBase {
   }
 
   @Test
-  void of_bearerJwt_describesTheTokenClaimsAuthenticatedByBearer() {
+  void of_bearerJwtWithPaddedScope_describesTheTokenClaimsAuthenticatedByBearer() {
     var principal = UUID.randomUUID();
     var tenant = UUID.randomUUID();
     var scopes = List.of(randomString(), randomString());
@@ -56,6 +56,8 @@ class CallerTest extends TestBase {
   void of_authenticationTheGatewayDidNotEstablish_isEmpty() {
     var authentication = new TestingAuthenticationToken(randomString(), randomString());
 
-    assertThat(Caller.of(authentication)).isEmpty();
+    var caller = Caller.of(authentication);
+
+    assertThat(caller).isEmpty();
   }
 }

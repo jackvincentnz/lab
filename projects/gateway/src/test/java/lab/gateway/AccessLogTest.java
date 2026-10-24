@@ -5,9 +5,7 @@ import static org.awaitility.Awaitility.await;
 
 import com.jayway.jsonpath.JsonPath;
 import java.time.Duration;
-import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -95,20 +93,13 @@ class AccessLogTest extends GatewayTestSupport {
 
   @Test
   void apiRequest_withBearerToken_logsRecordWithTheTokenCaller(CapturedOutput output) {
-    var configuredUser =
-        new GatewayUsers.ConfiguredUser(
-            randomString(),
-            "{noop}" + randomString(),
-            UUID.randomUUID(),
-            UUID.randomUUID(),
-            List.of(randomString()));
     var path = "/api/" + randomString();
 
     var requestId =
         client()
             .get()
             .uri(path)
-            .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer(configuredUser).mint())
+            .header(HttpHeaders.AUTHORIZATION, "Bearer " + bearer(USER).mint())
             .exchange()
             .expectStatus()
             .isOk()
@@ -117,8 +108,8 @@ class AccessLogTest extends GatewayTestSupport {
             .getFirst(RequestIdWebFilter.HEADER);
 
     assertThat(record(output, requestId))
-        .containsEntry("tenant_id", configuredUser.tenant().toString())
-        .containsEntry("principal_id", configuredUser.principal().toString())
+        .containsEntry("tenant_id", USER.tenant().toString())
+        .containsEntry("principal_id", USER.principal().toString())
         .containsEntry("authentication_method", Caller.BEARER)
         .containsEntry("path", path)
         .containsEntry("status", 200);

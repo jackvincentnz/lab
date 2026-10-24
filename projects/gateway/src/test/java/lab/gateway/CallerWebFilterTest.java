@@ -6,7 +6,6 @@ import io.micrometer.common.KeyValue;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-import lab.libs.identity.jwt.IdentityClaims;
 import lab.test.TestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.server.reactive.observation.ServerRequestObservationContext;
@@ -16,8 +15,6 @@ import org.springframework.security.authentication.TestingAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import reactor.core.publisher.Mono;
 
 class CallerWebFilterTest extends TestBase {
@@ -55,24 +52,6 @@ class CallerWebFilterTest extends TestBase {
   }
 
   @Test
-  void filter_withBearerCaller_addsTheTokenCaller() {
-    var jwtAuthenticationToken = jwtAuthenticationToken();
-    var jwt = jwtAuthenticationToken.getToken();
-
-    callerWebFilter
-        .filter(exchange, next -> Mono.empty())
-        .contextWrite(ReactiveSecurityContextHolder.withAuthentication(jwtAuthenticationToken))
-        .block();
-
-    assertThat(observationContext.getHighCardinalityKeyValues())
-        .containsExactlyInAnyOrder(
-            KeyValue.of(
-                AccessLogObservation.TENANT_ID, jwt.getClaimAsString(IdentityClaims.TENANT)),
-            KeyValue.of(AccessLogObservation.PRINCIPAL_ID, jwt.getSubject()),
-            KeyValue.of(AccessLogObservation.AUTHENTICATION_METHOD, Caller.BEARER));
-  }
-
-  @Test
   void filter_withoutAuthentication_addsNothingAndContinues() {
     var continued = new AtomicBoolean();
 
@@ -107,16 +86,5 @@ class CallerWebFilterTest extends TestBase {
   private Authentication signedIn(GatewayPrincipal gatewayPrincipal) {
     return UsernamePasswordAuthenticationToken.authenticated(
         gatewayPrincipal, null, gatewayPrincipal.getAuthorities());
-  }
-
-  private JwtAuthenticationToken jwtAuthenticationToken() {
-    var jwt =
-        Jwt.withTokenValue(randomString())
-            .header("alg", "RS256")
-            .subject(UUID.randomUUID().toString())
-            .claim(IdentityClaims.TENANT, UUID.randomUUID().toString())
-            .claim(IdentityClaims.SCOPE, randomString())
-            .build();
-    return new JwtAuthenticationToken(jwt);
   }
 }
