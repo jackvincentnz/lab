@@ -2,7 +2,7 @@
   "name": "lab",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@12.14.0",
+  "packageManager": "pnpm@12.15.0",
   "engines": {
     "pnpm": "12",
     "node": ">=24.15.0 <25"
@@ -78,7 +78,7 @@
     "tsconfig-to-swcconfig": "3.0.0",
     "typescript": "7.0.2",
     "typescript-eslint": "8.72.0",
-    "vite": "8.3.4",
+    "vite": "8.3.5",
     "vitest": "5.0.5"
   }
 }
