@@ -21,3 +21,5 @@ to Accepted in both when it is adopted.
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
+- [Front-end tests in Bazel](frontend-tests-in-bazel.md) runs Vitest without per-file isolation on
+  one worker for each Bazel test, so front-end tests run beside other tests.
