@@ -10,7 +10,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
@@ -68,26 +67,13 @@ class IdentityContractTest extends GatewayTestSupport {
   }
 
   @Test
-  void serviceRequest_withSessionAndBasicAuthorization_forwardsOnlyTheIdentityToken() {
-    var browser = browser().login();
+  void serviceRequest_withSessionAndBasicAuthorization_isBadRequest() {
+    assertBadRequestWithSession("Basic " + randomString());
+  }
 
-    var forwarded =
-        browser
-            .authenticatedClient()
-            .get()
-            .uri("/api/graphql")
-            .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString())
-            .exchange()
-            .expectStatus()
-            .isOk()
-            .returnResult(String.class)
-            .getResponseHeaders()
-            .get(Downstream.AUTHORIZATION);
-
-    assertThat(forwarded).hasSize(1);
-    Jwt jwt = mopsDecoder().decode(bearer(forwarded.get(0)));
-    assertThat(IdentityClaims.identity(jwt))
-        .isEqualTo(new Identity(USER.principal(), USER.tenant(), Set.copyOf(USER.scopes())));
+  @Test
+  void serviceRequest_withSessionAndBearerToken_isBadRequest() {
+    assertBadRequestWithSession("Bearer " + bearer(USER).mint());
   }
 
   @Test
@@ -112,12 +98,31 @@ class IdentityContractTest extends GatewayTestSupport {
         .authenticatedClient()
         .get()
         .uri("/spend")
-        .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString())
         .exchange()
         .expectStatus()
         .isOk()
         .expectHeader()
         .doesNotExist(Downstream.AUTHORIZATION);
+  }
+
+  private void assertBadRequestWithSession(String authorization) {
+    var before = mopsService.requests();
+
+    browser()
+        .login()
+        .authenticatedClient()
+        .get()
+        .uri("/api/graphql")
+        .header(HttpHeaders.AUTHORIZATION, authorization)
+        .exchange()
+        .expectStatus()
+        .isBadRequest()
+        .expectHeader()
+        .value(
+            HttpHeaders.WWW_AUTHENTICATE,
+            value -> assertThat(value).contains("error=\"invalid_request\""));
+
+    assertThat(mopsService.requests()).isEqualTo(before);
   }
 
   private String forwardedToken(Browser browser, String path) {

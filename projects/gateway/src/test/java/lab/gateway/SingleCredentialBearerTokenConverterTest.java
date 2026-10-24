@@ -24,7 +24,18 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
 
   @Test
   void convert_withBearerAndLoggedInSession_failsAsInvalidRequest() {
-    var exchange = exchange(Optional.of(randomString()), loggedInSession());
+    var exchange = exchange(Optional.of("Bearer " + randomString()), loggedInSession());
+
+    var thrown =
+        catchThrowableOfType(
+            OAuth2AuthenticationException.class, () -> converter.convert(exchange).block());
+
+    assertThat(thrown.getError().getErrorCode()).isEqualTo(BearerTokenErrorCodes.INVALID_REQUEST);
+  }
+
+  @Test
+  void convert_withBasicAuthorizationAndLoggedInSession_failsAsInvalidRequest() {
+    var exchange = exchange(Optional.of("Basic " + randomString()), loggedInSession());
 
     var thrown =
         catchThrowableOfType(
@@ -36,7 +47,7 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
   @Test
   void convert_withBearerAndEmptySession_returnsTheBearerToken() {
     var token = randomString();
-    var exchange = exchange(Optional.of(token), new MockWebSession());
+    var exchange = exchange(Optional.of("Bearer " + token), new MockWebSession());
 
     var authentication = converter.convert(exchange).block();
 
@@ -55,9 +66,10 @@ class SingleCredentialBearerTokenConverterTest extends TestBase {
     assertThat(authentication).isEmpty();
   }
 
-  private static MockServerWebExchange exchange(Optional<String> token, MockWebSession session) {
+  private static MockServerWebExchange exchange(
+      Optional<String> authorization, MockWebSession session) {
     var request = MockServerHttpRequest.get("/");
-    token.ifPresent(value -> request.header(HttpHeaders.AUTHORIZATION, "Bearer " + value));
+    authorization.ifPresent(value -> request.header(HttpHeaders.AUTHORIZATION, value));
     return MockServerWebExchange.builder(request.build()).session(session).build();
   }
 

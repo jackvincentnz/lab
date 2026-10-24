@@ -3,9 +3,9 @@
 API clients can call the gateway with `Authorization: Bearer <jwt>` instead of a session. The
 gateway verifies the token against its configured issuer's key set, then mints its own identity
 token for the downstream service as it does for a session, with `amr` `bearer`. The client's token
-is never forwarded. Bearer requests need no CSRF token and create no session. A client sends a
-session or a bearer token, not both. [Responses](responses.md) lists the status for an invalid
-token, or for a token sent with a session.
+is never forwarded. Bearer requests need no CSRF token and create no session. A request with a
+session must not carry an `Authorization` header. [Responses](responses.md) lists the status for an
+invalid token, or for a header sent with a session.
 
 ## Token contract
 

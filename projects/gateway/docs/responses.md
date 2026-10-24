@@ -15,7 +15,7 @@ because Spring Session replaces it with a new, empty session.
 | Valid bearer token, no session                               | Proxied with a gateway-minted identity token, `amr` `bearer`; no CSRF token needed |
 | Invalid or expired bearer token                              | 401, `WWW-Authenticate: Bearer error="invalid_token"`, also on a page load         |
 | Valid bearer token with an unknown or expired session cookie | Proxied as a bearer request                                                        |
-| Live session and any bearer token                            | 400, `WWW-Authenticate: Bearer error="invalid_request"`                            |
+| Live session and any `Authorization` header                  | 400, `WWW-Authenticate: Bearer error="invalid_request"`                            |
 | Bearer token while the issuer's key set is unreachable       | 500                                                                                |
 | WebSocket handshake without credentials                      | 401, because a handshake never asks for HTML                                       |
 | Route reached without a caller, a gateway misconfiguration   | 500                                                                                |

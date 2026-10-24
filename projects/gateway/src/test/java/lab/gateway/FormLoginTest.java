@@ -44,6 +44,19 @@ class FormLoginTest extends GatewayTestSupport {
   }
 
   @Test
+  void apiRequest_withBasicAuthorizationAndNoSession_isUnauthorized() {
+    client()
+        .get()
+        .uri("/api/graphql")
+        .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString())
+        .exchange()
+        .expectStatus()
+        .isUnauthorized()
+        .expectHeader()
+        .valueEquals(HttpHeaders.WWW_AUTHENTICATE, "Bearer");
+  }
+
+  @Test
   void request_withoutAcceptHeader_isUnauthorized() {
     client().get().uri("/api/graphql").exchange().expectStatus().isUnauthorized();
   }

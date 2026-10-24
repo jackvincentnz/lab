@@ -110,16 +110,6 @@ class BearerTokenTest extends GatewayTestSupport {
   }
 
   @Test
-  void bearerRequest_withValidTokenAndSession_isBadRequest() {
-    assertBadRequestWithSession(bearer(USER).mint());
-  }
-
-  @Test
-  void bearerRequest_withInvalidTokenAndSession_isBadRequest() {
-    assertBadRequestWithSession(randomString());
-  }
-
-  @Test
   void bearerRequest_withUnknownSessionCookie_reachesTheService() {
     var before = mopsService.requests();
 
@@ -153,26 +143,6 @@ class BearerTokenTest extends GatewayTestSupport {
 
   private WebTestClient bearerClient(String token) {
     return client().mutate().defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + token).build();
-  }
-
-  private void assertBadRequestWithSession(String token) {
-    var before = mopsService.requests();
-
-    browser()
-        .login()
-        .authenticatedClient()
-        .get()
-        .uri("/api/graphql")
-        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-        .exchange()
-        .expectStatus()
-        .isBadRequest()
-        .expectHeader()
-        .value(
-            HttpHeaders.WWW_AUTHENTICATE,
-            value -> assertThat(value).contains("error=\"invalid_request\""));
-
-    assertThat(mopsService.requests()).isEqualTo(before);
   }
 
   private void assertUnauthorizedNotRedirected(String token) {

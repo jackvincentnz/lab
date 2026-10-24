@@ -46,14 +46,12 @@ class WebSocketProxyTest extends GatewayTestSupport {
   }
 
   @Test
-  void upgrade_withSession_carriesIdentityTokenInPlaceOfClientCredentials()
-      throws InterruptedException {
+  void upgrade_withSession_carriesIdentityTokenAndNoCookie() throws InterruptedException {
     var browser = browser().login();
     var webSocketBuilder =
         httpClient
             .newWebSocketBuilder()
-            .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString())
-            .header(HttpHeaders.AUTHORIZATION, "Basic " + randomString());
+            .header(HttpHeaders.COOKIE, "SESSION=" + browser.session + "; other=" + randomString());
 
     var handshake = handshake(webSocketBuilder);
 
