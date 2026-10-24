@@ -30,9 +30,6 @@ export function setStatsigGate(gate: string, enabled: boolean) {
 }
 
 export function resetStatsigMock() {
-  logEventMock.mockClear();
-  checkGateMock.mockClear();
-
   for (const gate of Object.keys(gates)) {
     delete gates[gate];
   }
