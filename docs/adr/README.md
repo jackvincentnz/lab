@@ -23,5 +23,5 @@ to Accepted in both when it is adopted.
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
-- [Identity provider](identity-provider.md) uses Auth0 for OIDC login and bearer tokens, with
-  self-hosted Keycloak as the fallback.
+- [Identity provider](identity-provider.md) sets the requirements for an external identity
+  provider and leaves the choice between Auth0, WorkOS AuthKit, and Keycloak open.
