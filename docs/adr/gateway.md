@@ -53,18 +53,19 @@ client registration and user consent for third-party access belong to the author
 The provider does not need to know about private downstream services.
 
 After authentication the gateway resolves the caller to platform identifiers. A tenant service
-owns platform principals, tenants, memberships, product authorization, and per-tenant policy. The default is a lookup against it,
-once at login for browser callers and once per token for bearer callers. Having the provider mint
-tokens that already carry platform claims is a deferred alternative. The tenant service is a
-separate decision.
+owns platform principals, tenants, memberships, product authorization, and per-tenant policy. The
+default is a lookup against it, once at login for browser callers and once per token for bearer
+callers. Having the provider mint tokens that already carry platform claims is a deferred
+alternative. The tenant service is a separate decision.
 
 ### Sessions
 
 Browser sessions are server-side, Redis-backed, and referenced by an opaque `HttpOnly`, `Secure`,
 `SameSite=Lax` cookie. `Lax` because the provider's login callback is a cross-site navigation.
 
-The cookie is the browser credential. Provider tokens stay in the gateway. A session has one active tenant. A principal may belong to multiple tenants, and switching tenants
-may require additional authentication to satisfy that tenant's policy. Prefer provider-managed
+The cookie is the browser credential. Provider tokens stay in the gateway. A session has one
+active tenant. A principal may belong to multiple tenants, and switching tenants may require
+additional authentication to satisfy that tenant's policy. Prefer provider-managed
 authentication and account linking where practical; tenant membership and platform authorization
 remain platform-owned. The precise session representation and policy mechanism are deferred.
 
@@ -122,9 +123,8 @@ dependencies:
 
 - The gateway authenticates configured in-memory users with Spring form login. Each user carries
   a principal, tenant, and scopes. No external provider, no tenant service.
-- Browser sessions only. Bearer tokens are not accepted.
-- Fast follow: public bearer JWTs signed with a static gateway key, to test API access before a
-  provider exists.
+- API clients send bearer JWTs from one configured issuer, validated against its key set. Locally
+  a mock OAuth2 server is the issuer, to test API access before a provider exists.
 - Allowlisting and rate limiting are not enforced.
 - Routing to Mops, the signed identity token, CSRF, WebSocket proxying, and access logging are
   all in.
