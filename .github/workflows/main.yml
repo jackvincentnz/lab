@@ -60,13 +60,41 @@ jobs:
 
       - name: Coverage
         run: |
+          nproc; free -m
+          vmstat -n 5 > "$RUNNER_TEMP/vmstat.log" &
+          vmstat_pid=$!
+          set +e
           bazel \
             --bazelrc=${GITHUB_WORKSPACE//\\/\/}/.github/workflows/ci.bazelrc \
             coverage \
             --config=ci \
             --remote_header=x-buildbuddy-api-key=${{ secrets.BUILDBUDDY_API_KEY }} \
             --combined_report=lcov \
+            --nocache_test_results \
+            --test_summary=short \
+            --profile="$RUNNER_TEMP/coverage.profile.gz" \
             //...
+          status=$?
+          kill "$vmstat_pid"
+          echo "vmstat (5s samples):"
+          cat "$RUNNER_TEMP/vmstat.log"
+          awk 'NR>2 {n++; r+=$1; us+=$13; sy+=$14; id+=$15; wa+=$16; st+=$17; if ($1>4) over++; if ($15<10) busy++; if (min=="" || $4<min) min=$4} END {printf "EXPERIMENT_VMSTAT samples=%d avg_runq=%.1f runq_gt4=%d%% us=%.0f sy=%.0f id=%.0f wa=%.0f st=%.0f idle_lt10=%d%% min_free_mb=%.0f\n", n, r/n, 100*over/n, us/n, sy/n, id/n, wa/n, st/n, 100*busy/n, min/1024}' "$RUNNER_TEMP/vmstat.log"
+          exit "$status"
+
+      - name: "Experiment: JUnit time per target"
+        if: success() || failure()
+        run: |
+          find -L dist/testlogs -path '*/java/*' -name test.xml | while read -r f; do
+            t=$(grep -o '<testsuite [^>]*time="[0-9.]*"' "$f" | grep -o 'time="[0-9.]*"' | grep -o '[0-9.]*' | awk '{s+=$1} END {print s+0}')
+            echo "EXPERIMENT_JUNIT $t ${f#dist/testlogs/}"
+          done
+
+      - name: "Experiment: upload profile"
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-profile
+          path: ${{ runner.temp }}/coverage.profile.gz
 
       - name: Copy test reports out of symlink forest
         if: success() || failure()
