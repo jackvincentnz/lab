@@ -25,6 +25,7 @@ java_test_suite(
         "SecurityConfigurationTest.java",
         "SigningKeyTest.java",
         "SingleCredentialBearerTokenConverterTest.java",
+        "UnauthenticatedRequestTest.java",
         "UnreachableKeySetTest.java",
         "WebSocketDownstream.java",
         "WebSocketProxyTest.java",
