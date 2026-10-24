@@ -11,8 +11,8 @@ owner: Jack Vincent
 The [edge gateway](gateway.md) is the only public entry point. It owns application sessions,
 public-token validation, access controls, and the internal identity-token contract. Private
 services do not integrate with an external identity provider. Today the gateway uses form login
-and has experimental resource-server support; it needs a hosted or self-managed provider to
-authenticate users and issue access tokens to external clients.
+and accepts bearer tokens from one configured issuer, a mock server locally; it needs a hosted or
+self-managed provider to authenticate users and issue access tokens to external clients.
 
 The provider is an authentication broker and external OAuth authorization server, **not** the
 source of truth for internal services, platform tenant membership, or product authorization.
