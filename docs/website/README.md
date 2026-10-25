@@ -8,8 +8,9 @@ for which folders it publishes.
 ## Getting started
 
 Install dependencies, then start the development server at
-`http://localhost:3000/lab/`, which reloads as pages change. Restart it to pick
-up a new page, because it watches only the pages that existed when it started:
+`http://localhost:3000/lab/`, which reloads as pages change. It watches only the
+pages that existed when it started, so restart it after adding a page or
+changing a `_category_.json`, `attached-docs.mjs`, `content.mjs`, or a plugin:
 
 ```zsh
 cd docs/website

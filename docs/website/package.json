@@ -16,6 +16,7 @@
     "@docusaurus/plugin-content-docs": "3.10.2",
     "@docusaurus/preset-classic": "3.10.2",
     "@docusaurus/theme-mermaid": "3.10.2",
+    "@docusaurus/utils": "3.10.2",
     "@easyops-cn/docusaurus-search-local": "0.55.3",
     "@mdx-js/react": "3.1.1",
     "@mermaid-js/layout-elk": "0.1.9",

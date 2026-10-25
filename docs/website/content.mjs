@@ -1,4 +1,5 @@
 import { readdirSync } from "node:fs";
+import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -18,7 +19,12 @@ export const include = [
   "tools/**/*.md",
 ];
 
+const require = createRequire(import.meta.url);
+const { GlobExcludeDefault } = require("@docusaurus/utils");
+
+// Docusaurus's defaults leave out partials such as `_shared.md` and test files.
 export const exclude = [
+  ...GlobExcludeDefault,
   "**/node_modules/**",
   "**/dist/**",
   "docs/adr/template.md",
@@ -31,7 +37,11 @@ function globToRegExp(glob) {
     .split("**/")
     .map((part) =>
       part
-        .replace(/[.+^${}()|[\]\\]/g, "\\$&")
+        .replace(/[.+^$()|[\]\\]/g, "\\$&")
+        .replace(
+          /\{([^}]*)\}/g,
+          (_, options) => `(?:${options.split(",").join("|")})`,
+        )
         .replace(/\*\*/g, "\0")
         .replace(/\*/g, "[^/]*")
         .replace(/\0/g, ".*"),

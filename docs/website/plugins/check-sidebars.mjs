@@ -31,7 +31,7 @@ export default function checkSidebars() {
           .map((doc) => doc.source);
         if (missing.length > 0) {
           throw new Error(
-            `These pages are in no sidebar. Add their folder to docs/website/sidebars.mjs:\n${missing.join("\n")}`,
+            `These pages are in no sidebar. Add their folder to docs/website/sidebars.mjs, or for a README kept next to code, add it to docs/website/attached-docs.mjs:\n${missing.join("\n")}`,
           );
         }
       }
