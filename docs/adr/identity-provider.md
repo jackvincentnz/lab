@@ -2,6 +2,7 @@
 status: Proposed
 date: 2026-10-17
 owner: Jack Vincent
+affects: [projects/gateway]
 ---
 
 # Identity Provider
