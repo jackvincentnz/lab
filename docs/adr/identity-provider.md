@@ -12,15 +12,16 @@ affects: [projects/gateway]
 The [edge gateway](gateway.md) is the only public entry point. It owns application sessions,
 public-token validation, access controls, and the internal identity-token contract. Private
 services do not integrate with an external identity provider. Today the gateway uses form login
-and accepts bearer tokens from one configured issuer, a mock server locally; it needs a hosted or
+and accepts bearer tokens from one configured issuer, a mock server locally. It needs a hosted or
 self-managed provider to authenticate users and issue access tokens to external clients.
 
 The provider is an authentication broker and external OAuth authorization server, **not** the
-source of truth for internal services, platform tenant membership, or product authorization.
-One platform user may belong to multiple tenants. Tenants may eventually support different
-authentication methods and requirements, including guest access. Prefer provider capabilities
-for federation, account linking, and authentication policies rather than building these from
-scratch. The gateway still enforces platform access policy.
+source of truth for internal services, platform tenant membership, or product authorization, so
+that changing provider never moves platform data. One platform user may belong to multiple
+tenants. Tenants may eventually support different authentication methods and requirements,
+including guest access. Prefer provider capabilities for federation, account linking, and
+authentication policies, so that the platform does not build and secure them itself. The gateway
+still enforces platform access policy.
 
 ## Requirements
 
@@ -31,29 +32,35 @@ scratch. The gateway still enforces platform access policy.
    integration with Spring Cloud Gateway / WebFlux must be verified.
 2. Issue externally verifiable OAuth access tokens for public API and MCP resources. The gateway
    validates the public audience and exchanges the external caller context for its own
-   service-specific internal token. **No API registration per internal service.**
-3. Support MCP OAuth authorization, including authorization code with PKCE, resource indicators
+   service-specific internal token. **No API registration per internal service**, so that private
+   service topology never reaches the provider or the consent screen.
+3. Put the organization the user chose at sign-in or consent in issued tokens, including tokens
+   from MCP consent, so that the gateway can map each token to one platform tenant.
+4. Support MCP OAuth authorization, including authorization code with PKCE, resource indicators
    and audience restriction, and practical client identification/registration through CIMD and/or
    DCR as appropriate for supported MCP clients.
-4. Show meaningful user consent for third-party delegated access, including the requesting client
-   and understandable public permissions/scopes. Internal service scopes do not appear in consent.
-5. Be viable for a small lab with minimal operational burden and understandable growth pricing.
+5. Show meaningful user consent for third-party delegated access, including the requesting client
+   and understandable public permissions/scopes, so that users know what they grant. Internal
+   service scopes do not appear in consent.
+6. Be viable for a small lab with minimal operational burden and understandable growth pricing.
 
 ### Design for, without implementing everything now
 
 - Enterprise SAML/OIDC federation and social authentication, potentially multiple connections
   for one tenant.
 - Secure linking of authentication identities to a stable platform principal. Do not link users
-  solely because email addresses match.
+  solely because email addresses match, so that someone who controls a matching address at another
+  identity provider cannot take over an account.
 - Multi-tenant membership, guest users, and tenant-specific authentication requirements.
-  Provider-managed organization and authentication features may help, but the platform's tenant
-  service remains authoritative for membership and product permissions.
+  Provider-managed organizations select the tenant for a token, but the platform's tenant service
+  remains authoritative for membership and product permissions and checks every mapping.
 - Sufficient trusted authentication context for the gateway to enforce tenant access policy,
   including possible step-up or reauthentication on tenant switching.
 
-The public API/MCP resource identifiers and consent scopes are externally meaningful contracts;
-they are independent of private microservice topology. Whether one or multiple public audiences
-are needed depends on the exposed resources, including MCP's resource-specific audience rules.
+The public resource identifiers and consent scopes are external contracts, independent of private
+service topology, so that services can change without breaking clients or consent. The
+[gateway ADR](gateway.md) sets one audience per product, identified by its public URL, with the
+conditions under which MCP gets its own.
 
 ## Decision
 
@@ -62,10 +69,11 @@ principal candidates. The previous Auth0 preference relied partly on one Auth0 A
 service and documented consent text for those service scopes. That is not the desired boundary,
 so it does not establish a decision under the revised criteria.
 
-The initial implementation should validate browser session integration, a third-party MCP
-authorization and consent flow, public-resource token validation, and mapping an external user
-to a platform principal before selecting a provider. No custom identity-linking or tenant-policy
-engine is required for this initial proof.
+Each candidate gets the same proof of concept before one is chosen, so that the choice rests on
+demonstrated behaviour rather than documentation. The proof covers browser session integration,
+a third-party MCP authorization and consent flow, public-resource token validation, and mapping
+an external user and organization to a platform principal and tenant. No custom identity-linking
+or tenant-policy engine is required for it.
 
 ## Candidates and questions to validate
 
@@ -105,9 +113,11 @@ per-service-audience criterion.
 1. Demonstrate a browser login and session integration compatible with Spring Cloud Gateway.
 2. Demonstrate an external MCP client completing authorization code + PKCE, public resource
    audience validation, and meaningful consent without per-service API registrations.
-3. Verify registration friction (CIMD/DCR), federation and account-linking capabilities, and
+3. Demonstrate the organization claim in tokens from browser sign-in and from MCP consent, mapped
+   to a platform tenant.
+4. Verify registration friction (CIMD/DCR), federation and account-linking capabilities, and
    actual pricing for a small lab and a multi-tenant product.
-4. Record the provider choice and concrete tradeoffs in this ADR after the proof.
+5. Record the provider choice and concrete tradeoffs in this ADR after the proof.
 
 ## References
 
