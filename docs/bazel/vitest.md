@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Vitest
 
 Shared Vitest run and watch defaults.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="vitest_run"></a>
 
 ## vitest_run
 
-<pre>
+```starlark
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
-vitest_run(<a href="#vitest_run-name">name</a>, <a href="#vitest_run-kwargs">**kwargs</a>)
-</pre>
+vitest_run(name, **kwargs)
+```
 
 Run cacheable Vitest tests in the calling package by default.
 
@@ -33,11 +33,11 @@ it, and defaults the test size to small.
 
 ## vitest_watch
 
-<pre>
+```starlark
 load("//tools/bazel/vitest:vitest.bzl", "vitest_watch")
 
-vitest_watch(<a href="#vitest_watch-name">name</a>, <a href="#vitest_watch-kwargs">**kwargs</a>)
-</pre>
+vitest_watch(name, **kwargs)
+```
 
 Run Vitest in watch mode in the calling package by default.
 

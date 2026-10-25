@@ -1,19 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Frontend applications
 
 Declare Vite applications.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="fe_app"></a>
 
 ## fe_app
 
-<pre>
+```starlark
 load("//tools/bazel:fe.bzl", "fe_app")
 
-fe_app(<a href="#fe_app-name">name</a>, <a href="#fe_app-srcs">srcs</a>, <a href="#fe_app-deps">deps</a>, <a href="#fe_app-assets">assets</a>, <a href="#fe_app-data">data</a>, <a href="#fe_app-test_srcs">test_srcs</a>, <a href="#fe_app-test_deps">test_deps</a>, <a href="#fe_app-test_shard_count">test_shard_count</a>, <a href="#fe_app-test_tags">test_tags</a>, <a href="#fe_app-stories">stories</a>,
-       <a href="#fe_app-story_deps">story_deps</a>, <a href="#fe_app-visibility">visibility</a>)
-</pre>
+fe_app(name, srcs, deps, assets, data, test_srcs, test_deps, test_shard_count, test_tags, stories, story_deps, visibility)
+```
 
 Declare one flattened Vite application per Bazel package.
 

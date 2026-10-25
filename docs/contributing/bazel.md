@@ -10,7 +10,7 @@
 
 ## Java BUILD files
 
-[Gazelle](../gazelle.md) writes the `srcs`, `deps`, and `exports` of Java
+[Gazelle](../platform/gazelle.md) writes the `srcs`, `deps`, and `exports` of Java
 targets, and the runner and JUnit runtime deps of tests.
 
 - Run `aspect gazelle` after you add, move, or delete Java files or change
@@ -26,5 +26,5 @@ targets, and the runner and JUnit runtime deps of tests.
   generating target.
 
 See [testing](testing.md#bazel-test-targets) for test targets, and
-[Bazel](../bazel.md) for how outputs, dependency sources, and the sandbox work
+[Bazel](../platform/bazel.md) for how outputs, dependency sources, and the sandbox work
 in this repository.

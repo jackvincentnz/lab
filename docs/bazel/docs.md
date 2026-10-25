@@ -1,23 +1,25 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Documentation generation
 
 Shared Stardoc and source-file update wrappers.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="stardoc"></a>
 
 ## stardoc
 
-<pre>
+```starlark
 load("//tools/bazel:docs.bzl", "stardoc")
 
-stardoc(<a href="#stardoc-name">name</a>, <a href="#stardoc-kwargs">**kwargs</a>)
-</pre>
+stardoc(name, **kwargs)
+```
 
 Generate Markdown from Starlark docstrings with [Stardoc](https://github.com/bazelbuild/stardoc).
 
 Renders labels in this repository without a repository name by default,
-so load statements match the ones BUILD files use.
+so load statements match the ones BUILD files use. The default templates
+put each page's title first and its signatures in code blocks, so that
+the documentation site can title and render the page.
 
 
 **PARAMETERS**
@@ -33,11 +35,11 @@ so load statements match the ones BUILD files use.
 
 ## write_source_files
 
-<pre>
+```starlark
 load("//tools/bazel:docs.bzl", "write_source_files")
 
-write_source_files(<a href="#write_source_files-name">name</a>, <a href="#write_source_files-kwargs">**kwargs</a>)
-</pre>
+write_source_files(name, **kwargs)
+```
 
 Copy generated files into the source tree with [write_source_files](https://github.com/bazel-contrib/bazel-lib/blob/main/lib/write_source_files.bzl).
 

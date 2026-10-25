@@ -1,0 +1,6 @@
+# A workspace of its own keeps the site's packages out of the root lockfile,
+# which Bazel translates into npm repositories.
+packages: []
+allowBuilds:
+  # Its postinstall only prints a funding message.
+  core-js: false

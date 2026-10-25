@@ -6,8 +6,8 @@ consequences.
 ## Adding a record
 
 Copy [the template](template.md) to a kebab-case file named after the decision, such as
-`gateway-csrf.md`. List it under Proposed here and in [the sidebar](../_sidebar.md), and move it
-to Accepted in both when it is adopted.
+`gateway-csrf.md`. List it under Proposed here, and move it to Accepted when it is adopted. The
+documentation site groups records by the `status` in their front matter, so update it too.
 
 ## Accepted
 

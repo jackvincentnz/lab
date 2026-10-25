@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Java
 
 Shared Java wrappers keep external rules and test defaults in one place.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="java_binary"></a>
 
 ## java_binary
 
-<pre>
+```starlark
 load("//tools/bazel:java.bzl", "java_binary")
 
-java_binary(<a href="#java_binary-name">name</a>, <a href="#java_binary-kwargs">**kwargs</a>)
-</pre>
+java_binary(name, **kwargs)
+```
 
 Declare a [java_binary](https://bazel.build/reference/be/java#java_binary).
 
@@ -29,11 +29,11 @@ Declare a [java_binary](https://bazel.build/reference/be/java#java_binary).
 
 ## java_junit5_test
 
-<pre>
+```starlark
 load("//tools/bazel:java.bzl", "java_junit5_test")
 
-java_junit5_test(<a href="#java_junit5_test-name">name</a>, <a href="#java_junit5_test-kwargs">**kwargs</a>)
-</pre>
+java_junit5_test(name, **kwargs)
+```
 
 Declare a [JUnit 5 test](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_junit5_test).
 
@@ -54,11 +54,11 @@ and adds Logback to runtime dependencies.
 
 ## java_library
 
-<pre>
+```starlark
 load("//tools/bazel:java.bzl", "java_library")
 
-java_library(<a href="#java_library-name">name</a>, <a href="#java_library-kwargs">**kwargs</a>)
-</pre>
+java_library(name, **kwargs)
+```
 
 Declare a [java_library](https://bazel.build/reference/be/java#java_library).
 
@@ -75,11 +75,11 @@ Declare a [java_library](https://bazel.build/reference/be/java#java_library).
 
 ## java_test_suite
 
-<pre>
+```starlark
 load("//tools/bazel:java.bzl", "java_test_suite")
 
-java_test_suite(<a href="#java_test_suite-name">name</a>, <a href="#java_test_suite-kwargs">**kwargs</a>)
-</pre>
+java_test_suite(name, **kwargs)
+```
 
 Declare a [JUnit test suite](https://github.com/bazel-contrib/rules_jvm/blob/main/README.md#java_test_suite).
 

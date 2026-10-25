@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Vite
 
 Shared Vite build and development server defaults.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="vite_build"></a>
 
 ## vite_build
 
-<pre>
+```starlark
 load("//tools/bazel/vite:vite.bzl", "vite_build")
 
-vite_build(<a href="#vite_build-name">name</a>, <a href="#vite_build-kwargs">**kwargs</a>)
-</pre>
+vite_build(name, **kwargs)
+```
 
 Build a Vite application and declare a preview server named `preview`.
 
@@ -34,11 +34,11 @@ and listens on all interfaces.
 
 ## vite_dev_server
 
-<pre>
+```starlark
 load("//tools/bazel/vite:vite.bzl", "vite_dev_server")
 
-vite_dev_server(<a href="#vite_dev_server-name">name</a>, <a href="#vite_dev_server-kwargs">**kwargs</a>)
-</pre>
+vite_dev_server(name, **kwargs)
+```
 
 Run Vite in the calling package by default.
 

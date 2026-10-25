@@ -10,7 +10,9 @@ def stardoc(name, **kwargs):
     """Generate Markdown from Starlark docstrings with [Stardoc](https://github.com/bazelbuild/stardoc).
 
     Renders labels in this repository without a repository name by default,
-    so load statements match the ones BUILD files use.
+    so load statements match the ones BUILD files use. The default templates
+    put each page's title first and its signatures in code blocks, so that
+    the documentation site can title and render the page.
 
     Args:
         name: Target name.
@@ -19,6 +21,10 @@ def stardoc(name, **kwargs):
     _stardoc(
         name = name,
         render_main_repo_name = kwargs.pop("render_main_repo_name", False),
+        header_template = kwargs.pop("header_template", Label("//tools/bazel/stardoc:header.vm")),
+        func_template = kwargs.pop("func_template", Label("//tools/bazel/stardoc:func.vm")),
+        macro_template = kwargs.pop("macro_template", Label("//tools/bazel/stardoc:macro.vm")),
+        rule_template = kwargs.pop("rule_template", Label("//tools/bazel/stardoc:rule.vm")),
         **kwargs
     )
 
