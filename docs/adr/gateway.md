@@ -41,33 +41,49 @@ Health endpoints are public.
 
 ### Authentication
 
-The gateway is the platform's public authentication and access-control boundary. It delegates
-credential verification, MFA, social login, and enterprise SAML/OIDC federation to an external
-identity provider or authentication broker. The gateway establishes and owns the application's
-authenticated browser session; the provider-supported protocol, SDK, and session integration are
-implementation choices, not mandated here.
+The gateway is the platform's public authentication and access-control boundary, so that private
+services never handle public credentials. It delegates credential verification, MFA, social login,
+and enterprise SAML/OIDC federation to an external identity provider, so that the platform does
+not build or operate those features. The gateway owns the authenticated browser session, so that
+session lifetime, logout, and tenant switching stay the same whichever provider signs users in.
+The protocol, SDK, and session integration are left to the provider proof of concept.
 
-For external API and MCP callers, the gateway validates authorization-server-issued access tokens,
-including issuer, signature, expiry, and the audience of the _public_ API or MCP resource. OAuth
-client registration and user consent for third-party access belong to the authorization server.
-The provider does not need to know about private downstream services.
+For API and MCP callers the gateway is the OAuth resource server. It validates the access token's
+issuer, signature, expiry, and audience. The audience names one public product, never a private
+service, so that a token issued for one product cannot be used against another and services can
+be split or merged without changing what clients request. A product is identified by its public
+URL, such as Mops's, so that the same identifier serves as the MCP resource. Mops's API and MCP
+endpoints are one resource, and third-party MCP clients get a narrower scope set rather than a
+separate audience, so that one validation path covers both. MCP gets its own audience if it needs
+different token lifetimes, if its consent must never grant API access, or if a provider accepts
+only the exact MCP endpoint URL as the resource. Client registration and consent belong to the
+authorization server, so that the platform does not build client management or consent screens.
 
-After authentication the gateway resolves the caller to platform identifiers. A tenant service
-owns platform principals, tenants, memberships, product authorization, and per-tenant policy. The
-default is a lookup against it, once at login for browser callers and once per token for bearer
-callers. Having the provider mint tokens that already carry platform claims is a deferred
-alternative. The tenant service is a separate decision.
+After authentication the gateway resolves the caller to a platform principal and tenant, because
+provider user and organization identifiers are not the platform's. The token names the tenant:
+the provider puts the organization the user chose at sign-in or consent in the token, so that each
+token or session acts for one tenant and the gateway never guesses between memberships. The gateway
+maps the provider user and organization to a platform principal and tenant through a tenant
+service, once at login for browser callers and once per token for bearer callers. It then checks
+that the principal belongs to the tenant and that the tenant allows the sign-in method, so that
+membership and tenant policy stay platform decisions whichever provider is chosen. A token without
+an organization gets 401. A valid token for a tenant the principal does not belong to, or a sign-in
+method the tenant does not allow, gets 403. Having the provider mint tokens that already carry
+platform identifiers is a deferred alternative that would remove the mapping. The tenant service
+is a separate decision.
 
 ### Sessions
 
 Browser sessions are server-side, Redis-backed, and referenced by an opaque `HttpOnly`, `Secure`,
 `SameSite=Lax` cookie. `Lax` because the provider's login callback is a cross-site navigation.
 
-The cookie is the browser credential. Provider tokens stay in the gateway. A session has one
-active tenant. A principal may belong to multiple tenants, and switching tenants may require
-additional authentication to satisfy that tenant's policy. Prefer provider-managed
-authentication and account linking where practical; tenant membership and platform authorization
-remain platform-owned. The precise session representation and policy mechanism are deferred.
+The cookie is the browser credential. Provider tokens stay in the gateway, so that browser
+scripts can never read or replay them. A session has one active tenant, so that every request is
+unambiguous about whose data it touches. A principal may belong to multiple tenants, and switching
+tenants may require additional authentication to satisfy that tenant's policy. Account linking and
+authentication methods use provider features where practical, so that the platform does not build
+identity linking. Tenant membership and platform authorization remain platform-owned. The session
+representation and policy mechanism are deferred.
 
 Session requests are CSRF-protected; see the [Gateway CSRF decision](gateway-csrf.md) for token
 validation and delivery. WebSocket upgrades are proxied under the same rules.
@@ -123,14 +139,19 @@ dependencies:
 
 - The gateway authenticates configured in-memory users with Spring form login. Each user carries
   a principal, tenant, and scopes. No external provider, no tenant service.
-- API clients send bearer JWTs from one configured issuer, validated against its key set. Locally
-  a mock OAuth2 server is the issuer, to test API access before a provider exists.
+- API clients send bearer JWTs from one configured issuer, validated against its key set. Tokens
+  must name `lab-gateway` as their audience, which stands in for Mops's public URL, and carry the
+  platform tenant directly, which stands in for the organization mapping. Locally a mock OAuth2
+  server is the issuer, so that API access can be tested before a provider is chosen.
+- The gateway accepts exactly one audience. The check becomes per route when a second product is
+  added.
 - Allowlisting and rate limiting are not enforced.
 - Routing to Mops, the signed identity token, CSRF, WebSocket proxying, and access logging are
   all in.
 
-Delegated authentication replaces form login later while preserving the gateway's responsibility
-for authenticated application sessions. The integration may use standard OIDC or a provider SDK.
+Delegated authentication replaces form login later, and the gateway keeps owning the session, so
+that downstream services and the identity token do not change. The integration may use standard
+OIDC or a provider SDK.
 
 ## Out Of Scope
 
