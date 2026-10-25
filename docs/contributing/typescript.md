@@ -1,4 +1,4 @@
-# TypeScript contribution guidelines
+# TypeScript
 
 TypeScript performance means how long the compiler takes to check types, after
 it has parsed the files. Slow checking slows Bazel builds and editor feedback,

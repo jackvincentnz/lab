@@ -1,4 +1,4 @@
-# Bazel contribution guidelines
+# Bazel
 
 - Load rules from the wrappers in `tools/bazel/`, such as
   `//tools/bazel:java.bzl` and `//tools/bazel:js.bzl`, so that shared defaults

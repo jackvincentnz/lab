@@ -1,4 +1,4 @@
-# Dependency contribution guidelines
+# External Dependencies
 
 [Renovate](../platform/tools/renovate.md) keeps dependencies up to date.
 
