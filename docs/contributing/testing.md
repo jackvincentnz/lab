@@ -1,4 +1,4 @@
-# Testing guidelines
+# Testing
 
 See [coverage](../platform/coverage/README.md) for how coverage is collected and how to read it.
 
