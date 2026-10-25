@@ -12,7 +12,8 @@ Introduction page under Overview.
 Install dependencies, then start the development server at
 `http://localhost:3000/lab/`, which reloads as pages change. It watches only the
 pages that existed when it started, so restart it after adding a page or
-changing a `_category_.json`, `attached-docs.mjs`, `content.mjs`, or a plugin:
+changing a `_category_.json`, `attached-docs.mjs`, `content.mjs`, a plugin, or
+any page's title or front matter, which other pages' Connections boxes use:
 
 ```zsh
 cd docs/website

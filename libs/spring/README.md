@@ -1,3 +1,7 @@
+---
+uses: [libs/test]
+---
+
 # Spring
 
 Shared Spring helpers. It provides an HTTP client interceptor that logs

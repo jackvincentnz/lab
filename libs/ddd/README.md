@@ -1,3 +1,7 @@
+---
+uses: [libs/test]
+---
+
 # DDD
 
 Domain-driven design building blocks: aggregates, domain events, typed IDs and

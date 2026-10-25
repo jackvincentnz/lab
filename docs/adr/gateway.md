@@ -2,6 +2,7 @@
 status: Proposed
 date: 2026-09-26
 owner: Jack Vincent
+affects: [projects/gateway, projects/mops, libs/identity]
 ---
 
 # Edge Gateway

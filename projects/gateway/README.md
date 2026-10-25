@@ -1,3 +1,7 @@
+---
+uses: [libs/identity, libs/test]
+---
+
 # Gateway
 
 Edge gateway for the lab services, built on Spring Boot and Spring Cloud Gateway. It is the

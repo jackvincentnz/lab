@@ -1,3 +1,7 @@
+---
+uses: [libs/ddd, libs/identity, libs/spring, libs/test]
+---
+
 # Mops
 
 Full-stack budgeting assistant stack: a Spring Boot service (GraphQL + AI), a Vite + React app,

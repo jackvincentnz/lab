@@ -2,6 +2,7 @@ import path from "node:path";
 import { exclude, include, isPublished, repoRoot } from "./content.mjs";
 import checkSidebars from "./plugins/check-sidebars.mjs";
 import docsInPlace from "./plugins/docs-in-place.mjs";
+import remarkConnections from "./plugins/remark-connections.mjs";
 import remarkDecisionStatus from "./plugins/remark-decision-status.mjs";
 import remarkRepoLinks from "./plugins/remark-repo-links.mjs";
 import sidebarItems from "./plugins/sidebar-items.mjs";
@@ -75,6 +76,10 @@ export default {
           [
             remarkDecisionStatus,
             { decisionsDir: path.join(repoRoot, "docs/adr") },
+          ],
+          [
+            remarkConnections,
+            { repoRoot, decisionsDir: path.join(repoRoot, "docs/adr") },
           ],
         ],
         // A string editUrl would include the docs path relative to this site,
