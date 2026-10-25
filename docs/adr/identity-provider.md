@@ -9,115 +9,93 @@ affects: [projects/gateway]
 
 ## Context
 
-The [edge gateway](gateway.md) is the only public entry point. It owns application sessions,
-public-token validation, access controls, and the internal identity-token contract. Private
-services do not integrate with an external identity provider. Today the gateway uses form login
-and accepts bearer tokens from one configured issuer, a mock server locally. It needs a hosted or
-self-managed provider to authenticate users and issue access tokens to external clients.
+The [edge gateway](gateway.md) is the only public entry point. It owns sessions, checks public
+tokens, and mints the identity token that private services trust. Today it uses form login and
+accepts bearer tokens from one configured issuer, a mock server locally. It needs a real provider
+to sign users in and to issue access tokens to external clients.
 
-The provider is an authentication broker and external OAuth authorization server, **not** the
-source of truth for internal services, platform tenant membership, or product authorization, so
-that changing provider never moves platform data. One platform user may belong to multiple
-tenants. Tenants may eventually support different authentication methods and requirements,
-including guest access. Prefer provider capabilities for federation, account linking, and
-authentication policies, so that the platform does not build and secure them itself. The gateway
-still enforces platform access policy.
+The provider signs people in and authorizes external clients. It does not own tenant membership or
+product permissions, so that changing provider never moves platform data. A user may belong to
+several tenants, and tenants may later need different sign-in methods, including guest access.
+Federation, account linking, and sign-in policies come from the provider where possible, so that
+the platform does not build them.
 
 ## Requirements
 
-### Needed for the first integration
+### For the first integration
 
-1. A straightforward, secure way to authenticate browser users and establish a gateway-owned
-   application session. Standard OIDC and provider-supported SDK approaches are both acceptable;
-   integration with Spring Cloud Gateway / WebFlux must be verified.
-2. Issue externally verifiable OAuth access tokens for public API and MCP resources. The gateway
-   validates the public audience and exchanges the external caller context for its own
-   service-specific internal token. **No API registration per internal service**, so that private
-   service topology never reaches the provider or the consent screen.
-3. Put the organization the user chose at sign-in or consent in issued tokens, including tokens
-   from MCP consent, so that the gateway can map each token to one platform tenant.
-4. Support MCP OAuth authorization, including authorization code with PKCE, resource indicators
-   and audience restriction, and practical client identification/registration through CIMD and/or
-   DCR as appropriate for supported MCP clients.
-5. Show meaningful user consent for third-party delegated access, including the requesting client
-   and understandable public permissions/scopes, so that users know what they grant. Internal
-   service scopes do not appear in consent.
-6. Be viable for a small lab with minimal operational burden and understandable growth pricing.
+1. Sign browser users in so that the gateway can create its own session, through standard OIDC or
+   a provider SDK that works with Spring Cloud Gateway on WebFlux.
+2. Issue access tokens for the public API and MCP resources, never one per private service, so
+   that the private service layout never reaches the provider or the consent screen.
+3. Put the organization the user chose at sign-in or consent in each token, including tokens from
+   MCP consent, so that the gateway can map the token to one tenant.
+4. Support MCP authorization: authorization code with PKCE, resource indicators, and client
+   registration through CIMD or DCR.
+5. Show users which client is asking and what it may do, in public scope names, so that they know
+   what they grant.
+6. Cost little to run for a small lab, with predictable pricing as it grows.
 
-### Design for, without implementing everything now
+### To design for now and build later
 
-- Enterprise SAML/OIDC federation and social authentication, potentially multiple connections
-  for one tenant.
-- Secure linking of authentication identities to a stable platform principal. Do not link users
-  solely because email addresses match, so that someone who controls a matching address at another
-  identity provider cannot take over an account.
-- Multi-tenant membership, guest users, and tenant-specific authentication requirements.
-  Provider-managed organizations select the tenant for a token, but the platform's tenant service
-  remains authoritative for membership and product permissions and checks every mapping.
-- Sufficient trusted authentication context for the gateway to enforce tenant access policy,
-  including possible step-up or reauthentication on tenant switching.
+- Enterprise SAML or OIDC federation and social sign-in, possibly several per tenant.
+- Linking sign-in identities to one platform principal, never by matching email alone, so that
+  someone who controls a matching address elsewhere cannot take over an account.
+- Guest users and tenant-specific sign-in requirements, including signing in again when switching
+  tenant.
 
-The public resource identifiers and consent scopes are external contracts, independent of private
-service topology, so that services can change without breaking clients or consent. The
-[gateway ADR](gateway.md) sets one audience per product, identified by its public URL, with the
-conditions under which MCP gets its own.
+The [gateway ADR](gateway.md) sets one audience per product, named by its public URL, and when MCP
+gets its own.
 
 ## Decision
 
-**Provider selection remains open.** Auth0, WorkOS AuthKit, and self-hosted Keycloak are the
-principal candidates. The previous Auth0 preference relied partly on one Auth0 API per internal
-service and documented consent text for those service scopes. That is not the desired boundary,
-so it does not establish a decision under the revised criteria.
+The provider is not chosen yet. Auth0, WorkOS AuthKit, and self-hosted Keycloak are the
+candidates. An earlier preference for Auth0 assumed one Auth0 API per private service, which these
+requirements rule out.
 
-Each candidate gets the same proof of concept before one is chosen, so that the choice rests on
-demonstrated behaviour rather than documentation. The proof covers browser session integration,
-a third-party MCP authorization and consent flow, public-resource token validation, and mapping
-an external user and organization to a platform principal and tenant. No custom identity-linking
-or tenant-policy engine is required for it.
+Each candidate goes through the same proof of concept, listed under
+[Resolve before accepting](#resolve-before-accepting), so that the choice rests on what each one
+does rather than what its documentation says. The proof needs no custom account linking or tenant
+policy engine.
 
 ## Candidates and questions to validate
 
-- **Auth0.** Hosted OIDC, social and enterprise connections, organizations, OAuth APIs, consent,
-  and documented MCP-related client registration features. Verify practical CIMD/DCR onboarding,
-  resource-indicator behaviour for public MCP endpoints, WebFlux integration, and pricing for
-  enterprise connections and organizations. Admin registration of CIMD clients may be a
-  limitation for arbitrary external MCP clients.
-- **WorkOS AuthKit.** Hosted authentication, enterprise SSO, user management, and MCP-oriented
-  OAuth support make it a serious candidate. Verify the exact third-party consent UX and scope
-  descriptions, secure account linking, gateway session integration for Spring/WebFlux, and
-  pricing of the capabilities actually needed. Do not assume a Java SDK covers this gateway.
-- **Keycloak.** Self-hosted control and standards-based OIDC, federation, client scopes, and
-  consent. Verify maturity and interoperability of CIMD, DCR, and RFC 8707 resource indicators
-  for MCP clients. Operating, securing, upgrading, and backing up the service is a real cost.
+- **Auth0.** Hosted OIDC, social and enterprise connections, organizations, APIs, consent, and MCP
+  client registration. Check CIMD and DCR onboarding, resource indicators for MCP, WebFlux
+  integration, and the price of enterprise connections and organizations. Admins may have to
+  register CIMD clients, which could block arbitrary MCP clients.
+- **WorkOS AuthKit.** Hosted sign-in, enterprise SSO, user management, and MCP support. Check the
+  third-party consent screen and scope descriptions, account linking, session integration with
+  Spring WebFlux, and the price of what is needed. Do not assume its Java SDK fits the gateway.
+- **Keycloak.** Self-hosted, standards-based OIDC, federation, client scopes, and consent. Check how
+  well CIMD, DCR, and resource indicators work with MCP clients. Running, securing, upgrading, and
+  backing it up is a real cost.
 
-Other options considered in the earlier evaluation include Clerk, Zitadel, Ory, Cognito,
-Microsoft Entra External ID, FusionAuth, and Okta. Revisit only if the principal candidates
-cannot satisfy the requirements; earlier exclusions were partly based on the superseded
-per-service-audience criterion.
+Clerk, Zitadel, Ory, Cognito, Microsoft Entra External ID, FusionAuth, and Okta were considered
+earlier. Revisit them only if no candidate meets the requirements, since some were ruled out by the
+per-service audience assumption.
 
 ## Consequences
 
-- External authentication and OAuth consent can be provided off the shelf; the gateway retains
-  browser session responsibility, public API security enforcement, routing, IP allowlisting,
-  rate limiting, and internal service-token issuance.
-- The tenant service owns memberships, product authorization, and tenant-specific policy data.
-  Provider identity and organization features can be used without making them authoritative for
-  the platform's domain model.
-- Public OAuth scopes and audiences can evolve independently of internal services.
-- Provider-specific SDKs and identity features may introduce switching costs; avoiding a bespoke
-  identity system takes priority over speculative portability.
-- No provider or final session integration is chosen by this proposed ADR.
+- Sign-in and consent come off the shelf. The gateway keeps sessions, public API security,
+  routing, allowlisting, rate limiting, and internal identity tokens.
+- The tenant service owns membership, product permissions, and tenant policy. Provider
+  organizations are used without becoming the source of truth.
+- Public scopes and audiences can change independently of private services.
+- Provider SDKs and features add switching cost. Avoiding a home-grown identity system matters more
+  than portability no one needs yet.
+- This proposal chooses no provider and no session integration.
 
 ## Resolve before accepting
 
-1. Demonstrate a browser login and session integration compatible with Spring Cloud Gateway.
-2. Demonstrate an external MCP client completing authorization code + PKCE, public resource
-   audience validation, and meaningful consent without per-service API registrations.
-3. Demonstrate the organization claim in tokens from browser sign-in and from MCP consent, mapped
-   to a platform tenant.
-4. Verify registration friction (CIMD/DCR), federation and account-linking capabilities, and
-   actual pricing for a small lab and a multi-tenant product.
-5. Record the provider choice and concrete tradeoffs in this ADR after the proof.
+1. Sign a browser user in and create a gateway session in Spring Cloud Gateway.
+2. Have an external MCP client complete authorization code with PKCE and consent, with the gateway
+   validating the public audience and no API per private service.
+3. Show the organization claim in tokens from browser sign-in and from MCP consent, mapped to a
+   platform tenant.
+4. Check registration friction, federation, account linking, and real pricing for a small lab and a
+   multi-tenant product.
+5. Record the chosen provider and its tradeoffs here.
 
 ## References
 
