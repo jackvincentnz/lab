@@ -43,10 +43,12 @@ page is in no sidebar or a link or anchor is broken. See the
 [website README](../website/README.md) to preview the site.
 
 A project or library README lists the libraries it depends on in `uses` front
-matter, as folders such as `libs/identity`. The site shows a Connections box on
-each README with what it uses, what uses it, and the decisions whose `affects`
-names it. The build fails when either field names a folder without a published
-README.
+matter, as folders such as `libs/identity`; only a library with a README can be
+listed. A decision record lists the folders it is about in `affects`. The site
+shows a Connections box on each README that has any, with what it uses, what
+uses it, and the decisions that affect it, and adds "Affects" to each decision
+record's status line. The build fails when either field is not a list, names
+the page itself, or names a folder without a published README.
 
 ## Writing
 

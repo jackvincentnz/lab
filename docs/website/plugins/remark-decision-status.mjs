@@ -22,7 +22,8 @@ const escapeHtml = (text) =>
   );
 
 // Docusaurus doesn't render front matter, so show each decision record's
-// `status` and `date` under its title.
+// `status` and `date` under its title. The line is a Markdown paragraph marked
+// `decisionStatus`, so that a later plugin can add links to it.
 export default function remarkDecisionStatus({ decisionsDir }) {
   return (tree, file) => {
     const { status, date } = file.data.frontMatter ?? {};
@@ -30,13 +31,22 @@ export default function remarkDecisionStatus({ decisionsDir }) {
       return;
     }
 
-    const parts = [
-      `<span class="badge badge--${BADGE_BY_STATUS[status] ?? "secondary"}">${escapeHtml(status)}</span>`,
+    const children = [
+      {
+        type: "html",
+        // Raised to centre on the date's capitals; on the baseline, or with
+        // vertical-align: middle, the badge sits about 1.5px low.
+        value: `<span class="badge badge--${BADGE_BY_STATUS[status] ?? "secondary"}" style="vertical-align: 0.15em">${escapeHtml(status)}</span>`,
+      },
     ];
     const decided = date ? new Date(date) : undefined;
     if (decided && !Number.isNaN(decided.getTime())) {
-      parts.push(
-        `<time datetime="${decided.toISOString().slice(0, 10)}">${longDate.format(decided)}</time>`,
+      children.push(
+        { type: "text", value: " " },
+        {
+          type: "html",
+          value: `<time datetime="${decided.toISOString().slice(0, 10)}">${longDate.format(decided)}</time>`,
+        },
       );
     }
 
@@ -44,8 +54,9 @@ export default function remarkDecisionStatus({ decisionsDir }) {
       (node) => node.type === "heading" && node.depth === 1,
     );
     tree.children.splice(title + 1, 0, {
-      type: "html",
-      value: `<p>${parts.join(" ")}</p>`,
+      type: "paragraph",
+      data: { decisionStatus: true },
+      children,
     });
   };
 }
