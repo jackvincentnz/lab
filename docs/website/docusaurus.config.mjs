@@ -15,7 +15,7 @@ const tab = (sidebarId, label) => ({
 
 export default {
   title: "Lab",
-  tagline: "A Bazel monorepo for Java services and React apps",
+  tagline: "Mono repo for experimenting with personal projects",
   url: "https://jack.geek.nz",
   baseUrl: "/lab/",
   trailingSlash: false,
