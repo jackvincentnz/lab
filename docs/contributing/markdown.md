@@ -23,7 +23,8 @@ in place. Each folder belongs to one tab in
 its folder's tab without a sidebar change. A subfolder becomes a category, with
 its `README.md` as the category page; a folder without a README can use a
 `_category_.json` for its label. A README kept next to code outside these
-folders joins a category through `attachedDocs`. The site build fails when a page is
+folders joins a category through
+[`attached-docs.mjs`](../website/attached-docs.mjs). The site build fails when a page is
 in no sidebar or a link or anchor is broken. See the
 [website README](../website/README.md) to preview the site.
 

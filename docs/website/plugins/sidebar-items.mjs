@@ -1,4 +1,4 @@
-import { attachedDocs } from "../sidebars.mjs";
+import { attachedDocs } from "../attached-docs.mjs";
 
 const STATUS_ORDER = [
   "Accepted",
