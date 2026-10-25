@@ -237,8 +237,8 @@ importers:
         version: 4.0.1(supports-color@7.2.0)
     devDependencies:
       '@apollo/rover':
-        specifier: 1.0.0
-        version: 1.0.0
+        specifier: 1.0.1
+        version: 1.0.1
       '@eslint/js':
         specifier: 10.0.1
         version: 10.0.1(eslint@10.13.0(jiti@2.7.0)(supports-color@7.2.0))
@@ -435,41 +435,41 @@ packages:
       subscriptions-transport-ws:
         optional: true
 
-  '@apollo/rover-darwin-arm64@1.0.0':
-    resolution: {integrity: sha512-YtwKySN0Bu6WprhXhGD/qU+3eAujd0CyR/utHbOwaKBtA5bKarlCrFOe4sWVJJtF4KULlbKetHW8fF1ldkzu6Q==}
+  '@apollo/rover-darwin-arm64@1.0.1':
+    resolution: {integrity: sha512-2F3pqNIM0E4KtBhkJC3KhXAfMftDCU/CQDKRozVbF0l+AnZfQArveMcgTwQInxTTqHiwfW+H6B2D7PKE+Lskcg==}
     cpu: [arm64]
     os: [darwin]
 
-  '@apollo/rover-darwin-x64@1.0.0':
-    resolution: {integrity: sha512-N79WCd0caywFlcdOks4HmrZfckJkaZhA0V14tc5NvqU9ow969ewk6SLMsrGoAY5b9eRYEHECCHEdfMX9LkQr2w==}
+  '@apollo/rover-darwin-x64@1.0.1':
+    resolution: {integrity: sha512-6cNyHcXdnS0ixNLRaxgCrbg/DPzPG2Gwi7qWF5RAKHpXesuYSf1T46o5HZNtFx/oxgjksAsltabOBq3/WuxJjQ==}
     cpu: [x64]
     os: [darwin]
 
-  '@apollo/rover-linux-arm64@1.0.0':
-    resolution: {integrity: sha512-oZmQCKQtQtsWh1M1K51Yp71XuHEwtY8FOptUbjoy7SEIHSGz++397tYWBiPkmlbEkHGSUoaZN9O5C1FpgsInpw==}
+  '@apollo/rover-linux-arm64@1.0.1':
+    resolution: {integrity: sha512-CwQxe+YNMCknl5i7Oisp1jdm7bptG7O6w4C3y7ep2cVttMei4szAg3TUx9kqlHqVuKmwdf5rQWgkvxelEP3rNQ==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
 
-  '@apollo/rover-linux-x64-musl@1.0.0':
-    resolution: {integrity: sha512-Cf0317ysVfQcI2airDuQl07G109CtTouaxhVvHj6jYjbV0MhS1FJPpYJH4zhjp/P1RY4iKyGBu9bA2Jq8oPVKQ==}
+  '@apollo/rover-linux-x64-musl@1.0.1':
+    resolution: {integrity: sha512-78EecNh8Zqh7d4gl0FNvCGSlDcQQwKTYFVdkG/jpONQ7jQ+yWjjgIm3NO2QLrqPrkegGDYycMMzK9G2VwwTarg==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
 
-  '@apollo/rover-linux-x64@1.0.0':
-    resolution: {integrity: sha512-H//RahNo/Pa3bzdov0CSq/0zJgqj1umQ7+OBoNS7Lg71LisA//D4mAGHHoPVtZtNVCJLc8GQ5N6AkGh0YH+eGw==}
+  '@apollo/rover-linux-x64@1.0.1':
+    resolution: {integrity: sha512-73FQA1OyU8F8fk53ILeyvjodQTt7WLkPvSMukSjNoaWqFuKYafk9mMllZ4ZCE23nPVX/Xh4lEOSni3uJHgOa1g==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
 
-  '@apollo/rover-win32-x64@1.0.0':
-    resolution: {integrity: sha512-sB1w9Be7kZ8nI3th8UTqH+zhP6MzhMDeJrWdvPLnywx7w+ZsmRVuG9N9LQevbQXNGsrhiVllRBbdc4thlO9ISQ==}
+  '@apollo/rover-win32-x64@1.0.1':
+    resolution: {integrity: sha512-c3L/LxEJKG+mQtsxZ4n6VUo8CQTn/WiuSRivUFasLsLOQ6kWAR6rrUhIQ/HYXDv7TjNVMV3dO6cVToYbvGVM/g==}
     cpu: [x64]
     os: [win32]
 
-  '@apollo/rover@1.0.0':
-    resolution: {integrity: sha512-y/HLqfLB236b5vC7zgq2SiHAMBNfvThvUdDCutGiqf62haMk/jP5Gigy3wPhji8NPmC1O0wCrK4VXIFCiZNRYQ==}
+  '@apollo/rover@1.0.1':
+    resolution: {integrity: sha512-B99/44KWqdYwpaUsBba1bjMgmJR1ZjRjaMEdT5dOHMDdEqbrCcghU60fXiMY/tkfin345t7EfhwJCW8LJqw5hw==}
     engines: {node: '>=22.14.0'}
     hasBin: true
 
@@ -5178,32 +5178,32 @@ snapshots:
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
 
-  '@apollo/rover-darwin-arm64@1.0.0':
+  '@apollo/rover-darwin-arm64@1.0.1':
     optional: true
 
-  '@apollo/rover-darwin-x64@1.0.0':
+  '@apollo/rover-darwin-x64@1.0.1':
     optional: true
 
-  '@apollo/rover-linux-arm64@1.0.0':
+  '@apollo/rover-linux-arm64@1.0.1':
     optional: true
 
-  '@apollo/rover-linux-x64-musl@1.0.0':
+  '@apollo/rover-linux-x64-musl@1.0.1':
     optional: true
 
-  '@apollo/rover-linux-x64@1.0.0':
+  '@apollo/rover-linux-x64@1.0.1':
     optional: true
 
-  '@apollo/rover-win32-x64@1.0.0':
+  '@apollo/rover-win32-x64@1.0.1':
     optional: true
 
-  '@apollo/rover@1.0.0':
+  '@apollo/rover@1.0.1':
     optionalDependencies:
-      '@apollo/rover-darwin-arm64': 1.0.0
-      '@apollo/rover-darwin-x64': 1.0.0
-      '@apollo/rover-linux-arm64': 1.0.0
-      '@apollo/rover-linux-x64': 1.0.0
-      '@apollo/rover-linux-x64-musl': 1.0.0
-      '@apollo/rover-win32-x64': 1.0.0
+      '@apollo/rover-darwin-arm64': 1.0.1
+      '@apollo/rover-darwin-x64': 1.0.1
+      '@apollo/rover-linux-arm64': 1.0.1
+      '@apollo/rover-linux-x64': 1.0.1
+      '@apollo/rover-linux-x64-musl': 1.0.1
+      '@apollo/rover-win32-x64': 1.0.1
 
   '@ardatan/relay-compiler@13.0.2(graphql@17.0.2)':
     dependencies:
