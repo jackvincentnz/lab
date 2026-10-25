@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # JavaScript
 
 Shared JavaScript wrappers keep external rules in one place.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="js_binary"></a>
 
 ## js_binary
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_binary")
 
-js_binary(<a href="#js_binary-name">name</a>, <a href="#js_binary-kwargs">**kwargs</a>)
-</pre>
+js_binary(name, **kwargs)
+```
 
 Declare a [js_binary](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
@@ -29,11 +29,11 @@ Declare a [js_binary](https://github.com/aspect-build/rules_js/blob/main/js/defs
 
 ## js_image_layer
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_image_layer")
 
-js_image_layer(<a href="#js_image_layer-name">name</a>, <a href="#js_image_layer-kwargs">**kwargs</a>)
-</pre>
+js_image_layer(name, **kwargs)
+```
 
 Declare a [js_image_layer](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
@@ -50,11 +50,11 @@ Declare a [js_image_layer](https://github.com/aspect-build/rules_js/blob/main/js
 
 ## js_library
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_library")
 
-js_library(<a href="#js_library-name">name</a>, <a href="#js_library-kwargs">**kwargs</a>)
-</pre>
+js_library(name, **kwargs)
+```
 
 Declare a [js_library](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
@@ -71,11 +71,11 @@ Declare a [js_library](https://github.com/aspect-build/rules_js/blob/main/js/def
 
 ## js_run_binary
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_run_binary")
 
-js_run_binary(<a href="#js_run_binary-name">name</a>, <a href="#js_run_binary-kwargs">**kwargs</a>)
-</pre>
+js_run_binary(name, **kwargs)
+```
 
 Declare a [js_run_binary](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
@@ -92,11 +92,11 @@ Declare a [js_run_binary](https://github.com/aspect-build/rules_js/blob/main/js/
 
 ## js_run_devserver
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_run_devserver")
 
-js_run_devserver(<a href="#js_run_devserver-name">name</a>, <a href="#js_run_devserver-kwargs">**kwargs</a>)
-</pre>
+js_run_devserver(name, **kwargs)
+```
 
 Declare a [js_run_devserver](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 
@@ -113,11 +113,11 @@ Declare a [js_run_devserver](https://github.com/aspect-build/rules_js/blob/main/
 
 ## js_test
 
-<pre>
+```starlark
 load("//tools/bazel:js.bzl", "js_test")
 
-js_test(<a href="#js_test-name">name</a>, <a href="#js_test-kwargs">**kwargs</a>)
-</pre>
+js_test(name, **kwargs)
+```
 
 Declare a [js_test](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
 

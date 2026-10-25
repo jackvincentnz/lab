@@ -2,7 +2,7 @@
 
 <p>
     <a href="https://github.com/jackvincentnz/lab/actions?query=workflow%3ABuild+branch%3Amain+">
-        <img alt="Build status" src="https://github.com/jackvincentnz/lab/actions/workflows/main.yml/badge.svg">
+        <img alt="Build status" src="https://github.com/jackvincentnz/lab/actions/workflows/main.yml/badge.svg" />
     </a>
     <a href="https://codecov.io/gh/jackvincentnz/lab" >
         <img src="https://codecov.io/gh/jackvincentnz/lab/graph/badge.svg?token=6NY99RW8Z8"/>
@@ -52,7 +52,7 @@ Project-specific setup and commands live in each project README (for example,
 `projects/organizer/README.md`).
 
 See [Contributing](CONTRIBUTING.md) for commit hooks, validation, and the PR workflow.
-See the [developer experience](docs/development-workflow.md) for how the monorepo
+See the [developer experience](docs/overview/development-workflow.md) for how the monorepo
 supports humans and agents from setup through feedback and image delivery.
 
 ## Tooling
@@ -62,7 +62,7 @@ This repository includes multiple tools to improve consistency, maintainability 
 ### Build
 
 - [Bazel](https://bazel.build): Fast, multi-language, reproducible, incremental build system.
-- [Bazel-managed development tools](docs/tools.md): Enables consistent,
+- [Bazel-managed development tools](docs/platform/tools/README.md): Enables consistent,
   repository-pinned commands on `PATH` when working in this repo.
 
 ### Style
@@ -72,8 +72,9 @@ This repository includes multiple tools to improve consistency, maintainability 
 - [Prettier](https://prettier.io/docs/en/index.html): Opinionated code formatting.
 - [ESLint](https://eslint.org/): Find and fix problems in your JavaScript code.
 
-More info: [Style](docs/style.md)
+More info: [Style](docs/contributing/style.md)
 
 ### Continuous integration
 
 - [Build & test](https://github.com/jackvincentnz/lab/actions?query=workflow%3ABuild): The solution is built and tested on each PR and commit to main.
+- [Docs](https://github.com/jackvincentnz/lab/actions?query=workflow%3ADocs): The [documentation site](docs/website/README.md) is built and checked on each PR and deployed from main.

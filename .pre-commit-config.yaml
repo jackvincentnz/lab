@@ -67,7 +67,7 @@ repos:
     hooks:
       - id: renovate-config-validator
 
-  # Report coverage of changed lines on demand; see docs/tools.md
+  # Report coverage of changed lines on demand; see docs/platform/coverage/changed-line-coverage.md
   - repo: local
     hooks:
       - id: diff-cover

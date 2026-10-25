@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # DGS Java code generation
 
 Generate Java types and clients from GraphQL schemas.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="dgs_codegen"></a>
 
 ## dgs_codegen
 
-<pre>
+```starlark
 load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen")
 
-dgs_codegen(<a href="#dgs_codegen-name">name</a>, <a href="#dgs_codegen-package_name">package_name</a>, <a href="#dgs_codegen-schemas">schemas</a>)
-</pre>
+dgs_codegen(name, package_name, schemas)
+```
 
 Generate a Java source jar from GraphQL schemas with DGS client generation and BigDecimal mapped to java.math.BigDecimal.
 
@@ -30,11 +30,11 @@ Generate a Java source jar from GraphQL schemas with DGS client generation and B
 
 ## dgs_codegen_library
 
-<pre>
+```starlark
 load("//tools/bazel/dgs:codegen.bzl", "dgs_codegen_library")
 
-dgs_codegen_library(<a href="#dgs_codegen_library-name">name</a>, <a href="#dgs_codegen_library-kwargs">**kwargs</a>)
-</pre>
+dgs_codegen_library(name, **kwargs)
+```
 
 Generate GraphQL Java sources and compile them into a Java library.
 

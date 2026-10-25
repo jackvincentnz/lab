@@ -1,6 +1,6 @@
 # Dependency contribution guidelines
 
-[Renovate](../renovate.md) keeps dependencies up to date.
+[Renovate](../platform/tools/renovate.md) keeps dependencies up to date.
 
 - Declare a dependency only for a package your code uses directly, so that
   transitive versions come from the packages that need them.

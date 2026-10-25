@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # TypeScript
 
 Shared TypeScript configuration and transpilation defaults.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="node_ts_project"></a>
 
 ## node_ts_project
 
-<pre>
+```starlark
 load("//tools/bazel:ts.bzl", "node_ts_project")
 
-node_ts_project(<a href="#node_ts_project-name">name</a>, <a href="#node_ts_project-kwargs">**kwargs</a>)
-</pre>
+node_ts_project(name, **kwargs)
+```
 
 Compile Node TypeScript using ts_project's shared defaults.
 
@@ -33,11 +33,11 @@ declarations to deps. Configuration and transpiler can be overridden.
 
 ## ts_config
 
-<pre>
+```starlark
 load("//tools/bazel:ts.bzl", "ts_config")
 
-ts_config(<a href="#ts_config-name">name</a>, <a href="#ts_config-kwargs">**kwargs</a>)
-</pre>
+ts_config(name, **kwargs)
+```
 
 Declare a [TypeScript configuration](https://github.com/aspect-build/rules_ts/blob/main/ts/defs.bzl).
 
@@ -54,11 +54,11 @@ Declare a [TypeScript configuration](https://github.com/aspect-build/rules_ts/bl
 
 ## ts_project
 
-<pre>
+```starlark
 load("//tools/bazel:ts.bzl", "ts_project")
 
-ts_project(<a href="#ts_project-name">name</a>, <a href="#ts_project-kwargs">**kwargs</a>)
-</pre>
+ts_project(name, **kwargs)
+```
 
 Compile TypeScript with the repository's shared configuration and SWC.
 

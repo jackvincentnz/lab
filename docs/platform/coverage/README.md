@@ -16,14 +16,14 @@ bazel coverage --combined_report=lcov //...
 Bazel merges each test's LCOV into `dist/out/_coverage/_coverage_report.dat`.
 Java tests use Bazel's JaCoCo instrumentation. Vitest tests use V8 coverage
 remapped to TS/TSX sources; the
-[frontend coverage guide](../tools/bazel/vitest/README.md) owns its
+[frontend coverage guide](../../../tools/bazel/vitest/README.md) owns its
 configuration and exclusions. Coverage outputs are cached with test results,
-and the [Bazel preset](../tools/preset.bazelrc) fetches them on remote cache
+and the [Bazel preset](../../../tools/preset.bazelrc) fetches them on remote cache
 hits so that the combined report stays complete.
 
-The [workflow](../.github/workflows/main.yml) uploads the report to
+The [workflow](../../../.github/workflows/main.yml) uploads the report to
 [Codecov](https://codecov.io/gh/jackvincentnz/lab) and fails if the upload
-fails. [`codecov.yml`](../codecov.yml) sets the checks:
+fails. [`codecov.yml`](../../../codecov.yml) sets the checks:
 
 | Check             | Behavior                                                                             |
 | ----------------- | ------------------------------------------------------------------------------------ |
@@ -51,10 +51,10 @@ paths focused assertions even when the total is high.
 ## Local feedback
 
 Collect coverage for the tests of the code you changed, then run
-[changed-line coverage](tools.md#changed-line-coverage) to list the changed
+[changed-line coverage](changed-line-coverage.md) to list the changed
 lines those tests miss. It does not list a changed file that the report omits;
-[missing sources](../tools/coverage_report/README.md) lists every production
+[missing sources](../../../tools/coverage_report/README.md) lists every production
 file the report has no record for, so run it to find such a file. A local run
 measures only the selected targets, so its count means something only for a
 full `//...` collection. Then run the broader
-[validation](../CONTRIBUTING.md#validating-a-change).
+[validation](../../../CONTRIBUTING.md#validating-a-change).

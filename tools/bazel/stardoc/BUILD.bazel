@@ -1,0 +1,12 @@
+# Stardoc templates adapted from Stardoc's markdown_tables templates
+# (Apache-2.0). The header keeps each page's title first, and signatures are
+# fenced code blocks, so that the documentation site renders them.
+exports_files(
+    [
+        "func.vm",
+        "header.vm",
+        "macro.vm",
+        "rule.vm",
+    ],
+    visibility = ["//visibility:public"],
+)

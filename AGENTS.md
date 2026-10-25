@@ -1,3 +1,5 @@
+# Agent guidance
+
 - Follow [the GitHub issues skill](.agents/skills/github-issues/SKILL.md) when
   creating or updating a GitHub issue, so that issues fit how the user tracks
   work.

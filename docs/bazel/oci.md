@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # OCI images and delivery
 
 Shared OCI image creation, local loading and remote delivery.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="oci_deliver"></a>
 
 ## oci_deliver
 
-<pre>
+```starlark
 load("//tools/bazel/oci:defs.bzl", "oci_deliver")
 
-oci_deliver(<a href="#oci_deliver-image">image</a>, <a href="#oci_deliver-repo_suffix">repo_suffix</a>, <a href="#oci_deliver-name">name</a>, <a href="#oci_deliver-visibility">visibility</a>)
-</pre>
+oci_deliver(image, repo_suffix, name, visibility)
+```
 
 Bazel macro for delivering oci images to a local and remote repository.
 
@@ -47,11 +47,11 @@ See:
 
 ## oci_image
 
-<pre>
+```starlark
 load("//tools/bazel/oci:defs.bzl", "oci_image")
 
-oci_image(<a href="#oci_image-name">name</a>, <a href="#oci_image-kwargs">**kwargs</a>)
-</pre>
+oci_image(name, **kwargs)
+```
 
 Declare an [OCI image](https://github.com/bazel-contrib/rules_oci/blob/main/docs/image.md) with the upstream attributes.
 

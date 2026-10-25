@@ -3,13 +3,13 @@
 ## Setup
 
 Follow the [getting started guide](README.md#getting-started), then complete
-[pre-commit setup](docs/pre-commit.md#setup) before making your first commit.
+[pre-commit setup](docs/platform/tools/pre-commit.md#setup) before making your first commit.
 
 ## Making a change
 
 Keep each PR focused on one problem. Use conventional commit messages, such as
 `fix(mops): handle missing budgets` or `docs: clarify local setup`. See
-[commit types](#commit-types) and the [style guide](docs/style.md) for commit
+[commit types](#commit-types) and the [style guide](docs/contributing/style.md) for commit
 and source formatting conventions.
 
 To be prompted for each part of a conventional commit instead, stage your

@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Packaging
 
 Shared archive packaging defaults.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="tar"></a>
 
 ## tar
 
-<pre>
+```starlark
 load("//tools/bazel:pkg.bzl", "tar")
 
-tar(<a href="#tar-name">name</a>, <a href="#tar-kwargs">**kwargs</a>)
-</pre>
+tar(name, **kwargs)
+```
 
 Package files with [pkg_tar](https://bazelbuild.github.io/rules_pkg/latest.html#pkg_tar).
 

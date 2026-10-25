@@ -1,6 +1,6 @@
 # Testing guidelines
 
-See [coverage](../coverage.md) for how coverage is collected and how to read it.
+See [coverage](../platform/coverage/README.md) for how coverage is collected and how to read it.
 
 ## Test pyramid
 
@@ -31,7 +31,7 @@ as the reference.
 
 ## Bazel test targets
 
-[Gazelle](../gazelle.md) generates one `java_test_suite` per test package,
+[Gazelle](../platform/tools/gazelle.md) generates one `java_test_suite` per test package,
 named after the directory.
 
 - Annotate a test class that starts Docker containers with

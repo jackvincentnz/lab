@@ -6,13 +6,41 @@
 | ----------------------- | --------------------------------------------------------- |
 | `README.md`             | What a component does and how to build, run, and test it. |
 | `projects/<name>/docs/` | Explanations and procedures for one project.              |
+| `docs/overview/`        | What the repository is and why it works the way it does.  |
+| `docs/platform/`        | Tools and workflows shared across the repository.         |
 | `docs/adr/`             | Architecture decisions and their consequences.            |
-| `docs/`                 | Tools and workflows shared across the repository.         |
 | `docs/contributing/`    | Conventions for contributors.                             |
 
 Place shared setup and workflows at the directory level that owns them. For
 example, document a multi-service environment and its end-to-end tests in the
 parent project README, then link to it from each app.
+
+## Documentation site
+
+The [documentation site](https://jack.geek.nz/lab/) publishes, in place, the
+root `README.md`, `CONTRIBUTING.md`, and `AGENTS.md`, and every Markdown file
+under `docs/`, `projects/`, `libs/`, `learn/`, and `tools/`, as listed in
+[`content.mjs`](../website/content.mjs). It leaves out files and folders whose
+names start with `_`, `__tests__` folders, the ADR template, and
+`docs/website/`.
+
+[`sidebars.mjs`](../website/sidebars.mjs) gives each tab its folders, so a new
+page appears in its folder's tab without a sidebar change:
+
+| Tab        | Folders                                    |
+| ---------- | ------------------------------------------ |
+| Overview   | `README.md`, `docs/overview/`, `AGENTS.md` |
+| Projects   | `projects/`, `libs/`, `learn/`             |
+| Platform   | `docs/platform/`, `docs/bazel/`            |
+| Decisions  | `docs/adr/`                                |
+| Contribute | `CONTRIBUTING.md`, `docs/contributing/`    |
+
+A subfolder becomes a category, with its `README.md` as the category page; a
+folder without a README can use a `_category_.json` for its label. `tools/`
+belongs to no tab, so a README there joins a category through
+[`attached-docs.mjs`](../website/attached-docs.mjs). The site build fails when a
+page is in no sidebar or a link or anchor is broken. See the
+[website README](../website/README.md) to preview the site.
 
 ## Writing
 
@@ -26,4 +54,4 @@ parent project README, then link to it from each app.
   fact has one place to update.
 - Describe the current state, without change history or completed work, so that
   docs stay true as the code changes.
-- Follow the [Markdown style](../style.md#markdown-format) for lists.
+- Follow the [Markdown style](style.md#markdown-format) for lists.

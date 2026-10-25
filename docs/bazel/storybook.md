@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # Storybook
 
 Shared Storybook build and development server defaults.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="storybook_build"></a>
 
 ## storybook_build
 
-<pre>
+```starlark
 load("//tools/bazel/storybook:storybook.bzl", "storybook_build")
 
-storybook_build(<a href="#storybook_build-name">name</a>, <a href="#storybook_build-kwargs">**kwargs</a>)
-</pre>
+storybook_build(name, **kwargs)
+```
 
 Build Storybook in the calling package by default.
 
@@ -32,11 +32,11 @@ Emits `storybook-static` and sets `CACHE_DIR` to `.cache`.
 
 ## storybook_dev_server
 
-<pre>
+```starlark
 load("//tools/bazel/storybook:storybook.bzl", "storybook_dev_server")
 
-storybook_dev_server(<a href="#storybook_dev_server-name">name</a>, <a href="#storybook_dev_server-kwargs">**kwargs</a>)
-</pre>
+storybook_dev_server(name, **kwargs)
+```
 
 Run Storybook on port 6006 in the calling package by default.
 

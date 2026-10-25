@@ -1,18 +1,18 @@
-<!-- Generated with Stardoc: http://skydoc.bazel.build -->
-
 # GraphQL clients
 
 Shared GraphQL client-preset code generation for frontend apps.
+
+<!-- Generated with Stardoc: http://skydoc.bazel.build -->
 
 <a id="graphql_codegen"></a>
 
 ## graphql_codegen
 
-<pre>
+```starlark
 load("//tools/bazel:graphql.bzl", "graphql_codegen")
 
-graphql_codegen(<a href="#graphql_codegen-name">name</a>, <a href="#graphql_codegen-srcs">srcs</a>, <a href="#graphql_codegen-visibility">visibility</a>, <a href="#graphql_codegen-chdir">chdir</a>)
-</pre>
+graphql_codegen(name, srcs, visibility, chdir)
+```
 
 Generate and compile GraphQL client-preset files in the calling package.
 

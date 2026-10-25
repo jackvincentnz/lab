@@ -34,6 +34,8 @@ yarn-error.log
 .sass-cache
 connect.lock
 coverage
+# Documentation, not coverage output.
+!docs/platform/coverage/
 libpeerconnection.log
 testem.log
 typings
