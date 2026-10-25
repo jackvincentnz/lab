@@ -2,6 +2,7 @@ import path from "node:path";
 import { exclude, include, isPublished, repoRoot } from "./content.mjs";
 import checkSidebars from "./plugins/check-sidebars.mjs";
 import docsInPlace from "./plugins/docs-in-place.mjs";
+import remarkDecisionStatus from "./plugins/remark-decision-status.mjs";
 import remarkRepoLinks from "./plugins/remark-repo-links.mjs";
 import sidebarItems from "./plugins/sidebar-items.mjs";
 
@@ -68,8 +69,13 @@ export default {
         routeBasePath: "/",
         sidebarPath: "./sidebars.mjs",
         sidebarItemsGenerator: sidebarItems,
+        // Before the defaults, which move each page's title into a header.
         beforeDefaultRemarkPlugins: [
           [remarkRepoLinks, { repoRoot, isPublished, githubUrl }],
+          [
+            remarkDecisionStatus,
+            { decisionsDir: path.join(repoRoot, "docs/adr") },
+          ],
         ],
         // A string editUrl would include the docs path relative to this site,
         // so build the URL from the repository-relative path.
