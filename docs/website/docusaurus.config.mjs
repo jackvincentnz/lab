@@ -1,3 +1,4 @@
+import path from "node:path";
 import { exclude, include, isPublished, repoRoot } from "./content.mjs";
 import checkSidebars from "./plugins/check-sidebars.mjs";
 import docsInPlace from "./plugins/docs-in-place.mjs";
@@ -26,6 +27,17 @@ export default {
     // in everyday Markdown doesn't fail the build the way MDX would.
     format: "md",
     mermaid: true,
+    // The home page owns the site root, so the root README becomes the
+    // Introduction page. Set here rather than in front matter, which GitHub
+    // would show at the top of the repository's README.
+    parseFrontMatter: async ({ defaultParseFrontMatter, ...params }) => {
+      const result = await defaultParseFrontMatter(params);
+      if (params.filePath === path.join(repoRoot, "README.md")) {
+        result.frontMatter.slug ??= "/introduction";
+        result.frontMatter.sidebar_label ??= "Introduction";
+      }
+      return result;
+    },
     hooks: {
       onBrokenMarkdownLinks: "throw",
       onBrokenMarkdownImages: "throw",
@@ -67,7 +79,7 @@ export default {
     ],
     checkSidebars,
   ],
-  presets: [["classic", { blog: false, pages: false, docs: false }]],
+  presets: [["classic", { blog: false, docs: false }]],
   themeConfig: {
     colorMode: { respectPrefersColorScheme: true },
     navbar: {

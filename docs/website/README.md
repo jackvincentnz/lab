@@ -3,7 +3,9 @@
 [Docusaurus](https://docusaurus.io) site published at
 [jack.geek.nz/lab](https://jack.geek.nz/lab/). It reads the repository's
 Markdown in place; see [where documentation goes](../contributing/markdown.md)
-for which folders it publishes.
+for which folders it publishes. The home page is
+[`src/pages/index.tsx`](src/pages/index.tsx), and the root `README.md` is the
+Introduction page under Overview.
 
 ## Getting started
 
