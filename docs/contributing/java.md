@@ -1,4 +1,4 @@
-# Java contribution guidelines
+# Java
 
 The Java language level is set in [`.bazelrc`](../../.bazelrc).
 

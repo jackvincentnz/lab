@@ -1,4 +1,4 @@
-# Markdown contribution guidelines
+# Markdown
 
 ## Where documentation goes
 

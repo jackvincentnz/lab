@@ -1,0 +1,21 @@
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.card {
+  height: 100%;
+  color: inherit;
+  border: 1px solid var(--ifm-color-emphasis-300);
+}
+
+.card:hover {
+  color: inherit;
+  text-decoration: none;
+  border-color: var(--ifm-color-primary);
+}
+
+.card p {
+  margin-bottom: 0;
+}
