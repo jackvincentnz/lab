@@ -18,9 +18,17 @@ export default {
   ],
   platform: [
     folder("docs/platform"),
-    category("Tools", "tools"),
     category("Bazel macro reference", "docs/bazel", { collapsed: true }),
   ],
   decisions: [folder("docs/adr")],
   contribute: ["CONTRIBUTING", folder("docs/contributing")],
+};
+
+// READMEs that live next to the code they describe, added to the generated
+// category whose index page is the key.
+export const attachedDocs = {
+  "docs/platform/coverage/README": [
+    "tools/bazel/vitest/README",
+    "tools/coverage_report/README",
+  ],
 };

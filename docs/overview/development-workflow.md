@@ -18,7 +18,7 @@ flowchart TD
 ## Reduce cognitive load
 
 The [setup guide](../../README.md#getting-started) establishes Bazelisk, Docker,
-and [repository-managed tools](../platform/tools.md) in a few commands. Pinned versions
+and [repository-managed tools](../platform/tools/README.md) in a few commands. Pinned versions
 reduce differences between contributors' environments. Bazel resolves declared
 build dependencies, so running a target does not require remembering separate
 package installation and compilation steps. Project READMEs cover runtime
@@ -44,7 +44,7 @@ can focus on the relevant targets while iterating, then widen validation before
 review. [Watch commands](../../projects/mops/app/README.md#development) rebuild and
 reload the app or rerun tests as sources change.
 
-[Renovate](../platform/renovate.md) proposes dependency updates and CI refreshes generated
+[Renovate](../platform/tools/renovate.md) proposes dependency updates and CI refreshes generated
 lockfiles where needed, reducing routine maintenance so contributors can spend
 more attention on useful changes.
 
@@ -62,7 +62,7 @@ Feedback covers different failure modes at successive stages:
 | Stage           | Feedback                                                                                                                             |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
 | Local iteration | Compilation, type checks, frontend and backend tests, and observed app behavior.                                                     |
-| Commit          | [Formatting, linting, and conventional commit checks](../platform/pre-commit.md).                                                    |
+| Commit          | [Formatting, linting, and conventional commit checks](../platform/tools/pre-commit.md).                                              |
 | PR and main     | [BUILD consistency, repository-wide tests, JUnit reports, and coverage](../../.github/workflows/main.yml), with review before merge. |
 
 Coverage reports show which code tests exercise and where gaps remain. Tests,

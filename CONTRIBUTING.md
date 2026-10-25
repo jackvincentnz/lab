@@ -3,7 +3,7 @@
 ## Setup
 
 Follow the [getting started guide](README.md#getting-started), then complete
-[pre-commit setup](docs/platform/pre-commit.md#setup) before making your first commit.
+[pre-commit setup](docs/platform/tools/pre-commit.md#setup) before making your first commit.
 
 ## Making a change
 

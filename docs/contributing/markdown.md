@@ -20,7 +20,10 @@ parent project README, then link to it from each app.
 The [documentation site](https://jack.geek.nz/lab/) publishes these locations
 in place. Each folder belongs to one tab in
 [`docs/website/sidebars.mjs`](../website/sidebars.mjs), so a new page appears in
-its folder's tab without a sidebar change. The site build fails when a page is
+its folder's tab without a sidebar change. A subfolder becomes a category, with
+its `README.md` as the category page; a folder without a README can use a
+`_category_.json` for its label. A README kept next to code outside these
+folders joins a category through `attachedDocs`. The site build fails when a page is
 in no sidebar or a link or anchor is broken. See the
 [website README](../website/README.md) to preview the site.
 

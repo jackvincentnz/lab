@@ -10,7 +10,7 @@
 
 ## Java BUILD files
 
-[Gazelle](../platform/gazelle.md) writes the `srcs`, `deps`, and `exports` of Java
+[Gazelle](../platform/tools/gazelle.md) writes the `srcs`, `deps`, and `exports` of Java
 targets, and the runner and JUnit runtime deps of tests.
 
 - Run `aspect gazelle` after you add, move, or delete Java files or change

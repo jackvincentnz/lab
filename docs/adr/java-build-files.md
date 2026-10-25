@@ -15,7 +15,7 @@ deps accumulated as code was deleted. The test macro also added assertj, Mockito
 
 ## Decision
 
-Generate the dependency-bearing parts of Java BUILD files with [Gazelle](../platform/gazelle.md) and the
+Generate the dependency-bearing parts of Java BUILD files with [Gazelle](../platform/tools/gazelle.md) and the
 Java extension from `contrib_rules_jvm`. CI fails when a BUILD file differs from Gazelle's output.
 
 The extension's model sets these conventions:

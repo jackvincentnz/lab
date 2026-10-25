@@ -62,7 +62,7 @@ This repository includes multiple tools to improve consistency, maintainability 
 ### Build
 
 - [Bazel](https://bazel.build): Fast, multi-language, reproducible, incremental build system.
-- [Bazel-managed development tools](docs/platform/tools.md): Enables consistent,
+- [Bazel-managed development tools](docs/platform/tools/README.md): Enables consistent,
   repository-pinned commands on `PATH` when working in this repo.
 
 ### Style

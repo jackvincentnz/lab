@@ -2,8 +2,8 @@
 
 [Gazelle](https://github.com/bazel-contrib/bazel-gazelle) generates the `srcs`, `deps`, and
 `exports` of Java BUILD targets from the source files and their imports. See the
-[Java BUILD files decision](../adr/java-build-files.md) for why, and the
-[Bazel contribution guidelines](../contributing/bazel.md#java-build-files) for what to write by hand.
+[Java BUILD files decision](../../adr/java-build-files.md) for why, and the
+[Bazel contribution guidelines](../../contributing/bazel.md#java-build-files) for what to write by hand.
 
 ## Running
 
@@ -13,7 +13,7 @@ Update BUILD files from the repository root:
 aspect gazelle
 ```
 
-`aspect` is on `PATH` through the [development environment](tools.md). Without it, run
+`aspect` is on `PATH` through the [development environment](README.md). Without it, run
 `bazel run //tools/gazelle`.
 
 Check without changing files:
@@ -26,9 +26,9 @@ CI runs this check before building, and fails when it prints a diff.
 
 ## Configuration
 
-- [`tools/gazelle/BUILD.bazel`](../../tools/gazelle/BUILD.bazel) builds Gazelle with the Java
+- [`tools/gazelle/BUILD.bazel`](../../../tools/gazelle/BUILD.bazel) builds Gazelle with the Java
   extension from `contrib_rules_jvm`, and maps `@RequiresDocker` to the Docker test tags.
-- Directives in the root [`BUILD.bazel`](../../BUILD.bazel) map rule kinds to the
+- Directives in the root [`BUILD.bazel`](../../../BUILD.bazel) map rule kinds to the
   `//tools/bazel:java.bzl` wrappers, and resolve imports Gazelle cannot find on its own: generated
   code, and Java packages that more than one Maven artifact provides.
 - A `# gazelle:` directive in another BUILD file applies to that directory and below, such as

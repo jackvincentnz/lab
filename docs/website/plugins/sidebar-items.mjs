@@ -1,3 +1,5 @@
+import { attachedDocs } from "../sidebars.mjs";
+
 const STATUS_ORDER = [
   "Accepted",
   "Proposed",
@@ -63,11 +65,27 @@ function groupByStatus(items, docs) {
   ];
 }
 
+function attach(items) {
+  return items.map((item) => {
+    if (item.type !== "category") {
+      return item;
+    }
+    const attached = attachedDocs[item.link?.id] ?? [];
+    return {
+      ...item,
+      items: [
+        ...attach(item.items),
+        ...attached.map((id) => ({ type: "doc", id })),
+      ],
+    };
+  });
+}
+
 export default async function sidebarItems({
   defaultSidebarItemsGenerator,
   ...args
 }) {
-  const items = flatten(await defaultSidebarItemsGenerator(args));
+  const items = attach(flatten(await defaultSidebarItemsGenerator(args)));
   return args.item.dirName === "docs/adr"
     ? groupByStatus(items, args.docs)
     : items;
