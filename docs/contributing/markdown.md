@@ -42,6 +42,12 @@ belongs to no tab, so a README there joins a category through
 page is in no sidebar or a link or anchor is broken. See the
 [website README](../website/README.md) to preview the site.
 
+A project or library README lists the libraries it depends on in `uses` front
+matter, as folders such as `libs/identity`. The site shows a Connections box on
+each README with what it uses, what uses it, and the decisions whose `affects`
+names it. The build fails when either field names a folder without a published
+README.
+
 ## Writing
 
 - Start a README with a brief description, then the commands to build, run, and

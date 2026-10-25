@@ -2,6 +2,7 @@
 status: Accepted
 date: 2026-10-17
 owner: Jack Vincent
+affects: [projects/mops]
 ---
 
 # Chat work delivery

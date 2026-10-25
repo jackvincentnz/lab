@@ -1,3 +1,7 @@
+---
+uses: [libs/bubbles, libs/ddd, libs/tenancy, libs/test]
+---
+
 # Organizer
 
 Services and apps that make up the organizer stack (task, journal, autojournal, tasklist, journal app),

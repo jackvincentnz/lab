@@ -7,7 +7,9 @@ consequences.
 
 Copy [the template](template.md) to a kebab-case file named after the decision, such as
 `gateway-csrf.md`. List it under Proposed here, and move it to Accepted when it is adopted. The
-documentation site groups records by the `status` in their front matter, so update it too.
+documentation site groups records by the `status` in their front matter, so update it too. List
+the project and library folders the decision is about in `affects`, such as `projects/gateway`, so
+that their pages link to it; leave it empty for a decision about the whole repository.
 
 ## Accepted
 

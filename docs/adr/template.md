@@ -2,6 +2,7 @@
 status: Proposed
 date: YYYY-MM-DD
 owner: Name
+affects: []
 ---
 
 # Title Of The Decision

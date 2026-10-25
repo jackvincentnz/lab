@@ -2,6 +2,7 @@
 status: Proposed
 date: 2026-09-27
 owner: Jack Vincent
+affects: [projects/gateway]
 ---
 
 # Gateway CSRF
