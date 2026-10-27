@@ -74,7 +74,7 @@ repos:
         name: diff-cover
         entry: diff-cover dist/out/_coverage/_coverage_report.dat --compare-branch=origin/main --include-untracked
         language: python
-        additional_dependencies: ["diff-cover==10.6.0"]
+        additional_dependencies: ["diff-cover==11.0.0"]
         pass_filenames: false
         always_run: true
         stages: [manual]
