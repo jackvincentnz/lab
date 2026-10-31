@@ -73,7 +73,7 @@ jobs:
         run: mkdir -p tmp/testlogs && find dist/testlogs/ -name "test.xml" -exec rsync -RL {} tmp/testlogs \;
 
       - name: Publish test report
-        uses: mikepenz/action-junit-report@6ef3fdcfcd5f0b5d14df3e659ef19b8c6820f93d # v6
+        uses: mikepenz/action-junit-report@8a133bfa3ecb0ea9024c1e2ae788b4c25f6cdb9d # v6
         if: success() || failure()
         with:
           report_paths: "tmp/testlogs/**/test.xml"
