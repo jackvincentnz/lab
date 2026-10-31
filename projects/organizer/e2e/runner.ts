@@ -28,9 +28,9 @@ const PROXY_TARBALL = `${RUNFILES}/_main/infra/local/proxy/load/tarball.tar`;
 const PROXY_INDEX = `${RUNFILES}/_main/infra/local/proxy/index`;
 const PROXY_PORT = 5000;
 const KAFKA_IMAGE =
-  "confluentinc/cp-kafka:8.3.2@sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48";
+  "confluentinc/cp-kafka:8.4.0@sha256:dfc55ae0803ae960c7aaa4f669f74fc884938b6d8e9ef2f9107078b49628642f";
 const SCHEMA_REGISTRY_IMAGE =
-  "confluentinc/cp-schema-registry:8.3.2@sha256:482d3048b3f6029bae5794b5c3b5e2eea8d61ca064dacd32241315e818fd8d7c";
+  "confluentinc/cp-schema-registry:8.4.0@sha256:12cd2770fa25df65243dabafd5eef5337ea1145a3cb85afc8a27f7151dfa2999";
 
 const DOCKER = new Dockerode();
 
