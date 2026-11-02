@@ -19,7 +19,7 @@
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -1181197604,
     "com.squareup.okhttp3:okhttp-jvm": 1834058061,
     "io.confluent:kafka-protobuf-serializer": 1185239264,
-    "io.netty:netty-bom": -486880157,
+    "io.netty:netty-bom": -515209971,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
     "org.apache.kafka:kafka-clients": -1662559649,
@@ -273,7 +273,7 @@
     "io.grpc:grpc-api:jar:sources": 691096334,
     "io.grpc:grpc-context": 216923141,
     "io.grpc:grpc-context:jar:sources": -1629458791,
-    "io.lettuce:lettuce-core": 1200314789,
+    "io.lettuce:lettuce-core": -621412677,
     "io.lettuce:lettuce-core:jar:sources": 303589290,
     "io.micrometer:context-propagation": 1223423881,
     "io.micrometer:context-propagation:jar:sources": -1333491713,
@@ -291,52 +291,52 @@
     "io.modelcontextprotocol.sdk:mcp-json-jackson3": -968765647,
     "io.modelcontextprotocol.sdk:mcp-json-jackson3:jar:sources": -1164101206,
     "io.modelcontextprotocol.sdk:mcp:jar:sources": 851908480,
-    "io.netty:netty-buffer": 1770586702,
-    "io.netty:netty-buffer:jar:sources": 1448253725,
-    "io.netty:netty-codec-base": -79803904,
-    "io.netty:netty-codec-base:jar:sources": -1167763467,
-    "io.netty:netty-codec-classes-quic": 584251232,
-    "io.netty:netty-codec-classes-quic:jar:sources": 295564160,
-    "io.netty:netty-codec-compression": -360646597,
-    "io.netty:netty-codec-compression:jar:sources": 1874088546,
-    "io.netty:netty-codec-dns": -474289876,
-    "io.netty:netty-codec-dns:jar:sources": -502608542,
-    "io.netty:netty-codec-http": 582759748,
-    "io.netty:netty-codec-http2": -1670558550,
-    "io.netty:netty-codec-http2:jar:sources": 807334171,
-    "io.netty:netty-codec-http3": 659915204,
-    "io.netty:netty-codec-http3:jar:sources": 1488028112,
-    "io.netty:netty-codec-http:jar:sources": 1632607934,
-    "io.netty:netty-codec-native-quic:jar:linux-aarch_64": -2109314729,
-    "io.netty:netty-codec-native-quic:jar:linux-x86_64": 457039179,
-    "io.netty:netty-codec-native-quic:jar:osx-aarch_64": -713813398,
-    "io.netty:netty-codec-native-quic:jar:osx-x86_64": -1563984564,
-    "io.netty:netty-codec-native-quic:jar:sources": 1543439384,
-    "io.netty:netty-codec-native-quic:jar:windows-x86_64": -590299839,
-    "io.netty:netty-codec-socks": -427809816,
-    "io.netty:netty-codec-socks:jar:sources": -286882760,
-    "io.netty:netty-common": -1716590677,
-    "io.netty:netty-common:jar:sources": 420568683,
-    "io.netty:netty-handler": 148304737,
-    "io.netty:netty-handler-proxy": 1149591000,
-    "io.netty:netty-handler-proxy:jar:sources": 1675346449,
-    "io.netty:netty-handler:jar:sources": -1369243510,
-    "io.netty:netty-resolver": 1150488922,
-    "io.netty:netty-resolver-dns": -399921904,
-    "io.netty:netty-resolver-dns-classes-macos": 133214198,
-    "io.netty:netty-resolver-dns-classes-macos:jar:sources": 1745296593,
-    "io.netty:netty-resolver-dns-native-macos:jar:osx-x86_64": 475894329,
-    "io.netty:netty-resolver-dns-native-macos:jar:sources": -1543722598,
-    "io.netty:netty-resolver-dns:jar:sources": 1721057668,
-    "io.netty:netty-resolver:jar:sources": 1985571661,
-    "io.netty:netty-transport": -888717762,
-    "io.netty:netty-transport-classes-epoll": 1925570672,
-    "io.netty:netty-transport-classes-epoll:jar:sources": 1787572212,
-    "io.netty:netty-transport-native-epoll:jar:linux-x86_64": 1014282738,
-    "io.netty:netty-transport-native-epoll:jar:sources": 1617584066,
-    "io.netty:netty-transport-native-unix-common": 2056243300,
-    "io.netty:netty-transport-native-unix-common:jar:sources": 583548791,
-    "io.netty:netty-transport:jar:sources": 1756984003,
+    "io.netty:netty-buffer": 194929880,
+    "io.netty:netty-buffer:jar:sources": 663342431,
+    "io.netty:netty-codec-base": -1471828612,
+    "io.netty:netty-codec-base:jar:sources": 503137614,
+    "io.netty:netty-codec-classes-quic": -207687917,
+    "io.netty:netty-codec-classes-quic:jar:sources": 922894955,
+    "io.netty:netty-codec-compression": -356024987,
+    "io.netty:netty-codec-compression:jar:sources": 2138179243,
+    "io.netty:netty-codec-dns": -2113080008,
+    "io.netty:netty-codec-dns:jar:sources": 997025798,
+    "io.netty:netty-codec-http": -1757381714,
+    "io.netty:netty-codec-http2": 826680400,
+    "io.netty:netty-codec-http2:jar:sources": 1993343646,
+    "io.netty:netty-codec-http3": -1957028366,
+    "io.netty:netty-codec-http3:jar:sources": -343249816,
+    "io.netty:netty-codec-http:jar:sources": 1460149809,
+    "io.netty:netty-codec-native-quic:jar:linux-aarch_64": -1325438308,
+    "io.netty:netty-codec-native-quic:jar:linux-x86_64": -2015565509,
+    "io.netty:netty-codec-native-quic:jar:osx-aarch_64": -1247716045,
+    "io.netty:netty-codec-native-quic:jar:osx-x86_64": 1517727361,
+    "io.netty:netty-codec-native-quic:jar:sources": -1710460298,
+    "io.netty:netty-codec-native-quic:jar:windows-x86_64": 221661078,
+    "io.netty:netty-codec-socks": 416365288,
+    "io.netty:netty-codec-socks:jar:sources": -624959744,
+    "io.netty:netty-common": -1525903729,
+    "io.netty:netty-common:jar:sources": 782053857,
+    "io.netty:netty-handler": -529744463,
+    "io.netty:netty-handler-proxy": 1609222878,
+    "io.netty:netty-handler-proxy:jar:sources": -1933400005,
+    "io.netty:netty-handler:jar:sources": 1530511575,
+    "io.netty:netty-resolver": -1600241075,
+    "io.netty:netty-resolver-dns": 1953966491,
+    "io.netty:netty-resolver-dns-classes-macos": 1518284481,
+    "io.netty:netty-resolver-dns-classes-macos:jar:sources": -886662890,
+    "io.netty:netty-resolver-dns-native-macos:jar:osx-x86_64": 149768970,
+    "io.netty:netty-resolver-dns-native-macos:jar:sources": -1451950170,
+    "io.netty:netty-resolver-dns:jar:sources": 548158719,
+    "io.netty:netty-resolver:jar:sources": 1526761758,
+    "io.netty:netty-transport": 1348722655,
+    "io.netty:netty-transport-classes-epoll": 1481466454,
+    "io.netty:netty-transport-classes-epoll:jar:sources": 1232603478,
+    "io.netty:netty-transport-native-epoll:jar:linux-x86_64": 1439735402,
+    "io.netty:netty-transport-native-epoll:jar:sources": -991130426,
+    "io.netty:netty-transport-native-unix-common": 1696334627,
+    "io.netty:netty-transport-native-unix-common:jar:sources": -1718628960,
+    "io.netty:netty-transport:jar:sources": 1988867824,
     "io.opencensus:opencensus-api": 921195487,
     "io.opencensus:opencensus-api:jar:sources": 1085904850,
     "io.opencensus:opencensus-contrib-http-util": -385762200,
@@ -345,9 +345,9 @@
     "io.projectreactor.addons:reactor-extra:jar:sources": -871347105,
     "io.projectreactor.kotlin:reactor-kotlin-extensions": 656575999,
     "io.projectreactor.kotlin:reactor-kotlin-extensions:jar:sources": -165169803,
-    "io.projectreactor.netty:reactor-netty-core": -1652296639,
+    "io.projectreactor.netty:reactor-netty-core": -1818721156,
     "io.projectreactor.netty:reactor-netty-core:jar:sources": 2046923320,
-    "io.projectreactor.netty:reactor-netty-http": -1126821930,
+    "io.projectreactor.netty:reactor-netty-http": -442645635,
     "io.projectreactor.netty:reactor-netty-http:jar:sources": 576024928,
     "io.projectreactor:reactor-core": 2000646072,
     "io.projectreactor:reactor-core:jar:sources": -1910851431,
@@ -627,8 +627,8 @@
     "org.springframework.ai:spring-ai-retry:jar:sources": 1817246271,
     "org.springframework.ai:spring-ai-starter-mcp-server-webmvc": -1818895372,
     "org.springframework.ai:spring-ai-starter-model-google-genai": 31280442,
-    "org.springframework.ai:spring-ai-starter-model-ollama": 795872664,
-    "org.springframework.ai:spring-ai-starter-model-openai": -964511654,
+    "org.springframework.ai:spring-ai-starter-model-ollama": 1978639517,
+    "org.springframework.ai:spring-ai-starter-model-openai": -1053666789,
     "org.springframework.ai:spring-ai-template-st": -1938850561,
     "org.springframework.ai:spring-ai-template-st:jar:sources": 1657908140,
     "org.springframework.boot:spring-boot": -269982968,
@@ -642,7 +642,7 @@
     "org.springframework.boot:spring-boot-data-commons:jar:sources": 1023624856,
     "org.springframework.boot:spring-boot-data-jdbc": 667577783,
     "org.springframework.boot:spring-boot-data-jdbc:jar:sources": 1282262242,
-    "org.springframework.boot:spring-boot-data-redis": -251184931,
+    "org.springframework.boot:spring-boot-data-redis": -523535904,
     "org.springframework.boot:spring-boot-data-redis:jar:sources": 639828538,
     "org.springframework.boot:spring-boot-docker-compose": 1441847671,
     "org.springframework.boot:spring-boot-docker-compose:jar:sources": -574751576,
@@ -670,12 +670,12 @@
     "org.springframework.boot:spring-boot-micrometer-metrics:jar:sources": -425263232,
     "org.springframework.boot:spring-boot-micrometer-observation": 79321428,
     "org.springframework.boot:spring-boot-micrometer-observation:jar:sources": -1466500378,
-    "org.springframework.boot:spring-boot-netty": 1636993440,
+    "org.springframework.boot:spring-boot-netty": -287595148,
     "org.springframework.boot:spring-boot-netty:jar:sources": -1508317085,
     "org.springframework.boot:spring-boot-persistence": -578775757,
     "org.springframework.boot:spring-boot-persistence:jar:sources": 378098782,
     "org.springframework.boot:spring-boot-reactor": -551699617,
-    "org.springframework.boot:spring-boot-reactor-netty": -1246294829,
+    "org.springframework.boot:spring-boot-reactor-netty": 111155894,
     "org.springframework.boot:spring-boot-reactor-netty:jar:sources": -631679649,
     "org.springframework.boot:spring-boot-reactor:jar:sources": -998231510,
     "org.springframework.boot:spring-boot-restclient": 643643017,
@@ -687,7 +687,7 @@
     "org.springframework.boot:spring-boot-servlet": 1762385883,
     "org.springframework.boot:spring-boot-servlet:jar:sources": -1866039843,
     "org.springframework.boot:spring-boot-session": -719886566,
-    "org.springframework.boot:spring-boot-session-data-redis": -1948720736,
+    "org.springframework.boot:spring-boot-session-data-redis": 364533380,
     "org.springframework.boot:spring-boot-session-data-redis:jar:sources": 1454403142,
     "org.springframework.boot:spring-boot-session:jar:sources": 154536394,
     "org.springframework.boot:spring-boot-sql": 341167452,
@@ -697,7 +697,7 @@
     "org.springframework.boot:spring-boot-starter-actuator:jar:sources": 271385185,
     "org.springframework.boot:spring-boot-starter-data-jdbc": 1504103876,
     "org.springframework.boot:spring-boot-starter-data-jdbc:jar:sources": 311406641,
-    "org.springframework.boot:spring-boot-starter-data-redis": 160953320,
+    "org.springframework.boot:spring-boot-starter-data-redis": 845875844,
     "org.springframework.boot:spring-boot-starter-data-redis:jar:sources": -1218760035,
     "org.springframework.boot:spring-boot-starter-flyway": 1044053041,
     "org.springframework.boot:spring-boot-starter-flyway:jar:sources": -1147559275,
@@ -715,13 +715,13 @@
     "org.springframework.boot:spring-boot-starter-micrometer-metrics:jar:sources": -776591754,
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server": 169776117,
     "org.springframework.boot:spring-boot-starter-oauth2-resource-server:jar:sources": -133775671,
-    "org.springframework.boot:spring-boot-starter-reactor-netty": 997623565,
+    "org.springframework.boot:spring-boot-starter-reactor-netty": 1326100638,
     "org.springframework.boot:spring-boot-starter-reactor-netty:jar:sources": 352318474,
     "org.springframework.boot:spring-boot-starter-restclient": -881746055,
     "org.springframework.boot:spring-boot-starter-restclient:jar:sources": 1205389645,
     "org.springframework.boot:spring-boot-starter-security": 1361224947,
     "org.springframework.boot:spring-boot-starter-security:jar:sources": 766092709,
-    "org.springframework.boot:spring-boot-starter-session-data-redis": -1692245728,
+    "org.springframework.boot:spring-boot-starter-session-data-redis": 248244099,
     "org.springframework.boot:spring-boot-starter-session-data-redis:jar:sources": -1855601609,
     "org.springframework.boot:spring-boot-starter-test": -1299697070,
     "org.springframework.boot:spring-boot-starter-test:jar:sources": -1625587011,
@@ -733,9 +733,9 @@
     "org.springframework.boot:spring-boot-starter-validation:jar:sources": 1670568101,
     "org.springframework.boot:spring-boot-starter-web": -1530584958,
     "org.springframework.boot:spring-boot-starter-web:jar:sources": -1165867714,
-    "org.springframework.boot:spring-boot-starter-webclient": 975893850,
+    "org.springframework.boot:spring-boot-starter-webclient": 1574702368,
     "org.springframework.boot:spring-boot-starter-webclient:jar:sources": -531620102,
-    "org.springframework.boot:spring-boot-starter-webflux": 824387767,
+    "org.springframework.boot:spring-boot-starter-webflux": 1181423893,
     "org.springframework.boot:spring-boot-starter-webflux:jar:sources": 995509084,
     "org.springframework.boot:spring-boot-starter:jar:sources": 119102224,
     "org.springframework.boot:spring-boot-test": 793901201,
@@ -766,7 +766,7 @@
     "org.springframework.cloud:spring-cloud-gateway-server-webflux": -1112659004,
     "org.springframework.cloud:spring-cloud-gateway-server-webflux:jar:sources": -2032795076,
     "org.springframework.cloud:spring-cloud-starter": 400707728,
-    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": -382372578,
+    "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux": 1673091984,
     "org.springframework.data:spring-data-commons": 1052881690,
     "org.springframework.data:spring-data-commons:jar:sources": 1628577380,
     "org.springframework.data:spring-data-jdbc": 2035306080,
@@ -1689,154 +1689,154 @@
     },
     "io.netty:netty-buffer": {
       "shasums": {
-        "jar": "863f09b46cfe7d83872c9499086b9681cd9878c30a319d9f1f3a681bbfb0b12f",
-        "sources": "33e6c912740d420e3685bb490b1abe1fb21fd2378492700eb587ebc5c7a8e96c"
+        "jar": "794136fc6be78e44a286c2b1420a182e135c6d06eb8c397030c1551ee50acccd",
+        "sources": "36c1869f58c24167180546acb933749bbe92391834eca219d3a155a719d21f26"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-base": {
       "shasums": {
-        "jar": "5702c8097cc81e939dd12e5b39ac2e81f83737c320f6f4d88553577842f9ceb6",
-        "sources": "c33f078163a0c0940e68e669d728a91307977ae5725459c0ca35a78339dbeca9"
+        "jar": "5a66da26b86d7eecedd9e0d8fe0e22ef1733bbf873e476cb9b860afbed22210c",
+        "sources": "4524e76d427e3caa2d64d1793c50790b9d37d135881d157b8d96509cc0eb8330"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-classes-quic": {
       "shasums": {
-        "jar": "c6f5765ac2cb37ce23156fce40629ff0221b80e53cfa68af21bad08def370098",
-        "sources": "3abe008516e2b8c50c2c927fb0a31d93e555be0b87c4d17e0d1c5ba0ae354f9c"
+        "jar": "eb558b7906be9f37cfff0ef71acb0865aa3b7cf2e52ba0a646e6e79d487d1711",
+        "sources": "e7a91026734a915f95cc798c3d07f876f1f1c9a8e4856899fd3c08faa12091d5"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-compression": {
       "shasums": {
-        "jar": "8935c51c7217780ae56d178c938b50ea5729b1e088cf3c2568674e331665554c",
-        "sources": "dad735a45d3f2810bbe66b301cabb73fb535da9a55a99e00624ef7b61f5fffbb"
+        "jar": "7ebae4ac80c01e2d279d0e50d377bcdaf0cf8f2f65797e0578afc810a66ab57d",
+        "sources": "179e9deb63e784017d3e8e0d294d03a738da46ad740bbf62ec38dc3d7e0636c7"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-dns": {
       "shasums": {
-        "jar": "d8177c55f0864807f6ab02d0af7c72a6b88dd6bfd1a39f3a17e5954e0942fcad",
-        "sources": "ac9bf5be912b10878828bbe71d10cd3a1e142fc65f94fae5209f04052552faa8"
+        "jar": "8296127e74eb871eea6e17520ad5d12aec37700252a61165057b28df6e5f9499",
+        "sources": "b54caaeba00dcdf83a1cbe523671931e4f687e3b4f51cbc895205c4bfe1c7cdc"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-http": {
       "shasums": {
-        "jar": "7c28809a4f527746fbce2369f5ac5d5fcef45cfe9da21aa3dd9d3f6bdf00cbe0",
-        "sources": "4a9bec385fdc151007baad77191c007fb39645db44c516453c2c7d7f4533c4cd"
+        "jar": "d08b0d473c48c61ebb2bc4d145111fa1777832aee4d2be1024891e904e36eaf5",
+        "sources": "940bb861827decaf8d194740b14611b788142171ea5b0c89fdc05b07dd2f9914"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-http2": {
       "shasums": {
-        "jar": "f45756b12a75b907e98cd0158dc947308ca463cd3d27b9035d11a025a4fdbc4d",
-        "sources": "edd33b8d8e0335c02b7201a65dee63861696486b3bf55e0ddddf95a0f4b58322"
+        "jar": "168790c8d10d2e7cc53fa08906162e3d6c23b4528e7d062eea328d4a281484c6",
+        "sources": "8f5a23fe5ea32b0b45aad73af1e19a563d8176588a8a0c938c78332726ca1594"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-http3": {
       "shasums": {
-        "jar": "a13018427735554428a409c27ae679c44614b31fd402837caa7530a9fd688a26",
-        "sources": "e32b2f591a269d24f059784930f64ea501a65a972ce3fc39399f06e80689d216"
+        "jar": "9d3698b9787ddb46226c3e3e4d1d51415503b18eb3be9da19b4918b4cb6e63bf",
+        "sources": "c4db8f649069376e75681e33ddd06f14512940478e25f01321df1059d9f4d93e"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-native-quic": {
       "shasums": {
-        "linux-aarch_64": "bdd044c7d6c2e67b647f203e304c551935693bba789c22a1920e45e00afc6c2b",
-        "linux-x86_64": "fd8d07e2a67a0d8574d02b698888cc4f604d1849cf20544c8f9af19cb33530c6",
-        "osx-aarch_64": "16a0a99ae9a3261c9ed2f246ee6926a518dcf81d6b020d3b44abf5115792b998",
-        "osx-x86_64": "1b2673f22efc0bb4240eb0b76b9592d80ef006a71d70ede884c9413093cd787d",
-        "sources": "f25a0873d961ebe601c5125e10dae0d0b0aa4c6da1a47eb8081856e8bc78a2d8",
-        "windows-x86_64": "8979a2ab34a498ab447eaad71cd233ca3a3c5043695d57b0f035f1add776836f"
+        "linux-aarch_64": "14d096f65bf5727bf2abe6f5cb74a8d1b85e185e5956235ee9ebd51bc0c7a89f",
+        "linux-x86_64": "6208c52346d7802b43f4d523dce64d25053c64d53e857d5e9ef43af046db0a5a",
+        "osx-aarch_64": "794da379e32791394ef1eab5093179b267e31418be7dde5988def345c88181c1",
+        "osx-x86_64": "76f43c0c3abebc083b764376d224bab76e0422023f44d3b93298594571c9ef21",
+        "sources": "65d7d1d423cdf98ff028111ba044e7ca4822c4f2c9af15c1ae188c3a915b404d",
+        "windows-x86_64": "d99b1946e93e278c52af3f049c20703b705a7f51f37badc8a6c0b951321dd10e"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-codec-socks": {
       "shasums": {
-        "jar": "b837044e8edbd977bafe4e643c13958a45cf0caefd1338b7e6660e716a769624",
-        "sources": "0be263e1a4a7863b432e1857fa895836690b6d76293abaa8ab4496b8bc238a17"
+        "jar": "8510f0ceee40a4254760b2927431e2403a6588c4068022e2440356acfc5e24c1",
+        "sources": "a2867a1eff6b8079c6335f833d1c87c4dff788464d43b70b721cd1249fb2f639"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-common": {
       "shasums": {
-        "jar": "22fa74761f6e35c8c88972f35cf65664566b922dd73d3424528e97c34278fa79",
-        "sources": "da066970d6035b2eec0f6cdca44492bb947e0b0c6e1b0712691c80c23841e870"
+        "jar": "5807fef7eb619bc0a5d1c0e6c83199ea9bca8503203a3eb73cfdccec2d215743",
+        "sources": "e43ff1befac9e534dfd1ce99db6dc74d1317fde27b3e786371e471c69e4d9f88"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-handler": {
       "shasums": {
-        "jar": "8b469cf23ddf21ba84291f4dff470d2277a28deac95e7084b0ff2ce853e58276",
-        "sources": "338d483a48b557bdd8a00730e43a55449db65d2d6695482147d25a1a439a84e8"
+        "jar": "211dbbba074298046b37f841ad9ca89ed91968f6b9e97400c99ab4e6177b1f96",
+        "sources": "b86221a443145d7a3ef2fbf202aab4bb1857e9662c64cf85ba1c5ba835019fd0"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-handler-proxy": {
       "shasums": {
-        "jar": "6a46fb5716c8b2a227e3d5e4533ab67abaccc6cb3a4f431ff0ed0859ae8a6993",
-        "sources": "ecfb10154b409ea302355a55f035df940e2dabbf4fe444ced2517c6266ed1cc9"
+        "jar": "9fd508051bb39829117e4dbfa2d0b485aafb88d2d627ae6ec1fed5a3faa3842a",
+        "sources": "ac96a23a6446ec46439748b2484c5e334168bb906c6dab5ca7ef2c4cdf195529"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-resolver": {
       "shasums": {
-        "jar": "3ded47536faeb3c4c544a84871d82f461511589afb2a892a180ca425f281363e",
-        "sources": "06dc4f45a0bd73e082eb013ee1ed37def07b4272723ce99cde18c7c348463bff"
+        "jar": "cb7a6027e4f366fb28dcea7e1f7088ca16bd23c2cc38e8ddfdac77a77bd144dc",
+        "sources": "d9e1a998ceabda6453668e34345f5f1c9633046a3394d7deff5441370b105142"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-resolver-dns": {
       "shasums": {
-        "jar": "417aaf5cf25cd07865ea91d2e08916b6974995c54aa83730264fc0e06dd4ea90",
-        "sources": "2592cc6b7b26aa13832f3b20bb3c932f0e1cbd240b0d17953b67ebe68952f04a"
+        "jar": "9a1dc5abc7f146bf0ff0938dceb384f7c972dc052cd9cd2f367cb30a0718fa71",
+        "sources": "55daba64bac2ee9f98a942bcc703956ec17ce3b3a86366f432f1ba476381298e"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-resolver-dns-classes-macos": {
       "shasums": {
-        "jar": "434de28e1e21c9d1c3dd2ef497e3f8ff3abba000a963fcd5eb1d85970ce434f0",
-        "sources": "47c6b74ea7200776a787552a3e0f36f5b970ab989cc94b203fc81def38d6bb14"
+        "jar": "fb3b1eeeadc78c311a1258cbe6c35b038937339f1e6d05820518dc11884d0a1b",
+        "sources": "39eb8bc9607b85ecd052b0d1ca39c49d4df1995aebe3632530f9dcc4bb09c677"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-resolver-dns-native-macos": {
       "shasums": {
-        "osx-x86_64": "0c1eec26d9c0aa2629592080106b3c75eb7f10cdde4a6b251e2873f29c431c1e",
-        "sources": "7b0115892b6f586cfed1364a1b17e6adf407f6b9efafa8a63b1ca23c96e0f236"
+        "osx-x86_64": "7af5846288020c1e3cebefe1bcef96515203ed96464f4fdf0215f816de4509cb",
+        "sources": "98a33e5adbbe58cb084ed4ca61350fa0a6311f4f8e54bc8cd823a402d0609c42"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-transport": {
       "shasums": {
-        "jar": "d82d4e200456b8c5d8a1647a3724603f80616e5b35b9ada6e7a20d048f175075",
-        "sources": "2208f55fbb229fbb6161b22ba9aeda9121d7f74255f233e30298cc2e3f4978b6"
+        "jar": "ff4f1f8158c714c1b485ef10cf2456fbd3c1b2930256b70287aeb7dc3ad94783",
+        "sources": "43dc1a7f6b3fb6b84da079983e5d30ee4792d1bf0a6d96a6e633671495675ad3"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-transport-classes-epoll": {
       "shasums": {
-        "jar": "4d96ba8dd98ace998f6ae7bfe53ae9e581bd92ad2f7ebe5bd994d1a24306db7e",
-        "sources": "6225009e4d23873279c37b9bfe35b6e6ed0322d6f4d9699387521c9e11273b12"
+        "jar": "814438f990be4eddb997f4bee67617e19bab8554d9ee2c7bd8c9c8adb970bf69",
+        "sources": "30dc6f46131329ee396da4d243f47f3f3ed3f05fac11acfcce2d017a3a20daa4"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-transport-native-epoll": {
       "shasums": {
-        "linux-x86_64": "3dd01532f34540676c9e0153f96a44c78a73f2b0118ef46cb14247e512dde76b",
-        "sources": "0ee94466d459c93306e0b459619dceebdd36d919e1bd51897659c1e5b46084bf"
+        "linux-x86_64": "3f13d5fc5b96d1a02209c0082be84b4308736da8abcff18285fbbef3a333143a",
+        "sources": "87f12312ff8c078ad7f98383ac116cb383cf77001933f0e6908da4ed05b8572a"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.netty:netty-transport-native-unix-common": {
       "shasums": {
-        "jar": "341e91b8e69e6b7d92c353c845ffd91f34e921b7186254c176a64c7089b3e721",
-        "sources": "aa74fd08c7872f1a29d5209c0cab48cb86c1efab68948d50daf6e5488d4939a2"
+        "jar": "6f600d5cbd3ce39e50680de66b00d7e6a9652dac7d08a5b022101d717cb7fb52",
+        "sources": "3d9906bff4df25e298c237f91761015b480dac0406a77faf96f931a34dfe77c6"
       },
-      "version": "4.2.19.Final"
+      "version": "4.2.20.Final"
     },
     "io.opencensus:opencensus-api": {
       "shasums": {
