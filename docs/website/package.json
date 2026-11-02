@@ -1,7 +1,7 @@
 {
   "name": "lab-docs",
   "private": true,
-  "packageManager": "pnpm@12.15.0",
+  "packageManager": "pnpm@12.16.1",
   "engines": {
     "node": ">=24.15.0 <25"
   },
