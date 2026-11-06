@@ -26,7 +26,7 @@ class EventRepositoryTest {
   static final PostgreSQLContainer POSTGRES =
       new PostgreSQLContainer(
               DockerImageName.parse(
-                      "postgres:18.6@sha256:edb0c08dc33befd0262ab3b5cf1c4f3f8cfd8b09e88c05b45adee29d6761ddb6")
+                      "postgres:18.6@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42")
                   .withRepository("postgres"))
           .withDatabaseName("databasename");
 
