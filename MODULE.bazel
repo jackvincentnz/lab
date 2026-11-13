@@ -298,7 +298,7 @@ use_repo(playwright, "playwright")
 oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
 oci.pull(
     name = "distroless_java",
-    digest = "sha256:9278b2301fadfffd62fb8550922363a691024dba921ad38d61f6596c87060b8f",
+    digest = "sha256:21584711fb3e25745d442add41f2bb18f84f74e2650033fdcf6d81707e925c11",
     image = "gcr.io/distroless/java17-debian13",
     platforms = [
         "linux/amd64",
@@ -308,7 +308,7 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:f45171d36c76a8b2f5ef97108a3a8a2294248a6578a0a180edc2d78f7d2edc26",
+    digest = "sha256:4c734d33ee731135dc9f2349914a34551c920f4451fca8bb05bf5880eb9079e8",
     image = "nginx",
     platforms = [
         "linux/amd64",
