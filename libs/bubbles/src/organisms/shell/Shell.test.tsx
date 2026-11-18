@@ -26,7 +26,10 @@ describe("Shell", () => {
   it("toggles both menu buttons together", async () => {
     const user = userEvent.setup();
     render(<Shell title="Page title" />);
-    const [headerBurger, navbarBurger] = screen.getAllByRole("button");
+    // The burgers hide from the sm breakpoint, and jsdom fixes its viewport at a wider 1024px.
+    const [headerBurger, navbarBurger] = screen.getAllByRole("button", {
+      hidden: true,
+    });
     // Mantine marks the open state on the burger icon inside each button.
     const isOpened = (button: HTMLElement) =>
       button.firstElementChild?.hasAttribute("data-opened");
