@@ -123,6 +123,18 @@
       "groupName": "Confluent Platform",
       "groupSlug": "confluent-platform",
       "separateMajorMinor": false
+    },
+    {
+      "description": "Update the Node.js version in .nvmrc, engines.node and @types/node together, so that the Bazel toolchain, CI and local tooling stay on one version",
+      "matchPackageNames": ["node", "@types/node"],
+      "groupName": "Node.js",
+      "groupSlug": "node"
+    },
+    {
+      "description": "Move engines.node to the new Node.js version instead of widening the range, so that engines match .nvmrc",
+      "matchDepTypes": ["engines"],
+      "matchPackageNames": ["node"],
+      "rangeStrategy": "bump"
     }
   ]
 }
