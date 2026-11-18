@@ -72,7 +72,7 @@
       "description": "Update the Node.js version pre-commit installs with .nvmrc",
       "managerFilePatterns": ["/^\\.pre-commit-config\\.yaml$/"],
       "matchStrings": [
-        "default_language_version:\\s*\\n(?:[ \\t]+\\S.*\\n)*?[ \\t]+node:[ \\t]*(?<currentValue>[^\\s#]+)"
+        "default_language_version:\\s*\\n(?:[ \\t]*\\n|[ \\t]+\\S.*\\n)*?[ \\t]+node:[ \\t]*(?<currentValue>[^\\s#]+)"
       ],
       "datasourceTemplate": "node-version",
       "depNameTemplate": "node",
