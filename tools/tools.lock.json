@@ -4,15 +4,15 @@
     "binaries": [
       {
         "kind": "file",
-        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.43.5/aspect-cli-x86_64-unknown-linux-musl",
-        "sha256": "ac9ac1008de01372cbc1744641479d2cc92b184fc45f2753f36192ae8b6c00b4",
+        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.44.7/aspect-cli-x86_64-unknown-linux-musl",
+        "sha256": "120f349f6809ab2bbaf727923fe66a951c8fb8c89756fb4a4363391709fd51e1",
         "os": "linux",
         "cpu": "x86_64"
       },
       {
         "kind": "file",
-        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.43.5/aspect-cli-aarch64-apple-darwin",
-        "sha256": "3e65187629486c6a95d7442ba2c1da33a871bcc89da2b7f277ae29c55183a547",
+        "url": "https://github.com/aspect-build/aspect-cli/releases/download/v2026.44.7/aspect-cli-aarch64-apple-darwin",
+        "sha256": "1b27a09481c2ad5217851f9aea78ae15043761039ef6ce7990363c1cc94f77e0",
         "os": "macos",
         "cpu": "arm64"
       }
@@ -22,29 +22,29 @@
     "binaries": [
       {
         "kind": "file",
-        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.1.0/buildozer-linux-arm64",
-        "sha256": "add0e7e45e10231746c6bb193e466361183dfe9d2df8f951b62c49a047508f30",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.2.0/buildozer-linux-arm64",
+        "sha256": "82bc376fafedd281579beb400be430d4c3f0104c1a8502d10e0cb7ec2c8cb5bd",
         "os": "linux",
         "cpu": "arm64"
       },
       {
         "kind": "file",
-        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.1.0/buildozer-linux-amd64",
-        "sha256": "3513b8b23619f5fb7ccad546e955af6e318475582ce7b6f2b47b634bd3b8dcbd",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.2.0/buildozer-linux-amd64",
+        "sha256": "0cfa2633184880ad5139bad3133fdf1a11ce3b7d37ba3eae9a85374a613c4779",
         "os": "linux",
         "cpu": "x86_64"
       },
       {
         "kind": "file",
-        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.1.0/buildozer-darwin-arm64",
-        "sha256": "9e5d300659253c9235c50f792b46cfc5148e62513a8056e916fa2ca738b904f2",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.2.0/buildozer-darwin-arm64",
+        "sha256": "373f1c6c35b41c294b3a473c569e7e99dbfbc71197d7c2a45fce5cea7134e858",
         "os": "macos",
         "cpu": "arm64"
       },
       {
         "kind": "file",
-        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.1.0/buildozer-darwin-amd64",
-        "sha256": "e9809d8ca40da421e1b5420dd735f32d13a0b01ebadfb7f519d5b7f4316061b4",
+        "url": "https://github.com/bazelbuild/buildtools/releases/download/v10.2.0/buildozer-darwin-amd64",
+        "sha256": "b569919f655931bae2e3e116597a5496c7539ed29adf8ac2c959bddbbad45b55",
         "os": "macos",
         "cpu": "x86_64"
       }

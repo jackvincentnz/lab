@@ -1,6 +1,6 @@
 services:
   redis:
-    image: redis:8.10.2-alpine@sha256:9f8d2d789b9a1d1e3f283f979aa9cbf393373806472e1ccd460e2f9c869b833b
+    image: redis:8.10.3-alpine@sha256:21090af93f8324db2f0f0f4f38a7c60369d47d917e000c3423d89d2ae2883537
     ports:
       - "127.0.0.1:${GATEWAY_REDIS_PORT:-6379}:6379"
   mock-oauth2-server:
