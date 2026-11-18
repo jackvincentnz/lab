@@ -18,7 +18,7 @@
     "com.netflix.graphql.dgs:graphql-dgs-extended-scalars": 166979784,
     "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies": -1181197604,
     "com.squareup.okhttp3:okhttp-jvm": 1834058061,
-    "io.confluent:kafka-protobuf-serializer": 1185239264,
+    "io.confluent:kafka-protobuf-serializer": 1195742368,
     "io.netty:netty-bom": -486880157,
     "jakarta.servlet:jakarta.servlet-api": 2120044853,
     "org.apache.commons:commons-lang3": 597143964,
@@ -72,8 +72,8 @@
     "repositories": 1733343677
   },
   "__RESOLVED_ARTIFACTS_HASH": {
-    "at.yawk.lz4:lz4-java": -443759713,
-    "at.yawk.lz4:lz4-java:jar:sources": 1201937514,
+    "at.yawk.lz4:lz4-java": -719047939,
+    "at.yawk.lz4:lz4-java:jar:sources": 1661693108,
     "ch.qos.logback:logback-classic": 434922618,
     "ch.qos.logback:logback-classic:jar:sources": 884833463,
     "ch.qos.logback:logback-core": 1703218533,
@@ -124,8 +124,8 @@
     "com.github.docker-java:docker-java-transport-zerodep": -347166331,
     "com.github.docker-java:docker-java-transport-zerodep:jar:sources": -767880782,
     "com.github.docker-java:docker-java-transport:jar:sources": -1920988041,
-    "com.github.luben:zstd-jni": -851900223,
-    "com.github.luben:zstd-jni:jar:sources": -322256874,
+    "com.github.luben:zstd-jni": 445053947,
+    "com.github.luben:zstd-jni:jar:sources": -724922632,
     "com.github.victools:jsonschema-generator": 396224804,
     "com.github.victools:jsonschema-generator:jar:sources": 219538543,
     "com.github.victools:jsonschema-module-jackson": 965569643,
@@ -223,10 +223,10 @@
     "com.squareup.okio:okio-jvm": -1651145861,
     "com.squareup.okio:okio-jvm:jar:sources": 306698482,
     "com.squareup.okio:okio:jar:sources": 410238119,
-    "com.squareup.wire:wire-runtime-jvm": 1965511028,
-    "com.squareup.wire:wire-runtime-jvm:jar:sources": -648789731,
-    "com.squareup.wire:wire-schema-jvm": -583757145,
-    "com.squareup.wire:wire-schema-jvm:jar:sources": 1407633896,
+    "com.squareup.wire:wire-runtime-jvm": -1648643455,
+    "com.squareup.wire:wire-runtime-jvm:jar:sources": -1613079146,
+    "com.squareup.wire:wire-schema-jvm": -43273322,
+    "com.squareup.wire:wire-schema-jvm:jar:sources": -1470816554,
     "com.squareup:kotlinpoet": 779947570,
     "com.squareup:kotlinpoet-jvm": -62641866,
     "com.squareup:kotlinpoet-jvm:jar:sources": -496265327,
@@ -253,22 +253,22 @@
     "commons-logging:commons-logging:jar:sources": 147282524,
     "commons-validator:commons-validator": 2078586229,
     "commons-validator:commons-validator:jar:sources": 1288604053,
-    "io.confluent:common-utils": -383167533,
-    "io.confluent:common-utils:jar:sources": -874023456,
-    "io.confluent:kafka-avro-types": 1026672986,
-    "io.confluent:kafka-avro-types:jar:sources": -1457581832,
-    "io.confluent:kafka-protobuf-provider": 22771385,
-    "io.confluent:kafka-protobuf-provider:jar:sources": -852167690,
-    "io.confluent:kafka-protobuf-serializer": -2141856098,
-    "io.confluent:kafka-protobuf-serializer:jar:sources": 214197556,
-    "io.confluent:kafka-protobuf-types": -535007309,
-    "io.confluent:kafka-protobuf-types:jar:sources": 1427295422,
-    "io.confluent:kafka-schema-registry-client": -2032195582,
-    "io.confluent:kafka-schema-registry-client:jar:sources": -285913213,
-    "io.confluent:kafka-schema-serializer": -958190903,
-    "io.confluent:kafka-schema-serializer:jar:sources": 1789081495,
-    "io.confluent:kafka-schema-types": -868360307,
-    "io.confluent:kafka-schema-types:jar:sources": -1926781645,
+    "io.confluent:common-utils": 967053167,
+    "io.confluent:common-utils:jar:sources": 1390827533,
+    "io.confluent:kafka-avro-types": 834150629,
+    "io.confluent:kafka-avro-types:jar:sources": 2045469233,
+    "io.confluent:kafka-protobuf-provider": -1235341074,
+    "io.confluent:kafka-protobuf-provider:jar:sources": -1117081538,
+    "io.confluent:kafka-protobuf-serializer": 1051694295,
+    "io.confluent:kafka-protobuf-serializer:jar:sources": -1822659798,
+    "io.confluent:kafka-protobuf-types": 484254115,
+    "io.confluent:kafka-protobuf-types:jar:sources": 173013933,
+    "io.confluent:kafka-schema-registry-client": 1971679535,
+    "io.confluent:kafka-schema-registry-client:jar:sources": 28144918,
+    "io.confluent:kafka-schema-serializer": 707492240,
+    "io.confluent:kafka-schema-serializer:jar:sources": 2130375831,
+    "io.confluent:kafka-schema-types": -1660624870,
+    "io.confluent:kafka-schema-types:jar:sources": 1340037077,
     "io.grpc:grpc-api": -1005018777,
     "io.grpc:grpc-api:jar:sources": 691096334,
     "io.grpc:grpc-context": 216923141,
@@ -407,43 +407,43 @@
     "org.apache.httpcomponents:httpclient:jar:sources": -779528763,
     "org.apache.httpcomponents:httpcore": 67453319,
     "org.apache.httpcomponents:httpcore:jar:sources": 2134002822,
-    "org.apache.kafka:kafka-clients": 1012090508,
+    "org.apache.kafka:kafka-clients": -1463852753,
     "org.apache.kafka:kafka-clients:jar:sources": -2132890538,
-    "org.apache.kafka:kafka-clients:jar:test": -684298503,
-    "org.apache.kafka:kafka-coordinator-common": 503719434,
+    "org.apache.kafka:kafka-clients:jar:test": -271648990,
+    "org.apache.kafka:kafka-coordinator-common": 138519365,
     "org.apache.kafka:kafka-coordinator-common:jar:sources": -127307221,
-    "org.apache.kafka:kafka-group-coordinator": -301725398,
-    "org.apache.kafka:kafka-group-coordinator-api": -1624137211,
+    "org.apache.kafka:kafka-group-coordinator": 1573173625,
+    "org.apache.kafka:kafka-group-coordinator-api": 2099836766,
     "org.apache.kafka:kafka-group-coordinator-api:jar:sources": -1613313001,
     "org.apache.kafka:kafka-group-coordinator:jar:sources": 212195801,
-    "org.apache.kafka:kafka-metadata": 6581553,
+    "org.apache.kafka:kafka-metadata": -1820196753,
     "org.apache.kafka:kafka-metadata:jar:sources": -491293448,
-    "org.apache.kafka:kafka-raft": 692183080,
+    "org.apache.kafka:kafka-raft": -831001363,
     "org.apache.kafka:kafka-raft:jar:sources": -500228485,
-    "org.apache.kafka:kafka-server": -613848912,
-    "org.apache.kafka:kafka-server-common": 1933413938,
+    "org.apache.kafka:kafka-server": -186622882,
+    "org.apache.kafka:kafka-server-common": 1678750851,
     "org.apache.kafka:kafka-server-common:jar:sources": 1657678301,
-    "org.apache.kafka:kafka-server-common:jar:test": 1365687323,
+    "org.apache.kafka:kafka-server-common:jar:test": 1259094970,
     "org.apache.kafka:kafka-server:jar:sources": -569210637,
-    "org.apache.kafka:kafka-share-coordinator": -1553586736,
+    "org.apache.kafka:kafka-share-coordinator": 102992958,
     "org.apache.kafka:kafka-share-coordinator:jar:sources": -2114473587,
-    "org.apache.kafka:kafka-storage": -1322993576,
-    "org.apache.kafka:kafka-storage-api": -977694886,
+    "org.apache.kafka:kafka-storage": 1549774540,
+    "org.apache.kafka:kafka-storage-api": -1057610757,
     "org.apache.kafka:kafka-storage-api:jar:sources": 1915894667,
     "org.apache.kafka:kafka-storage:jar:sources": 1549777803,
-    "org.apache.kafka:kafka-streams": -1353944170,
-    "org.apache.kafka:kafka-streams-test-utils": -849898677,
+    "org.apache.kafka:kafka-streams": 189382981,
+    "org.apache.kafka:kafka-streams-test-utils": 1007877551,
     "org.apache.kafka:kafka-streams-test-utils:jar:sources": 2068202283,
     "org.apache.kafka:kafka-streams:jar:sources": 1324001729,
-    "org.apache.kafka:kafka-test-common-internal-api": 902477910,
+    "org.apache.kafka:kafka-test-common-internal-api": -641580466,
     "org.apache.kafka:kafka-test-common-internal-api:jar:sources": -99023973,
-    "org.apache.kafka:kafka-test-common-runtime": -1288080363,
+    "org.apache.kafka:kafka-test-common-runtime": 1341334356,
     "org.apache.kafka:kafka-test-common-runtime:jar:sources": -190040827,
-    "org.apache.kafka:kafka-tools-api": -308691937,
+    "org.apache.kafka:kafka-tools-api": -71032700,
     "org.apache.kafka:kafka-tools-api:jar:sources": 744631330,
-    "org.apache.kafka:kafka-transaction-coordinator": 2123510211,
+    "org.apache.kafka:kafka-transaction-coordinator": -1508857709,
     "org.apache.kafka:kafka-transaction-coordinator:jar:sources": -421508318,
-    "org.apache.kafka:kafka_2.13": 1991523000,
+    "org.apache.kafka:kafka_2.13": -2017726221,
     "org.apache.kafka:kafka_2.13:jar:sources": -1511333041,
     "org.apache.logging.log4j:log4j-api": -1710269538,
     "org.apache.logging.log4j:log4j-api:jar:sources": -714998451,
@@ -662,7 +662,7 @@
     "org.springframework.boot:spring-boot-jackson:jar:sources": 1186407508,
     "org.springframework.boot:spring-boot-jdbc": -1916810500,
     "org.springframework.boot:spring-boot-jdbc:jar:sources": 1693732701,
-    "org.springframework.boot:spring-boot-kafka": -870941169,
+    "org.springframework.boot:spring-boot-kafka": -309073037,
     "org.springframework.boot:spring-boot-kafka:jar:sources": 129093106,
     "org.springframework.boot:spring-boot-loader": -301362712,
     "org.springframework.boot:spring-boot-loader:jar:sources": -1087352283,
@@ -707,7 +707,7 @@
     "org.springframework.boot:spring-boot-starter-jackson:jar:sources": 1920726665,
     "org.springframework.boot:spring-boot-starter-jdbc": -664419757,
     "org.springframework.boot:spring-boot-starter-jdbc:jar:sources": -1705066565,
-    "org.springframework.boot:spring-boot-starter-kafka": 2120997148,
+    "org.springframework.boot:spring-boot-starter-kafka": 873519121,
     "org.springframework.boot:spring-boot-starter-kafka:jar:sources": 1251557477,
     "org.springframework.boot:spring-boot-starter-logging": 435543052,
     "org.springframework.boot:spring-boot-starter-logging:jar:sources": 1606686283,
@@ -781,8 +781,8 @@
     "org.springframework.graphql:spring-graphql-test": 94876552,
     "org.springframework.graphql:spring-graphql-test:jar:sources": -1107060042,
     "org.springframework.graphql:spring-graphql:jar:sources": -136190152,
-    "org.springframework.kafka:spring-kafka": 126262382,
-    "org.springframework.kafka:spring-kafka-test": 1985024661,
+    "org.springframework.kafka:spring-kafka": 8511379,
+    "org.springframework.kafka:spring-kafka-test": -1338831266,
     "org.springframework.kafka:spring-kafka-test:jar:sources": -1229054611,
     "org.springframework.kafka:spring-kafka:jar:sources": -829862930,
     "org.springframework.security:spring-security-config": -1915089932,
@@ -845,8 +845,8 @@
     "org.testcontainers:testcontainers-postgresql": -659809937,
     "org.testcontainers:testcontainers-postgresql:jar:sources": 564962717,
     "org.testcontainers:testcontainers:jar:sources": 375219890,
-    "org.xerial.snappy:snappy-java": -694621450,
-    "org.xerial.snappy:snappy-java:jar:sources": 1189859762,
+    "org.xerial.snappy:snappy-java": 1872897601,
+    "org.xerial.snappy:snappy-java:jar:sources": 784697121,
     "org.xmlunit:xmlunit-core": -1543079851,
     "org.xmlunit:xmlunit-core:jar:sources": -511080803,
     "org.yaml:snakeyaml": 1068613154,
@@ -920,10 +920,10 @@
   "artifacts": {
     "at.yawk.lz4:lz4-java": {
       "shasums": {
-        "jar": "8a7458657938e9b692224db83aac458c13abd7a59ab75c3d3b08bd2233a646a2",
-        "sources": "c3eee1cec41e1607b87a9a97e479cdb312ab39f09dcf57262aa15ea66351fc5a"
+        "jar": "58c8e0b813960d2a248e050c353baea73139b48a2ffc55382d42c69707e17325",
+        "sources": "e32b2809f070317520b6ebdbca730b8bf2c24b900265c702cd18f3f0bdd532b7"
       },
-      "version": "1.11.2"
+      "version": "1.11.4"
     },
     "ch.qos.logback:logback-classic": {
       "shasums": {
@@ -1102,10 +1102,10 @@
     },
     "com.github.luben:zstd-jni": {
       "shasums": {
-        "jar": "b6c3237e24b8252a5a9c3a0e1ae30ef8f323412e74bd358548b7a9e527d676df",
-        "sources": "3487746ea8d2470437b648361bae95eee056943dbb462815eb3ac85549be43f8"
+        "jar": "c9043e2da8a16c13b6cd7661a5cb56685a573c3546ef4bd0ead67b0b67c2e107",
+        "sources": "8928cc4bcedc57edafdb6eb78364a062ea417ddce41336d612d6573854579882"
       },
-      "version": "1.5.6-10"
+      "version": "1.5.7-17"
     },
     "com.github.victools:jsonschema-generator": {
       "shasums": {
@@ -1451,17 +1451,17 @@
     },
     "com.squareup.wire:wire-runtime-jvm": {
       "shasums": {
-        "jar": "525cb6f4d838555ed882ebf1567bb4069ab0aa5a5bc69a3fce0be27e6fbb5b4c",
-        "sources": "41cd91b6dd275d43fe8ac71f2702d75dd6930f0abdd46dedd325186eb95b6bac"
+        "jar": "83d56e2b348429ebc975aad62870c1b1e3dd1e9dc6eab6d618abacbeee66280f",
+        "sources": "fb4210271a06fa482470a4582841928ea484953df85d91453183457faa8bf6c7"
       },
-      "version": "6.4.5"
+      "version": "6.4.7"
     },
     "com.squareup.wire:wire-schema-jvm": {
       "shasums": {
-        "jar": "b6177b19b2d6479f57802bb2b33c621f7272d8d210e398be083a9ef4a9d5858f",
-        "sources": "513ecec7fce9b822bd50c54f1550b9d21c39f9eda92d11fba96602432c85b96f"
+        "jar": "c676dc914a9ca64252c731f40ad1f9fe4cd263012272f326eaaba0b62cd1ba1a",
+        "sources": "11e35bf0e951df933a33c37956d853d41f1559f7d5105c8adcc3b82d92bc6710"
       },
-      "version": "6.4.5"
+      "version": "6.4.7"
     },
     "com.squareup:kotlinpoet": {
       "shasums": {
@@ -1556,59 +1556,59 @@
     },
     "io.confluent:common-utils": {
       "shasums": {
-        "jar": "4644a2a048871061e7a66325b5f5bb090fa1c8cdbf79ef46ccadfd72ed7a52f3",
-        "sources": "7123e21b823f416cfdc61a40b0577101fe8f1c4374ea5e76c1b79fc9d93585d4"
+        "jar": "e40a8e4be9214d42248b920a51bd7ef4d4da886eff25a4e8519bbaa48918684c",
+        "sources": "4918ae7a1ac9fecb9f0e1a6a5c0397c8244115c83ddf572ea363a1b734dd7316"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-avro-types": {
       "shasums": {
-        "jar": "657309a54132c15ccdd19fadaf5c0cddbe4d305a3e5cd7d28623c2b7d3331eff",
-        "sources": "cd2ec96edb6e1d8c093f26b19ae6cf632478184be0016f847d2f47aedcd69eed"
+        "jar": "9618c041d02a4cd1df4e37be779fbe8cb2e9ad09fb40aaeb88d5a08e1a26ac92",
+        "sources": "bf33c64ab92e16c83f9792195f647237a6ca47ff8f1d5ff908e7e49435e4b97a"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-protobuf-provider": {
       "shasums": {
-        "jar": "df9366b55b3d84b32adcbe0549a5b09f1761f11b614316057d69fe05cbae3d4f",
-        "sources": "443b19515289350e44ea54526bc754500666d36827ca3c56d30ce9cbb43e43de"
+        "jar": "39dd7638fea0f21b012fee4146c0d72f401024bfe30686f8f7a69df482dde512",
+        "sources": "e2872fda12eb17f1fe04981412493507d37e1688697f86e7dc468db9fd4bcf2a"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-protobuf-serializer": {
       "shasums": {
-        "jar": "2416cb9812d21050e3ece4a1e7ec116f8a547c45649404bf42b1033d8d66a376",
-        "sources": "0fcb5dac0074aebbe859a1c84b8f17c647440a18d2cf8196d9c34395ffac9fc6"
+        "jar": "3fd95c5379bd349ee3f6422ac1ed10786285bbf61963d6a8261b75e927cfa369",
+        "sources": "fe58126cac415529deae579e221938023c853b1f88ae88b7d47024c117b86782"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-protobuf-types": {
       "shasums": {
-        "jar": "651ddb705a950df9e195b56c791a824741b4afed42a91e83978a67f994af6633",
-        "sources": "ddab6139b430f4cb4a1ecfd290f5477898a472c15837876b3fed48ea8c9d1f35"
+        "jar": "19e3c3c4accf53aa07e64ea5e6c6dbb76d0268997e260dfbdb7534368c1053a8",
+        "sources": "cf466a2da7d82f944e88715dcd5d1b49cb370f7b3b0550d70622d4c385a807d7"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-schema-registry-client": {
       "shasums": {
-        "jar": "95b57c99e07aab55bda8bac92993e072facf011eba6065e79588adbf404d037b",
-        "sources": "aa1a7b5344cbb5f316433cb97942a30b21839978b4af8ee05a3a3a6611322e55"
+        "jar": "2ba6dc067cf93b4ef6c242870aed5bb36e26bb5e766db59f8030247a573ab1cf",
+        "sources": "25ad65be4bc5a45a90de680b2fba1516ab221e370496232c53f1a6a8d24fae7a"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-schema-serializer": {
       "shasums": {
-        "jar": "36e867940166f891d6cb02b100a53c92643ecb80c28911931de7fda036bd8069",
-        "sources": "f60e05f925ab107d0c3715742adf8d9fe529f5a09d4932a131b5add4bd4be0fc"
+        "jar": "f3c1c6d8b48735e3592e3d86c64e7839a4e4f1be787872ff8ea3d1bdfbbf13f8",
+        "sources": "7e7b4de410ae42b33282635210f28e0d8d0a001d3c793dcdfaf9ba0c6ec78689"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.confluent:kafka-schema-types": {
       "shasums": {
-        "jar": "57a182e12c86177de85b96c062889bea08b28d9cdb64ca4cfdc6ab810999543e",
-        "sources": "c85d3f963ee1ce28f338fda9771573f2a4f19b4f8862ff01df6a03bd8ff1f2dd"
+        "jar": "99d79ceb209a303fbfc7390fe32c7dc6fa43aae3dd1b9c2c84eb58d901de0b77",
+        "sources": "ed14c3a25181acb31aa44cce5ccf9150add7c92be9c731ffdd74600c9ebf9fd5"
       },
-      "version": "8.3.2"
+      "version": "8.4.1"
     },
     "io.grpc:grpc-api": {
       "shasums": {
@@ -3628,10 +3628,10 @@
     },
     "org.xerial.snappy:snappy-java": {
       "shasums": {
-        "jar": "4c766cb3f855415ee734b2392949a0b6f12a60879334a74518deaf6270d32e36",
-        "sources": "17d2781f5ae987ddb0355e9a2f5bd07e2df15989063756b9c63158d0136d32d0"
+        "jar": "58d245ec749fc608ecb175e934a16f2840442c5742aed91002cfd4cb9c6c7aee",
+        "sources": "2b531c268d4264a9c24e5f838b14ee6bb6186fae9ccdb3d10c0ef179eb996f1c"
       },
-      "version": "1.1.10.7"
+      "version": "1.1.10.11"
     },
     "org.xmlunit:xmlunit-core": {
       "shasums": {
@@ -4101,6 +4101,7 @@
       "com.fasterxml.jackson.core:jackson-databind",
       "com.fasterxml.jackson.datatype:jackson-datatype-jdk8",
       "com.google.guava:guava",
+      "com.google.re2j:re2j",
       "io.confluent:common-utils",
       "io.confluent:kafka-avro-types",
       "io.swagger.core.v3:swagger-annotations-jakarta",
@@ -6683,6 +6684,8 @@
       "io.confluent.kafka.serializers.context",
       "io.confluent.kafka.serializers.context.strategy",
       "io.confluent.kafka.serializers.metrics",
+      "io.confluent.kafka.serializers.provenance",
+      "io.confluent.kafka.serializers.provenance.strategy",
       "io.confluent.kafka.serializers.schema.id",
       "io.confluent.kafka.serializers.subject",
       "io.confluent.kafka.serializers.subject.strategy",
