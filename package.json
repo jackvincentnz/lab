@@ -5,7 +5,7 @@
   "packageManager": "pnpm@12.15.0",
   "engines": {
     "pnpm": "12",
-    "node": ">=24.15.0 <27"
+    "node": ">=26.13.1 <27"
   },
   "scripts": {
     "build": "bazel build //...",
