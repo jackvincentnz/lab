@@ -4,6 +4,8 @@ build --remote_cache=grpcs://remote.buildbuddy.io
 # Fetch external files through BuildBuddy, which caches them, so that Maven Central cannot rate-limit
 # the shared runner IPs with 429 responses.
 build --experimental_remote_downloader=grpcs://remote.buildbuddy.io
+# Bazel does not send registry tokens to the remote downloader, so Docker Hub pulls download directly.
+build --experimental_remote_downloader_local_fallback
 # Keep CI runners small; local dev enables disk cache in .bazelrc.
 build --disk_cache=
 # Test JVMs run for seconds, so C2 compilation and parallel GC threads cost the 4-CPU runner more
