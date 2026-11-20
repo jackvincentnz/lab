@@ -1,0 +1,37 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "domain",
+    srcs = [
+        "Problem.java",
+        "ProblemRepository.java",
+        "ProblemSignal.java",
+        "ProblemSignalRepository.java",
+        "QuestionStatus.java",
+        "RefinementDecision.java",
+        "RefinementDecisionRepository.java",
+        "RefinementQuestion.java",
+        "RefinementQuestionRepository.java",
+        "SearchRepository.java",
+        "SearchRow.java",
+        "Signal.java",
+        "SignalRepository.java",
+        "Solution.java",
+        "SolutionProblem.java",
+        "SolutionProblemRepository.java",
+        "SolutionRepository.java",
+        "SolutionSignal.java",
+        "SolutionSignalRepository.java",
+        "Strategy.java",
+        "StrategyRepository.java",
+    ],
+    visibility = [
+        "//projects/wide/service/src/main/java/lab/wide/api:__pkg__",
+        "//projects/wide/service/src/main/java/lab/wide/application:__pkg__",
+        "//projects/wide/service/src/test:__subpackages__",
+    ],
+    deps = [
+        "@maven//:org_springframework_data_spring_data_commons",
+        "@maven//:org_springframework_data_spring_data_jdbc",
+    ],
+)

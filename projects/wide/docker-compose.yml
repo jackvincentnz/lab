@@ -1,0 +1,23 @@
+name: wide
+
+services:
+  postgres:
+    # A new major version cannot open this volume's data directory: move the data before merging a major bump.
+    image: postgres:17.11@sha256:ff87138949ad9a46f32ff23bd6852b52ce024a13dffe9b4087be98292cdd3b4f
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5495:5432"
+    environment:
+      POSTGRES_DB: wide
+      POSTGRES_USER: wide
+      POSTGRES_PASSWORD: wide-local
+    volumes:
+      - wide-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U wide -d wide"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  wide-db:

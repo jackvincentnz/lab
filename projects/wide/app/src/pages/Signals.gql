@@ -1,0 +1,14 @@
+query Signals($query: String, $page: Int!, $limit: Int!) {
+  signals(query: $query, page: $page, limit: $limit) {
+    id
+    title
+    source
+    capturedAt
+    problems {
+      id
+    }
+    solutions {
+      id
+    }
+  }
+}

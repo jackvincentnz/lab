@@ -1,0 +1,12 @@
+interface:
+  display_name: "WIDE signal intake"
+  short_description: "Capture raw engineering observations in WIDE"
+  default_prompt: "Capture this observation as a signal in WIDE."
+
+dependencies:
+  tools:
+    - type: "mcp"
+      value: "wide"
+      description: "WIDE local signal store"
+      transport: "streamable_http"
+      url: "http://127.0.0.1:8095/mcp"

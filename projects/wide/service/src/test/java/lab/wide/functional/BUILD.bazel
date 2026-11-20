@@ -1,0 +1,100 @@
+load("//tools/bazel:java.bzl", "java_junit5_test")
+
+java_junit5_test(
+    name = "GraphqlFunctionalTest",
+    size = "medium",
+    srcs = ["GraphqlFunctionalTest.java"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    test_class = "lab.wide.functional.GraphqlFunctionalTest",
+    runtime_deps = [
+        "//projects/wide/service/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/resources/schema:java",
+        "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
+        "//third_party/dgs:client",
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+        "@maven//:io_modelcontextprotocol_sdk_mcp_core",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_spring_beans",
+    ],
+)
+
+java_junit5_test(
+    name = "McpFunctionalTest",
+    size = "medium",
+    srcs = ["McpFunctionalTest.java"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    test_class = "lab.wide.functional.McpFunctionalTest",
+    runtime_deps = [
+        "//projects/wide/service/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/resources/schema:java",
+        "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
+        "//third_party/dgs:client",
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+        "@maven//:io_modelcontextprotocol_sdk_mcp_core",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_spring_beans",
+    ],
+)
+
+java_junit5_test(
+    name = "RefinementFunctionalTest",
+    size = "medium",
+    srcs = ["RefinementFunctionalTest.java"],
+    tags = [
+        "requires-docker",
+        "requires-network",
+    ],
+    test_class = "lab.wide.functional.RefinementFunctionalTest",
+    runtime_deps = [
+        "//projects/wide/service/src/main:main_lib",
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+        "@maven//:org_springframework_boot_spring_boot_starter_test",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//projects/wide/service/src/main/java/lab/wide/api",
+        "//projects/wide/service/src/main/java/lab/wide/application",
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "//projects/wide/service/src/main/resources/schema:java",
+        "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
+        "//third_party/dgs:client",
+        "@maven//:com_jayway_jsonpath_json_path",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
+        "@maven//:io_modelcontextprotocol_sdk_mcp_core",
+        "@maven//:org_assertj_assertj_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_spring_beans",
+    ],
+)

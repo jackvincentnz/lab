@@ -1,0 +1,7 @@
+fragment SourceFields on Signal {
+  id
+  title
+  content
+  source
+  capturedAt
+}

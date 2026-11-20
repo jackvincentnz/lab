@@ -1,0 +1,28 @@
+load("//tools/bazel:java.bzl", "java_library")
+
+java_library(
+    name = "application",
+    srcs = [
+        "FieldEdits.java",
+        "ProblemContext.java",
+        "ProblemLink.java",
+        "RefinementDetailService.java",
+        "RefinementService.java",
+        "SearchService.java",
+        "SignalLink.java",
+        "SignalService.java",
+        "SolutionContext.java",
+        "StrategyService.java",
+    ],
+    visibility = [
+        "//projects/wide/service/src/main/java/lab/wide/api:__pkg__",
+        "//projects/wide/service/src/test:__subpackages__",
+    ],
+    exports = ["//projects/wide/service/src/main/java/lab/wide/domain"],
+    deps = [
+        "//projects/wide/service/src/main/java/lab/wide/domain",
+        "@maven//:org_springframework_data_spring_data_commons",
+        "@maven//:org_springframework_spring_context",
+        "@maven//:org_springframework_spring_tx",
+    ],
+)
