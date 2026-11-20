@@ -1,0 +1,7 @@
+load("//tools/bazel:js.bzl", "js_library")
+
+js_library(
+    name = "templates",
+    srcs = glob(["*.md"]),
+    visibility = ["//projects/wide/app:__pkg__"],
+)

@@ -1,0 +1,8 @@
+fragment ProblemFields on Problem {
+  id
+  title
+  description
+  impact
+  desiredOutcome
+  updatedAt
+}

@@ -1,0 +1,29 @@
+load("//tools/bazel:java.bzl", "java_test_suite")
+
+java_test_suite(
+    name = "testing",
+    srcs = [
+        "PostgresTestBase.java",
+        "ServerTestBase.java",
+    ],
+    runner = "junit5",
+    visibility = ["//projects/wide/service/src/test:__subpackages__"],
+    runtime_deps = [
+        "@maven//:org_junit_jupiter_junit_jupiter_engine",
+        "@maven//:org_junit_platform_junit_platform_launcher",
+        "@maven//:org_junit_platform_junit_platform_reporting",
+    ],
+    deps = [
+        "//libs/test/src/test/java/lab/test:test-test-lib",
+        "@maven//:io_modelcontextprotocol_sdk_mcp_core",
+        "@maven//:org_junit_jupiter_junit_jupiter_api",
+        "@maven//:org_springframework_boot_spring_boot_test",
+        "@maven//:org_springframework_spring_beans",
+        "@maven//:org_springframework_spring_core",
+        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_test",
+        "@maven//:org_springframework_spring_web",
+        "@maven//:org_testcontainers_testcontainers_junit_jupiter",
+        "@maven//:org_testcontainers_testcontainers_postgresql",
+    ],
+)

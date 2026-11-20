@@ -1,0 +1,27 @@
+query Problem($id: ID!) {
+  problem(id: $id) {
+    ...ProblemFields
+    questions {
+      ...QuestionFields
+    }
+    decisions {
+      ...DecisionFields
+    }
+    signals {
+      id
+      rationale
+      linkedAt
+      signal {
+        ...SourceFields
+      }
+    }
+    solutions {
+      id
+      rationale
+      linkedAt
+      solution {
+        ...CandidateFields
+      }
+    }
+  }
+}

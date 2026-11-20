@@ -1,0 +1,5 @@
+alias(
+    name = "service",
+    actual = "//projects/wide/service/src/main",
+    visibility = ["//projects/wide:__pkg__"],
+)
