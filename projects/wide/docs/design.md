@@ -48,9 +48,10 @@ instructions.
 - The React explorer browses saved records through GraphQL.
 
 Java packages under `lab.wide` separate `api` (MCP tools and GraphQL data fetchers), `application`
-(use cases and transactions), `domain` (records), and `infrastructure` (repositories and SQL
-projections). Domain records are also the JDBC entities, and application services use the
-repositories directly.
+(use cases and transactions), and `domain` (records, their repositories, and SQL projections), with
+`config` wiring the tools into Spring. Dependencies point inward, `config` to `api` to `application`
+to `domain`, and Bazel visibility rejects any outward dependency. Domain records are also the JDBC
+entities, and application services use the repositories directly.
 
 ## API semantics
 

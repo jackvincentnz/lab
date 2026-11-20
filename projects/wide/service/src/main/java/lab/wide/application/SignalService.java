@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lab.wide.domain.Signal;
-import lab.wide.infrastructure.SignalRepository;
+import lab.wide.domain.SignalRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

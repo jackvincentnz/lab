@@ -8,6 +8,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class StrategyTools {
+  public static final String READ_STRATEGY = "wide_read_strategy";
+  public static final String REPLACE_STRATEGY = "wide_replace_strategy";
+  public static final String EDIT_STRATEGY = "wide_edit_strategy";
 
   private final StrategyService strategyService;
 
@@ -16,7 +19,7 @@ public class StrategyTools {
   }
 
   @Tool(
-      name = "wide_read_strategy",
+      name = READ_STRATEGY,
       description =
           """
           Read the current WIDE strategy and its last update time before prioritizing next actions.
@@ -28,7 +31,7 @@ public class StrategyTools {
   }
 
   @Tool(
-      name = "wide_replace_strategy",
+      name = REPLACE_STRATEGY,
       description =
           """
           Set or replace the entire current WIDE strategy with a deliberate user-directed change.
@@ -45,7 +48,7 @@ public class StrategyTools {
   }
 
   @Tool(
-      name = "wide_edit_strategy",
+      name = EDIT_STRATEGY,
       description =
           """
           Edit the current WIDE strategy by replacing exactly one occurrence of oldText with newText.

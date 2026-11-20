@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SignalTools {
+  public static final String CAPTURE_SIGNAL = "wide_capture_signal";
+  public static final String GET_SIGNAL = "wide_get_signal";
 
   private final SignalService signalService;
 
@@ -17,7 +19,7 @@ public class SignalTools {
   }
 
   @Tool(
-      name = "wide_capture_signal",
+      name = CAPTURE_SIGNAL,
       description =
           """
           Capture a distinct observation, idea, or concern worth considering, including discoveries
@@ -38,7 +40,7 @@ public class SignalTools {
     return new WriteReceipt(signalService.capture(title, content, source).id());
   }
 
-  @Tool(name = "wide_get_signal", description = "Retrieve one saved WIDE signal by UUID.")
+  @Tool(name = GET_SIGNAL, description = "Retrieve one saved WIDE signal by UUID.")
   public Signal get(@ToolParam(description = "Signal UUID") UUID id) {
     return signalService.get(id);
   }

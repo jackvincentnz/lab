@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lab.test.TestBase;
 import lab.wide.domain.Strategy;
-import lab.wide.infrastructure.StrategyRepository;
+import lab.wide.domain.StrategyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

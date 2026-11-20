@@ -1,5 +1,8 @@
 package lab.wide.testing;
 
+import com.netflix.graphql.dgs.client.GraphQLResponse;
+import com.netflix.graphql.dgs.client.RestClientGraphQLClient;
+import com.netflix.graphql.dgs.client.codegen.GraphQLQueryRequest;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientStreamableHttpTransport;
@@ -7,7 +10,6 @@ import io.modelcontextprotocol.spec.McpSchema.CallToolRequest;
 import io.modelcontextprotocol.spec.McpSchema.CallToolResult;
 import io.modelcontextprotocol.spec.McpSchema.TextContent;
 import java.time.Duration;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.regex.Pattern;
@@ -16,7 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
-import org.springframework.http.MediaType;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.client.RestClient;
 
@@ -67,14 +68,13 @@ public abstract class ServerTestBase extends PostgresTestBase {
     return UUID.fromString(matcher.group(1));
   }
 
-  protected Map<?, ?> graphql(String query, Map<String, ?> variables) {
-    return RestClient.create(baseUrl())
-        .post()
-        .uri("/graphql")
-        .contentType(MediaType.APPLICATION_JSON)
-        .body(Map.of("query", query, "variables", variables))
-        .retrieve()
-        .body(Map.class);
+  protected GraphQLResponse graphql(GraphQLQueryRequest graphQLQueryRequest) {
+    return graphql(graphQLQueryRequest.serialize());
+  }
+
+  protected GraphQLResponse graphql(String query) {
+    return new RestClientGraphQLClient(RestClient.create(baseUrl() + "/graphql"))
+        .executeQuery(query);
   }
 
   private String baseUrl() {
@@ -83,9 +83,5 @@ public abstract class ServerTestBase extends PostgresTestBase {
 
   protected static Map<?, ?> map(Object value) {
     return (Map<?, ?>) value;
-  }
-
-  protected static List<?> list(Object value) {
-    return (List<?>) value;
   }
 }

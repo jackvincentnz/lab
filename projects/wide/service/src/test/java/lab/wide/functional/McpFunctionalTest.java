@@ -8,7 +8,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import lab.test.RequiresDocker;
-import lab.wide.infrastructure.SignalRepository;
+import lab.wide.api.RefinementTools;
+import lab.wide.api.SignalTools;
+import lab.wide.domain.SignalRepository;
 import lab.wide.testing.ServerTestBase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,11 +32,11 @@ class McpFunctionalTest extends ServerTestBase {
   void listTools_connectedClient_marksOnlyMandatoryParametersRequired() {
     var tools = mcpClient().listTools().tools();
 
-    var captureSignal = tool(tools, "wide_capture_signal");
+    var captureSignal = tool(tools, SignalTools.CAPTURE_SIGNAL);
     assertThat(map(captureSignal.inputSchema().get("properties")).keySet())
         .isEqualTo(Set.of("title", "content", "source"));
     assertThat(captureSignal.inputSchema().get("required")).isEqualTo(List.of("title", "content"));
-    assertThat(tool(tools, "wide_create_solution").inputSchema().get("required"))
+    assertThat(tool(tools, RefinementTools.CREATE_SOLUTION).inputSchema().get("required"))
         .isEqualTo(List.of("title", "approach"));
   }
 
@@ -43,7 +45,7 @@ class McpFunctionalTest extends ServerTestBase {
     var content = randomString();
 
     var callToolResult =
-        callTool("wide_capture_signal", Map.of("title", randomString(), "content", content));
+        callTool(SignalTools.CAPTURE_SIGNAL, Map.of("title", randomString(), "content", content));
 
     var signal = signalRepository.findAll().iterator().next();
     assertThat(callToolResult.isError()).isNotEqualTo(true);
@@ -54,7 +56,7 @@ class McpFunctionalTest extends ServerTestBase {
   @Test
   void callTool_invalidWrite_returnsTheValidationErrorWithoutWriting() {
     var callToolResult =
-        callTool("wide_capture_signal", Map.of("title", randomString(), "content", " \n"));
+        callTool(SignalTools.CAPTURE_SIGNAL, Map.of("title", randomString(), "content", " \n"));
 
     assertThat(callToolResult.isError()).isTrue();
     assertThat(text(callToolResult)).contains("Nonblank content is required.");
@@ -65,7 +67,7 @@ class McpFunctionalTest extends ServerTestBase {
   void callTool_unknownId_returnsNotFoundError() {
     var id = UUID.randomUUID();
 
-    var callToolResult = callTool("wide_get_problem", Map.of("id", id.toString()));
+    var callToolResult = callTool(RefinementTools.GET_PROBLEM, Map.of("id", id.toString()));
 
     assertThat(callToolResult.isError()).isTrue();
     assertThat(text(callToolResult)).contains("Problem not found: " + id);

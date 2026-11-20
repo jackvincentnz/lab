@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SearchTools {
+  public static final String SEARCH = "wide_search";
+
   private final SearchService searchService;
 
   public SearchTools(SearchService searchService) {
@@ -16,7 +18,7 @@ public class SearchTools {
   }
 
   @Tool(
-      name = "wide_search",
+      name = SEARCH,
       description =
           "Browse or search signals, problems and candidate solutions. Returns complete titles and"
               + " compact field previews, match snippets, relationship/question/decision counts and"

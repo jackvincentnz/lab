@@ -20,13 +20,21 @@ java_library(
     ],
 )
 
+# The compose dependency stays on this run target so tests never start the local database.
 java_binary(
     name = "main",
+    data = ["//projects/wide:docker-compose.yml"],
     env = {"SPRING_PROFILES_ACTIVE": "local"},
+    jvm_flags = [
+        "-Dspring.docker.compose.file=$$JAVA_RUNFILES/$(rlocationpath //projects/wide:docker-compose.yml)",
+    ],
     main_class = "lab.wide.WideApplication",
     visibility = [
         "//projects/wide:__pkg__",
         "//projects/wide/service:__pkg__",
     ],
-    runtime_deps = [":main_lib"],
+    runtime_deps = [
+        ":main_lib",
+        "@maven//:org_springframework_boot_spring_boot_docker_compose",
+    ],
 )

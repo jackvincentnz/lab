@@ -1,4 +1,4 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import java.time.Instant;
 import java.util.UUID;

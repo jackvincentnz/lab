@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lab.test.TestBase;
 import lab.wide.domain.Signal;
-import lab.wide.infrastructure.SignalRepository;
+import lab.wide.domain.SignalRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

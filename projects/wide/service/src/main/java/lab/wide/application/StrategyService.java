@@ -3,7 +3,7 @@ package lab.wide.application;
 import java.time.Clock;
 import java.time.Instant;
 import lab.wide.domain.Strategy;
-import lab.wide.infrastructure.StrategyRepository;
+import lab.wide.domain.StrategyRepository;
 import org.springframework.stereotype.Service;
 
 @Service

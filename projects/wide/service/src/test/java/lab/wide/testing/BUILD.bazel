@@ -15,6 +15,8 @@ java_test_suite(
     ],
     deps = [
         "//libs/test/src/test/java/lab/test:test-test-lib",
+        "//third_party/dgs:client",
+        "@maven//:com_netflix_graphql_dgs_codegen_graphql_dgs_codegen_shared_core",
         "@maven//:io_modelcontextprotocol_sdk_mcp_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_springframework_boot_spring_boot_test",
@@ -23,6 +25,7 @@ java_test_suite(
         "@maven//:org_springframework_spring_jdbc",
         "@maven//:org_springframework_spring_test",
         "@maven//:org_springframework_spring_web",
+        "@maven//:org_testcontainers_testcontainers",
         "@maven//:org_testcontainers_testcontainers_junit_jupiter",
         "@maven//:org_testcontainers_testcontainers_postgresql",
     ],

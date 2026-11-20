@@ -1,9 +1,8 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import lab.wide.domain.SolutionProblem;
 import org.springframework.data.repository.CrudRepository;
 
 public interface SolutionProblemRepository extends CrudRepository<SolutionProblem, UUID> {

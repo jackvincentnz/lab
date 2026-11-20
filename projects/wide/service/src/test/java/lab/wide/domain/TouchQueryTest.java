@@ -1,20 +1,18 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import lab.test.RequiresDocker;
-import lab.wide.domain.Problem;
-import lab.wide.domain.Solution;
 import lab.wide.testing.PostgresTestBase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 @RequiresDocker
 class TouchQueryTest extends PostgresTestBase {
 
@@ -22,14 +20,7 @@ class TouchQueryTest extends PostgresTestBase {
 
   @Autowired SolutionRepository solutionRepository;
 
-  @Autowired JdbcTemplate jdbcTemplate;
-
   final Instant updatedAt = fixedClock().instant().truncatedTo(ChronoUnit.MICROS);
-
-  @BeforeEach
-  void clear() {
-    clearRecords(jdbcTemplate);
-  }
 
   @Test
   void touch_problem_changesOnlyItsUpdateTime() {

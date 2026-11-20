@@ -1,8 +1,7 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import java.util.List;
 import java.util.UUID;
-import lab.wide.domain.RefinementQuestion;
 import org.springframework.data.repository.CrudRepository;
 
 public interface RefinementQuestionRepository extends CrudRepository<RefinementQuestion, UUID> {

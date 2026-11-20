@@ -10,13 +10,13 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
+import lab.wide.domain.ProblemRepository;
 import lab.wide.domain.QuestionStatus;
 import lab.wide.domain.RefinementDecision;
+import lab.wide.domain.RefinementDecisionRepository;
 import lab.wide.domain.RefinementQuestion;
-import lab.wide.infrastructure.ProblemRepository;
-import lab.wide.infrastructure.RefinementDecisionRepository;
-import lab.wide.infrastructure.RefinementQuestionRepository;
-import lab.wide.infrastructure.SolutionRepository;
+import lab.wide.domain.RefinementQuestionRepository;
+import lab.wide.domain.SolutionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

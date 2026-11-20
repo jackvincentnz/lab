@@ -12,6 +12,19 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RefinementTools {
+  public static final String CREATE_PROBLEM = "wide_create_problem";
+  public static final String EDIT_PROBLEM = "wide_edit_problem";
+  public static final String EDIT_SOLUTION = "wide_edit_solution";
+  public static final String GET_PROBLEM = "wide_get_problem";
+  public static final String CREATE_SOLUTION = "wide_create_solution";
+  public static final String GET_SOLUTION = "wide_get_solution";
+  public static final String LINK_PROBLEM_SIGNAL = "wide_link_problem_signal";
+  public static final String UNLINK_PROBLEM_SIGNAL = "wide_unlink_problem_signal";
+  public static final String LINK_SOLUTION_SIGNAL = "wide_link_solution_signal";
+  public static final String UNLINK_SOLUTION_SIGNAL = "wide_unlink_solution_signal";
+  public static final String LINK_SOLUTION_PROBLEM = "wide_link_solution_problem";
+  public static final String UNLINK_SOLUTION_PROBLEM = "wide_unlink_solution_problem";
+
   private final RefinementService refinementService;
 
   public RefinementTools(RefinementService refinementService) {
@@ -19,7 +32,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_create_problem",
+      name = CREATE_PROBLEM,
       description =
           "Create a draft WIDE problem. WIDE generates the UUID. Preserve original signals and link"
               + " supplied source links atomically; invalid links roll back the draft. Returns the"
@@ -57,7 +70,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_edit_problem",
+      name = EDIT_PROBLEM,
       description =
           "Edit selected fields of an existing problem. Read first. Omitted keys are preserved;"
               + " clearFields explicitly clears optional fields. Unknown keys, empty edits, and"
@@ -82,7 +95,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_edit_solution",
+      name = EDIT_SOLUTION,
       description =
           "Edit selected fields of an existing candidate solution. Read first. Omitted keys are"
               + " preserved; clearFields explicitly clears optional fields. Unknown keys, empty"
@@ -107,7 +120,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_get_problem",
+      name = GET_PROBLEM,
       description =
           "Read a WIDE problem and its signal and solution links, including individual questions,"
               + " answers, decisions, link IDs, rationales, and linkedTitles keyed by linked record"
@@ -118,7 +131,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_create_solution",
+      name = CREATE_SOLUTION,
       description =
           "Create a draft WIDE solution. WIDE generates the UUID. Preserve original signals and"
               + " save supplied source and problem links atomically; invalid links roll back the"
@@ -171,7 +184,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_get_solution",
+      name = GET_SOLUTION,
       description =
           "Read a WIDE solution and its signal and problem links, including individual questions,"
               + " answers, decisions, link IDs, rationales, and linkedTitles keyed by linked record"
@@ -182,7 +195,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_link_problem_signal",
+      name = LINK_PROBLEM_SIGNAL,
       description =
           "Link an existing problem and signal with a rationale explaining the relationship and any"
               + " uncertainty. Returns the link ID. Linking the same pair again replaces its"
@@ -201,7 +214,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_unlink_problem_signal",
+      name = UNLINK_PROBLEM_SIGNAL,
       description =
           "Remove a mistaken or obsolete problem–signal relationship by its link UUID, returned by"
               + " the get or link tool. Returns the removed link ID; both records remain. Use for a"
@@ -212,7 +225,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_link_solution_signal",
+      name = LINK_SOLUTION_SIGNAL,
       description =
           "Link an existing solution and signal with a rationale explaining the relationship and"
               + " any uncertainty. Returns the link ID. Linking the same pair again replaces its"
@@ -231,7 +244,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_unlink_solution_signal",
+      name = UNLINK_SOLUTION_SIGNAL,
       description =
           "Remove a mistaken or obsolete solution–signal relationship by its link UUID, returned by"
               + " the get or link tool. Returns the removed link ID; both records remain. Use for a"
@@ -242,7 +255,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_link_solution_problem",
+      name = LINK_SOLUTION_PROBLEM,
       description =
           "Link an existing solution and problem with a rationale explaining the relationship and"
               + " any uncertainty. Returns the link ID. Linking the same pair again replaces its"
@@ -262,7 +275,7 @@ public class RefinementTools {
   }
 
   @Tool(
-      name = "wide_unlink_solution_problem",
+      name = UNLINK_SOLUTION_PROBLEM,
       description =
           "Remove a mistaken or obsolete solution–problem relationship by its link UUID, returned"
               + " by the get or link tool. Returns the removed link ID; both records remain. Use"

@@ -1,8 +1,7 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import java.time.Instant;
 import java.util.UUID;
-import lab.wide.domain.Problem;
 import org.springframework.data.jdbc.repository.query.Modifying;
 import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.repository.CrudRepository;

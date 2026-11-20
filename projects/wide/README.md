@@ -15,12 +15,6 @@ browses the saved work. See the [design](docs/design.md) for the concepts.
 Follow the [monorepo setup](../../README.md#getting-started) and start Docker. Run these commands
 from the repository root.
 
-Start Postgres:
-
-```zsh
-docker compose -f projects/wide/docker-compose.yml up -d --wait
-```
-
 Run service + app together:
 
 ```zsh
@@ -33,12 +27,18 @@ Run the service only:
 bazel run //projects/wide/service
 ```
 
+The service starts Postgres from `docker-compose.yml` through Spring Boot's Docker Compose support
+and points its datasource at it. On exit it stops the container, never removes it, so the next run
+reuses it and its volume.
+
 See the [WIDE App guide](app/README.md) for app build, run and watch commands.
 
 ### Environment variables
 
-The run targets activate the `local` Spring profile, whose defaults match the compose file, so no
-variables are needed locally. Without that profile the database variables are required.
+The run targets activate the `local` Spring profile and connect to the Postgres they start, so no
+variables are needed locally. The database variables apply when the service does not start Postgres:
+pass `--spring.docker.compose.enabled=false` after `--` to use them under the `local` profile, whose
+defaults match the compose file. Without that profile they are required.
 
 - `WIDE_PORT`: service port, default `8095`. Set it for the app too, which proxies to the service.
 - `WIDE_DATABASE_URL`: JDBC URL, `local` default `jdbc:postgresql://127.0.0.1:5495/wide`.
@@ -47,8 +47,9 @@ variables are needed locally. Without that profile the database variables are re
 
 ### Data
 
-Records persist in the Docker volume `wide_wide-db` across `docker compose down`;
-`docker compose down -v` deletes them. Flyway applies migrations when the service starts.
+Records persist in the Docker volume `wide_wide-db` across service restarts and
+`docker compose down`; `docker compose down -v` deletes them. Flyway applies migrations when the
+service starts.
 
 ## Connect an agent
 
@@ -108,7 +109,7 @@ Run service tests:
 bazel test //projects/wide/service/...
 ```
 
-Unit tests need nothing else. The `infrastructure` tests against Postgres and the `functional` tests
+Unit tests need nothing else. The `domain` repository tests against Postgres and the `functional` tests
 over MCP and GraphQL use throwaway Testcontainers databases, never the local one, and are tagged
 `requires-docker`.
 
@@ -128,7 +129,7 @@ loopback only. There is no authentication and no model API key.
 ## Project map
 
 - `projects/wide/service/src/main/java/lab/wide`: Spring Boot entrypoint (`WideApplication`) and the
-  `api`, `application`, `config`, `domain`, and `infrastructure` packages.
+  `api`, `application`, `config`, and `domain` packages.
 - `projects/wide/service/src/main/resources/schema/schema.graphqls`: GraphQL schema.
 - `projects/wide/service/src/main/resources/db/migration`: Flyway migrations.
 - `projects/wide/app/src`: React explorer sources.

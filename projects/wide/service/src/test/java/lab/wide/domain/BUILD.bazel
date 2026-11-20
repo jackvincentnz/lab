@@ -8,7 +8,7 @@ java_junit5_test(
         "requires-docker",
         "requires-network",
     ],
-    test_class = "lab.wide.infrastructure.MigrationTest",
+    test_class = "lab.wide.domain.MigrationTest",
     runtime_deps = [
         "//projects/wide/service/src/main:main_lib",
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -19,14 +19,13 @@ java_junit5_test(
     deps = [
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/wide/service/src/main/java/lab/wide/domain",
-        "//projects/wide/service/src/main/java/lab/wide/infrastructure",
         "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_flywaydb_flyway_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
-        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
     ],
 )
 
@@ -38,7 +37,7 @@ java_junit5_test(
         "requires-docker",
         "requires-network",
     ],
-    test_class = "lab.wide.infrastructure.SearchRepositoryTest",
+    test_class = "lab.wide.domain.SearchRepositoryTest",
     runtime_deps = [
         "//projects/wide/service/src/main:main_lib",
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -49,14 +48,13 @@ java_junit5_test(
     deps = [
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/wide/service/src/main/java/lab/wide/domain",
-        "//projects/wide/service/src/main/java/lab/wide/infrastructure",
         "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_flywaydb_flyway_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
-        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
     ],
 )
 
@@ -68,7 +66,7 @@ java_junit5_test(
         "requires-docker",
         "requires-network",
     ],
-    test_class = "lab.wide.infrastructure.TouchQueryTest",
+    test_class = "lab.wide.domain.TouchQueryTest",
     runtime_deps = [
         "//projects/wide/service/src/main:main_lib",
         "@maven//:org_junit_jupiter_junit_jupiter_engine",
@@ -79,13 +77,12 @@ java_junit5_test(
     deps = [
         "//libs/test/src/test/java/lab/test:test-test-lib",
         "//projects/wide/service/src/main/java/lab/wide/domain",
-        "//projects/wide/service/src/main/java/lab/wide/infrastructure",
         "//projects/wide/service/src/test/java/lab/wide/testing:testing-test-lib",
         "@maven//:org_assertj_assertj_core",
         "@maven//:org_flywaydb_flyway_core",
         "@maven//:org_junit_jupiter_junit_jupiter_api",
         "@maven//:org_springframework_boot_spring_boot_test",
         "@maven//:org_springframework_spring_beans",
-        "@maven//:org_springframework_spring_jdbc",
+        "@maven//:org_springframework_spring_tx",
     ],
 )

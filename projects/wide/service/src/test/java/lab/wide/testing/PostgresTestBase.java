@@ -7,13 +7,18 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /** Runs against a throwaway Postgres container, never the local WIDE database. */
 @Testcontainers
 public abstract class PostgresTestBase extends TestBase {
 
   @Container
-  private static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:17");
+  private static final PostgreSQLContainer<?> POSTGRES =
+      new PostgreSQLContainer<>(
+          DockerImageName.parse(
+                  "postgres:17.11@sha256:ff87138949ad9a46f32ff23bd6852b52ce024a13dffe9b4087be98292cdd3b4f")
+              .withRepository("postgres"));
 
   @DynamicPropertySource
   static void database(DynamicPropertyRegistry dynamicPropertyRegistry) {
@@ -34,7 +39,8 @@ public abstract class PostgresTestBase extends TestBase {
     return POSTGRES.getPassword();
   }
 
-  // Tests in a class share one database, and the migration seeds the strategy row they all use.
+  // For tests whose writes commit, so no test transaction can roll them back. Tests in a class
+  // share one database, and the migration seeds the strategy row they all use.
   protected static void clearRecords(JdbcTemplate jdbcTemplate) {
     jdbcTemplate.execute(
         "TRUNCATE signal, problem, solution, problem_signal, solution_signal, solution_problem,"

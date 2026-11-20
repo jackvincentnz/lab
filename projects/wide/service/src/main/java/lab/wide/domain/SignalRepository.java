@@ -1,8 +1,7 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import java.util.List;
 import java.util.UUID;
-import lab.wide.domain.Signal;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import lab.wide.infrastructure.ProblemRepository;
-import lab.wide.infrastructure.SearchRepository;
-import lab.wide.infrastructure.SearchRow;
+import lab.wide.domain.ProblemRepository;
+import lab.wide.domain.SearchRepository;
+import lab.wide.domain.SearchRow;
 import org.springframework.stereotype.Service;
 
 @Service

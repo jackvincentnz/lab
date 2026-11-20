@@ -15,7 +15,7 @@ java_library(
         "WriteReceipt.java",
     ],
     visibility = [
-        "//projects/wide/service/src/main/java/lab/wide:__subpackages__",
+        "//projects/wide/service/src/main/java/lab/wide/config:__pkg__",
         "//projects/wide/service/src/test:__subpackages__",
     ],
     exports = [

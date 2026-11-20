@@ -11,6 +11,11 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RefinementDetailTools {
+  public static final String CREATE_QUESTION = "wide_create_question";
+  public static final String EDIT_QUESTION = "wide_edit_question";
+  public static final String CREATE_DECISION = "wide_create_decision";
+  public static final String EDIT_DECISION = "wide_edit_decision";
+
   private final RefinementDetailService refinementDetailService;
 
   public RefinementDetailTools(RefinementDetailService refinementDetailService) {
@@ -18,7 +23,7 @@ public class RefinementDetailTools {
   }
 
   @Tool(
-      name = "wide_create_question",
+      name = CREATE_QUESTION,
       description =
           "Save one refinement question on exactly one existing problem or candidate solution. Read"
               + " the parent's get tool first to avoid duplicates. WIDE generates the UUID. Returns"
@@ -59,7 +64,7 @@ public class RefinementDetailTools {
   }
 
   @Tool(
-      name = "wide_edit_question",
+      name = EDIT_QUESTION,
       description =
           "Edit an individual question returned by wide_get_problem or wide_get_solution. Read"
               + " first; omitted fields stay unchanged. Use clearFields to clear optional fields."
@@ -94,7 +99,7 @@ public class RefinementDetailTools {
   }
 
   @Tool(
-      name = "wide_create_decision",
+      name = CREATE_DECISION,
       description =
           "Record an explicitly stated human position on exactly one problem or candidate. Read its"
               + " get tool first to avoid duplicates. Preserve attribution and conditions; agent"
@@ -134,7 +139,7 @@ public class RefinementDetailTools {
   }
 
   @Tool(
-      name = "wide_edit_decision",
+      name = EDIT_DECISION,
       description =
           "Update a recorded human decision from the parent's get tool, preserving omitted fields."
               + " Use for a correction or a changed human position, never to substitute an agent"

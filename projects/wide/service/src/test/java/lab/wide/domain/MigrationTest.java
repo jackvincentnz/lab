@@ -1,4 +1,4 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

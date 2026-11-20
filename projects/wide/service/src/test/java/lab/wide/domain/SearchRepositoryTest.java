@@ -1,4 +1,4 @@
-package lab.wide.infrastructure;
+package lab.wide.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -6,23 +6,14 @@ import static org.assertj.core.api.Assertions.tuple;
 import java.time.Instant;
 import java.util.UUID;
 import lab.test.RequiresDocker;
-import lab.wide.domain.Problem;
-import lab.wide.domain.ProblemSignal;
-import lab.wide.domain.QuestionStatus;
-import lab.wide.domain.RefinementDecision;
-import lab.wide.domain.RefinementQuestion;
-import lab.wide.domain.Signal;
-import lab.wide.domain.Solution;
-import lab.wide.domain.SolutionProblem;
-import lab.wide.domain.SolutionSignal;
 import lab.wide.testing.PostgresTestBase;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@Transactional
 @RequiresDocker
 class SearchRepositoryTest extends PostgresTestBase {
 
@@ -43,13 +34,6 @@ class SearchRepositoryTest extends PostgresTestBase {
   @Autowired RefinementQuestionRepository refinementQuestionRepository;
 
   @Autowired RefinementDecisionRepository refinementDecisionRepository;
-
-  @Autowired JdbcTemplate jdbcTemplate;
-
-  @BeforeEach
-  void clear() {
-    clearRecords(jdbcTemplate);
-  }
 
   @Test
   void search_differentCase_matchesLiteralTextAcrossTypes() {
