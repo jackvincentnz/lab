@@ -139,7 +139,7 @@ maven.install(
         "io.netty:netty-bom:4.2.20.Final",
         "com.google.protobuf:protobuf-bom:4.36.2",
         "org.springframework.boot:spring-boot-dependencies:4.1.2",
-        "org.springframework.cloud:spring-cloud-dependencies:2025.1.4",
+        "org.springframework.cloud:spring-cloud-dependencies:2026.0.0",
         "org.springframework.ai:spring-ai-bom:2.0.2",
         "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.1.0",
         "org.testcontainers:testcontainers-bom:2.0.5",
