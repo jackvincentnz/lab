@@ -33,18 +33,21 @@ describe how to work.
 ## Working
 
 - Check a claim against the code, the docs for the pinned version, or a tool's
-  output before you state it, and say how you checked it or that it is
-  inferred, so that the user does not decide on a wrong premise.
-- Run repository tools such as `aspect`, `java`, and `pnpm` from
-  `tools/.bazel_env/bin`, regenerated with `bazel run //tools:bazel_env`,
-  because agent shells do not load direnv, so that you use the pinned versions.
+  output before you state it, say how you checked it, and name what you could
+  not check, so that the user does not decide on a wrong premise.
+- Agent shells do not load direnv, so run repository tools such as `aspect`
+  and `pnpm` from `tools/.bazel_env/bin`, which
+  [getting started](README.md#getting-started) sets up, so that you use the
+  pinned versions.
 - Run Bazel with its default output base and flags, so that it reuses the
   checkout's cache.
 - Expect other sessions to run Bazel at the same time, and rerun a target that
   times out on its own before you report it failed, so that contention is not
   reported as a regression.
-- Remove each worktree you create when its work is done, and run Bazel-heavy
-  work in one session at a time, so that parallel work does not fill the disk.
+- Remove each worktree you create when its work is done, so that worktrees and
+  their Bazel output bases do not fill the disk.
+- When you split work across sessions or subagents, give Bazel-heavy steps to
+  one at a time, so that parallel builds do not exhaust the disk.
 - Stop, delete, or reset only the processes, branches, worktrees, and Docker
   volumes this session created, and ask about anything else, so that other
   sessions and local data survive. Stop a process by PID rather than with
@@ -72,8 +75,9 @@ describe how to work.
 - Run the [pre-review skill](.agents/skills/pre-review/SKILL.md) before you
   report a PR ready, so that the user reviews work a second reader has already
   checked.
-- Lead a report with the answer, or with Ready, Waiting, or Blocked for a PR,
-  in plain words. Define any term you introduce, give each rejected alternative
+- Lead a report with the answer in plain words. For a PR, lead with Ready
+  (mergeable now), Waiting (on CI or a reviewer), or Blocked (needs a fix or a
+  decision). Define any term you introduce, give each rejected alternative
   one line, and make any command for the user complete, so that the user can
   decide without follow-up questions.
 - Report the root cause and the reason for each non-obvious change, so that
@@ -86,7 +90,7 @@ describe how to work.
 | Conventional commit messages                  | Commitlint `commit-msg` hook                     |
 | Formatting and lint                           | pre-commit hooks and CI                          |
 | Java BUILD files match Gazelle                | CI Gazelle diff check                            |
-| `MODULE.bazel.lock` is current                | CI lockfile check                                |
+| `MODULE.bazel.lock` is current                | `--lockfile_mode=error` in CI                    |
 | Contributing conventions and handoff criteria | [Pre-review](.agents/skills/pre-review/SKILL.md) |
 | Other rules in this file                      | Nothing yet                                      |
 

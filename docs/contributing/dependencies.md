@@ -7,9 +7,9 @@
 - Leave a security fix in a transitive dependency to the next update of the
   direct dependency that brings it in, so that pins stay rare. Pin it, with an
   npm override in `pnpm-workspace.yaml` or an explicit Maven version, only when
-  the fix cannot wait.
-- Pin every tool, runtime, and image to an exact version, and images also by
-  digest, so that a change behaves the same on every machine and in CI.
+  a maintainer asks.
+- Use an exact version for every tool, runtime, and image, and also a digest
+  for images, so that a change behaves the same on every machine and in CI.
 - Run the tools that Bazel or the repository provides instead of the host's,
   so that results do not depend on what a machine has installed.
 

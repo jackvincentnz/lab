@@ -58,7 +58,7 @@ Present the plan and wait for the user's go-ahead.
    `gh api repos/jackvincentnz/lab/pulls/$PR/comments/<databaseId>/replies -f body='...'`,
    using the first comment's `databaseId`. Check that the response holds the
    reply's URL before you move on.
-3. Resolve only the threads that you fixed:
+3. When the user asks you to resolve threads, resolve only the ones you fixed:
 
    ```sh
    gh api graphql -F id=<thread id> -f query='
@@ -67,4 +67,4 @@ Present the plan and wait for the user's go-ahead.
      }'
    ```
 
-Do not resolve threads or merge before the user approves.
+Do not resolve threads or merge unless the user asks.

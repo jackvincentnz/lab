@@ -96,9 +96,9 @@ Choose the type by the effect of the change, not by the files it touches:
 
 ## Pull requests and CI
 
-Open PRs against `main`. Title a PR with the behavior it results in, in plain
-words, and retitle it when the scope changes, so that the history says what
-changed. Fill in only the template's `Change` and `Validation`
+Open PRs against `main`. Title a PR as a conventional commit that states the
+behavior it results in, in plain words, and retitle it when the scope changes,
+so that the history says what changed. Fill in only the template's `Change` and `Validation`
 sections: a short description of the problem and the resulting behavior, then
 the checks you ran, including any failures or checks you could not run. Link the
 relevant issue; use `Closes #123` when merging the PR will fully resolve it.
