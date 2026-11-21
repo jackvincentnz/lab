@@ -80,7 +80,7 @@ repos:
         name: gazelle
         entry: bazel run //tools/gazelle -- -mode=diff
         language: system
-        files: (\.java|\.proto|(^|/)BUILD|\.bazel)$
+        files: (\.java|\.proto|(^|/)BUILD|\.bazel|\.bzl|(^|/)maven_install\.json)$
         pass_filenames: false
         stages: [pre-push]
 

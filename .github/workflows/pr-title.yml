@@ -31,5 +31,5 @@ jobs:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
           printf '%s\n' "$PR_TITLE" > .git/COMMIT_EDITMSG
-          python -m pip install pre-commit
+          python -m pip install pre-commit==4.7.0
           pre-commit run commitlint --hook-stage commit-msg --commit-msg-filename .git/COMMIT_EDITMSG
