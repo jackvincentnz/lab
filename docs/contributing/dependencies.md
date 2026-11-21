@@ -29,17 +29,3 @@ the change that caused them:
 
 CI fails on a stale `MODULE.bazel.lock`. After a rebase that touches a
 lockfile, regenerate it instead of keeping the textual merge.
-
-If CI then reports that an extension "has changed its facts", the data an
-extension records in the lockfile, clear Bazel's cached copy of the lockfile
-after other Bazel work in this checkout finishes, and regenerate. Bazel before
-8.9.0, and 9.x before 9.3.0, can keep stale facts from that cache
-([bazelbuild/bazel#29161](https://github.com/bazelbuild/bazel/issues/29161)).
-Remove this step once the repository uses a Bazel version with the fix.
-
-```sh
-lock="$(bazel info output_base)/MODULE.bazel.lock"
-bazel shutdown
-rm -f "$lock"
-bazel mod deps --lockfile_mode=update
-```

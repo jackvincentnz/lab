@@ -13,8 +13,8 @@ so that `git diff` shows it with your staged and unstaged changes. Then set
 `HASH=$(git diff $BASE | git hash-object --stdin)`. Skip the review, and say
 so, when the diff is empty, holds only generated files such as lockfiles, or
 has the same `HASH` as the last entry for this branch in the
-[log](#record), so that a rebase or an empty push does not start another
-review.
+[log](#record), so that an empty push, or a rebase that changes none of your
+files, does not start another review.
 
 ## Review
 

@@ -36,20 +36,22 @@ number.
   `gh api "repos/jackvincentnz/lab/code-scanning/alerts?ref=refs/pull/$PR/merge&state=open"`.
 - Checks: `gh pr checks $PR`.
 
-## Plan
+## Triage
 
 Classify each unresolved item as fix, skip with a reason, or needs a decision
 with the options. Check each bot finding against the current code first,
 because bots review the diff without the repository's context, and comments
 from before the latest push may be outdated. List a request that grows the
-scope as a follow-up for the user, not as a fix. A CodeQL alert whose instances are all in test code is for
-the user to dismiss. Report it, and do not change the code to avoid it.
+scope as a follow-up for the user, not as a fix. A CodeQL alert whose instances
+are all in test code is for the user to dismiss. Report it, and do not change the code to avoid it.
 
-Present the plan and wait for the user's go-ahead.
+Go ahead with the fixes and skips without waiting, and ask the user only about
+the items that need a decision, so that feedback reaches a mergeable PR without
+another check-in.
 
 ## Apply
 
-1. Make the approved fixes,
+1. Make the fixes,
    [validate](../../../CONTRIBUTING.md#validating-a-change) them, then commit
    and push.
 2. Reply to each thread you fixed or skipped, including every bot thread

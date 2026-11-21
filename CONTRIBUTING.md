@@ -84,8 +84,11 @@ Choose the type by the effect of the change, not by the files it touches:
 - `chore` is housekeeping with no build or capability effect. For example,
   `chore: remove Cypress Aspect task`.
 - `docs` changes documentation only. For example, `docs: clarify local setup`.
-- Dependency updates take the type Renovate gives them, `fix(deps)` or
-  `chore(deps)`, so that manual and automated updates read the same.
+- A dependency update you make, including an override or an explicit
+  version, takes `fix(deps)` when it corrects behavior, such as a security
+  vulnerability, and `chore(deps)` otherwise, so that its type follows the
+  effect like any other change. Renovate's PRs keep the type Renovate gives
+  them, which depends on the kind of dependency.
 
 ## Contribution guidelines
 
