@@ -5,10 +5,13 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  # Runs CI on any branch without a PR: gh workflow run main.yml --ref <branch>
+  workflow_dispatch:
 
 concurrency:
   # Cancel previous actions from the same PR: https://stackoverflow.com/a/72408109
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  # The event name keeps a manual run on main from cancelling a push run that delivers.
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -79,15 +82,16 @@ jobs:
           report_paths: "tmp/testlogs/**/test.xml"
           check_name: "publish_test_report"
 
+      # Manual runs are experiments, so only merges to main deliver.
       - name: Log in to Docker Hub
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Deliver artifacts
-        if: github.ref == 'refs/heads/main'
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         run: tools/bazel/deliver_changed.sh
 
       - name: Submit dependencies
@@ -102,7 +106,7 @@ jobs:
 
   pull_request_ci:
     runs-on: ubuntu-26.04
-    if: ${{ github.event_name == 'pull_request' }}
+    if: ${{ github.event_name != 'push' }}
     permissions:
       contents: read
     steps:
