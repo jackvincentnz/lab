@@ -28,13 +28,26 @@ Follow the conventions of the code around your change, so that each project
 stays consistent. A project may choose its own architectural style within its
 boundary.
 
-Write comments that explain why the code is the way it is, so that they stay
-true as plans change. Keep sequencing such as "once #123 lands" in issues.
+Solve a problem with the mechanism the framework or tool documents and the
+smallest change that works, so that the code stays familiar and cheap to change.
+When you depart from the usual approach, say why in the PR.
+
+Leave out checks for states that your code or the framework cannot produce, and
+delete such branches instead of testing them, so that every branch is one a
+reader needs.
+
+Add a comment only when the code and its names cannot show why, in as few words
+as possible, so that comments stay true as the code changes. Keep sequencing
+such as "once #123 lands" in issues.
+
+Put a refactor in its own commit or PR before the behavior change, with test
+assertions unchanged, so that a reviewer can check each part on its own.
 
 ## Validating a change
 
-- Run `bazel test //projects/<name>/...` for the project you changed, so that
-  every target in it is covered, not only the ones you touched.
+- Run `bazel test //projects/<name>/...` for the project you changed before you
+  open a PR, so that every target in it is covered, not only the ones you
+  touched. Targeted tests are enough while you iterate.
 - Run `bazel test //...` when you change `libs/`, `tools/`, Bazel configuration,
   or dependencies, so that consumers in other projects are covered.
 - Run `aspect gazelle` when you add, move, or delete Java files or change
@@ -66,11 +79,16 @@ Choose the type by the effect of the change, not by the files it touches:
   `feat(gateway): add Spring Cloud Gateway and Spring Session`.
 - `fix` corrects behavior. For example,
   `fix(mops): apply tool options on top of defaults`.
-- `build` changes the build system or dependency pins without adding a
-  capability. For example, `build: wrap Java rules and enable strict globs`.
+- `build` changes the build system without adding a capability. For example,
+  `build: wrap Java rules and enable strict globs`.
 - `chore` is housekeeping with no build or capability effect. For example,
   `chore: remove Cypress Aspect task`.
 - `docs` changes documentation only. For example, `docs: clarify local setup`.
+- A dependency update you make, including an override or an explicit
+  version, takes `fix(deps)` when it corrects behavior, such as a security
+  vulnerability, and `chore(deps)` otherwise, so that its type follows the
+  effect like any other change. Renovate's PRs keep the type Renovate gives
+  them, which depends on the kind of dependency.
 
 ## Contribution guidelines
 
@@ -83,7 +101,9 @@ Choose the type by the effect of the change, not by the files it touches:
 
 ## Pull requests and CI
 
-Open PRs against `main`. Fill in only the template's `Change` and `Validation`
+Open PRs against `main`. Title a PR as a conventional commit that states the
+behavior it results in, in plain words, and retitle it when the scope changes,
+so that the history says what changed. Fill in only the template's `Change` and `Validation`
 sections: a short description of the problem and the resulting behavior, then
 the checks you ran, including any failures or checks you could not run. Link the
 relevant issue; use `Closes #123` when merging the PR will fully resolve it.

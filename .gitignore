@@ -1,5 +1,8 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+# Local files that are never committed, such as agent review logs
+.ignored
+
 # Bazel
 dist
 user.bazelrc
