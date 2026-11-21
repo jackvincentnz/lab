@@ -14,8 +14,15 @@ Then run this command from the repository root:
 pre-commit install
 ```
 
-The repository's `default_install_hook_types` setting installs both `pre-commit`
-and `commit-msg` hooks. Hook environments are downloaded on first use.
+The repository's `default_install_hook_types` setting installs `pre-commit`,
+`commit-msg` and `pre-push` hooks. Hook environments are downloaded on first use.
+Rerun `pre-commit install` after this setting changes, so that new hook types
+are installed in an existing clone.
+
+The `pre-push` hook runs the [Gazelle](gazelle.md) check that CI runs on the
+working tree, when the pushed commits change Java, proto or Bazel files. It fails
+when a BUILD file is out of date; run `aspect gazelle`, commit the changes, then
+push again.
 
 ## Running checks
 

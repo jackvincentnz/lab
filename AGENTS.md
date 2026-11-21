@@ -30,3 +30,5 @@
   a workaround.
 - Report the root cause and the reason for each non-obvious change, so that
   the user can review the change without asking why.
+- Run CI experiments with `gh workflow run main.yml --ref <branch>` instead of
+  opening PRs, so that experiments do not crowd the PR list.
