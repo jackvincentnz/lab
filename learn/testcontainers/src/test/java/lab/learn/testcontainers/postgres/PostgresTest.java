@@ -20,7 +20,7 @@ public class PostgresTest {
   public PostgreSQLContainer postgres =
       new PostgreSQLContainer(
           DockerImageName.parse(
-                  "postgres:18.6@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42")
+                  "postgres:18.7@sha256:eb63372c1e05c755f55fa30cbd07aecc443676fc6c0fa90b9002d01537841e1a")
               .withRepository("postgres"));
 
   @Test
