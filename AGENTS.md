@@ -74,6 +74,8 @@ describe how to work.
 - Fix the cause of a failing check instead of removing behavior, tests,
   assertions, or lint rules to make it pass, so that a passing check still
   means the code works.
+- Run CI experiments with `gh workflow run main.yml --ref <branch>` instead of
+  opening PRs, so that experiments do not crowd the PR list.
 
 ## Handing off
 
