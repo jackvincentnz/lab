@@ -1,7 +1,7 @@
 # See https://pre-commit.com for more information
 # See https://pre-commit.com/hooks.html for more hooks
 
-default_install_hook_types: [pre-commit, commit-msg]
+default_install_hook_types: [pre-commit, commit-msg, pre-push]
 default_stages: [pre-commit]
 # pre-commit cannot read .nvmrc, so Renovate updates this with it in the Node.js group
 default_language_version:
@@ -61,14 +61,28 @@ repos:
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v6.0.0
+    # These hooks also declare pre-push; commits already ran them.
     hooks:
       - id: trailing-whitespace
+        stages: [pre-commit]
       - id: end-of-file-fixer
+        stages: [pre-commit]
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
     rev: 44.206.2
     hooks:
       - id: renovate-config-validator
+
+  # Fail a push whose BUILD files Gazelle would change, as CI does; see docs/platform/tools/gazelle.md
+  - repo: local
+    hooks:
+      - id: gazelle
+        name: gazelle
+        entry: bazel run //tools/gazelle -- -mode=diff
+        language: system
+        files: (\.java|\.proto|(^|/)BUILD|\.bazel|\.bzl|(^|/)maven_install\.json)$
+        pass_filenames: false
+        stages: [pre-push]
 
   # Report coverage of changed lines on demand; see docs/platform/coverage/changed-line-coverage.md
   - repo: local

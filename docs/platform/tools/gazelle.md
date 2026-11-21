@@ -22,7 +22,8 @@ Check without changing files:
 bazel run //tools/gazelle -- -mode=diff
 ```
 
-CI runs this check before building, and fails when it prints a diff.
+CI runs this check before building, and fails when it prints a diff. The
+[pre-push hook](pre-commit.md#setup) runs it before a push.
 
 ## Configuration
 

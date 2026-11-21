@@ -74,6 +74,8 @@ describe how to work.
 - Fix the cause of a failing check instead of removing behavior, tests,
   assertions, or lint rules to make it pass, so that a passing check still
   means the code works.
+- Run CI experiments with `gh workflow run main.yml --ref <branch>` instead of
+  opening PRs, so that experiments do not crowd the PR list.
 
 ## Handing off
 
@@ -98,9 +100,9 @@ describe how to work.
 
 | Rule                                          | Enforced by                                      |
 | --------------------------------------------- | ------------------------------------------------ |
-| Conventional commit messages                  | Commitlint `commit-msg` hook                     |
+| Conventional commit messages and PR titles    | Commitlint `commit-msg` hook and PR title check  |
 | Formatting and lint                           | pre-commit hooks and CI                          |
-| Java BUILD files match Gazelle                | CI Gazelle diff check                            |
+| Java BUILD files match Gazelle                | Gazelle `pre-push` hook and CI diff check        |
 | `MODULE.bazel.lock` is current                | `--lockfile_mode=error` in CI                    |
 | Contributing conventions and handoff criteria | [Pre-review](.agents/skills/pre-review/SKILL.md) |
 | Other rules in this file                      | Nothing yet                                      |
