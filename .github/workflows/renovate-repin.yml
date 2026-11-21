@@ -4,6 +4,7 @@ on:
   pull_request:
     branches: [main]
     paths:
+      - .bazelversion
       - .nvmrc
       - MODULE.bazel
       - tools/tools.lock.json
