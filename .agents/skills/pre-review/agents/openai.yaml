@@ -1,0 +1,6 @@
+interface:
+  display_name: "Pre-review"
+  short_description: "Review a branch against the request and conventions"
+  default_prompt: "Use $pre-review to check this branch before reporting it ready."
+policy:
+  allow_implicit_invocation: true
