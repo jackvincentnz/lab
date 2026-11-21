@@ -32,6 +32,12 @@ little behavior may pass entities between the API and storage directly.
   its shape is visible at a glance. See [testing](testing.md#layout) for how this
   applies to tests.
 
+## Errors
+
+- Return a 4xx status only when the caller's request or credential is at fault,
+  and a 5xx when the service fails, so that clients and monitoring see the real
+  cause.
+
 ## Spring
 
 - Prefer Spring Boot auto-configuration and Spring defaults, such as leaving
