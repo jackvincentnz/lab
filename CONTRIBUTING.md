@@ -79,11 +79,13 @@ Choose the type by the effect of the change, not by the files it touches:
   `feat(gateway): add Spring Cloud Gateway and Spring Session`.
 - `fix` corrects behavior. For example,
   `fix(mops): apply tool options on top of defaults`.
-- `build` changes the build system or dependency pins without adding a
-  capability. For example, `build: wrap Java rules and enable strict globs`.
+- `build` changes the build system without adding a capability. For example,
+  `build: wrap Java rules and enable strict globs`.
 - `chore` is housekeeping with no build or capability effect. For example,
   `chore: remove Cypress Aspect task`.
 - `docs` changes documentation only. For example, `docs: clarify local setup`.
+- Dependency updates take the type Renovate gives them, `fix(deps)` or
+  `chore(deps)`, so that manual and automated updates read the same.
 
 ## Contribution guidelines
 

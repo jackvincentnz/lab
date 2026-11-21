@@ -22,17 +22,11 @@ read-only tools. Give each the user's request or the issue text, `BASE`, and
 reasoning does not steer them. Without subagents, do both passes yourself from
 the request and the diff alone.
 
-- The standards reviewer reads [AGENTS.md](../../../AGENTS.md),
-  [CONTRIBUTING.md](../../../CONTRIBUTING.md), and the guides in
-  `docs/contributing/` that cover the changed files, and checks that:
-  - The change uses the documented mechanism, or the PR says why not.
-  - Each added comment says why, and the code and names cannot say it.
-  - Tests cover our behavior once, in the class that owns it.
-  - Every branch is reachable.
-  - Docs that describe the changed behavior are updated, plain, and concise.
-  - The PR title states the behavior, and the body has only the template's
-    sections, with absolute links.
-  - No Gazelle-owned attribute was edited by hand and no hook was skipped.
+- The standards reviewer reads [CONTRIBUTING.md](../../../CONTRIBUTING.md),
+  the guides in `docs/contributing/` that cover the changed files, and
+  [AGENTS.md](../../../AGENTS.md), and reports each place where the diff or
+  the PR title and body break a rule it can quote from them. Those documents
+  own the rules, so that this skill never disagrees with them.
 - The intent reviewer compares the diff with the request, and checks for
   missing work, anything the request did not ask for, and claims in the PR
   body or docs that the code or the pinned version's docs do not support.
@@ -71,11 +65,13 @@ mergeable.
 
 ## Record
 
-Append one line per round to the log outside the working tree, so that review
-precision and escapes can be measured later:
+Append one line per round to a log in the main checkout's ignored `.ignored`
+folder, so that review precision and escapes can be measured later, across
+worktrees:
 
 ```sh
-LOG="$(git rev-parse --path-format=absolute --git-common-dir)/pre-review.jsonl"
+LOG="$(dirname "$(git rev-parse --path-format=absolute --git-common-dir)")/.ignored/pre-review.jsonl"
+mkdir -p "$(dirname "$LOG")"
 ```
 
 Write one JSON object with `date`, `branch`, `pr`, `hash`, `lines` (added plus

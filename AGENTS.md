@@ -23,6 +23,9 @@ describe how to work.
   tracking issue only when the user explicitly asks, so that the user decides
   what lands and what is planned. An issue is finished when its PR is open with
   passing checks.
+- Follow [CONTRIBUTING.md](CONTRIBUTING.md) and the guides it links when a
+  skill or other agent instruction differs from them, and propose a fix to the
+  skill, so that each convention has one owner.
 - Follow [the GitHub issues skill](.agents/skills/github-issues/SKILL.md) when
   creating or updating a GitHub issue, so that issues fit how the user tracks
   work.
@@ -36,18 +39,24 @@ describe how to work.
   output before you state it, say how you checked it, and name what you could
   not check, so that the user does not decide on a wrong premise.
 - Agent shells do not load direnv, so run repository tools such as `aspect`
-  and `pnpm` from `tools/.bazel_env/bin`, which
+  and `pnpm` from the main checkout's `tools/.bazel_env/bin`, which
   [getting started](README.md#getting-started) sets up, so that you use the
-  pinned versions.
+  pinned versions without building them in every worktree.
+- When your branch's tool versions differ from the main checkout's, such as
+  after a change to `MODULE.bazel`, `tools/tools.lock.json`, or
+  `packageManager` in `package.json`, run `bazel run //tools:bazel_env` in your
+  worktree and validate with its own `tools/.bazel_env/bin`, so that
+  validation uses your branch's versions.
 - Run Bazel with its default output base and flags, so that it reuses the
   checkout's cache.
-- Expect other sessions to run Bazel at the same time, and rerun a target that
-  times out on its own before you report it failed, so that contention is not
-  reported as a regression.
+- Expect other sessions to run Bazel at the same time. When a test times out,
+  rerun only that target after your other Bazel work finishes, before you
+  report it failed, so that a slowdown from shared CPU is not reported as a
+  regression.
 - Remove each worktree you create when its work is done, so that worktrees and
   their Bazel output bases do not fill the disk.
-- When you split work across sessions or subagents, give Bazel-heavy steps to
-  one at a time, so that parallel builds do not exhaust the disk.
+- When you split work across sessions or subagents, run Bazel-heavy steps in
+  one session at a time, so that parallel builds do not exhaust the disk.
 - Stop, delete, or reset only the processes, branches, worktrees, and Docker
   volumes this session created, and ask about anything else, so that other
   sessions and local data survive. Stop a process by PID rather than with
@@ -95,5 +104,6 @@ describe how to work.
 | Other rules in this file                      | Nothing yet                                      |
 
 When the user corrects the same thing twice, propose the strongest enforcer
-that can judge it, in this order: a check or test, a pre-review item, then a
-rule here or in the contributing guides, so that a correction does not recur.
+that can judge it, in this order: a check or test, then a rule in the
+contributing guides, which pre-review checks, or here, so that a correction
+does not recur.

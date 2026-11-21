@@ -1,6 +1,6 @@
 ---
 name: dependency-upgrade
-description: Use when upgrading a dependency, pinning a version for a security alert, or fixing a failing Renovate PR.
+description: Use when upgrading a dependency, fixing a security alert, or fixing a failing Renovate PR.
 ---
 
 # Dependency upgrade
@@ -22,9 +22,9 @@ Follow the [dependency guidelines](../../../docs/contributing/dependencies.md).
    even when CI is green, because CI proves nothing when no test uses it.
 6. When `renovate.json` changes, run the
    [pre-merge validation](../../../docs/platform/tools/renovate.md#pre-merge-validation).
-7. For a security alert in a transitive dependency, report which direct
-   dependency should bring the fix, and pin only when the user asks, so that
-   pins stay rare.
+7. For a security alert in a transitive dependency, follow the
+   [dependency guidelines](../../../docs/contributing/dependencies.md) on
+   overrides, and report which direct dependency should bring the fix.
 8. Leave a Renovate PR you cannot fix open as a draft, with a comment that
    names the blocker, because closing it makes Renovate ignore that version.
 9. Lead your report with whether the update is safe to merge.

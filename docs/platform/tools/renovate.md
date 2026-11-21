@@ -18,9 +18,9 @@ Use this when changing custom managers, package rules, schedules, or other behav
 
 ## Custom Managers
 
-Use custom managers for dependency sources that Renovate does not already extract. Keep each manager narrowly scoped with `managerFilePatterns`, and prefer matching only the smallest useful block of text.
-
-Match every file that follows a pattern instead of listing files, and group every copy of one version into one update, so that a new file needs no configuration change and an update lands in one PR.
+- Give each manager a `managerFilePatterns` pattern that matches every file of its kind instead of a list of files, so that a new file needs no configuration change.
+- Write each `matchStrings` entry to match only the smallest block of text that names the dependency and its version, so that it cannot match unrelated text.
+- Group every copy of one version into one update, so that the update lands in one PR.
 
 The existing custom managers cover:
 
