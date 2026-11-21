@@ -100,9 +100,9 @@ describe how to work.
 
 | Rule                                          | Enforced by                                      |
 | --------------------------------------------- | ------------------------------------------------ |
-| Conventional commit messages                  | Commitlint `commit-msg` hook                     |
+| Conventional commit messages and PR titles    | Commitlint `commit-msg` hook and PR title check  |
 | Formatting and lint                           | pre-commit hooks and CI                          |
-| Java BUILD files match Gazelle                | CI Gazelle diff check                            |
+| Java BUILD files match Gazelle                | Gazelle `pre-push` hook and CI diff check        |
 | `MODULE.bazel.lock` is current                | `--lockfile_mode=error` in CI                    |
 | Contributing conventions and handoff criteria | [Pre-review](.agents/skills/pre-review/SKILL.md) |
 | Other rules in this file                      | Nothing yet                                      |
