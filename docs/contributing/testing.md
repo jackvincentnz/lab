@@ -9,6 +9,9 @@ See [coverage](../platform/coverage/README.md) for how coverage is collected and
 - Use Spring context or Testcontainers tests only for SQL, migrations,
   transactions, sessions, security wiring, and wire protocols such as GraphQL
   and HTTP, so that slow tests cover only what needs real infrastructure.
+- Test the behavior your code adds, not the framework's, once, in the class
+  that owns it, and state the expected value directly, so that each test shows
+  why it exists and fails only when that behavior changes.
 
 ## Layout
 

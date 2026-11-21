@@ -20,6 +20,8 @@ Use this when changing custom managers, package rules, schedules, or other behav
 
 Use custom managers for dependency sources that Renovate does not already extract. Keep each manager narrowly scoped with `managerFilePatterns`, and prefer matching only the smallest useful block of text.
 
+Match every file that follows a pattern instead of listing files, and group every copy of one version into one update, so that a new file needs no configuration change and an update lands in one PR.
+
 The existing custom managers cover:
 
 - Docker image references embedded in project files.
