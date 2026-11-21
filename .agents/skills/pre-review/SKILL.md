@@ -75,7 +75,7 @@ Append one line per round to the log outside the working tree, so that review
 precision and escapes can be measured later:
 
 ```sh
-LOG="$(git rev-parse --git-common-dir)/pre-review.jsonl"
+LOG="$(git rev-parse --path-format=absolute --git-common-dir)/pre-review.jsonl"
 ```
 
 Write one JSON object with `date`, `branch`, `pr`, `hash`, `lines` (added plus
