@@ -40,8 +40,8 @@ Add a comment only when the code and its names cannot show why, in as few words
 as possible, so that comments stay true as the code changes. Keep sequencing
 such as "once #123 lands" in issues.
 
-Put a refactor in its own commit or PR before the behavior change, with tests
-unchanged, so that a reviewer can check each part on its own.
+Put a refactor in its own commit or PR before the behavior change, with test
+assertions unchanged, so that a reviewer can check each part on its own.
 
 ## Validating a change
 

@@ -53,8 +53,10 @@ describe how to work.
   rerun only that target after your other Bazel work finishes, before you
   report it failed, so that a slowdown from shared CPU is not reported as a
   regression.
-- Remove each worktree you create when its work is done, so that worktrees and
-  their Bazel output bases do not fill the disk.
+- When the work in a worktree you created with `git worktree add` is done, run
+  `bazel clean --expunge` in it and then remove it, so that neither the
+  worktree nor its Bazel output base, which is outside the worktree, fills the
+  disk.
 - When you split work across sessions or subagents, run Bazel-heavy steps in
   one session at a time, so that parallel builds do not exhaust the disk.
 - Stop, delete, or reset only the processes, branches, worktrees, and Docker
@@ -69,9 +71,9 @@ describe how to work.
 - When a sandbox blocks a command, request escalation for that exact command
   and stop if it is refused, so that the user approves each access instead of
   a workaround.
-- Fix the cause of a failing check without removing behavior, tests,
-  assertions, or lint rules, so that a passing check still means the code
-  works.
+- Fix the cause of a failing check instead of removing behavior, tests,
+  assertions, or lint rules to make it pass, so that a passing check still
+  means the code works.
 
 ## Handing off
 

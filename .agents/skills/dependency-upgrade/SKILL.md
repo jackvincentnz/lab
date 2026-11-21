@@ -1,14 +1,14 @@
 ---
 name: dependency-upgrade
-description: Use when upgrading a dependency, fixing a security alert, or fixing a failing Renovate PR.
+description: Use when upgrading a dependency, fixing a Dependabot security alert, or fixing a failing Renovate PR.
 ---
 
 # Dependency upgrade
 
 Follow the [dependency guidelines](../../../docs/contributing/dependencies.md).
 
-1. Rebase onto `origin/main` first, and drop any update `main` already has, so
-   that you fix the current failure.
+1. Fetch `origin` and rebase onto `origin/main` first, and drop any update
+   `main` already has, so that you fix the current failure.
 2. Find the version change. For a failing PR, diff the manifests and lockfiles
    against `origin/main` to find which direct or transitive version change
    causes the failure. For a security alert, read the package and patched
@@ -27,4 +27,3 @@ Follow the [dependency guidelines](../../../docs/contributing/dependencies.md).
    overrides, and report which direct dependency should bring the fix.
 8. Leave a Renovate PR you cannot fix open as a draft, with a comment that
    names the blocker, because closing it makes Renovate ignore that version.
-9. Lead your report with whether the update is safe to merge.

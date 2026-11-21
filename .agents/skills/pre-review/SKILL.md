@@ -7,7 +7,9 @@ description: Use before reporting a PR ready, or when asked to review a branch, 
 
 ## Gate
 
-Set `BASE=$(git merge-base origin/main HEAD)` and
+Mark each new file you mean to commit with `git add --intent-to-add <path>`,
+so that `git diff` shows it with your staged and unstaged changes. Then set
+`BASE=$(git merge-base origin/main HEAD)` and
 `HASH=$(git diff $BASE | git hash-object --stdin)`. Skip the review, and say
 so, when the diff is empty, holds only generated files such as lockfiles, or
 has the same `HASH` as the last entry for this branch in the
@@ -19,8 +21,7 @@ review.
 Start two reviewer subagents in parallel, each with a fresh context and
 read-only tools. Give each the user's request or the issue text, `BASE`, and
 `git diff $BASE`, but not your own summary or conclusions, so that your
-reasoning does not steer them. Without subagents, do both passes yourself from
-the request and the diff alone.
+reasoning does not steer them.
 
 - The standards reviewer reads [CONTRIBUTING.md](../../../CONTRIBUTING.md),
   the guides in `docs/contributing/` that cover the changed files, and
