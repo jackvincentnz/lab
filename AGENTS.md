@@ -19,10 +19,10 @@ describe how to work.
   request.
 - Remove code, resets, or workarounds that your change makes redundant in the
   same PR, so that no dead workaround is left behind.
-- Merge a PR, resolve a review thread, create or close an issue, or edit a
-  tracking issue only when the user explicitly asks, so that the user decides
-  what lands and what is planned. An issue is finished when its PR is open with
-  passing checks.
+- Resolve a review thread, create or close an issue, or edit a tracking issue
+  only when the user explicitly asks, so that the user decides what is done and
+  what is planned. An issue is finished when its PR is open with passing checks.
+- Leave merging PRs to the user, so that the user decides what lands.
 - Follow [CONTRIBUTING.md](CONTRIBUTING.md) and the guides it links when a
   skill or other agent instruction differs from them, and propose a fix to the
   skill, so that each convention has one owner.
@@ -95,12 +95,17 @@ describe how to work.
   decide without follow-up questions.
 - Report the root cause and the reason for each non-obvious change, so that
   the user can review the change without asking why.
+- Say in a PR's report how it will land, as one squash commit or as the list of
+  commits a rebase merge will add, so that the user can review the history
+  `main` will get.
+- When asked to tidy a PR, rewrite its branch into one commit per change and
+  force-push it, so that `main` gets one revertible commit per change.
 
 ## Enforcement
 
 | Rule                                          | Enforced by                                      |
 | --------------------------------------------- | ------------------------------------------------ |
-| Conventional commit messages and PR titles    | Commitlint `commit-msg` hook and PR title check  |
+| Conventional commit messages                  | Commitlint `commit-msg` hook                     |
 | Formatting and lint                           | pre-commit hooks and CI                          |
 | Java BUILD files match Gazelle                | Gazelle `pre-push` hook and CI diff check        |
 | `MODULE.bazel.lock` is current                | `--lockfile_mode=error` in CI                    |

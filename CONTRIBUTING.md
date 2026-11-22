@@ -7,10 +7,12 @@ Follow the [getting started guide](README.md#getting-started), then complete
 
 ## Making a change
 
-Keep each PR focused on one problem. Use conventional commit messages, such as
-`fix(mops): handle missing budgets` or `docs: clarify local setup`. See
-[commit types](#commit-types) and the [style guide](docs/contributing/style.md) for commit
-and source formatting conventions.
+Keep a PR to related changes that can land together and that a reviewer can
+check in one sitting, so that review stays cheap. Use conventional commit
+messages, such as `fix(mops): handle missing budgets` or
+`docs: clarify local setup`. See [commit types](#commit-types) and the
+[style guide](docs/contributing/style.md) for commit and source formatting
+conventions.
 
 To be prompted for each part of a conventional commit instead, stage your
 changes and run [Commitizen](https://github.com/commitizen/cz-cli) from the
@@ -101,15 +103,22 @@ Choose the type by the effect of the change, not by the files it touches:
 
 ## Pull requests and CI
 
-Open PRs against `main`. Title a PR as a conventional commit that states the
-behavior it results in, in plain words, and retitle it when the scope changes,
-so that the history says what changed. Fill in only the template's `Change` and `Validation`
-sections: a short description of the problem and the resulting behavior, then
-the checks you ran, including any failures or checks you could not run. Link the
-relevant issue; use `Closes #123` when merging the PR will fully resolve it.
-Link repository files with absolute
-`https://github.com/jackvincentnz/lab/blob/<branch>/<path>` URLs, so that the
-links resolve in the PR description.
+Open PRs against `main`. Title a PR as a conventional commit message that
+describes the changes it will merge, so that a squash merge can use the title.
+Fill in only the template's `Change` and `Validation` sections: a short
+description of the problem and the resulting behavior, then the checks you ran,
+including any failures or checks you could not run. Link the relevant issue;
+use `Closes #123` when merging the PR will fully resolve it. Link repository
+files with absolute `https://github.com/jackvincentnz/lab/blob/<branch>/<path>`
+URLs, so that the links resolve in the PR description.
+
+Every commit that lands on `main` is one change, such as one feature, one fix or
+one refactor, so that each change is easy to understand and revert. Where you
+can, make each commit build and pass its tests on its own, so that reverting a
+later commit leaves `main` working. A PR that is one change is squash-merged. A
+PR with several changes is rebase-merged once its commits are tidied into one
+per change. Progress commits are fine while a PR is in review, so that the
+reviewer can see what changed since the last review.
 
 Address review feedback and ensure all checks pass on the latest revision before
 merging. If a check fails, inspect its log and fix the cause. See the
