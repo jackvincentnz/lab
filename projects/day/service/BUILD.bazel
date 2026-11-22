@@ -1,0 +1,53 @@
+load("//tools/bazel:js.bzl", "js_binary", "js_library")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
+
+TEST_SRCS = ["src/**/*.test.ts"]
+
+node_ts_project(
+    name = "src_ts",
+    srcs = glob(
+        ["src/**/*.ts"],
+        exclude = TEST_SRCS,
+    ),
+    deps = [
+        "//:node_modules/@trpc/server",
+        "//:node_modules/fractional-indexing",
+        "//:node_modules/zod",
+    ],
+)
+
+js_library(
+    name = "src",
+    srcs = ["package.json"],
+    deps = [":src_ts"],
+)
+
+js_binary(
+    name = "service",
+    data = [":src"],
+    entry_point = "src/main.js",
+    env = {"DAY_PROFILE": "dev"},
+)
+
+node_ts_project(
+    name = "test_ts",
+    testonly = True,
+    srcs = glob(TEST_SRCS),
+    deps = [
+        ":src",
+        "//:node_modules/vitest",
+    ],
+)
+
+vitest_run(
+    name = "test",
+    data = [
+        "vite.config.ts",
+        ":test_ts",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:test_config",
+    ],
+    # The server test listens on a loopback port.
+    tags = ["requires-network"],
+)

@@ -88,3 +88,10 @@ named after the directory.
   `--test_env=TEST_RANDOM_SEED=$RANDOM` in place of `--runs_per_test` for a new
   order. To repeat a failed order, pass the seed from the line
   `Running tests with seed` in its test log.
+
+## Node tests
+
+- Pass `environment: "node"` and `setupFiles: []` to `bazelVitestConfig` for
+  code that runs in Node, as the
+  [Day service](../../projects/day/service/vite.config.ts) does, so that no
+  setup expects a DOM. The shared `@lab/test-utils/setup` then does not run.
