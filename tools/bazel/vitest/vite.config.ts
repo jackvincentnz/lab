@@ -1,5 +1,5 @@
 import { defineConfig } from "vitest/config";
-import { bazelVitestConfig } from "./config.ts";
+import { bazelVitestConfig } from "./config.js";
 
 // Library tests run from the workspace root.
 export default defineConfig(

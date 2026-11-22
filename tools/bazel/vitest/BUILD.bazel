@@ -1,6 +1,7 @@
 load("@bazel_skylib//:bzl_library.bzl", "bzl_library")
 load("@npm//:vitest/package_json.bzl", vitest_bin = "bin")
-load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:js.bzl", "js_library", "npm_package")
+load("//tools/bazel:ts.bzl", "node_ts_project")
 
 package(default_visibility = ["//visibility:public"])
 
@@ -11,7 +12,10 @@ vitest_bin.vitest_binary(
 js_library(
     name = "vite_config",
     srcs = ["vite.config.ts"],
-    deps = [":test_config"],
+    deps = [
+        ":config_ts",
+        ":test_config",
+    ],
 )
 
 js_library(
@@ -19,16 +23,32 @@ js_library(
     srcs = ["package.json"],
 )
 
-js_library(
-    name = "test_config",
+node_ts_project(
+    name = "config_ts",
     srcs = [
         "config.ts",
         "coverage.ts",
     ],
+    deps = ["//:node_modules/vitest"],
+)
+
+npm_package(
+    name = "pkg",
+    srcs = [
+        "package.json",
+        ":config_ts",
+    ],
+)
+
+# Vitest resolves the setup file, environment and coverage provider that the config names from
+# the app's root, so link them in the root `node_modules` with the config package.
+js_library(
+    name = "test_config",
     # Vite ends its workspace-root search at this file, so `server.fs.allow` covers shared setup.
     data = ["//:pnpm_workspace"],
     deps = [
         "//:node_modules/@lab/test-utils",
+        "//:node_modules/@lab/vitest-config",
         "//:node_modules/@vitest/coverage-v8",
         "//:node_modules/jsdom",
         "//:node_modules/vitest",

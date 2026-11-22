@@ -1,6 +1,6 @@
 import { writeFileSync } from "node:fs";
-import type { UserConfig } from "vitest/config";
-import { bazelCoverage } from "./coverage.ts";
+import type { TestUserConfig, ViteUserConfig } from "vitest/config";
+import { bazelCoverage } from "./coverage.js";
 
 interface Options {
   include?: string[];
@@ -10,6 +10,11 @@ interface Options {
   environment?: "jsdom" | "node";
 }
 
+// Vitest types `shard` as a CLI option, but it also reads it from the config's `test` block.
+interface BazelVitestConfig extends ViteUserConfig {
+  test: TestUserConfig;
+}
+
 /** Shared Vitest defaults; the default paths fit an `fe_app`, relative to its Vite root. */
 export function bazelVitestConfig({
   include = ["src/**/*.{test,spec}.js"],
@@ -17,12 +22,12 @@ export function bazelVitestConfig({
   coverageExclude = [],
   setupFiles = "./src/test/setup.js",
   environment = "jsdom",
-}: Options = {}): UserConfig {
+}: Options = {}): BazelVitestConfig {
   return {
     resolve: {
       // Keep Vitest setup and test files inside Bazel's sandboxed runfiles tree.
       // TODO: Remove when https://github.com/jackvincentnz/lab/issues/771 is resolved.
-      preserveSymlinks: process.env.VITEST === "true",
+      preserveSymlinks: process.env["VITEST"] === "true",
     },
     test: {
       // Coverage runfiles also contain TS sources for remapping; run each test once.

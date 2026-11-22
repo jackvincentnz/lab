@@ -130,3 +130,24 @@ Declare a [js_test](https://github.com/aspect-build/rules_js/blob/main/js/defs.b
 | <a id="js_test-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
 
 
+<a id="npm_package"></a>
+
+## npm_package
+
+```starlark
+load("//tools/bazel:js.bzl", "npm_package")
+
+npm_package(name, **kwargs)
+```
+
+Declare an [npm_package](https://github.com/aspect-build/rules_js/blob/main/npm/defs.bzl) with the upstream attributes.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="npm_package-name"></a>name |  Target name.   |  none |
+| <a id="npm_package-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
+

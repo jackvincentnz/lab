@@ -56,8 +56,9 @@ named after the directory.
   Pass `mockedProvider`, `route` and `path` to `render` for Apollo mocks and
   routing, and `wrapper` for any other provider.
 - Build an app's `vite.config.ts` with `mergeConfig(bazelVitestConfig(), ...)`
-  from [`tools/bazel/vitest/config.ts`](../../tools/bazel/vitest/config.ts), so
-  that test discovery, coverage and the shared setup stay the same in every app.
+  imported from [`@lab/vitest-config`](../../tools/bazel/vitest/config.ts), and
+  add `//tools/bazel/vitest:test_config` to the app's `data`, so that test
+  discovery, coverage and the shared setup stay the same in every app.
   Point `setupFiles` at an app setup file only for app-specific mocks, as Mops
   does; `@lab/test-utils/setup` runs before it.
 - Mock a module with `vi.mock` only in a setup file, and reset the mock's state
@@ -91,7 +92,7 @@ named after the directory.
 
 ## Node tests
 
-- Pass `environment: "node"` and `setupFiles: []` to `bazelVitestConfig` for
-  code that runs in Node, as the
+- Pass `environment: "node"` and `setupFiles: []` to `bazelVitestConfig` from
+  `@lab/vitest-config` for code that runs in Node, as the
   [Day service](../../projects/day/service/vite.config.ts) does, so that no
   setup expects a DOM. The shared `@lab/test-utils/setup` then does not run.

@@ -47,6 +47,7 @@
   },
   "devDependencies": {
     "@lab/test-utils": "workspace:*",
+    "@lab/vitest-config": "workspace:*",
     "@playwright/test": "1.56.1",
     "@apollo/rover": "1.0.1",
     "@eslint/js": "10.0.1",

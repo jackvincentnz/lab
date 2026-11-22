@@ -1,3 +1,14 @@
 {
-  "type": "module"
+  "name": "@lab/vitest-config",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./config.d.ts",
+      "default": "./config.js"
+    }
+  },
+  "peerDependencies": {
+    "vitest": "5.0.5"
+  }
 }
