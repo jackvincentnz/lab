@@ -3,7 +3,7 @@ import { addItemInput, moveItemInput, updateItemInput } from "./schemas.js";
 import { type Item, type ItemStore } from "./store.js";
 
 export interface Context {
-  store: ItemStore;
+  store: Pick<ItemStore, "list" | "add" | "update" | "move">;
 }
 
 const t = initTRPC.context<Context>().create();

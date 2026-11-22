@@ -1,36 +1,62 @@
-import { mkdtempSync, rmSync } from "node:fs";
-import { tmpdir } from "node:os";
-import { join } from "node:path";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { dayRouter } from "./router.js";
-import { openItemStore } from "./store.js";
+import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import { type Context, dayRouter } from "./router.js";
+import { type Item } from "./store.js";
 
-let dataDir: string;
+type Store = Context["store"];
+
+let store: { [K in keyof Store]: Mock<Store[K]> };
 let caller: ReturnType<typeof dayRouter.createCaller>;
 
 beforeEach(() => {
-  dataDir = mkdtempSync(join(tmpdir(), "day-router-"));
-  caller = dayRouter.createCaller({ store: openItemStore(dataDir) });
+  store = { list: vi.fn(), add: vi.fn(), update: vi.fn(), move: vi.fn() };
+  caller = dayRouter.createCaller({ store });
 });
 
-afterEach(() => {
-  rmSync(dataDir, { recursive: true, force: true });
-});
+function anItem(): Item {
+  return {
+    id: crypto.randomUUID(),
+    name: "Write the plan",
+    status: "todo",
+    rank: "a0",
+    createdAt: "2026-11-22T09:00:00.000Z",
+    updatedAt: "2026-11-22T09:00:00.000Z",
+  };
+}
 
 describe("dayRouter", () => {
-  it("lists added items in order", async () => {
-    const first = await caller.addItem({ name: "First" });
-    const second = await caller.addItem({ name: "Second" });
+  it("lists the store's items", async () => {
+    const items = [anItem(), anItem()];
+    store.list.mockReturnValue(items);
 
-    const items = await caller.listItems();
+    const listed = await caller.listItems();
 
-    expect(items).toEqual([first, second]);
+    expect(listed).toEqual(items);
   });
 
-  it("rejects invalid input", async () => {
+  it("adds an item with its trimmed name", async () => {
+    const item = anItem();
+    store.add.mockReturnValue(item);
+
+    const added = await caller.addItem({ name: "  Write the plan " });
+
+    expect(store.add).toHaveBeenCalledWith("Write the plan");
+    expect(added).toEqual(item);
+  });
+
+  it("rejects invalid input before reaching the store", async () => {
     const adding = caller.addItem({ name: "" });
 
     await expect(adding).rejects.toMatchObject({ code: "BAD_REQUEST" });
+    expect(store.add).not.toHaveBeenCalled();
+  });
+
+  it("returns the updated item", async () => {
+    const item = anItem();
+    store.update.mockReturnValue(item);
+
+    const updated = await caller.updateItem({ id: item.id, status: "done" });
+
+    expect(updated).toEqual(item);
   });
 
   it("reports an unknown item on update", async () => {
@@ -42,12 +68,23 @@ describe("dayRouter", () => {
     await expect(updating).rejects.toMatchObject({ code: "NOT_FOUND" });
   });
 
-  it("reports an unknown item on move", async () => {
-    const neighbour = await caller.addItem({ name: "Neighbour" });
+  it("returns the moved item", async () => {
+    const item = anItem();
+    store.move.mockReturnValue(item);
 
+    const moved = await caller.moveItem({
+      id: item.id,
+      neighbourId: crypto.randomUUID(),
+      position: "after",
+    });
+
+    expect(moved).toEqual(item);
+  });
+
+  it("reports an unknown item on move", async () => {
     const moving = caller.moveItem({
       id: crypto.randomUUID(),
-      neighbourId: neighbour.id,
+      neighbourId: crypto.randomUUID(),
       position: "before",
     });
 

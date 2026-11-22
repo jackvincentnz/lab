@@ -33,7 +33,6 @@ const schema = `
 const columns =
   "id, name, status, rank, created_at AS createdAt, updated_at AS updatedAt";
 
-/** Opens the database file in `dataDir`, creating both if they are missing. */
 export function openItemStore(
   dataDir: string,
   now: () => Date = () => new Date(),
@@ -44,7 +43,6 @@ export function openItemStore(
   return new ItemStore(database, now);
 }
 
-/** Items in one global priority order, where the lowest rank comes first. */
 export class ItemStore {
   readonly #database: DatabaseSync;
   readonly #now: () => Date;
@@ -103,10 +101,6 @@ export class ItemStore {
     });
   }
 
-  /**
-   * Moves an item next to a neighbour, writing only the moved item's rank. An item is already
-   * next to itself, so that move changes nothing.
-   */
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
     const item = this.#find(id);
     const neighbour = this.#find(neighbourId);
@@ -114,6 +108,7 @@ export class ItemStore {
       return undefined;
     }
     if (item.id === neighbour.id) {
+      // An item is already next to itself.
       return item;
     }
 
@@ -136,7 +131,6 @@ export class ItemStore {
       .get(id) as Item | undefined;
   }
 
-  /** The closest rank on one side of `rank`, ignoring the item being moved. */
   #rankAround(
     closest: "max" | "min",
     side: "<" | ">",

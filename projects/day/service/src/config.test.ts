@@ -23,9 +23,10 @@ describe("readConfig", () => {
   });
 
   it("rejects a port that is not a port number", () => {
-    expect(() =>
-      readConfig({ DAY_DATA_DIR: "/data", DAY_PORT: "70000" }, mac),
-    ).toThrow(/DAY_PORT/);
+    const reading = () =>
+      readConfig({ DAY_DATA_DIR: "/data", DAY_PORT: "70000" }, mac);
+
+    expect(reading).toThrow(/DAY_PORT/);
   });
 
   it("keeps data in Application Support on macOS", () => {
