@@ -1,7 +1,7 @@
 import { isAbsolute } from "node:path";
 import type { PluginOption } from "vite";
 import { defineConfig, mergeConfig } from "vitest/config";
-import { bazelVitestConfig } from "../../../tools/bazel/vitest/config.ts";
+import { bazelVitestConfig } from "@lab/vitest-config";
 import react from "@vitejs/plugin-react";
 
 // https://vitejs.dev/config/

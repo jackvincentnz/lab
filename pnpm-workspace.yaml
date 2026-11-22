@@ -8,6 +8,7 @@ packages:
   - "projects/wide/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"
+  - "tools/bazel/vitest"
 packageExtensions:
   "@mantine/styles":
     peerDependencies:

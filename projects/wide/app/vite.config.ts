@@ -1,7 +1,7 @@
 import { isAbsolute, resolve } from "node:path";
 import { searchForWorkspaceRoot, type PluginOption } from "vite";
 import { defineConfig, mergeConfig } from "vitest/config";
-import { bazelVitestConfig } from "../../../tools/bazel/vitest/config.ts";
+import { bazelVitestConfig } from "@lab/vitest-config";
 
 const servicePort = Number(process.env.WIDE_PORT ?? 8095);
 

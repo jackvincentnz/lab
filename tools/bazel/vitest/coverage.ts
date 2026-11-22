@@ -6,9 +6,13 @@ export function bazelCoverage(
   include: string[],
   exclude: string[] = [],
 ): CoverageV8Options {
-  const output = process.env.COVERAGE_OUTPUT_FILE;
-  const projectRoot = process.env.TEST_SRCDIR
-    ? join(process.env.TEST_SRCDIR, process.env.TEST_WORKSPACE!)
+  const {
+    COVERAGE_OUTPUT_FILE: output,
+    TEST_SRCDIR,
+    TEST_WORKSPACE,
+  } = process.env;
+  const projectRoot = TEST_SRCDIR
+    ? join(TEST_SRCDIR, TEST_WORKSPACE!)
     : process.cwd();
 
   return {

@@ -12,6 +12,7 @@ load(
     _js_run_devserver = "js_run_devserver",
     _js_test = "js_test",
 )
+load("@aspect_rules_js//npm:defs.bzl", _npm_package = "npm_package")
 
 def js_library(name, **kwargs):
     """Declare a [js_library](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
@@ -81,6 +82,18 @@ def js_image_layer(name, **kwargs):
         **kwargs: Additional attributes passed to the underlying rule.
     """
     _js_image_layer(
+        name = name,
+        **kwargs
+    )
+
+def npm_package(name, **kwargs):
+    """Declare an [npm_package](https://github.com/aspect-build/rules_js/blob/main/npm/defs.bzl) with the upstream attributes.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
+    _npm_package(
         name = name,
         **kwargs
     )
