@@ -39,6 +39,12 @@ flowchart LR
 - The service stores items in one SQLite file in the user data folder, through Node's built-in
   `node:sqlite`.
 - The window is sandboxed, with context isolation and no Node access.
+- The service's API is [tRPC](https://trpc.io), with [zod](https://zod.dev) schemas for each
+  operation's input, because the MCP SDK takes zod schemas too, so the same schemas can define the
+  agent's tools.
+- Each item stores its rank as a text key that sorts between its neighbours, generated with
+  [`fractional-indexing`](https://github.com/rocicorp/fractional-indexing), so moving an item
+  writes only that item's row.
 
 This costs an HTTP API where Electron IPC would be less code, and a fixed port that another program
 could already hold.
@@ -68,6 +74,9 @@ could already hold.
 - **A native SQLite module such as `better-sqlite3`.** Actual and Joplin rebuild theirs for each
   Electron version. Logseq's database worker and
   [T3 Code](https://github.com/pingdotgg/t3code)'s server use `node:sqlite` instead.
+- **GraphQL for the API.** It needs a schema and generated types that MCP tools could not reuse.
+- **Integer ranks, renumbered on each move.** A move would rewrite every item between the old and
+  new place.
 - **Markdown files in a notes repository.** Notes tools could show them, but a global order is
   awkward to store and query.
 

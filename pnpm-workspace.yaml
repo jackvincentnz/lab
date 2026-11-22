@@ -4,6 +4,7 @@ packages:
   - "projects/mops/app"
   - "projects/day/app"
   - "projects/day/desktop"
+  - "projects/day/service"
   - "projects/wide/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"

@@ -7,6 +7,7 @@ interface Options {
   coverageInclude?: string[];
   coverageExclude?: string[];
   setupFiles?: string | string[];
+  environment?: "jsdom" | "node";
 }
 
 /** Shared Vitest defaults; the default paths fit an `fe_app`, relative to its Vite root. */
@@ -15,6 +16,7 @@ export function bazelVitestConfig({
   coverageInclude = ["src/**/*.js"],
   coverageExclude = [],
   setupFiles = "./src/test/setup.js",
+  environment = "jsdom",
 }: Options = {}): UserConfig {
   return {
     resolve: {
@@ -26,9 +28,13 @@ export function bazelVitestConfig({
       // Coverage runfiles also contain TS sources for remapping; run each test once.
       include,
       coverage: bazelCoverage(coverageInclude, coverageExclude),
-      environment: "jsdom",
+      environment,
       // A setup file runs before every test file, so shared cleanup hooks cover each file.
-      setupFiles: ["@lab/test-utils/setup", setupFiles].flat(),
+      // The shared setup cleans up the DOM, which a Node environment does not have.
+      setupFiles:
+        environment === "jsdom"
+          ? ["@lab/test-utils/setup", setupFiles].flat()
+          : setupFiles,
       // Without isolation Vitest restores only `vi.spyOn` spies between files.
       restoreMocks: true,
       unstubGlobals: true,
