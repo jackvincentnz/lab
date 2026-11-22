@@ -74,23 +74,34 @@ skips those tests; mention that omission in the PR's validation results.
 
 ## Commit types
 
-Choose the type by the effect of the change, not by the files it touches:
+Choose the type by the effect of the change, not by the files it touches, so
+that the history shows what each commit did:
 
-- `feat` adds a user- or developer-facing capability, even when most of the diff
-  is BUILD files, lockfiles, or config. For example,
-  `feat(gateway): add Spring Cloud Gateway and Spring Session`.
-- `fix` corrects behavior. For example,
-  `fix(mops): apply tool options on top of defaults`.
-- `build` changes the build system without adding a capability. For example,
-  `build: wrap Java rules and enable strict globs`.
-- `chore` is housekeeping with no build or capability effect. For example,
-  `chore: remove Cypress Aspect task`.
-- `docs` changes documentation only. For example, `docs: clarify local setup`.
-- A dependency update you make, including an override or an explicit
-  version, takes `fix(deps)` when it corrects behavior, such as a security
-  vulnerability, and `chore(deps)` otherwise, so that its type follows the
-  effect like any other change. Renovate's PRs keep the type Renovate gives
-  them, which depends on the kind of dependency.
+| Type       | Use when the change                                                                                                                 | Example                                                        |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------- |
+| `feat`     | adds a capability for users of an app or callers of a library, even when most of the diff is BUILD files, lockfiles, or config      | `feat(gateway): add Spring Cloud Gateway and Spring Session`   |
+| `fix`      | corrects behavior                                                                                                                   | `fix(mops): apply tool options on top of defaults`             |
+| `refactor` | restructures code without changing behavior                                                                                         | `refactor(mops): load the system prompt from a resource`       |
+| `perf`     | makes code, builds, or tests faster without changing behavior                                                                       | `perf(vitest): share modules across test files on one worker`  |
+| `test`     | adds or changes tests or test helpers, without changing production code                                                             | `test(organizer): add tasklist component tests`                |
+| `build`    | changes how code is built, linted, tested, or packaged, locally and in CI, including test runner config and local developer tooling | `build: wrap Java rules and enable strict globs`               |
+| `ci`       | changes only how CI runs, such as a workflow or CI-only config                                                                      | `ci: define Codecov coverage policy and components`            |
+| `style`    | adds a linter, formatter, or style rule and applies it to existing code, without changing behavior                                  | `style: prefer single imports and exports with explicit types` |
+| `docs`     | changes documentation only, including agent guidance and code comments                                                              | `docs: explain coverage tooling and local feedback`            |
+| `chore`    | is housekeeping that no other row covers, such as `.gitignore` entries or removing unused files                                     | `chore: remove Cypress Aspect task`                            |
+| `revert`   | undoes earlier commits, including with the `Revert "…"` message that `git revert` writes                                            | `revert: wrap Java rules and enable strict globs`              |
+
+When two rows fit, use the more specific one, such as `style` or `perf` over
+`build` or `ci`, so that one change always gets the same type. Use the project
+or area most affected as the scope, such as `mops`, `bazel`, or `ci`, so that
+the scope says where to look.
+
+A dependency update you make takes `fix(deps)` when it fixes a security
+vulnerability or something broken, and `chore(deps)` when it only moves to a
+newer version, so that a needed fix stands out from routine upgrades. This
+includes overrides, explicit versions, and updates to Bazel and toolchains,
+which are not `build`. Renovate's PRs keep the type Renovate gives them, which
+depends on the kind of dependency.
 
 ## Contribution guidelines
 
@@ -112,13 +123,13 @@ use `Closes #123` when merging the PR will fully resolve it. Link repository
 files with absolute `https://github.com/jackvincentnz/lab/blob/<branch>/<path>`
 URLs, so that the links resolve in the PR description.
 
-Every commit that lands on `main` is one change, such as one feature, one fix or
-one refactor, so that each change is easy to understand and revert. Where you
-can, make each commit build and pass its tests on its own, so that reverting a
-later commit leaves `main` working. A PR that is one change is squash-merged. A
-PR with several changes is rebase-merged once its commits are tidied into one
-per change. Progress commits are fine while a PR is in review, so that the
-reviewer can see what changed since the last review.
+Every commit that lands on `main` is one unit of work that you would revert as a
+whole, such as one feature, one fix or one refactor, so that each unit is easy
+to understand and revert. Where you can, make each commit build and pass its
+tests on its own, so that reverting a later commit leaves `main` working. A PR
+that is one unit is squash-merged. A PR with several units is rebase-merged once
+its commits are tidied into one per unit. Progress commits are fine while a PR
+is in review, so that the reviewer can see what changed since the last review.
 
 Address review feedback and ensure all checks pass on the latest revision before
 merging. If a check fails, inspect its log and fix the cause. See the
