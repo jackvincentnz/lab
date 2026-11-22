@@ -91,7 +91,7 @@ named after the directory.
 
 ## Node tests
 
-- Pass `environment: "node"` to `bazelVitestConfig` for code that runs in Node,
-  as the [Day service](../../projects/day/service/vite.config.ts) does, so that
-  tests see Node's globals. The shared `@lab/test-utils/setup` then does not
-  run, because it cleans up a DOM that Node does not have.
+- Pass `environment: "node"` and `setupFiles: []` to `bazelVitestConfig` for
+  code that runs in Node, as the
+  [Day service](../../projects/day/service/vite.config.ts) does, so that no
+  setup expects a DOM. The shared `@lab/test-utils/setup` then does not run.

@@ -15,12 +15,12 @@ describe("readConfig", () => {
   });
 
   it("requires a data folder", () => {
-    expect(() => readConfig({})).toThrow();
+    expect(() => readConfig({})).toThrow(/DAY_DATA_DIR/);
   });
 
   it("rejects a port that is not a port number", () => {
     expect(() =>
       readConfig({ DAY_DATA_DIR: "/data", DAY_PORT: "70000" }),
-    ).toThrow();
+    ).toThrow(/DAY_PORT/);
   });
 });

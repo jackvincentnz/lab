@@ -24,15 +24,10 @@ export const updateItemInput = z
 
 export type UpdateItemInput = z.infer<typeof updateItemInput>;
 
-export const moveItemInput = z
-  .object({
-    id: itemId,
-    neighbourId: itemId,
-    position: z.enum(["before", "after"]),
-  })
-  .refine((input) => input.id !== input.neighbourId, {
-    message: "An item cannot move next to itself",
-    path: ["neighbourId"],
-  });
+export const moveItemInput = z.object({
+  id: itemId,
+  neighbourId: itemId,
+  position: z.enum(["before", "after"]),
+});
 
 export type MoveItemInput = z.infer<typeof moveItemInput>;
