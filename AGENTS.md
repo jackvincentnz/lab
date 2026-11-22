@@ -19,10 +19,10 @@ describe how to work.
   request.
 - Remove code, resets, or workarounds that your change makes redundant in the
   same PR, so that no dead workaround is left behind.
-- Merge a PR, resolve a review thread, create or close an issue, or edit a
-  tracking issue only when the user explicitly asks, so that the user decides
-  what lands and what is planned. An issue is finished when its PR is open with
-  passing checks.
+- Resolve a review thread, create or close an issue, or edit a tracking issue
+  only when the user explicitly asks, so that the user decides what is done and
+  what is planned. An issue is finished when its PR is open with passing checks.
+- Leave merging PRs to the user, so that the user decides what lands.
 - Follow [CONTRIBUTING.md](CONTRIBUTING.md) and the guides it links when a
   skill or other agent instruction differs from them, and propose a fix to the
   skill, so that each convention has one owner.

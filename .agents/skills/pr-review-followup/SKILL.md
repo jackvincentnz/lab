@@ -68,5 +68,3 @@ another check-in.
        resolveReviewThread(input: { threadId: $id }) { thread { isResolved } }
      }'
    ```
-
-Do not resolve threads or merge unless the user asks.
