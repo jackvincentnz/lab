@@ -69,6 +69,14 @@ describe("update", () => {
     expect(store.list()).toEqual([updated]);
   });
 
+  it("renames an item", () => {
+    const item = store.add("Draft");
+
+    const updated = store.update({ id: item.id, name: "Final" });
+
+    expect(updated?.name).toBe("Final");
+  });
+
   it("returns nothing for an unknown item", () => {
     const updated = store.update({ id: crypto.randomUUID(), name: "Missing" });
 
