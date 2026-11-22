@@ -58,9 +58,9 @@ the page itself, or names a folder without a published README.
 - Keep READMEs for similar components consistent in structure and command
   presentation, so that readers know where to look.
 - Keep docs concise, so that they are quick to read and to keep current.
-- Write for a reader new to the topic: plain words, one idea per sentence, each
-  term defined on first use, and a table when you compare cases, so that a
-  reader can follow it without working at it.
+- Write for a reader new to the topic: plain words, one idea per sentence, a
+  definition for a term an engineer may not know, and a table when you compare
+  cases, so that a reader can follow it without working at it.
 - Update every doc statement about behavior you change in the same PR, so that
   the docs stay true.
 - Link to the document that owns a topic instead of repeating it, so that each
