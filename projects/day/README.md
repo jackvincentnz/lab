@@ -31,21 +31,17 @@ bazel run //projects/day:prod
 
 ## Development
 
-| Task                                            | Command                                    |
-| ----------------------------------------------- | ------------------------------------------ |
-| Build and typecheck everything.                 | `bazel build //projects/day/...`           |
-| Run the desktop app in dev mode.                | `bazel run //projects/day`                 |
-| Run the desktop app in prod mode.               | `bazel run //projects/day:prod`            |
-| Run the web UI in a browser, reloading on save. | `ibazel run //projects/day/app`            |
-| Run the local service on its own.               | `bazel run //projects/day/service`         |
-| Run tests once.                                 | `bazel test //projects/day/...`            |
-| Run the service's tests once.                   | `bazel test //projects/day/service:test`   |
-| Run the desktop app's tests once.               | `bazel test //projects/day/desktop:test`   |
-| Watch sources, rebuild and rerun tests.         | `ibazel run //projects/day/app:test_watch` |
+| Task                              | Command                                  |
+| --------------------------------- | ---------------------------------------- |
+| Build and typecheck everything.   | `bazel build //projects/day/...`         |
+| Run the desktop app in dev mode.  | `bazel run //projects/day`               |
+| Run the desktop app in prod mode. | `bazel run //projects/day:prod`          |
+| Run the local service on its own. | `bazel run //projects/day/service`       |
+| Run tests once.                   | `bazel test //projects/day/...`          |
+| Run the service's tests once.     | `bazel test //projects/day/service:test` |
+| Run the desktop app's tests once. | `bazel test //projects/day/desktop:test` |
 
-The web UI's dev server listens at `http://localhost:5196`; set `DAY_APP_PORT` to change it. It
-sends `/api/` requests to the dev mode service on port 5297, or the port in `DAY_PORT`, so start
-that first.
+See the [app README](app/README.md) to work on the web UI in a browser.
 
 `bazel run //projects/day/service` runs the service in dev mode without the web UI. It uses the
 same port as `bazel run //projects/day`, so run one at a time. Set `DAY_DATA_DIR` or `DAY_PORT` to override the data folder
@@ -65,6 +61,6 @@ bazel run //projects/day -- --remote-debugging-port=9222
 
 ## Project map
 
-- `projects/day/app`: the React web UI.
+- `projects/day/app`: the React web UI, which shows the list.
 - `projects/day/desktop`: the Electron main process, which starts the service and opens the window.
 - `projects/day/service`: the local service, which owns the database and serves the web UI.

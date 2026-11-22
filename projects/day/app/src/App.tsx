@@ -1,8 +1,13 @@
+import { Container, Stack, Title } from "@mantine/core";
+import { ItemList } from "./ItemList";
+
 export function App() {
   return (
-    <main>
-      <h1>Day</h1>
-      <p>Your priorities will be listed here.</p>
-    </main>
+    <Container size="sm" py="xl">
+      <Stack>
+        <Title order={1}>Day</Title>
+        <ItemList />
+      </Stack>
+    </Container>
   );
 }
