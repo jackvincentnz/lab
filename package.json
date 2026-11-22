@@ -53,7 +53,7 @@
     "@storybook/react-vite": "10.6.5",
     "@swc/core": "1.16.20",
     "@testcontainers/kafka": "12.2.1",
-    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/jest-dom": "8.0.0",
     "@testing-library/react": "16.3.3",
     "@testing-library/user-event": "14.6.8",
     "@types/dockerode": "4.0.2",
