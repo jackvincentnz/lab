@@ -22,28 +22,26 @@ command after changing `desktop`.
 
 ## Development
 
-| Task                                            | Command                                                    |
-| ----------------------------------------------- | ---------------------------------------------------------- |
-| Build and typecheck everything.                 | `bazel build //projects/day/...`                           |
-| Run the desktop app.                            | `bazel run //projects/day`                                 |
-| Run the window in a browser, reloading on save. | `ibazel run //projects/day/app`                            |
-| Run the local service on its own.               | `DAY_DATA_DIR=~/.day-dev bazel run //projects/day/service` |
-| Run tests once.                                 | `bazel test //projects/day/...`                            |
-| Run the service's tests once.                   | `bazel test //projects/day/service:test`                   |
-| Watch sources, rebuild and rerun tests.         | `ibazel run //projects/day/app:test_watch`                 |
+| Task                                            | Command                                    |
+| ----------------------------------------------- | ------------------------------------------ |
+| Build and typecheck everything.                 | `bazel build //projects/day/...`           |
+| Run the desktop app.                            | `bazel run //projects/day`                 |
+| Run the window in a browser, reloading on save. | `ibazel run //projects/day/app`            |
+| Run the local service on its own.               | `bazel run //projects/day/service`         |
+| Run tests once.                                 | `bazel test //projects/day/...`            |
+| Run the service's tests once.                   | `bazel test //projects/day/service:test`   |
+| Watch sources, rebuild and rerun tests.         | `ibazel run //projects/day/app:test_watch` |
 
 The window's dev server listens at `http://localhost:5196`; set `DAY_APP_PORT` to change it. The
 window is an ordinary web page, so a browser is the quickest place to work on it.
 
-The local service keeps the list in `day.sqlite` in a `Day` folder in the platform's app data
-folder, which is `~/Library/Application Support/Day` on macOS. Set `DAY_DATA_DIR` to another folder
-for a development instance, so that it does not change your real list. The service adds new items at
-the bottom. It listens at `http://127.0.0.1:5197`; set `DAY_PORT` to change it. It is a
-[tRPC](https://trpc.io) API, so each operation is a path. For example, add an item and list them:
+`bazel run //projects/day/service` keeps its data in `Day Dev` in your app data folder and listens
+on `http://127.0.0.1:5297`, so it never touches the installed app's list. Set `DAY_DATA_DIR` or
+`DAY_PORT` to override either. Each API operation is a path:
 
 ```zsh
-curl -H 'content-type: application/json' -d '{"name":"Plan the week"}' http://127.0.0.1:5197/addItem
-curl http://127.0.0.1:5197/listItems
+curl -H 'content-type: application/json' -d '{"name":"Plan the week"}' http://127.0.0.1:5297/addItem
+curl http://127.0.0.1:5297/listItems
 ```
 
 Pass Electron flags after `--`. For example, expose the Chromium debugging protocol, which lets a

@@ -59,6 +59,24 @@ describe("readConfig", () => {
     expect(config.dataDir).toBe("/home/me/config/Day");
   });
 
+  it("keeps the dev profile's data apart from the real list", () => {
+    const config = readConfig({ DAY_PROFILE: "dev" }, mac);
+
+    expect(config).toEqual({
+      dataDir: "/Users/me/Library/Application Support/Day Dev",
+      port: 5297,
+    });
+  });
+
+  it("lets the environment override the dev profile", () => {
+    const config = readConfig(
+      { DAY_PROFILE: "dev", DAY_DATA_DIR: "/data", DAY_PORT: "6000" },
+      mac,
+    );
+
+    expect(config).toEqual({ dataDir: "/data", port: 6000 });
+  });
+
   it("falls back to ~/.config on Linux", () => {
     const config = readConfig({}, { platform: "linux", home: "/home/me" });
 

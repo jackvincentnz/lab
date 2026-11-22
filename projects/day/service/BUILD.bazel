@@ -27,6 +27,7 @@ js_binary(
     name = "service",
     data = [":src"],
     entry_point = "src/main.js",
+    env = {"DAY_PROFILE": "dev"},
 )
 
 node_ts_project(

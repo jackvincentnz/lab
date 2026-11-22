@@ -7,8 +7,9 @@ const optional = <T extends z.ZodType>(schema: T) =>
   z.preprocess((value) => (value === "" ? undefined : value), schema);
 
 const environment = z.object({
+  DAY_PROFILE: optional(z.enum(["dev"]).optional()),
   DAY_DATA_DIR: optional(z.string().optional()),
-  DAY_PORT: optional(z.coerce.number().int().min(1).max(65535).default(5197)),
+  DAY_PORT: optional(z.coerce.number().int().min(1).max(65535).optional()),
   APPDATA: optional(z.string().optional()),
   XDG_CONFIG_HOME: optional(z.string().optional()),
 });
@@ -27,12 +28,14 @@ export function readConfig(
   env: NodeJS.ProcessEnv,
   host: Host = { platform: process.platform, home: homedir() },
 ): Config {
-  const { DAY_DATA_DIR, DAY_PORT, APPDATA, XDG_CONFIG_HOME } =
+  const { DAY_PROFILE, DAY_DATA_DIR, DAY_PORT, APPDATA, XDG_CONFIG_HOME } =
     environment.parse(env);
+  // The dev profile gets its own folder and port, so it runs beside the installed app.
+  const dev = DAY_PROFILE === "dev";
+  const appData = appDataDir(host, APPDATA, XDG_CONFIG_HOME);
   return {
-    dataDir:
-      DAY_DATA_DIR ?? join(appDataDir(host, APPDATA, XDG_CONFIG_HOME), "Day"),
-    port: DAY_PORT,
+    dataDir: DAY_DATA_DIR ?? join(appData, dev ? "Day Dev" : "Day"),
+    port: DAY_PORT ?? (dev ? 5297 : 5197),
   };
 }
 
