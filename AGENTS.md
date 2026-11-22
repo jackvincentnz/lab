@@ -105,7 +105,7 @@ describe how to work.
 
 | Rule                                          | Enforced by                                      |
 | --------------------------------------------- | ------------------------------------------------ |
-| Conventional commit messages and PR titles    | Commitlint `commit-msg` hook and PR title check  |
+| Conventional commit messages                  | Commitlint `commit-msg` hook                     |
 | Formatting and lint                           | pre-commit hooks and CI                          |
 | Java BUILD files match Gazelle                | Gazelle `pre-push` hook and CI diff check        |
 | `MODULE.bazel.lock` is current                | `--lockfile_mode=error` in CI                    |
