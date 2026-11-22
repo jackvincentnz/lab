@@ -2,6 +2,8 @@ packages:
   - "libs/bubbles"
   - "libs/test-utils"
   - "projects/mops/app"
+  - "projects/day/app"
+  - "projects/day/desktop"
   - "projects/wide/app"
   - "projects/organizer/tasklist"
   - "projects/organizer/journal_app"
@@ -30,6 +32,7 @@ allowBuilds:
     "@apollo/rover": false,
     "@swc/core": false,
     cpu-features: false,
+    electron: true,
     esbuild: false,
     protobufjs: false,
     ssh2: false,

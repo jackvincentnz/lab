@@ -1,0 +1,6 @@
+load("@npm//:electron/package_json.bzl", electron_bin = "bin")
+
+electron_bin.electron_binary(
+    name = "electron_binary",
+    visibility = ["//visibility:public"],
+)

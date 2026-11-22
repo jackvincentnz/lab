@@ -1,0 +1,15 @@
+load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+
+node_ts_project(
+    name = "src_ts",
+    srcs = glob(["src/**/*.ts"]),
+    deps = ["//:node_modules/electron"],
+)
+
+js_library(
+    name = "desktop",
+    srcs = ["package.json"],
+    visibility = ["//projects/day:__pkg__"],
+    deps = [":src_ts"],
+)

@@ -1,0 +1,11 @@
+load("//tools/bazel:js.bzl", "js_run_devserver")
+
+js_run_devserver(
+    name = "day",
+    args = ["projects/day/desktop/src/index.js"],
+    data = [
+        "//projects/day/app:build",
+        "//projects/day/desktop",
+    ],
+    tool = "//tools/bazel/electron:electron_binary",
+)
