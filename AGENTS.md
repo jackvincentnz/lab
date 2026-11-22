@@ -95,6 +95,11 @@ describe how to work.
   decide without follow-up questions.
 - Report the root cause and the reason for each non-obvious change, so that
   the user can review the change without asking why.
+- Say in a PR's report how it will land, as one squash commit or as the list of
+  commits a rebase merge will add, so that the user can review the history
+  `main` will get.
+- When asked to tidy a PR, rewrite its branch into one commit per change and
+  force-push it, so that `main` gets one revertible commit per change.
 
 ## Enforcement
 
