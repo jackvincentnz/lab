@@ -120,6 +120,20 @@ describe("move", () => {
     expect(store.list()).toEqual([first, moved, second]);
   });
 
+  it("leaves an item moved next to itself unchanged", () => {
+    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const moved = store.move({
+      id: second.id,
+      neighbourId: second.id,
+      position: "before",
+    });
+
+    expect(moved).toEqual(second);
+    expect(store.list()).toEqual([first, second]);
+  });
+
   it("returns nothing when the neighbour is unknown", () => {
     const item = store.add("Lonely");
 

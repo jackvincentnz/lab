@@ -103,12 +103,18 @@ export class ItemStore {
     });
   }
 
-  /** Moves an item next to a neighbour, writing only the moved item's rank. */
+  /**
+   * Moves an item next to a neighbour, writing only the moved item's rank. An item is already
+   * next to itself, so that move changes nothing.
+   */
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
     const item = this.#find(id);
     const neighbour = this.#find(neighbourId);
     if (!item || !neighbour) {
       return undefined;
+    }
+    if (item.id === neighbour.id) {
+      return item;
     }
 
     const rank =
