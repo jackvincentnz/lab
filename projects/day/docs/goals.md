@@ -34,5 +34,7 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 - Replacing a team backlog, or syncing with one.
 - Replacing daily notes.
 - Several users, accounts, or sharing.
-- Access from another device. The [architecture](architecture.md) leaves room for it.
 - Projects, tags, due dates, or progress tracking beyond status.
+
+Access from another device is not a goal yet. The
+[local service decision](../../../docs/adr/day-local-service.md) leaves room for it.

@@ -2,7 +2,8 @@
 
 A personal desktop app for keeping one ordered list of everything you are working on. It is an
 [Electron](https://www.electronjs.org) app with a React window. See the [goals](docs/goals.md) for
-what it is for and the [architecture](docs/architecture.md) for how it is put together.
+what it is for and the [local service decision](../../docs/adr/day-local-service.md) for the
+design it follows.
 
 ## Getting started
 
@@ -36,8 +37,3 @@ Run these commands from `projects/day`:
 
 - `src/main`: the Electron main process, which opens the window.
 - `src/renderer`: the React window.
-
-## Related docs
-
-- [Goals](docs/goals.md).
-- [Architecture](docs/architecture.md).
