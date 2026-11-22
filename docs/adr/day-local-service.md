@@ -32,7 +32,8 @@ flowchart LR
 - The service's entry point does not import Electron, so it can also run on its own.
 - The service listens on the loopback address, which only this machine can reach, on a fixed port.
 - The window calls the service over HTTP rather than Electron IPC, and holds no business logic.
-- The service serves MCP over Streamable HTTP. Claude Code connects to the URL. Claude Desktop's
+- The service serves MCP over Streamable HTTP, the protocol's transport for a server that is
+  already running. Claude Code connects to the URL. Claude Desktop's
   chat starts local MCP servers itself, so it reaches the URL through the `mcp-remote` bridge, as
   the [WIDE README](../../projects/wide/README.md#claude-desktop) describes.
 - The service stores items in one SQLite file in the user data folder, through Node's built-in
@@ -44,7 +45,8 @@ could already hold.
 
 ## Consequences
 
-- An agent can change the list while the window is closed, as long as the app is running.
+- An agent can change the list while the window is closed, as long as the app is running. On
+  macOS the app keeps running after its last window closes.
 - The same React code can run in a browser, and a phone client needs no change to the service's
   design, only a way to reach it and to authenticate.
 - No native module has to be rebuilt for each Electron version.
@@ -57,7 +59,8 @@ could already hold.
   of [Logseq](https://github.com/logseq/logseq) forward each agent call to the window, so agents
   only work while it is open. [Joplin](https://github.com/laurent22/joplin) opens SQLite in the
   window and has to switch Node access on for it.
-- **A core in an Electron utility process, reached over IPC.**
+- **A core in an Electron utility process, a Node child process that main starts, reached over
+  IPC.**
   [Actual](https://github.com/actualbudget/actual) does this and relays each message through main.
   It needs no port, but an agent or phone would still need a second, network API.
 - **A stdio MCP server that opens the SQLite file itself.** It is less code, but the app and the
