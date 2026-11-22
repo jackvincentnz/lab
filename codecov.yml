@@ -32,6 +32,11 @@ component_management:
       paths:
         - "projects/wide/app/**"
         - "projects/wide/service/**"
+    - component_id: day
+      name: Day
+      paths:
+        - "projects/day/app/**"
+        - "projects/day/desktop/**"
     - component_id: libs
       name: Shared libraries
       paths:
