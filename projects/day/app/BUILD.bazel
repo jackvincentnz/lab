@@ -1,0 +1,23 @@
+load("//tools/bazel:fe.bzl", "fe_app")
+
+fe_app(
+    name = "app",
+    data = [
+        "index.html",
+        "package.json",
+        "vite.config.ts",
+        "//:node_modules/@vitejs/plugin-react",
+        "//:node_modules/jsdom",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:test_config",
+    ],
+    test_deps = ["//:node_modules/@lab/test-utils"],
+    visibility = ["//projects/day:__pkg__"],
+    deps = [
+        "//:node_modules/@types/react",
+        "//:node_modules/@types/react-dom",
+        "//:node_modules/react",
+        "//:node_modules/react-dom",
+        "//:node_modules/vite",
+    ],
+)

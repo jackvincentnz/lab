@@ -1,6 +1,8 @@
 import { join } from "node:path";
 import { app, BrowserWindow } from "electron";
 
+const windowPage = join(import.meta.dirname, "../../app/dist/index.html");
+
 function createWindow(): void {
   const window = new BrowserWindow({
     width: 960,
@@ -9,12 +11,7 @@ function createWindow(): void {
     webPreferences: { sandbox: true },
   });
 
-  const devServerUrl = process.env["ELECTRON_RENDERER_URL"];
-  if (devServerUrl) {
-    void window.loadURL(devServerUrl);
-  } else {
-    void window.loadFile(join(import.meta.dirname, "../renderer/index.html"));
-  }
+  void window.loadFile(windowPage);
 }
 
 void app.whenReady().then(() => {

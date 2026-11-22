@@ -188,8 +188,19 @@ npm = use_extension(
 )
 npm.npm_translate_lock(
     name = "npm",
+    # Electron no longer downloads its binary when installed. Its installer verifies the download
+    # against the checksums in the package.
+    custom_postinstalls = {
+        "electron": "node install.js",
+    },
     # Stardoc needs the Starlark libraries generated for npm binary macros.
     generate_bzl_library_targets = True,
+    lifecycle_hooks_execution_requirements = {
+        "electron": [
+            "no-sandbox",
+            "requires-network",
+        ],
+    },
     pnpm_lock = "//:pnpm-lock.yaml",
 )
 use_repo(npm, "npm")
