@@ -17,7 +17,7 @@ bazel run //projects/day
 ```
 
 The first build downloads the Electron binary. The window shows the built page, so use `ibazel` in
-place of `bazel` to rebuild as sources change, then reload the window with Cmd+R. Restart the
+place of `bazel` to rebuild as sources change, then reload the window with Cmd+R, or Ctrl+R on Linux. Restart the
 command after changing `desktop`.
 
 ## Development

@@ -24,7 +24,6 @@ function preserveHtmlEntrySymlinks(): PluginOption {
     enforce: "pre",
     resolveId(id) {
       // Vite 8 realpaths Bazel's HTML input outside config.root unless this entry stays symlinked.
-      // TODO: Remove when https://github.com/jackvincentnz/lab/issues/771 is resolved.
       if (isAbsolute(id) && id.endsWith(".html")) {
         return id;
       }

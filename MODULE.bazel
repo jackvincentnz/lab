@@ -188,8 +188,8 @@ npm = use_extension(
 )
 npm.npm_translate_lock(
     name = "npm",
-    # Electron no longer downloads its binary when installed. Its installer verifies the download
-    # against the checksums in the package.
+    # Electron's package has no install script. Its install.js downloads the binary and verifies
+    # it against the checksums in the package.
     custom_postinstalls = {
         "electron": "node install.js",
     },
