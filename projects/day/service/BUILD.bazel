@@ -20,6 +20,10 @@ node_ts_project(
 js_library(
     name = "src",
     srcs = ["package.json"],
+    visibility = [
+        "//projects/day:__pkg__",
+        "//projects/day/desktop:__pkg__",
+    ],
     deps = [":src_ts"],
 )
 

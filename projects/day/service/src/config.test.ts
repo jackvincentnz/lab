@@ -29,6 +29,21 @@ describe("readConfig", () => {
     expect(reading).toThrow(/DAY_PORT/);
   });
 
+  it("resolves a relative data folder against the folder bazel run started in", () => {
+    const config = readConfig(
+      { DAY_DATA_DIR: "data", BUILD_WORKING_DIRECTORY: "/work" },
+      mac,
+    );
+
+    expect(config.dataDir).toBe("/work/data");
+  });
+
+  it("reads the web UI folder", () => {
+    const config = readConfig({ DAY_WEB_DIR: "/web" }, mac);
+
+    expect(config.webDir).toBe("/web");
+  });
+
   it("keeps data in Application Support on macOS", () => {
     const config = readConfig({}, mac);
 
@@ -63,7 +78,7 @@ describe("readConfig", () => {
     const config = readConfig({ DAY_PROFILE: "dev" }, mac);
 
     expect(config).toEqual({
-      dataDir: "/Users/me/Library/Application Support/Day Dev",
+      dataDir: "/Users/me/Library/Application Support/Day (dev)",
       port: 5297,
     });
   });

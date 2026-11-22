@@ -21,18 +21,18 @@ One local process, the service, owns the database. Everything else is a client o
 ```mermaid
 flowchart LR
   main[Electron main] -- starts --> service
-  main -- opens --> window[Window: React]
-  window -- HTTP --> service[Service: Node]
+  main -- opens a window on --> web[Web UI: React]
+  web -- HTTP --> service[Service: Node]
   agent[Agent] -- MCP over HTTP --> service
   service --> db[(SQLite file)]
 ```
 
-- Electron main starts the service inside Electron's own binary and opens the window, so one
-  command starts everything and quitting the app stops it. The service does not import Electron,
-  so it can also run on its own.
+- Electron main starts the service as an Electron utility process, so one command starts
+  everything and quitting the app stops it. The service does not import Electron, so it can also
+  run on its own.
 - The service listens on a fixed port on the loopback address, which only this machine can reach.
-- The window and agents call the service over HTTP rather than Electron IPC. The window holds no
-  business logic.
+- The web UI and agents call the service over HTTP rather than Electron IPC. The web UI holds no
+  business logic, and the service also serves it, so the page and the API share one origin.
 - Agents reach the service through MCP over Streamable HTTP, the protocol's transport for a server
   that is already running.
 - The service stores items in one SQLite file through Node's built-in `node:sqlite`.
@@ -56,9 +56,9 @@ could already hold.
 
 ## Alternatives considered
 
-- **Logic and storage in the window.**
+- **Logic and storage in the web UI.**
   [Super Productivity](https://github.com/johannesjo/super-productivity) and Logseq's desktop MCP
-  server forward each agent call to the window, so agents only work while it is open.
+  server forward each agent call to the web UI, so agents only work while it is open.
 - **A core reached only over Electron IPC.** [Actual](https://github.com/actualbudget/actual) does
   this. It needs no port, but an agent or phone would still need a second, network API.
 - **A stdio MCP server that opens the SQLite file itself.** It is less code, but the app and the
@@ -77,4 +77,4 @@ could already hold.
 - [T3 Code](https://github.com/pingdotgg/t3code): a Node server owns state, and desktop, web and
   mobile clients connect to it.
 - [Logseq](https://github.com/logseq/logseq): its database worker is a Node process using
-  `node:sqlite` that the window and CLI reach over loopback HTTP.
+  `node:sqlite` that the UI and CLI reach over loopback HTTP.

@@ -1,32 +1,46 @@
-import { mkdtempSync, rmSync } from "node:fs";
-import { request, type Server } from "node:http";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { request, type IncomingHttpHeaders, type Server } from "node:http";
 import { type AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { createDayServer } from "./server.js";
+import { createDayServer, type DayServerOptions } from "./server.js";
 import { openItemStore } from "./store.js";
 
-let dataDir: string;
+let folder: string;
+let webDir: string;
 let server: Server;
 
-beforeEach(async () => {
-  dataDir = mkdtempSync(join(tmpdir(), "day-server-"));
-  server = createDayServer(openItemStore(dataDir));
-  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+beforeEach(() => {
+  folder = mkdtempSync(join(tmpdir(), "day-server-"));
+  webDir = join(folder, "web");
+  mkdirSync(join(webDir, "assets"), { recursive: true });
+  writeFileSync(join(webDir, "index.html"), "<h1>Day</h1>");
+  writeFileSync(join(webDir, "assets", "index.js"), "render();");
+  writeFileSync(join(folder, "secret"), "private");
 });
 
 afterEach(async () => {
   await new Promise((resolve) => server.close(resolve));
-  rmSync(dataDir, { recursive: true, force: true });
+  rmSync(folder, { recursive: true, force: true });
 });
+
+async function start(options: DayServerOptions = {}): Promise<void> {
+  server = createDayServer(openItemStore(folder), options);
+  await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+}
 
 interface Response {
   status: number;
+  headers: IncomingHttpHeaders;
   body: string;
 }
 
-function send(path: string, host: string, body?: string): Promise<Response> {
+function send(
+  path: string,
+  host = "localhost:5197",
+  body?: string,
+): Promise<Response> {
   const { port } = server.address() as AddressInfo;
   return new Promise((resolve, reject) => {
     request(
@@ -42,7 +56,11 @@ function send(path: string, host: string, body?: string): Promise<Response> {
         response.setEncoding("utf8");
         response.on("data", (chunk: string) => (body += chunk));
         response.on("end", () =>
-          resolve({ status: response.statusCode ?? 0, body }),
+          resolve({
+            status: response.statusCode ?? 0,
+            headers: response.headers,
+            body,
+          }),
         );
       },
     )
@@ -52,10 +70,11 @@ function send(path: string, host: string, body?: string): Promise<Response> {
 }
 
 describe("createDayServer", () => {
-  it("serves the router to a loopback host", async () => {
-    await send("/addItem", "localhost:5197", '{"name":"Plan the week"}');
+  it("serves the router under the API path to a loopback host", async () => {
+    await start();
+    await send("/api/addItem", undefined, '{"name":"Plan the week"}');
 
-    const response = await send("/listItems", "localhost:5197");
+    const response = await send("/api/listItems");
 
     expect(response.status).toBe(200);
     expect(JSON.parse(response.body)).toMatchObject({
@@ -64,8 +83,84 @@ describe("createDayServer", () => {
   });
 
   it("refuses a request for another host", async () => {
-    const response = await send("/listItems", "attacker.example:5197");
+    await start();
+
+    const response = await send("/api/listItems", "attacker.example:5197");
 
     expect(response.status).toBe(403);
+  });
+
+  it("serves the web UI's page at the root", async () => {
+    await start({ webDir });
+
+    const response = await send("/");
+
+    expect(response).toMatchObject({
+      status: 200,
+      headers: { "content-type": "text/html; charset=utf-8" },
+      body: "<h1>Day</h1>",
+    });
+  });
+
+  it("serves the web UI's assets", async () => {
+    await start({ webDir });
+
+    const response = await send("/assets/index.js");
+
+    expect(response).toMatchObject({
+      status: 200,
+      headers: { "content-type": "text/javascript; charset=utf-8" },
+      body: "render();",
+    });
+  });
+
+  it("sends the content security policy", async () => {
+    await start({ webDir });
+
+    const response = await send("/");
+
+    expect(response.headers["content-security-policy"]).toBe(
+      "default-src 'self'",
+    );
+  });
+
+  it("answers a missing file with not found", async () => {
+    await start({ webDir });
+
+    const response = await send("/assets/missing.js");
+
+    expect(response.status).toBe(404);
+  });
+
+  it("refuses a path outside the web UI folder", async () => {
+    await start({ webDir });
+
+    const response = await send("/..%2fsecret");
+
+    expect(response.status).toBe(404);
+  });
+
+  it("answers a malformed path with not found", async () => {
+    await start({ webDir });
+
+    const response = await send("/%E0");
+
+    expect(response.status).toBe(404);
+  });
+
+  it("answers a request target that is not a URL with bad request", async () => {
+    await start({ webDir });
+
+    const response = await send("//a:b@");
+
+    expect(response.status).toBe(400);
+  });
+
+  it("answers the root with not found without a web UI folder", async () => {
+    await start();
+
+    const response = await send("/");
+
+    expect(response.status).toBe(404);
   });
 });
