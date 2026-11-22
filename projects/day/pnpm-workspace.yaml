@@ -1,0 +1,3 @@
+# A workspace of its own keeps Electron's packages out of the root lockfile,
+# which Bazel translates into npm repositories.
+packages: []
