@@ -11,7 +11,9 @@ describe("addItemInput", () => {
   it("rejects a blank name", () => {
     const result = addItemInput.safeParse({ name: "   " });
 
-    expect(result.success).toBe(false);
+    expect(result.error?.issues[0]?.message).toBe(
+      "Give a name that is not blank",
+    );
   });
 });
 

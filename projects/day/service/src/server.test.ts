@@ -3,9 +3,11 @@ import { request, type IncomingHttpHeaders, type Server } from "node:http";
 import { type AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { Client } from "@modelcontextprotocol/sdk/client/index.js";
+import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { createDayServer, type DayServerOptions } from "./server.js";
-import { openItemStore } from "./store.js";
+import { type Item, openItemStore } from "./store.js";
 
 let folder: string;
 let webDir: string;
@@ -69,6 +71,24 @@ function send(
   });
 }
 
+async function connectMcpClient(): Promise<Client> {
+  const { port } = server.address() as AddressInfo;
+  const client = new Client({ name: "test", version: "1.0.0" });
+  await client.connect(
+    new StreamableHTTPClientTransport(new URL(`http://127.0.0.1:${port}/mcp`)),
+  );
+  return client;
+}
+
+async function addItemOverMcp(client: Client, name: string): Promise<Item> {
+  const result = await client.callTool({
+    name: "add_item",
+    arguments: { name },
+  });
+  const [{ text }] = result.content as [{ text: string }];
+  return JSON.parse(text) as Item;
+}
+
 describe("createDayServer", () => {
   it("serves the router under the API path to a loopback host", async () => {
     await start();
@@ -88,6 +108,24 @@ describe("createDayServer", () => {
     const response = await send("/api/listItems", "attacker.example:5197");
 
     expect(response.status).toBe(403);
+  });
+
+  it("lets an MCP client change the list that the API serves", async () => {
+    await start();
+    const client = await connectMcpClient();
+
+    const plan = await addItemOverMcp(client, "Plan the week");
+    const venue = await addItemOverMcp(client, "Book the venue");
+    await client.callTool({
+      name: "move_item",
+      arguments: { id: venue.id, neighbourId: plan.id, position: "before" },
+    });
+    await client.close();
+
+    const response = await send("/api/listItems");
+    expect(JSON.parse(response.body)).toMatchObject({
+      result: { data: [{ name: "Book the venue" }, { name: "Plan the week" }] },
+    });
   });
 
   it("serves the web UI's page at the root", async () => {
