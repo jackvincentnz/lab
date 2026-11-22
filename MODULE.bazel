@@ -195,6 +195,7 @@ npm.npm_translate_lock(
     },
     # Stardoc needs the Starlark libraries generated for npm binary macros.
     generate_bzl_library_targets = True,
+    # Applies only to packages that allowBuilds in pnpm-workspace.yaml sets to true.
     lifecycle_hooks_execution_requirements = {
         "electron": [
             "no-sandbox",

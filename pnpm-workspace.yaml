@@ -27,11 +27,11 @@ overrides:
 hoist: false
 engineStrict: true
 ignoreWorkspaceRootCheck: true
-allowBuilds: {
+allowBuilds:
+  {
     "@apollo/rover": false,
     "@swc/core": false,
     cpu-features: false,
-    # Has no install script; lets rules_js apply the execution requirements in MODULE.bazel.
     electron: true,
     esbuild: false,
     protobufjs: false,
