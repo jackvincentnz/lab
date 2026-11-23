@@ -10,6 +10,7 @@ node_ts_project(
         ["src/**/*.ts"],
         exclude = TEST_SRCS,
     ),
+    visibility = ["//projects/day/app:__pkg__"],
     deps = [
         "//:node_modules/@trpc/server",
         "//:node_modules/fractional-indexing",

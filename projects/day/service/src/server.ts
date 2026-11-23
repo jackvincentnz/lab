@@ -5,7 +5,9 @@ import { dayRouter } from "./router.js";
 import { serveFile } from "./static.js";
 import { type ItemStore } from "./store.js";
 
-const contentSecurityPolicy = "default-src 'self'";
+// Mantine renders its theme in inline style elements; scripts stay limited to the page's own files.
+const contentSecurityPolicy =
+  "default-src 'self'; style-src 'self' 'unsafe-inline'";
 
 const apiPath = "/api/";
 

@@ -120,7 +120,7 @@ describe("createDayServer", () => {
     const response = await send("/");
 
     expect(response.headers["content-security-policy"]).toBe(
-      "default-src 'self'",
+      "default-src 'self'; style-src 'self' 'unsafe-inline'",
     );
   });
 
