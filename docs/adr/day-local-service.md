@@ -21,30 +21,26 @@ One local process, the service, owns the database. Everything else is a client o
 ```mermaid
 flowchart LR
   main[Electron main] -- starts --> service
-  main -- opens --> window[Window: React]
-  window -- HTTP --> service[Service: Node]
+  main -- opens a window on --> web[Web UI: React]
+  web -- HTTP --> service[Service: Node]
   agent[Agent] -- MCP over HTTP --> service
   service --> db[(SQLite file)]
 ```
 
-- Electron main starts the service inside Electron's own binary and opens the window, so one
-  command starts everything and quitting the app stops everything.
-- The service's entry point does not import Electron, so it can also run on its own.
-- The service listens on the loopback address, which only this machine can reach, on a fixed port.
-- The window calls the service over HTTP rather than Electron IPC, and holds no business logic.
-- The service serves MCP over Streamable HTTP, the protocol's transport for a server that is
-  already running. Claude Code connects to the URL. Claude Desktop's
-  chat starts local MCP servers itself, so it reaches the URL through the `mcp-remote` bridge, as
-  the [WIDE README](../../projects/wide/README.md#claude-desktop) describes.
-- The service stores items in one SQLite file in the user data folder, through Node's built-in
-  `node:sqlite`.
-- The window is sandboxed, with context isolation and no Node access.
-- The service's API is [tRPC](https://trpc.io), with [zod](https://zod.dev) schemas for each
-  operation's input, because the MCP SDK takes zod schemas too, so the same schemas can define the
-  agent's tools.
-- Each item stores its rank as a text key that sorts between its neighbours, generated with
-  [`fractional-indexing`](https://github.com/rocicorp/fractional-indexing), so moving an item
-  writes only that item's row.
+- Electron main starts the service as an Electron utility process, so one command starts
+  everything and quitting the app stops it. The service does not import Electron, so it can also
+  run on its own.
+- The service listens on a fixed port on the loopback address, which only this machine can reach.
+- The web UI and agents call the service over HTTP rather than Electron IPC. The web UI holds no
+  business logic, and the service also serves it, so the page and the API share one origin.
+- Agents reach the service through MCP over Streamable HTTP, the protocol's transport for a server
+  that is already running.
+- The service stores items in one SQLite file through Node's built-in `node:sqlite`.
+- The API is [tRPC](https://trpc.io) with [zod](https://zod.dev) schemas, which the MCP SDK takes
+  too, so the API and the agent's tools can share them.
+- Each item's rank is a text key that sorts between its neighbours, from
+  [`fractional-indexing`](https://github.com/rocicorp/fractional-indexing), so a move writes only
+  the moved item, not every item renumbered between its old and new place.
 
 This costs an HTTP API where Electron IPC would be less code, and a fixed port that another program
 could already hold.
@@ -60,25 +56,15 @@ could already hold.
 
 ## Alternatives considered
 
-- **Logic and storage in the window.**
-  [Super Productivity](https://github.com/johannesjo/super-productivity) and the desktop MCP server
-  of [Logseq](https://github.com/logseq/logseq) forward each agent call to the window, so agents
-  only work while it is open. [Joplin](https://github.com/laurent22/joplin) opens SQLite in the
-  window and has to switch Node access on for it.
-- **A core in an Electron utility process, a Node child process that main starts, reached over
-  IPC.**
-  [Actual](https://github.com/actualbudget/actual) does this and relays each message through main.
-  It needs no port, but an agent or phone would still need a second, network API.
+- **Logic and storage in the web UI.**
+  [Super Productivity](https://github.com/johannesjo/super-productivity) and Logseq's desktop MCP
+  server forward each agent call to the web UI, so agents only work while it is open.
+- **A core reached only over Electron IPC.** [Actual](https://github.com/actualbudget/actual) does
+  this. It needs no port, but an agent or phone would still need a second, network API.
 - **A stdio MCP server that opens the SQLite file itself.** It is less code, but the app and the
   MCP server would both write the file.
-- **A native SQLite module such as `better-sqlite3`.** Actual and Joplin rebuild theirs for each
-  Electron version. Logseq's database worker and
-  [T3 Code](https://github.com/pingdotgg/t3code)'s server use `node:sqlite` instead.
+- **A native SQLite module such as `better-sqlite3`.** It must be rebuilt for each Electron version.
 - **GraphQL for the API.** It needs a schema and generated types that MCP tools could not reuse.
-- **Integer ranks, renumbered on each move.** A move would rewrite every item between the old and
-  new place.
-- **Markdown files in a notes repository.** Notes tools could show them, but a global order is
-  awkward to store and query.
 
 ## Reconsider when
 
@@ -91,8 +77,4 @@ could already hold.
 - [T3 Code](https://github.com/pingdotgg/t3code): a Node server owns state, and desktop, web and
   mobile clients connect to it.
 - [Logseq](https://github.com/logseq/logseq): its database worker is a Node process using
-  `node:sqlite` that the window and CLI reach over loopback HTTP.
-- [Signal Desktop](https://github.com/signalapp/Signal-Desktop): SQLite runs in worker threads,
-  away from the window.
-- [VS Code](https://github.com/microsoft/vscode): sandboxed windows call utility processes.
-- [Electron process sandboxing](https://www.electronjs.org/docs/latest/tutorial/sandbox).
+  `node:sqlite` that the UI and CLI reach over loopback HTTP.
