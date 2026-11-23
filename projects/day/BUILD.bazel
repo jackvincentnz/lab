@@ -1,6 +1,6 @@
-load("@aspect_bazel_lib//lib:copy_to_directory.bzl", "copy_to_directory")
-load("@rules_shell//shell:sh_binary.bzl", "sh_binary")
 load("//tools/bazel:js.bzl", "js_binary", "js_library", "js_run_binary", "js_run_devserver")
+load("//tools/bazel:pkg.bzl", "copy_to_directory")
+load("//tools/bazel:sh.bzl", "sh_binary")
 load("//tools/bazel:ts.bzl", "node_ts_project")
 
 DESKTOP_APP_DATA = [

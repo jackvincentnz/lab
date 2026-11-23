@@ -23,7 +23,8 @@ function writableCopy(source: string, name: string): string {
 }
 
 try {
-  // Packager would download Electron; the electron package already holds the same release, unzipped.
+  // Workaround: packager takes Electron only as a release zip, which it would download, so this zips
+  // the release the electron package already holds.
   const electron = writableCopy(join(electronDir, "dist"), "electron");
   const zips = join(work, "zips");
   mkdirSync(zips);
@@ -47,8 +48,8 @@ try {
     electronZipDir: zips,
     platform: "darwin",
     arch,
-    // Apple silicon runs only signed code. An ad hoc signature needs no certificate, and without
-    // notarisation the hardened runtime only stops the app loading its own ad hoc signed frameworks.
+    asar: true,
+    // Apple silicon runs only signed code. The hardened runtime would block ad hoc signed frameworks.
     osxSign: {
       identity: "-",
       identityValidation: false,

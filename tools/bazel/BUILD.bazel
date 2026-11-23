@@ -65,6 +65,7 @@ bzl_library(
     srcs = ["pkg.bzl"],
     visibility = ["//visibility:public"],
     deps = [
+        "@aspect_bazel_lib//lib:copy_to_directory",
         "@rules_pkg//:pkg.bzl",
         "@rules_pkg//pkg:rules_pkg_lib",
     ],

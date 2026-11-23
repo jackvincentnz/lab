@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
-// Bundles Electron main and the service with their npm dependencies, so the app needs no
-// node_modules. Each entry keeps its path, so main finds the service where it does in Bazel.
+// The app ships no node_modules. Each entry keeps its path, so main finds the service where it does
+// in Bazel.
 export default defineConfig({
   build: {
     ssr: true,
