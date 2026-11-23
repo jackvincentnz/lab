@@ -1,4 +1,5 @@
 import {
+  afterEach,
   describe,
   expect,
   it,
@@ -9,8 +10,13 @@ import {
 import type { Item } from "../api";
 import { fakeDayApi, item, withDayApi } from "../test/fakes";
 import { ItemsPage } from "./ItemsPage";
+import { onlineManager } from "@tanstack/react-query";
 
 describe("ItemsPage", () => {
+  afterEach(() => {
+    onlineManager.setOnline(true);
+  });
+
   it("shows a loader until the list arrives", () => {
     const api = fakeDayApi();
     api.listItems.mockReturnValue(new Promise<Item[]>(() => undefined));
@@ -122,6 +128,21 @@ describe("ItemsPage", () => {
     expect(
       await screen.findByRole("combobox", { name: "Status of Plan the week" }),
     ).toHaveValue("doing");
+  });
+
+  it("keeps reaching the service while the browser is offline", async () => {
+    const user = userEvent.setup();
+    const added = item({ name: "Plan the week" });
+    const api = fakeDayApi([]);
+    api.addItem.mockResolvedValue(added);
+    render(<ItemsPage />, { wrapper: withDayApi(api) });
+    const name = await screen.findByRole("textbox", { name: "New item" });
+    onlineManager.setOnline(false);
+    api.listItems.mockResolvedValue([added]);
+
+    await user.type(name, "Plan the week{Enter}");
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
   });
 
   it("sends one change at a time", async () => {

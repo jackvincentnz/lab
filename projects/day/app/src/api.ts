@@ -21,6 +21,11 @@ export function createDayClient(url: string): DayClient {
 
 export function createQueryClient(): QueryClient {
   const queryClient: QueryClient = new QueryClient({
+    // The service runs on this machine, so the browser going offline must not pause requests.
+    defaultOptions: {
+      queries: { networkMode: "always" },
+      mutations: { networkMode: "always" },
+    },
     mutationCache: new MutationCache({
       // The service decides the order, so a change reloads its list rather than patching ours.
       onSuccess: () => queryClient.invalidateQueries(),

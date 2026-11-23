@@ -1,4 +1,5 @@
 import {
+  act,
   describe,
   expect,
   it,
@@ -107,6 +108,43 @@ describe("ItemRow", () => {
     expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week soon",
     );
+  });
+
+  it("keeps newer edits when an earlier rename is saved", async () => {
+    const user = userEvent.setup();
+    const { onRename } = renderRow();
+    const name = await startRename(user);
+    await user.type(name, " soon{Enter}");
+    await user.type(name, "er");
+    const [[, onSaved]] = onRename.mock.calls as [[string, () => void]];
+
+    act(onSaved);
+
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
+      "Plan the week sooner",
+    );
+  });
+
+  it("does not save a blank name", async () => {
+    const user = userEvent.setup();
+    const { onRename } = renderRow();
+    const name = await startRename(user);
+
+    await user.clear(name);
+    await user.type(name, "   {Enter}");
+
+    expect(onRename).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
+  });
+
+  it("does not change the status while a change saves", () => {
+    const { startSaving } = renderRow();
+
+    startSaving();
+
+    expect(
+      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+    ).toBeDisabled();
   });
 
   it("cancels a rename with Escape", async () => {

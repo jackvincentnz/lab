@@ -47,7 +47,11 @@ function fakeLink(api: FakeDayApi): TRPCLink<DayRouter> {
 export function withDayApi(api: FakeDayApi) {
   const client = createTRPCClient<DayRouter>({ links: [fakeLink(api)] });
   const queryClient = createQueryClient();
-  queryClient.setDefaultOptions({ queries: { retry: false } });
+  const defaults = queryClient.getDefaultOptions();
+  queryClient.setDefaultOptions({
+    ...defaults,
+    queries: { ...defaults.queries, retry: false },
+  });
 
   return function DayApiWrapper({ children }: PropsWithChildren) {
     return (

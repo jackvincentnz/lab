@@ -1,4 +1,5 @@
 import {
+  act,
   describe,
   expect,
   it,
@@ -24,6 +25,34 @@ describe("AddItemForm", () => {
 
     expect(onAdd).toHaveBeenCalledWith("Plan the week", expect.any(Function));
     expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue("");
+  });
+
+  it("adds the typed name with the Add button", async () => {
+    const user = userEvent.setup();
+    const onAdd = vi.fn<OnAdd>();
+    render(<AddItemForm saving={false} onAdd={onAdd} />);
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Plan the week",
+    );
+
+    await user.click(screen.getByRole("button", { name: "Add" }));
+
+    expect(onAdd).toHaveBeenCalledWith("Plan the week", expect.any(Function));
+  });
+
+  it("keeps newer typing when an earlier add is saved", async () => {
+    const user = userEvent.setup();
+    const onAdd = vi.fn<OnAdd>();
+    render(<AddItemForm saving={false} onAdd={onAdd} />);
+    const name = screen.getByRole("textbox", { name: "New item" });
+    await user.type(name, "Plan the week{Enter}");
+    await user.type(name, " ahead");
+    const [[, onSaved]] = onAdd.mock.calls as [[string, () => void]];
+
+    act(onSaved);
+
+    expect(name).toHaveValue("Plan the week ahead");
   });
 
   it("keeps the typed name until it is saved", async () => {

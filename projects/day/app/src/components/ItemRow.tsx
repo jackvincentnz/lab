@@ -35,7 +35,9 @@ export function ItemRow({
   function submitRename(event: FormEvent) {
     event.preventDefault();
     if (draft !== undefined) {
-      onRename(draft, () => setDraft(undefined));
+      onRename(draft, () =>
+        setDraft((current) => (current === draft ? undefined : current)),
+      );
     }
   }
 

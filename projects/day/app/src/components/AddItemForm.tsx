@@ -11,7 +11,7 @@ export function AddItemForm({ saving, onAdd }: AddItemFormProps) {
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    onAdd(name, () => setName(""));
+    onAdd(name, () => setName((current) => (current === name ? "" : current)));
   }
 
   return (
