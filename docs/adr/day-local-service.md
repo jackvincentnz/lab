@@ -45,6 +45,7 @@ flowchart LR
 - Day installs as a macOS app, `Day.app`, that Bazel builds with
   [`@electron/packager`](https://github.com/electron/packager), the library Electron Forge builds
   on. It is signed ad hoc, without a certificate, because it runs only on the Mac that builds it.
+  It is updated by building and installing it again, not automatically.
 
 This costs an HTTP API where Electron IPC would be less code, and a fixed port that another program
 could already hold.
@@ -75,6 +76,8 @@ could already hold.
   that packager already does.
 - **Electron Forge or electron-builder.** Each expects to own the build, which Bazel owns.
 - **Developer ID signing and notarisation.** Only a Mac other than the one that builds Day needs it.
+- **Automatic updates, such as `electron-updater`.** They need published releases and a Developer ID
+  signature, for one Mac that already has the source.
 
 ## Reconsider when
 
