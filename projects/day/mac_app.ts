@@ -43,7 +43,7 @@ try {
     out: join(work, "out"),
     tmpdir: join(work, "tmp"),
     name: "Day",
-    appBundleId: "nz.jackvincent.day",
+    appBundleId: "lab.day",
     electronVersion: version,
     electronZipDir: zips,
     platform: "darwin",
