@@ -51,6 +51,19 @@ jobs:
             //tools/gazelle \
             -- -mode=diff
 
+      # Ubuntu's AppArmor blocks the user namespaces that Electron's sandbox needs.
+      - name: Allow Electron's sandbox
+        run: |
+          sudo tee /etc/apparmor.d/bazel-electron > /dev/null <<'EOF'
+          abi <abi/4.0>,
+          include <tunables/global>
+
+          profile bazel-electron /home/runner/.cache/bazel/**/electron/dist/electron flags=(unconfined) {
+            userns,
+          }
+          EOF
+          sudo apparmor_parser --replace /etc/apparmor.d/bazel-electron
+
       - name: Build & test (no-coverage targets)
         run: |
           bazel \

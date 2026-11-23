@@ -69,6 +69,7 @@ copy_to_directory(
         "//projects/day/app:build",
     ],
     replace_prefixes = {"bundle/": ""},
+    visibility = ["//projects/day/e2e:__pkg__"],
 )
 
 node_ts_project(
