@@ -6,11 +6,31 @@ import {
   render,
   screen,
   userEvent,
+  waitFor,
+  within,
 } from "@lab/test-utils";
 import type { Item } from "../api";
 import { fakeDayApi, item, withDayApi } from "../test/fakes";
+import { layOutRowsVertically } from "../test/layout";
 import { ItemsPage } from "./ItemsPage";
 import { onlineManager } from "@tanstack/react-query";
+
+function itemNames() {
+  return screen
+    .getAllByRole("listitem")
+    .map((row) => within(row).getByRole("button", { name: /^Move / }))
+    .map((handle) => handle.getAttribute("aria-label")!.slice("Move ".length));
+}
+
+async function moveWithKeyboard(
+  user: ReturnType<typeof userEvent.setup>,
+  name: string,
+  direction: "[ArrowUp]" | "[ArrowDown]",
+) {
+  layOutRowsVertically();
+  (await screen.findByRole("button", { name: `Move ${name}` })).focus();
+  await user.keyboard(`[Space]${direction}[Space]`);
+}
 
 describe("ItemsPage", () => {
   afterEach(() => {
@@ -128,6 +148,88 @@ describe("ItemsPage", () => {
     expect(
       await screen.findByRole("combobox", { name: "Status of Plan the week" }),
     ).toHaveValue("doing");
+  });
+
+  it("shows a moved item in its new place while the move saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeDayApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+      item({ name: "Write the report" }),
+    ]);
+    api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withDayApi(api) });
+
+    await moveWithKeyboard(user, "Write the report", "[ArrowUp]");
+
+    expect(itemNames()).toEqual([
+      "Plan the week",
+      "Write the report",
+      "Book travel",
+    ]);
+  });
+
+  it("keeps focus on a moved item for the next keyboard move", async () => {
+    const user = userEvent.setup();
+    const api = fakeDayApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withDayApi(api) });
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    await waitFor(() =>
+      expect(
+        screen.getByRole("button", { name: "Move Plan the week" }),
+      ).toHaveFocus(),
+    );
+  });
+
+  it("moves an item and shows the service's new list", async () => {
+    const user = userEvent.setup();
+    const [first, second, third] = [
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+      item({ name: "Write the report" }),
+    ];
+    const api = fakeDayApi([first, second, third]);
+    api.moveItem.mockResolvedValue(first);
+    render(<ItemsPage />, { wrapper: withDayApi(api) });
+    api.listItems.mockResolvedValue([third, second, first]);
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    expect(api.moveItem).toHaveBeenCalledWith({
+      id: first.id,
+      neighbourId: second.id,
+      position: "after",
+    });
+    await waitFor(() =>
+      expect(itemNames()).toEqual([
+        "Write the report",
+        "Book travel",
+        "Plan the week",
+      ]),
+    );
+  });
+
+  it("puts an item back and shows an error when a move fails", async () => {
+    const user = userEvent.setup();
+    const api = fakeDayApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.moveItem.mockRejectedValue(new Error("offline"));
+    render(<ItemsPage />, { wrapper: withDayApi(api) });
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    expect(
+      await screen.findByText("Could not save your change"),
+    ).toBeInTheDocument();
+    expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
   });
 
   it("keeps reaching the service while the browser is offline", async () => {

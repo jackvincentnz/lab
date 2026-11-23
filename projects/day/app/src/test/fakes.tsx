@@ -7,6 +7,7 @@ import {
   createQueryClient,
   type AddItemInput,
   type Item,
+  type MoveItemInput,
   type UpdateItemInput,
 } from "../api";
 import { DayProvider } from "../DayProvider";
@@ -15,6 +16,7 @@ export interface FakeDayApi {
   listItems: Mock<() => Promise<Item[]>>;
   addItem: Mock<(input: AddItemInput) => Promise<Item>>;
   updateItem: Mock<(input: UpdateItemInput) => Promise<Item>>;
+  moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;
 }
 
 export function fakeDayApi(items: Item[] = []): FakeDayApi {
@@ -22,6 +24,7 @@ export function fakeDayApi(items: Item[] = []): FakeDayApi {
     listItems: vi.fn<FakeDayApi["listItems"]>().mockResolvedValue(items),
     addItem: vi.fn<FakeDayApi["addItem"]>(),
     updateItem: vi.fn<FakeDayApi["updateItem"]>(),
+    moveItem: vi.fn<FakeDayApi["moveItem"]>(),
   };
 }
 

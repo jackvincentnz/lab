@@ -9,11 +9,14 @@ export function ItemsPage() {
   const items = useQuery(trpc.listItems.queryOptions());
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
-  const saving = addItem.isPending || updateItem.isPending;
+  const moveItem = useMutation(trpc.moveItem.mutationOptions());
+  const saving =
+    addItem.isPending || updateItem.isPending || moveItem.isPending;
 
   function clearSaveError() {
     addItem.reset();
     updateItem.reset();
+    moveItem.reset();
   }
 
   return (
@@ -38,7 +41,7 @@ export function ItemsPage() {
           </Button>
         </Alert>
       )}
-      {(addItem.isError || updateItem.isError) && (
+      {(addItem.isError || updateItem.isError || moveItem.isError) && (
         <Alert color="red" title="Could not save your change" />
       )}
       {items.isPending && (
@@ -55,6 +58,10 @@ export function ItemsPage() {
         <ItemList
           items={items.data}
           saving={saving}
+          onMove={(move, onSettled) => {
+            clearSaveError();
+            moveItem.mutate(move, { onSettled });
+          }}
           onRename={(item, name, onSaved) => {
             clearSaveError();
             updateItem.mutate({ id: item.id, name }, { onSuccess: onSaved });
