@@ -8,52 +8,99 @@ import {
   vi,
 } from "@lab/test-utils";
 import { List } from "@mantine/core";
+import type { Item } from "../api";
 import { item } from "../test/fakes";
 import { ItemRow } from "./ItemRow";
 
 type ItemRowProps = Parameters<typeof ItemRow>[0];
 
-function renderRow(props: Partial<ItemRowProps> = {}) {
+function renderRow(planTheWeek: Item = item({ name: "Plan the week" })) {
   const handlers = {
     onRename: vi.fn<ItemRowProps["onRename"]>(),
     onRenameCancel: vi.fn<ItemRowProps["onRenameCancel"]>(),
     onStatusChange: vi.fn<ItemRowProps["onStatusChange"]>(),
   };
-  const planTheWeek = item({ name: "Plan the week" });
   const row = (saving: boolean) => (
     <List>
-      <ItemRow item={planTheWeek} saving={saving} {...handlers} {...props} />
+      <ItemRow item={planTheWeek} saving={saving} {...handlers} />
     </List>
   );
   const { rerender } = render(row(false));
   return { ...handlers, startSaving: () => rerender(row(true)) };
 }
 
+async function startRename(user: ReturnType<typeof userEvent.setup>) {
+  await user.click(
+    screen.getByRole("button", { name: "Rename Plan the week" }),
+  );
+  return screen.getByRole("textbox", { name: "Name" });
+}
+
 describe("ItemRow", () => {
-  it("closes the rename once the new name is saved", async () => {
-    const { onRename } = renderRow();
-    await userEvent.click(
-      screen.getByRole("button", { name: "Rename Plan the week" }),
+  it("shows the item's name and status", () => {
+    renderRow(item({ name: "Plan the week", status: "doing" }));
+
+    expect(screen.getByText("Plan the week")).toBeInTheDocument();
+    expect(
+      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+    ).toHaveValue("doing");
+  });
+
+  it("strikes through a done item", () => {
+    renderRow(item({ name: "Plan the week", status: "done" }));
+
+    expect(screen.getByText("Plan the week")).toHaveStyle({
+      textDecoration: "line-through",
+    });
+  });
+
+  it("reports a status change and keeps showing the saved status", async () => {
+    const user = userEvent.setup();
+    const { onStatusChange } = renderRow();
+
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+      "Doing",
     );
 
-    await userEvent.type(screen.getByLabelText("Name"), " soon{Enter}");
-    onRename.mock.calls[0]![1]();
+    expect(onStatusChange).toHaveBeenCalledWith("doing");
+    expect(
+      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+    ).toHaveValue("todo");
+  });
+
+  it("closes the rename once the new name is saved", async () => {
+    const user = userEvent.setup();
+    const { onRename } = renderRow();
+    onRename.mockImplementation((_name, onSaved) => onSaved());
+
+    await user.type(await startRename(user), " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
       "Plan the week soon",
       expect.any(Function),
     );
-    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
-    expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("textbox", { name: "Name" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("keeps the rename open until it is saved", async () => {
+    const user = userEvent.setup();
+    renderRow();
+
+    await user.type(await startRename(user), " soon{Enter}");
+
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
+      "Plan the week soon",
+    );
   });
 
   it("cancels a rename with Escape", async () => {
+    const user = userEvent.setup();
     const { onRename, onRenameCancel } = renderRow();
-    await userEvent.click(
-      screen.getByRole("button", { name: "Rename Plan the week" }),
-    );
 
-    await userEvent.type(screen.getByLabelText("Name"), " later{Escape}");
+    await user.type(await startRename(user), " later{Escape}");
 
     expect(onRename).not.toHaveBeenCalled();
     expect(onRenameCancel).toHaveBeenCalled();
@@ -61,46 +108,28 @@ describe("ItemRow", () => {
   });
 
   it("cancels a rename with the Cancel button", async () => {
+    const user = userEvent.setup();
     const { onRenameCancel } = renderRow();
-    await userEvent.click(
-      screen.getByRole("button", { name: "Rename Plan the week" }),
-    );
+    await startRename(user);
 
-    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    await user.click(screen.getByRole("button", { name: "Cancel" }));
 
     expect(onRenameCancel).toHaveBeenCalled();
-    expect(screen.queryByLabelText("Name")).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("textbox", { name: "Name" }),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps the rename open while a change saves", async () => {
+    const user = userEvent.setup();
     const { onRenameCancel, startSaving } = renderRow();
-    await userEvent.click(
-      screen.getByRole("button", { name: "Rename Plan the week" }),
-    );
+    const name = await startRename(user);
     startSaving();
 
-    await userEvent.type(screen.getByLabelText("Name"), "{Escape}");
+    await user.type(name, "{Escape}");
 
     expect(onRenameCancel).not.toHaveBeenCalled();
+    expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Cancel" })).toBeDisabled();
-  });
-
-  it("strikes through a done item", () => {
-    renderRow({ item: item({ name: "Plan the week", status: "done" }) });
-
-    expect(screen.getByText("Plan the week")).toHaveStyle({
-      textDecoration: "line-through",
-    });
-  });
-
-  it("reports a status change", async () => {
-    const { onStatusChange } = renderRow();
-
-    await userEvent.selectOptions(
-      screen.getByLabelText("Status of Plan the week"),
-      "Doing",
-    );
-
-    expect(onStatusChange).toHaveBeenCalledWith("doing");
   });
 });
