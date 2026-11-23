@@ -29,6 +29,13 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Day` and
 bazel run //projects/day:prod
 ```
 
+Install it in prod mode as `/Applications/Day.app`, where Spotlight finds it. Quit Day first, and
+run the command again to update it:
+
+```zsh
+bazel run //projects/day:install
+```
+
 ## Connect an agent
 
 Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or
@@ -60,6 +67,7 @@ Desktop:
 | Build and typecheck everything.   | `bazel build //projects/day/...`         |
 | Run the desktop app in dev mode.  | `bazel run //projects/day`               |
 | Run the desktop app in prod mode. | `bazel run //projects/day:prod`          |
+| Install or update the macOS app.  | `bazel run //projects/day:install`       |
 | Run the local service on its own. | `bazel run //projects/day/service`       |
 | Run tests once.                   | `bazel test //projects/day/...`          |
 | Run the service's tests once.     | `bazel test //projects/day/service:test` |

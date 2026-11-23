@@ -40,6 +40,7 @@ docstrings of each module in `tools/bazel/`:
 
 - [DGS Java code generation](../bazel/dgs.md).
 - [Documentation generation](../bazel/docs.md).
+- [Files](../bazel/files.md).
 - [Frontend applications](../bazel/fe.md).
 - [GraphQL clients](../bazel/graphql.md).
 - [Java](../bazel/java.md).

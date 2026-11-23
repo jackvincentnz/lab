@@ -41,6 +41,8 @@ flowchart LR
 - Each item's rank is a text key that sorts between its neighbours, from
   [`fractional-indexing`](https://github.com/rocicorp/fractional-indexing), so a move writes only
   the moved item, not every item renumbered between its old and new place.
+- Bazel builds Day as an installable app for the one Mac it runs on, so it needs no release
+  pipeline.
 
 This costs an HTTP API where Electron IPC would be less code, and a fixed port that another program
 could already hold.
@@ -71,6 +73,7 @@ could already hold.
 - The fixed port clashes with another program: evaluate a discovered port or a stdio bridge.
 - A second device needs access: decide on authentication and where the service runs.
 - `node:sqlite` lacks something the data needs: evaluate a native module.
+- Day runs on a Mac that did not build it: decide on signing and updates.
 
 ## References
 
