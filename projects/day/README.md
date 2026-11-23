@@ -18,9 +18,7 @@ bazel run //projects/day
 
 The first build downloads the Electron binary. The app starts the local service, which serves the
 web UI and the API at `http://127.0.0.1:5297` and keeps data in
-`~/Library/Application Support/Day (dev)` on macOS. Quitting the app stops the service. Use `ibazel`
-in place of `bazel` to rebuild as sources change, then reload the window with Cmd+R, or Ctrl+R on
-Linux. Restart the command after changing `desktop` or `service`.
+`~/Library/Application Support/Day (dev)` on macOS. Quitting the app stops the service.
 
 Run it in prod mode, which keeps data in `~/Library/Application Support/Day` and listens on port
 5197, so it can run beside dev mode:
@@ -62,16 +60,17 @@ Desktop:
 
 ## Development
 
-| Task                              | Command                                  |
-| --------------------------------- | ---------------------------------------- |
-| Build and typecheck everything.   | `bazel build //projects/day/...`         |
-| Run the desktop app in dev mode.  | `bazel run //projects/day`               |
-| Run the desktop app in prod mode. | `bazel run //projects/day:prod`          |
-| Install or update the macOS app.  | `bazel run //projects/day:install`       |
-| Run the local service on its own. | `bazel run //projects/day/service`       |
-| Run tests once.                   | `bazel test //projects/day/...`          |
-| Run the service's tests once.     | `bazel test //projects/day/service:test` |
-| Run the desktop app's tests once. | `bazel test //projects/day/desktop:test` |
+| Task                                 | Command                                  |
+| ------------------------------------ | ---------------------------------------- |
+| Build and typecheck everything.      | `bazel build //projects/day/...`         |
+| Run the desktop app in dev mode.     | `bazel run //projects/day`               |
+| Run the desktop app in prod mode.    | `bazel run //projects/day:prod`          |
+| Run the desktop app with hot reload. | `ibazel run //projects/day:watch`        |
+| Install or update the macOS app.     | `bazel run //projects/day:install`       |
+| Run the local service on its own.    | `bazel run //projects/day/service`       |
+| Run tests once.                      | `bazel test //projects/day/...`          |
+| Run the service's tests once.        | `bazel test //projects/day/service:test` |
+| Run the desktop app's tests once.    | `bazel test //projects/day/desktop:test` |
 
 See the [app README](app/README.md) to work on the web UI in a browser.
 
