@@ -41,11 +41,8 @@ flowchart LR
 - Each item's rank is a text key that sorts between its neighbours, from
   [`fractional-indexing`](https://github.com/rocicorp/fractional-indexing), so a move writes only
   the moved item, not every item renumbered between its old and new place.
-
-- Day installs as a macOS app, `Day.app`, that Bazel builds with
-  [`@electron/packager`](https://github.com/electron/packager), the library Electron Forge builds
-  on. It is signed ad hoc, without a certificate, because it runs only on the Mac that builds it.
-  It is updated by building and installing it again, not automatically.
+- Bazel builds Day as an installable app for the one Mac it runs on, so it needs no release
+  pipeline.
 
 This costs an HTTP API where Electron IPC would be less code, and a fixed port that another program
 could already hold.
@@ -57,8 +54,6 @@ could already hold.
 - The same React code can run in a browser, and a phone client needs no change to the service's
   design, only a way to reach it and to authenticate.
 - No native module has to be rebuilt for each Electron version.
-- The installed app and `bazel run //projects/day:prod` share one list, and only one of them runs
-  at a time.
 - The service needs a rule for one writer if it ever runs both inside the app and on its own.
 
 ## Alternatives considered
@@ -72,19 +67,13 @@ could already hold.
   MCP server would both write the file.
 - **A native SQLite module such as `better-sqlite3`.** It must be rebuilt for each Electron version.
 - **GraphQL for the API.** It needs a schema and generated types that MCP tools could not reuse.
-- **A Bazel rule that copies `Electron.app` and edits it.** It would redo the renaming and signing
-  that packager already does.
-- **Electron Forge or electron-builder.** Each expects to own the build, which Bazel owns.
-- **Developer ID signing and notarisation.** Only a Mac other than the one that builds Day needs it.
-- **Automatic updates, such as `electron-updater`.** They need published releases and a Developer ID
-  signature, for one Mac that already has the source.
 
 ## Reconsider when
 
 - The fixed port clashes with another program: evaluate a discovered port or a stdio bridge.
 - A second device needs access: decide on authentication and where the service runs.
 - `node:sqlite` lacks something the data needs: evaluate a native module.
-- Day runs on a Mac that did not build it: sign it with a Developer ID and notarise it.
+- Day runs on a Mac that did not build it: decide on signing and updates.
 
 ## References
 

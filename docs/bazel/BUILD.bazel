@@ -22,6 +22,13 @@ stardoc(
 )
 
 stardoc(
+    name = "files",
+    out = "files_stardoc.md",
+    input = "//tools/bazel:files.bzl",
+    deps = ["//tools/bazel:files"],
+)
+
+stardoc(
     name = "graphql",
     out = "graphql_stardoc.md",
     input = "//tools/bazel:graphql.bzl",
@@ -90,6 +97,7 @@ write_source_files(
         "dgs.md": ":dgs",
         "docs.md": ":docs",
         "fe.md": ":fe",
+        "files.md": ":files",
         "graphql.md": ":graphql",
         "java.md": ":java",
         "js.md": ":js",
