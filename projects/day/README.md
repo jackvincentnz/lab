@@ -61,6 +61,6 @@ bazel run //projects/day -- --remote-debugging-port=9222
 
 ## Project map
 
-- `projects/day/app`: the React web UI, which shows the list.
+- `projects/day/app`: the React web UI.
 - `projects/day/desktop`: the Electron main process, which starts the service and opens the window.
 - `projects/day/service`: the local service, which owns the database and serves the web UI.

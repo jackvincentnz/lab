@@ -1,18 +1,60 @@
 import type { PropsWithChildren } from "react";
-import { vi, type Mocked } from "@lab/test-utils";
-import { DayApiContext, type DayApi, type Item } from "../api";
+import { createTRPCClient, TRPCClientError, type TRPCLink } from "@trpc/client";
+import { observable } from "@trpc/server/observable";
+import { vi, type Mock } from "@lab/test-utils";
+import type { DayRouter } from "../../../service/src/router.js";
+import {
+  createQueryClient,
+  type AddItemInput,
+  type Item,
+  type UpdateItemInput,
+} from "../api";
+import { DayProvider } from "../DayProvider";
 
-export function fakeDayApi(items: Item[] = []): Mocked<DayApi> {
+export interface FakeDayApi {
+  listItems: Mock<() => Promise<Item[]>>;
+  addItem: Mock<(input: AddItemInput) => Promise<Item>>;
+  updateItem: Mock<(input: UpdateItemInput) => Promise<Item>>;
+}
+
+export function fakeDayApi(items: Item[] = []): FakeDayApi {
   return {
-    listItems: vi.fn<DayApi["listItems"]>().mockResolvedValue(items),
-    addItem: vi.fn<DayApi["addItem"]>(),
-    updateItem: vi.fn<DayApi["updateItem"]>(),
+    listItems: vi.fn<FakeDayApi["listItems"]>().mockResolvedValue(items),
+    addItem: vi.fn<FakeDayApi["addItem"]>(),
+    updateItem: vi.fn<FakeDayApi["updateItem"]>(),
   };
 }
 
-export function withDayApi(api: DayApi) {
+// Answers each call from the fake rather than over HTTP, so tests run the real client and cache.
+function fakeLink(api: FakeDayApi): TRPCLink<DayRouter> {
+  return () =>
+    ({ op }) =>
+      observable((observer) => {
+        const procedure = api[op.path as keyof FakeDayApi] as (
+          input: unknown,
+        ) => Promise<unknown>;
+        procedure(op.input).then(
+          (data) => {
+            observer.next({ result: { type: "data", data } });
+            observer.complete();
+          },
+          (error: unknown) =>
+            observer.error(TRPCClientError.from(error as Error)),
+        );
+      });
+}
+
+export function withDayApi(api: FakeDayApi) {
+  const client = createTRPCClient<DayRouter>({ links: [fakeLink(api)] });
+  const queryClient = createQueryClient();
+  queryClient.setDefaultOptions({ queries: { retry: false } });
+
   return function DayApiWrapper({ children }: PropsWithChildren) {
-    return <DayApiContext value={api}>{children}</DayApiContext>;
+    return (
+      <DayProvider client={client} queryClient={queryClient}>
+        {children}
+      </DayProvider>
+    );
   };
 }
 

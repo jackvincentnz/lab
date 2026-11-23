@@ -7,7 +7,8 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import type { Item, ItemStatus } from "./api";
+import { useIsMutating, useMutation } from "@tanstack/react-query";
+import { useTRPC, type Item, type ItemStatus } from "./api";
 
 const statusOptions = [
   { value: "todo", label: "To do" },
@@ -17,24 +18,27 @@ const statusOptions = [
 
 interface ItemRowProps {
   item: Item;
-  disabled: boolean;
-  onRename(name: string): Promise<boolean>;
-  onStatusChange(status: ItemStatus): Promise<boolean>;
 }
 
-export function ItemRow({
-  item,
-  disabled,
-  onRename,
-  onStatusChange,
-}: ItemRowProps) {
+export function ItemRow({ item }: ItemRowProps) {
+  const trpc = useTRPC();
+  const saving = useIsMutating() > 0;
   const [draft, setDraft] = useState<string>();
+  const rename = useMutation(
+    trpc.updateItem.mutationOptions({ onSuccess: () => setDraft(undefined) }),
+  );
+  const changeStatus = useMutation(trpc.updateItem.mutationOptions());
 
-  async function rename(event: FormEvent) {
+  function submitRename(event: FormEvent) {
     event.preventDefault();
-    if (draft !== undefined && (await onRename(draft))) {
-      setDraft(undefined);
+    if (draft !== undefined) {
+      rename.mutate({ id: item.id, name: draft });
     }
+  }
+
+  function cancelRename() {
+    rename.reset();
+    setDraft(undefined);
   }
 
   return (
@@ -44,9 +48,12 @@ export function ItemRow({
           aria-label={`Status of ${item.name}`}
           data={statusOptions}
           value={item.status}
-          disabled={disabled}
+          disabled={saving}
           onChange={(event) =>
-            void onStatusChange(event.currentTarget.value as ItemStatus)
+            changeStatus.mutate({
+              id: item.id,
+              status: event.currentTarget.value as ItemStatus,
+            })
           }
         />
         {draft === undefined ? (
@@ -68,7 +75,7 @@ export function ItemRow({
             </Button>
           </>
         ) : (
-          <form onSubmit={rename} style={{ flex: 1 }}>
+          <form onSubmit={submitRename} style={{ flex: 1 }}>
             <Group wrap="nowrap">
               <TextInput
                 aria-label="Name"
@@ -76,7 +83,7 @@ export function ItemRow({
                 onChange={(event) => setDraft(event.currentTarget.value)}
                 onKeyDown={(event) => {
                   if (event.key === "Escape") {
-                    setDraft(undefined);
+                    cancelRename();
                   }
                 }}
                 autoFocus
@@ -85,21 +92,22 @@ export function ItemRow({
               <Button
                 type="submit"
                 size="xs"
-                disabled={disabled || draft.trim() === ""}
+                disabled={saving || draft.trim() === ""}
               >
                 Save
               </Button>
-              <Button
-                variant="subtle"
-                size="xs"
-                onClick={() => setDraft(undefined)}
-              >
+              <Button variant="subtle" size="xs" onClick={cancelRename}>
                 Cancel
               </Button>
             </Group>
           </form>
         )}
       </Group>
+      {(rename.isError || changeStatus.isError) && (
+        <Text c="red" size="sm" mt="xs">
+          Could not save your change
+        </Text>
+      )}
     </List.Item>
   );
 }

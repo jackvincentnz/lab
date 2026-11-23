@@ -1,28 +1,30 @@
-import { createContext, useContext } from "react";
-import { createTRPCClient, httpLink } from "@trpc/client";
+import { MutationCache, QueryClient } from "@tanstack/react-query";
+import { createTRPCClient, httpLink, type TRPCClient } from "@trpc/client";
+import { createTRPCContext } from "@trpc/tanstack-react-query";
 import type { DayRouter } from "../../service/src/router.js";
-import type { ItemStatus, UpdateItemInput } from "../../service/src/schemas.js";
+import type {
+  AddItemInput,
+  ItemStatus,
+  UpdateItemInput,
+} from "../../service/src/schemas.js";
 import type { Item } from "../../service/src/store.js";
 
-export type { Item, ItemStatus, UpdateItemInput };
+export type { AddItemInput, Item, ItemStatus, UpdateItemInput };
 
-export interface DayApi {
-  listItems(): Promise<Item[]>;
-  addItem(name: string): Promise<Item>;
-  updateItem(change: UpdateItemInput): Promise<Item>;
+export type DayClient = TRPCClient<DayRouter>;
+
+export const { TRPCProvider, useTRPC } = createTRPCContext<DayRouter>();
+
+export function createDayClient(url: string): DayClient {
+  return createTRPCClient<DayRouter>({ links: [httpLink({ url })] });
 }
 
-export function createDayApi(url: string): DayApi {
-  const client = createTRPCClient<DayRouter>({ links: [httpLink({ url })] });
-  return {
-    listItems: () => client.listItems.query(),
-    addItem: (name) => client.addItem.mutate({ name }),
-    updateItem: (change) => client.updateItem.mutate(change),
-  };
-}
-
-export const DayApiContext = createContext<DayApi>(createDayApi("/api"));
-
-export function useDayApi(): DayApi {
-  return useContext(DayApiContext);
+export function createQueryClient(): QueryClient {
+  const queryClient: QueryClient = new QueryClient({
+    mutationCache: new MutationCache({
+      // The service decides the order, so a change reloads its list rather than patching ours.
+      onSuccess: () => queryClient.invalidateQueries(),
+    }),
+  });
+  return queryClient;
 }

@@ -11,11 +11,16 @@ fe_app(
         "//:node_modules/vitest",
         "//tools/bazel/vitest:test_config",
     ],
-    test_deps = ["//:node_modules/@lab/test-utils"],
+    test_deps = [
+        "//:node_modules/@lab/test-utils",
+        "//:node_modules/@trpc/server",
+    ],
     visibility = ["//projects/day:__pkg__"],
     deps = [
         "//:node_modules/@mantine/core",
+        "//:node_modules/@tanstack/react-query",
         "//:node_modules/@trpc/client",
+        "//:node_modules/@trpc/tanstack-react-query",
         "//:node_modules/@types/react",
         "//:node_modules/@types/react-dom",
         "//:node_modules/react",

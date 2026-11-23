@@ -74,7 +74,7 @@ test("adds an item by name and shows the service's new list", async () => {
     "Plan the week{Enter}",
   );
 
-  expect(api.addItem).toHaveBeenCalledWith("Plan the week");
+  expect(api.addItem).toHaveBeenCalledWith({ name: "Plan the week" });
   expect(await screen.findByText("Plan the week")).toBeInTheDocument();
   expect(screen.getByLabelText("New item")).toHaveValue("");
 });
@@ -252,4 +252,21 @@ test("keeps the rename open when saving it fails", async () => {
     await screen.findByText("Could not save your change"),
   ).toBeInTheDocument();
   expect(screen.getByLabelText("Name")).toHaveValue("Plan the week soon");
+});
+
+test("clears a failed rename's error when the rename is cancelled", async () => {
+  const api = fakeDayApi([item({ name: "Plan the week" })]);
+  api.updateItem.mockRejectedValue(new Error("offline"));
+  render(<ItemList />, { wrapper: withDayApi(api) });
+  await userEvent.click(
+    await screen.findByRole("button", { name: "Rename Plan the week" }),
+  );
+  await userEvent.type(screen.getByLabelText("Name"), " soon{Enter}");
+  await screen.findByText("Could not save your change");
+
+  await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+
+  expect(
+    screen.queryByText("Could not save your change"),
+  ).not.toBeInTheDocument();
 });
