@@ -29,6 +29,13 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Day` and
 bazel run //projects/day:prod
 ```
 
+Install it in prod mode as `/Applications/Day.app`, where Spotlight finds it. Quit Day first, and
+run the command again to update it:
+
+```zsh
+bazel run //projects/day:install
+```
+
 ## Connect an agent
 
 Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or

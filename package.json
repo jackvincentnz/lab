@@ -54,6 +54,7 @@
     "@lab/vitest-config": "workspace:*",
     "@playwright/test": "1.56.1",
     "@apollo/rover": "1.0.1",
+    "@electron/packager": "20.3.0",
     "@eslint/js": "10.0.1",
     "@graphql-codegen/cli": "8.0.0",
     "@graphql-codegen/client-preset": "7.0.0",
