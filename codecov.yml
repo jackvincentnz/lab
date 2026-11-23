@@ -15,14 +15,10 @@ comment:
 # Reporting slices of the existing upload, without additional status checks.
 component_management:
   individual_components:
-    - component_id: mops-app
-      name: Mops app
+    - component_id: mops
+      name: Mops
       paths:
-        - "projects/mops/app/**"
-    - component_id: mops-service
-      name: Mops service
-      paths:
-        - "projects/mops/service/**"
+        - "projects/mops/**"
     - component_id: organizer
       name: Organizer
       paths:
@@ -30,14 +26,15 @@ component_management:
     - component_id: wide
       name: WIDE
       paths:
-        - "projects/wide/app/**"
-        - "projects/wide/service/**"
+        - "projects/wide/**"
     - component_id: day
       name: Day
       paths:
-        - "projects/day/app/**"
-        - "projects/day/desktop/**"
-        - "projects/day/service/**"
+        - "projects/day/**"
+    - component_id: gateway
+      name: Gateway
+      paths:
+        - "projects/gateway/**"
     - component_id: libs
       name: Shared libraries
       paths:
