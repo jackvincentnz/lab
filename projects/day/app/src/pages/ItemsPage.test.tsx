@@ -139,20 +139,23 @@ describe("ItemsPage", () => {
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
-  it("shows an error when a change fails", async () => {
+  it("shows an error and keeps what was typed when a change fails", async () => {
     const user = userEvent.setup();
-    const api = fakeDayApi([item({ name: "Plan the week" })]);
-    api.updateItem.mockRejectedValue(new Error("offline"));
+    const api = fakeDayApi([]);
+    api.addItem.mockRejectedValue(new Error("offline"));
     render(<ItemsPage />, { wrapper: withDayApi(api) });
 
-    await user.selectOptions(
-      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
-      "Done",
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Plan the week{Enter}",
     );
 
     expect(
       await screen.findByText("Could not save your change"),
     ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue(
+      "Plan the week",
+    );
   });
 
   it("clears a failed rename's error when the rename is cancelled", async () => {

@@ -14,7 +14,7 @@ import { ItemRow } from "./ItemRow";
 
 type ItemRowProps = Parameters<typeof ItemRow>[0];
 
-function renderRow(planTheWeek: Item = item({ name: "Plan the week" })) {
+function renderRow(rowItem: Item = item({ name: "Plan the week" })) {
   const handlers = {
     onRename: vi.fn<ItemRowProps["onRename"]>(),
     onRenameCancel: vi.fn<ItemRowProps["onRenameCancel"]>(),
@@ -22,7 +22,7 @@ function renderRow(planTheWeek: Item = item({ name: "Plan the week" })) {
   };
   const row = (saving: boolean) => (
     <List>
-      <ItemRow item={planTheWeek} saving={saving} {...handlers} />
+      <ItemRow item={rowItem} saving={saving} {...handlers} />
     </List>
   );
   const { rerender } = render(row(false));
@@ -54,7 +54,7 @@ describe("ItemRow", () => {
     });
   });
 
-  it("reports a status change and keeps showing the saved status", async () => {
+  it("reports a status change", async () => {
     const user = userEvent.setup();
     const { onStatusChange } = renderRow();
 
@@ -64,6 +64,17 @@ describe("ItemRow", () => {
     );
 
     expect(onStatusChange).toHaveBeenCalledWith("doing");
+  });
+
+  it("keeps showing the saved status until the item changes", async () => {
+    const user = userEvent.setup();
+    renderRow();
+
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+      "Doing",
+    );
+
     expect(
       screen.getByRole("combobox", { name: "Status of Plan the week" }),
     ).toHaveValue("todo");
@@ -73,8 +84,9 @@ describe("ItemRow", () => {
     const user = userEvent.setup();
     const { onRename } = renderRow();
     onRename.mockImplementation((_name, onSaved) => onSaved());
+    const name = await startRename(user);
 
-    await user.type(await startRename(user), " soon{Enter}");
+    await user.type(name, " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
       "Plan the week soon",
@@ -88,8 +100,9 @@ describe("ItemRow", () => {
   it("keeps the rename open until it is saved", async () => {
     const user = userEvent.setup();
     renderRow();
+    const name = await startRename(user);
 
-    await user.type(await startRename(user), " soon{Enter}");
+    await user.type(name, " soon{Enter}");
 
     expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week soon",
@@ -99,8 +112,9 @@ describe("ItemRow", () => {
   it("cancels a rename with Escape", async () => {
     const user = userEvent.setup();
     const { onRename, onRenameCancel } = renderRow();
+    const name = await startRename(user);
 
-    await user.type(await startRename(user), " later{Escape}");
+    await user.type(name, " later{Escape}");
 
     expect(onRename).not.toHaveBeenCalled();
     expect(onRenameCancel).toHaveBeenCalled();
