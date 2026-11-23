@@ -1,18 +1,10 @@
-import {
-  Alert,
-  Button,
-  Center,
-  List,
-  Loader,
-  Stack,
-  Text,
-} from "@mantine/core";
+import { Alert, Button, Center, Loader, Stack, Text } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { AddItemForm } from "./AddItemForm";
-import { useTRPC } from "./api";
-import { ItemRow } from "./ItemRow";
+import { useTRPC } from "../api";
+import { AddItemForm } from "../components/AddItemForm";
+import { ItemList } from "../components/ItemList";
 
-export function ItemList() {
+export function ItemsPage() {
   const trpc = useTRPC();
   const items = useQuery(trpc.listItems.queryOptions());
   const addItem = useMutation(trpc.addItem.mutationOptions());
@@ -60,32 +52,19 @@ export function ItemList() {
         </Text>
       )}
       {items.data !== undefined && items.data.length > 0 && (
-        <List
-          type="ordered"
-          listStyleType="none"
-          spacing="xs"
-          aria-label="Items"
-        >
-          {items.data.map((item) => (
-            <ItemRow
-              key={item.id}
-              item={item}
-              saving={saving}
-              onRename={(name, onSaved) => {
-                clearSaveError();
-                updateItem.mutate(
-                  { id: item.id, name },
-                  { onSuccess: onSaved },
-                );
-              }}
-              onRenameCancel={clearSaveError}
-              onStatusChange={(status) => {
-                clearSaveError();
-                updateItem.mutate({ id: item.id, status });
-              }}
-            />
-          ))}
-        </List>
+        <ItemList
+          items={items.data}
+          saving={saving}
+          onRename={(item, name, onSaved) => {
+            clearSaveError();
+            updateItem.mutate({ id: item.id, name }, { onSuccess: onSaved });
+          }}
+          onRenameCancel={clearSaveError}
+          onStatusChange={(item, status) => {
+            clearSaveError();
+            updateItem.mutate({ id: item.id, status });
+          }}
+        />
       )}
     </Stack>
   );

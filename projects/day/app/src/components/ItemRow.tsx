@@ -7,7 +7,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import type { Item, ItemStatus } from "./api";
+import type { Item, ItemStatus } from "../api";
 
 const statusOptions = [
   { value: "todo", label: "To do" },
