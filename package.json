@@ -27,6 +27,7 @@
     "@mantine/dates": "9.7.4",
     "@mantine/hooks": "9.7.4",
     "@mantine/modals": "9.7.4",
+    "@modelcontextprotocol/sdk": "1.32.2",
     "@statsig/react-bindings": "^3.12.1",
     "@statsig/session-replay": "^3.12.1",
     "@statsig/web-analytics": "^3.12.1",

@@ -1,6 +1,7 @@
 import { createServer, type Server } from "node:http";
 import { createHTTPHandler } from "@trpc/server/adapters/standalone";
 import { isLoopbackHost } from "./host.js";
+import { handleMcpRequest } from "./mcp.js";
 import { dayRouter } from "./router.js";
 import { serveFile } from "./static.js";
 import { type ItemStore } from "./store.js";
@@ -10,6 +11,8 @@ const contentSecurityPolicy =
   "default-src 'self'; style-src 'self' 'unsafe-inline'";
 
 const apiPath = "/api/";
+
+const mcpPath = "/mcp";
 
 export interface DayServerOptions {
   webDir?: string;
@@ -37,6 +40,8 @@ export function createDayServer(
       response.writeHead(400).end();
     } else if (pathname.startsWith(apiPath)) {
       handleTrpc(request, response);
+    } else if (pathname === mcpPath) {
+      void handleMcpRequest(store, request, response);
     } else if (webDir) {
       void serveFile(webDir, pathname, response);
     } else {

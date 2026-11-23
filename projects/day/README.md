@@ -29,6 +29,30 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Day` and
 bazel run //projects/day:prod
 ```
 
+## Connect an agent
+
+Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or
+`http://127.0.0.1:5197/mcp` in prod mode. For Claude Code:
+
+```zsh
+claude mcp add --transport http --scope user day http://127.0.0.1:5297/mcp
+```
+
+Claude Desktop needs the [mcp-remote](https://github.com/punkpeye/mcp-remote) bridge. Add this
+entry to `~/Library/Application Support/Claude/claude_desktop_config.json`, then restart Claude
+Desktop:
+
+```json
+{
+  "mcpServers": {
+    "day": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "http://127.0.0.1:5297/mcp"]
+    }
+  }
+}
+```
+
 ## Development
 
 | Task                              | Command                                  |
