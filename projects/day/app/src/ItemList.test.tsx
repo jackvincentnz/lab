@@ -270,3 +270,17 @@ test("clears a failed rename's error when the rename is cancelled", async () => 
     screen.queryByText("Could not save your change"),
   ).not.toBeInTheDocument();
 });
+
+test("keeps the rename open while it saves", async () => {
+  const api = fakeDayApi([item({ name: "Plan the week" })]);
+  api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+  render(<ItemList />, { wrapper: withDayApi(api) });
+  await userEvent.click(
+    await screen.findByRole("button", { name: "Rename Plan the week" }),
+  );
+
+  await userEvent.type(screen.getByLabelText("Name"), " soon{Enter}{Escape}");
+
+  expect(screen.getByRole("button", { name: "Cancel" })).toBeDisabled();
+  expect(screen.getByLabelText("Name")).toHaveValue("Plan the week soon");
+});

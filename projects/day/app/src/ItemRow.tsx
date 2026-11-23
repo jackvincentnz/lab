@@ -82,7 +82,7 @@ export function ItemRow({
                 value={draft}
                 onChange={(event) => setDraft(event.currentTarget.value)}
                 onKeyDown={(event) => {
-                  if (event.key === "Escape") {
+                  if (event.key === "Escape" && !saving) {
                     cancelRename();
                   }
                 }}
@@ -96,7 +96,12 @@ export function ItemRow({
               >
                 Save
               </Button>
-              <Button variant="subtle" size="xs" onClick={cancelRename}>
+              <Button
+                variant="subtle"
+                size="xs"
+                disabled={saving}
+                onClick={cancelRename}
+              >
                 Cancel
               </Button>
             </Group>
