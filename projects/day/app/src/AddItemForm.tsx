@@ -1,19 +1,17 @@
 import { useState, type FormEvent } from "react";
-import { Button, Group, Text, TextInput } from "@mantine/core";
-import { useIsMutating, useMutation } from "@tanstack/react-query";
-import { useTRPC } from "./api";
+import { Button, Group, TextInput } from "@mantine/core";
 
-export function AddItemForm() {
-  const trpc = useTRPC();
-  const saving = useIsMutating() > 0;
+interface AddItemFormProps {
+  saving: boolean;
+  onAdd(name: string, onSaved: () => void): void;
+}
+
+export function AddItemForm({ saving, onAdd }: AddItemFormProps) {
   const [name, setName] = useState("");
-  const addItem = useMutation(
-    trpc.addItem.mutationOptions({ onSuccess: () => setName("") }),
-  );
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    addItem.mutate({ name });
+    onAdd(name, () => setName(""));
   }
 
   return (
@@ -29,11 +27,6 @@ export function AddItemForm() {
           Add
         </Button>
       </Group>
-      {addItem.isError && (
-        <Text c="red" size="sm" mt="xs">
-          Could not save your change
-        </Text>
-      )}
     </form>
   );
 }

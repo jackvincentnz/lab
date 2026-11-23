@@ -7,8 +7,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { useIsMutating, useMutation } from "@tanstack/react-query";
-import { useTRPC, type Item, type ItemStatus } from "./api";
+import type { Item, ItemStatus } from "./api";
 
 const statusOptions = [
   { value: "todo", label: "To do" },
@@ -18,26 +17,30 @@ const statusOptions = [
 
 interface ItemRowProps {
   item: Item;
+  saving: boolean;
+  onRename(name: string, onSaved: () => void): void;
+  onRenameCancel(): void;
+  onStatusChange(status: ItemStatus): void;
 }
 
-export function ItemRow({ item }: ItemRowProps) {
-  const trpc = useTRPC();
-  const saving = useIsMutating() > 0;
+export function ItemRow({
+  item,
+  saving,
+  onRename,
+  onRenameCancel,
+  onStatusChange,
+}: ItemRowProps) {
   const [draft, setDraft] = useState<string>();
-  const rename = useMutation(
-    trpc.updateItem.mutationOptions({ onSuccess: () => setDraft(undefined) }),
-  );
-  const changeStatus = useMutation(trpc.updateItem.mutationOptions());
 
   function submitRename(event: FormEvent) {
     event.preventDefault();
     if (draft !== undefined) {
-      rename.mutate({ id: item.id, name: draft });
+      onRename(draft, () => setDraft(undefined));
     }
   }
 
   function cancelRename() {
-    rename.reset();
+    onRenameCancel();
     setDraft(undefined);
   }
 
@@ -50,10 +53,7 @@ export function ItemRow({ item }: ItemRowProps) {
           value={item.status}
           disabled={saving}
           onChange={(event) =>
-            changeStatus.mutate({
-              id: item.id,
-              status: event.currentTarget.value as ItemStatus,
-            })
+            onStatusChange(event.currentTarget.value as ItemStatus)
           }
         />
         {draft === undefined ? (
@@ -103,11 +103,6 @@ export function ItemRow({ item }: ItemRowProps) {
           </form>
         )}
       </Group>
-      {(rename.isError || changeStatus.isError) && (
-        <Text c="red" size="sm" mt="xs">
-          Could not save your change
-        </Text>
-      )}
     </List.Item>
   );
 }

@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { AddItemForm } from "./AddItemForm";
 import { useTRPC } from "./api";
 import { ItemRow } from "./ItemRow";
@@ -15,10 +15,24 @@ import { ItemRow } from "./ItemRow";
 export function ItemList() {
   const trpc = useTRPC();
   const items = useQuery(trpc.listItems.queryOptions());
+  const addItem = useMutation(trpc.addItem.mutationOptions());
+  const updateItem = useMutation(trpc.updateItem.mutationOptions());
+  const saving = addItem.isPending || updateItem.isPending;
+
+  function clearSaveError() {
+    addItem.reset();
+    updateItem.reset();
+  }
 
   return (
     <Stack>
-      <AddItemForm />
+      <AddItemForm
+        saving={saving}
+        onAdd={(name, onSaved) => {
+          clearSaveError();
+          addItem.mutate({ name }, { onSuccess: onSaved });
+        }}
+      />
       {items.isError && (
         <Alert color="red" title="Could not load your list">
           <Button
@@ -31,6 +45,9 @@ export function ItemList() {
             Retry
           </Button>
         </Alert>
+      )}
+      {(addItem.isError || updateItem.isError) && (
+        <Alert color="red" title="Could not save your change" />
       )}
       {items.isPending && (
         <Center>
@@ -50,7 +67,23 @@ export function ItemList() {
           aria-label="Items"
         >
           {items.data.map((item) => (
-            <ItemRow key={item.id} item={item} />
+            <ItemRow
+              key={item.id}
+              item={item}
+              saving={saving}
+              onRename={(name, onSaved) => {
+                clearSaveError();
+                updateItem.mutate(
+                  { id: item.id, name },
+                  { onSuccess: onSaved },
+                );
+              }}
+              onRenameCancel={clearSaveError}
+              onStatusChange={(status) => {
+                clearSaveError();
+                updateItem.mutate({ id: item.id, status });
+              }}
+            />
           ))}
         </List>
       )}
