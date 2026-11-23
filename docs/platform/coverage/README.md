@@ -30,8 +30,10 @@ fails. [`codecov.yml`](../../../codecov.yml) sets the checks:
 | `codecov/project` | Fails when total coverage drops more than one percentage point from the base commit. |
 | `codecov/patch`   | Reports coverage of changed lines; informational only.                               |
 
-Its components for Mops app, Mops service, Organizer, WIDE, Day, and shared
-libraries slice the same upload. Codecov ignores `learn/**`.
+Its components slice the same upload into one per project, plus one for shared
+libraries. Each project's component covers `projects/<name>/**`, so that a new
+folder in a project is counted without editing the list. Codecov ignores
+`learn/**`.
 
 ## Reading a report
 
