@@ -67,6 +67,7 @@ Desktop:
 | Build and typecheck everything.   | `bazel build //projects/day/...`         |
 | Run the desktop app in dev mode.  | `bazel run //projects/day`               |
 | Run the desktop app in prod mode. | `bazel run //projects/day:prod`          |
+| Install or update the macOS app.  | `bazel run //projects/day:install`       |
 | Run the local service on its own. | `bazel run //projects/day/service`       |
 | Run tests once.                   | `bazel test //projects/day/...`          |
 | Run the service's tests once.     | `bazel test //projects/day/service:test` |

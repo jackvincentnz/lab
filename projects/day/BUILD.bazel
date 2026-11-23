@@ -83,8 +83,8 @@ js_run_binary(
     ],
     mnemonic = "ElectronPackager",
     out_dirs = ["Day.app"],
-    # The sandbox links each file of the Electron package on its own, which loses the symlinks
-    # inside Electron.app that its signature covers.
+    # Workaround: the sandbox links each file of the Electron package on its own, which loses the
+    # symlinks inside Electron.app that its signature covers.
     tags = ["no-sandbox"],
     target_compatible_with = ["@platforms//os:macos"],
     tool = ":mac_app_packager",
