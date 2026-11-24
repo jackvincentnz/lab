@@ -7,6 +7,6 @@ test("shows the app name above the list", async () => {
 
   expect(screen.getByRole("heading", { name: "Slate" })).toBeInTheDocument();
   expect(
-    await screen.findByText(/Nothing on your list yet/),
+    await screen.findByText(/Nothing on your slate yet/),
   ).toBeInTheDocument();
 });

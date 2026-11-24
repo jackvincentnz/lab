@@ -51,7 +51,7 @@ export function ItemsPage() {
       )}
       {items.data?.length === 0 && (
         <Text c="dimmed">
-          Nothing on your list yet. Add the first item above.
+          Nothing on your slate yet. Add the first item above.
         </Text>
       )}
       {items.data !== undefined && items.data.length > 0 && (

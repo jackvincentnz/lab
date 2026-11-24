@@ -63,7 +63,7 @@ describe("ItemsPage", () => {
     render(<ItemsPage />, { wrapper: withSlateApi(fakeSlateApi([])) });
 
     expect(
-      await screen.findByText(/Nothing on your list yet/),
+      await screen.findByText(/Nothing on your slate yet/),
     ).toBeInTheDocument();
   });
 
