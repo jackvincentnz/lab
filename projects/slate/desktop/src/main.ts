@@ -1,8 +1,15 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
-import { app, BrowserWindow, utilityProcess } from "electron";
+import {
+  app,
+  BrowserWindow,
+  shell,
+  utilityProcess,
+  type WebContents,
+} from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
+import { opensInBrowser, staysOnOrigin } from "./guards.js";
 import { waitUntilListening } from "./service.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
@@ -18,6 +25,28 @@ function createWindow(url: string): void {
   });
 
   void window.loadURL(url);
+}
+
+function guardWebContents(contents: WebContents, origin: string): void {
+  const cancelOffOrigin = (event: Electron.Event<{ url: string }>) => {
+    if (!staysOnOrigin(event.url, origin)) {
+      event.preventDefault();
+    }
+  };
+  contents.on("will-navigate", cancelOffOrigin);
+  contents.on("will-redirect", cancelOffOrigin);
+  contents.setWindowOpenHandler(({ url }) => {
+    if (opensInBrowser(url)) {
+      void shell.openExternal(url);
+    }
+    return { action: "deny" };
+  });
+  contents.on("will-attach-webview", (event) => event.preventDefault());
+  // Without handlers, Electron grants every permission, such as the camera or location.
+  contents.session.setPermissionRequestHandler(
+    (_contents, _permission, grant) => grant(false),
+  );
+  contents.session.setPermissionCheckHandler(() => false);
 }
 
 async function start(): Promise<void> {
@@ -45,6 +74,9 @@ async function start(): Promise<void> {
   const url = devServer
     ? await startDevServer(devServer, new URL(serviceUrl).port)
     : serviceUrl;
+  app.on("web-contents-created", (_event, contents) =>
+    guardWebContents(contents, new URL(url).origin),
+  );
   createWindow(url);
   // Started from a terminal, the app would otherwise open behind the terminal.
   app.focus({ steal: true });

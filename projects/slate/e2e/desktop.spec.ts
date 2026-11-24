@@ -21,6 +21,36 @@ test("lists an item added in the web UI", async ({ window }) => {
   await expect(items).toContainText("Plan the week");
 });
 
+test("keeps the window on Slate's page when the page navigates elsewhere", async ({
+  slate,
+  window,
+}) => {
+  const url = window.url();
+  const navigation = await slate.evaluateHandle(({ BrowserWindow }) => {
+    const [{ webContents }] = BrowserWindow.getAllWindows();
+    // Registered after Slate's guard, so this listener sees whether the guard cancelled it.
+    const attempt = new Promise((resolve) =>
+      webContents.once("will-navigate", ({ url, defaultPrevented }) =>
+        resolve({ url, defaultPrevented }),
+      ),
+    );
+    return { attempt };
+  });
+
+  await window.evaluate(() => {
+    location.href = "https://example.com/";
+  });
+  const attempt = await navigation.evaluate(({ attempt }) => attempt);
+  // Playwright's locators wait for the cancelled navigation to finish, so ask the page itself.
+  const pageUrl = await window.evaluate(() => location.href);
+
+  expect(attempt).toEqual({
+    url: "https://example.com/",
+    defaultPrevented: true,
+  });
+  expect(pageUrl).toBe(url);
+});
+
 test("stops every process it started on quit", async ({ slate }) => {
   const main = slate.process();
   const processes = await slate.evaluate(({ app }) => app.getAppMetrics());
