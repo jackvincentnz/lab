@@ -1,5 +1,10 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
-import { request, type IncomingHttpHeaders, type Server } from "node:http";
+import {
+  request,
+  type IncomingHttpHeaders,
+  type OutgoingHttpHeaders,
+  type Server,
+} from "node:http";
 import { type AddressInfo } from "node:net";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -38,10 +43,14 @@ interface Response {
   body: string;
 }
 
+interface Request {
+  body?: string;
+  headers?: OutgoingHttpHeaders;
+}
+
 function send(
   path: string,
-  host = "localhost:5197",
-  body?: string,
+  { body, headers }: Request = {},
 ): Promise<Response> {
   const { port } = server.address() as AddressInfo;
   return new Promise((resolve, reject) => {
@@ -51,7 +60,11 @@ function send(
         port,
         path,
         method: body === undefined ? "GET" : "POST",
-        headers: { host, "content-type": "application/json" },
+        headers: {
+          host: "localhost:5197",
+          "content-type": "application/json",
+          ...headers,
+        },
       },
       (response) => {
         let body = "";
@@ -69,6 +82,10 @@ function send(
       .on("error", reject)
       .end(body);
   });
+}
+
+function anotherSite(): string {
+  return `https://${crypto.randomUUID()}.example`;
 }
 
 async function connectMcpClient(): Promise<Client> {
@@ -92,7 +109,7 @@ async function addItemOverMcp(client: Client, name: string): Promise<Item> {
 describe("createSlateServer", () => {
   it("serves the router under the API path to a loopback host", async () => {
     await start();
-    await send("/api/addItem", undefined, '{"name":"Plan the week"}');
+    await send("/api/addItem", { body: '{"name":"Plan the week"}' });
 
     const response = await send("/api/listItems");
 
@@ -105,7 +122,78 @@ describe("createSlateServer", () => {
   it("refuses a request for another host", async () => {
     await start();
 
-    const response = await send("/api/listItems", "attacker.example:5197");
+    const response = await send("/api/listItems", {
+      headers: { host: "attacker.example:5197" },
+    });
+
+    expect(response.status).toBe(403);
+  });
+
+  it("refuses a form posted from another site's page", async () => {
+    await start();
+    const boundary = crypto.randomUUID();
+
+    const response = await send("/api/addItem", {
+      body: `--${boundary}\r\ncontent-disposition: form-data; name="name"\r\n\r\n${crypto.randomUUID()}\r\n--${boundary}--\r\n`,
+      headers: {
+        origin: anotherSite(),
+        "content-type": `multipart/form-data; boundary=${boundary}`,
+      },
+    });
+
+    expect(response.status).toBe(403);
+  });
+
+  it("refuses a write from another site's page", async () => {
+    await start();
+
+    const response = await send("/api/addItem", {
+      body: JSON.stringify({ name: crypto.randomUUID() }),
+      headers: { origin: anotherSite() },
+    });
+
+    expect(response.status).toBe(403);
+  });
+
+  it.each(["localhost:5197", "127.0.0.1:5196"])(
+    "accepts a write from the page served at %s",
+    async (host) => {
+      await start();
+      const name = crypto.randomUUID();
+
+      const response = await send("/api/addItem", {
+        body: JSON.stringify({ name }),
+        headers: { host, origin: `http://${host}` },
+      });
+
+      expect(response.status).toBe(200);
+      expect(JSON.parse(response.body)).toMatchObject({
+        result: { data: { name } },
+      });
+    },
+  );
+
+  it("accepts a write without an origin from a client that is not a browser", async () => {
+    await start();
+    const name = crypto.randomUUID();
+
+    const response = await send("/api/addItem", {
+      body: JSON.stringify({ name }),
+    });
+
+    expect(response.status).toBe(200);
+    expect(JSON.parse(response.body)).toMatchObject({
+      result: { data: { name } },
+    });
+  });
+
+  it("refuses an MCP request from another site's page", async () => {
+    await start();
+
+    const response = await send("/mcp", {
+      body: "{}",
+      headers: { origin: anotherSite() },
+    });
 
     expect(response.status).toBe(403);
   });

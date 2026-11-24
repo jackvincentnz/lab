@@ -2,7 +2,6 @@ import { type IncomingMessage, type ServerResponse } from "node:http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { isServiceOrigin } from "./host.js";
 import { type Context } from "./router.js";
 import { addItemInput, moveItemInput, updateItemInput } from "./schemas.js";
 import { type Item } from "./store.js";
@@ -66,12 +65,6 @@ export async function handleMcpRequest(
   // Without sessions there is nothing to stream on a GET or to end on a DELETE.
   if (request.method !== "POST") {
     response.writeHead(405, { allow: "POST" }).end();
-    return;
-  }
-  // The MCP specification requires refusing a web page from another origin, which can reach a
-  // loopback host.
-  if (!isServiceOrigin(request.headers.origin, request.headers.host)) {
-    response.writeHead(403).end();
     return;
   }
 

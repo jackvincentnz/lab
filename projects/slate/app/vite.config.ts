@@ -14,7 +14,12 @@ export default mergeConfig(
     server: {
       port: Number(process.env.SLATE_APP_PORT ?? 5196),
       proxy: {
-        "/api/": `http://127.0.0.1:${servicePort}`,
+        // The string shorthand would rewrite Host to the service's, and the service refuses a write
+        // whose Origin does not match its Host.
+        "/api/": {
+          target: `http://127.0.0.1:${servicePort}`,
+          changeOrigin: false,
+        },
       },
     },
   }),
