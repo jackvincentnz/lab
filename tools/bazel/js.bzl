@@ -7,6 +7,7 @@ load(
     "@aspect_rules_js//js:defs.bzl",
     _js_binary = "js_binary",
     _js_image_layer = "js_image_layer",
+    _js_info_files = "js_info_files",
     _js_library = "js_library",
     _js_run_binary = "js_run_binary",
     _js_run_devserver = "js_run_devserver",
@@ -82,6 +83,18 @@ def js_image_layer(name, **kwargs):
         **kwargs: Additional attributes passed to the underlying rule.
     """
     _js_image_layer(
+        name = name,
+        **kwargs
+    )
+
+def js_info_files(name, **kwargs):
+    """Declare a [js_info_files](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
+
+    Args:
+        name: Target name.
+        **kwargs: Additional attributes passed to the underlying rule.
+    """
+    _js_info_files(
         name = name,
         **kwargs
     )

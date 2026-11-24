@@ -1,9 +1,17 @@
 load("//tools/bazel:drizzle.bzl", "drizzle_generate")
-load("//tools/bazel:js.bzl", "js_binary", "js_library")
+load("//tools/bazel:js.bzl", "js_binary", "js_info_files", "js_library")
 load("//tools/bazel:ts.bzl", "node_ts_project")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
 TEST_SRCS = ["src/**/*.test.ts"]
+
+SRC_DEPS = [
+    "//:node_modules/@modelcontextprotocol/sdk",
+    "//:node_modules/@trpc/server",
+    "//:node_modules/drizzle-orm",
+    "//:node_modules/fractional-indexing",
+    "//:node_modules/zod",
+]
 
 node_ts_project(
     name = "src_ts",
@@ -11,14 +19,26 @@ node_ts_project(
         ["src/**/*.ts"],
         exclude = TEST_SRCS,
     ),
+    deps = SRC_DEPS,
+)
+
+# Declarations only, so that the web UI neither bundles nor rebuilds for service
+# code.
+js_info_files(
+    name = "declarations",
+    srcs = [":src_ts"],
+    include_npm_sources = False,
+    include_sources = False,
+    include_transitive_sources = False,
+    include_transitive_types = True,
+)
+
+js_library(
+    name = "types",
+    types = [":declarations"],
     visibility = ["//projects/slate/app:__pkg__"],
-    deps = [
-        "//:node_modules/@modelcontextprotocol/sdk",
-        "//:node_modules/@trpc/server",
-        "//:node_modules/drizzle-orm",
-        "//:node_modules/fractional-indexing",
-        "//:node_modules/zod",
-    ],
+    # node_ts_project adds @types/node to src_ts.
+    deps = SRC_DEPS + ["//:node_modules/@types/node"],
 )
 
 filegroup(

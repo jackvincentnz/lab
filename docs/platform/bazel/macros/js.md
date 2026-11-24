@@ -46,6 +46,27 @@ Declare a [js_image_layer](https://github.com/aspect-build/rules_js/blob/main/js
 | <a id="js_image_layer-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
 
 
+<a id="js_info_files"></a>
+
+## js_info_files
+
+```starlark
+load("//tools/bazel:js.bzl", "js_info_files")
+
+js_info_files(name, **kwargs)
+```
+
+Declare a [js_info_files](https://github.com/aspect-build/rules_js/blob/main/js/defs.bzl) with the upstream attributes.
+
+**PARAMETERS**
+
+
+| Name  | Description | Default Value |
+| :------------- | :------------- | :------------- |
+| <a id="js_info_files-name"></a>name |  Target name.   |  none |
+| <a id="js_info_files-kwargs"></a>kwargs |  Additional attributes passed to the underlying rule.   |  none |
+
+
 <a id="js_library"></a>
 
 ## js_library
