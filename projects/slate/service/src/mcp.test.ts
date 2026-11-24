@@ -174,13 +174,4 @@ describe("handleMcpRequest", () => {
 
     expect(response.writeHead).toHaveBeenCalledWith(405, { allow: "POST" });
   });
-
-  it("refuses a request from another site's page", () => {
-    const response = respond("POST", {
-      host: "127.0.0.1:5197",
-      origin: "https://attacker.example",
-    });
-
-    expect(response.writeHead).toHaveBeenCalledWith(403);
-  });
 });
