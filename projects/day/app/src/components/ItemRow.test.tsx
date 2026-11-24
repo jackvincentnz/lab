@@ -147,6 +147,16 @@ describe("ItemRow", () => {
     ).toBeDisabled();
   });
 
+  it("does not offer a move while a change saves", () => {
+    const { startSaving } = renderRow();
+
+    startSaving();
+
+    expect(
+      screen.getByRole("button", { name: "Move Plan the week" }),
+    ).toHaveAttribute("aria-disabled", "true");
+  });
+
   it("cancels a rename with Escape", async () => {
     const user = userEvent.setup();
     const { onRename, onRenameCancel } = renderRow();

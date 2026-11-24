@@ -1,5 +1,8 @@
 import { useState, type FormEvent } from "react";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
+  ActionIcon,
   Button,
   Group,
   List,
@@ -7,6 +10,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
+import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
 
 const statusOptions = [
@@ -31,6 +35,14 @@ export function ItemRow({
   onStatusChange,
 }: ItemRowProps) {
   const [draft, setDraft] = useState<string>();
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    setActivatorNodeRef,
+    transform,
+    transition,
+  } = useSortable({ id: item.id, disabled: saving });
 
   function submitRename(event: FormEvent) {
     event.preventDefault();
@@ -47,8 +59,23 @@ export function ItemRow({
   }
 
   return (
-    <List.Item>
+    <List.Item
+      ref={setNodeRef}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+    >
       <Group wrap="nowrap">
+        <ActionIcon
+          ref={setActivatorNodeRef}
+          variant="subtle"
+          color="gray"
+          aria-label={`Move ${item.name}`}
+          data-disabled={saving}
+          style={{ cursor: "grab" }}
+          {...attributes}
+          {...listeners}
+        >
+          <IconGripVertical size={16} />
+        </ActionIcon>
         <NativeSelect
           aria-label={`Status of ${item.name}`}
           data={statusOptions}

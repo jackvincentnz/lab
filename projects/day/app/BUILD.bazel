@@ -17,7 +17,11 @@ fe_app(
     ],
     visibility = ["//projects/day:__pkg__"],
     deps = [
+        "//:node_modules/@dnd-kit/core",
+        "//:node_modules/@dnd-kit/sortable",
+        "//:node_modules/@dnd-kit/utilities",
         "//:node_modules/@mantine/core",
+        "//:node_modules/@tabler/icons-react",
         "//:node_modules/@tanstack/react-query",
         "//:node_modules/@trpc/client",
         "//:node_modules/@trpc/tanstack-react-query",

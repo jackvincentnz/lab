@@ -5,11 +5,12 @@ import type { DayRouter } from "../../service/src/router.js";
 import type {
   AddItemInput,
   ItemStatus,
+  MoveItemInput,
   UpdateItemInput,
 } from "../../service/src/schemas.js";
 import type { Item } from "../../service/src/store.js";
 
-export type { AddItemInput, Item, ItemStatus, UpdateItemInput };
+export type { AddItemInput, Item, ItemStatus, MoveItemInput, UpdateItemInput };
 
 export type DayClient = TRPCClient<DayRouter>;
 
