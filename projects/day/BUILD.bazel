@@ -24,6 +24,22 @@ js_run_devserver(
     tool = "//tools/bazel/electron:electron_binary",
 )
 
+js_run_devserver(
+    name = "watch",
+    args = ["projects/day/desktop/src/main.js"],
+    data = [
+        "//:node_modules/vite",
+        "//projects/day/app",
+        "//projects/day/desktop",
+        "//projects/day/service:src",
+    ],
+    env = {
+        "DAY_PROFILE": "dev",
+        "DAY_WEB_DEV_SERVER": "1",
+    },
+    tool = "//tools/bazel/electron:electron_binary",
+)
+
 js_library(
     name = "package_json",
     srcs = ["package.json"],
