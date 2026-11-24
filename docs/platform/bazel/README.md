@@ -17,7 +17,8 @@ generates Java BUILD file dependencies.
 Each checkout, including each worktree, has its own output base. Find it with
 `bazel info output_base`. Setting `--output_base` or `--output_user_root` uses
 a separate output base with a cold cache, and changing other startup options,
-such as `--batch`, restarts the server.
+such as `--batch`, restarts the server. See [disk usage](disk-usage.md) for
+where Bazel keeps its state and how to reclaim space.
 
 ## Dependency sources
 
