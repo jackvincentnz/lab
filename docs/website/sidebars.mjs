@@ -16,10 +16,7 @@ export default {
     category("Libraries", "libs"),
     category("Experiments", "learn"),
   ],
-  platform: [
-    folder("docs/platform"),
-    category("Bazel macro reference", "docs/bazel", { collapsed: true }),
-  ],
+  platform: [folder("docs/platform")],
   decisions: [folder("docs/adr")],
   contribute: ["CONTRIBUTING", folder("docs/contributing")],
 };

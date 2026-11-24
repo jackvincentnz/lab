@@ -15,7 +15,7 @@ Follow the [dependency guidelines](../../../docs/contributing/dependencies.md).
    version from `gh api repos/jackvincentnz/lab/dependabot/alerts/<n>`.
 3. Read the release notes or migration guide for each version that you skip
    over. When they do not explain a failure, read the upstream source (see
-   [dependency sources](../../../docs/platform/bazel.md#dependency-sources)).
+   [dependency sources](../../../docs/platform/bazel/README.md#dependency-sources)).
 4. Regenerate every lockfile with the
    [lockfile commands](../../../docs/contributing/dependencies.md#lockfiles).
 5. Check what the dependency affects, such as by running the app or the tool,
