@@ -27,7 +27,7 @@ export function createSlateMcpServer(store: Store): McpServer {
     {
       title: "Add item",
       description:
-        "Add a to-do, task or priority to the user's Slate list. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
+        "Add a to-do, task or priority to the user's Slate list, their list for the day. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
       inputSchema: addItemInput,
     },
     ({ name }) => reply(store.add(name)),
