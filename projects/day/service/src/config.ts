@@ -9,7 +9,7 @@ const optional = <T extends z.ZodType>(schema: T) =>
 const environment = z.object({
   DAY_PROFILE: optional(z.enum(["dev"]).optional()),
   DAY_DATA_DIR: optional(z.string().optional()),
-  DAY_PORT: optional(z.coerce.number().int().min(1).max(65535).optional()),
+  DAY_PORT: optional(z.coerce.number().int().min(0).max(65535).optional()),
   DAY_WEB_DIR: optional(z.string().optional()),
   BUILD_WORKING_DIRECTORY: optional(z.string().optional()),
   APPDATA: optional(z.string().optional()),

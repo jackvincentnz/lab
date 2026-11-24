@@ -60,17 +60,21 @@ Desktop:
 
 ## Development
 
-| Task                                 | Command                                  |
-| ------------------------------------ | ---------------------------------------- |
-| Build and typecheck everything.      | `bazel build //projects/day/...`         |
-| Run the desktop app in dev mode.     | `bazel run //projects/day`               |
-| Run the desktop app in prod mode.    | `bazel run //projects/day:prod`          |
-| Run the desktop app with hot reload. | `ibazel run //projects/day:watch`        |
-| Install or update the macOS app.     | `bazel run //projects/day:install`       |
-| Run the local service on its own.    | `bazel run //projects/day/service`       |
-| Run tests once.                      | `bazel test //projects/day/...`          |
-| Run the service's tests once.        | `bazel test //projects/day/service:test` |
-| Run the desktop app's tests once.    | `bazel test //projects/day/desktop:test` |
+| Task                                           | Command                                  |
+| ---------------------------------------------- | ---------------------------------------- |
+| Build and typecheck everything.                | `bazel build //projects/day/...`         |
+| Run the desktop app in dev mode.               | `bazel run //projects/day`               |
+| Run the desktop app in prod mode.              | `bazel run //projects/day:prod`          |
+| Run the desktop app with hot reload.           | `ibazel run //projects/day:watch`        |
+| Install or update the macOS app.               | `bazel run //projects/day:install`       |
+| Run the local service on its own.              | `bazel run //projects/day/service`       |
+| Run tests once.                                | `bazel test //projects/day/...`          |
+| Run the service's tests once.                  | `bazel test //projects/day/service:test` |
+| Run the desktop app's tests once.              | `bazel test //projects/day/desktop:test` |
+| Launch the desktop app and test it end to end. | `bazel test //projects/day/e2e`          |
+
+On Linux, the end-to-end test needs `Xvfb`. On Ubuntu, AppArmor must also allow user namespaces for
+Electron in your Bazel output base, as the [CI workflow](../../.github/workflows/main.yml) does.
 
 See the [app README](app/README.md) to work on the web UI in a browser.
 

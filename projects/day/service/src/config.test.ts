@@ -22,6 +22,12 @@ describe("readConfig", () => {
     expect(config.port).toBe(6000);
   });
 
+  it("reads port 0", () => {
+    const config = readConfig({ DAY_DATA_DIR: "/data", DAY_PORT: "0" }, mac);
+
+    expect(config.port).toBe(0);
+  });
+
   it("rejects a port that is not a port number", () => {
     const reading = () =>
       readConfig({ DAY_DATA_DIR: "/data", DAY_PORT: "70000" }, mac);
