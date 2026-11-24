@@ -1,0 +1,10 @@
+{
+  "name": "slate-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ibazel run //projects/slate/app",
+    "build": "bazel build //projects/slate/app:build",
+    "test": "ibazel run //projects/slate/app:test_watch"
+  }
+}

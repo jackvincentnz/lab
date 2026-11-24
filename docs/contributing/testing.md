@@ -94,5 +94,5 @@ named after the directory.
 
 - Pass `environment: "node"` and `setupFiles: []` to `bazelVitestConfig` from
   `@lab/vitest-config` for code that runs in Node, as the
-  [Day service](../../projects/day/service/vite.config.ts) does, so that no
+  [Slate service](../../projects/slate/service/vite.config.ts) does, so that no
   setup expects a DOM. The shared `@lab/test-utils/setup` then does not run.

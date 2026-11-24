@@ -1,0 +1,8 @@
+{
+  "name": "slate",
+  "productName": "Slate",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "main": "desktop/src/main.js"
+}
