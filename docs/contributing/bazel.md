@@ -26,5 +26,5 @@ targets, and the runner and JUnit runtime deps of tests.
   generating target.
 
 See [testing](testing.md#bazel-test-targets) for test targets, and
-[Bazel](../platform/bazel.md) for how outputs, dependency sources, and the sandbox work
+[Bazel](../platform/bazel/README.md) for how outputs, dependency sources, and the sandbox work
 in this repository.

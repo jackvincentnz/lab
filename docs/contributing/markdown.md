@@ -31,7 +31,7 @@ page appears in its folder's tab without a sidebar change:
 | ---------- | ------------------------------------------ |
 | Overview   | `README.md`, `docs/overview/`, `AGENTS.md` |
 | Projects   | `projects/`, `libs/`, `learn/`             |
-| Platform   | `docs/platform/`, `docs/bazel/`            |
+| Platform   | `docs/platform/`                           |
 | Decisions  | `docs/adr/`                                |
 | Contribute | `CONTRIBUTING.md`, `docs/contributing/`    |
 

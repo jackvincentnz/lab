@@ -6,8 +6,8 @@ default_stages: [pre-commit]
 # pre-commit cannot read .nvmrc, so Renovate updates this with it in the Node.js group
 default_language_version:
   node: 26.13.1
-# Stardoc output, checked by diff tests in //docs/bazel
-exclude: ^docs/bazel/.*\.md$
+# Stardoc output, checked by diff tests in //docs/platform/bazel/macros
+exclude: ^docs/platform/bazel/macros/.*\.md$
 
 repos:
   # Check and format Bazel source files
