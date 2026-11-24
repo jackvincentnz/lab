@@ -1,0 +1,115 @@
+load("//tools/bazel:files.bzl", "copy_to_directory")
+load("//tools/bazel:js.bzl", "js_binary", "js_library", "js_run_binary", "js_run_devserver")
+load("//tools/bazel:sh.bzl", "sh_binary")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+
+DESKTOP_APP_DATA = [
+    "//projects/slate/app:build",
+    "//projects/slate/desktop",
+    "//projects/slate/service:src",
+]
+
+js_run_devserver(
+    name = "slate",
+    args = ["projects/slate/desktop/src/main.js"],
+    data = DESKTOP_APP_DATA,
+    env = {"SLATE_PROFILE": "dev"},
+    tool = "//tools/bazel/electron:electron_binary",
+)
+
+js_run_devserver(
+    name = "prod",
+    args = ["projects/slate/desktop/src/main.js"],
+    data = DESKTOP_APP_DATA,
+    tool = "//tools/bazel/electron:electron_binary",
+)
+
+js_run_devserver(
+    name = "watch",
+    args = ["projects/slate/desktop/src/main.js"],
+    data = [
+        "//:node_modules/vite",
+        "//projects/slate/app",
+        "//projects/slate/desktop",
+        "//projects/slate/service:src",
+    ],
+    env = {
+        "SLATE_PROFILE": "dev",
+        "SLATE_WEB_DEV_SERVER": "1",
+    },
+    tool = "//tools/bazel/electron:electron_binary",
+)
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+)
+
+js_run_binary(
+    name = "bundle",
+    srcs = [
+        "vite.config.ts",
+        ":package_json",
+        "//:node_modules/vite",
+        "//projects/slate/desktop",
+        "//projects/slate/service:src",
+    ],
+    args = ["build"],
+    chdir = package_name(),
+    mnemonic = "ViteBuild",
+    out_dirs = ["bundle"],
+    tool = "//tools/bazel/vite:vite_binary",
+)
+
+copy_to_directory(
+    name = "app_dir",
+    srcs = [
+        "package.json",
+        ":bundle",
+        "//projects/slate/app:build",
+    ],
+    replace_prefixes = {"bundle/": ""},
+    visibility = ["//projects/slate/e2e:__pkg__"],
+)
+
+node_ts_project(
+    name = "mac_app_ts",
+    srcs = ["mac_app.ts"],
+    deps = ["//:node_modules/@electron/packager"],
+)
+
+js_binary(
+    name = "mac_app_packager",
+    data = [
+        ":mac_app_ts",
+        ":package_json",
+    ],
+    entry_point = "mac_app.js",
+)
+
+js_run_binary(
+    name = "mac_app",
+    srcs = [
+        ":app_dir",
+        "//:node_modules/electron/dir",
+    ],
+    args = [
+        "$(rootpath :app_dir)",
+        "$(rootpath //:node_modules/electron/dir)",
+        "%s/Slate.app" % package_name(),
+    ],
+    mnemonic = "ElectronPackager",
+    out_dirs = ["Slate.app"],
+    # Workaround: the sandbox links each file of the Electron package on its own, which loses the
+    # symlinks inside Electron.app that its signature covers.
+    tags = ["no-sandbox"],
+    target_compatible_with = ["@platforms//os:macos"],
+    tool = ":mac_app_packager",
+)
+
+sh_binary(
+    name = "install",
+    srcs = ["install.sh"],
+    args = ["$(rootpath :mac_app)"],
+    data = [":mac_app"],
+)

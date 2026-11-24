@@ -1,0 +1,26 @@
+load("@npm//:@playwright/test/package_json.bzl", playwright_bin = "bin")
+
+playwright_bin.playwright_test(
+    name = "e2e",
+    size = "medium",
+    args = [
+        "test",
+        "--config",
+        "projects/slate/e2e/playwright.config.ts",
+    ],
+    data = [
+        "desktop.spec.ts",
+        "fixtures.ts",
+        "global-setup.ts",
+        "playwright.config.ts",
+        "//:node_modules/@playwright/test",
+        "//:node_modules/electron",
+        "//projects/slate:app_dir",
+    ],
+    env = {"DEBUG": "pw:browser"},
+    tags = [
+        "no-coverage",
+        "no-sandbox",
+        "requires-network",
+    ],
+)

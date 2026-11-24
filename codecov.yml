@@ -27,10 +27,10 @@ component_management:
       name: WIDE
       paths:
         - "projects/wide/**"
-    - component_id: day
-      name: Day
+    - component_id: slate
+      name: Slate
       paths:
-        - "projects/day/**"
+        - "projects/slate/**"
     - component_id: gateway
       name: Gateway
       paths:
