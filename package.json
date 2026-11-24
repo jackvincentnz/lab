@@ -41,6 +41,7 @@
     "@trpc/tanstack-react-query": "11.29.5",
     "clsx": "2.1.1",
     "dayjs": "1.11.23",
+    "drizzle-orm": "1.0.0-rc.6",
     "fractional-indexing": "4.0.0",
     "graphql": "17.0.2",
     "graphql-ws": "^6.0.0",

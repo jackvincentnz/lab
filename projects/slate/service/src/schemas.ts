@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { itemStatuses } from "./schema.js";
 
-export const itemStatus = z.enum(["todo", "doing", "done"]);
+export const itemStatus = z.enum(itemStatuses);
 
 export type ItemStatus = z.infer<typeof itemStatus>;
 
