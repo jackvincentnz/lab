@@ -17,6 +17,13 @@ bzl_library(
 )
 
 bzl_library(
+    name = "drizzle",
+    srcs = ["drizzle.bzl"],
+    visibility = ["//visibility:public"],
+    deps = ["@npm//:drizzle-kit_bzl_library"],
+)
+
+bzl_library(
     name = "fe",
     srcs = ["fe.bzl"],
     visibility = ["//visibility:public"],

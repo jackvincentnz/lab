@@ -344,6 +344,9 @@ importers:
       dockerode:
         specifier: 5.0.1
         version: 5.0.1(node-gyp@13.1.0)(supports-color@7.2.0)
+      drizzle-kit:
+        specifier: 1.0.0-rc.6
+        version: 1.0.0-rc.6(drizzle-orm@1.0.0-rc.6(zod@4.6.7))
       electron:
         specifier: 45.4.1
         version: 45.4.1(supports-color@7.2.0)
@@ -3282,6 +3285,19 @@ packages:
 
   dom-accessibility-api@0.6.3:
     resolution: {integrity: sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==}
+
+  drizzle-kit@1.0.0-rc.6:
+    resolution: {integrity: sha512-UNwJcuwG8Iw/5M/aKmmzaX61OQgX+gj87MIEZE4J/2pSDCnQJHjhFhmPq8YNHAHnY81bbGsqiWxlyiybDD1E/g==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+    hasBin: true
+    peerDependencies:
+      drizzle-orm: '>=1.0.0-rc.5'
+      oxc-parser: ^0.157.0
+    peerDependenciesMeta:
+      drizzle-orm:
+        optional: true
+      oxc-parser:
+        optional: true
 
   drizzle-orm@1.0.0-rc.6:
     resolution: {integrity: sha512-z/2UDIuD/IbA862MbficiLc0BZodaWoXqSrv3Opdi1k0lx5oK4iX+rayJ1RwHbwFvvDGJpVP2mTYwxefar1xEg==}
@@ -8683,6 +8699,10 @@ snapshots:
   dom-accessibility-api@0.5.16: {}
 
   dom-accessibility-api@0.6.3: {}
+
+  drizzle-kit@1.0.0-rc.6(drizzle-orm@1.0.0-rc.6(zod@4.6.7)):
+    optionalDependencies:
+      drizzle-orm: 1.0.0-rc.6(zod@4.6.7)
 
   drizzle-orm@1.0.0-rc.6(zod@4.6.7):
     optionalDependencies:

@@ -15,6 +15,13 @@ stardoc(
 )
 
 stardoc(
+    name = "drizzle",
+    out = "drizzle_stardoc.md",
+    input = "//tools/bazel:drizzle.bzl",
+    deps = ["//tools/bazel:drizzle"],
+)
+
+stardoc(
     name = "fe",
     out = "fe_stardoc.md",
     input = "//tools/bazel:fe.bzl",
@@ -96,6 +103,7 @@ write_source_files(
     files = {
         "dgs.md": ":dgs",
         "docs.md": ":docs",
+        "drizzle.md": ":drizzle",
         "fe.md": ":fe",
         "files.md": ":files",
         "graphql.md": ":graphql",

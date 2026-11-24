@@ -41,6 +41,7 @@ docstrings of each module in `tools/bazel/`:
 
 - [DGS Java code generation](macros/dgs.md).
 - [Documentation generation](macros/docs.md).
+- [Drizzle migrations](macros/drizzle.md).
 - [Files](macros/files.md).
 - [Frontend applications](macros/fe.md).
 - [GraphQL clients](macros/graphql.md).

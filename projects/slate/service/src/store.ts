@@ -2,33 +2,72 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
-import { and, asc, desc, eq, gt, lt, ne } from "drizzle-orm";
+import {
+  and,
+  asc,
+  desc,
+  eq,
+  getTableName,
+  gt,
+  lt,
+  ne,
+  notInArray,
+} from "drizzle-orm";
+import { readMigrationFiles } from "drizzle-orm/migrator";
 import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
+import { migrate } from "drizzle-orm/node-sqlite/migrator";
+import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { generateKeyBetween } from "fractional-indexing";
 import { item } from "./schema.js";
 import { type MoveItemInput, type UpdateItemInput } from "./schemas.js";
 
 export type Item = typeof item.$inferSelect;
 
-const schema = `
-  CREATE TABLE IF NOT EXISTS item (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    status TEXT NOT NULL CHECK (status IN ('todo', 'doing', 'done')),
-    rank TEXT NOT NULL UNIQUE,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-  ) STRICT
-`;
+const migrationsFolder = join(import.meta.dirname, "../migrations");
+
+const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
+
+// Drizzle's migrator records each migration it applies here by name.
+const appliedMigration = sqliteTable("__drizzle_migrations", { name: text() });
 
 export function openItemStore(
   dataDir: string,
   now: () => Date = () => new Date(),
 ): ItemStore {
   mkdirSync(dataDir, { recursive: true });
-  const client = new DatabaseSync(join(dataDir, "slate.sqlite"));
-  client.exec(schema);
-  return new ItemStore(drizzle({ client }), now);
+  const database = drizzle({
+    client: new DatabaseSync(join(dataDir, "slate.sqlite")),
+  });
+
+  refuseNewerDatabase(database);
+  migrate(database, { migrationsFolder });
+  return new ItemStore(database, now);
+}
+
+/** Stops an older build from opening a database that a newer build has migrated, whose schema it does not know. */
+function refuseNewerDatabase(database: NodeSQLiteDatabase) {
+  const tracked = database
+    .select()
+    .from(sqliteSchema)
+    .where(eq(sqliteSchema.name, getTableName(appliedMigration)))
+    .get();
+  if (!tracked) {
+    return;
+  }
+
+  const known = readMigrationFiles({ migrationsFolder }).map(
+    (migration) => migration.name,
+  );
+  const unknown = database
+    .select()
+    .from(appliedMigration)
+    .where(notInArray(appliedMigration.name, known))
+    .all();
+  if (unknown.length > 0) {
+    throw new Error(
+      `A newer build of Slate has migrated this database with ${unknown.map(({ name }) => name).join(", ")}, so this build cannot open it. Update Slate.`,
+    );
+  }
 }
 
 export class ItemStore {
