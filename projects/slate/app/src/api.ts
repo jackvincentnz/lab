@@ -32,8 +32,7 @@ export function createQueryClient(): QueryClient {
       mutations: { networkMode: "always" },
     },
     mutationCache: new MutationCache({
-      // The service decides the order and agents change the list too, so a change reloads what
-      // it touched rather than patching ours, and a failed change shows what the service has.
+      // Agents change the list too, so even a failed change reloads what the service has.
       onSettled: (_data, _error, change) =>
         queryClient.invalidateQueries({
           predicate: (query) => affects(change, query.queryKey),
