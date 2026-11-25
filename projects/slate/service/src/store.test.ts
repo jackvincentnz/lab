@@ -1,6 +1,7 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { DatabaseSync } from "node:sqlite";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { type Item } from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
@@ -23,6 +24,35 @@ function names(items: Item[]): string[] {
   return items.map((item) => item.name);
 }
 
+interface StoreWithOtherWriter {
+  store: ItemStore;
+  otherWrites: unknown[];
+}
+
+/** Opens a store whose clock, read part-way through each operation, tries a write through another connection. */
+function openStoreWithOtherWriter(): StoreWithOtherWriter {
+  const otherWrites: unknown[] = [];
+  const writingStore = openItemStore(dataDir, () => {
+    otherWrites.push(renameAllFromAnotherConnection());
+    return time;
+  });
+  return { store: writingStore, otherWrites };
+}
+
+function renameAllFromAnotherConnection(): unknown {
+  const other = new DatabaseSync(join(dataDir, "slate.sqlite"));
+  try {
+    other.prepare("UPDATE item SET name = ?").run(crypto.randomUUID());
+    return "written";
+  } catch (error) {
+    return error;
+  } finally {
+    other.close();
+  }
+}
+
+const locked = expect.objectContaining({ message: "database is locked" });
+
 describe("add", () => {
   it("creates a to-do item with matching timestamps", () => {
     const item = store.add("Write the plan");
@@ -42,6 +72,16 @@ describe("add", () => {
     store.add("Third");
 
     expect(names(store.list())).toEqual(["First", "Second", "Third"]);
+  });
+
+  it("keeps other writers out until the item is added", () => {
+    const name = crypto.randomUUID();
+    const { store: adding, otherWrites } = openStoreWithOtherWriter();
+
+    adding.add(name);
+
+    expect(otherWrites).toEqual([locked]);
+    expect(names(store.list())).toEqual([name]);
   });
 });
 
@@ -82,6 +122,17 @@ describe("update", () => {
     const updated = store.update({ id: crypto.randomUUID(), name: "Missing" });
 
     expect(updated).toBeUndefined();
+  });
+
+  it("keeps other writers out until the item is updated", () => {
+    const item = store.add(crypto.randomUUID());
+    const name = crypto.randomUUID();
+    const { store: updating, otherWrites } = openStoreWithOtherWriter();
+
+    updating.update({ id: item.id, name });
+
+    expect(otherWrites).toEqual([locked]);
+    expect(names(store.list())).toEqual([name]);
   });
 });
 
@@ -153,5 +204,21 @@ describe("move", () => {
     });
 
     expect(moved).toBeUndefined();
+  });
+
+  it("keeps other writers out until the item is moved", () => {
+    const [first, second] = [crypto.randomUUID(), crypto.randomUUID()].map(
+      (name) => store.add(name),
+    );
+    const { store: moving, otherWrites } = openStoreWithOtherWriter();
+
+    moving.move({
+      id: second.id,
+      neighbourId: first.id,
+      position: "before",
+    });
+
+    expect(otherWrites).toEqual([locked]);
+    expect(names(store.list())).toEqual([second.name, first.name]);
   });
 });

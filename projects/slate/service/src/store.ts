@@ -83,51 +83,76 @@ export class ItemStore {
 
   /** Adds an item at the bottom, so that new work never displaces what matters most. */
   add(name: string): Item {
-    const last = this.#database
-      .select({ rank: item.rank })
-      .from(item)
-      .orderBy(desc(item.rank))
-      .get();
-    const now = this.#now().toISOString();
-    const added: Item = {
-      id: randomUUID(),
-      name,
-      status: "todo",
-      rank: generateKeyBetween(last?.rank ?? null, null),
-      createdAt: now,
-      updatedAt: now,
-    };
+    return this.#write(() => {
+      const last = this.#database
+        .select({ rank: item.rank })
+        .from(item)
+        .orderBy(desc(item.rank))
+        .get();
+      const now = this.#now().toISOString();
+      const added: Item = {
+        id: randomUUID(),
+        name,
+        status: "todo",
+        rank: generateKeyBetween(last?.rank ?? null, null),
+        createdAt: now,
+        updatedAt: now,
+      };
 
-    this.#database.insert(item).values(added).run();
-    return added;
+      this.#database.insert(item).values(added).run();
+      return added;
+    });
   }
 
   update({ id, ...changes }: UpdateItemInput): Item | undefined {
-    const found = this.#find(id);
-    if (!found) {
-      return undefined;
-    }
+    return this.#write(() => {
+      const found = this.#find(id);
+      if (!found) {
+        return undefined;
+      }
 
-    return this.#save({ ...found, ...changes });
+      return this.#save({ ...found, ...changes });
+    });
   }
 
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
-    const moving = this.#find(id);
-    const neighbour = this.#find(neighbourId);
-    if (!moving || !neighbour) {
-      return undefined;
-    }
-    if (moving.id === neighbour.id) {
-      // An item is already next to itself.
-      return moving;
-    }
+    return this.#write(() => {
+      const moving = this.#find(id);
+      const neighbour = this.#find(neighbourId);
+      if (!moving || !neighbour) {
+        return undefined;
+      }
+      if (moving.id === neighbour.id) {
+        // An item is already next to itself.
+        return moving;
+      }
 
-    const next = this.#rankBeside(neighbour.rank, position, id);
-    const rank =
-      position === "before"
-        ? generateKeyBetween(next, neighbour.rank)
-        : generateKeyBetween(neighbour.rank, next);
-    return this.#save({ ...moving, rank });
+      const next = this.#rankBeside(neighbour.rank, position, id);
+      const rank =
+        position === "before"
+          ? generateKeyBetween(next, neighbour.rank)
+          : generateKeyBetween(neighbour.rank, next);
+      return this.#save({ ...moving, rank });
+    });
+  }
+
+  /**
+   * Runs one operation as a transaction that takes the write lock at the
+   * start, so that its reads and writes see no other writer and land together
+   * or not at all. Transactions do not nest, so call it once per operation.
+   */
+  #write<T>(work: () => T): T {
+    // The store's one connection runs every statement in `work` inside the
+    // transaction. Drizzle's check against async work cannot resolve a generic
+    // result, so the result leaves through a variable.
+    let result!: T;
+    this.#database.transaction(
+      () => {
+        result = work();
+      },
+      { behavior: "immediate" },
+    );
+    return result;
   }
 
   #find(id: string): Item | undefined {
