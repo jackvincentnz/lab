@@ -1,24 +1,30 @@
 import { z } from "zod";
-import { itemStatuses } from "./schema.js";
+import { createSelectSchema } from "drizzle-orm/zod";
+import { item } from "./schema.js";
 
-export const itemStatus = z.enum(itemStatuses);
+export const itemSchema = createSelectSchema(item, {
+  id: z.uuid(),
+  name: (name) => name.trim().min(1, "Give a name that is not blank"),
+});
+
+export type Item = z.infer<typeof itemSchema>;
+
+export const itemStatus = itemSchema.shape.status;
 
 export type ItemStatus = z.infer<typeof itemStatus>;
 
-const itemId = z.uuid();
-
-const itemName = z.string().trim().min(1, "Give a name that is not blank");
+const { id, name } = itemSchema.shape;
 
 export const addItemInput = z.object({
-  name: itemName.describe("What the work is, in a few words."),
+  name: name.describe("What the work is, in a few words."),
 });
 
 export type AddItemInput = z.infer<typeof addItemInput>;
 
 export const updateItemInput = z
   .object({
-    id: itemId.describe("The id of the item to change."),
-    name: itemName.optional().describe("The item's new name."),
+    id: id.describe("The id of the item to change."),
+    name: name.optional().describe("The item's new name."),
     status: itemStatus.optional().describe("The item's new status."),
   })
   .refine((input) => input.name !== undefined || input.status !== undefined, {
@@ -28,8 +34,8 @@ export const updateItemInput = z
 export type UpdateItemInput = z.infer<typeof updateItemInput>;
 
 export const moveItemInput = z.object({
-  id: itemId.describe("The id of the item to move."),
-  neighbourId: itemId.describe("The id of the item to place it next to."),
+  id: id.describe("The id of the item to move."),
+  neighbourId: id.describe("The id of the item to place it next to."),
   position: z
     .enum(["before", "after"])
     .describe(

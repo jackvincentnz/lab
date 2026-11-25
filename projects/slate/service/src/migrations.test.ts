@@ -5,7 +5,8 @@ import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { generateKeyBetween } from "fractional-indexing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { type Item, openItemStore } from "./store.js";
+import { type Item } from "./item.js";
+import { openItemStore } from "./store.js";
 
 const migrations = ["20261124181218_item"];
 

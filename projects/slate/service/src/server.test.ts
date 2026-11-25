@@ -11,8 +11,9 @@ import { join } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { type Item } from "./item.js";
 import { createSlateServer, type SlateServerOptions } from "./server.js";
-import { type Item, openItemStore } from "./store.js";
+import { openItemStore } from "./store.js";
 
 let folder: string;
 let webDir: string;

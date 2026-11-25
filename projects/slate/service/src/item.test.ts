@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { addItemInput, updateItemInput } from "./schemas.js";
+import { addItemInput, updateItemInput } from "./item.js";
 
 describe("addItemInput", () => {
   it("trims the name", () => {

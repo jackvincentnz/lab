@@ -13,11 +13,16 @@ import {
 import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
 
-const statusOptions = [
-  { value: "todo", label: "To do" },
-  { value: "doing", label: "Doing" },
-  { value: "done", label: "Done" },
-];
+const statusLabels: Record<ItemStatus, string> = {
+  todo: "To do",
+  doing: "Doing",
+  done: "Done",
+};
+
+const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({
+  value,
+  label,
+}));
 
 interface ItemRowProps {
   item: Item;
