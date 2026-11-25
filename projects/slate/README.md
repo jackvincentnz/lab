@@ -76,7 +76,8 @@ Desktop:
 On Linux, the end-to-end test needs `Xvfb`. On Ubuntu, AppArmor must also allow user namespaces for
 Electron in your Bazel output base, as the [CI workflow](../../.github/workflows/main.yml) does.
 
-See the [app README](app/README.md) to work on the web UI in a browser.
+See the [app README](app/README.md) to work on the web UI in a browser, and
+[database migrations](docs/migrations.md) to change the database schema.
 
 `bazel run //projects/slate/service` runs the service in dev mode without the web UI. It uses the
 same port as `bazel run //projects/slate`, so run one at a time. Set `SLATE_DATA_DIR` or `SLATE_PORT` to override the data folder

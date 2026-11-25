@@ -2,157 +2,177 @@ import { randomUUID } from "node:crypto";
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
-import { generateKeyBetween } from "fractional-indexing";
 import {
-  type ItemStatus,
-  type MoveItemInput,
-  type UpdateItemInput,
-} from "./schemas.js";
+  and,
+  asc,
+  desc,
+  eq,
+  getTableName,
+  gt,
+  lt,
+  ne,
+  notInArray,
+} from "drizzle-orm";
+import { readMigrationFiles } from "drizzle-orm/migrator";
+import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
+import { migrate } from "drizzle-orm/node-sqlite/migrator";
+import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { generateKeyBetween } from "fractional-indexing";
+import { item } from "./schema.js";
+import { type MoveItemInput, type UpdateItemInput } from "./schemas.js";
 
-export interface Item {
-  id: string;
-  name: string;
-  status: ItemStatus;
-  rank: string;
-  createdAt: string;
-  updatedAt: string;
-}
+export type Item = typeof item.$inferSelect;
 
-// SQLite compares text byte by byte, the same order fractional-indexing's keys sort in.
-const schema = `
-  CREATE TABLE IF NOT EXISTS item (
-    id TEXT PRIMARY KEY,
-    name TEXT NOT NULL,
-    status TEXT NOT NULL CHECK (status IN ('todo', 'doing', 'done')),
-    rank TEXT NOT NULL UNIQUE,
-    created_at TEXT NOT NULL,
-    updated_at TEXT NOT NULL
-  ) STRICT
-`;
+const migrationsFolder = join(import.meta.dirname, "../migrations");
 
-const columns =
-  "id, name, status, rank, created_at AS createdAt, updated_at AS updatedAt";
+const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
+
+// Drizzle's migrator records each migration it applies here by name.
+const appliedMigration = sqliteTable("__drizzle_migrations", { name: text() });
 
 export function openItemStore(
   dataDir: string,
   now: () => Date = () => new Date(),
 ): ItemStore {
   mkdirSync(dataDir, { recursive: true });
-  const database = new DatabaseSync(join(dataDir, "slate.sqlite"));
-  database.exec(schema);
+  const database = drizzle({
+    client: new DatabaseSync(join(dataDir, "slate.sqlite")),
+  });
+
+  refuseNewerDatabase(database);
+  migrate(database, { migrationsFolder });
   return new ItemStore(database, now);
 }
 
+/** Stops an older build from opening a database that a newer build has migrated, whose schema it does not know. */
+function refuseNewerDatabase(database: NodeSQLiteDatabase) {
+  const tracked = database
+    .select()
+    .from(sqliteSchema)
+    .where(eq(sqliteSchema.name, getTableName(appliedMigration)))
+    .get();
+  if (!tracked) {
+    return;
+  }
+
+  const known = readMigrationFiles({ migrationsFolder }).map(
+    (migration) => migration.name,
+  );
+  const unknown = database
+    .select()
+    .from(appliedMigration)
+    .where(notInArray(appliedMigration.name, known))
+    .all();
+  if (unknown.length > 0) {
+    throw new Error(
+      `A newer build of Slate has migrated this database with ${unknown.map(({ name }) => name).join(", ")}, so this build cannot open it. Update Slate.`,
+    );
+  }
+}
+
 export class ItemStore {
-  readonly #database: DatabaseSync;
+  readonly #database: NodeSQLiteDatabase;
   readonly #now: () => Date;
 
-  constructor(database: DatabaseSync, now: () => Date) {
+  constructor(database: NodeSQLiteDatabase, now: () => Date) {
     this.#database = database;
     this.#now = now;
   }
 
   list(): Item[] {
-    return this.#database
-      .prepare(`SELECT ${columns} FROM item ORDER BY rank`)
-      .all() as unknown as Item[];
+    return this.#database.select().from(item).orderBy(item.rank).all();
   }
 
   /** Adds an item at the bottom, so that new work never displaces what matters most. */
   add(name: string): Item {
     const last = this.#database
-      .prepare("SELECT max(rank) AS rank FROM item")
-      .get() as { rank: string | null };
+      .select({ rank: item.rank })
+      .from(item)
+      .orderBy(desc(item.rank))
+      .get();
     const now = this.#now().toISOString();
-    const item: Item = {
+    const added: Item = {
       id: randomUUID(),
       name,
       status: "todo",
-      rank: generateKeyBetween(last.rank, null),
+      rank: generateKeyBetween(last?.rank ?? null, null),
       createdAt: now,
       updatedAt: now,
     };
 
-    this.#database
-      .prepare(
-        "INSERT INTO item (id, name, status, rank, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-      )
-      .run(
-        item.id,
-        item.name,
-        item.status,
-        item.rank,
-        item.createdAt,
-        item.updatedAt,
-      );
-    return item;
+    this.#database.insert(item).values(added).run();
+    return added;
   }
 
   update({ id, name, status }: UpdateItemInput): Item | undefined {
-    const item = this.#find(id);
-    if (!item) {
+    const found = this.#find(id);
+    if (!found) {
       return undefined;
     }
 
     return this.#save({
-      ...item,
-      name: name ?? item.name,
-      status: status ?? item.status,
+      ...found,
+      name: name ?? found.name,
+      status: status ?? found.status,
     });
   }
 
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
-    const item = this.#find(id);
+    const moving = this.#find(id);
     const neighbour = this.#find(neighbourId);
-    if (!item || !neighbour) {
+    if (!moving || !neighbour) {
       return undefined;
     }
-    if (item.id === neighbour.id) {
+    if (moving.id === neighbour.id) {
       // An item is already next to itself.
-      return item;
+      return moving;
     }
 
+    const next = this.#rankBeside(neighbour.rank, position, id);
     const rank =
       position === "before"
-        ? generateKeyBetween(
-            this.#rankAround("max", "<", neighbour.rank, id),
-            neighbour.rank,
-          )
-        : generateKeyBetween(
-            neighbour.rank,
-            this.#rankAround("min", ">", neighbour.rank, id),
-          );
-    return this.#save({ ...item, rank });
+        ? generateKeyBetween(next, neighbour.rank)
+        : generateKeyBetween(neighbour.rank, next);
+    return this.#save({ ...moving, rank });
   }
 
   #find(id: string): Item | undefined {
-    return this.#database
-      .prepare(`SELECT ${columns} FROM item WHERE id = ?`)
-      .get(id) as Item | undefined;
+    return this.#database.select().from(item).where(eq(item.id, id)).get();
   }
 
-  #rankAround(
-    closest: "max" | "min",
-    side: "<" | ">",
+  /** The closest rank on the given side of `rank`, ignoring the item being moved. */
+  #rankBeside(
     rank: string,
-    excludedId: string,
+    side: MoveItemInput["position"],
+    movingId: string,
   ): string | null {
-    const row = this.#database
-      .prepare(
-        `SELECT ${closest}(rank) AS rank FROM item WHERE rank ${side} ? AND id <> ?`,
+    const closest = this.#database
+      .select({ rank: item.rank })
+      .from(item)
+      .where(
+        and(
+          side === "before" ? lt(item.rank, rank) : gt(item.rank, rank),
+          ne(item.id, movingId),
+        ),
       )
-      .get(rank, excludedId) as { rank: string | null };
-    return row.rank;
+      .orderBy(side === "before" ? desc(item.rank) : asc(item.rank))
+      .get();
+    return closest?.rank ?? null;
   }
 
-  #save(item: Item): Item {
-    const saved = { ...item, updatedAt: this.#now().toISOString() };
+  #save(changed: Item): Item {
+    const saved = { ...changed, updatedAt: this.#now().toISOString() };
 
     this.#database
-      .prepare(
-        "UPDATE item SET name = ?, status = ?, rank = ?, updated_at = ? WHERE id = ?",
-      )
-      .run(saved.name, saved.status, saved.rank, saved.updatedAt, saved.id);
+      .update(item)
+      .set({
+        name: saved.name,
+        status: saved.status,
+        rank: saved.rank,
+        updatedAt: saved.updatedAt,
+      })
+      .where(eq(item.id, saved.id))
+      .run();
     return saved;
   }
 }

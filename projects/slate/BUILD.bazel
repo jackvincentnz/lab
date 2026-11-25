@@ -67,6 +67,7 @@ copy_to_directory(
         "package.json",
         ":bundle",
         "//projects/slate/app:build",
+        "//projects/slate/service:migrations",
     ],
     replace_prefixes = {"bundle/": ""},
     visibility = ["//projects/slate/e2e:__pkg__"],

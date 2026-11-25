@@ -1,3 +1,4 @@
+load("//tools/bazel:drizzle.bzl", "drizzle_generate")
 load("//tools/bazel:js.bzl", "js_binary", "js_library")
 load("//tools/bazel:ts.bzl", "node_ts_project")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
@@ -14,14 +15,24 @@ node_ts_project(
     deps = [
         "//:node_modules/@modelcontextprotocol/sdk",
         "//:node_modules/@trpc/server",
+        "//:node_modules/drizzle-orm",
         "//:node_modules/fractional-indexing",
         "//:node_modules/zod",
     ],
 )
 
+filegroup(
+    name = "migrations",
+    srcs = glob(["migrations/**"]),
+    visibility = ["//projects/slate:__pkg__"],
+)
+
 js_library(
     name = "src",
-    srcs = ["package.json"],
+    srcs = [
+        "package.json",
+        ":migrations",
+    ],
     visibility = [
         "//projects/slate:__pkg__",
         "//projects/slate/desktop:__pkg__",
@@ -36,6 +47,14 @@ js_binary(
     env = {"SLATE_PROFILE": "dev"},
 )
 
+drizzle_generate(
+    name = "generate_migration",
+    data = [
+        "drizzle.config.ts",
+        ":src",
+    ],
+)
+
 node_ts_project(
     name = "test_ts",
     testonly = True,
@@ -43,6 +62,7 @@ node_ts_project(
     deps = [
         ":src",
         "//:node_modules/@modelcontextprotocol/sdk",
+        "//:node_modules/fractional-indexing",
         "//:node_modules/vitest",
     ],
 )
