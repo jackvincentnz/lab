@@ -1,9 +1,9 @@
 import { once } from "node:events";
-import { mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { logDir, logOutput, openLog } from "./log.js";
 
 let dir: string;
@@ -70,6 +70,20 @@ describe("openLog", () => {
     );
     expect(readFileSync(log.path, "utf8")).toBe(
       "2026-11-24T01:02:03.004Z [main] newer\n",
+    );
+  });
+  it("reports a write that fails to the console instead of throwing", () => {
+    const logError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    const log = openLog(dir, { now });
+    mkdirSync(log.path);
+
+    log.write("main", "lost");
+
+    expect(logError).toHaveBeenCalledWith(
+      `Slate cannot write its log at ${log.path}:`,
+      expect.objectContaining({ code: "EISDIR" }),
     );
   });
 });

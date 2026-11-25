@@ -32,10 +32,11 @@ async function start(): Promise<void> {
   // Electron keeps its own files, such as caches and local storage, in its user data folder. Run
   // unpackaged, every Electron app shares that folder, so Slate uses the folder that holds its list.
   app.setPath("userData", dataDir);
-  // The lock is held per user data folder, so dev mode still runs beside prod mode.
-  log = openLog(
+  const startLog = openLog(
     logDir(dataDir, { platform: process.platform, home: homedir() }),
   );
+  log = startLog;
+  // The lock is held per user data folder, so dev mode still runs beside prod mode.
   if (!app.requestSingleInstanceLock()) {
     const failure = lockHeldFailure(app.isPackaged, dataDir);
     if (failure) {
@@ -55,11 +56,11 @@ async function start(): Promise<void> {
     },
     stdio: "pipe",
   });
-  logOutput(service.stdout!, log, "service", process.stdout);
-  logOutput(service.stderr!, log, "service", process.stderr);
+  logOutput(service.stdout!, startLog, "service", process.stdout);
+  logOutput(service.stderr!, startLog, "service", process.stderr);
   const serviceUrl = await waitUntilListening(service);
   const logServiceExit = (code: number) =>
-    log?.write("main", `The Slate service exited with code ${code}`);
+    startLog.write("main", `The Slate service exited with code ${code}`);
   service.on("exit", logServiceExit);
   // Quitting stops the service too, which is not a failure.
   app.on("will-quit", () => service.off("exit", logServiceExit));

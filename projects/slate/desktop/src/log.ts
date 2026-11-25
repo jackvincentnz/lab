@@ -28,7 +28,10 @@ export function logDir(dataDir: string, { platform, home }: Host): string {
   return join(dataDir, "logs");
 }
 
-/** Appends to `slate.log` in `dir`, moving it to `slate.old.log` once it passes `maxBytes`. */
+/**
+ * Appends to `slate.log` in `dir`, moving it to `slate.old.log` once it passes `maxBytes`. A write
+ * that fails goes to the console instead.
+ */
 export function openLog(
   dir: string,
   { maxBytes = 1_000_000, now = () => new Date() }: LogOptions = {},
@@ -38,10 +41,15 @@ export function openLog(
   return {
     path,
     write(source, message) {
-      if ((statSync(path, { throwIfNoEntry: false })?.size ?? 0) > maxBytes) {
-        renameSync(path, join(dir, "slate.old.log"));
+      // A full disk must not stop Slate from reporting why it quits.
+      try {
+        if ((statSync(path, { throwIfNoEntry: false })?.size ?? 0) > maxBytes) {
+          renameSync(path, join(dir, "slate.old.log"));
+        }
+        appendFileSync(path, `${now().toISOString()} [${source}] ${message}\n`);
+      } catch (error) {
+        console.error(`Slate cannot write its log at ${path}:`, error);
       }
-      appendFileSync(path, `${now().toISOString()} [${source}] ${message}\n`);
     },
   };
 }
