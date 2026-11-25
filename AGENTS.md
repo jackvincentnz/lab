@@ -53,10 +53,16 @@ describe how to work.
   rerun only that target after your other Bazel work finishes, before you
   report it failed, so that a slowdown from shared CPU is not reported as a
   regression.
-- When the work in a worktree you created with `git worktree add` is done, run
-  `bazel clean --expunge` in it and then remove it, so that neither the
-  worktree nor its Bazel output base, which is outside the worktree, fills the
-  disk.
+- When the work in a worktree that you added with `git worktree add` during
+  this session is done, run `bazel clean --expunge` in it and then remove it,
+  so that neither the worktree nor its Bazel output base, which is outside the
+  worktree, fills the disk.
+- Leave the worktree that your session started in, such as one from an agent
+  app or an
+  [`aspect worktree` slot](docs/platform/bazel/disk-usage.md#reclaim-space),
+  in place with its Bazel output base when you finish, so that the next
+  session there starts warm and whoever provided it decides when to reclaim
+  it.
 - When you split work across sessions or subagents, run Bazel-heavy steps in
   one session at a time, so that parallel builds do not exhaust the disk.
 - Stop, delete, or reset only the processes, branches, worktrees, and Docker

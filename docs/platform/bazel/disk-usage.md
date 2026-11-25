@@ -76,7 +76,8 @@ commands can write, let it write to the Bazel folder.
 - `aspect worktree prune` deletes free pool slots that have not been used for
   30 days.
 - `bazel clean --expunge` deletes the current checkout's output base. Run it
-  before you delete a worktree that you made with `git worktree add`.
+  before you delete a worktree that you made yourself with `git worktree add`,
+  not one that a tool such as `aspect worktree` provided.
 
 A free pool slot has no checkout but keeps its output base, so that the next
 worktree starts warm. Check `aspect worktree list --all` before you delete an
