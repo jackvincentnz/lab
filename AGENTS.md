@@ -58,9 +58,11 @@ describe how to work.
   so that neither the worktree nor its Bazel output base, which is outside the
   worktree, fills the disk.
 - Leave the worktree that your session started in, such as one from an agent
-  app or an `aspect worktree` slot, in place with its Bazel output base when
-  you finish, so that the next session there starts warm and whoever provided
-  it decides when to reclaim it.
+  app or an
+  [`aspect worktree` slot](docs/platform/bazel/disk-usage.md#reclaim-space),
+  in place with its Bazel output base when you finish, so that the next
+  session there starts warm and whoever provided it decides when to reclaim
+  it.
 - When you split work across sessions or subagents, run Bazel-heavy steps in
   one session at a time, so that parallel builds do not exhaust the disk.
 - Stop, delete, or reset only the processes, branches, worktrees, and Docker
