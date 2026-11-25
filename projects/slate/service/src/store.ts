@@ -18,12 +18,8 @@ import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
 import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { generateKeyBetween } from "fractional-indexing";
+import { type Item, type MoveItemInput, type UpdateItemInput } from "./item.js";
 import { item } from "./schema.js";
-import {
-  type Item,
-  type MoveItemInput,
-  type UpdateItemInput,
-} from "./schemas.js";
 
 const migrationsFolder = join(import.meta.dirname, "../migrations");
 

@@ -5,7 +5,7 @@ import {
   moveItemInput,
   type UpdateItemInput,
   updateItemInput,
-} from "./schemas.js";
+} from "./item.js";
 import { type ItemStore } from "./store.js";
 
 export type Store = Pick<ItemStore, "list" | "add" | "update" | "move">;

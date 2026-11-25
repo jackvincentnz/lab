@@ -1,6 +1,6 @@
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
+import { type Item } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
-import { type Item } from "./schemas.js";
 
 export interface Context {
   store: Store;

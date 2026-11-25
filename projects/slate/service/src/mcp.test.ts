@@ -10,9 +10,9 @@ import {
   type Mock,
   vi,
 } from "vitest";
+import { type Item } from "./item.js";
 import { createSlateMcpServer, handleMcpRequest } from "./mcp.js";
 import { type Store } from "./operations.js";
-import { type Item } from "./schemas.js";
 
 let store: { [K in keyof Store]: Mock<Store[K]> };
 let client: Client;

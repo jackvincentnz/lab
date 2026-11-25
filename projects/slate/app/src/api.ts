@@ -8,7 +8,7 @@ import type {
   ItemStatus,
   MoveItemInput,
   UpdateItemInput,
-} from "../../service/src/schemas.js";
+} from "../../service/src/item.js";
 
 export type { AddItemInput, Item, ItemStatus, MoveItemInput, UpdateItemInput };
 

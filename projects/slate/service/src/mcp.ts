@@ -2,12 +2,12 @@ import { type IncomingMessage, type ServerResponse } from "node:http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
+import { type Item } from "./item.js";
 import {
   type AgentOperationName,
   operations,
   type Store,
 } from "./operations.js";
-import { type Item } from "./schemas.js";
 
 const { listItems, addItem, updateItem, moveItem } = operations;
 
