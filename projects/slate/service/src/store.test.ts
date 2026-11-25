@@ -3,7 +3,11 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { type Item } from "./item.js";
-import { type ItemStore, openItemStore } from "./store.js";
+import {
+  type ItemStore,
+  openInMemoryItemStore,
+  openItemStore,
+} from "./store.js";
 
 let dataDir: string;
 let time: Date;
@@ -52,6 +56,16 @@ describe("list", () => {
     const reopened = openItemStore(dataDir).list();
 
     expect(reopened).toEqual([item]);
+  });
+
+  it("keeps each in-memory store's items to itself", () => {
+    const kept = openInMemoryItemStore();
+    const other = openInMemoryItemStore();
+    const item = kept.add(`Item ${crypto.randomUUID()}`);
+
+    const lists = [kept.list(), other.list()];
+
+    expect(lists).toEqual([[item], []]);
   });
 });
 

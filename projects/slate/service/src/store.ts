@@ -36,6 +36,13 @@ export function openItemStore(
   return openDatabase(new DatabaseSync(join(dataDir, "slate.sqlite")), now);
 }
 
+/** Opens a store that keeps its items in memory, so that tests can run the real service without files. */
+export function openInMemoryItemStore(
+  now: () => Date = () => new Date(),
+): ItemStore {
+  return openDatabase(new DatabaseSync(":memory:"), now);
+}
+
 function openDatabase(client: DatabaseSync, now: () => Date): ItemStore {
   const database = drizzle({ client });
 
