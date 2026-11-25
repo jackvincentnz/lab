@@ -1,25 +1,27 @@
-import { initTRPC, TRPCError } from "@trpc/server";
-import { addItemInput, moveItemInput, updateItemInput } from "./schemas.js";
-import { type Item, type ItemStore } from "./store.js";
+import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
+import { type OperationName, operations, type Store } from "./operations.js";
+import { type Item } from "./schemas.js";
 
 export interface Context {
-  store: Pick<ItemStore, "list" | "add" | "update" | "move">;
+  store: Store;
 }
 
 const t = initTRPC.context<Context>().create();
 
+const { listItems, addItem, updateItem, moveItem } = operations;
+
 export const slateRouter = t.router({
-  listItems: t.procedure.query(({ ctx }) => ctx.store.list()),
+  listItems: t.procedure.query(({ ctx }) => listItems.run(ctx.store)),
   addItem: t.procedure
-    .input(addItemInput)
-    .mutation(({ ctx, input }) => ctx.store.add(input.name)),
+    .input(addItem.input)
+    .mutation(({ ctx, input }) => addItem.run(ctx.store, input)),
   updateItem: t.procedure
-    .input(updateItemInput)
-    .mutation(({ ctx, input }) => found(ctx.store.update(input))),
+    .input(updateItem.input)
+    .mutation(({ ctx, input }) => found(updateItem.run(ctx.store, input))),
   moveItem: t.procedure
-    .input(moveItemInput)
-    .mutation(({ ctx, input }) => found(ctx.store.move(input))),
-});
+    .input(moveItem.input)
+    .mutation(({ ctx, input }) => found(moveItem.run(ctx.store, input))),
+} satisfies Record<OperationName, AnyProcedure>);
 
 export type SlateRouter = typeof slateRouter;
 

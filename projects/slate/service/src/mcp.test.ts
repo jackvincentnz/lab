@@ -12,7 +12,7 @@ import {
 } from "vitest";
 import { createSlateMcpServer, handleMcpRequest } from "./mcp.js";
 import { type Context } from "./router.js";
-import { type Item } from "./store.js";
+import { type Item } from "./schemas.js";
 
 type Store = Context["store"];
 

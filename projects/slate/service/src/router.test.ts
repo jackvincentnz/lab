@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { type Context, slateRouter } from "./router.js";
-import { type Item } from "./store.js";
+import { type Item } from "./schemas.js";
 
 type Store = Context["store"];
 

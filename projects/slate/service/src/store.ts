@@ -19,9 +19,11 @@ import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { generateKeyBetween } from "fractional-indexing";
 import { item } from "./schema.js";
-import { type MoveItemInput, type UpdateItemInput } from "./schemas.js";
-
-export type Item = typeof item.$inferSelect;
+import {
+  type Item,
+  type MoveItemInput,
+  type UpdateItemInput,
+} from "./schemas.js";
 
 const migrationsFolder = join(import.meta.dirname, "../migrations");
 
@@ -104,17 +106,13 @@ export class ItemStore {
     return added;
   }
 
-  update({ id, name, status }: UpdateItemInput): Item | undefined {
+  update({ id, ...changes }: UpdateItemInput): Item | undefined {
     const found = this.#find(id);
     if (!found) {
       return undefined;
     }
 
-    return this.#save({
-      ...found,
-      name: name ?? found.name,
-      status: status ?? found.status,
-    });
+    return this.#save({ ...found, ...changes });
   }
 
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
@@ -162,17 +160,9 @@ export class ItemStore {
 
   #save(changed: Item): Item {
     const saved = { ...changed, updatedAt: this.#now().toISOString() };
+    const { id, ...fields } = saved;
 
-    this.#database
-      .update(item)
-      .set({
-        name: saved.name,
-        status: saved.status,
-        rank: saved.rank,
-        updatedAt: saved.updatedAt,
-      })
-      .where(eq(item.id, saved.id))
-      .run();
+    this.#database.update(item).set(fields).where(eq(item.id, id)).run();
     return saved;
   }
 }

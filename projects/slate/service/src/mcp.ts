@@ -2,57 +2,66 @@ import { type IncomingMessage, type ServerResponse } from "node:http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Context } from "./router.js";
-import { addItemInput, moveItemInput, updateItemInput } from "./schemas.js";
-import { type Item } from "./store.js";
+import { type OperationName, operations, type Store } from "./operations.js";
+import { type Item } from "./schemas.js";
 
-type Store = Context["store"];
+const { listItems, addItem, updateItem, moveItem } = operations;
+
+type RegisterTool = (server: McpServer, store: Store) => void;
+
+const tools = {
+  listItems: (server, store) =>
+    server.registerTool(
+      "list_items",
+      {
+        title: "List items",
+        description:
+          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a status (todo, doing or done), a rank, and the times it was created and last updated.",
+      },
+      () => reply(listItems.run(store)),
+    ),
+  addItem: (server, store) =>
+    server.registerTool(
+      "add_item",
+      {
+        title: "Add item",
+        description:
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
+        inputSchema: addItem.input,
+      },
+      (input) => reply(addItem.run(store, input)),
+    ),
+  updateItem: (server, store) =>
+    server.registerTool(
+      "update_item",
+      {
+        title: "Update item",
+        description:
+          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status.",
+        inputSchema: updateItem.input,
+      },
+      (input) => replyIfFound(updateItem.run(store, input), [input.id]),
+    ),
+  moveItem: (server, store) =>
+    server.registerTool(
+      "move_item",
+      {
+        title: "Move item",
+        description:
+          "Reprioritise an item on the user's Slate list by moving it to just before or just after another item, its neighbour, using ids from list_items. To make an item the most important, or put it at the top, move it before the first item; to make it the least important, move it after the last.",
+        inputSchema: moveItem.input,
+      },
+      (input) =>
+        replyIfFound(moveItem.run(store, input), [input.id, input.neighbourId]),
+    ),
+} satisfies Record<OperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
   const server = new McpServer({ name: "slate", version: "0.1.0" });
 
-  server.registerTool(
-    "list_items",
-    {
-      title: "List items",
-      description:
-        "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a status (todo, doing or done), a rank, and the times it was created and last updated.",
-    },
-    () => reply(store.list()),
-  );
-
-  server.registerTool(
-    "add_item",
-    {
-      title: "Add item",
-      description:
-        "Add a to-do, task or priority to the user's Slate list, their list for the day. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
-      inputSchema: addItemInput,
-    },
-    ({ name }) => reply(store.add(name)),
-  );
-
-  server.registerTool(
-    "update_item",
-    {
-      title: "Update item",
-      description:
-        "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status.",
-      inputSchema: updateItemInput,
-    },
-    (input) => replyIfFound(store.update(input), [input.id]),
-  );
-
-  server.registerTool(
-    "move_item",
-    {
-      title: "Move item",
-      description:
-        "Reprioritise an item on the user's Slate list by moving it to just before or just after another item, its neighbour, using ids from list_items. To make an item the most important, or put it at the top, move it before the first item; to make it the least important, move it after the last.",
-      inputSchema: moveItemInput,
-    },
-    (input) => replyIfFound(store.move(input), [input.id, input.neighbourId]),
-  );
+  for (const register of Object.values(tools)) {
+    register(server, store);
+  }
 
   return server;
 }

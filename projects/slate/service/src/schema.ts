@@ -15,6 +15,9 @@ export const item = sqliteTable(
     updatedAt: text("updated_at").notNull(),
   },
   (table) => [
-    check("item_status", sql`${table.status} IN ('todo', 'doing', 'done')`),
+    check(
+      "item_status",
+      sql`${table.status} IN (${sql.raw(itemStatuses.map((status) => `'${status}'`).join(", "))})`,
+    ),
   ],
 );
