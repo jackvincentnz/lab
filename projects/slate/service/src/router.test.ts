@@ -1,8 +1,7 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
-import { type Context, slateRouter } from "./router.js";
+import { type Store } from "./operations.js";
+import { slateRouter } from "./router.js";
 import { type Item } from "./schemas.js";
-
-type Store = Context["store"];
 
 let store: { [K in keyof Store]: Mock<Store[K]> };
 let caller: ReturnType<typeof slateRouter.createCaller>;

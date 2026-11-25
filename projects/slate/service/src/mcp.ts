@@ -2,7 +2,11 @@ import { type IncomingMessage, type ServerResponse } from "node:http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type OperationName, operations, type Store } from "./operations.js";
+import {
+  type AgentOperationName,
+  operations,
+  type Store,
+} from "./operations.js";
 import { type Item } from "./schemas.js";
 
 const { listItems, addItem, updateItem, moveItem } = operations;
@@ -54,7 +58,7 @@ const tools = {
       (input) =>
         replyIfFound(moveItem.run(store, input), [input.id, input.neighbourId]),
     ),
-} satisfies Record<OperationName, RegisterTool>;
+} satisfies Record<AgentOperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
   const server = new McpServer({ name: "slate", version: "0.1.0" });

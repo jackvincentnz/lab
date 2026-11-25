@@ -1,5 +1,5 @@
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
-import { type OperationName, operations, type Store } from "./operations.js";
+import { operations, type Store, type WebOperationName } from "./operations.js";
 import { type Item } from "./schemas.js";
 
 export interface Context {
@@ -21,7 +21,7 @@ export const slateRouter = t.router({
   moveItem: t.procedure
     .input(moveItem.input)
     .mutation(({ ctx, input }) => found(moveItem.run(ctx.store, input))),
-} satisfies Record<OperationName, AnyProcedure>);
+} satisfies Record<WebOperationName, AnyProcedure>);
 
 export type SlateRouter = typeof slateRouter;
 
