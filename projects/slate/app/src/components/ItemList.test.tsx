@@ -10,7 +10,7 @@ import {
   within,
 } from "@lab/test-utils";
 import type { Item } from "../api";
-import { item } from "../test/fakes";
+import { item } from "../test/items";
 import { layOutRowsVertically } from "../test/layout";
 import { ItemList } from "./ItemList";
 

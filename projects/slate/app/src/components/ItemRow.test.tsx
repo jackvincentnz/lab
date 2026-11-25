@@ -10,7 +10,7 @@ import {
 } from "@lab/test-utils";
 import { List } from "@mantine/core";
 import type { Item } from "../api";
-import { item } from "../test/fakes";
+import { item } from "../test/items";
 import { ItemRow } from "./ItemRow";
 
 type ItemRowProps = Parameters<typeof ItemRow>[0];

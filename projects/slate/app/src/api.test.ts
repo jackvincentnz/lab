@@ -1,6 +1,6 @@
 import { afterEach, expect, test, vi } from "@lab/test-utils";
 import { createSlateClient } from "./api";
-import { item } from "./test/fakes";
+import { item } from "./test/items";
 
 const fetch = vi.fn<typeof globalThis.fetch>();
 

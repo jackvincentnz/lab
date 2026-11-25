@@ -14,6 +14,7 @@ fe_app(
     test_deps = [
         "//:node_modules/@lab/test-utils",
         "//:node_modules/@trpc/server",
+        "//projects/slate/service:src",
     ],
     visibility = ["//projects/slate:__pkg__"],
     deps = [
