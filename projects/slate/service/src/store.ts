@@ -33,9 +33,11 @@ export function openItemStore(
   now: () => Date = () => new Date(),
 ): ItemStore {
   mkdirSync(dataDir, { recursive: true });
-  const database = drizzle({
-    client: new DatabaseSync(join(dataDir, "slate.sqlite")),
-  });
+  return openDatabase(new DatabaseSync(join(dataDir, "slate.sqlite")), now);
+}
+
+function openDatabase(client: DatabaseSync, now: () => Date): ItemStore {
+  const database = drizzle({ client });
 
   refuseNewerDatabase(database);
   migrate(database, { migrationsFolder });
