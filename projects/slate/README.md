@@ -34,6 +34,9 @@ run the command again to update it:
 bazel run //projects/slate:install
 ```
 
+If Slate cannot start, it shows why and quits. On macOS, its log is
+`~/Library/Logs/Slate/slate.log` in prod mode and `~/Library/Logs/Slate (dev)/slate.log` in dev mode.
+
 ## Connect an agent
 
 Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or

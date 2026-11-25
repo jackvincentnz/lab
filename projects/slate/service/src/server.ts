@@ -26,6 +26,8 @@ export function createSlateServer(
     router: slateRouter,
     basePath: apiPath,
     createContext: () => ({ store }),
+    onError: ({ path, error }) =>
+      console.error(`The API request to ${path ?? apiPath} failed:`, error),
   });
 
   return createServer((request, response) => {

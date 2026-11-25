@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
-import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { type Item } from "./item.js";
 import { createSlateServer, type SlateServerOptions } from "./server.js";
 import { openItemStore } from "./store.js";
@@ -118,6 +118,22 @@ describe("createSlateServer", () => {
     expect(JSON.parse(response.body)).toMatchObject({
       result: { data: [{ name: "Plan the week", status: "todo" }] },
     });
+  });
+
+  it("logs a failed API request once with its procedure", async () => {
+    const logError = vi
+      .spyOn(console, "error")
+      .mockImplementation(() => undefined);
+    await start();
+    const procedure = `missing${crypto.randomUUID().slice(0, 8)}`;
+
+    const response = await send(`/api/${procedure}`);
+
+    expect(response.status).toBe(404);
+    expect(logError).toHaveBeenCalledOnce();
+    expect(logError.mock.calls[0]?.[0]).toBe(
+      `The API request to ${procedure} failed:`,
+    );
   });
 
   it("refuses a request for another host", async () => {

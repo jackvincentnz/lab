@@ -1,16 +1,17 @@
-import { type AddressInfo } from "node:net";
 import { readConfig } from "./config.js";
-import { announceReady } from "./ready.js";
+import { listen } from "./listen.js";
+import { announceFailure, announceReady } from "./ready.js";
 import { createSlateServer } from "./server.js";
 import { openItemStore } from "./store.js";
 
-const { dataDir, port, webDir } = readConfig(process.env);
-
-const server = createSlateServer(openItemStore(dataDir), { webDir });
-
-server.listen(port, "127.0.0.1", () => {
-  const { address, port: boundPort } = server.address() as AddressInfo;
-  const url = `http://${address}:${boundPort}`;
+try {
+  const { dataDir, port, webDir } = readConfig(process.env);
+  const server = createSlateServer(openItemStore(dataDir), { webDir });
+  const url = await listen(server, port, "127.0.0.1");
   console.log(`Slate service listening on ${url}`);
   announceReady(url);
-});
+} catch (error) {
+  console.error("The Slate service cannot start:", error);
+  announceFailure(error instanceof Error ? error.message : String(error));
+  process.exitCode = 1;
+}
