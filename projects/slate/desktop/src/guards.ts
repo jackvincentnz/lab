@@ -1,15 +1,15 @@
 /** An Electron event that the guards can cancel. */
-export interface GuardedEvent {
+interface GuardedEvent {
   preventDefault(): void;
 }
 
 /** An Electron navigation event that the guards can cancel. */
-export interface NavigationEvent extends GuardedEvent {
+interface NavigationEvent extends GuardedEvent {
   url: string;
 }
 
 /** The events and handlers of Electron's `WebContents` that the guards use. */
-export interface GuardedContents {
+interface GuardedContents {
   on(
     event: "will-navigate",
     listener: (event: NavigationEvent) => void,
@@ -38,7 +38,7 @@ export interface GuardedContents {
 }
 
 /** The event of Electron's `app` that announces each new web contents. */
-export interface GuardedApp {
+interface GuardedApp {
   on(
     event: "web-contents-created",
     listener: (event: unknown, contents: GuardedContents) => void,
@@ -60,7 +60,7 @@ export function guardApp(
  * Keeps `contents` on the origin that served Slate's page, sends new windows to the user's browser,
  * and denies every web permission.
  */
-export function guardWebContents(
+function guardWebContents(
   contents: GuardedContents,
   origin: string,
   openInBrowser: (url: string) => Promise<void>,

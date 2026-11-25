@@ -1,25 +1,31 @@
 import { EventEmitter } from "node:events";
 import { describe, expect, it, vi } from "vitest";
-import { type GuardedContents, guardApp, guardWebContents } from "./guards.js";
+import { guardApp } from "./guards.js";
 
 const origin = "http://127.0.0.1:5297";
 
-function fakeContents() {
-  return Object.assign(new EventEmitter(), {
-    setWindowOpenHandler: vi.fn<GuardedContents["setWindowOpenHandler"]>(),
+function guardedContents() {
+  const contents = Object.assign(new EventEmitter(), {
+    setWindowOpenHandler:
+      vi.fn<(handler: (details: { url: string }) => unknown) => void>(),
     session: {
       setPermissionRequestHandler:
-        vi.fn<GuardedContents["session"]["setPermissionRequestHandler"]>(),
-      setPermissionCheckHandler:
-        vi.fn<GuardedContents["session"]["setPermissionCheckHandler"]>(),
+        vi.fn<
+          (
+            handler: (
+              contents: unknown,
+              permission: string,
+              grant: (granted: boolean) => void,
+            ) => void,
+          ) => void
+        >(),
+      setPermissionCheckHandler: vi.fn<(handler: () => boolean) => void>(),
     },
   });
-}
-
-function guardedContents() {
-  const contents = fakeContents();
+  const app = new EventEmitter();
   const openInBrowser = vi.fn<(url: string) => Promise<void>>();
-  guardWebContents(contents, origin, openInBrowser);
+  guardApp(app, origin, openInBrowser);
+  app.emit("web-contents-created", {}, contents);
   return { contents, openInBrowser };
 }
 
@@ -33,7 +39,7 @@ function emitCancellable(
   return preventDefault.mock.calls.length > 0;
 }
 
-describe("guardWebContents", () => {
+describe("guardApp", () => {
   describe.each(["will-navigate", "will-redirect"])("on %s", (event) => {
     it.each([
       "http://127.0.0.1:5297/",
@@ -115,20 +121,5 @@ describe("guardWebContents", () => {
     const granted = handleCheck();
 
     expect(granted).toBe(false);
-  });
-});
-
-describe("guardApp", () => {
-  it("guards web contents the app creates later", () => {
-    const app = new EventEmitter();
-    const contents = fakeContents();
-    guardApp(app, origin, vi.fn<(url: string) => Promise<void>>());
-    app.emit("web-contents-created", {}, contents);
-
-    const cancelled = emitCancellable(contents, "will-navigate", {
-      url: "https://example.com/",
-    });
-
-    expect(cancelled).toBe(true);
   });
 });
