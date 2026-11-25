@@ -1,6 +1,8 @@
 # Troubleshooting
 
-If Slate cannot start, the installed app shows why in a dialog, and `bazel run` prints why in the
-terminal. The desktop app also writes its errors and the service's output to `slate.log` in its data
-folder, `~/Library/Application Support/Slate` on macOS or `Slate (dev)` in dev mode, and keeps the
-previous run's log as `slate.old.log`.
+If Slate cannot start, the installed app shows why in a dialog. A build started with `bazel run`
+prints why in the terminal.
+
+Once it holds its data folder, the desktop app writes errors and the service's output to `slate.log`
+in its [data folder](../README.md#getting-started). It keeps the previous run's log as
+`slate.old.log`.
