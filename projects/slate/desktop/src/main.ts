@@ -1,8 +1,9 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
-import { app, BrowserWindow, utilityProcess } from "electron";
+import { app, BrowserWindow, shell, utilityProcess } from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
+import { guardApp } from "./guards.js";
 import { waitUntilListening } from "./service.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
@@ -45,6 +46,7 @@ async function start(): Promise<void> {
   const url = devServer
     ? await startDevServer(devServer, new URL(serviceUrl).port)
     : serviceUrl;
+  guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
   createWindow(url);
   // Started from a terminal, the app would otherwise open behind the terminal.
   app.focus({ steal: true });
