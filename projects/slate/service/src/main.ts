@@ -12,6 +12,6 @@ try {
   announceReady(url);
 } catch (error) {
   console.error("The Slate service cannot start:", error);
-  announceFailure(error instanceof Error ? error.message : String(error));
+  announceFailure((error as Error).message);
   process.exitCode = 1;
 }

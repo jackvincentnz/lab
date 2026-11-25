@@ -31,8 +31,6 @@ async function start(): Promise<void> {
   // Electron keeps its own files, such as caches and local storage, in its user data folder. Run
   // unpackaged, every Electron app shares that folder, so Slate uses the folder that holds its list.
   app.setPath("userData", dataDir);
-  const startLog = openLog(dataDir);
-  log = startLog;
   // The lock is held per user data folder, so dev mode still runs beside prod mode.
   if (!app.requestSingleInstanceLock()) {
     const failure = lockHeldFailure(app.isPackaged, dataDir);
@@ -42,6 +40,9 @@ async function start(): Promise<void> {
     app.quit();
     return;
   }
+  // Opened only by the lock's holder, so a second launch cannot move the running log aside.
+  const startLog = openLog(dataDir);
+  log = startLog;
   await app.whenReady();
 
   const service = utilityProcess.fork(serviceEntry, [], {
@@ -116,12 +117,9 @@ async function startDevServer(
   return url;
 }
 
-function fail(error: unknown): void {
+function fail(error: Error): void {
   console.error(error);
-  log?.write(
-    "main",
-    error instanceof Error ? (error.stack ?? error.message) : String(error),
-  );
+  log?.write("main", error.stack ?? error.message);
   // Nobody sees the console of an installed app.
   if (app.isPackaged) {
     dialog.showErrorBox(

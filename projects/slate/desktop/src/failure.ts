@@ -12,7 +12,8 @@ export function lockHeldFailure(
   );
 }
 
-export function failureDialog(error: unknown, logPath?: string): string {
-  const reason = error instanceof Error ? error.message : String(error);
-  return logPath ? `${reason}\n\nThe log at ${logPath} has details.` : reason;
+export function failureDialog(error: Error, logPath?: string): string {
+  return logPath
+    ? `${error.message}\n\nThe log at ${logPath} has details.`
+    : error.message;
 }

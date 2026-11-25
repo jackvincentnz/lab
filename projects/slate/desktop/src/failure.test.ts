@@ -35,10 +35,4 @@ describe("failureDialog", () => {
 
     expect(text).toBe("SLATE_PORT is invalid");
   });
-
-  it("gives the reason for a thrown value that is not an error", () => {
-    const text = failureDialog("the dev server stopped");
-
-    expect(text).toBe("the dev server stopped");
-  });
 });
