@@ -34,10 +34,6 @@ run the command again to update it:
 bazel run //projects/slate:install
 ```
 
-If the installed app cannot start, it shows why in a dialog. When you start Slate with `bazel run`,
-it prints why in the terminal. On macOS, the log is `~/Library/Logs/Slate/slate.log` in prod mode and
-`~/Library/Logs/Slate (dev)/slate.log` in dev mode.
-
 ## Connect an agent
 
 Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or
@@ -80,8 +76,9 @@ Desktop:
 On Linux, the end-to-end test needs `Xvfb`. On Ubuntu, AppArmor must also allow user namespaces for
 Electron in your Bazel output base, as the [CI workflow](../../.github/workflows/main.yml) does.
 
-See the [app README](app/README.md) to work on the web UI in a browser, and
-[database migrations](docs/migrations.md) to change the database schema.
+See the [app README](app/README.md) to work on the web UI in a browser,
+[database migrations](docs/migrations.md) to change the database schema, and
+[troubleshooting](docs/troubleshooting.md) when Slate cannot start.
 
 `bazel run //projects/slate/service` runs the service in dev mode without the web UI. It uses the
 same port as `bazel run //projects/slate`, so run one at a time. Set `SLATE_DATA_DIR` or `SLATE_PORT` to override the data folder

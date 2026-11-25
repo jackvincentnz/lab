@@ -4,51 +4,23 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { PassThrough } from "node:stream";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { logDir, logOutput, openLog } from "./log.js";
+import { logOutput, openLog } from "./log.js";
 
 let dir: string;
 
 beforeEach(() => {
-  dir = join(mkdtempSync(join(tmpdir(), "slate-log-")), "logs");
+  dir = mkdtempSync(join(tmpdir(), "slate-log-"));
 });
 
 afterEach(() => {
-  rmSync(join(dir, ".."), { recursive: true, force: true });
-});
-
-describe("logDir", () => {
-  const home = `/Users/someone-${Math.random()}`;
-
-  it("uses the macOS logs folder named after the data folder", () => {
-    const dataDir = join(home, "Library", "Application Support", "Slate (dev)");
-
-    const dir = logDir(dataDir, { platform: "darwin", home });
-
-    expect(dir).toBe(join(home, "Library", "Logs", "Slate (dev)"));
-  });
-
-  it("keeps the logs of a data folder outside Application Support inside it", () => {
-    const dataDir = join(tmpdir(), "slate-e2e-abc");
-
-    const dir = logDir(dataDir, { platform: "darwin", home });
-
-    expect(dir).toBe(join(dataDir, "logs"));
-  });
-
-  it("keeps the logs inside the data folder on other platforms", () => {
-    const dataDir = join(home, ".config", "Slate");
-
-    const dir = logDir(dataDir, { platform: "linux", home });
-
-    expect(dir).toBe(join(dataDir, "logs"));
-  });
+  rmSync(dir, { recursive: true, force: true });
 });
 
 describe("openLog", () => {
   const now = () => new Date("2026-11-24T01:02:03.004Z");
 
   it("appends a timestamped line for each message", () => {
-    const log = openLog(dir, { now });
+    const log = openLog(dir, now);
 
     log.write("main", "first");
     log.write("service", "second");
@@ -59,24 +31,25 @@ describe("openLog", () => {
     );
   });
 
-  it("moves a log over the size limit aside before writing", () => {
-    const log = openLog(dir, { maxBytes: 10, now });
-    log.write("main", "older than the limit");
+  it("keeps the previous run's log aside", () => {
+    openLog(dir, now).write("main", "previous run");
 
-    log.write("main", "newer");
+    const log = openLog(dir, now);
+    log.write("main", "this run");
 
     expect(readFileSync(join(dir, "slate.old.log"), "utf8")).toBe(
-      "2026-11-24T01:02:03.004Z [main] older than the limit\n",
+      "2026-11-24T01:02:03.004Z [main] previous run\n",
     );
     expect(readFileSync(log.path, "utf8")).toBe(
-      "2026-11-24T01:02:03.004Z [main] newer\n",
+      "2026-11-24T01:02:03.004Z [main] this run\n",
     );
   });
+
   it("reports a write that fails to the console instead of throwing", () => {
     const logError = vi
       .spyOn(console, "error")
       .mockImplementation(() => undefined);
-    const log = openLog(dir, { now });
+    const log = openLog(dir, now);
     mkdirSync(log.path);
 
     log.write("main", "lost");
@@ -90,7 +63,7 @@ describe("openLog", () => {
 
 describe("logOutput", () => {
   it("logs and echoes each line of the output", async () => {
-    const log = openLog(dir, { now: () => new Date(0) });
+    const log = openLog(dir, () => new Date(0));
     const output = new PassThrough();
     const echo = new PassThrough({ encoding: "utf8" });
     logOutput(output, log, "service", echo);

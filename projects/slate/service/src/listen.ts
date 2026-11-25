@@ -1,7 +1,6 @@
 import { type Server } from "node:http";
 import { type AddressInfo } from "node:net";
 
-/** Starts `server` listening and resolves with its URL, or rejects with a reason a user can act on. */
 export function listen(
   server: Server,
   port: number,

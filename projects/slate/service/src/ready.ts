@@ -3,7 +3,6 @@ export interface ServiceReady {
   url: string;
 }
 
-/** The message the service sends Electron main when it cannot start. */
 export interface ServiceFailed {
   error: string;
 }
@@ -23,7 +22,6 @@ export function announceReady(url: string): void {
   parentPort()?.postMessage({ url });
 }
 
-/** Tells Electron main why the service cannot start, when Electron started it as a utility process. */
 export function announceFailure(error: string): void {
   parentPort()?.postMessage({ error });
 }

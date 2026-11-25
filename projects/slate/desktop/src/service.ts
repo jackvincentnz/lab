@@ -6,10 +6,6 @@ export interface ServiceProcess {
   once(event: "exit", listener: (code: number) => void): unknown;
 }
 
-/**
- * Resolves with the service's URL once it is listening, or rejects with the reason it gives, or
- * if it exits first.
- */
 export function waitUntilListening(service: ServiceProcess): Promise<string> {
   return new Promise((resolve, reject) => {
     service.once("message", (message) =>

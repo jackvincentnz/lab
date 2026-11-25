@@ -1,12 +1,11 @@
 import { createRequire } from "node:module";
-import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { app, BrowserWindow, dialog, shell, utilityProcess } from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
 import { failureDialog, lockHeldFailure } from "./failure.js";
 import { guardApp } from "./guards.js";
-import { type Log, logDir, logOutput, openLog } from "./log.js";
+import { type Log, logOutput, openLog } from "./log.js";
 import { waitUntilListening } from "./service.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
@@ -32,9 +31,7 @@ async function start(): Promise<void> {
   // Electron keeps its own files, such as caches and local storage, in its user data folder. Run
   // unpackaged, every Electron app shares that folder, so Slate uses the folder that holds its list.
   app.setPath("userData", dataDir);
-  const startLog = openLog(
-    logDir(dataDir, { platform: process.platform, home: homedir() }),
-  );
+  const startLog = openLog(dataDir);
   log = startLog;
   // The lock is held per user data folder, so dev mode still runs beside prod mode.
   if (!app.requestSingleInstanceLock()) {
