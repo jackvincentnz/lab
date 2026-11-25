@@ -13,6 +13,16 @@ describe("waitUntilListening", () => {
     await expect(listening).resolves.toBe(url);
   });
 
+  it("rejects with the reason the service gives", async () => {
+    const service = new EventEmitter();
+    const error = `Port ${5000 + Math.floor(Math.random() * 1000)} is already in use`;
+
+    const listening = waitUntilListening(service);
+    service.emit("message", { error });
+
+    await expect(listening).rejects.toThrow(error);
+  });
+
   it("rejects when the service exits first", async () => {
     const service = new EventEmitter();
 

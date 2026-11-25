@@ -1,14 +1,18 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
-import { app, BrowserWindow, shell, utilityProcess } from "electron";
+import { app, BrowserWindow, dialog, shell, utilityProcess } from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
+import { failureDialog, lockHeldFailure } from "./failure.js";
 import { guardApp } from "./guards.js";
+import { type Log, logOutput, openLog } from "./log.js";
 import { waitUntilListening } from "./service.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
 const appDir = join(import.meta.dirname, "../../app");
 const webDir = join(appDir, "dist");
+
+let log: Log | undefined;
 
 function createWindow(url: string): void {
   const window = new BrowserWindow({
@@ -29,9 +33,16 @@ async function start(): Promise<void> {
   app.setPath("userData", dataDir);
   // The lock is held per user data folder, so dev mode still runs beside prod mode.
   if (!app.requestSingleInstanceLock()) {
+    const failure = lockHeldFailure(app.isPackaged, dataDir);
+    if (failure) {
+      throw failure;
+    }
     app.quit();
     return;
   }
+  // Opened only by the lock's holder, so a second launch cannot move the running log aside.
+  const startLog = openLog(dataDir);
+  log = startLog;
   await app.whenReady();
 
   const service = utilityProcess.fork(serviceEntry, [], {
@@ -41,8 +52,16 @@ async function start(): Promise<void> {
       SLATE_DATA_DIR: dataDir,
       SLATE_WEB_DIR: webDir,
     },
+    stdio: "pipe",
   });
+  logOutput(service.stdout!, startLog, "service", process.stdout);
+  logOutput(service.stderr!, startLog, "service", process.stderr);
   const serviceUrl = await waitUntilListening(service);
+  const logServiceExit = (code: number) =>
+    startLog.write("main", `The Slate service exited with code ${code}`);
+  service.on("exit", logServiceExit);
+  // Quitting stops the service too, which is not a failure.
+  app.on("will-quit", () => service.off("exit", logServiceExit));
   const url = devServer
     ? await startDevServer(devServer, new URL(serviceUrl).port)
     : serviceUrl;
@@ -88,10 +107,8 @@ async function startDevServer(
     },
   );
   // Without Vite the window has nothing to show, for example when Vite's port is taken.
-  const exitWithDevServer = (code: number) => {
-    console.error(`The web UI's dev server exited with code ${code}`);
-    app.exit(1);
-  };
+  const exitWithDevServer = (code: number) =>
+    fail(new Error(`The web UI's dev server exited with code ${code}`));
   devServer.on("exit", exitWithDevServer);
   // Quitting stops the dev server too, which is not a failure.
   app.on("will-quit", () => devServer.off("exit", exitWithDevServer));
@@ -100,10 +117,20 @@ async function startDevServer(
   return url;
 }
 
-start().catch((error: unknown) => {
+function fail(error: Error): void {
   console.error(error);
+  log?.write("main", error.stack ?? error.message);
+  // Nobody sees the console of an installed app.
+  if (app.isPackaged) {
+    dialog.showErrorBox(
+      "Slate could not start",
+      failureDialog(error, log?.path),
+    );
+  }
   app.exit(1);
-});
+}
+
+start().catch(fail);
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") {

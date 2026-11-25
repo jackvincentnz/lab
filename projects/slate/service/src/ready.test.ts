@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { announceReady } from "./ready.js";
+import { announceFailure, announceReady } from "./ready.js";
 
 const utilityProcess = process as NodeJS.Process & { parentPort?: unknown };
 
@@ -20,6 +20,24 @@ describe("announceReady", () => {
 
   it("does nothing when the service runs on its own", () => {
     const announcing = () => announceReady("http://127.0.0.1:5297");
+
+    expect(announcing).not.toThrow();
+  });
+});
+
+describe("announceFailure", () => {
+  it("posts the reason to Electron main", () => {
+    const postMessage = vi.fn();
+    utilityProcess.parentPort = { postMessage };
+    const error = `Port ${5000 + Math.floor(Math.random() * 1000)} is in use`;
+
+    announceFailure(error);
+
+    expect(postMessage).toHaveBeenCalledWith({ error });
+  });
+
+  it("does nothing when the service runs on its own", () => {
+    const announcing = () => announceFailure("Port 5297 is in use");
 
     expect(announcing).not.toThrow();
   });
