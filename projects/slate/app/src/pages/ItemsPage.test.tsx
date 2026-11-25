@@ -232,6 +232,46 @@ describe("ItemsPage", () => {
     expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
   });
 
+  it("shows the service's list and an error when a change fails", async () => {
+    const user = userEvent.setup();
+    const removed = item({ name: "Plan the week" });
+    const remaining = item({ name: "Book travel" });
+    const api = fakeSlateApi([removed, remaining]);
+    api.updateItem.mockRejectedValue(new Error("No such item"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([remaining]);
+
+    await user.selectOptions(
+      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
+      "Doing",
+    );
+
+    expect(
+      await screen.findByText("Could not save your change"),
+    ).toBeInTheDocument();
+    expect(itemNames()).toEqual(["Book travel"]);
+  });
+
+  it("shows the service's order and an error when a move fails", async () => {
+    const user = userEvent.setup();
+    const [first, second, third] = [
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+      item({ name: "Write the report" }),
+    ];
+    const api = fakeSlateApi([first, second, third]);
+    api.moveItem.mockRejectedValue(new Error("No such item"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([third, first]);
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    expect(
+      await screen.findByText("Could not save your change"),
+    ).toBeInTheDocument();
+    expect(itemNames()).toEqual(["Write the report", "Plan the week"]);
+  });
+
   it("keeps reaching the service while the browser is offline", async () => {
     const user = userEvent.setup();
     const added = item({ name: "Plan the week" });
