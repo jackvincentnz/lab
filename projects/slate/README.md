@@ -34,8 +34,9 @@ run the command again to update it:
 bazel run //projects/slate:install
 ```
 
-If Slate cannot start, it shows why and quits. On macOS, its log is
-`~/Library/Logs/Slate/slate.log` in prod mode and `~/Library/Logs/Slate (dev)/slate.log` in dev mode.
+If the installed app cannot start, it shows why in a dialog. Run with `bazel run`, Slate prints why
+in the terminal. On macOS, the log is `~/Library/Logs/Slate/slate.log` in prod mode and
+`~/Library/Logs/Slate (dev)/slate.log` in dev mode.
 
 ## Connect an agent
 

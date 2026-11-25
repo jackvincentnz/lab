@@ -6,8 +6,8 @@ export function lockHeldFailure(
   packaged: boolean,
   dataDir: string,
 ): Error | undefined {
-  // Only the installed app is the same build as the instance that holds the lock. Run from a
-  // checkout, the window that comes forward may be another worktree's build.
+  // A checkout's build often loses the lock to another build, such as another worktree's, whose
+  // window then comes forward unnoticed.
   if (packaged) {
     return undefined;
   }

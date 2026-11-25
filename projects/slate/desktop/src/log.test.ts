@@ -65,8 +65,8 @@ describe("openLog", () => {
 
     log.write("main", "newer");
 
-    expect(readFileSync(join(dir, "slate.old.log"), "utf8")).toContain(
-      "older than the limit",
+    expect(readFileSync(join(dir, "slate.old.log"), "utf8")).toBe(
+      "2026-11-24T01:02:03.004Z [main] older than the limit\n",
     );
     expect(readFileSync(log.path, "utf8")).toBe(
       "2026-11-24T01:02:03.004Z [main] newer\n",

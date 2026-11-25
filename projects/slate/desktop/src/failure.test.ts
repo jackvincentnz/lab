@@ -13,7 +13,9 @@ describe("lockHeldFailure", () => {
   it("names the data folder when a checkout's build finds another Slate running", () => {
     const failure = lockHeldFailure(false, dataDir);
 
-    expect(failure?.message).toContain(dataDir);
+    expect(failure?.message).toBe(
+      `Another Slate, for example one started from another worktree, is running with the data folder ${dataDir}. Quit it, then start this one again.`,
+    );
   });
 });
 
