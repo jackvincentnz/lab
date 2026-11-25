@@ -11,8 +11,8 @@ import %workspace%/tools/preset.bazelrc
 build:macos --disk_cache=~/Library/Caches/bazel/disk-cache
 build:linux --disk_cache=~/.cache/bazel/disk-cache
 build --experimental_disk_cache_gc_max_size=20G
-# Download Electron's package when it comes from the disk cache, so that Electron.app keeps the
-# framework symlinks its signature covers. Fetching it later for an action turns them into copies.
+# Download Electron's package when it comes from a cache, so that Electron.app keeps the framework
+# symlinks its signature covers.
 build:macos --remote_download_regex=.*/node_modules/\.aspect_rules_js/electron@.*
 # Share extracted external repositories between output bases, so that a new worktree links to them.
 common:macos --repo_contents_cache=~/Library/Caches/bazel/repo-contents
