@@ -42,7 +42,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status, and the item's latest updatedAt so that a change made since is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
+          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status. Always give the item's updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change made since is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),

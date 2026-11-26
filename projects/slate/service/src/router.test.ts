@@ -61,7 +61,11 @@ describe("slateRouter", () => {
     const item = anItem();
     store.update.mockReturnValue(item);
 
-    const updated = await caller.updateItem({ id: item.id, status: "done" });
+    const updated = await caller.updateItem({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
 
     expect(updated).toEqual(item);
   });
@@ -85,6 +89,7 @@ describe("slateRouter", () => {
     const updating = caller.updateItem({
       id: crypto.randomUUID(),
       status: "done",
+      updatedAt: "2026-11-22T09:00:00.000Z",
     });
 
     await expect(updating).rejects.toMatchObject({ code: "NOT_FOUND" });
