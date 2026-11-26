@@ -6,7 +6,6 @@ import react from "@vitejs/plugin-react";
 
 const servicePort = Number(process.env.SLATE_PORT || 5297);
 
-// https://vitejs.dev/config/
 export default mergeConfig(
   bazelVitestConfig({ setupFiles: [] }),
   defineConfig({

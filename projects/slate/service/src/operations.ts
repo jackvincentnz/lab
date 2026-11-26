@@ -46,10 +46,8 @@ export const operations = {
 
 export type OperationName = keyof typeof operations;
 
-/** Operations that only the web UI may call. */
 export const webOnly = [] as const satisfies readonly OperationName[];
 
-/** Operations that only agents may call. */
 export const agentOnly = [] as const satisfies readonly OperationName[];
 
 export type WebOperationName = Exclude<

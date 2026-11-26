@@ -9,7 +9,6 @@ const node = process.execPath;
 const started: ChildProcess[] = [];
 const childPids: number[] = [];
 
-// Prints its PID, then runs until stopped or until it exits with the given code.
 const runningChild = "console.log(process.pid); setInterval(() => {}, 1000);";
 const exitingChild = (code: number) =>
   `${runningChild} setTimeout(() => process.exit(${code}), 100);`;

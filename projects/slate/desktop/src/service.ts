@@ -1,6 +1,5 @@
 import { type ServiceStartup } from "../../service/src/ready.js";
 
-/** The events of Electron's `UtilityProcess` that the service's start-up uses. */
 export interface ServiceProcess {
   once(event: "message", listener: (message: ServiceStartup) => void): unknown;
   once(event: "exit", listener: (code: number) => void): unknown;

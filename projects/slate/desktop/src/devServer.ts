@@ -10,7 +10,6 @@ export function readDevServer(env: NodeJS.ProcessEnv): DevServer | undefined {
     return undefined;
   }
   const port = env["SLATE_APP_PORT"] || "5196";
-  // A port like `80@example.com` would make the URL name another host.
   if (!/^\d+$/.test(port) || Number(port) < 1 || Number(port) > 65535) {
     throw new Error(`SLATE_APP_PORT must be a port number, not ${port}`);
   }

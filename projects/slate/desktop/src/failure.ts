@@ -2,8 +2,7 @@ export function lockHeldFailure(
   packaged: boolean,
   dataDir: string,
 ): Error | undefined {
-  // An installed app's other instance brings its window forward, which is all the user expects. A
-  // checkout's build often loses the lock to another worktree's, whose window comes forward
+  // A checkout's build often loses the lock to another worktree's, whose window comes forward
   // unnoticed or is not on screen at all.
   if (packaged) {
     return undefined;

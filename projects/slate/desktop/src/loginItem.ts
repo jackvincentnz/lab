@@ -1,24 +1,17 @@
-/** The status of the login item that Electron's `app.getLoginItemSettings` reports on macOS. */
 export type LoginItemStatus =
   "not-registered" | "enabled" | "requires-approval" | "not-found";
 
-/** The login item state that Electron's `app.getLoginItemSettings` reports on macOS. */
 interface LoginItemSettings {
   wasOpenedAtLogin: boolean;
   status: LoginItemStatus;
 }
 
-/** The parts of Electron's `app` that manage its login item. */
 interface LoginItemApp {
   isPackaged: boolean;
   getLoginItemSettings(): LoginItemSettings;
   setLoginItemSettings(settings: { openAtLogin: boolean }): void;
 }
 
-/**
- * Registers the installed app to open at login, so that the list and its MCP endpoint are running
- * before anyone opens Slate. Returns whether this launch was the one macOS made at login.
- */
 export function openAtLogin(
   app: LoginItemApp,
   log: (message: string) => void,
@@ -29,8 +22,6 @@ export function openAtLogin(
     return false;
   }
   const { wasOpenedAtLogin, status } = app.getLoginItemSettings();
-  // An enabled item needs nothing, and one that requires approval waits for the user in System
-  // Settings.
   if (status === "not-registered" || status === "not-found") {
     app.setLoginItemSettings({ openAtLogin: true });
     const registered = app.getLoginItemSettings().status;

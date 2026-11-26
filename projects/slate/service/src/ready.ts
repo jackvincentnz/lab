@@ -1,4 +1,3 @@
-/** The message the service sends Electron main once it is listening. */
 export interface ServiceReady {
   url: string;
 }
@@ -17,7 +16,6 @@ function parentPort(): ParentPort | undefined {
   return (process as NodeJS.Process & { parentPort?: ParentPort }).parentPort;
 }
 
-/** Tells Electron main the service's URL, when Electron started the service as a utility process. */
 export function announceReady(url: string): void {
   parentPort()?.postMessage({ url });
 }

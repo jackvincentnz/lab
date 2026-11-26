@@ -71,7 +71,6 @@ export function openItemStore(
   return new ItemStore(database, now);
 }
 
-/** Stops an older build from opening a database that a newer build has migrated, whose schema it does not know. */
 function refuseNewerDatabase(database: NodeSQLiteDatabase) {
   const tracked = database
     .select()
@@ -115,7 +114,6 @@ export class ItemStore {
       .all();
   }
 
-  /** Adds an item at the bottom, so that new work never displaces what matters most. */
   add(name: string, description: string): Item {
     const last = this.#database
       .select({ rank: item.rank })
@@ -197,7 +195,6 @@ export class ItemStore {
       .get();
   }
 
-  /** The closest rank on the given side of `rank`, ignoring the item being moved. */
   #rankBeside(
     rank: string,
     side: MoveItemInput["position"],
