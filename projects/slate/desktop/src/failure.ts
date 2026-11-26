@@ -3,12 +3,13 @@ export function lockHeldFailure(
   dataDir: string,
 ): Error | undefined {
   // An installed app's other instance brings its window forward, which is all the user expects. A
-  // checkout's build often loses the lock to another worktree's, whose window comes forward unnoticed.
+  // checkout's build often loses the lock to another worktree's, whose window comes forward
+  // unnoticed or is not on screen at all.
   if (packaged) {
     return undefined;
   }
   return new Error(
-    `Another Slate, for example one started from another worktree, is running with the data folder ${dataDir}. Quit it, then start this one again.`,
+    `Another Slate, for example one started from another worktree, is running with the data folder ${dataDir}. It has no window if it was started without a terminal. Quit it or stop its process, then start this one again.`,
   );
 }
 
