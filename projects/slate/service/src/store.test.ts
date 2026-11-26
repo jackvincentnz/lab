@@ -64,6 +64,92 @@ describe("list", () => {
   });
 });
 
+describe("list on the day an item is marked done", () => {
+  const lateEvening = new Date(2026, 10, 21, 23, 30);
+  const lastMinute = new Date(2026, 10, 21, 23, 59, 59, 999);
+  const midnight = new Date(2026, 10, 22);
+
+  function markDone(name: string): Item {
+    const added = store.add(name);
+    time = lateEvening;
+    return store.update({ id: added.id, status: "done" })!;
+  }
+
+  it("keeps a done item until the end of that day", () => {
+    const done = markDone("Ship it");
+
+    time = lastMinute;
+
+    expect(store.list()).toEqual([done]);
+  });
+
+  it("hides a done item from midnight", () => {
+    markDone("Ship it");
+    const todo = store.add("Next");
+
+    time = midnight;
+
+    expect(store.list()).toEqual([todo]);
+  });
+
+  it("keeps a done item hidden after it is renamed", () => {
+    const done = markDone("Ship it");
+    time = midnight;
+
+    store.update({ id: done.id, name: "Shipped" });
+
+    expect(store.list()).toEqual([]);
+  });
+
+  it("keeps a done item hidden after it is moved", () => {
+    const done = markDone("Ship it");
+    const todo = store.add("Next");
+    time = midnight;
+
+    store.move({ id: done.id, neighbourId: todo.id, position: "before" });
+
+    expect(store.list()).toEqual([todo]);
+  });
+
+  it("keeps a done item hidden when it is marked done again", () => {
+    const done = markDone("Ship it");
+    time = midnight;
+
+    store.update({ id: done.id, status: "done" });
+
+    expect(store.list()).toEqual([]);
+  });
+
+  it("shows a hidden done item again when it is reopened", () => {
+    const done = markDone("Ship it");
+    time = midnight;
+
+    const reopened = store.update({ id: done.id, status: "todo" });
+
+    expect(store.list()).toEqual([reopened]);
+  });
+
+  it("shows a reopened item on the day it is marked done again", () => {
+    const done = markDone("Ship it");
+    time = midnight;
+    store.update({ id: done.id, status: "doing" });
+
+    const doneAgain = store.update({ id: done.id, status: "done" });
+
+    expect(store.list()).toEqual([doneAgain]);
+  });
+
+  it("keeps a doing item after midnight", () => {
+    const added = store.add("Ongoing");
+    time = lateEvening;
+    const doing = store.update({ id: added.id, status: "doing" });
+
+    time = midnight;
+
+    expect(store.list()).toEqual([doing]);
+  });
+});
+
 describe("update", () => {
   it("changes only the given fields and the updated time", () => {
     const item = store.add("Draft");

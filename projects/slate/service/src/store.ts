@@ -9,9 +9,11 @@ import {
   eq,
   getTableName,
   gt,
+  gte,
   lt,
   ne,
   notInArray,
+  or,
 } from "drizzle-orm";
 import { readMigrationFiles } from "drizzle-orm/migrator";
 import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
@@ -31,6 +33,16 @@ const itemColumns = {
 } satisfies Record<keyof Item, unknown>;
 
 const listed = eq(item.deleted, false);
+
+/** Today starts at midnight local to the service, which runs on the user's machine. */
+function notDoneBeforeToday(now: Date) {
+  const startOfToday = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+  ).toISOString();
+  return or(ne(item.status, "done"), gte(item.doneAt, startOfToday));
+}
 
 const migrationsFolder = join(import.meta.dirname, "../migrations");
 
@@ -92,7 +104,7 @@ export class ItemStore {
     return this.#database
       .select(itemColumns)
       .from(item)
-      .where(listed)
+      .where(and(listed, notDoneBeforeToday(this.#now())))
       .orderBy(item.rank)
       .all();
   }
@@ -124,7 +136,7 @@ export class ItemStore {
       return undefined;
     }
 
-    return this.#save({ ...found, ...changes });
+    return this.#save(found, { ...found, ...changes });
   }
 
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
@@ -143,7 +155,7 @@ export class ItemStore {
       position === "before"
         ? generateKeyBetween(next, neighbour.rank)
         : generateKeyBetween(neighbour.rank, next);
-    return this.#save({ ...moving, rank });
+    return this.#save(moving, { ...moving, rank });
   }
 
   delete(id: string): Item | undefined {
@@ -194,11 +206,20 @@ export class ItemStore {
     return closest?.rank ?? null;
   }
 
-  #save(changed: Item): Item {
-    const saved = { ...changed, updatedAt: this.#now().toISOString() };
+  #save(previous: Item, changed: Item): Item {
+    const now = this.#now().toISOString();
+    const saved = { ...changed, updatedAt: now };
     const { id, ...fields } = saved;
+    const doneAt =
+      saved.status === previous.status
+        ? {}
+        : { doneAt: saved.status === "done" ? now : null };
 
-    this.#database.update(item).set(fields).where(eq(item.id, id)).run();
+    this.#database
+      .update(item)
+      .set({ ...fields, ...doneAt })
+      .where(eq(item.id, id))
+      .run();
     return saved;
   }
 }

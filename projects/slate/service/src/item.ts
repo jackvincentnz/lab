@@ -5,7 +5,7 @@ import { item } from "./schema.js";
 export const itemSchema = createSelectSchema(item, {
   id: z.uuid(),
   name: (name) => name.trim().min(1, "Give a name that is not blank"),
-}).omit({ deleted: true });
+}).omit({ deleted: true, doneAt: true });
 
 export type Item = z.infer<typeof itemSchema>;
 

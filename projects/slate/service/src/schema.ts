@@ -14,6 +14,7 @@ export const item = sqliteTable(
     createdAt: text("created_at").notNull(),
     updatedAt: text("updated_at").notNull(),
     deleted: integer({ mode: "boolean" }).notNull().default(false),
+    doneAt: text("done_at"),
   },
   (table) => [
     check(
