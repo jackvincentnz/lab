@@ -8,7 +8,8 @@ export interface Context {
 
 const t = initTRPC.context<Context>().create();
 
-const { listItems, addItem, updateItem, moveItem } = operations;
+const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
+  operations;
 
 export const slateRouter = t.router({
   listItems: t.procedure.query(({ ctx }) => listItems.run(ctx.store)),
@@ -21,6 +22,12 @@ export const slateRouter = t.router({
   moveItem: t.procedure
     .input(moveItem.input)
     .mutation(({ ctx, input }) => found(moveItem.run(ctx.store, input))),
+  deleteItem: t.procedure
+    .input(deleteItem.input)
+    .mutation(({ ctx, input }) => found(deleteItem.run(ctx.store, input))),
+  restoreItem: t.procedure
+    .input(restoreItem.input)
+    .mutation(({ ctx, input }) => found(restoreItem.run(ctx.store, input))),
 } satisfies Record<WebOperationName, AnyProcedure>);
 
 export type SlateRouter = typeof slateRouter;

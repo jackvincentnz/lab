@@ -20,6 +20,7 @@ function renderRow(rowItem: Item = item({ name: "Plan the week" })) {
     onRename: vi.fn<ItemRowProps["onRename"]>(),
     onRenameCancel: vi.fn<ItemRowProps["onRenameCancel"]>(),
     onStatusChange: vi.fn<ItemRowProps["onStatusChange"]>(),
+    onDelete: vi.fn<ItemRowProps["onDelete"]>(),
   };
   const row = (saving: boolean) => (
     <List>
@@ -135,6 +136,27 @@ describe("ItemRow", () => {
 
     expect(onRename).not.toHaveBeenCalled();
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
+  });
+
+  it("reports a delete", async () => {
+    const user = userEvent.setup();
+    const { onDelete } = renderRow();
+
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(onDelete).toHaveBeenCalled();
+  });
+
+  it("does not offer a delete while a change saves", () => {
+    const { startSaving } = renderRow();
+
+    startSaving();
+
+    expect(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    ).toBeDisabled();
   });
 
   it("does not change the status while a change saves", () => {

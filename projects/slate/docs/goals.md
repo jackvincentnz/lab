@@ -21,13 +21,13 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 
 ## An item
 
-| Field   | Meaning                                         |
-| ------- | ----------------------------------------------- |
-| Name    | What the work is.                               |
-| Status  | To do, doing, or done.                          |
-| Rank    | Its place in the one global priority order.     |
-| Created | When it was added.                              |
-| Updated | When its name, status or rank was last changed. |
+| Field   | Meaning                                     |
+| ------- | ------------------------------------------- |
+| Name    | What the work is.                           |
+| Status  | To do, doing, or done.                      |
+| Rank    | Its place in the one global priority order. |
+| Created | When it was added.                          |
+| Updated | When it was last changed.                   |
 
 ## Non-goals
 

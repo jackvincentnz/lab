@@ -8,13 +8,23 @@ import { createTRPCContext } from "@trpc/tanstack-react-query";
 import type { SlateRouter } from "../../service/src/router.js";
 import type {
   AddItemInput,
+  DeleteItemInput,
   Item,
   ItemStatus,
   MoveItemInput,
+  RestoreItemInput,
   UpdateItemInput,
 } from "../../service/src/item.js";
 
-export type { AddItemInput, Item, ItemStatus, MoveItemInput, UpdateItemInput };
+export type {
+  AddItemInput,
+  DeleteItemInput,
+  Item,
+  ItemStatus,
+  MoveItemInput,
+  RestoreItemInput,
+  UpdateItemInput,
+};
 
 export type SlateClient = TRPCClient<SlateRouter>;
 

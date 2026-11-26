@@ -26,6 +26,7 @@ function renderList(items: Item[]) {
       onRename={vi.fn()}
       onRenameCancel={vi.fn()}
       onStatusChange={vi.fn()}
+      onDelete={vi.fn()}
     />,
   );
   return onMove;
@@ -54,6 +55,7 @@ describe("ItemList", () => {
         onRename={vi.fn()}
         onRenameCancel={vi.fn()}
         onStatusChange={vi.fn()}
+        onDelete={vi.fn()}
       />,
     );
 
@@ -71,6 +73,7 @@ describe("ItemList", () => {
     const bookTravel = item({ name: "Book travel" });
     const onStatusChange = vi.fn<ItemListProps["onStatusChange"]>();
     const onRename = vi.fn<ItemListProps["onRename"]>();
+    const onDelete = vi.fn<ItemListProps["onDelete"]>();
     render(
       <ItemList
         items={[item({ name: "Plan the week" }), bookTravel]}
@@ -79,12 +82,16 @@ describe("ItemList", () => {
         onRename={onRename}
         onRenameCancel={vi.fn()}
         onStatusChange={onStatusChange}
+        onDelete={onDelete}
       />,
     );
 
     await user.selectOptions(
       screen.getByRole("combobox", { name: "Status of Book travel" }),
       "Done",
+    );
+    await user.click(
+      screen.getByRole("button", { name: "Delete Book travel" }),
     );
     await user.click(
       screen.getByRole("button", { name: "Rename Book travel" }),
@@ -97,6 +104,7 @@ describe("ItemList", () => {
       "Book travels",
       expect.any(Function),
     );
+    expect(onDelete).toHaveBeenCalledWith(bookTravel);
   });
 
   it("reports an item moved down as after the item it lands on", async () => {

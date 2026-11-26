@@ -1,14 +1,16 @@
 import { randomUUID } from "node:crypto";
-import { mkdtempSync, rmSync } from "node:fs";
+import { cpSync, mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
+import { drizzle } from "drizzle-orm/node-sqlite";
+import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { generateKeyBetween } from "fractional-indexing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { type Item } from "./item.js";
 import { openItemStore } from "./store.js";
 
-const migrations = ["20261124181218_item"];
+const migrations = ["20261124181218_item", "20261126150944_item_deleted"];
 
 let dataDir: string;
 
@@ -37,6 +39,34 @@ function appliedMigrations() {
 
 function appliedMigrationNames() {
   return appliedMigrations().map(({ name }) => name);
+}
+
+function migrateUpTo(file: DatabaseSync, last: string) {
+  const migrationsFolder = join(dataDir, "migrations");
+  for (const name of migrations.slice(0, migrations.indexOf(last) + 1)) {
+    cpSync(
+      join(import.meta.dirname, "../migrations", name),
+      join(migrationsFolder, name),
+      { recursive: true },
+    );
+  }
+  migrate(drizzle({ client: file }), { migrationsFolder });
+}
+
+function insertItems(file: DatabaseSync, items: Item[]) {
+  const insert = file.prepare(
+    "INSERT INTO item (id, name, status, rank, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
+  );
+  for (const item of items) {
+    insert.run(
+      item.id,
+      item.name,
+      item.status,
+      item.rank,
+      item.createdAt,
+      item.updatedAt,
+    );
+  }
 }
 
 function randomItems(count: number): Item[] {
@@ -136,19 +166,16 @@ const earlierSchemas: EarlierSchema[] = [
         ) STRICT
       `);
       const items = randomItems(3);
-      const insert = file.prepare(
-        "INSERT INTO item (id, name, status, rank, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
-      );
-      for (const item of items) {
-        insert.run(
-          item.id,
-          item.name,
-          item.status,
-          item.rank,
-          item.createdAt,
-          item.updatedAt,
-        );
-      }
+      insertItems(file, items);
+      return items;
+    },
+  },
+  {
+    name: "a database from before items could be deleted",
+    create(file) {
+      migrateUpTo(file, "20261124181218_item");
+      const items = randomItems(3);
+      insertItems(file, items);
       return items;
     },
   },

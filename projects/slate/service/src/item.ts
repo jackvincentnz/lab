@@ -5,7 +5,7 @@ import { item } from "./schema.js";
 export const itemSchema = createSelectSchema(item, {
   id: z.uuid(),
   name: (name) => name.trim().min(1, "Give a name that is not blank"),
-});
+}).omit({ deleted: true });
 
 export type Item = z.infer<typeof itemSchema>;
 
@@ -44,3 +44,15 @@ export const moveItemInput = z.object({
 });
 
 export type MoveItemInput = z.infer<typeof moveItemInput>;
+
+export const deleteItemInput = z.object({
+  id: id.describe("The id of the item to delete."),
+});
+
+export type DeleteItemInput = z.infer<typeof deleteItemInput>;
+
+export const restoreItemInput = z.object({
+  id: id.describe("The id of the deleted item to put back."),
+});
+
+export type RestoreItemInput = z.infer<typeof restoreItemInput>;
