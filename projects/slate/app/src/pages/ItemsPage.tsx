@@ -1,7 +1,9 @@
+import { useState } from "react";
 import { Alert, Button, Center, Loader, Stack, Text } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useTRPC } from "../api";
+import { type Item, useTRPC } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
+import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 
 export function ItemsPage() {
@@ -10,8 +12,11 @@ export function ItemsPage() {
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
-  const changes = [addItem, updateItem, moveItem];
+  const deleteItem = useMutation(trpc.deleteItem.mutationOptions());
+  const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
+  const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
   const saving = changes.some((change) => change.isPending);
+  const [deleted, setDeleted] = useState<Item>();
 
   function clearSaveError() {
     for (const change of changes) {
@@ -19,12 +24,17 @@ export function ItemsPage() {
     }
   }
 
+  function startChange() {
+    clearSaveError();
+    setDeleted(undefined);
+  }
+
   return (
     <Stack>
       <AddItemForm
         saving={saving}
         onAdd={(name, onSaved) => {
-          clearSaveError();
+          startChange();
           addItem.mutate({ name }, { onSuccess: onSaved });
         }}
       />
@@ -44,6 +54,20 @@ export function ItemsPage() {
       {changes.some((change) => change.isError) && (
         <Alert color="red" title="Could not save your change" />
       )}
+      {deleted !== undefined && (
+        <DeletedItemNotice
+          item={deleted}
+          saving={saving}
+          onUndo={() => {
+            clearSaveError();
+            restoreItem.mutate(
+              { id: deleted.id },
+              { onSuccess: () => setDeleted(undefined) },
+            );
+          }}
+          onDismiss={() => setDeleted(undefined)}
+        />
+      )}
       {items.isPending && (
         <Center>
           <Loader aria-label="Loading your list" />
@@ -59,17 +83,21 @@ export function ItemsPage() {
           items={items.data}
           saving={saving}
           onMove={(move, onSettled) => {
-            clearSaveError();
+            startChange();
             moveItem.mutate(move, { onSettled });
           }}
           onRename={(item, name, onSaved) => {
-            clearSaveError();
+            startChange();
             updateItem.mutate({ id: item.id, name }, { onSuccess: onSaved });
           }}
           onRenameCancel={clearSaveError}
           onStatusChange={(item, status) => {
-            clearSaveError();
+            startChange();
             updateItem.mutate({ id: item.id, status });
+          }}
+          onDelete={(item) => {
+            startChange();
+            deleteItem.mutate({ id: item.id }, { onSuccess: setDeleted });
           }}
         />
       )}

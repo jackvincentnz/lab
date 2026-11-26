@@ -21,6 +21,17 @@ import { generateKeyBetween } from "fractional-indexing";
 import { type Item, type MoveItemInput, type UpdateItemInput } from "./item.js";
 import { item } from "./schema.js";
 
+const itemColumns = {
+  id: item.id,
+  name: item.name,
+  status: item.status,
+  rank: item.rank,
+  createdAt: item.createdAt,
+  updatedAt: item.updatedAt,
+} satisfies Record<keyof Item, unknown>;
+
+const listed = eq(item.deleted, false);
+
 const migrationsFolder = join(import.meta.dirname, "../migrations");
 
 const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
@@ -78,7 +89,12 @@ export class ItemStore {
   }
 
   list(): Item[] {
-    return this.#database.select().from(item).orderBy(item.rank).all();
+    return this.#database
+      .select(itemColumns)
+      .from(item)
+      .where(listed)
+      .orderBy(item.rank)
+      .all();
   }
 
   /** Adds an item at the bottom, so that new work never displaces what matters most. */
@@ -130,8 +146,32 @@ export class ItemStore {
     return this.#save({ ...moving, rank });
   }
 
+  delete(id: string): Item | undefined {
+    return this.#database
+      .update(item)
+      .set({ deleted: true, updatedAt: this.#now().toISOString() })
+      .where(and(eq(item.id, id), listed))
+      .returning(itemColumns)
+      .get();
+  }
+
+  restore(id: string): Item | undefined {
+    return (
+      this.#database
+        .update(item)
+        .set({ deleted: false, updatedAt: this.#now().toISOString() })
+        .where(and(eq(item.id, id), eq(item.deleted, true)))
+        .returning(itemColumns)
+        .get() ?? this.#find(id)
+    );
+  }
+
   #find(id: string): Item | undefined {
-    return this.#database.select().from(item).where(eq(item.id, id)).get();
+    return this.#database
+      .select(itemColumns)
+      .from(item)
+      .where(and(eq(item.id, id), listed))
+      .get();
   }
 
   /** The closest rank on the given side of `rank`, ignoring the item being moved. */

@@ -6,8 +6,10 @@ import type { SlateRouter } from "../../../service/src/router.js";
 import {
   createQueryClient,
   type AddItemInput,
+  type DeleteItemInput,
   type Item,
   type MoveItemInput,
+  type RestoreItemInput,
   type UpdateItemInput,
 } from "../api";
 import { SlateProvider } from "../SlateProvider";
@@ -17,6 +19,8 @@ export interface FakeSlateApi {
   addItem: Mock<(input: AddItemInput) => Promise<Item>>;
   updateItem: Mock<(input: UpdateItemInput) => Promise<Item>>;
   moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;
+  deleteItem: Mock<(input: DeleteItemInput) => Promise<Item>>;
+  restoreItem: Mock<(input: RestoreItemInput) => Promise<Item>>;
 }
 
 export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
@@ -25,6 +29,8 @@ export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
     addItem: vi.fn<FakeSlateApi["addItem"]>(),
     updateItem: vi.fn<FakeSlateApi["updateItem"]>(),
     moveItem: vi.fn<FakeSlateApi["moveItem"]>(),
+    deleteItem: vi.fn<FakeSlateApi["deleteItem"]>(),
+    restoreItem: vi.fn<FakeSlateApi["restoreItem"]>(),
   };
 }
 

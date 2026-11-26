@@ -7,7 +7,14 @@ let store: { [K in keyof Store]: Mock<Store[K]> };
 let caller: ReturnType<typeof slateRouter.createCaller>;
 
 beforeEach(() => {
-  store = { list: vi.fn(), add: vi.fn(), update: vi.fn(), move: vi.fn() };
+  store = {
+    list: vi.fn(),
+    add: vi.fn(),
+    update: vi.fn(),
+    move: vi.fn(),
+    delete: vi.fn(),
+    restore: vi.fn(),
+  };
   caller = slateRouter.createCaller({ store });
 });
 
@@ -88,5 +95,37 @@ describe("slateRouter", () => {
     });
 
     await expect(moving).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("returns the deleted item", async () => {
+    const item = anItem();
+    store.delete.mockReturnValue(item);
+
+    const deleted = await caller.deleteItem({ id: item.id });
+
+    expect(store.delete).toHaveBeenCalledWith(item.id);
+    expect(deleted).toEqual(item);
+  });
+
+  it("reports an unknown item on delete", async () => {
+    const deleting = caller.deleteItem({ id: crypto.randomUUID() });
+
+    await expect(deleting).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("returns the restored item", async () => {
+    const item = anItem();
+    store.restore.mockReturnValue(item);
+
+    const restored = await caller.restoreItem({ id: item.id });
+
+    expect(store.restore).toHaveBeenCalledWith(item.id);
+    expect(restored).toEqual(item);
+  });
+
+  it("reports an unknown item on restore", async () => {
+    const restoring = caller.restoreItem({ id: crypto.randomUUID() });
+
+    await expect(restoring).rejects.toMatchObject({ code: "NOT_FOUND" });
   });
 });

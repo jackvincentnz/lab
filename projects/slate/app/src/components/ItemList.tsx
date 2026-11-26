@@ -25,6 +25,7 @@ interface ItemListProps {
   onRename(item: Item, name: string, onSaved: () => void): void;
   onRenameCancel(): void;
   onStatusChange(item: Item, status: ItemStatus): void;
+  onDelete(item: Item): void;
 }
 
 export function ItemList({
@@ -34,6 +35,7 @@ export function ItemList({
   onRename,
   onRenameCancel,
   onStatusChange,
+  onDelete,
 }: ItemListProps) {
   const [droppedOrder, setDroppedOrder] = useState<Item[]>();
   const shownItems = droppedOrder ?? items;
@@ -86,6 +88,7 @@ export function ItemList({
               onRename={(name, onSaved) => onRename(item, name, onSaved)}
               onRenameCancel={onRenameCancel}
               onStatusChange={(status) => onStatusChange(item, status)}
+              onDelete={() => onDelete(item)}
             />
           ))}
         </List>

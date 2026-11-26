@@ -9,7 +9,8 @@ import {
   type Store,
 } from "./operations.js";
 
-const { listItems, addItem, updateItem, moveItem } = operations;
+const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
+  operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
 
@@ -57,6 +58,28 @@ const tools = {
       },
       (input) =>
         replyIfFound(moveItem.run(store, input), [input.id, input.neighbourId]),
+    ),
+  deleteItem: (server, store) =>
+    server.registerTool(
+      "delete_item",
+      {
+        title: "Delete item",
+        description:
+          "Delete an item from the user's Slate list, such as one added by mistake or no longer wanted, using its id from list_items. To set aside finished work, mark it done with update_item instead. A deleted item no longer appears in list_items, and restore_item puts it back.",
+        inputSchema: deleteItem.input,
+      },
+      (input) => replyIfFound(deleteItem.run(store, input), [input.id]),
+    ),
+  restoreItem: (server, store) =>
+    server.registerTool(
+      "restore_item",
+      {
+        title: "Restore item",
+        description:
+          "Put an item deleted from the user's Slate list back at its earlier rank in the order, using the id that delete_item returned. Deleted items do not appear in list_items. An item that is not deleted is returned unchanged.",
+        inputSchema: restoreItem.input,
+      },
+      (input) => replyIfFound(restoreItem.run(store, input), [input.id]),
     ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 

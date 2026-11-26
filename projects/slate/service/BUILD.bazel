@@ -82,6 +82,7 @@ node_ts_project(
     deps = [
         ":src",
         "//:node_modules/@modelcontextprotocol/sdk",
+        "//:node_modules/drizzle-orm",
         "//:node_modules/fractional-indexing",
         "//:node_modules/vitest",
     ],

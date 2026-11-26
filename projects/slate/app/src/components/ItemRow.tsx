@@ -10,7 +10,7 @@ import {
   Text,
   TextInput,
 } from "@mantine/core";
-import { IconGripVertical } from "@tabler/icons-react";
+import { IconGripVertical, IconTrash } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
 
 const statusLabels: Record<ItemStatus, string> = {
@@ -30,6 +30,7 @@ interface ItemRowProps {
   onRename(name: string, onSaved: () => void): void;
   onRenameCancel(): void;
   onStatusChange(status: ItemStatus): void;
+  onDelete(): void;
 }
 
 export function ItemRow({
@@ -38,6 +39,7 @@ export function ItemRow({
   onRename,
   onRenameCancel,
   onStatusChange,
+  onDelete,
 }: ItemRowProps) {
   const [draft, setDraft] = useState<string>();
   const {
@@ -107,6 +109,15 @@ export function ItemRow({
             >
               Rename
             </Button>
+            <ActionIcon
+              variant="subtle"
+              color="gray"
+              aria-label={`Delete ${item.name}`}
+              disabled={saving}
+              onClick={onDelete}
+            >
+              <IconTrash size={16} />
+            </ActionIcon>
           </>
         ) : (
           <form onSubmit={submitRename} style={{ flex: 1 }}>
