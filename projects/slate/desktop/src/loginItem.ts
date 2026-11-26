@@ -1,7 +1,11 @@
+/** The status of the login item that Electron's `app.getLoginItemSettings` reports on macOS. */
+export type LoginItemStatus =
+  "not-registered" | "enabled" | "requires-approval" | "not-found";
+
 /** The login item state that Electron's `app.getLoginItemSettings` reports on macOS. */
 interface LoginItemSettings {
   wasOpenedAtLogin: boolean;
-  status: "not-registered" | "enabled" | "requires-approval" | "not-found";
+  status: LoginItemStatus;
 }
 
 /** The parts of Electron's `app` that manage its login item. */
@@ -25,8 +29,8 @@ export function openAtLogin(
     return false;
   }
   const { wasOpenedAtLogin, status } = app.getLoginItemSettings();
-  // Registering an item that is enabled or waiting for the user's approval would override what the
-  // user chose in System Settings.
+  // An enabled item needs nothing, and one that requires approval waits for the user in System
+  // Settings.
   if (status === "not-registered" || status === "not-found") {
     app.setLoginItemSettings({ openAtLogin: true });
     const registered = app.getLoginItemSettings().status;

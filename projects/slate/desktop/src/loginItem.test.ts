@@ -1,13 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
-import { openAtLogin } from "./loginItem.js";
-
-type Status = "not-registered" | "enabled" | "requires-approval" | "not-found";
+import { type LoginItemStatus, openAtLogin } from "./loginItem.js";
 
 function loginItemApp({
   isPackaged = true,
   wasOpenedAtLogin = false,
-  status = "not-registered" as Status,
-  statusAfterRegistering = "enabled" as Status,
+  status = "not-registered" as LoginItemStatus,
+  statusAfterRegistering = "enabled" as LoginItemStatus,
 } = {}) {
   let current = status;
   const app = {
@@ -32,7 +30,7 @@ describe("openAtLogin", () => {
     expect(app.setLoginItemSettings).not.toHaveBeenCalled();
   });
 
-  it.each<Status>(["not-registered", "not-found"])(
+  it.each<LoginItemStatus>(["not-registered", "not-found"])(
     "registers the installed app when its login item is %s",
     (status) => {
       const { app, log } = loginItemApp({ status });
@@ -46,7 +44,7 @@ describe("openAtLogin", () => {
     },
   );
 
-  it.each<Status>(["enabled", "requires-approval"])(
+  it.each<LoginItemStatus>(["enabled", "requires-approval"])(
     "leaves a login item that is %s as it is",
     (status) => {
       const { app, log } = loginItemApp({ status });
@@ -57,7 +55,11 @@ describe("openAtLogin", () => {
     },
   );
 
-  it.each<Status>(["not-registered", "requires-approval", "not-found"])(
+  it.each<LoginItemStatus>([
+    "not-registered",
+    "requires-approval",
+    "not-found",
+  ])(
     "logs why registering left the login item %s",
     (statusAfterRegistering) => {
       const { app, log } = loginItemApp({ statusAfterRegistering });
