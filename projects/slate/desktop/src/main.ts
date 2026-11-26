@@ -10,9 +10,9 @@ import { type Log, logOutput, openLog } from "./log.js";
 import { openAtLogin } from "./loginItem.js";
 import { waitUntilListening } from "./service.js";
 import {
+  listenForWindows,
   readShowWindow,
   type SecondInstanceData,
-  secondInstanceShowsWindow,
 } from "./window.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
@@ -44,27 +44,16 @@ async function start(): Promise<void> {
   });
   // Electron keeps its own files, such as caches and local storage, in its user data folder. Run
   // unpackaged, every Electron app shares that folder, so Slate uses the folder that holds its list.
+  // The lock is held per user data folder too, so dev mode still runs beside prod mode.
   app.setPath("userData", dataDir);
-  // The lock is held per user data folder, so dev mode still runs beside prod mode.
-  const secondInstanceData: SecondInstanceData = { showWindow };
-  if (!app.requestSingleInstanceLock(secondInstanceData)) {
-    const failure = lockHeldFailure(app.isPackaged, dataDir);
-    if (failure) {
-      throw failure;
-    }
-    app.quit();
+  if (!claimInstance(dataDir, showWindow)) {
     return;
   }
   // Electron does not keep a second launch for a listener added later, and one can arrive while the
   // service starts.
-  let windowReady!: (url: string) => void;
-  const windowUrl = new Promise<string>((resolve) => {
-    windowReady = resolve;
-  });
-  app.on("second-instance", (_event, _argv, _cwd, additionalData) => {
-    if (secondInstanceShowsWindow(additionalData)) {
-      void windowUrl.then(revealWindow);
-    }
+  const windows = listenForWindows(app, {
+    all: () => BrowserWindow.getAllWindows(),
+    create: createWindow,
   });
   // Opened only by the lock's holder, so a second launch cannot move the running log aside.
   const startLog = openLog(dataDir);
@@ -73,10 +62,31 @@ async function start(): Promise<void> {
   if (!showWindow) {
     app.dock?.hide();
   }
-  const openedAtLogin = openAtLogin(app, (message) =>
+  const atLogin = openAtLogin(app, (message) =>
     startLog.write("main", message),
   );
+  const serviceUrl = await startService(dataDir, startLog);
+  const url = devServer
+    ? await startDevServer(devServer, new URL(serviceUrl).port)
+    : serviceUrl;
+  guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
+  windows.open(url, { show: showWindow, atLogin });
+}
 
+function claimInstance(dataDir: string, showWindow: boolean): boolean {
+  const secondInstanceData: SecondInstanceData = { showWindow };
+  if (app.requestSingleInstanceLock(secondInstanceData)) {
+    return true;
+  }
+  const failure = lockHeldFailure(app.isPackaged, dataDir);
+  if (failure) {
+    throw failure;
+  }
+  app.quit();
+  return false;
+}
+
+async function startService(dataDir: string, startLog: Log): Promise<string> {
   const service = utilityProcess.fork(serviceEntry, [], {
     serviceName: "Slate service",
     env: {
@@ -88,40 +98,13 @@ async function start(): Promise<void> {
   });
   logOutput(service.stdout!, startLog, "service", process.stdout);
   logOutput(service.stderr!, startLog, "service", process.stderr);
-  const serviceUrl = await waitUntilListening(service);
+  const url = await waitUntilListening(service);
   const logServiceExit = (code: number) =>
     startLog.write("main", `The Slate service exited with code ${code}`);
   service.on("exit", logServiceExit);
   // Quitting stops the service too, which is not a failure.
   app.on("will-quit", () => service.off("exit", logServiceExit));
-  const url = devServer
-    ? await startDevServer(devServer, new URL(serviceUrl).port)
-    : serviceUrl;
-  guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
-  // At login, Slate only needs to run. Its window opens when the user opens Slate.
-  if (!openedAtLogin) {
-    createWindow(url, showWindow);
-  }
-  windowReady(url);
-
-  app.on("activate", () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow(url, true);
-    }
-  });
-}
-
-function revealWindow(url: string): void {
-  void app.dock?.show();
-  const [window] = BrowserWindow.getAllWindows();
-  if (!window) {
-    createWindow(url, true);
-    return;
-  }
-  if (window.isMinimized()) {
-    window.restore();
-  }
-  window.show();
+  return url;
 }
 
 async function startDevServer(
