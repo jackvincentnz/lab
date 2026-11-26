@@ -1,18 +1,9 @@
-import { useState, type FormEvent } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import {
-  ActionIcon,
-  Button,
-  Group,
-  List,
-  NativeSelect,
-  Stack,
-  Text,
-  TextInput,
-} from "@mantine/core";
+import { ActionIcon, Group, List, NativeSelect } from "@mantine/core";
 import { IconGripVertical, IconTrash } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
+import { ItemName, type RenameCallbacks } from "./ItemName";
 
 const statusLabels: Record<ItemStatus, string> = {
   todo: "To do",
@@ -24,17 +15,6 @@ const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({
   value,
   label,
 }));
-
-export interface RenameCallbacks {
-  onSaved(saved: Item): void;
-  onChanged(): void;
-}
-
-interface Draft {
-  name: string;
-  editedFrom: Item;
-  refusedFrom?: Item;
-}
 
 interface ItemRowProps {
   item: Item;
@@ -53,7 +33,6 @@ export function ItemRow({
   onStatusChange,
   onDelete,
 }: ItemRowProps) {
-  const [draft, setDraft] = useState<Draft>();
   const {
     attributes,
     listeners,
@@ -62,36 +41,6 @@ export function ItemRow({
     transform,
     transition,
   } = useSortable({ id: item.id, disabled: saving });
-
-  function submitRename(event: FormEvent) {
-    event.preventDefault();
-    if (draft === undefined) {
-      return;
-    }
-    // A rename overwrites only the name, so only a name changed elsewhere makes its draft stale.
-    const nameChangedElsewhere = item.name !== draft.editedFrom.name;
-    const editedFrom =
-      draft.refusedFrom !== undefined || !nameChangedElsewhere
-        ? item
-        : draft.editedFrom;
-    onRename(editedFrom, draft.name, {
-      onSaved: (saved) =>
-        setDraft((current) =>
-          current === undefined || current.name === draft.name
-            ? undefined
-            : { name: current.name, editedFrom: saved },
-        ),
-      onChanged: () =>
-        setDraft(
-          (current) => current && { ...current, refusedFrom: editedFrom },
-        ),
-    });
-  }
-
-  function cancelRename() {
-    onRenameCancel();
-    setDraft(undefined);
-  }
 
   return (
     <List.Item
@@ -120,78 +69,22 @@ export function ItemRow({
             onStatusChange(event.currentTarget.value as ItemStatus)
           }
         />
-        {draft === undefined ? (
-          <>
-            <Text
-              flex={1}
-              td={item.status === "done" ? "line-through" : undefined}
-              c={item.status === "done" ? "dimmed" : undefined}
-            >
-              {item.name}
-            </Text>
-            <Button
-              variant="subtle"
-              size="xs"
-              aria-label={`Rename ${item.name}`}
-              onClick={() => setDraft({ name: item.name, editedFrom: item })}
-            >
-              Rename
-            </Button>
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              aria-label={`Delete ${item.name}`}
-              disabled={saving}
-              onClick={onDelete}
-            >
-              <IconTrash size={16} />
-            </ActionIcon>
-          </>
-        ) : (
-          <form onSubmit={submitRename} style={{ flex: 1 }}>
-            <Stack gap={4}>
-              <Group wrap="nowrap">
-                <TextInput
-                  aria-label="Name"
-                  value={draft.name}
-                  onChange={(event) => {
-                    const name = event.currentTarget.value;
-                    setDraft((current) => current && { ...current, name });
-                  }}
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape" && !saving) {
-                      cancelRename();
-                    }
-                  }}
-                  autoFocus
-                  flex={1}
-                />
-                <Button
-                  type="submit"
-                  size="xs"
-                  disabled={saving || draft.name.trim() === ""}
-                >
-                  Save
-                </Button>
-                <Button
-                  variant="subtle"
-                  size="xs"
-                  disabled={saving}
-                  onClick={cancelRename}
-                >
-                  Cancel
-                </Button>
-              </Group>
-              {draft.refusedFrom !== undefined && (
-                <Text size="xs" c="dimmed">
-                  {item.updatedAt === draft.refusedFrom.updatedAt
-                    ? "Changed elsewhere."
-                    : `Changed elsewhere. Current name: ${item.name}`}
-                </Text>
-              )}
-            </Stack>
-          </form>
-        )}
+        <ItemName
+          item={item}
+          saving={saving}
+          onRename={onRename}
+          onRenameCancel={onRenameCancel}
+        >
+          <ActionIcon
+            variant="subtle"
+            color="gray"
+            aria-label={`Delete ${item.name}`}
+            disabled={saving}
+            onClick={onDelete}
+          >
+            <IconTrash size={16} />
+          </ActionIcon>
+        </ItemName>
       </Group>
     </List.Item>
   );

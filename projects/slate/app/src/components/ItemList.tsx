@@ -16,7 +16,8 @@ import {
 } from "@dnd-kit/sortable";
 import { List } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
-import { ItemRow, type RenameCallbacks } from "./ItemRow";
+import { type RenameCallbacks } from "./ItemName";
+import { ItemRow } from "./ItemRow";
 
 interface ItemListProps {
   items: Item[];
