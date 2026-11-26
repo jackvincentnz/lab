@@ -20,7 +20,12 @@ import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
 import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { generateKeyBetween } from "fractional-indexing";
-import { type Item, type MoveItemInput, type UpdateItemInput } from "./item.js";
+import {
+  type Item,
+  ItemChangedError,
+  type MoveItemInput,
+  type UpdateItemInput,
+} from "./item.js";
 import { item } from "./schema.js";
 
 const itemColumns = {
@@ -130,13 +135,21 @@ export class ItemStore {
     return added;
   }
 
-  update({ id, ...changes }: UpdateItemInput): Item | undefined {
+  update({ id, updatedAt, ...changes }: UpdateItemInput): Item | undefined {
     const found = this.#find(id);
     if (!found) {
       return undefined;
     }
 
-    return this.#save(found, { ...found, ...changes });
+    const saved = this.#save(
+      found,
+      { ...found, ...changes },
+      updatedAt ?? found.updatedAt,
+    );
+    if (!saved) {
+      throw new ItemChangedError(id);
+    }
+    return saved;
   }
 
   move({ id, neighbourId, position }: MoveItemInput): Item | undefined {
@@ -155,7 +168,7 @@ export class ItemStore {
       position === "before"
         ? generateKeyBetween(next, neighbour.rank)
         : generateKeyBetween(neighbour.rank, next);
-    return this.#save(moving, { ...moving, rank });
+    return this.#save(moving, { ...moving, rank }, moving.updatedAt);
   }
 
   delete(id: string): Item | undefined {
@@ -206,20 +219,23 @@ export class ItemStore {
     return closest?.rank ?? null;
   }
 
-  #save(previous: Item, changed: Item): Item {
+  #save(
+    previous: Item,
+    changed: Item,
+    seenUpdatedAt: string,
+  ): Item | undefined {
     const now = this.#now().toISOString();
-    const saved = { ...changed, updatedAt: now };
-    const { id, ...fields } = saved;
+    const { id, ...fields } = changed;
     const doneAt =
-      saved.status === previous.status
+      changed.status === previous.status
         ? {}
-        : { doneAt: saved.status === "done" ? now : null };
+        : { doneAt: changed.status === "done" ? now : null };
 
-    this.#database
+    return this.#database
       .update(item)
-      .set({ ...fields, ...doneAt })
-      .where(eq(item.id, id))
-      .run();
-    return saved;
+      .set({ ...fields, ...doneAt, updatedAt: now })
+      .where(and(eq(item.id, id), listed, eq(item.updatedAt, seenUpdatedAt)))
+      .returning(itemColumns)
+      .get();
   }
 }

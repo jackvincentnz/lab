@@ -1,5 +1,5 @@
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
-import { type Item } from "./item.js";
+import { type Item, ItemChangedError } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
 
 export interface Context {
@@ -18,7 +18,9 @@ export const slateRouter = t.router({
     .mutation(({ ctx, input }) => addItem.run(ctx.store, input)),
   updateItem: t.procedure
     .input(updateItem.input)
-    .mutation(({ ctx, input }) => found(updateItem.run(ctx.store, input))),
+    .mutation(({ ctx, input }) =>
+      found(unchanged(() => updateItem.run(ctx.store, input))),
+    ),
   moveItem: t.procedure
     .input(moveItem.input)
     .mutation(({ ctx, input }) => found(moveItem.run(ctx.store, input))),
@@ -31,6 +33,21 @@ export const slateRouter = t.router({
 } satisfies Record<WebOperationName, AnyProcedure>);
 
 export type SlateRouter = typeof slateRouter;
+
+function unchanged<T>(update: () => T): T {
+  try {
+    return update();
+  } catch (error) {
+    if (error instanceof ItemChangedError) {
+      throw new TRPCError({
+        code: "CONFLICT",
+        message: error.message,
+        cause: error,
+      });
+    }
+    throw error;
+  }
+}
 
 function found(item: Item | undefined): Item {
   if (!item) {

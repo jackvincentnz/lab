@@ -24,6 +24,18 @@ describe("updateItemInput", () => {
     expect(result.success).toBe(false);
   });
 
+  it("keeps the updatedAt the change was made from", () => {
+    const updatedAt = "2026-11-21T09:00:00.000Z";
+
+    const input = updateItemInput.parse({
+      id: crypto.randomUUID(),
+      name: "Plan",
+      updatedAt,
+    });
+
+    expect(input.updatedAt).toBe(updatedAt);
+  });
+
   it("rejects an unknown status", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),

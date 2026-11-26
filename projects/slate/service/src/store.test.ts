@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { type Item } from "./item.js";
+import { type Item, ItemChangedError } from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
 
 let dataDir: string;
@@ -184,6 +184,44 @@ describe("update", () => {
     store.delete(item.id);
 
     const updated = store.update({ id: item.id, status: "done" });
+
+    expect(updated).toBeUndefined();
+  });
+
+  it("updates an item that has not changed since it was read", () => {
+    const item = store.add("Draft");
+
+    const updated = store.update({
+      id: item.id,
+      name: "Final",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.name).toBe("Final");
+  });
+
+  it("refuses an update made from an older copy of the item", () => {
+    const item = store.add("Draft");
+    time = new Date("2026-11-21T10:00:00.000Z");
+    const renamed = store.update({ id: item.id, name: "Agent's name" });
+
+    const updating = () =>
+      store.update({ id: item.id, name: "Mine", updatedAt: item.updatedAt });
+
+    expect(updating).toThrow(ItemChangedError);
+    expect(store.list()).toEqual([renamed]);
+  });
+
+  it("returns nothing for an item deleted since it was read", () => {
+    const item = store.add("Draft");
+    time = new Date("2026-11-21T10:00:00.000Z");
+    store.delete(item.id);
+
+    const updated = store.update({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
 
     expect(updated).toBeUndefined();
   });
