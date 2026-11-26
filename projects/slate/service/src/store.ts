@@ -35,7 +35,7 @@ const itemColumns = {
 const listed = eq(item.deleted, false);
 
 /** Today starts at midnight local to the service, which runs on the user's machine. */
-function onSlate(now: Date) {
+function notDoneBeforeToday(now: Date) {
   const startOfToday = new Date(
     now.getFullYear(),
     now.getMonth(),
@@ -104,7 +104,7 @@ export class ItemStore {
     return this.#database
       .select(itemColumns)
       .from(item)
-      .where(and(listed, onSlate(this.#now())))
+      .where(and(listed, notDoneBeforeToday(this.#now())))
       .orderBy(item.rank)
       .all();
   }
