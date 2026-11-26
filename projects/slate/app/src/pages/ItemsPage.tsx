@@ -10,13 +10,13 @@ export function ItemsPage() {
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
-  const saving =
-    addItem.isPending || updateItem.isPending || moveItem.isPending;
+  const changes = [addItem, updateItem, moveItem];
+  const saving = changes.some((change) => change.isPending);
 
   function clearSaveError() {
-    addItem.reset();
-    updateItem.reset();
-    moveItem.reset();
+    for (const change of changes) {
+      change.reset();
+    }
   }
 
   return (
@@ -41,7 +41,7 @@ export function ItemsPage() {
           </Button>
         </Alert>
       )}
-      {(addItem.isError || updateItem.isError || moveItem.isError) && (
+      {changes.some((change) => change.isError) && (
         <Alert color="red" title="Could not save your change" />
       )}
       {items.isPending && (
