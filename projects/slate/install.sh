@@ -31,10 +31,19 @@ if [[ -e "$target" ]]; then
     exit 1
   fi
   executable=$(sed 's/[][\.*^$+?(){}|]/\\&/g' <<<"$target/Contents/MacOS/Slate")
-  if pgrep -qf "^$executable( |$)"; then
-    echo "Slate is running from $target. Quit it, then run this again." >&2
-    exit 1
-  fi
+  running=0
+  pgrep -qf "^$executable( |$)" || running=$?
+  case $running in
+    0)
+      echo "Slate is running from $target. Quit it, then run this again." >&2
+      exit 1
+      ;;
+    1) ;;
+    *)
+      echo "Could not check whether Slate is running, so $target was left in place." >&2
+      exit 1
+      ;;
+  esac
   mv "$target" "$staging/previous"
 fi
 mv "$staging/Slate" "$target"

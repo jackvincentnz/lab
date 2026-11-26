@@ -139,6 +139,19 @@ keeps_the_installed_slate_when_the_swap_fails() {
   [[ "$(marker)" == old ]] && no_staging_left
 }
 
+leaves_slate_in_place_when_the_process_check_fails() {
+  make_app old.app lab.slate old
+  install_app old.app
+  make_app new.app lab.slate new
+  mkdir bin
+  printf '#!/bin/sh\nexit 3\n' >bin/pgrep
+  chmod +x bin/pgrep
+
+  PATH=$PWD/bin:$PATH fails install_app new.app
+
+  [[ "$(marker)" == old ]] && no_staging_left
+}
+
 run installs_into_an_empty_folder
 run replaces_an_installed_slate
 run leaves_another_app_in_place
@@ -146,5 +159,6 @@ run leaves_an_app_without_an_identifier_in_place
 run leaves_a_running_slate_in_place
 run keeps_the_installed_slate_when_the_copy_fails
 run keeps_the_installed_slate_when_the_swap_fails
+run leaves_slate_in_place_when_the_process_check_fails
 
 exit "$failures"
