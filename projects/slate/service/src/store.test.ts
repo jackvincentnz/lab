@@ -23,6 +23,11 @@ function addItem(name: string): Item {
   return store.add(name, "");
 }
 
+/** Adds the items bottom first, so that the list reads in the given order. */
+function addItems(...itemNames: string[]): Item[] {
+  return itemNames.toReversed().map(addItem).toReversed();
+}
+
 function names(items: Item[]): string[] {
   return items.map((item) => item.name);
 }
@@ -46,13 +51,29 @@ describe("add", () => {
     expect(openItemStore(dataDir).list()).toEqual([item]);
   });
 
-  it("puts each new item at the bottom", () => {
+  it("puts the first item in an empty list", () => {
+    const item = addItem("First");
+
+    expect(store.list()).toEqual([item]);
+  });
+
+  it("puts each new item at the top", () => {
     addItem("First");
     addItem("Second");
 
     addItem("Third");
 
-    expect(names(store.list())).toEqual(["First", "Second", "Third"]);
+    expect(names(store.list())).toEqual(["Third", "Second", "First"]);
+  });
+
+  it("puts a new item above a deleted item that ranked first", () => {
+    const [first] = addItems("A", "B");
+    store.delete(first.id);
+
+    const added = addItem("C");
+
+    expect(added.rank < first.rank).toBe(true);
+    expect(names(store.list())).toEqual(["C", "B"]);
   });
 });
 
@@ -66,7 +87,7 @@ describe("list", () => {
   });
 
   it("leaves out deleted items", () => {
-    const [first, second] = ["A", "B"].map((name) => addItem(name));
+    const [first, second] = addItems("A", "B");
     store.delete(second.id);
 
     const reopened = openItemStore(dataDir).list();
@@ -285,7 +306,7 @@ describe("update", () => {
 
 describe("move", () => {
   it("places an item before its neighbour", () => {
-    const [first, , third] = ["A", "B", "C"].map((name) => addItem(name));
+    const [first, , third] = addItems("A", "B", "C");
 
     store.move({ id: third.id, neighbourId: first.id, position: "before" });
 
@@ -293,7 +314,7 @@ describe("move", () => {
   });
 
   it("places an item after its neighbour", () => {
-    const [first, second] = ["A", "B", "C"].map((name) => addItem(name));
+    const [first, second] = addItems("A", "B", "C");
 
     store.move({ id: first.id, neighbourId: second.id, position: "after" });
 
@@ -301,9 +322,7 @@ describe("move", () => {
   });
 
   it("places an item between its neighbour and the next item", () => {
-    const [first, second, , fourth] = ["A", "B", "C", "D"].map((name) =>
-      addItem(name),
-    );
+    const [first, second, , fourth] = addItems("A", "B", "C", "D");
 
     store.move({ id: fourth.id, neighbourId: first.id, position: "after" });
     store.move({ id: first.id, neighbourId: second.id, position: "before" });
@@ -312,7 +331,7 @@ describe("move", () => {
   });
 
   it("changes only the moved item's rank and updated time", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
+    const [first, second, third] = addItems("A", "B", "C");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -326,7 +345,7 @@ describe("move", () => {
   });
 
   it("leaves an item moved next to itself unchanged", () => {
-    const [first, second] = ["A", "B"].map((name) => addItem(name));
+    const [first, second] = addItems("A", "B");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -352,7 +371,7 @@ describe("move", () => {
   });
 
   it("returns nothing for a deleted item", () => {
-    const [first, second] = ["A", "B"].map((name) => addItem(name));
+    const [first, second] = addItems("A", "B");
     store.delete(second.id);
 
     const moved = store.move({
@@ -365,7 +384,7 @@ describe("move", () => {
   });
 
   it("returns nothing when the neighbour is deleted", () => {
-    const [first, second] = ["A", "B"].map((name) => addItem(name));
+    const [first, second] = addItems("A", "B");
     store.delete(first.id);
 
     const moved = store.move({
@@ -408,7 +427,7 @@ describe("delete", () => {
 
 describe("restore", () => {
   it("puts a deleted item back in its place with its update time", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
+    const [first, second, third] = addItems("A", "B", "C");
     store.delete(second.id);
     time = new Date("2026-11-21T10:00:00.000Z");
 
@@ -435,18 +454,18 @@ describe("restore", () => {
     expect(restored).toBeUndefined();
   });
 
-  it("keeps an item added after a deletion below the restored item", () => {
-    const [, second] = ["A", "B"].map((name) => addItem(name));
-    store.delete(second.id);
+  it("keeps an item added after a deletion above the restored item", () => {
+    const [first] = addItems("A", "B");
+    store.delete(first.id);
     addItem("C");
 
-    store.restore(second.id);
+    store.restore(first.id);
 
-    expect(names(store.list())).toEqual(["A", "B", "C"]);
+    expect(names(store.list())).toEqual(["C", "A", "B"]);
   });
 
   it("puts an item back beside one moved into its place", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
+    const [first, second, third] = addItems("A", "B", "C");
     store.delete(second.id);
     store.move({ id: third.id, neighbourId: first.id, position: "after" });
 
