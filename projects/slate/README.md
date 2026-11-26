@@ -20,15 +20,8 @@ The first build downloads the Electron binary. The app starts the local service,
 web UI and the API at `http://127.0.0.1:5297` and keeps data in
 `~/Library/Application Support/Slate (dev)` on macOS. Quitting the app stops the service.
 
-When its output goes to a terminal, the app opens its window in front of other apps. Otherwise it
-runs without a window, so it does not take your focus. That happens when an agent or a test starts
-it without a terminal, or when you pipe its output. Its Dock icon shows for a moment while Electron starts, then hides.
-Agents can still drive it through the API or the [debugging port](#development). An agent that
-starts Slate for you to use sets `SLATE_SHOW_WINDOW=1`:
-
-```zsh
-SLATE_SHOW_WINDOW=1 bazel run //projects/slate
-```
+Started without a terminal, as agents and tests start it, the app runs without a window. Set
+`SLATE_SHOW_WINDOW=1` to show it.
 
 Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` and listens on port
 5197, so it can run beside dev mode:
@@ -37,16 +30,12 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` a
 bazel run //projects/slate:prod
 ```
 
-Install it in prod mode as `/Applications/Slate.app`, where Spotlight finds it. Run the command
-again to update it. It changes nothing while Slate runs from `/Applications/Slate.app`, or when that
-path holds another app:
+Install or update it in prod mode as `/Applications/Slate.app`. It starts at login, so agents can
+reach the list before you open Slate:
 
 ```zsh
 bazel run //projects/slate:install
 ```
-
-The installed app adds itself to the login items when it starts. Started at login, it does not open
-its window until you click its Dock icon or open Slate again.
 
 ## Connect an agent
 
@@ -77,18 +66,13 @@ name, such as `slate-dev`.
 
 ## Development
 
-| Task                                           | Command                                    |
-| ---------------------------------------------- | ------------------------------------------ |
-| Build and typecheck everything.                | `bazel build //projects/slate/...`         |
-| Run the desktop app in dev mode.               | `bazel run //projects/slate`               |
-| Run the desktop app in prod mode.              | `bazel run //projects/slate:prod`          |
-| Run the desktop app with hot reload.           | `ibazel run //projects/slate:watch`        |
-| Install or update the macOS app.               | `bazel run //projects/slate:install`       |
-| Run the local service on its own.              | `bazel run //projects/slate/service`       |
-| Run tests once.                                | `bazel test //projects/slate/...`          |
-| Run the service's tests once.                  | `bazel test //projects/slate/service:test` |
-| Run the desktop app's tests once.              | `bazel test //projects/slate/desktop:test` |
-| Launch the desktop app and test it end to end. | `bazel test //projects/slate/e2e`          |
+| Task                                           | Command                              |
+| ---------------------------------------------- | ------------------------------------ |
+| Build and typecheck everything.                | `bazel build //projects/slate/...`   |
+| Run the desktop app with hot reload.           | `ibazel run //projects/slate:watch`  |
+| Run the local service on its own.              | `bazel run //projects/slate/service` |
+| Run tests once.                                | `bazel test //projects/slate/...`    |
+| Launch the desktop app and test it end to end. | `bazel test //projects/slate/e2e`    |
 
 On Linux, the end-to-end test needs `Xvfb`. On Ubuntu, AppArmor must also allow user namespaces for
 Electron in your Bazel output base, as the [CI workflow](../../.github/workflows/main.yml) does.
@@ -97,14 +81,8 @@ See the [app README](app/README.md) to work on the web UI in a browser,
 [database migrations](docs/migrations.md) to change the database schema, and
 [troubleshooting](docs/troubleshooting.md) when Slate cannot start.
 
-`bazel run //projects/slate/service` runs the service in dev mode without the web UI. It uses the
-same port as `bazel run //projects/slate`, so run one at a time. Set `SLATE_DATA_DIR` or `SLATE_PORT` to override the data folder
-or port. The API is under `/api/`, one path per operation:
-
-```zsh
-curl -H 'content-type: application/json' -d '{"name":"Plan the week"}' http://127.0.0.1:5297/api/addItem
-curl http://127.0.0.1:5297/api/listItems
-```
+The service on its own uses the same port and data folder as dev mode, so run one at a time or set
+`SLATE_PORT` and `SLATE_DATA_DIR`.
 
 Pass Electron flags after `--`. For example, expose the Chromium debugging protocol, which lets a
 tool inspect and drive the real window:

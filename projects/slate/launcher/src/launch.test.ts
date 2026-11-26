@@ -9,11 +9,10 @@ const node = process.execPath;
 const started: ChildProcess[] = [];
 const childPids: number[] = [];
 
-// Prints its PID, then runs until stopped or until it exits with the given code.
 const runningChild = "console.log(process.pid); setInterval(() => {}, 1000);";
 const exitingChild = (code: number) =>
   `${runningChild} setTimeout(() => process.exit(${code}), 100);`;
-// Prints each SIGTERM it gets, listening before it prints its PID so that none is missed.
+// Listens before it prints its PID, so that no SIGTERM is missed.
 const countingChild = `process.on("SIGTERM", () => console.log("SIGTERM")); ${runningChild}`;
 
 function launcherScript(child = runningChild): string {

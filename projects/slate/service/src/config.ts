@@ -2,7 +2,6 @@ import { homedir } from "node:os";
 import { join, resolve } from "node:path";
 import { z } from "zod";
 
-// An empty variable, such as `SLATE_PORT=`, means unset rather than invalid.
 const optional = <T extends z.ZodType>(schema: T) =>
   z.preprocess((value) => (value === "" ? undefined : value), schema);
 
@@ -19,7 +18,6 @@ const environment = z.object({
 export interface Config {
   dataDir: string;
   port: number;
-  /** The built web UI to serve at `/`. Without it, the service serves only the API. */
   webDir?: string;
 }
 
@@ -41,7 +39,6 @@ export function readConfig(
     APPDATA,
     XDG_CONFIG_HOME,
   } = environment.parse(env);
-  // The dev profile gets its own folder and port, so it runs beside prod mode.
   const dev = SLATE_PROFILE === "dev";
   const appData = appDataDir(host, APPDATA, XDG_CONFIG_HOME);
   return {

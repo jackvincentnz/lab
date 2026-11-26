@@ -4,7 +4,6 @@ set -euo pipefail
 install=$PWD/projects/slate/install.sh
 failures=0
 
-# Makes a minimal app bundle with the given bundle identifier and a marker file.
 make_app() {
   local app=$1 id=$2 marker=$3
   mkdir -p "$app/Contents/MacOS"
@@ -17,8 +16,7 @@ make_app() {
   chmod -R a-w "$app"
 }
 
-# Runs one test in a fresh folder that stands in for /Applications. Outside a condition, so that
-# `set -e` fails the test at its first failing command.
+# Called outside a condition, so that `set -e` fails the test at its first failing command.
 run() {
   local name=$1
   local dir status
@@ -129,7 +127,7 @@ keeps_the_installed_slate_when_the_swap_fails() {
   make_app old.app lab.slate old
   install_app old.app
   make_app new.app lab.slate new
-  # Fails the rename of the copy into place, the second of the swap's two renames.
+  # Fails the second rename, when the installed app has already moved aside.
   mkdir bin
   printf '#!/bin/sh\ncase "$1" in */Slate) exit 1 ;; esac\nexec /bin/mv "$@"\n' >bin/mv
   chmod +x bin/mv

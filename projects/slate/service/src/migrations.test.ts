@@ -154,11 +154,9 @@ describe("a current database", () => {
 
 interface EarlierSchema {
   name: string;
-  /** Builds the database as a build with this schema left it, and returns the items it should keep. */
   create(file: DatabaseSync): Item[];
 }
 
-// One case per schema that a released build could have left behind, oldest first.
 const earlierSchemas: EarlierSchema[] = [
   {
     name: "a database from before Slate had migrations",

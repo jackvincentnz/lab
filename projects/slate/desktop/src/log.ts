@@ -18,7 +18,6 @@ export function openLog(dir: string, now = () => new Date()): Log {
   return {
     path,
     write(source, message) {
-      // A full disk must not stop Slate from reporting why it quits.
       try {
         appendFileSync(path, `${now().toISOString()} [${source}] ${message}\n`);
       } catch (error) {

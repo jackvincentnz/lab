@@ -1,9 +1,5 @@
 import { type ChildProcess, spawn } from "node:child_process";
 
-/**
- * Runs a command as Electron's `cli.js` does, forwarding SIGINT, SIGTERM and its exit code, and
- * stops it when this process's parent exits.
- */
 export function launch(
   command: string,
   args: string[],
