@@ -1,2 +1,5 @@
 # Claude Code agent worktrees are nested checkouts with their own Bazel outputs.
 .claude
+
+# Slate's dev data in a linked worktree, which holds Electron's caches and sockets.
+projects/slate/.dev-data

@@ -18,7 +18,8 @@ bazel run //projects/slate
 
 The first build downloads the Electron binary. The app starts the local service, which serves the
 web UI and the API at `http://127.0.0.1:5297` and keeps data in
-`~/Library/Application Support/Slate (dev)` on macOS. Quitting the app stops the service.
+`~/Library/Application Support/Slate (dev)` on macOS, or in `projects/slate/.dev-data` when run from
+a worktree that `git worktree add` created, as [dev data](docs/migrations.md#dev-data) describes. Quitting the app stops the service.
 
 Started without a terminal, as agents and tests start it, the app runs without a window. Set
 `SLATE_SHOW_WINDOW=1` to show it.
