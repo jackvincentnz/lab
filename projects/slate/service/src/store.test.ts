@@ -23,10 +23,6 @@ function addItem(name: string): Item {
   return store.add(name, "");
 }
 
-function addItemsInListOrder(...itemNames: string[]): Item[] {
-  return itemNames.toReversed().map(addItem).toReversed();
-}
-
 function names(items: Item[]): string[] {
   return items.map((item) => item.name);
 }
@@ -66,12 +62,12 @@ describe("add", () => {
   });
 
   it("puts a new item above a deleted item that ranked first", () => {
-    const [first] = addItemsInListOrder("A", "B");
-    store.delete(first.id);
+    const [, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
 
     addItem("C");
 
-    expect(names(store.list())).toEqual(["C", "B"]);
+    expect(names(store.list())).toEqual(["C", "A"]);
   });
 });
 
@@ -85,12 +81,12 @@ describe("list", () => {
   });
 
   it("leaves out deleted items", () => {
-    const [first, second] = addItemsInListOrder("A", "B");
-    store.delete(second.id);
+    const [a, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
 
     const reopened = openItemStore(dataDir).list();
 
-    expect(reopened).toEqual([first]);
+    expect(reopened).toEqual([a]);
   });
 });
 
@@ -304,56 +300,56 @@ describe("update", () => {
 
 describe("move", () => {
   it("places an item before its neighbour", () => {
-    const [first, , third] = addItemsInListOrder("A", "B", "C");
+    const [a, , c] = ["A", "B", "C"].map(addItem);
 
-    store.move({ id: third.id, neighbourId: first.id, position: "before" });
+    store.move({ id: a.id, neighbourId: c.id, position: "before" });
 
-    expect(names(store.list())).toEqual(["C", "A", "B"]);
+    expect(names(store.list())).toEqual(["A", "C", "B"]);
   });
 
   it("places an item after its neighbour", () => {
-    const [first, second] = addItemsInListOrder("A", "B", "C");
+    const [, b, c] = ["A", "B", "C"].map(addItem);
 
-    store.move({ id: first.id, neighbourId: second.id, position: "after" });
+    store.move({ id: c.id, neighbourId: b.id, position: "after" });
 
-    expect(names(store.list())).toEqual(["B", "A", "C"]);
+    expect(names(store.list())).toEqual(["B", "C", "A"]);
   });
 
   it("places an item between its neighbour and the next item", () => {
-    const [first, second, , fourth] = addItemsInListOrder("A", "B", "C", "D");
+    const [a, , c, d] = ["A", "B", "C", "D"].map(addItem);
 
-    store.move({ id: fourth.id, neighbourId: first.id, position: "after" });
-    store.move({ id: first.id, neighbourId: second.id, position: "before" });
+    store.move({ id: a.id, neighbourId: d.id, position: "after" });
+    store.move({ id: d.id, neighbourId: c.id, position: "before" });
 
-    expect(names(store.list())).toEqual(["D", "A", "B", "C"]);
+    expect(names(store.list())).toEqual(["A", "D", "C", "B"]);
   });
 
   it("changes only the moved item's rank and updated time", () => {
-    const [first, second, third] = addItemsInListOrder("A", "B", "C");
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
-      id: third.id,
-      neighbourId: second.id,
+      id: a.id,
+      neighbourId: b.id,
       position: "before",
     });
 
     expect(moved?.updatedAt).toBe("2026-11-21T10:00:00.000Z");
-    expect(store.list()).toEqual([first, moved, second]);
+    expect(store.list()).toEqual([c, moved, b]);
   });
 
   it("leaves an item moved next to itself unchanged", () => {
-    const [first, second] = addItemsInListOrder("A", "B");
+    const [a, b] = ["A", "B"].map(addItem);
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
-      id: second.id,
-      neighbourId: second.id,
+      id: b.id,
+      neighbourId: b.id,
       position: "before",
     });
 
-    expect(moved).toEqual(second);
-    expect(store.list()).toEqual([first, second]);
+    expect(moved).toEqual(b);
+    expect(store.list()).toEqual([b, a]);
   });
 
   it("returns nothing when the neighbour is unknown", () => {
@@ -369,12 +365,12 @@ describe("move", () => {
   });
 
   it("returns nothing for a deleted item", () => {
-    const [first, second] = addItemsInListOrder("A", "B");
-    store.delete(second.id);
+    const [a, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
 
     const moved = store.move({
-      id: second.id,
-      neighbourId: first.id,
+      id: b.id,
+      neighbourId: a.id,
       position: "before",
     });
 
@@ -382,17 +378,17 @@ describe("move", () => {
   });
 
   it("returns nothing when the neighbour is deleted", () => {
-    const [first, second] = addItemsInListOrder("A", "B");
-    store.delete(first.id);
+    const [a, b] = ["A", "B"].map(addItem);
+    store.delete(a.id);
 
     const moved = store.move({
-      id: second.id,
-      neighbourId: first.id,
+      id: b.id,
+      neighbourId: a.id,
       position: "before",
     });
 
     expect(moved).toBeUndefined();
-    expect(store.list()).toEqual([second]);
+    expect(store.list()).toEqual([b]);
   });
 });
 
@@ -425,15 +421,15 @@ describe("delete", () => {
 
 describe("restore", () => {
   it("puts a deleted item back in its place with its update time", () => {
-    const [first, second, third] = addItemsInListOrder("A", "B", "C");
-    store.delete(second.id);
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    store.delete(b.id);
     time = new Date("2026-11-21T10:00:00.000Z");
 
-    const restored = store.restore(second.id);
+    const restored = store.restore(b.id);
 
-    const expected = { ...second, updatedAt: "2026-11-21T10:00:00.000Z" };
+    const expected = { ...b, updatedAt: "2026-11-21T10:00:00.000Z" };
     expect(restored).toEqual(expected);
-    expect(store.list()).toEqual([first, expected, third]);
+    expect(store.list()).toEqual([c, expected, a]);
   });
 
   it("returns an item that is not deleted unchanged", () => {
@@ -453,22 +449,22 @@ describe("restore", () => {
   });
 
   it("keeps an item added after a deletion above the restored item", () => {
-    const [first] = addItemsInListOrder("A", "B");
-    store.delete(first.id);
+    const [, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
     addItem("C");
 
-    store.restore(first.id);
+    store.restore(b.id);
 
-    expect(names(store.list())).toEqual(["C", "A", "B"]);
+    expect(names(store.list())).toEqual(["C", "B", "A"]);
   });
 
   it("puts an item back beside one moved into its place", () => {
-    const [first, second, third] = addItemsInListOrder("A", "B", "C");
-    store.delete(second.id);
-    store.move({ id: third.id, neighbourId: first.id, position: "after" });
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    store.delete(b.id);
+    store.move({ id: a.id, neighbourId: c.id, position: "after" });
 
-    store.restore(second.id);
+    store.restore(b.id);
 
-    expect(names(store.list())).toEqual(["A", "C", "B"]);
+    expect(names(store.list())).toEqual(["C", "A", "B"]);
   });
 });
