@@ -7,8 +7,15 @@ import { serveFile } from "./static.js";
 import { type ItemStore } from "./store.js";
 
 // Mantine renders its theme in inline style elements; scripts stay limited to the page's own files.
-const contentSecurityPolicy =
-  "default-src 'self'; style-src 'self' 'unsafe-inline'";
+// default-src does not cover framing, the base URL or form targets, and the UI needs none of them:
+// its forms call preventDefault and save through the API.
+const contentSecurityPolicy = [
+  "default-src 'self'",
+  "style-src 'self' 'unsafe-inline'",
+  "frame-ancestors 'none'",
+  "base-uri 'none'",
+  "form-action 'none'",
+].join("; ");
 
 const apiPath = "/api/";
 
