@@ -38,9 +38,10 @@ Leave out checks for states that your code or the framework cannot produce, and
 delete such branches instead of testing them, so that every branch is one a
 reader needs.
 
-Specify behavior in tests and names, not comments, so that the code is held to
-it. Comment only to explain why, when tests and names cannot show it. Keep
-progress notes such as "once #123 lands" in issues.
+Specify behavior in tests rather than comments, so that a change that breaks it
+fails a test instead of leaving a stale comment. Comment only a why that the
+code, its names, and its tests cannot show, never what the code does or how it
+came to be. Keep progress notes such as "once #123 lands" in issues.
 
 Put a refactor in its own commit or PR before the behavior change, with test
 assertions unchanged, so that a reviewer can check each part on its own.
