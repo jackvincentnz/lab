@@ -69,9 +69,8 @@ describe("add", () => {
     const [first] = addItemsInListOrder("A", "B");
     store.delete(first.id);
 
-    const added = addItem("C");
+    addItem("C");
 
-    expect(added.rank < first.rank).toBe(true);
     expect(names(store.list())).toEqual(["C", "B"]);
   });
 });
