@@ -135,7 +135,7 @@ describe("a new folder", () => {
 
 describe("a current database", () => {
   it("keeps its items when reopened", () => {
-    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`);
+    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "");
 
     const items = openItemStore(dataDir).list();
 
