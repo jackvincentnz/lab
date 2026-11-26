@@ -30,7 +30,8 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` a
 bazel run //projects/slate:prod
 ```
 
-Install or update it in prod mode as `/Applications/Slate.app`, which starts at login:
+Install or update it in prod mode as `/Applications/Slate.app`. It starts at login, so agents can
+reach the list before you open Slate:
 
 ```zsh
 bazel run //projects/slate:install
@@ -80,7 +81,8 @@ See the [app README](app/README.md) to work on the web UI in a browser,
 [database migrations](docs/migrations.md) to change the database schema, and
 [troubleshooting](docs/troubleshooting.md) when Slate cannot start.
 
-The service on its own uses the same port as dev mode, so run one at a time or set `SLATE_PORT`.
+The service on its own uses the same port and data folder as dev mode, so run one at a time or set
+`SLATE_PORT` and `SLATE_DATA_DIR`.
 
 Pass Electron flags after `--`. For example, expose the Chromium debugging protocol, which lets a
 tool inspect and drive the real window:

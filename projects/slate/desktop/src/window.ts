@@ -32,8 +32,13 @@ interface WindowFactory {
   create(url: string, show: boolean): void;
 }
 
+interface OpenOptions {
+  show: boolean;
+  atLogin: boolean;
+}
+
 export interface Windows {
-  open(url: string, launch: { show: boolean; atLogin: boolean }): void;
+  open(url: string, options: OpenOptions): void;
 }
 
 // On macOS, showing a window brings Slate in front of other apps, so a window that agents or tests

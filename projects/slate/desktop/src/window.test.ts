@@ -61,17 +61,21 @@ function fakeElectron({ minimized = false } = {}) {
   return { app, windows, open, url };
 }
 
+function settle(): Promise<void> {
+  return new Promise((resolve) => setTimeout(resolve, 0));
+}
+
 async function launchAgain(
   app: EventEmitter,
   data: SecondInstanceData | null,
 ): Promise<void> {
   app.emit("second-instance", {}, [], "/", data);
-  await new Promise((resolve) => setTimeout(resolve, 0));
+  await settle();
 }
 
 async function activate(app: EventEmitter): Promise<void> {
   app.emit("activate");
-  await new Promise((resolve) => setTimeout(resolve, 0));
+  await settle();
 }
 
 describe("listenForWindows", () => {
@@ -126,7 +130,7 @@ describe("listenForWindows", () => {
     await launchAgain(app, { showWindow: true });
 
     slateWindows.open(url, { show: false, atLogin: false });
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await settle();
 
     expect(open[0]?.show).toHaveBeenCalled();
   });
@@ -164,7 +168,7 @@ describe("listenForWindows", () => {
     await activate(app);
 
     slateWindows.open(url, { show: true, atLogin: true });
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    await settle();
 
     expect(windows.create).not.toHaveBeenCalled();
   });

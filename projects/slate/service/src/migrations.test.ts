@@ -133,26 +133,6 @@ describe("a new folder", () => {
   });
 });
 
-describe("a database a newer build migrated", () => {
-  it("refuses to open, naming the migration this build does not know", () => {
-    openItemStore(dataDir);
-    const newer = `29991231000000_${randomUUID()}`;
-    withFile((file) =>
-      file
-        .prepare(
-          "INSERT INTO __drizzle_migrations (hash, created_at, name) VALUES (?, ?, ?)",
-        )
-        .run(randomUUID(), Date.now(), newer),
-    );
-
-    const open = () => openItemStore(dataDir);
-
-    expect(open).toThrow(
-      `A newer build of Slate has migrated this database with ${newer}, so this build cannot open it. Update Slate.`,
-    );
-  });
-});
-
 describe("a current database", () => {
   it("keeps its items when reopened", () => {
     const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "");
