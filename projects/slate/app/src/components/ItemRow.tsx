@@ -182,7 +182,9 @@ export function ItemRow({
               </Group>
               {draft.changed && (
                 <Text size="xs" c="dimmed">
-                  Changed elsewhere. Current name: {item.name}
+                  {item.updatedAt === draft.editedFrom.updatedAt
+                    ? "Changed elsewhere."
+                    : `Changed elsewhere. Current name: ${item.name}`}
                 </Text>
               )}
             </Stack>

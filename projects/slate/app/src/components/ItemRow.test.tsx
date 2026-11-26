@@ -213,12 +213,28 @@ describe("ItemRow", () => {
     await user.type(name, " soon{Enter}");
 
     act(() => renameCallbacks(onRename).onChanged());
-    showItem({ ...original, name: "Plan the month" });
+    showItem({
+      ...original,
+      name: "Plan the month",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
 
     expect(name).toHaveValue("Plan the week soon");
     expect(
       screen.getByText("Changed elsewhere. Current name: Plan the month"),
     ).toBeInTheDocument();
+  });
+
+  it("names no current name until a newer copy of the item arrives", async () => {
+    const user = userEvent.setup();
+    const { onRename } = renderRow();
+    const name = await startRename(user);
+    await user.type(name, " soon{Enter}");
+
+    act(() => renameCallbacks(onRename).onChanged());
+
+    expect(screen.getByText("Changed elsewhere.")).toBeInTheDocument();
+    expect(screen.queryByText(/Current name/)).not.toBeInTheDocument();
   });
 
   it("saves again from the current item once the item changed elsewhere", async () => {
