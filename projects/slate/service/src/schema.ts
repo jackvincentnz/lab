@@ -8,6 +8,7 @@ export const item = sqliteTable(
   {
     id: text().primaryKey(),
     name: text().notNull(),
+    description: text().notNull().default(""),
     status: text({ enum: itemStatuses }).notNull(),
     // SQLite compares text byte by byte, the same order fractional-indexing's keys sort in.
     rank: text().notNull().unique(),

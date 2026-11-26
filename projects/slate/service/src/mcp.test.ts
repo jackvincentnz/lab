@@ -41,6 +41,7 @@ function anItem(): Item {
   return {
     id: crypto.randomUUID(),
     name: "Write the plan",
+    description: "",
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -96,8 +97,16 @@ describe("createSlateMcpServer", () => {
 
     const result = await call("add_item", { name: "  Write the plan " });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan");
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "");
     expect(result.content).toEqual(text(item));
+  });
+
+  it("adds an item with its description", async () => {
+    store.add.mockReturnValue(anItem());
+
+    await call("add_item", { name: "Write the plan", description: "Why" });
+
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "Why");
   });
 
   it("refuses invalid input without reaching the store", async () => {
@@ -144,6 +153,18 @@ describe("createSlateMcpServer", () => {
           text: `The item ${item.id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
         },
       ],
+    });
+  });
+
+  it("changes an item's description", async () => {
+    const item = anItem();
+    store.update.mockReturnValue(item);
+
+    await call("update_item", { id: item.id, description: "New notes" });
+
+    expect(store.update).toHaveBeenCalledWith({
+      id: item.id,
+      description: "New notes",
     });
   });
 

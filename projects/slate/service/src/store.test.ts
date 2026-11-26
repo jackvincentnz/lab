@@ -29,10 +29,18 @@ describe("add", () => {
 
     expect(item).toMatchObject({
       name: "Write the plan",
+      description: "",
       status: "todo",
       createdAt: "2026-11-21T09:00:00.000Z",
       updatedAt: "2026-11-21T09:00:00.000Z",
     });
+  });
+
+  it("keeps the given description", () => {
+    const item = store.add("Write the plan", "Why it matters");
+
+    expect(item.description).toBe("Why it matters");
+    expect(openItemStore(dataDir).list()).toEqual([item]);
   });
 
   it("puts each new item at the bottom", () => {
@@ -171,6 +179,15 @@ describe("update", () => {
     const updated = store.update({ id: item.id, name: "Final" });
 
     expect(updated?.name).toBe("Final");
+  });
+
+  it("replaces an item's description", () => {
+    const item = store.add("Draft", "Old notes");
+
+    const updated = store.update({ id: item.id, description: "New notes" });
+
+    expect(updated?.description).toBe("New notes");
+    expect(openItemStore(dataDir).list()).toEqual([updated]);
   });
 
   it("returns nothing for an unknown item", () => {

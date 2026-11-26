@@ -31,6 +31,7 @@ import { item } from "./schema.js";
 const itemColumns = {
   id: item.id,
   name: item.name,
+  description: item.description,
   status: item.status,
   rank: item.rank,
   createdAt: item.createdAt,
@@ -115,7 +116,7 @@ export class ItemStore {
   }
 
   /** Adds an item at the bottom, so that new work never displaces what matters most. */
-  add(name: string): Item {
+  add(name: string, description = ""): Item {
     const last = this.#database
       .select({ rank: item.rank })
       .from(item)
@@ -125,6 +126,7 @@ export class ItemStore {
     const added: Item = {
       id: randomUUID(),
       name,
+      description,
       status: "todo",
       rank: generateKeyBetween(last?.rank ?? null, null),
       createdAt: now,
