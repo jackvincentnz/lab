@@ -37,7 +37,7 @@ interface OpenOptions {
   atLogin: boolean;
 }
 
-export interface Windows {
+interface Windows {
   open(url: string, options: OpenOptions): void;
 }
 
