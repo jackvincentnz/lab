@@ -12,6 +12,7 @@ node_ts_project(
     ),
     deps = [
         "//:node_modules/electron",
+        "//:node_modules/zod",
         "//projects/slate/service:src",
     ],
 )
