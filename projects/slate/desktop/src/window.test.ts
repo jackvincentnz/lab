@@ -135,13 +135,14 @@ describe("listenForWindows", () => {
     expect(open[0]?.show).toHaveBeenCalled();
   });
 
-  it("restores a minimized window that a second launch shows", async () => {
+  it("restores and shows a minimized window when a second launch shows its own", async () => {
     const { app, windows, open, url } = fakeElectron({ minimized: true });
     listenForWindows(app, windows).open(url, { show: true, atLogin: false });
 
     await launchAgain(app, { showWindow: true });
 
     expect(open[0]?.restore).toHaveBeenCalled();
+    expect(open[0]?.show).toHaveBeenCalled();
   });
 
   it("opens a shown window for a second launch when none is open", async () => {
