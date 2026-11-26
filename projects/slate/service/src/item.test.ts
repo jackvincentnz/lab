@@ -33,28 +33,35 @@ describe("addItemInput", () => {
 });
 
 describe("updateItemInput", () => {
+  const updatedAt = "2026-11-21T09:00:00.000Z";
+
   it("rejects an update that changes nothing", () => {
-    const result = updateItemInput.safeParse({ id: crypto.randomUUID() });
-
-    expect(result.success).toBe(false);
-  });
-
-  it("keeps the updatedAt the change was made from", () => {
-    const updatedAt = "2026-11-21T09:00:00.000Z";
-
-    const input = updateItemInput.parse({
+    const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
-      name: "Plan",
       updatedAt,
     });
 
-    expect(input.updatedAt).toBe(updatedAt);
+    expect(result.error?.issues[0]?.message).toBe(
+      "Give a name, a description or a status to change",
+    );
+  });
+
+  it("rejects an update without the updatedAt it was made from", () => {
+    const result = updateItemInput.safeParse({
+      id: crypto.randomUUID(),
+      name: "Plan",
+    });
+
+    expect(result.error?.issues[0]?.message).toBe(
+      "Give the item's updatedAt from list_items or the last tool that returned the item",
+    );
   });
 
   it("accepts an update that changes only the description", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
       description: "",
+      updatedAt,
     });
 
     expect(result.success).toBe(true);
@@ -64,6 +71,7 @@ describe("updateItemInput", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
       status: "blocked",
+      updatedAt,
     });
 
     expect(result.success).toBe(false);

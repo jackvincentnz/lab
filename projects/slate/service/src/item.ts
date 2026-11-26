@@ -15,7 +15,7 @@ export const itemStatus = itemSchema.shape.status;
 
 export type ItemStatus = z.infer<typeof itemStatus>;
 
-const { id, name, description, updatedAt } = itemSchema.shape;
+const { id, name, description } = itemSchema.shape;
 
 export const addItemInput = z.object({
   name: name.describe("What the work is, in a few words."),
@@ -38,10 +38,13 @@ export const updateItemInput = z
         "The item's new description, which replaces the old one. Markdown. Give an empty one to remove it.",
       ),
     status: itemStatus.optional().describe("The item's new status."),
-    updatedAt: updatedAt
-      .optional()
+    updatedAt: z
+      .string({
+        error:
+          "Give the item's updatedAt from list_items or the last tool that returned the item",
+      })
       .describe(
-        "The item's latest updatedAt, from list_items or the last tool that returned the item. If the item has changed since, the update is refused, so that a change you have not seen is not overwritten.",
+        "Required. The item's latest updatedAt, from list_items or the last tool that returned the item. If the item has changed since, the update is refused, so that a change you have not seen is not overwritten.",
       ),
   })
   .refine(

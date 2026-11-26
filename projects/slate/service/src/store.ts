@@ -143,11 +143,7 @@ export class ItemStore {
       return undefined;
     }
 
-    const saved = this.#save(
-      found,
-      { ...found, ...changes },
-      updatedAt ?? found.updatedAt,
-    );
+    const saved = this.#save(found, { ...found, ...changes }, updatedAt);
     if (!saved) {
       throw new ItemChangedError(id);
     }

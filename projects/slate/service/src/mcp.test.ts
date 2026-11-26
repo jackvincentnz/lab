@@ -120,18 +120,44 @@ describe("createSlateMcpServer", () => {
     const item = anItem();
     store.update.mockReturnValue(item);
 
-    const result = await call("update_item", { id: item.id, status: "done" });
+    const result = await call("update_item", {
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
 
     expect(result.content).toEqual(text(item));
   });
 
-  it("describes the updatedAt that guards an update", async () => {
+  it("requires the updatedAt that guards an update", async () => {
     const { tools } = await client.listTools();
 
     const update = tools.find((tool) => tool.name === "update_item");
-    expect(update?.inputSchema.properties).toMatchObject({
-      updatedAt: { description: expect.stringContaining("list_items") },
+    expect(update?.inputSchema).toMatchObject({
+      properties: {
+        updatedAt: { description: expect.stringContaining("list_items") },
+      },
+      required: expect.arrayContaining(["updatedAt"]),
     });
+  });
+
+  it("tells the agent where to find a missing updatedAt", async () => {
+    const result = await call("update_item", {
+      id: crypto.randomUUID(),
+      status: "done",
+    });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [
+        {
+          text: expect.stringContaining(
+            "Give the item's updatedAt from list_items or the last tool that returned the item",
+          ),
+        },
+      ],
+    });
+    expect(store.update).not.toHaveBeenCalled();
   });
 
   it("tells the agent to list again when the item changed since", async () => {
@@ -160,18 +186,27 @@ describe("createSlateMcpServer", () => {
     const item = anItem();
     store.update.mockReturnValue(item);
 
-    await call("update_item", { id: item.id, description: "New notes" });
+    await call("update_item", {
+      id: item.id,
+      description: "New notes",
+      updatedAt: item.updatedAt,
+    });
 
     expect(store.update).toHaveBeenCalledWith({
       id: item.id,
       description: "New notes",
+      updatedAt: item.updatedAt,
     });
   });
 
   it("names the unknown id on update", async () => {
     const id = crypto.randomUUID();
 
-    const result = await call("update_item", { id, status: "done" });
+    const result = await call("update_item", {
+      id,
+      status: "done",
+      updatedAt: "2026-11-22T09:00:00.000Z",
+    });
 
     expect(result).toMatchObject({
       isError: true,

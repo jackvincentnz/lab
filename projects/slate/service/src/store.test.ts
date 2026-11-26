@@ -80,7 +80,11 @@ describe("list on the day an item is marked done", () => {
   function markDone(name: string): Item {
     const added = store.add(name);
     time = lateEvening;
-    return store.update({ id: added.id, status: "done" })!;
+    return store.update({
+      id: added.id,
+      status: "done",
+      updatedAt: added.updatedAt,
+    })!;
   }
 
   it("keeps a done item until the end of that day", () => {
@@ -104,7 +108,11 @@ describe("list on the day an item is marked done", () => {
     const done = markDone("Ship it");
     time = midnight;
 
-    store.update({ id: done.id, name: "Shipped" });
+    store.update({
+      id: done.id,
+      name: "Shipped",
+      updatedAt: done.updatedAt,
+    });
 
     expect(store.list()).toEqual([]);
   });
@@ -123,7 +131,7 @@ describe("list on the day an item is marked done", () => {
     const done = markDone("Ship it");
     time = midnight;
 
-    store.update({ id: done.id, status: "done" });
+    store.update({ id: done.id, status: "done", updatedAt: done.updatedAt });
 
     expect(store.list()).toEqual([]);
   });
@@ -132,7 +140,11 @@ describe("list on the day an item is marked done", () => {
     const done = markDone("Ship it");
     time = midnight;
 
-    const reopened = store.update({ id: done.id, status: "todo" });
+    const reopened = store.update({
+      id: done.id,
+      status: "todo",
+      updatedAt: done.updatedAt,
+    });
 
     expect(store.list()).toEqual([reopened]);
   });
@@ -140,9 +152,17 @@ describe("list on the day an item is marked done", () => {
   it("shows a reopened item on the day it is marked done again", () => {
     const done = markDone("Ship it");
     time = midnight;
-    store.update({ id: done.id, status: "doing" });
+    const doing = store.update({
+      id: done.id,
+      status: "doing",
+      updatedAt: done.updatedAt,
+    })!;
 
-    const doneAgain = store.update({ id: done.id, status: "done" });
+    const doneAgain = store.update({
+      id: done.id,
+      status: "done",
+      updatedAt: doing.updatedAt,
+    });
 
     expect(store.list()).toEqual([doneAgain]);
   });
@@ -150,7 +170,11 @@ describe("list on the day an item is marked done", () => {
   it("keeps a doing item after midnight", () => {
     const added = store.add("Ongoing");
     time = lateEvening;
-    const doing = store.update({ id: added.id, status: "doing" });
+    const doing = store.update({
+      id: added.id,
+      status: "doing",
+      updatedAt: added.updatedAt,
+    });
 
     time = midnight;
 
@@ -163,7 +187,11 @@ describe("update", () => {
     const item = store.add("Draft");
     time = new Date("2026-11-21T10:00:00.000Z");
 
-    const updated = store.update({ id: item.id, status: "doing" });
+    const updated = store.update({
+      id: item.id,
+      status: "doing",
+      updatedAt: item.updatedAt,
+    });
 
     expect(updated).toEqual({
       ...item,
@@ -176,38 +204,6 @@ describe("update", () => {
   it("renames an item", () => {
     const item = store.add("Draft");
 
-    const updated = store.update({ id: item.id, name: "Final" });
-
-    expect(updated?.name).toBe("Final");
-  });
-
-  it("replaces an item's description", () => {
-    const item = store.add("Draft", "Old notes");
-
-    const updated = store.update({ id: item.id, description: "New notes" });
-
-    expect(updated?.description).toBe("New notes");
-    expect(openItemStore(dataDir).list()).toEqual([updated]);
-  });
-
-  it("returns nothing for an unknown item", () => {
-    const updated = store.update({ id: crypto.randomUUID(), name: "Missing" });
-
-    expect(updated).toBeUndefined();
-  });
-
-  it("returns nothing for a deleted item", () => {
-    const item = store.add("Draft");
-    store.delete(item.id);
-
-    const updated = store.update({ id: item.id, status: "done" });
-
-    expect(updated).toBeUndefined();
-  });
-
-  it("updates an item that has not changed since it was read", () => {
-    const item = store.add("Draft");
-
     const updated = store.update({
       id: item.id,
       name: "Final",
@@ -217,10 +213,50 @@ describe("update", () => {
     expect(updated?.name).toBe("Final");
   });
 
+  it("replaces an item's description", () => {
+    const item = store.add("Draft", "Old notes");
+
+    const updated = store.update({
+      id: item.id,
+      description: "New notes",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.description).toBe("New notes");
+    expect(openItemStore(dataDir).list()).toEqual([updated]);
+  });
+
+  it("returns nothing for an unknown item", () => {
+    const updated = store.update({
+      id: crypto.randomUUID(),
+      name: "Missing",
+      updatedAt: "2026-11-21T09:00:00.000Z",
+    });
+
+    expect(updated).toBeUndefined();
+  });
+
+  it("returns nothing for a deleted item", () => {
+    const item = store.add("Draft");
+    store.delete(item.id);
+
+    const updated = store.update({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated).toBeUndefined();
+  });
+
   it("refuses an update made from an older copy of the item", () => {
     const item = store.add("Draft");
     time = new Date("2026-11-21T10:00:00.000Z");
-    const renamed = store.update({ id: item.id, name: "Agent's name" });
+    const renamed = store.update({
+      id: item.id,
+      name: "Agent's name",
+      updatedAt: item.updatedAt,
+    });
 
     const updating = () =>
       store.update({ id: item.id, name: "Mine", updatedAt: item.updatedAt });
