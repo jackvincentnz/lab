@@ -6,6 +6,7 @@ import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
 import { failureDialog, lockHeldFailure } from "./failure.js";
 import { guardApp } from "./guards.js";
 import { type Log, logOutput, openLog } from "./log.js";
+import { openAtLogin } from "./loginItem.js";
 import { waitUntilListening } from "./service.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
@@ -44,6 +45,9 @@ async function start(): Promise<void> {
   const startLog = openLog(dataDir);
   log = startLog;
   await app.whenReady();
+  const openedAtLogin = openAtLogin(app, (message) =>
+    startLog.write("main", message),
+  );
 
   const service = utilityProcess.fork(serviceEntry, [], {
     serviceName: "Slate service",
@@ -66,9 +70,12 @@ async function start(): Promise<void> {
     ? await startDevServer(devServer, new URL(serviceUrl).port)
     : serviceUrl;
   guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
-  createWindow(url);
-  // Started from a terminal, the app would otherwise open behind the terminal.
-  app.focus({ steal: true });
+  // At login, Slate only needs to run. Its window opens when the user opens Slate.
+  if (!openedAtLogin) {
+    createWindow(url);
+    // Started from a terminal, the app would otherwise open behind the terminal.
+    app.focus({ steal: true });
+  }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {

@@ -34,6 +34,9 @@ run the command again to update it:
 bazel run //projects/slate:install
 ```
 
+The installed app adds itself to the login items when it starts. Started at login, it does not open
+its window until you click its Dock icon or open Slate again.
+
 ## Connect an agent
 
 Run the app in prod mode or install it, then register its MCP endpoint, `http://127.0.0.1:5197/mcp`.
