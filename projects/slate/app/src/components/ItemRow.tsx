@@ -68,7 +68,7 @@ export function ItemRow({
     if (draft === undefined) {
       return;
     }
-    // A rename overwrites only the name, so a change to the item that leaves its name alone, such as the user's own status change, does not refuse it.
+    // A rename overwrites only the name, so only a name changed elsewhere makes its draft stale.
     const nameChangedElsewhere = item.name !== draft.editedFrom.name;
     const editedFrom =
       draft.changed || !nameChangedElsewhere ? item : draft.editedFrom;

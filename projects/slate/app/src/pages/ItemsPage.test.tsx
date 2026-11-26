@@ -153,7 +153,7 @@ describe("ItemsPage", () => {
     ).toHaveValue("doing");
   });
 
-  it("keeps the draft and shows the newer name when a rename is refused as changed elsewhere", async () => {
+  it("shows the newer name when a rename is refused as changed elsewhere", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });
     const api = fakeSlateApi([original]);

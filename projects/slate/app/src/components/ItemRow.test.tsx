@@ -189,17 +189,17 @@ describe("ItemRow", () => {
     const original = item({ name: "Plan the week" });
     const { onRename, showItem } = renderRow(original);
     const name = await startRename(user);
-    const started = {
+    const doing = {
       ...original,
       status: "doing" as const,
       updatedAt: "2026-11-22T10:00:00.000Z",
     };
-    showItem(started);
+    showItem(doing);
 
     await user.type(name, " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
-      started,
+      doing,
       "Plan the week soon",
       expect.anything(),
     );
