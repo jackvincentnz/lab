@@ -116,7 +116,7 @@ export class ItemStore {
   }
 
   /** Adds an item at the bottom, so that new work never displaces what matters most. */
-  add(name: string, description = ""): Item {
+  add(name: string, description: string): Item {
     const last = this.#database
       .select({ rank: item.rank })
       .from(item)

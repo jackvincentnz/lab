@@ -19,17 +19,20 @@ afterEach(() => {
   rmSync(dataDir, { recursive: true, force: true });
 });
 
+function addItem(name: string): Item {
+  return store.add(name, "");
+}
+
 function names(items: Item[]): string[] {
   return items.map((item) => item.name);
 }
 
 describe("add", () => {
   it("creates a to-do item with matching timestamps", () => {
-    const item = store.add("Write the plan");
+    const item = addItem("Write the plan");
 
     expect(item).toMatchObject({
       name: "Write the plan",
-      description: "",
       status: "todo",
       createdAt: "2026-11-21T09:00:00.000Z",
       updatedAt: "2026-11-21T09:00:00.000Z",
@@ -44,10 +47,10 @@ describe("add", () => {
   });
 
   it("puts each new item at the bottom", () => {
-    store.add("First");
-    store.add("Second");
+    addItem("First");
+    addItem("Second");
 
-    store.add("Third");
+    addItem("Third");
 
     expect(names(store.list())).toEqual(["First", "Second", "Third"]);
   });
@@ -55,7 +58,7 @@ describe("add", () => {
 
 describe("list", () => {
   it("returns the items that the file already holds", () => {
-    const item = store.add("Kept");
+    const item = addItem("Kept");
 
     const reopened = openItemStore(dataDir).list();
 
@@ -63,7 +66,7 @@ describe("list", () => {
   });
 
   it("leaves out deleted items", () => {
-    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    const [first, second] = ["A", "B"].map((name) => addItem(name));
     store.delete(second.id);
 
     const reopened = openItemStore(dataDir).list();
@@ -78,7 +81,7 @@ describe("list on the day an item is marked done", () => {
   const midnight = new Date(2026, 10, 22);
 
   function markDone(name: string): Item {
-    const added = store.add(name);
+    const added = addItem(name);
     time = lateEvening;
     return store.update({
       id: added.id,
@@ -97,7 +100,7 @@ describe("list on the day an item is marked done", () => {
 
   it("hides a done item from midnight", () => {
     markDone("Ship it");
-    const todo = store.add("Next");
+    const todo = addItem("Next");
 
     time = midnight;
 
@@ -119,7 +122,7 @@ describe("list on the day an item is marked done", () => {
 
   it("keeps a done item hidden after it is moved", () => {
     const done = markDone("Ship it");
-    const todo = store.add("Next");
+    const todo = addItem("Next");
     time = midnight;
 
     store.move({ id: done.id, neighbourId: todo.id, position: "before" });
@@ -168,7 +171,7 @@ describe("list on the day an item is marked done", () => {
   });
 
   it("keeps a doing item after midnight", () => {
-    const added = store.add("Ongoing");
+    const added = addItem("Ongoing");
     time = lateEvening;
     const doing = store.update({
       id: added.id,
@@ -184,7 +187,7 @@ describe("list on the day an item is marked done", () => {
 
 describe("update", () => {
   it("changes only the given fields and the updated time", () => {
-    const item = store.add("Draft");
+    const item = addItem("Draft");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const updated = store.update({
@@ -202,7 +205,7 @@ describe("update", () => {
   });
 
   it("renames an item", () => {
-    const item = store.add("Draft");
+    const item = addItem("Draft");
 
     const updated = store.update({
       id: item.id,
@@ -237,7 +240,7 @@ describe("update", () => {
   });
 
   it("returns nothing for a deleted item", () => {
-    const item = store.add("Draft");
+    const item = addItem("Draft");
     store.delete(item.id);
 
     const updated = store.update({
@@ -250,7 +253,7 @@ describe("update", () => {
   });
 
   it("refuses an update made from an older copy of the item", () => {
-    const item = store.add("Draft");
+    const item = addItem("Draft");
     time = new Date("2026-11-21T10:00:00.000Z");
     const renamed = store.update({
       id: item.id,
@@ -266,7 +269,7 @@ describe("update", () => {
   });
 
   it("returns nothing for an item deleted since it was read", () => {
-    const item = store.add("Draft");
+    const item = addItem("Draft");
     time = new Date("2026-11-21T10:00:00.000Z");
     store.delete(item.id);
 
@@ -282,7 +285,7 @@ describe("update", () => {
 
 describe("move", () => {
   it("places an item before its neighbour", () => {
-    const [first, , third] = ["A", "B", "C"].map((name) => store.add(name));
+    const [first, , third] = ["A", "B", "C"].map((name) => addItem(name));
 
     store.move({ id: third.id, neighbourId: first.id, position: "before" });
 
@@ -290,7 +293,7 @@ describe("move", () => {
   });
 
   it("places an item after its neighbour", () => {
-    const [first, second] = ["A", "B", "C"].map((name) => store.add(name));
+    const [first, second] = ["A", "B", "C"].map((name) => addItem(name));
 
     store.move({ id: first.id, neighbourId: second.id, position: "after" });
 
@@ -299,7 +302,7 @@ describe("move", () => {
 
   it("places an item between its neighbour and the next item", () => {
     const [first, second, , fourth] = ["A", "B", "C", "D"].map((name) =>
-      store.add(name),
+      addItem(name),
     );
 
     store.move({ id: fourth.id, neighbourId: first.id, position: "after" });
@@ -309,9 +312,7 @@ describe("move", () => {
   });
 
   it("changes only the moved item's rank and updated time", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) =>
-      store.add(name),
-    );
+    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -325,7 +326,7 @@ describe("move", () => {
   });
 
   it("leaves an item moved next to itself unchanged", () => {
-    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    const [first, second] = ["A", "B"].map((name) => addItem(name));
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -339,7 +340,7 @@ describe("move", () => {
   });
 
   it("returns nothing when the neighbour is unknown", () => {
-    const item = store.add("Lonely");
+    const item = addItem("Lonely");
 
     const moved = store.move({
       id: item.id,
@@ -351,7 +352,7 @@ describe("move", () => {
   });
 
   it("returns nothing for a deleted item", () => {
-    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    const [first, second] = ["A", "B"].map((name) => addItem(name));
     store.delete(second.id);
 
     const moved = store.move({
@@ -364,7 +365,7 @@ describe("move", () => {
   });
 
   it("returns nothing when the neighbour is deleted", () => {
-    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    const [first, second] = ["A", "B"].map((name) => addItem(name));
     store.delete(first.id);
 
     const moved = store.move({
@@ -380,7 +381,7 @@ describe("move", () => {
 
 describe("delete", () => {
   it("returns the deleted item with its update time", () => {
-    const item = store.add("Mistake");
+    const item = addItem("Mistake");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const deleted = store.delete(item.id);
@@ -396,7 +397,7 @@ describe("delete", () => {
   });
 
   it("returns nothing for an item already deleted", () => {
-    const item = store.add("Mistake");
+    const item = addItem("Mistake");
     store.delete(item.id);
 
     const deletedAgain = store.delete(item.id);
@@ -407,9 +408,7 @@ describe("delete", () => {
 
 describe("restore", () => {
   it("puts a deleted item back in its place with its update time", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) =>
-      store.add(name),
-    );
+    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
     store.delete(second.id);
     time = new Date("2026-11-21T10:00:00.000Z");
 
@@ -421,7 +420,7 @@ describe("restore", () => {
   });
 
   it("returns an item that is not deleted unchanged", () => {
-    const item = store.add("Kept");
+    const item = addItem("Kept");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const restored = store.restore(item.id);
@@ -437,9 +436,9 @@ describe("restore", () => {
   });
 
   it("keeps an item added after a deletion below the restored item", () => {
-    const [, second] = ["A", "B"].map((name) => store.add(name));
+    const [, second] = ["A", "B"].map((name) => addItem(name));
     store.delete(second.id);
-    store.add("C");
+    addItem("C");
 
     store.restore(second.id);
 
@@ -447,9 +446,7 @@ describe("restore", () => {
   });
 
   it("puts an item back beside one moved into its place", () => {
-    const [first, second, third] = ["A", "B", "C"].map((name) =>
-      store.add(name),
-    );
+    const [first, second, third] = ["A", "B", "C"].map((name) => addItem(name));
     store.delete(second.id);
     store.move({ id: third.id, neighbourId: first.id, position: "after" });
 
