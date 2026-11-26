@@ -20,6 +20,16 @@ The first build downloads the Electron binary. The app starts the local service,
 web UI and the API at `http://127.0.0.1:5297` and keeps data in
 `~/Library/Application Support/Slate (dev)` on macOS. Quitting the app stops the service.
 
+When its output goes to a terminal, the app opens its window in front of other apps. Otherwise it
+runs without a window, so it does not take your focus. That happens when an agent or a test starts
+it without a terminal, or when you pipe its output. Its Dock icon shows for a moment while Electron starts, then hides.
+Agents can still drive it through the API or the [debugging port](#development). An agent that
+starts Slate for you to use sets `SLATE_SHOW_WINDOW=1`:
+
+```zsh
+SLATE_SHOW_WINDOW=1 bazel run //projects/slate
+```
+
 Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` and listens on port
 5197, so it can run beside dev mode:
 
