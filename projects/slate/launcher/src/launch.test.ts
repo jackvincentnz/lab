@@ -1,4 +1,4 @@
-import { type ChildProcess, spawn } from "node:child_process";
+import { type ChildProcess, execFileSync, spawn } from "node:child_process";
 import { once } from "node:events";
 import { createInterface } from "node:readline";
 import { fileURLToPath } from "node:url";
@@ -10,18 +10,16 @@ const started: ChildProcess[] = [];
 const childPids: number[] = [];
 
 // Prints its PID, then runs until stopped or until it exits with the given code.
-function childScript(exitCode?: number): string {
-  const exit =
-    exitCode === undefined
-      ? ""
-      : `setTimeout(() => process.exit(${exitCode}), 100);`;
-  return `console.log(process.pid); setInterval(() => {}, 1000); ${exit}`;
-}
+const runningChild = "console.log(process.pid); setInterval(() => {}, 1000);";
+const exitingChild = (code: number) =>
+  `${runningChild} setTimeout(() => process.exit(${code}), 100);`;
+// Prints its PID and each SIGTERM it gets, and keeps running.
+const countingChild = `${runningChild} process.on("SIGTERM", () => console.log("SIGTERM"));`;
 
-function launcherScript(exitCode?: number): string {
+function launcherScript(child = runningChild): string {
   return [
     `import { launch } from ${JSON.stringify(launchModule)};`,
-    `launch(${JSON.stringify(node)}, ["-e", ${JSON.stringify(childScript(exitCode))}], 50);`,
+    `launch(${JSON.stringify(node)}, ["-e", ${JSON.stringify(child)}], 50);`,
   ].join("\n");
 }
 
@@ -33,8 +31,8 @@ function start(command: string, args: string[]): ChildProcess {
   return childProcess;
 }
 
-function startLauncher(exitCode?: number): ChildProcess {
-  return start(node, ["--input-type=module", "-e", launcherScript(exitCode)]);
+function startLauncher(child?: string): ChildProcess {
+  return start(node, ["--input-type=module", "-e", launcherScript(child)]);
 }
 
 async function firstLine(childProcess: ChildProcess): Promise<number> {
@@ -93,7 +91,7 @@ describe("launch", () => {
   });
 
   it("stops the child when the launcher's parent is gone before it starts", async () => {
-    // The subshell outlives sh, then becomes the launcher, whose parent is then launchd.
+    // The subshell outlives sh, then becomes the launcher, whose parent is then PID 1.
     const parent = start("/bin/sh", [
       "-c",
       `(sleep 0.2; exec "$0" --input-type=module -e "$1") &`,
@@ -106,7 +104,7 @@ describe("launch", () => {
     await waitUntilStopped(childPid);
   });
 
-  it.each(["SIGINT", "SIGTERM", "SIGHUP"] as const)(
+  it.each(["SIGINT", "SIGTERM"] as const)(
     "forwards %s to the child",
     async (signal) => {
       const launcher = startLauncher();
@@ -121,8 +119,40 @@ describe("launch", () => {
     },
   );
 
+  it("sends no SIGTERM of its own when its parent exits after a forwarded one", async () => {
+    // The sleep keeps sh from replacing itself with the launcher.
+    const parent = start("/bin/sh", [
+      "-c",
+      `"$0" --input-type=module -e "$1"; sleep 60`,
+      node,
+      launcherScript(countingChild),
+    ]);
+    const lines = createInterface({ input: parent.stdout! })[
+      Symbol.asyncIterator
+    ]();
+    const childPid = Number((await lines.next()).value);
+    childPids.push(childPid);
+    const launcherPid = Number(
+      execFileSync("ps", ["-o", "ppid=", "-p", String(childPid)], {
+        encoding: "utf8",
+      }),
+    );
+    process.kill(launcherPid, "SIGTERM");
+    await lines.next();
+
+    parent.kill("SIGKILL");
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    process.kill(childPid, "SIGKILL");
+    const later: string[] = [];
+    for (let line = await lines.next(); !line.done; line = await lines.next()) {
+      later.push(line.value);
+    }
+    expect(later).toEqual([]);
+  });
+
   it("exits with the child's exit code", async () => {
-    const launcher = startLauncher(3);
+    const launcher = startLauncher(exitingChild(3));
 
     const [code] = await once(launcher, "exit");
 

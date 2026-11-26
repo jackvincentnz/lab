@@ -1,9 +1,8 @@
 import { type ChildProcess, spawn } from "node:child_process";
 
-const forwardedSignals = ["SIGINT", "SIGTERM", "SIGHUP"] as const;
-
 /**
- * Runs a command, forwarding signals and its exit code, and stops it when this process's parent exits.
+ * Runs a command as Electron's `cli.js` does, forwarding SIGINT, SIGTERM and its exit code, and
+ * stops it when this process's parent exits.
  */
 export function launch(
   command: string,
@@ -11,9 +10,6 @@ export function launch(
   parentCheckMs = 500,
 ): ChildProcess {
   const child = spawn(command, args, { stdio: "inherit" });
-  for (const signal of forwardedSignals) {
-    process.on(signal, () => child.kill(signal));
-  }
 
   // `js_run_devserver` neither forwards signals to its tool nor stops it when it exits, and
   // Bazelisk stops `bazel run` with SIGKILL, so the parent can exit without telling this process.
@@ -21,11 +17,17 @@ export function launch(
   const parentCheck = setInterval(() => {
     // A parent already gone at start usually leaves PID 1, launchd or init, as the parent.
     if (process.ppid !== parent || process.ppid === 1) {
-      clearInterval(parentCheck);
-      // Once only, because Electron quits at once on a second SIGTERM, before the service stops.
-      child.kill("SIGTERM");
+      stop("SIGTERM");
     }
   }, parentCheckMs);
+  // Electron exits at once on a second signal, before the service stops, so a parent that exits
+  // after a forwarded signal adds none.
+  const stop = (signal: NodeJS.Signals) => {
+    clearInterval(parentCheck);
+    child.kill(signal);
+  };
+  process.on("SIGINT", stop);
+  process.on("SIGTERM", stop);
 
   child.on("exit", (code) => {
     clearInterval(parentCheck);
