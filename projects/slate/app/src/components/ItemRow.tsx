@@ -1,59 +1,32 @@
-import { useState, type FormEvent } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   ActionIcon,
-  Button,
+  Badge,
+  Checkbox,
   Group,
   List,
-  NativeSelect,
-  Stack,
   Text,
-  TextInput,
+  UnstyledButton,
 } from "@mantine/core";
-import { IconGripVertical, IconTrash } from "@tabler/icons-react";
+import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
-
-const statusLabels: Record<ItemStatus, string> = {
-  todo: "To do",
-  doing: "Doing",
-  done: "Done",
-};
-
-const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({
-  value,
-  label,
-}));
-
-export interface RenameCallbacks {
-  onSaved(saved: Item): void;
-  onChanged(): void;
-}
-
-interface Draft {
-  name: string;
-  editedFrom: Item;
-  refusedFrom?: Item;
-}
 
 interface ItemRowProps {
   item: Item;
   saving: boolean;
-  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
-  onRenameCancel(): void;
+  open: boolean;
+  onOpen(): void;
   onStatusChange(status: ItemStatus): void;
-  onDelete(): void;
 }
 
 export function ItemRow({
   item,
   saving,
-  onRename,
-  onRenameCancel,
+  open,
+  onOpen,
   onStatusChange,
-  onDelete,
 }: ItemRowProps) {
-  const [draft, setDraft] = useState<Draft>();
   const {
     attributes,
     listeners,
@@ -62,43 +35,21 @@ export function ItemRow({
     transform,
     transition,
   } = useSortable({ id: item.id, disabled: saving });
-
-  function submitRename(event: FormEvent) {
-    event.preventDefault();
-    if (draft === undefined) {
-      return;
-    }
-    // A rename overwrites only the name, so only a name changed elsewhere makes its draft stale.
-    const nameChangedElsewhere = item.name !== draft.editedFrom.name;
-    const editedFrom =
-      draft.refusedFrom !== undefined || !nameChangedElsewhere
-        ? item
-        : draft.editedFrom;
-    onRename(editedFrom, draft.name, {
-      onSaved: (saved) =>
-        setDraft((current) =>
-          current === undefined || current.name === draft.name
-            ? undefined
-            : { name: current.name, editedFrom: saved },
-        ),
-      onChanged: () =>
-        setDraft(
-          (current) => current && { ...current, refusedFrom: editedFrom },
-        ),
-    });
-  }
-
-  function cancelRename() {
-    onRenameCancel();
-    setDraft(undefined);
-  }
+  const done = item.status === "done";
 
   return (
     <List.Item
       ref={setNodeRef}
       style={{ transform: CSS.Translate.toString(transform), transition }}
     >
-      <Group wrap="nowrap">
+      <Group
+        wrap="nowrap"
+        gap="sm"
+        px="xs"
+        py={6}
+        bg={open ? "var(--mantine-primary-color-light)" : undefined}
+        style={{ borderRadius: "var(--mantine-radius-sm)" }}
+      >
         <ActionIcon
           ref={setActivatorNodeRef}
           variant="subtle"
@@ -111,87 +62,29 @@ export function ItemRow({
         >
           <IconGripVertical size={16} />
         </ActionIcon>
-        <NativeSelect
-          aria-label={`Status of ${item.name}`}
-          data={statusOptions}
-          value={item.status}
+        <Checkbox
+          aria-label={`Mark ${item.name} done`}
+          checked={done}
           disabled={saving}
           onChange={(event) =>
-            onStatusChange(event.currentTarget.value as ItemStatus)
+            onStatusChange(event.currentTarget.checked ? "done" : "todo")
           }
         />
-        {draft === undefined ? (
-          <>
-            <Text
-              flex={1}
-              td={item.status === "done" ? "line-through" : undefined}
-              c={item.status === "done" ? "dimmed" : undefined}
-            >
-              {item.name}
-            </Text>
-            <Button
-              variant="subtle"
-              size="xs"
-              aria-label={`Rename ${item.name}`}
-              onClick={() => setDraft({ name: item.name, editedFrom: item })}
-            >
-              Rename
-            </Button>
-            <ActionIcon
-              variant="subtle"
-              color="gray"
-              aria-label={`Delete ${item.name}`}
-              disabled={saving}
-              onClick={onDelete}
-            >
-              <IconTrash size={16} />
-            </ActionIcon>
-          </>
-        ) : (
-          <form onSubmit={submitRename} style={{ flex: 1 }}>
-            <Stack gap={4}>
-              <Group wrap="nowrap">
-                <TextInput
-                  aria-label="Name"
-                  value={draft.name}
-                  onChange={(event) => {
-                    const name = event.currentTarget.value;
-                    setDraft((current) => current && { ...current, name });
-                  }}
-                  onKeyDown={(event) => {
-                    if (event.key === "Escape" && !saving) {
-                      cancelRename();
-                    }
-                  }}
-                  autoFocus
-                  flex={1}
-                />
-                <Button
-                  type="submit"
-                  size="xs"
-                  disabled={saving || draft.name.trim() === ""}
-                >
-                  Save
-                </Button>
-                <Button
-                  variant="subtle"
-                  size="xs"
-                  disabled={saving}
-                  onClick={cancelRename}
-                >
-                  Cancel
-                </Button>
-              </Group>
-              {draft.refusedFrom !== undefined && (
-                <Text size="xs" c="dimmed">
-                  {item.updatedAt === draft.refusedFrom.updatedAt
-                    ? "Changed elsewhere."
-                    : `Changed elsewhere. Current name: ${item.name}`}
-                </Text>
-              )}
-            </Stack>
-          </form>
-        )}
+        <UnstyledButton
+          flex={1}
+          aria-label={`Open ${item.name}`}
+          aria-expanded={open}
+          onClick={onOpen}
+        >
+          <Text
+            span
+            td={done ? "line-through" : undefined}
+            c={done ? "dimmed" : undefined}
+          >
+            {item.name}
+          </Text>
+        </UnstyledButton>
+        {item.status === "doing" && <Badge variant="light">Doing</Badge>}
       </Group>
     </List.Item>
   );

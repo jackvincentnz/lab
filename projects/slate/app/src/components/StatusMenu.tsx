@@ -1,0 +1,63 @@
+import { useState } from "react";
+import { Box, Button, Menu } from "@mantine/core";
+import { IconChevronDown } from "@tabler/icons-react";
+import type { ItemStatus } from "../api";
+
+interface StatusStyle {
+  label: string;
+  color: string;
+}
+
+const statuses: Record<ItemStatus, StatusStyle> = {
+  todo: { label: "To do", color: "gray" },
+  doing: { label: "Doing", color: "blue" },
+  done: { label: "Done", color: "green" },
+};
+
+interface StatusMenuProps {
+  status: ItemStatus;
+  saving: boolean;
+  onChange(status: ItemStatus): void;
+}
+
+export function StatusMenu({ status, saving, onChange }: StatusMenuProps) {
+  const { label, color } = statuses[status];
+  const [opened, setOpened] = useState(false);
+
+  return (
+    <Box
+      onKeyDown={(event) => {
+        if (event.key === "Escape" && opened) {
+          event.preventDefault();
+        }
+      }}
+    >
+      <Menu position="bottom-start" opened={opened} onChange={setOpened}>
+        <Menu.Target>
+          <Button
+            size="xs"
+            color={color}
+            tt="uppercase"
+            rightSection={<IconChevronDown size={14} />}
+            aria-label={`Status: ${label}`}
+          >
+            {label}
+          </Button>
+        </Menu.Target>
+        <Menu.Dropdown>
+          {Object.entries(statuses)
+            .filter(([other]) => other !== status)
+            .map(([other, { label: otherLabel }]) => (
+              <Menu.Item
+                key={other}
+                disabled={saving}
+                onClick={() => onChange(other as ItemStatus)}
+              >
+                {otherLabel}
+              </Menu.Item>
+            ))}
+        </Menu.Dropdown>
+      </Menu>
+    </Box>
+  );
+}

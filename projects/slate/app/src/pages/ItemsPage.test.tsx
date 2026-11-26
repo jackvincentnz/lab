@@ -1,4 +1,5 @@
 import {
+  act,
   afterEach,
   describe,
   expect,
@@ -31,6 +32,14 @@ async function moveWithKeyboard(
   layOutRowsVertically();
   (await screen.findByRole("button", { name: `Move ${name}` })).focus();
   await user.keyboard(`[Space]${direction}[Space]`);
+}
+
+async function openItem(
+  user: ReturnType<typeof userEvent.setup>,
+  name: string,
+) {
+  await user.click(await screen.findByRole("button", { name: `Open ${name}` }));
+  return screen.getByRole("complementary", { name: "Item details" });
 }
 
 describe("ItemsPage", () => {
@@ -110,9 +119,10 @@ describe("ItemsPage", () => {
     api.updateItem.mockResolvedValue(renamed);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([renamed]);
+    const panel = await openItem(user, "Plan the week");
 
     await user.click(
-      await screen.findByRole("button", { name: "Rename Plan the week" }),
+      within(panel).getByRole("button", { name: "Rename Plan the week" }),
     );
     const name = screen.getByRole("textbox", { name: "Name" });
     await user.clear(name);
@@ -123,7 +133,10 @@ describe("ItemsPage", () => {
       name: "Plan the month",
       updatedAt: original.updatedAt,
     });
-    expect(await screen.findByText("Plan the month")).toBeInTheDocument();
+    await waitFor(() => expect(itemNames()).toEqual(["Plan the month"]));
+    expect(
+      within(panel).getByRole("heading", { name: "Plan the month" }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByRole("textbox", { name: "Name" }),
     ).not.toBeInTheDocument();
@@ -137,11 +150,12 @@ describe("ItemsPage", () => {
     api.updateItem.mockResolvedValue(started);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([started]);
+    const panel = await openItem(user, "Plan the week");
 
-    await user.selectOptions(
-      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
-      "Doing",
+    await user.click(
+      within(panel).getByRole("button", { name: "Status: To do" }),
     );
+    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
@@ -149,8 +163,8 @@ describe("ItemsPage", () => {
       updatedAt: original.updatedAt,
     });
     expect(
-      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
-    ).toHaveValue("doing");
+      await within(panel).findByRole("button", { name: "Status: Doing" }),
+    ).toBeInTheDocument();
   });
 
   it("shows the newer name when a rename is refused as changed elsewhere", async () => {
@@ -166,9 +180,10 @@ describe("ItemsPage", () => {
         updatedAt: "2026-11-22T10:00:00.000Z",
       },
     ]);
+    const panel = await openItem(user, "Plan the week");
 
     await user.click(
-      await screen.findByRole("button", { name: "Rename Plan the week" }),
+      within(panel).getByRole("button", { name: "Rename Plan the week" }),
     );
     await user.type(
       screen.getByRole("textbox", { name: "Name" }),
@@ -198,23 +213,128 @@ describe("ItemsPage", () => {
         updatedAt: "2026-11-22T10:00:00.000Z",
       },
     ]);
+    const panel = await openItem(user, "Plan the week");
 
-    await user.selectOptions(
-      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
-      "Doing",
+    await user.click(
+      within(panel).getByRole("button", { name: "Status: To do" }),
     );
+    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
 
     expect(
       await screen.findByText("Not saved: the item changed elsewhere"),
     ).toBeInTheDocument();
-    await waitFor(() =>
-      expect(
-        screen.getByRole("combobox", { name: "Status of Plan the week" }),
-      ).toHaveValue("done"),
-    );
+    expect(
+      await within(panel).findByRole("button", { name: "Status: Done" }),
+    ).toBeInTheDocument();
     expect(
       screen.queryByText("Could not save your change"),
     ).not.toBeInTheDocument();
+  });
+
+  it("marks an item done from its checkbox", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const done = { ...original, status: "done" as const };
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockResolvedValue(done);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([done]);
+
+    await user.click(
+      await screen.findByRole("checkbox", { name: "Mark Plan the week done" }),
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: original.id,
+      status: "done",
+      updatedAt: original.updatedAt,
+    });
+    await waitFor(() =>
+      expect(
+        screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
+      ).toBeChecked(),
+    );
+  });
+
+  it("shows no side panel until an item is opened", async () => {
+    render(<ItemsPage />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    await screen.findByRole("button", { name: "Open Plan the week" });
+
+    expect(
+      screen.queryByRole("complementary", { name: "Item details" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens an item in the side panel", async () => {
+    const user = userEvent.setup();
+    render(<ItemsPage />, {
+      wrapper: withSlateApi(
+        fakeSlateApi([
+          item({ name: "Plan the week" }),
+          item({ name: "Book travel" }),
+        ]),
+      ),
+    });
+
+    const panel = await openItem(user, "Book travel");
+
+    expect(
+      within(panel).getByRole("heading", { name: "Book travel" }),
+    ).toBeInTheDocument();
+  });
+
+  it("closes the side panel", async () => {
+    const user = userEvent.setup();
+    render(<ItemsPage />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Close details" }),
+    );
+
+    expect(
+      screen.queryByRole("complementary", { name: "Item details" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("returns focus to the item's row when the side panel closes", async () => {
+    const user = userEvent.setup();
+    render(<ItemsPage />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    await openItem(user, "Plan the week");
+
+    await user.keyboard("{Escape}");
+
+    expect(
+      screen.getByRole("button", { name: "Open Plan the week" }),
+    ).toHaveFocus();
+  });
+
+  it("closes the side panel when its item leaves the list", async () => {
+    const user = userEvent.setup();
+    const opened = item({ name: "Plan the week" });
+    const other = item({ name: "Book travel" });
+    const api = fakeSlateApi([opened, other]);
+    api.updateItem.mockResolvedValue({ ...other, status: "done" });
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    api.listItems.mockResolvedValue([{ ...other, status: "done" }]);
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
+    );
+
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("complementary", { name: "Item details" }),
+      ).not.toBeInTheDocument(),
+    );
   });
 
   it("shows a moved item in its new place while the move saves", async () => {
@@ -290,9 +410,10 @@ describe("ItemsPage", () => {
     api.deleteItem.mockResolvedValue(deleted);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
+    await openItem(user, "Plan the week");
 
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
     expect(api.deleteItem).toHaveBeenCalledWith({ id: deleted.id });
@@ -300,6 +421,9 @@ describe("ItemsPage", () => {
       "Deleted Plan the week",
     );
     await waitFor(() => expect(itemNames()).toEqual(["Book travel"]));
+    expect(
+      screen.queryByRole("complementary", { name: "Item details" }),
+    ).not.toBeInTheDocument();
   });
 
   it("moves focus to the undo after a delete", async () => {
@@ -309,9 +433,8 @@ describe("ItemsPage", () => {
     api.deleteItem.mockResolvedValue(deleted);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
-    (
-      await screen.findByRole("button", { name: "Delete Plan the week" })
-    ).focus();
+    await openItem(user, "Plan the week");
+    screen.getByRole("button", { name: "Delete Plan the week" }).focus();
 
     await user.keyboard("{Enter}");
 
@@ -327,8 +450,9 @@ describe("ItemsPage", () => {
     api.restoreItem.mockResolvedValue(deleted);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
+    await openItem(user, "Plan the week");
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
     api.listItems.mockResolvedValue([deleted, remaining]);
 
@@ -348,9 +472,10 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.deleteItem.mockRejectedValue(new Error("offline"));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
 
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
     expect(
@@ -370,8 +495,9 @@ describe("ItemsPage", () => {
     api.restoreItem.mockRejectedValue(new Error("offline"));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
     await user.click(await screen.findByRole("button", { name: "Undo" }));
@@ -390,8 +516,9 @@ describe("ItemsPage", () => {
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
     await screen.findByRole("button", { name: "Undo" });
 
@@ -412,8 +539,9 @@ describe("ItemsPage", () => {
     api.deleteItem.mockResolvedValue(deleted);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
     await user.click(await screen.findByRole("button", { name: "Dismiss" }));
@@ -450,9 +578,8 @@ describe("ItemsPage", () => {
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
 
-    await user.selectOptions(
-      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
-      "Doing",
+    await user.click(
+      await screen.findByRole("checkbox", { name: "Mark Plan the week done" }),
     );
 
     expect(
@@ -519,13 +646,14 @@ describe("ItemsPage", () => {
     ]);
     api.deleteItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
 
     await user.click(
-      await screen.findByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
     expect(
-      screen.getByRole("combobox", { name: "Status of Book travel" }),
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
     ).toBeDisabled();
   });
 
@@ -553,8 +681,9 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockRejectedValue(new Error("offline"));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
     await user.click(
-      await screen.findByRole("button", { name: "Rename Plan the week" }),
+      screen.getByRole("button", { name: "Rename Plan the week" }),
     );
     await user.type(
       screen.getByRole("textbox", { name: "Name" }),
@@ -567,6 +696,93 @@ describe("ItemsPage", () => {
     expect(
       screen.queryByText("Could not save your change"),
     ).not.toBeInTheDocument();
+  });
+
+  it("clears a failed change's error when another item is opened", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.updateItem.mockRejectedValue(new Error("offline"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await user.click(
+      await screen.findByRole("checkbox", { name: "Mark Plan the week done" }),
+    );
+    await screen.findByText("Could not save your change");
+
+    await openItem(user, "Book travel");
+
+    expect(
+      screen.queryByText("Could not save your change"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("clears a failed change's error when the side panel closes", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockRejectedValue(new Error("offline"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const panel = await openItem(user, "Plan the week");
+    await user.click(
+      within(panel).getByRole("button", { name: "Status: To do" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
+    await screen.findByText("Could not save your change");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Close details" }),
+    );
+
+    expect(
+      screen.queryByText("Could not save your change"),
+    ).not.toBeInTheDocument();
+  });
+
+  it("offers the undo for a delete that finishes after the side panel closed", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    let finishDelete!: (item: Item) => void;
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockReturnValue(
+      new Promise<Item>((resolve) => {
+        finishDelete = resolve;
+      }),
+    );
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    await user.click(screen.getByRole("button", { name: "Close details" }));
+
+    act(() => finishDelete(deleted));
+
+    expect(await screen.findByRole("button", { name: "Undo" })).toBeEnabled();
+  });
+
+  it("keeps another item open when a delete finishes after it was opened", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    let finishDelete!: (item: Item) => void;
+    const api = fakeSlateApi([deleted, item({ name: "Book travel" })]);
+    api.deleteItem.mockReturnValue(
+      new Promise<Item>((resolve) => {
+        finishDelete = resolve;
+      }),
+    );
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    const panel = await openItem(user, "Book travel");
+
+    act(() => finishDelete(deleted));
+
+    expect(
+      await within(panel).findByRole("heading", { name: "Book travel" }),
+    ).toBeInTheDocument();
   });
 
   it("keeps offering a retry when a change fails before the list loads", async () => {
