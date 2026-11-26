@@ -52,7 +52,7 @@ Desktop:
   "mcpServers": {
     "slate": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "http://127.0.0.1:5297/mcp"]
+      "args": ["-y", "mcp-remote@0.16.7", "http://127.0.0.1:5297/mcp"]
     }
   }
 }
