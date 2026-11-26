@@ -49,3 +49,6 @@ Thumbs.db
 
 # Claude Code agent worktrees
 .claude/worktrees
+
+# Slate's dev data in a linked worktree
+projects/slate/.dev-data

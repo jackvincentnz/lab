@@ -1,7 +1,23 @@
 import { describe, expect, it } from "vitest";
-import { readConfig } from "./config.js";
+import { isLinkedWorktree, readConfig } from "./config.js";
 
-const mac = { platform: "darwin", home: "/Users/me" } as const;
+const noGitFile = () => undefined;
+
+const mac = {
+  platform: "darwin",
+  home: "/Users/me",
+  readGitFile: noGitFile,
+} as const;
+
+const linkedWorktree = "gitdir: /code/lab/.git/worktrees/feature\n";
+
+function inWorktree(gitFile: string | undefined) {
+  return {
+    ...mac,
+    readGitFile: (workspace: string) =>
+      workspace === "/work/feature" ? gitFile : undefined,
+  };
+}
 
 describe("readConfig", () => {
   it("defaults the port", () => {
@@ -71,7 +87,7 @@ describe("readConfig", () => {
   it("keeps data in APPDATA on Windows", () => {
     const config = readConfig(
       { APPDATA: "C:\\Users\\me\\AppData\\Roaming" },
-      { platform: "win32", home: "C:\\Users\\me" },
+      { platform: "win32", home: "C:\\Users\\me", readGitFile: noGitFile },
     );
 
     expect(config.dataDir).toMatch(/^C:\\Users\\me\\AppData\\Roaming.Slate$/);
@@ -80,7 +96,7 @@ describe("readConfig", () => {
   it("keeps data in XDG_CONFIG_HOME on Linux", () => {
     const config = readConfig(
       { XDG_CONFIG_HOME: "/home/me/config" },
-      { platform: "linux", home: "/home/me" },
+      { platform: "linux", home: "/home/me", readGitFile: noGitFile },
     );
 
     expect(config.dataDir).toBe("/home/me/config/Slate");
@@ -105,8 +121,70 @@ describe("readConfig", () => {
   });
 
   it("falls back to ~/.config on Linux", () => {
-    const config = readConfig({}, { platform: "linux", home: "/home/me" });
+    const config = readConfig(
+      {},
+      { platform: "linux", home: "/home/me", readGitFile: noGitFile },
+    );
 
     expect(config.dataDir).toBe("/home/me/.config/Slate");
+  });
+
+  it("keeps a linked worktree's dev data inside the worktree", () => {
+    const config = readConfig(
+      { SLATE_PROFILE: "dev", BUILD_WORKSPACE_DIRECTORY: "/work/feature" },
+      inWorktree(linkedWorktree),
+    );
+
+    expect(config).toEqual({
+      dataDir: "/work/feature/projects/slate/.dev-data",
+      port: 5297,
+    });
+  });
+
+  it("keeps the main checkout's dev data in the shared dev folder", () => {
+    const config = readConfig(
+      { SLATE_PROFILE: "dev", BUILD_WORKSPACE_DIRECTORY: "/work/feature" },
+      inWorktree(undefined),
+    );
+
+    expect(config.dataDir).toBe(
+      "/Users/me/Library/Application Support/Slate (dev)",
+    );
+  });
+
+  it("keeps a linked worktree's prod data in the installed app's folder", () => {
+    const config = readConfig(
+      { BUILD_WORKSPACE_DIRECTORY: "/work/feature" },
+      inWorktree(linkedWorktree),
+    );
+
+    expect(config.dataDir).toBe("/Users/me/Library/Application Support/Slate");
+  });
+
+  it("lets the environment override a linked worktree's data folder", () => {
+    const config = readConfig(
+      {
+        SLATE_PROFILE: "dev",
+        SLATE_DATA_DIR: "/data",
+        BUILD_WORKSPACE_DIRECTORY: "/work/feature",
+      },
+      inWorktree(linkedWorktree),
+    );
+
+    expect(config.dataDir).toBe("/data");
+  });
+});
+
+describe("isLinkedWorktree", () => {
+  it("recognises a linked worktree's .git file", () => {
+    expect(isLinkedWorktree(linkedWorktree)).toBe(true);
+  });
+
+  it("rejects a checkout whose .git is a folder", () => {
+    expect(isLinkedWorktree(undefined)).toBe(false);
+  });
+
+  it("rejects a submodule", () => {
+    expect(isLinkedWorktree("gitdir: ../.git/modules/lab\n")).toBe(false);
   });
 });
