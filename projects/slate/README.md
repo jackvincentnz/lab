@@ -27,8 +27,9 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` a
 bazel run //projects/slate:prod
 ```
 
-Install it in prod mode as `/Applications/Slate.app`, where Spotlight finds it. Quit Slate first, and
-run the command again to update it:
+Install it in prod mode as `/Applications/Slate.app`, where Spotlight finds it. Run the command
+again to update it. It changes nothing while Slate runs from `/Applications/Slate.app`, or when that
+path holds another app:
 
 ```zsh
 bazel run //projects/slate:install
