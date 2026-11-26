@@ -19,7 +19,7 @@ export function launch(
   // Bazelisk stops `bazel run` with SIGKILL, so the parent can exit without telling this process.
   const parent = process.ppid;
   const parentCheck = setInterval(() => {
-    // A parent already gone at start leaves this process with launchd, PID 1, as its parent.
+    // A parent already gone at start usually leaves PID 1, launchd or init, as the parent.
     if (process.ppid !== parent || process.ppid === 1) {
       clearInterval(parentCheck);
       // Once only, because Electron quits at once on a second SIGTERM, before the service stops.

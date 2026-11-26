@@ -92,6 +92,20 @@ describe("launch", () => {
     await waitUntilStopped(childPid);
   });
 
+  it("stops the child when the launcher's parent is gone before it starts", async () => {
+    // The subshell outlives sh, then becomes the launcher, whose parent is then launchd.
+    const parent = start("/bin/sh", [
+      "-c",
+      `(sleep 0.2; exec "$0" --input-type=module -e "$1") &`,
+      node,
+      launcherScript(),
+    ]);
+
+    const childPid = await firstLine(parent);
+
+    await waitUntilStopped(childPid);
+  });
+
   it.each(["SIGINT", "SIGTERM", "SIGHUP"] as const)(
     "forwards %s to the child",
     async (signal) => {
