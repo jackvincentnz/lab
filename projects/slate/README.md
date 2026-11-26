@@ -19,7 +19,7 @@ bazel run //projects/slate
 The first build downloads the Electron binary. The app starts the local service, which serves the
 web UI and the API at `http://127.0.0.1:5297` and keeps data in
 `~/Library/Application Support/Slate (dev)` on macOS, or in `projects/slate/.dev-data` when run from
-a worktree that `git worktree add` created, as [dev data](docs/migrations.md#dev-data) describes. Quitting the app stops the service.
+a worktree that `git worktree add` created, as [dev data](docs/migrations.md#dev-data) describes. A new data folder starts with sample items. Quitting the app stops the service.
 
 Started without a terminal, as agents and tests start it, the app runs without a window. Set
 `SLATE_SHOW_WINDOW=1` to show it.
@@ -67,13 +67,14 @@ name, such as `slate-dev`.
 
 ## Development
 
-| Task                                           | Command                              |
-| ---------------------------------------------- | ------------------------------------ |
-| Build and typecheck everything.                | `bazel build //projects/slate/...`   |
-| Run the desktop app with hot reload.           | `ibazel run //projects/slate:watch`  |
-| Run the local service on its own.              | `bazel run //projects/slate/service` |
-| Run tests once.                                | `bazel test //projects/slate/...`    |
-| Launch the desktop app and test it end to end. | `bazel test //projects/slate/e2e`    |
+| Task                                           | Command                                   |
+| ---------------------------------------------- | ----------------------------------------- |
+| Build and typecheck everything.                | `bazel build //projects/slate/...`        |
+| Run the desktop app with hot reload.           | `ibazel run //projects/slate:watch`       |
+| Run the local service on its own.              | `bazel run //projects/slate/service`      |
+| Replace the dev data with sample items.        | `bazel run //projects/slate/service:seed` |
+| Run tests once.                                | `bazel test //projects/slate/...`         |
+| Launch the desktop app and test it end to end. | `bazel test //projects/slate/e2e`         |
 
 On Linux, the end-to-end test needs `Xvfb`. On Ubuntu, AppArmor must also allow user namespaces for
 Electron in your Bazel output base, as the [CI workflow](../../.github/workflows/main.yml) does.

@@ -67,6 +67,13 @@ js_binary(
     env = {"SLATE_PROFILE": "dev"},
 )
 
+js_binary(
+    name = "seed",
+    data = [":src"],
+    entry_point = "src/seed.js",
+    env = {"SLATE_PROFILE": "dev"},
+)
+
 drizzle_generate(
     name = "generate_migration",
     data = [
