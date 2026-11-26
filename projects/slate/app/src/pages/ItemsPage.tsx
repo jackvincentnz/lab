@@ -8,10 +8,7 @@ import { ItemList } from "../components/ItemList";
 
 export function ItemsPage() {
   const trpc = useTRPC();
-  const items = useQuery({
-    ...trpc.listItems.queryOptions(),
-    refetchInterval: () => untilMidnight(new Date()),
-  });
+  const items = useQuery(trpc.listItems.queryOptions());
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
@@ -106,14 +103,4 @@ export function ItemsPage() {
       )}
     </Stack>
   );
-}
-
-/** The service hides items marked done before today, so a list left open reloads when the day changes. */
-function untilMidnight(now: Date): number {
-  const midnight = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate() + 1,
-  );
-  return midnight.getTime() - now.getTime();
 }

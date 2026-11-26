@@ -6,7 +6,6 @@ import {
   render,
   screen,
   userEvent,
-  vi,
   waitFor,
   within,
 } from "@lab/test-utils";
@@ -36,7 +35,6 @@ async function moveWithKeyboard(
 describe("ItemsPage", () => {
   afterEach(() => {
     onlineManager.setOnline(true);
-    vi.useRealTimers();
   });
 
   it("shows a loader until the list arrives", () => {
@@ -59,22 +57,6 @@ describe("ItemsPage", () => {
     expect(await screen.findAllByRole("listitem")).toHaveLength(2);
     expect(screen.getByText("Plan the week")).toBeInTheDocument();
     expect(screen.getByText("Book travel")).toBeInTheDocument();
-  });
-
-  it("reloads the list at midnight", async () => {
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    vi.setSystemTime(new Date(2026, 10, 21, 23, 59, 59));
-    const api = fakeSlateApi();
-    api.listItems
-      .mockResolvedValueOnce([item({ name: "Finished late" })])
-      .mockResolvedValueOnce([item({ name: "Next" })]);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
-    await screen.findByText("Finished late");
-
-    await vi.advanceTimersByTimeAsync(1000);
-
-    expect(await screen.findByText("Next")).toBeInTheDocument();
-    expect(screen.queryByText("Finished late")).not.toBeInTheDocument();
   });
 
   it("says the list is empty when there are no items", async () => {
