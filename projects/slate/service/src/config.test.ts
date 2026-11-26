@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isLinkedWorktree, readConfig } from "./config.js";
+import { isLinkedWorktree, readConfig, readProdDataDir } from "./config.js";
 
 const noGitFile = () => undefined;
 
@@ -23,7 +23,7 @@ describe("readConfig", () => {
   it("defaults the port", () => {
     const config = readConfig({ SLATE_DATA_DIR: "/data" }, mac);
 
-    expect(config).toEqual({ dataDir: "/data", port: 5197 });
+    expect(config).toEqual({ profile: "prod", dataDir: "/data", port: 5197 });
   });
 
   it("defaults an empty port", () => {
@@ -106,6 +106,7 @@ describe("readConfig", () => {
     const config = readConfig({ SLATE_PROFILE: "dev" }, mac);
 
     expect(config).toEqual({
+      profile: "dev",
       dataDir: "/Users/me/Library/Application Support/Slate (dev)",
       port: 5297,
     });
@@ -117,7 +118,7 @@ describe("readConfig", () => {
       mac,
     );
 
-    expect(config).toEqual({ dataDir: "/data", port: 6000 });
+    expect(config).toEqual({ profile: "dev", dataDir: "/data", port: 6000 });
   });
 
   it("falls back to ~/.config on Linux", () => {
@@ -136,6 +137,7 @@ describe("readConfig", () => {
     );
 
     expect(config).toEqual({
+      profile: "dev",
       dataDir: "/work/feature/projects/slate/.dev-data",
       port: 5297,
     });
@@ -172,6 +174,30 @@ describe("readConfig", () => {
     );
 
     expect(config.dataDir).toBe("/data");
+  });
+});
+
+describe("readProdDataDir", () => {
+  it("names the installed app's folder whatever the profile and data folder", () => {
+    const dataDir = readProdDataDir(
+      {
+        SLATE_PROFILE: "dev",
+        SLATE_DATA_DIR: "/data",
+        BUILD_WORKSPACE_DIRECTORY: "/work/feature",
+      },
+      inWorktree(linkedWorktree),
+    );
+
+    expect(dataDir).toBe("/Users/me/Library/Application Support/Slate");
+  });
+
+  it("follows XDG_CONFIG_HOME on Linux", () => {
+    const dataDir = readProdDataDir(
+      { XDG_CONFIG_HOME: "/home/me/config" },
+      { platform: "linux", home: "/home/me", readGitFile: noGitFile },
+    );
+
+    expect(dataDir).toBe("/home/me/config/Slate");
   });
 });
 

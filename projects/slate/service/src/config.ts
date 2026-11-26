@@ -18,6 +18,7 @@ const environment = z.object({
 });
 
 export interface Config {
+  profile: "dev" | "prod";
   dataDir: string;
   port: number;
   webDir?: string;
@@ -58,6 +59,7 @@ export function readConfig(
   const dev = SLATE_PROFILE === "dev";
   const appData = appDataDir(host, APPDATA, XDG_CONFIG_HOME);
   return {
+    profile: dev ? "dev" : "prod",
     dataDir: SLATE_DATA_DIR
       ? // `bazel run` starts in a temporary folder, so a relative path names the caller's folder.
         resolve(BUILD_WORKING_DIRECTORY ?? "", SLATE_DATA_DIR)
@@ -81,6 +83,16 @@ function devDataDir(
   return workspace && isLinkedWorktree(host.readGitFile(workspace))
     ? join(workspace, "projects", "slate", ".dev-data")
     : join(appData, "Slate (dev)");
+}
+
+export function readProdDataDir(
+  env: NodeJS.ProcessEnv,
+  host: Host = localHost,
+): string {
+  return readConfig(
+    { APPDATA: env["APPDATA"], XDG_CONFIG_HOME: env["XDG_CONFIG_HOME"] },
+    host,
+  ).dataDir;
 }
 
 /**

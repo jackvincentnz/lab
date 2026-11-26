@@ -49,3 +49,13 @@ another port:
 ```zsh
 SLATE_PORT=5298 bazel run //projects/slate
 ```
+
+Dev mode fills a new data folder with a fixed set of sample items. To replace the data in the
+current checkout's dev data folder with the sample items, quit dev mode there and run:
+
+```zsh
+bazel run //projects/slate/service:seed
+```
+
+The seed command removes only the database, keeping the log and window position. It refuses the
+installed app's folder, `~/Library/Application Support/Slate`.
