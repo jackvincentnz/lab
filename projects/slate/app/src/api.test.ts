@@ -1,7 +1,11 @@
 import { afterEach, expect, test, vi } from "@lab/test-utils";
 import { createTRPCOptionsProxy } from "@trpc/tanstack-react-query";
 import type { SlateRouter } from "../../service/src/router.js";
-import { affects, createQueryClient, createSlateClient } from "./api";
+import {
+  changeAffectsQuery,
+  createQueryClient,
+  createSlateClient,
+} from "./api";
 import { item } from "./test/fakes";
 
 const fetch = vi.fn<typeof globalThis.fetch>();
@@ -38,27 +42,29 @@ function itemKey(id: string) {
 }
 
 test("adding an item reloads the list", () => {
-  expect(affects({ name: "Plan the week" }, listKey)).toBe(true);
+  expect(changeAffectsQuery({ name: "Plan the week" }, listKey)).toBe(true);
 });
 
 test("changing an item reloads the list", () => {
-  expect(affects({ id: crypto.randomUUID() }, listKey)).toBe(true);
+  expect(changeAffectsQuery({ id: crypto.randomUUID() }, listKey)).toBe(true);
 });
 
 test("changing an item reloads that item", () => {
   const id = crypto.randomUUID();
 
-  expect(affects({ id, name: "Plan the month" }, itemKey(id))).toBe(true);
+  expect(changeAffectsQuery({ id, name: "Plan the month" }, itemKey(id))).toBe(
+    true,
+  );
 });
 
 test("changing an item leaves other items alone", () => {
   const changed = { id: crypto.randomUUID(), name: "Plan the month" };
 
-  expect(affects(changed, itemKey(crypto.randomUUID()))).toBe(false);
+  expect(changeAffectsQuery(changed, itemKey(crypto.randomUUID()))).toBe(false);
 });
 
 test("adding an item leaves other items alone", () => {
-  expect(affects({ name: "Plan the week" }, itemKey(crypto.randomUUID()))).toBe(
-    false,
-  );
+  expect(
+    changeAffectsQuery({ name: "Plan the week" }, itemKey(crypto.randomUUID())),
+  ).toBe(false);
 });

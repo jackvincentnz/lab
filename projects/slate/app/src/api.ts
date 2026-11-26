@@ -35,21 +35,32 @@ export function createQueryClient(): QueryClient {
       // Agents change the list too, so even a failed change reloads what the service has.
       onSettled: (_data, _error, change) =>
         queryClient.invalidateQueries({
-          predicate: (query) => affects(change, query.queryKey),
+          predicate: (query) => changeAffectsQuery(change, query.queryKey),
         }),
     }),
   });
   return queryClient;
 }
 
-/** Whether a change can alter a query's result: every list, and the changed item's own queries. */
-export function affects(change: unknown, queryKey: QueryKey): boolean {
-  const [, options] = queryKey as [unknown, { input?: unknown } | undefined];
-  const queriedId = idOf(options?.input);
-  return queriedId === undefined || queriedId === idOf(change);
+export function changeAffectsQuery(
+  change: unknown,
+  queryKey: QueryKey,
+): boolean {
+  const [, queryOptions] = queryKey;
+  const queriedItemId = itemIdOf(inputOf(queryOptions));
+  const queryIsForOneItem = queriedItemId !== undefined;
+  return !queryIsForOneItem || queriedItemId === itemIdOf(change);
 }
 
-function idOf(value: unknown): unknown {
+function inputOf(queryOptions: unknown): unknown {
+  return typeof queryOptions === "object" &&
+    queryOptions !== null &&
+    "input" in queryOptions
+    ? queryOptions.input
+    : undefined;
+}
+
+function itemIdOf(value: unknown): unknown {
   return typeof value === "object" && value !== null && "id" in value
     ? value.id
     : undefined;
