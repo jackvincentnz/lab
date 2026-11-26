@@ -14,8 +14,9 @@ test("lists an item added in the web UI", async ({ window }) => {
     .getByRole("list", { name: "Items" })
     .getByRole("listitem");
 
-  await window.getByRole("textbox", { name: "New item" }).fill("Plan the week");
-  await window.getByRole("button", { name: "Add" }).click();
+  const name = window.getByRole("textbox", { name: "New item" });
+  await name.fill("Plan the week");
+  await name.press("Enter");
 
   await expect(items).toHaveCount(1);
   await expect(items).toContainText("Plan the week");

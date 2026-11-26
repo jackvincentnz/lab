@@ -27,18 +27,16 @@ describe("AddItemForm", () => {
     expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue("");
   });
 
-  it("adds the typed name with the Add button", async () => {
-    const user = userEvent.setup();
-    const onAdd = vi.fn<OnAdd>();
-    render(<AddItemForm saving={false} onAdd={onAdd} />);
-    await user.type(
-      screen.getByRole("textbox", { name: "New item" }),
-      "Plan the week",
+  it("asks for a name to add with Enter and offers no Add button", () => {
+    render(<AddItemForm saving={false} onAdd={vi.fn<OnAdd>()} />);
+
+    expect(screen.getByRole("textbox", { name: "New item" })).toHaveAttribute(
+      "placeholder",
+      "Add an item and press Enter",
     );
-
-    await user.click(screen.getByRole("button", { name: "Add" }));
-
-    expect(onAdd).toHaveBeenCalledWith("Plan the week", expect.any(Function));
+    expect(
+      screen.queryByRole("button", { name: "Add" }),
+    ).not.toBeInTheDocument();
   });
 
   it("keeps newer typing when an earlier add is saved", async () => {
@@ -80,7 +78,6 @@ describe("AddItemForm", () => {
     );
 
     expect(onAdd).not.toHaveBeenCalled();
-    expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("does not add while a change saves", async () => {
@@ -94,6 +91,5 @@ describe("AddItemForm", () => {
     );
 
     expect(onAdd).not.toHaveBeenCalled();
-    expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 });

@@ -2,12 +2,15 @@ load("//tools/bazel:fe.bzl", "fe_app")
 
 fe_app(
     name = "app",
+    assets = glob(["src/**/*.css"]),
     data = [
         "index.html",
         "package.json",
+        "postcss.config.cjs",
         "vite.config.ts",
         "//:node_modules/@vitejs/plugin-react",
         "//:node_modules/jsdom",
+        "//:node_modules/postcss-preset-mantine",
         "//:node_modules/vitest",
         "//tools/bazel/vitest:test_config",
     ],

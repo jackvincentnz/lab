@@ -695,7 +695,6 @@ describe("ItemsPage", () => {
     );
 
     expect(api.addItem).toHaveBeenCalledTimes(1);
-    expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
   });
 
   it("takes no other change while a delete saves", async () => {
