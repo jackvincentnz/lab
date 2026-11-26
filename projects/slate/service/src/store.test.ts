@@ -23,8 +23,7 @@ function addItem(name: string): Item {
   return store.add(name, "");
 }
 
-/** Adds the items bottom first, so that the list reads in the given order. */
-function addItems(...itemNames: string[]): Item[] {
+function addItemsInListOrder(...itemNames: string[]): Item[] {
   return itemNames.toReversed().map(addItem).toReversed();
 }
 
@@ -67,7 +66,7 @@ describe("add", () => {
   });
 
   it("puts a new item above a deleted item that ranked first", () => {
-    const [first] = addItems("A", "B");
+    const [first] = addItemsInListOrder("A", "B");
     store.delete(first.id);
 
     const added = addItem("C");
@@ -87,7 +86,7 @@ describe("list", () => {
   });
 
   it("leaves out deleted items", () => {
-    const [first, second] = addItems("A", "B");
+    const [first, second] = addItemsInListOrder("A", "B");
     store.delete(second.id);
 
     const reopened = openItemStore(dataDir).list();
@@ -306,7 +305,7 @@ describe("update", () => {
 
 describe("move", () => {
   it("places an item before its neighbour", () => {
-    const [first, , third] = addItems("A", "B", "C");
+    const [first, , third] = addItemsInListOrder("A", "B", "C");
 
     store.move({ id: third.id, neighbourId: first.id, position: "before" });
 
@@ -314,7 +313,7 @@ describe("move", () => {
   });
 
   it("places an item after its neighbour", () => {
-    const [first, second] = addItems("A", "B", "C");
+    const [first, second] = addItemsInListOrder("A", "B", "C");
 
     store.move({ id: first.id, neighbourId: second.id, position: "after" });
 
@@ -322,7 +321,7 @@ describe("move", () => {
   });
 
   it("places an item between its neighbour and the next item", () => {
-    const [first, second, , fourth] = addItems("A", "B", "C", "D");
+    const [first, second, , fourth] = addItemsInListOrder("A", "B", "C", "D");
 
     store.move({ id: fourth.id, neighbourId: first.id, position: "after" });
     store.move({ id: first.id, neighbourId: second.id, position: "before" });
@@ -331,7 +330,7 @@ describe("move", () => {
   });
 
   it("changes only the moved item's rank and updated time", () => {
-    const [first, second, third] = addItems("A", "B", "C");
+    const [first, second, third] = addItemsInListOrder("A", "B", "C");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -345,7 +344,7 @@ describe("move", () => {
   });
 
   it("leaves an item moved next to itself unchanged", () => {
-    const [first, second] = addItems("A", "B");
+    const [first, second] = addItemsInListOrder("A", "B");
     time = new Date("2026-11-21T10:00:00.000Z");
 
     const moved = store.move({
@@ -371,7 +370,7 @@ describe("move", () => {
   });
 
   it("returns nothing for a deleted item", () => {
-    const [first, second] = addItems("A", "B");
+    const [first, second] = addItemsInListOrder("A", "B");
     store.delete(second.id);
 
     const moved = store.move({
@@ -384,7 +383,7 @@ describe("move", () => {
   });
 
   it("returns nothing when the neighbour is deleted", () => {
-    const [first, second] = addItems("A", "B");
+    const [first, second] = addItemsInListOrder("A", "B");
     store.delete(first.id);
 
     const moved = store.move({
@@ -427,7 +426,7 @@ describe("delete", () => {
 
 describe("restore", () => {
   it("puts a deleted item back in its place with its update time", () => {
-    const [first, second, third] = addItems("A", "B", "C");
+    const [first, second, third] = addItemsInListOrder("A", "B", "C");
     store.delete(second.id);
     time = new Date("2026-11-21T10:00:00.000Z");
 
@@ -455,7 +454,7 @@ describe("restore", () => {
   });
 
   it("keeps an item added after a deletion above the restored item", () => {
-    const [first] = addItems("A", "B");
+    const [first] = addItemsInListOrder("A", "B");
     store.delete(first.id);
     addItem("C");
 
@@ -465,7 +464,7 @@ describe("restore", () => {
   });
 
   it("puts an item back beside one moved into its place", () => {
-    const [first, second, third] = addItems("A", "B", "C");
+    const [first, second, third] = addItemsInListOrder("A", "B", "C");
     store.delete(second.id);
     store.move({ id: third.id, neighbourId: first.id, position: "after" });
 
