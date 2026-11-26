@@ -36,11 +36,11 @@ bazel run //projects/slate:install
 
 ## Connect an agent
 
-Run the app, then register its MCP endpoint, `http://127.0.0.1:5297/mcp` in dev mode or
-`http://127.0.0.1:5197/mcp` in prod mode. For Claude Code:
+Run the app in prod mode or install it, then register its MCP endpoint, `http://127.0.0.1:5197/mcp`.
+For Claude Code:
 
 ```zsh
-claude mcp add --transport http --scope user slate http://127.0.0.1:5297/mcp
+claude mcp add --transport http --scope user slate http://127.0.0.1:5197/mcp
 ```
 
 Claude Desktop needs the [mcp-remote](https://github.com/punkpeye/mcp-remote) bridge. Add this
@@ -52,11 +52,14 @@ Desktop:
   "mcpServers": {
     "slate": {
       "command": "npx",
-      "args": ["-y", "mcp-remote@0.16.7", "http://127.0.0.1:5297/mcp"]
+      "args": ["-y", "mcp-remote@0.16.7", "http://127.0.0.1:5197/mcp"]
     }
   }
 }
 ```
+
+To connect an agent to the dev mode list instead, register `http://127.0.0.1:5297/mcp` under another
+name, such as `slate-dev`.
 
 ## Development
 
