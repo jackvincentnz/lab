@@ -100,4 +100,5 @@ bazel run //projects/slate -- --remote-debugging-port=9222
 
 - `projects/slate/app`: the React web UI.
 - `projects/slate/desktop`: the Electron main process, which starts the service and opens the window.
+- `projects/slate/launcher`: starts Electron for `bazel run` and stops it when `bazel run` stops.
 - `projects/slate/service`: the local service, which owns the database and serves the web UI.

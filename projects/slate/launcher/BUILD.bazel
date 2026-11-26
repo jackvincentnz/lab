@@ -1,0 +1,45 @@
+load("//tools/bazel:js.bzl", "js_binary")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
+
+TEST_SRCS = ["src/**/*.test.ts"]
+
+node_ts_project(
+    name = "src_ts",
+    srcs = glob(
+        ["src/**/*.ts"],
+        exclude = TEST_SRCS,
+    ),
+)
+
+js_binary(
+    name = "launcher",
+    data = [
+        "package.json",
+        ":src_ts",
+        "//:node_modules/electron",
+    ],
+    entry_point = "src/main.js",
+    visibility = ["//projects/slate:__pkg__"],
+)
+
+node_ts_project(
+    name = "test_ts",
+    testonly = True,
+    srcs = glob(TEST_SRCS),
+    deps = [
+        ":src_ts",
+        "//:node_modules/vitest",
+    ],
+)
+
+vitest_run(
+    name = "test",
+    data = [
+        "package.json",
+        "vite.config.ts",
+        ":test_ts",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:test_config",
+    ],
+)

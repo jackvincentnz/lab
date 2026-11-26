@@ -14,14 +14,14 @@ js_run_devserver(
     args = ["projects/slate/desktop/src/main.js"],
     data = DESKTOP_APP_DATA,
     env = {"SLATE_PROFILE": "dev"},
-    tool = "//tools/bazel/electron:electron_binary",
+    tool = "//projects/slate/launcher",
 )
 
 js_run_devserver(
     name = "prod",
     args = ["projects/slate/desktop/src/main.js"],
     data = DESKTOP_APP_DATA,
-    tool = "//tools/bazel/electron:electron_binary",
+    tool = "//projects/slate/launcher",
 )
 
 js_run_devserver(
@@ -37,7 +37,7 @@ js_run_devserver(
         "SLATE_PROFILE": "dev",
         "SLATE_WEB_DEV_SERVER": "1",
     },
-    tool = "//tools/bazel/electron:electron_binary",
+    tool = "//projects/slate/launcher",
 )
 
 js_library(
