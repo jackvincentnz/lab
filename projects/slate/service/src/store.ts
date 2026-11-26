@@ -12,7 +12,6 @@ import {
   gte,
   lt,
   ne,
-  notInArray,
   or,
 } from "drizzle-orm";
 import { readMigrationFiles } from "drizzle-orm/migrator";
@@ -56,41 +55,48 @@ const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
 
 const appliedMigration = sqliteTable("__drizzle_migrations", { name: text() });
 
+export function databaseFile(dataDir: string): string {
+  return join(dataDir, "slate.sqlite");
+}
+
 export function openItemStore(
   dataDir: string,
   now: () => Date = () => new Date(),
 ): ItemStore {
   mkdirSync(dataDir, { recursive: true });
-  const database = drizzle({
-    client: new DatabaseSync(join(dataDir, "slate.sqlite")),
-  });
+  const client = new DatabaseSync(databaseFile(dataDir));
+  const database = drizzle({ client });
 
-  refuseNewerDatabase(database);
+  const known = readMigrationFiles({ migrationsFolder }).map(
+    (migration) => migration.name,
+  );
+  refuseNewerDatabase(appliedMigrations(database), known);
   migrate(database, { migrationsFolder });
   return new ItemStore(database, now);
 }
 
-function refuseNewerDatabase(database: NodeSQLiteDatabase) {
+function appliedMigrations(database: NodeSQLiteDatabase): string[] {
   const tracked = database
     .select()
     .from(sqliteSchema)
     .where(eq(sqliteSchema.name, getTableName(appliedMigration)))
     .get();
   if (!tracked) {
-    return;
+    return [];
   }
 
-  const known = readMigrationFiles({ migrationsFolder }).map(
-    (migration) => migration.name,
-  );
-  const unknown = database
+  return database
     .select()
     .from(appliedMigration)
-    .where(notInArray(appliedMigration.name, known))
-    .all();
+    .all()
+    .map(({ name }) => name ?? "");
+}
+
+function refuseNewerDatabase(applied: string[], known: string[]) {
+  const unknown = applied.filter((name) => !known.includes(name));
   if (unknown.length > 0) {
     throw new Error(
-      `A newer build of Slate has migrated this database with ${unknown.map(({ name }) => name).join(", ")}, so this build cannot open it. Update Slate.`,
+      `A newer build of Slate has migrated this database with ${unknown.join(", ")}, so this build cannot open it. Update Slate.`,
     );
   }
 }
