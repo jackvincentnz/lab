@@ -55,6 +55,17 @@ async function start(): Promise<void> {
     app.quit();
     return;
   }
+  // Electron does not keep a second launch for a listener added later, and one can arrive while the
+  // service starts.
+  let windowReady!: (url: string) => void;
+  const windowUrl = new Promise<string>((resolve) => {
+    windowReady = resolve;
+  });
+  app.on("second-instance", (_event, _argv, _cwd, additionalData) => {
+    if (secondInstanceShowsWindow(additionalData)) {
+      void windowUrl.then(revealWindow);
+    }
+  });
   // Opened only by the lock's holder, so a second launch cannot move the running log aside.
   const startLog = openLog(dataDir);
   log = startLog;
@@ -91,28 +102,26 @@ async function start(): Promise<void> {
   if (!openedAtLogin) {
     createWindow(url, showWindow);
   }
+  windowReady(url);
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow(url, true);
     }
   });
+}
 
-  app.on("second-instance", (_event, _argv, _cwd, additionalData) => {
-    if (!secondInstanceShowsWindow(additionalData)) {
-      return;
-    }
-    void app.dock?.show();
-    const [window] = BrowserWindow.getAllWindows();
-    if (!window) {
-      createWindow(url, true);
-      return;
-    }
-    if (window.isMinimized()) {
-      window.restore();
-    }
-    window.show();
-  });
+function revealWindow(url: string): void {
+  void app.dock?.show();
+  const [window] = BrowserWindow.getAllWindows();
+  if (!window) {
+    createWindow(url, true);
+    return;
+  }
+  if (window.isMinimized()) {
+    window.restore();
+  }
+  window.show();
 }
 
 async function startDevServer(
