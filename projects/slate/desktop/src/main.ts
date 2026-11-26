@@ -1,7 +1,14 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
 import { isatty } from "node:tty";
-import { app, BrowserWindow, dialog, shell, utilityProcess } from "electron";
+import {
+  app,
+  BrowserWindow,
+  dialog,
+  screen,
+  shell,
+  utilityProcess,
+} from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
 import { failureDialog, lockHeldFailure } from "./failure.js";
@@ -14,6 +21,12 @@ import {
   readShowWindow,
   type SecondInstanceData,
 } from "./window.js";
+import {
+  placeWindow,
+  readWindowState,
+  rememberWindowState,
+  writeWindowState,
+} from "./windowState.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
 const appDir = join(import.meta.dirname, "../../app");
@@ -21,14 +34,23 @@ const webDir = join(appDir, "dist");
 
 let log: Log | undefined;
 
-function createWindow(url: string, show: boolean): void {
+function createWindow(dataDir: string, url: string, show: boolean): void {
+  const { bounds, minimumSize, maximized } = placeWindow(
+    readWindowState(dataDir),
+    screen.getAllDisplays().map(({ workArea }) => workArea),
+    screen.getPrimaryDisplay().workArea,
+  );
   const window = new BrowserWindow({
-    width: 960,
-    height: 720,
+    ...bounds,
+    minWidth: minimumSize.width,
+    minHeight: minimumSize.height,
     title: "Slate",
     show,
     webPreferences: { sandbox: true },
   });
+  rememberWindowState(window, { show, maximized }, (state) =>
+    writeWindowState(dataDir, state, (message) => log?.write("main", message)),
+  );
 
   void window.loadURL(url);
 }
@@ -53,7 +75,7 @@ async function start(): Promise<void> {
   // service starts.
   const windows = listenForWindows(app, {
     all: () => BrowserWindow.getAllWindows(),
-    create: createWindow,
+    create: (url, show) => createWindow(dataDir, url, show),
   });
   // Opened only by the lock's holder, so a second launch cannot move the running log aside.
   const startLog = openLog(dataDir);
