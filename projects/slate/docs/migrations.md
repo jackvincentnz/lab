@@ -59,3 +59,21 @@ bazel run //projects/slate/service:seed
 
 The seed command removes only the database, keeping the log and window position. It refuses the
 installed app's folder, `~/Library/Application Support/Slate`.
+
+## Restore a backup
+
+Before it applies migrations to the installed app's data, the service copies the database to
+`backups/slate.before-<migration>.sqlite` in its data folder, named after the first migration it
+applies. It keeps the last three copies. Dev data gets no backup, because the seed command replaces
+it.
+
+To restore one, quit Slate, then from the data folder:
+
+```zsh
+cd ~/Library/Application\ Support/Slate
+mkdir replaced
+mv slate.sqlite* replaced/
+cp backups/slate.before-20261126180533_item_description.sqlite slate.sqlite
+```
+
+Then start Slate, which applies the migrations that the backup lacks.

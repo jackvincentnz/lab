@@ -1,5 +1,12 @@
 import { randomUUID } from "node:crypto";
-import { cpSync, mkdtempSync, rmSync } from "node:fs";
+import {
+  cpSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
@@ -256,5 +263,111 @@ describe("a database from a newer build", () => {
     expect(open).toThrow(
       `A newer build of Slate has migrated this database with ${newer}, so this build cannot open it. Update Slate.`,
     );
+  });
+});
+
+describe("backing up before migrating", () => {
+  const backups = () => join(dataDir, "backups");
+
+  function backupNames() {
+    return readdirSync(backups());
+  }
+
+  function namesIn(file: string) {
+    const backup = new DatabaseSync(file, { readOnly: true });
+    try {
+      return backup
+        .prepare("SELECT name FROM item ORDER BY rank")
+        .all()
+        .map(({ name }) => name);
+    } finally {
+      backup.close();
+    }
+  }
+
+  function createDatabaseBefore(next: string): Item[] {
+    const items = randomItems(3);
+    withFile((file) => {
+      migrateUpTo(file, migrations[migrations.indexOf(next) - 1]);
+      insertItems(file, items);
+    });
+    return items;
+  }
+
+  it("copies the database, named after the first migration it applies", () => {
+    const items = createDatabaseBefore("20261126165159_item_done_at");
+
+    openItemStore(dataDir, undefined, { backUp: true });
+
+    expect(backupNames()).toEqual([
+      "slate.before-20261126165159_item_done_at.sqlite",
+    ]);
+    expect(
+      namesIn(
+        join(backups(), "slate.before-20261126165159_item_done_at.sqlite"),
+      ),
+    ).toEqual(items.map(({ name }) => name));
+  });
+
+  it("includes changes that are still in the write-ahead log", () => {
+    withFile((file) => migrateUpTo(file, "20261126150944_item_deleted"));
+    const writer = new DatabaseSync(join(dataDir, "slate.sqlite"));
+    writer.exec("PRAGMA journal_mode = WAL");
+    const items = randomItems(3);
+    insertItems(writer, items);
+
+    try {
+      openItemStore(dataDir, undefined, { backUp: true });
+    } finally {
+      writer.close();
+    }
+
+    expect(
+      namesIn(
+        join(backups(), "slate.before-20261126165159_item_done_at.sqlite"),
+      ),
+    ).toEqual(items.map(({ name }) => name));
+  });
+
+  it("keeps the last three copies", () => {
+    mkdirSync(backups());
+    for (const name of [
+      "20201231000000_a",
+      "20211231000000_b",
+      "20221231000000_c",
+    ]) {
+      writeFileSync(join(backups(), `slate.before-${name}.sqlite`), "");
+    }
+    createDatabaseBefore("20261126180533_item_description");
+
+    openItemStore(dataDir, undefined, { backUp: true });
+
+    expect(backupNames()).toEqual([
+      "slate.before-20211231000000_b.sqlite",
+      "slate.before-20221231000000_c.sqlite",
+      "slate.before-20261126180533_item_description.sqlite",
+    ]);
+  });
+
+  it("copies nothing from a current database", () => {
+    openItemStore(dataDir);
+
+    openItemStore(dataDir, undefined, { backUp: true });
+
+    expect(readdirSync(dataDir)).not.toContain("backups");
+  });
+
+  it("copies nothing from a new database", () => {
+    openItemStore(dataDir, undefined, { backUp: true });
+
+    expect(readdirSync(dataDir)).not.toContain("backups");
+  });
+
+  it("copies nothing unless asked", () => {
+    createDatabaseBefore("20261126180533_item_description");
+
+    openItemStore(dataDir);
+
+    expect(readdirSync(dataDir)).not.toContain("backups");
   });
 });

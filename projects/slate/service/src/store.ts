@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import {
@@ -55,13 +55,20 @@ const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
 
 const appliedMigration = sqliteTable("__drizzle_migrations", { name: text() });
 
+const keptBackups = 3;
+
 export function databaseFile(dataDir: string): string {
   return join(dataDir, "slate.sqlite");
+}
+
+export interface StoreOptions {
+  backUp?: boolean;
 }
 
 export function openItemStore(
   dataDir: string,
   now: () => Date = () => new Date(),
+  { backUp = false }: StoreOptions = {},
 ): ItemStore {
   mkdirSync(dataDir, { recursive: true });
   const client = new DatabaseSync(databaseFile(dataDir));
@@ -70,9 +77,18 @@ export function openItemStore(
   const known = readMigrationFiles({ migrationsFolder }).map(
     (migration) => migration.name,
   );
-  refuseNewerDatabase(appliedMigrations(database), known);
+  const applied = appliedMigrations(database);
+  refuseNewerDatabase(applied, known);
+  const [next] = known.filter((name) => !applied.includes(name));
+  if (backUp && next && hasTables(database)) {
+    backUpDatabase(client, join(dataDir, "backups"), next);
+  }
   migrate(database, { migrationsFolder });
   return new ItemStore(database, now);
+}
+
+function hasTables(database: NodeSQLiteDatabase): boolean {
+  return database.select().from(sqliteSchema).get() !== undefined;
 }
 
 function appliedMigrations(database: NodeSQLiteDatabase): string[] {
@@ -98,6 +114,25 @@ function refuseNewerDatabase(applied: string[], known: string[]) {
     throw new Error(
       `A newer build of Slate has migrated this database with ${unknown.join(", ")}, so this build cannot open it. Update Slate.`,
     );
+  }
+}
+
+/**
+ * `VACUUM INTO` copies through SQLite, so the copy includes changes still in the journal or WAL
+ * file that copying `slate.sqlite` alone would miss.
+ */
+function backUpDatabase(client: DatabaseSync, folder: string, next: string) {
+  mkdirSync(folder, { recursive: true });
+  const backup = join(folder, `slate.before-${next}.sqlite`);
+  rmSync(backup, { force: true });
+  client.prepare("VACUUM INTO ?").run(backup);
+
+  // Migration names start with their timestamp, so the oldest backups sort first.
+  const backups = readdirSync(folder)
+    .filter((name) => /^slate\.before-.+\.sqlite$/.test(name))
+    .sort();
+  for (const old of backups.slice(0, -keptBackups)) {
+    rmSync(join(folder, old));
   }
 }
 

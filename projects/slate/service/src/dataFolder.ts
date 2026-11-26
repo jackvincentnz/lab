@@ -6,12 +6,13 @@ import { databaseFile, type ItemStore, openItemStore } from "./store.js";
 
 export type DataFolder = Pick<Config, "profile" | "dataDir">;
 
+/** Only the real data gets a backup before a migration, because the seed can replace dev data. */
 export function openStore(
   { profile, dataDir }: DataFolder,
   now?: () => Date,
 ): ItemStore {
   if (profile === "prod") {
-    return openItemStore(dataDir, now);
+    return openItemStore(dataDir, now, { backUp: true });
   }
 
   const fresh = !existsSync(databaseFile(dataDir));
