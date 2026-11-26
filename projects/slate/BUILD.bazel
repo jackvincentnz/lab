@@ -1,6 +1,6 @@
 load("//tools/bazel:files.bzl", "copy_to_directory")
 load("//tools/bazel:js.bzl", "js_binary", "js_library", "js_run_binary", "js_run_devserver")
-load("//tools/bazel:sh.bzl", "sh_binary")
+load("//tools/bazel:sh.bzl", "sh_binary", "sh_test")
 load("//tools/bazel:ts.bzl", "node_ts_project")
 
 DESKTOP_APP_DATA = [
@@ -113,4 +113,11 @@ sh_binary(
     srcs = ["install.sh"],
     args = ["$(rootpath :mac_app)"],
     data = [":mac_app"],
+)
+
+sh_test(
+    name = "install_test",
+    srcs = ["install_test.sh"],
+    data = ["install.sh"],
+    target_compatible_with = ["@platforms//os:macos"],
 )
