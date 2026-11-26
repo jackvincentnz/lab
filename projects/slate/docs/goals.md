@@ -21,13 +21,14 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 
 ## An item
 
-| Field   | Meaning                                     |
-| ------- | ------------------------------------------- |
-| Name    | What the work is.                           |
-| Status  | To do, doing, or done.                      |
-| Rank    | Its place in the one global priority order. |
-| Created | When it was added.                          |
-| Updated | When it was last changed.                   |
+| Field   | Meaning                                                               |
+| ------- | --------------------------------------------------------------------- |
+| Name    | What the work is.                                                     |
+| Status  | To do, doing, or done.                                                |
+| Rank    | Its place in the one global priority order.                           |
+| Created | When it was added.                                                    |
+| Updated | When it was last changed.                                             |
+| Done    | When it was marked done. The list shows a done item only on that day. |
 
 ## Non-goals
 

@@ -10,7 +10,13 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { type Item } from "./item.js";
 import { openItemStore } from "./store.js";
 
-const migrations = ["20261124181218_item", "20261126150944_item_deleted"];
+const migrations = [
+  "20261124181218_item",
+  "20261126150944_item_deleted",
+  "20261126165159_item_done_at",
+];
+
+const now = new Date(2026, 10, 26, 12);
 
 let dataDir: string;
 
@@ -72,7 +78,7 @@ function insertItems(file: DatabaseSync, items: Item[]) {
 function randomItems(count: number): Item[] {
   const items: Item[] = [];
   for (let index = 0; index < count; index++) {
-    const time = new Date(Date.now() - index * 60_000).toISOString();
+    const time = new Date(now.getTime() - index * 60_000).toISOString();
     items.push({
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
@@ -179,13 +185,22 @@ const earlierSchemas: EarlierSchema[] = [
       return items;
     },
   },
+  {
+    name: "a database from before done items were hidden",
+    create(file) {
+      migrateUpTo(file, "20261126150944_item_deleted");
+      const items = randomItems(3);
+      insertItems(file, items);
+      return items;
+    },
+  },
 ];
 
 describe.each(earlierSchemas)("$name", ({ create }) => {
   it("keeps its items", () => {
     const items = withFile(create);
 
-    const migrated = openItemStore(dataDir).list();
+    const migrated = openItemStore(dataDir, () => now).list();
 
     expect(migrated).toEqual(items);
   });
@@ -196,6 +211,21 @@ describe.each(earlierSchemas)("$name", ({ create }) => {
     openItemStore(dataDir);
 
     expect(appliedMigrationNames()).toEqual(migrations);
+  });
+});
+
+describe("upgrading a database with done items", () => {
+  it("hides a done item last changed before today", () => {
+    const [todo, , done] = randomItems(3);
+    const yesterday = new Date(2026, 10, 25, 23, 30).toISOString();
+    withFile((file) => {
+      migrateUpTo(file, "20261126150944_item_deleted");
+      insertItems(file, [todo, { ...done, updatedAt: yesterday }]);
+    });
+
+    const migrated = openItemStore(dataDir, () => now).list();
+
+    expect(migrated).toEqual([todo]);
   });
 });
 

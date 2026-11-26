@@ -21,7 +21,7 @@ const tools = {
       {
         title: "List items",
         description:
-          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a status (todo, doing or done), a rank, and the times it was created and last updated.",
+          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a status (todo, doing or done), a rank, and the times it was created and last updated. Items marked done on an earlier day are left out.",
       },
       () => reply(listItems.run(store)),
     ),
@@ -42,7 +42,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status.",
+          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfFound(updateItem.run(store, input), [input.id]),
