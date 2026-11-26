@@ -32,7 +32,8 @@ boundary.
 
 Solve a problem with the mechanism the framework or tool documents and the
 smallest change that works, so that the code stays familiar and cheap to change.
-When you depart from the usual approach, say why in the PR.
+When you depart from the usual approach, say why in the PR's
+[`Why this approach`](#pull-requests-and-ci) section.
 
 Leave out checks for states that your code or the framework cannot produce, and
 delete such branches instead of testing them, so that every branch is one a
@@ -117,12 +118,28 @@ depends on the kind of dependency.
 
 Open PRs against `main`. Title a PR as a conventional commit message that
 describes the changes it will merge, so that a squash merge can use the title.
-Fill in only the template's `Change` and `Validation` sections: a short
-description of the problem and the resulting behavior, then the checks you ran,
-including any failures or checks you could not run. Link the relevant issue;
-use `Closes #123` when merging the PR will fully resolve it. Link repository
-files with absolute `https://github.com/jackvincentnz/lab/blob/<branch>/<path>`
-URLs, so that the links resolve in the PR description.
+Fill in the template's four sections in order, so that a reviewer coming back
+to the PR learns what it is for before how it works:
+
+- `Problem`: what was wrong or missing and its effect on whoever it affected,
+  not how the old code worked. Keep it to one to three sentences that make
+  sense without opening the issue. End with the outcome the PR is meant to
+  achieve. When the PR is one step toward a larger issue, say what this step
+  achieves.
+- `Change`: what behaves differently, as a reviewer would check it, and any
+  limits it leaves. Describe behavior rather than walking through files, so
+  that the section does not repeat the diff.
+- `Why this approach`: why the change solves the problem, and each rejected
+  alternative with one line on why. One sentence is enough for an obvious fix.
+- `Validation`: first the evidence that the outcome is reached, such as a check
+  that fails without the change. Then the other checks you ran, including any
+  failures or checks you could not run. Leave out lists of test cases, because
+  the tests show them.
+
+Link the relevant issue; use `Closes #123` when merging the PR will fully
+resolve it. Link repository files with absolute
+`https://github.com/jackvincentnz/lab/blob/<branch>/<path>` URLs, so that the
+links resolve in the PR description.
 
 Every commit that lands on `main` is one unit of work that you would revert as a
 whole, such as one feature, one fix or one refactor, so that each unit is easy
