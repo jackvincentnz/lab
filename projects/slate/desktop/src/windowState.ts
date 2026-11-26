@@ -25,6 +25,11 @@ export interface WindowPlacement {
   maximized: boolean;
 }
 
+interface RememberOptions {
+  show: boolean;
+  maximized: boolean;
+}
+
 interface SlateWindow {
   isMaximized(): boolean;
   getNormalBounds(): Rectangle;
@@ -94,7 +99,7 @@ export function placeWindow(
 
 export function rememberWindowState(
   window: SlateWindow,
-  { show, maximized }: { show: boolean; maximized: boolean },
+  { show, maximized }: RememberOptions,
   save: (state: WindowState) => void,
 ): void {
   let shown = show;

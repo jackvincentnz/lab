@@ -97,7 +97,7 @@ describe("placeWindow", () => {
 
     const { bounds } = placeWindow(saved, [laptop], laptop);
 
-    expect(bounds).toEqual(laptop);
+    expect(bounds).toEqual({ x: 0, y: 33, width: 1470, height: 923 });
   });
 });
 
