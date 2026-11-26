@@ -16,27 +16,24 @@ import {
 } from "@dnd-kit/sortable";
 import { List } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
-import { type RenameCallbacks } from "./ItemName";
 import { ItemRow } from "./ItemRow";
 
 interface ItemListProps {
   items: Item[];
   saving: boolean;
+  openId: string | undefined;
   onMove(move: MoveItemInput, onSettled: () => void): void;
-  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
-  onRenameCancel(): void;
+  onOpen(item: Item): void;
   onStatusChange(item: Item, status: ItemStatus): void;
-  onDelete(item: Item): void;
 }
 
 export function ItemList({
   items,
   saving,
+  openId,
   onMove,
-  onRename,
-  onRenameCancel,
+  onOpen,
   onStatusChange,
-  onDelete,
 }: ItemListProps) {
   const [droppedOrder, setDroppedOrder] = useState<Item[]>();
   const shownItems = droppedOrder ?? items;
@@ -80,16 +77,16 @@ export function ItemList({
           listStyleType="none"
           spacing="xs"
           aria-label="Items"
+          styles={{ itemWrapper: { display: "block" } }}
         >
           {shownItems.map((item) => (
             <ItemRow
               key={item.id}
               item={item}
               saving={saving}
-              onRename={onRename}
-              onRenameCancel={onRenameCancel}
+              open={item.id === openId}
+              onOpen={() => onOpen(item)}
               onStatusChange={(status) => onStatusChange(item, status)}
-              onDelete={() => onDelete(item)}
             />
           ))}
         </List>

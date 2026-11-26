@@ -1,37 +1,31 @@
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { ActionIcon, Group, List, NativeSelect } from "@mantine/core";
-import { IconGripVertical, IconTrash } from "@tabler/icons-react";
+import {
+  ActionIcon,
+  Badge,
+  Checkbox,
+  Group,
+  List,
+  Text,
+  UnstyledButton,
+} from "@mantine/core";
+import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
-import { ItemName, type RenameCallbacks } from "./ItemName";
-
-const statusLabels: Record<ItemStatus, string> = {
-  todo: "To do",
-  doing: "Doing",
-  done: "Done",
-};
-
-const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({
-  value,
-  label,
-}));
 
 interface ItemRowProps {
   item: Item;
   saving: boolean;
-  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
-  onRenameCancel(): void;
+  open: boolean;
+  onOpen(): void;
   onStatusChange(status: ItemStatus): void;
-  onDelete(): void;
 }
 
 export function ItemRow({
   item,
   saving,
-  onRename,
-  onRenameCancel,
+  open,
+  onOpen,
   onStatusChange,
-  onDelete,
 }: ItemRowProps) {
   const {
     attributes,
@@ -41,13 +35,21 @@ export function ItemRow({
     transform,
     transition,
   } = useSortable({ id: item.id, disabled: saving });
+  const done = item.status === "done";
 
   return (
     <List.Item
       ref={setNodeRef}
       style={{ transform: CSS.Translate.toString(transform), transition }}
     >
-      <Group wrap="nowrap">
+      <Group
+        wrap="nowrap"
+        gap="sm"
+        px="xs"
+        py={6}
+        bg={open ? "var(--mantine-primary-color-light)" : undefined}
+        style={{ borderRadius: "var(--mantine-radius-sm)" }}
+      >
         <ActionIcon
           ref={setActivatorNodeRef}
           variant="subtle"
@@ -60,31 +62,29 @@ export function ItemRow({
         >
           <IconGripVertical size={16} />
         </ActionIcon>
-        <NativeSelect
-          aria-label={`Status of ${item.name}`}
-          data={statusOptions}
-          value={item.status}
+        <Checkbox
+          aria-label={`Mark ${item.name} done`}
+          checked={done}
           disabled={saving}
           onChange={(event) =>
-            onStatusChange(event.currentTarget.value as ItemStatus)
+            onStatusChange(event.currentTarget.checked ? "done" : "todo")
           }
         />
-        <ItemName
-          item={item}
-          saving={saving}
-          onRename={onRename}
-          onRenameCancel={onRenameCancel}
+        <UnstyledButton
+          flex={1}
+          aria-label={`Open ${item.name}`}
+          aria-expanded={open}
+          onClick={onOpen}
         >
-          <ActionIcon
-            variant="subtle"
-            color="gray"
-            aria-label={`Delete ${item.name}`}
-            disabled={saving}
-            onClick={onDelete}
+          <Text
+            span
+            td={done ? "line-through" : undefined}
+            c={done ? "dimmed" : undefined}
           >
-            <IconTrash size={16} />
-          </ActionIcon>
-        </ItemName>
+            {item.name}
+          </Text>
+        </UnstyledButton>
+        {item.status === "doing" && <Badge variant="light">Doing</Badge>}
       </Group>
     </List.Item>
   );

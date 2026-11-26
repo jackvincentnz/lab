@@ -1,10 +1,24 @@
 import { useState } from "react";
-import { Alert, Button, Center, Loader, Stack, Text } from "@mantine/core";
+import {
+  Alert,
+  Button,
+  Center,
+  Flex,
+  Loader,
+  Stack,
+  Text,
+} from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { isChangedElsewhere, type Item, useTRPC } from "../api";
+import {
+  isChangedElsewhere,
+  type Item,
+  type ItemStatus,
+  useTRPC,
+} from "../api";
 import { AddItemForm } from "../components/AddItemForm";
 import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
+import { ItemPanel } from "../components/ItemPanel";
 
 export function ItemsPage() {
   const trpc = useTRPC();
@@ -18,10 +32,14 @@ export function ItemsPage() {
   const saving = changes.some((change) => change.isPending);
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<Item>();
+  const [openId, setOpenId] = useState<string>();
+  const opened = items.data?.find((item) => item.id === openId);
 
   function clearSaveError() {
     for (const change of changes) {
-      change.reset();
+      if (!change.isPending) {
+        change.reset();
+      }
     }
   }
 
@@ -30,68 +48,95 @@ export function ItemsPage() {
     setDeleted(undefined);
   }
 
+  function changeStatus(item: Item, status: ItemStatus) {
+    startChange();
+    updateItem.mutate({ id: item.id, status, updatedAt: item.updatedAt });
+  }
+
   return (
-    <Stack>
-      <AddItemForm
-        saving={saving}
-        onAdd={(name, onSaved) => {
-          startChange();
-          addItem.mutate({ name }, { onSuccess: onSaved });
-        }}
-      />
-      {items.isError && (
-        <Alert color="red" title="Could not load your list">
-          <Button
-            variant="light"
-            color="red"
-            size="xs"
-            loading={items.isFetching}
-            onClick={() => void items.refetch()}
-          >
-            Retry
-          </Button>
-        </Alert>
-      )}
-      {changedElsewhere ? (
-        <Alert color="yellow" title="Not saved: the item changed elsewhere">
-          Check the item before you try again.
-        </Alert>
-      ) : (
-        changes.some((change) => change.isError) && (
-          <Alert color="red" title="Could not save your change" />
-        )
-      )}
-      {deleted !== undefined && (
-        <DeletedItemNotice
-          item={deleted}
+    <Flex
+      direction={{ base: "column-reverse", md: "row" }}
+      align="flex-start"
+      gap="lg"
+    >
+      <Stack flex={1} miw={0} w="100%">
+        <AddItemForm
           saving={saving}
-          onUndo={() => {
-            clearSaveError();
-            restoreItem.mutate(
-              { id: deleted.id },
-              { onSuccess: () => setDeleted(undefined) },
-            );
-          }}
-          onDismiss={() => setDeleted(undefined)}
-        />
-      )}
-      {items.isPending && (
-        <Center>
-          <Loader aria-label="Loading your list" />
-        </Center>
-      )}
-      {items.data?.length === 0 && (
-        <Text c="dimmed">
-          Nothing on your slate yet. Add the first item above.
-        </Text>
-      )}
-      {items.data !== undefined && items.data.length > 0 && (
-        <ItemList
-          items={items.data}
-          saving={saving}
-          onMove={(move, onSettled) => {
+          onAdd={(name, onSaved) => {
             startChange();
-            moveItem.mutate(move, { onSettled });
+            addItem.mutate({ name }, { onSuccess: onSaved });
+          }}
+        />
+        {items.isError && (
+          <Alert color="red" title="Could not load your list">
+            <Button
+              variant="light"
+              color="red"
+              size="xs"
+              loading={items.isFetching}
+              onClick={() => void items.refetch()}
+            >
+              Retry
+            </Button>
+          </Alert>
+        )}
+        {changedElsewhere ? (
+          <Alert color="yellow" title="Not saved: the item changed elsewhere">
+            Check the item before you try again.
+          </Alert>
+        ) : (
+          changes.some((change) => change.isError) && (
+            <Alert color="red" title="Could not save your change" />
+          )
+        )}
+        {deleted !== undefined && (
+          <DeletedItemNotice
+            item={deleted}
+            saving={saving}
+            onUndo={() => {
+              clearSaveError();
+              restoreItem.mutate(
+                { id: deleted.id },
+                { onSuccess: () => setDeleted(undefined) },
+              );
+            }}
+            onDismiss={() => setDeleted(undefined)}
+          />
+        )}
+        {items.isPending && (
+          <Center>
+            <Loader aria-label="Loading your list" />
+          </Center>
+        )}
+        {items.data?.length === 0 && (
+          <Text c="dimmed">
+            Nothing on your slate yet. Add the first item above.
+          </Text>
+        )}
+        {items.data !== undefined && items.data.length > 0 && (
+          <ItemList
+            items={items.data}
+            saving={saving}
+            openId={opened?.id}
+            onMove={(move, onSettled) => {
+              startChange();
+              moveItem.mutate(move, { onSettled });
+            }}
+            onOpen={(item) => {
+              clearSaveError();
+              setOpenId(item.id);
+            }}
+            onStatusChange={changeStatus}
+          />
+        )}
+      </Stack>
+      {opened !== undefined && (
+        <ItemPanel
+          item={opened}
+          saving={saving}
+          onClose={() => {
+            clearSaveError();
+            setOpenId(undefined);
           }}
           onRename={(editedFrom, name, { onSaved, onChanged }) => {
             startChange();
@@ -108,20 +153,23 @@ export function ItemsPage() {
             );
           }}
           onRenameCancel={clearSaveError}
-          onStatusChange={(item, status) => {
+          onStatusChange={(status) => changeStatus(opened, status)}
+          onDelete={() => {
             startChange();
-            updateItem.mutate({
-              id: item.id,
-              status,
-              updatedAt: item.updatedAt,
-            });
-          }}
-          onDelete={(item) => {
-            startChange();
-            deleteItem.mutate({ id: item.id }, { onSuccess: setDeleted });
+            deleteItem.mutate(
+              { id: opened.id },
+              {
+                onSuccess: (item) => {
+                  setOpenId((current) =>
+                    current === item.id ? undefined : current,
+                  );
+                  setDeleted(item);
+                },
+              },
+            );
           }}
         />
       )}
-    </Stack>
+    </Flex>
   );
 }

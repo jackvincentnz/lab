@@ -1,5 +1,13 @@
-import { useState, type FormEvent, type ReactNode } from "react";
-import { Button, Group, Stack, Text, TextInput } from "@mantine/core";
+import { useState, type FormEvent } from "react";
+import {
+  Button,
+  Group,
+  Stack,
+  Text,
+  TextInput,
+  Title,
+  UnstyledButton,
+} from "@mantine/core";
 import type { Item } from "../api";
 
 export interface RenameCallbacks {
@@ -18,7 +26,6 @@ interface ItemNameProps {
   saving: boolean;
   onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
   onRenameCancel(): void;
-  children?: ReactNode;
 }
 
 export function ItemName({
@@ -26,7 +33,6 @@ export function ItemName({
   saving,
   onRename,
   onRenameCancel,
-  children,
 }: ItemNameProps) {
   const [draft, setDraft] = useState<Draft>();
 
@@ -62,29 +68,20 @@ export function ItemName({
 
   if (draft === undefined) {
     return (
-      <>
-        <Text
-          flex={1}
-          td={item.status === "done" ? "line-through" : undefined}
-          c={item.status === "done" ? "dimmed" : undefined}
-        >
-          {item.name}
-        </Text>
-        <Button
-          variant="subtle"
-          size="xs"
+      <Title order={2} size="h3">
+        <UnstyledButton
           aria-label={`Rename ${item.name}`}
           onClick={() => setDraft({ name: item.name, editedFrom: item })}
+          style={{ font: "inherit" }}
         >
-          Rename
-        </Button>
-        {children}
-      </>
+          {item.name}
+        </UnstyledButton>
+      </Title>
     );
   }
 
   return (
-    <form onSubmit={submitRename} style={{ flex: 1 }}>
+    <form onSubmit={submitRename}>
       <Stack gap={4}>
         <Group wrap="nowrap">
           <TextInput
@@ -95,8 +92,11 @@ export function ItemName({
               setDraft((current) => current && { ...current, name });
             }}
             onKeyDown={(event) => {
-              if (event.key === "Escape" && !saving) {
-                cancelRename();
+              if (event.key === "Escape") {
+                event.preventDefault();
+                if (!saving) {
+                  cancelRename();
+                }
               }
             }}
             autoFocus

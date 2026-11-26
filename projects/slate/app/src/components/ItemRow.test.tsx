@@ -14,88 +14,101 @@ import { ItemRow } from "./ItemRow";
 
 type ItemRowProps = Parameters<typeof ItemRow>[0];
 
-function renderRow(rowItem: Item = item({ name: "Plan the week" })) {
+function renderRow(
+  rowItem: Item = item({ name: "Plan the week" }),
+  open = false,
+) {
   const handlers = {
-    onRename: vi.fn<ItemRowProps["onRename"]>(),
-    onRenameCancel: vi.fn<ItemRowProps["onRenameCancel"]>(),
+    onOpen: vi.fn<ItemRowProps["onOpen"]>(),
     onStatusChange: vi.fn<ItemRowProps["onStatusChange"]>(),
-    onDelete: vi.fn<ItemRowProps["onDelete"]>(),
   };
-  const row = (shown: Item, saving: boolean) => (
+  const row = (saving: boolean) => (
     <List>
-      <ItemRow item={shown} saving={saving} {...handlers} />
+      <ItemRow item={rowItem} saving={saving} open={open} {...handlers} />
     </List>
   );
-  const { rerender } = render(row(rowItem, false));
-  return {
-    ...handlers,
-    startSaving: () => rerender(row(rowItem, true)),
-  };
+  const { rerender } = render(row(false));
+  return { ...handlers, startSaving: () => rerender(row(true)) };
 }
 
 describe("ItemRow", () => {
-  it("shows the item's name and status", () => {
-    renderRow(item({ name: "Plan the week", status: "doing" }));
+  it("shows the item's name", () => {
+    renderRow();
 
     expect(screen.getByText("Plan the week")).toBeInTheDocument();
-    expect(
-      screen.getByRole("combobox", { name: "Status of Plan the week" }),
-    ).toHaveValue("doing");
   });
 
-  it("strikes through a done item", () => {
+  it("ticks and strikes through a done item", () => {
     renderRow(item({ name: "Plan the week", status: "done" }));
 
+    expect(
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
+    ).toBeChecked();
     expect(screen.getByText("Plan the week")).toHaveStyle({
       textDecoration: "line-through",
     });
   });
 
-  it("reports a status change", async () => {
+  it("tags an item in progress as doing", () => {
+    renderRow(item({ name: "Plan the week", status: "doing" }));
+
+    expect(screen.getByText("Doing")).toBeInTheDocument();
+  });
+
+  it("marks an item done when it is ticked", async () => {
     const user = userEvent.setup();
     const { onStatusChange } = renderRow();
 
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Status of Plan the week" }),
-      "Doing",
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
     );
 
-    expect(onStatusChange).toHaveBeenCalledWith("doing");
+    expect(onStatusChange).toHaveBeenCalledWith("done");
+  });
+
+  it("marks a done item to do when it is unticked", async () => {
+    const user = userEvent.setup();
+    const { onStatusChange } = renderRow(
+      item({ name: "Plan the week", status: "done" }),
+    );
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
+    );
+
+    expect(onStatusChange).toHaveBeenCalledWith("todo");
   });
 
   it("keeps showing the saved status until the item changes", async () => {
     const user = userEvent.setup();
     renderRow();
 
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Status of Plan the week" }),
-      "Doing",
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
     );
 
     expect(
-      screen.getByRole("combobox", { name: "Status of Plan the week" }),
-    ).toHaveValue("todo");
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
+    ).not.toBeChecked();
   });
 
-  it("reports a delete", async () => {
+  it("opens the item when its name is clicked", async () => {
     const user = userEvent.setup();
-    const { onDelete } = renderRow();
+    const { onOpen } = renderRow();
 
     await user.click(
-      screen.getByRole("button", { name: "Delete Plan the week" }),
+      screen.getByRole("button", { name: "Open Plan the week" }),
     );
 
-    expect(onDelete).toHaveBeenCalled();
+    expect(onOpen).toHaveBeenCalled();
   });
 
-  it("does not offer a delete while a change saves", () => {
-    const { startSaving } = renderRow();
-
-    startSaving();
+  it("says whether the item is open", () => {
+    renderRow(item({ name: "Plan the week" }), true);
 
     expect(
-      screen.getByRole("button", { name: "Delete Plan the week" }),
-    ).toBeDisabled();
+      screen.getByRole("button", { name: "Open Plan the week" }),
+    ).toHaveAttribute("aria-expanded", "true");
   });
 
   it("does not change the status while a change saves", () => {
@@ -104,7 +117,7 @@ describe("ItemRow", () => {
     startSaving();
 
     expect(
-      screen.getByRole("combobox", { name: "Status of Plan the week" }),
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
     ).toBeDisabled();
   });
 

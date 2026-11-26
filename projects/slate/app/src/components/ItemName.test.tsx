@@ -44,6 +44,14 @@ async function startRename(user: ReturnType<typeof userEvent.setup>) {
 }
 
 describe("ItemName", () => {
+  it("shows the item's name as a heading", () => {
+    renderName();
+
+    expect(
+      screen.getByRole("heading", { name: "Plan the week" }),
+    ).toBeInTheDocument();
+  });
+
   it("closes the rename once the new name is saved", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });

@@ -22,11 +22,10 @@ function renderList(items: Item[]) {
     <ItemList
       items={items}
       saving={false}
+      openId={undefined}
       onMove={onMove}
-      onRename={vi.fn()}
-      onRenameCancel={vi.fn()}
+      onOpen={vi.fn()}
       onStatusChange={vi.fn()}
-      onDelete={vi.fn()}
     />,
   );
   return onMove;
@@ -51,11 +50,10 @@ describe("ItemList", () => {
       <ItemList
         items={[item({ name: "Plan the week" }), item({ name: "Book travel" })]}
         saving={false}
+        openId={undefined}
         onMove={vi.fn()}
-        onRename={vi.fn()}
-        onRenameCancel={vi.fn()}
+        onOpen={vi.fn()}
         onStatusChange={vi.fn()}
-        onDelete={vi.fn()}
       />,
     );
 
@@ -72,39 +70,46 @@ describe("ItemList", () => {
     const user = userEvent.setup();
     const bookTravel = item({ name: "Book travel" });
     const onStatusChange = vi.fn<ItemListProps["onStatusChange"]>();
-    const onRename = vi.fn<ItemListProps["onRename"]>();
-    const onDelete = vi.fn<ItemListProps["onDelete"]>();
+    const onOpen = vi.fn<ItemListProps["onOpen"]>();
     render(
       <ItemList
         items={[item({ name: "Plan the week" }), bookTravel]}
         saving={false}
+        openId={undefined}
         onMove={vi.fn()}
-        onRename={onRename}
-        onRenameCancel={vi.fn()}
+        onOpen={onOpen}
         onStatusChange={onStatusChange}
-        onDelete={onDelete}
       />,
     );
 
-    await user.selectOptions(
-      screen.getByRole("combobox", { name: "Status of Book travel" }),
-      "Done",
-    );
     await user.click(
-      screen.getByRole("button", { name: "Delete Book travel" }),
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
     );
-    await user.click(
-      screen.getByRole("button", { name: "Rename Book travel" }),
-    );
-    await user.type(screen.getByRole("textbox", { name: "Name" }), "s{Enter}");
+    await user.click(screen.getByRole("button", { name: "Open Book travel" }));
 
     expect(onStatusChange).toHaveBeenCalledWith(bookTravel, "done");
-    expect(onRename).toHaveBeenCalledWith(
-      bookTravel,
-      "Book travels",
-      expect.anything(),
+    expect(onOpen).toHaveBeenCalledWith(bookTravel);
+  });
+
+  it("shows which item is open", () => {
+    const bookTravel = item({ name: "Book travel" });
+    render(
+      <ItemList
+        items={[item({ name: "Plan the week" }), bookTravel]}
+        saving={false}
+        openId={bookTravel.id}
+        onMove={vi.fn()}
+        onOpen={vi.fn()}
+        onStatusChange={vi.fn()}
+      />,
     );
-    expect(onDelete).toHaveBeenCalledWith(bookTravel);
+
+    expect(
+      screen.getByRole("button", { name: "Open Book travel" }),
+    ).toHaveAttribute("aria-expanded", "true");
+    expect(
+      screen.getByRole("button", { name: "Open Plan the week" }),
+    ).toHaveAttribute("aria-expanded", "false");
   });
 
   it("reports an item moved down as after the item it lands on", async () => {
