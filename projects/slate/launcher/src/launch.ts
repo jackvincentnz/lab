@@ -15,8 +15,7 @@ export function launch(
   // Bazelisk stops `bazel run` with SIGKILL, so the parent can exit without telling this process.
   const parent = process.ppid;
   const parentCheck = setInterval(() => {
-    // A parent already gone at start usually leaves PID 1, launchd or init, as the parent.
-    if (process.ppid !== parent || process.ppid === 1) {
+    if (process.ppid !== parent) {
       stop("SIGTERM");
     }
   }, parentCheckMs);
