@@ -7,6 +7,7 @@ import { afterEach, describe, expect, it } from "vitest";
 const launchModule = fileURLToPath(new URL("./launch.js", import.meta.url));
 const node = process.execPath;
 const started: ChildProcess[] = [];
+const childPids: number[] = [];
 
 // Prints its PID, then runs until stopped or until it exits with the given code.
 function childScript(exitCode?: number): string {
@@ -41,7 +42,9 @@ async function firstLine(childProcess: ChildProcess): Promise<number> {
     createInterface({ input: childProcess.stdout! }),
     "line",
   );
-  return Number(line);
+  const pid = Number(line);
+  childPids.push(pid);
+  return pid;
 }
 
 function isRunning(pid: number): boolean {
@@ -67,6 +70,10 @@ afterEach(() => {
   for (const childProcess of started.splice(0)) {
     childProcess.kill("SIGKILL");
   }
+  // A launcher that failed to stop its child would leave it running.
+  for (const pid of childPids.splice(0).filter(isRunning)) {
+    process.kill(pid, "SIGKILL");
+  }
 });
 
 describe("launch", () => {
@@ -85,17 +92,20 @@ describe("launch", () => {
     await waitUntilStopped(childPid);
   });
 
-  it("forwards SIGTERM to the child", async () => {
-    const launcher = startLauncher();
-    const childPid = await firstLine(launcher);
-    const exit = once(launcher, "exit");
+  it.each(["SIGINT", "SIGTERM", "SIGHUP"] as const)(
+    "forwards %s to the child",
+    async (signal) => {
+      const launcher = startLauncher();
+      const childPid = await firstLine(launcher);
+      const exit = once(launcher, "exit");
 
-    launcher.kill("SIGTERM");
+      launcher.kill(signal);
 
-    await waitUntilStopped(childPid);
-    const [code] = await exit;
-    expect(code).toBe(1);
-  });
+      await waitUntilStopped(childPid);
+      const [code] = await exit;
+      expect(code).toBe(1);
+    },
+  );
 
   it("exits with the child's exit code", async () => {
     const launcher = startLauncher(3);
