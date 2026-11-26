@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="frame" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#C48A55"/>
+      <stop offset="1" stop-color="#8A5530"/>
+    </linearGradient>
+    <linearGradient id="slate" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3C4650"/>
+      <stop offset="1" stop-color="#252C33"/>
+    </linearGradient>
+  </defs>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="url(#frame)"/>
+  <rect x="100" y="100" width="824" height="824" rx="185" fill="none" stroke="#FFFFFF" stroke-opacity=".18" stroke-width="6"/>
+  <rect x="184" y="184" width="656" height="656" rx="112" fill="url(#slate)"/>
+  <rect x="184" y="184" width="656" height="656" rx="112" fill="none" stroke="#000000" stroke-opacity=".35" stroke-width="8"/>
+  <rect x="272" y="318" width="480" height="92" rx="46" fill="#F5F7F9"/>
+  <rect x="272" y="466" width="368" height="92" rx="46" fill="#F5F7F9" fill-opacity=".62"/>
+  <rect x="272" y="614" width="256" height="92" rx="46" fill="#F5F7F9" fill-opacity=".36"/>
+  <!--dev-->
+</svg>

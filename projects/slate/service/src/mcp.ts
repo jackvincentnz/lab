@@ -1,4 +1,6 @@
+import { readFileSync } from "node:fs";
 import { type IncomingMessage, type ServerResponse } from "node:http";
+import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
@@ -13,6 +15,12 @@ const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
   operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
+
+const icon = {
+  src: `data:image/png;base64,${readFileSync(join(import.meta.dirname, "../../icons/slate-64.png")).toString("base64")}`,
+  mimeType: "image/png",
+  sizes: ["64x64"],
+};
 
 const tools = {
   listItems: (server, store) =>
@@ -84,7 +92,11 @@ const tools = {
 } satisfies Record<AgentOperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
-  const server = new McpServer({ name: "slate", version: "0.1.0" });
+  const server = new McpServer({
+    name: "slate",
+    version: "0.1.0",
+    icons: [icon],
+  });
 
   for (const register of Object.values(tools)) {
     register(server, store);

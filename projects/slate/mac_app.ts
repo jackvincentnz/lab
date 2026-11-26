@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { type OfficialArch, packager } from "@electron/packager";
 
-const [appDir, electronDir, output] = process.argv.slice(2);
+const [appDir, electronDir, icon, output] = process.argv.slice(2);
 
 const { version } = JSON.parse(
   readFileSync(join(electronDir, "package.json"), "utf8"),
@@ -44,6 +44,7 @@ try {
     tmpdir: join(work, "tmp"),
     name: "Slate",
     appBundleId: "lab.slate",
+    icon,
     electronVersion: version,
     electronZipDir: zips,
     platform: "darwin",

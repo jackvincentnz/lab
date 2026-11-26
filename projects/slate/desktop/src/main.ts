@@ -31,6 +31,7 @@ import {
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
 const appDir = join(import.meta.dirname, "../../app");
 const webDir = join(appDir, "dist");
+const iconsDir = join(import.meta.dirname, "../../icons");
 
 let log: Log | undefined;
 
@@ -56,7 +57,7 @@ function createWindow(dataDir: string, url: string, show: boolean): void {
 }
 
 async function start(): Promise<void> {
-  const { dataDir } = readConfig(process.env);
+  const { profile, dataDir } = readConfig(process.env);
   const devServer = readDevServer(process.env);
   // `js_run_devserver`, which `bazel run` starts Slate through, gives it a pipe for stdin, so stdout
   // is what still reaches the terminal.
@@ -81,6 +82,12 @@ async function start(): Promise<void> {
   const startLog = openLog(dataDir);
   log = startLog;
   await app.whenReady();
+  // A packaged app takes its icon from its bundle. Run from Bazel, Slate is Electron's own app.
+  if (!app.isPackaged) {
+    app.dock?.setIcon(
+      join(iconsDir, profile === "dev" ? "slate-dev.png" : "slate.png"),
+    );
+  }
   if (!showWindow) {
     app.dock?.hide();
   }
