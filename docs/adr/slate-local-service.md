@@ -1,5 +1,5 @@
 ---
-status: Proposed
+status: Accepted
 date: 2026-11-21
 owner: Jack Vincent
 affects: [projects/slate]

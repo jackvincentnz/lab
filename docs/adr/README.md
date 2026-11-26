@@ -20,11 +20,11 @@ repository.
   `FAILED` instead of leaving it `PENDING`.
 - [Front-end tests in Bazel](frontend-tests-in-bazel.md) runs Vitest without per-file isolation on
   one worker for each Bazel test, so front-end tests run beside other tests.
+- [Slate local service](slate-local-service.md) has one local process own Slate's database, with the
+  window and agents as its clients.
 
 ## Proposed
 
 - [Edge gateway](gateway.md) decides where platform security boundary controls live and the
   minimum shape of each.
 - [Gateway CSRF](gateway-csrf.md) keeps session-backed validation with a fetched token.
-- [Slate local service](slate-local-service.md) has one local process own Slate's database, with the
-  window and agents as its clients.
