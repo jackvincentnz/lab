@@ -38,9 +38,9 @@ Leave out checks for states that your code or the framework cannot produce, and
 delete such branches instead of testing them, so that every branch is one a
 reader needs.
 
-Add a comment only when the code and its names cannot show why, in as few words
-as possible, so that comments stay true as the code changes. Keep sequencing
-such as "once #123 lands" in issues.
+Specify behavior in tests and names, not comments, so that the code is held to
+it. Comment only to explain why, when tests and names cannot show it. Keep
+progress notes such as "once #123 lands" in issues.
 
 Put a refactor in its own commit or PR before the behavior change, with test
 assertions unchanged, so that a reviewer can check each part on its own.
