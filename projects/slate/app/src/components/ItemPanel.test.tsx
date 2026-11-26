@@ -13,11 +13,18 @@ import { ItemPanel } from "./ItemPanel";
 
 type ItemPanelProps = Parameters<typeof ItemPanel>[0];
 
-function renderPanel(panelItem: Item = item({ name: "Plan the week" })) {
+function renderPanel(
+  panelItem: Item = item({
+    name: "Plan the week",
+    description: "Before Friday",
+  }),
+) {
   const handlers = {
     onClose: vi.fn<ItemPanelProps["onClose"]>(),
     onRename: vi.fn<ItemPanelProps["onRename"]>(),
     onRenameCancel: vi.fn<ItemPanelProps["onRenameCancel"]>(),
+    onDescribe: vi.fn<ItemPanelProps["onDescribe"]>(),
+    onDescribeCancel: vi.fn<ItemPanelProps["onDescribeCancel"]>(),
     onStatusChange: vi.fn<ItemPanelProps["onStatusChange"]>(),
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };
@@ -93,6 +100,26 @@ describe("ItemPanel", () => {
     expect(onClose).not.toHaveBeenCalled();
   });
 
+  it("shows the item's description", () => {
+    renderPanel(item({ description: "Before Friday" }));
+
+    expect(screen.getByText("Before Friday")).toBeInTheDocument();
+  });
+
+  it("stays open when Escape cancels a description edit", async () => {
+    const user = userEvent.setup();
+    const { onClose, onDescribeCancel } = renderPanel();
+    await user.click(screen.getByRole("button", { name: "Edit description" }));
+
+    await user.type(
+      screen.getByRole("textbox", { name: "Markdown" }),
+      "{Escape}",
+    );
+
+    expect(onDescribeCancel).toHaveBeenCalled();
+    expect(onClose).not.toHaveBeenCalled();
+  });
+
   it("stays open when Escape closes the status menu", async () => {
     const user = userEvent.setup();
     const { onClose } = renderPanel();
@@ -119,6 +146,19 @@ describe("ItemPanel", () => {
     expect(
       screen.getByRole("heading", { name: "Book travel" }),
     ).toBeInTheDocument();
+  });
+
+  it("starts with no description edit open when it shows another item", async () => {
+    const user = userEvent.setup();
+    const { showItem } = renderPanel();
+    await user.click(screen.getByRole("button", { name: "Edit description" }));
+
+    showItem(item({ description: "Book the hotel" }));
+
+    expect(
+      screen.queryByRole("textbox", { name: "Markdown" }),
+    ).not.toBeInTheDocument();
+    expect(screen.getByText("Book the hotel")).toBeInTheDocument();
   });
 
   it("reports a delete", async () => {

@@ -2,15 +2,19 @@ import { useLayoutEffect, useRef } from "react";
 import { Button, CloseButton, Group, Paper, Stack } from "@mantine/core";
 import { IconTrash } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
-import { ItemName, type RenameCallbacks } from "./ItemName";
+import { ItemDescription } from "./ItemDescription";
+import { ItemName } from "./ItemName";
 import { StatusMenu } from "./StatusMenu";
+import type { SaveDraft } from "./useItemDraft";
 
 interface ItemPanelProps {
   item: Item;
   saving: boolean;
   onClose(): void;
-  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
+  onRename: SaveDraft;
   onRenameCancel(): void;
+  onDescribe: SaveDraft;
+  onDescribeCancel(): void;
   onStatusChange(status: ItemStatus): void;
   onDelete(): void;
 }
@@ -21,6 +25,8 @@ export function ItemPanel({
   onClose,
   onRename,
   onRenameCancel,
+  onDescribe,
+  onDescribeCancel,
   onStatusChange,
   onDelete,
 }: ItemPanelProps) {
@@ -77,6 +83,13 @@ export function ItemPanel({
           saving={saving}
           onRename={onRename}
           onRenameCancel={onRenameCancel}
+        />
+        <ItemDescription
+          key={`${item.id}-description`}
+          item={item}
+          saving={saving}
+          onDescribe={onDescribe}
+          onDescribeCancel={onDescribeCancel}
         />
         <Group>
           <Button

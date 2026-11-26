@@ -13,12 +13,16 @@ import {
   isChangedElsewhere,
   type Item,
   type ItemStatus,
+  type UpdateItemInput,
   useTRPC,
 } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
 import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
+import type { SaveCallbacks } from "../components/useItemDraft";
+
+type ItemEdit = Pick<UpdateItemInput, "name" | "description">;
 
 export function ItemsPage() {
   const trpc = useTRPC();
@@ -51,6 +55,25 @@ export function ItemsPage() {
   function changeStatus(item: Item, status: ItemStatus) {
     startChange();
     updateItem.mutate({ id: item.id, status, updatedAt: item.updatedAt });
+  }
+
+  function saveEdit(
+    editedFrom: Item,
+    change: ItemEdit,
+    { onSaved, onChanged }: SaveCallbacks,
+  ) {
+    startChange();
+    updateItem.mutate(
+      { id: editedFrom.id, ...change, updatedAt: editedFrom.updatedAt },
+      {
+        onSuccess: onSaved,
+        onError: (error) => {
+          if (isChangedElsewhere(error)) {
+            onChanged();
+          }
+        },
+      },
+    );
   }
 
   return (
@@ -138,21 +161,14 @@ export function ItemsPage() {
             clearSaveError();
             setOpenId(undefined);
           }}
-          onRename={(editedFrom, name, { onSaved, onChanged }) => {
-            startChange();
-            updateItem.mutate(
-              { id: editedFrom.id, name, updatedAt: editedFrom.updatedAt },
-              {
-                onSuccess: onSaved,
-                onError: (error) => {
-                  if (isChangedElsewhere(error)) {
-                    onChanged();
-                  }
-                },
-              },
-            );
-          }}
+          onRename={(editedFrom, name, callbacks) =>
+            saveEdit(editedFrom, { name }, callbacks)
+          }
           onRenameCancel={clearSaveError}
+          onDescribe={(editedFrom, description, callbacks) =>
+            saveEdit(editedFrom, { description }, callbacks)
+          }
+          onDescribeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
           onDelete={() => {
             startChange();

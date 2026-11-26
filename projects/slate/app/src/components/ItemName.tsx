@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from "react";
+import type { FormEvent } from "react";
 import {
   Button,
   Group,
@@ -9,22 +9,12 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import type { Item } from "../api";
-
-export interface RenameCallbacks {
-  onSaved(saved: Item): void;
-  onChanged(): void;
-}
-
-interface Draft {
-  name: string;
-  editedFrom: Item;
-  refusedFrom?: Item;
-}
+import { useItemDraft, type SaveDraft } from "./useItemDraft";
 
 interface ItemNameProps {
   item: Item;
   saving: boolean;
-  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
+  onRename: SaveDraft;
   onRenameCancel(): void;
 }
 
@@ -34,36 +24,20 @@ export function ItemName({
   onRename,
   onRenameCancel,
 }: ItemNameProps) {
-  const [draft, setDraft] = useState<Draft>();
+  const { draft, start, change, submit, cancel } = useItemDraft(
+    item,
+    "name",
+    onRename,
+  );
 
   function submitRename(event: FormEvent) {
     event.preventDefault();
-    if (draft === undefined) {
-      return;
-    }
-    // A rename overwrites only the name, so only a name changed elsewhere makes its draft stale.
-    const nameChangedElsewhere = item.name !== draft.editedFrom.name;
-    const editedFrom =
-      draft.refusedFrom !== undefined || !nameChangedElsewhere
-        ? item
-        : draft.editedFrom;
-    onRename(editedFrom, draft.name, {
-      onSaved: (saved) =>
-        setDraft((current) =>
-          current === undefined || current.name === draft.name
-            ? undefined
-            : { name: current.name, editedFrom: saved },
-        ),
-      onChanged: () =>
-        setDraft(
-          (current) => current && { ...current, refusedFrom: editedFrom },
-        ),
-    });
+    submit();
   }
 
   function cancelRename() {
     onRenameCancel();
-    setDraft(undefined);
+    cancel();
   }
 
   if (draft === undefined) {
@@ -71,7 +45,7 @@ export function ItemName({
       <Title order={2} size="h3">
         <UnstyledButton
           aria-label={`Rename ${item.name}`}
-          onClick={() => setDraft({ name: item.name, editedFrom: item })}
+          onClick={start}
           style={{ font: "inherit" }}
         >
           {item.name}
@@ -86,11 +60,8 @@ export function ItemName({
         <Group wrap="nowrap">
           <TextInput
             aria-label="Name"
-            value={draft.name}
-            onChange={(event) => {
-              const name = event.currentTarget.value;
-              setDraft((current) => current && { ...current, name });
-            }}
+            value={draft.value}
+            onChange={(event) => change(event.currentTarget.value)}
             onKeyDown={(event) => {
               if (event.key === "Escape") {
                 event.preventDefault();
@@ -105,7 +76,7 @@ export function ItemName({
           <Button
             type="submit"
             size="xs"
-            disabled={saving || draft.name.trim() === ""}
+            disabled={saving || draft.value.trim() === ""}
           >
             Save
           </Button>
