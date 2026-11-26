@@ -16,13 +16,13 @@ import {
 } from "@dnd-kit/sortable";
 import { List } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
-import { ItemRow } from "./ItemRow";
+import { ItemRow, type RenameCallbacks } from "./ItemRow";
 
 interface ItemListProps {
   items: Item[];
   saving: boolean;
   onMove(move: MoveItemInput, onSettled: () => void): void;
-  onRename(item: Item, name: string, onSaved: () => void): void;
+  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
   onRenameCancel(): void;
   onStatusChange(item: Item, status: ItemStatus): void;
   onDelete(item: Item): void;
@@ -85,7 +85,7 @@ export function ItemList({
               key={item.id}
               item={item}
               saving={saving}
-              onRename={(name, onSaved) => onRename(item, name, onSaved)}
+              onRename={onRename}
               onRenameCancel={onRenameCancel}
               onStatusChange={(status) => onStatusChange(item, status)}
               onDelete={() => onDelete(item)}

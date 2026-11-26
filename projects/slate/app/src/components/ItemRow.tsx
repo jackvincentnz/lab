@@ -7,6 +7,7 @@ import {
   Group,
   List,
   NativeSelect,
+  Stack,
   Text,
   TextInput,
 } from "@mantine/core";
@@ -24,10 +25,21 @@ const statusOptions = Object.entries(statusLabels).map(([value, label]) => ({
   label,
 }));
 
+export interface RenameCallbacks {
+  onSaved(saved: Item): void;
+  onChanged(): void;
+}
+
+interface Draft {
+  name: string;
+  editedFrom: Item;
+  changed: boolean;
+}
+
 interface ItemRowProps {
   item: Item;
   saving: boolean;
-  onRename(name: string, onSaved: () => void): void;
+  onRename(editedFrom: Item, name: string, callbacks: RenameCallbacks): void;
   onRenameCancel(): void;
   onStatusChange(status: ItemStatus): void;
   onDelete(): void;
@@ -41,7 +53,7 @@ export function ItemRow({
   onStatusChange,
   onDelete,
 }: ItemRowProps) {
-  const [draft, setDraft] = useState<string>();
+  const [draft, setDraft] = useState<Draft>();
   const {
     attributes,
     listeners,
@@ -53,11 +65,21 @@ export function ItemRow({
 
   function submitRename(event: FormEvent) {
     event.preventDefault();
-    if (draft !== undefined) {
-      onRename(draft, () =>
-        setDraft((current) => (current === draft ? undefined : current)),
-      );
+    if (draft === undefined) {
+      return;
     }
+    // After a refused save the row shows the current item, so the next save is made from it.
+    const editedFrom = draft.changed ? item : draft.editedFrom;
+    onRename(editedFrom, draft.name, {
+      onSaved: (saved) =>
+        setDraft((current) =>
+          current === undefined || current.name === draft.name
+            ? undefined
+            : { ...current, editedFrom: saved, changed: false },
+        ),
+      onChanged: () =>
+        setDraft((current) => current && { ...current, changed: true }),
+    });
   }
 
   function cancelRename() {
@@ -105,7 +127,9 @@ export function ItemRow({
               variant="subtle"
               size="xs"
               aria-label={`Rename ${item.name}`}
-              onClick={() => setDraft(item.name)}
+              onClick={() =>
+                setDraft({ name: item.name, editedFrom: item, changed: false })
+              }
             >
               Rename
             </Button>
@@ -121,35 +145,45 @@ export function ItemRow({
           </>
         ) : (
           <form onSubmit={submitRename} style={{ flex: 1 }}>
-            <Group wrap="nowrap">
-              <TextInput
-                aria-label="Name"
-                value={draft}
-                onChange={(event) => setDraft(event.currentTarget.value)}
-                onKeyDown={(event) => {
-                  if (event.key === "Escape" && !saving) {
-                    cancelRename();
-                  }
-                }}
-                autoFocus
-                flex={1}
-              />
-              <Button
-                type="submit"
-                size="xs"
-                disabled={saving || draft.trim() === ""}
-              >
-                Save
-              </Button>
-              <Button
-                variant="subtle"
-                size="xs"
-                disabled={saving}
-                onClick={cancelRename}
-              >
-                Cancel
-              </Button>
-            </Group>
+            <Stack gap={4}>
+              <Group wrap="nowrap">
+                <TextInput
+                  aria-label="Name"
+                  value={draft.name}
+                  onChange={(event) => {
+                    const name = event.currentTarget.value;
+                    setDraft((current) => current && { ...current, name });
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Escape" && !saving) {
+                      cancelRename();
+                    }
+                  }}
+                  autoFocus
+                  flex={1}
+                />
+                <Button
+                  type="submit"
+                  size="xs"
+                  disabled={saving || draft.name.trim() === ""}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="subtle"
+                  size="xs"
+                  disabled={saving}
+                  onClick={cancelRename}
+                >
+                  Cancel
+                </Button>
+              </Group>
+              {draft.changed && (
+                <Text size="xs" c="dimmed">
+                  Changed elsewhere. Current name: {item.name}
+                </Text>
+              )}
+            </Stack>
           </form>
         )}
       </Group>

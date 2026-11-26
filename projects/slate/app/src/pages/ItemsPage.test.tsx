@@ -14,6 +14,7 @@ import { fakeSlateApi, item, withSlateApi } from "../test/fakes";
 import { layOutRowsVertically } from "../test/layout";
 import { ItemsPage } from "./ItemsPage";
 import { onlineManager } from "@tanstack/react-query";
+import { TRPCError } from "@trpc/server";
 
 function itemNames() {
   return screen
@@ -120,6 +121,7 @@ describe("ItemsPage", () => {
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
       name: "Plan the month",
+      updatedAt: original.updatedAt,
     });
     expect(await screen.findByText("Plan the month")).toBeInTheDocument();
     expect(
@@ -144,10 +146,78 @@ describe("ItemsPage", () => {
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
       status: "doing",
+      updatedAt: original.updatedAt,
     });
     expect(
       await screen.findByRole("combobox", { name: "Status of Plan the week" }),
     ).toHaveValue("doing");
+  });
+
+  it("keeps the draft and shows the newer name when a rename is refused as changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([
+      {
+        ...original,
+        name: "Plan the month",
+        updatedAt: "2026-11-22T10:00:00.000Z",
+      },
+    ]);
+
+    await user.click(
+      await screen.findByRole("button", { name: "Rename Plan the week" }),
+    );
+    await user.type(
+      screen.getByRole("textbox", { name: "Name" }),
+      " soon{Enter}",
+    );
+
+    expect(
+      await screen.findByText("Not saved: the item changed elsewhere"),
+    ).toBeInTheDocument();
+    expect(
+      await screen.findByText(
+        "Changed elsewhere. Current name: Plan the month",
+      ),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
+      "Plan the week soon",
+    );
+  });
+
+  it("shows the current status when a status change is refused as changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([
+      {
+        ...original,
+        status: "done",
+        updatedAt: "2026-11-22T10:00:00.000Z",
+      },
+    ]);
+
+    await user.selectOptions(
+      await screen.findByRole("combobox", { name: "Status of Plan the week" }),
+      "Doing",
+    );
+
+    expect(
+      await screen.findByText("Not saved: the item changed elsewhere"),
+    ).toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.getByRole("combobox", { name: "Status of Plan the week" }),
+      ).toHaveValue("done"),
+    );
+    expect(
+      screen.queryByText("Could not save your change"),
+    ).not.toBeInTheDocument();
   });
 
   it("shows a moved item in its new place while the move saves", async () => {

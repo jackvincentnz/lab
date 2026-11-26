@@ -2,7 +2,7 @@ import { type IncomingMessage, type ServerResponse } from "node:http";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Item } from "./item.js";
+import { type Item, ItemChangedError } from "./item.js";
 import {
   type AgentOperationName,
   operations,
@@ -42,10 +42,21 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
+          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status, and the updatedAt from list_items so that a change made since is not overwritten. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
         inputSchema: updateItem.input,
       },
-      (input) => replyIfFound(updateItem.run(store, input), [input.id]),
+      (input) => {
+        try {
+          return replyIfFound(updateItem.run(store, input), [input.id]);
+        } catch (error) {
+          if (error instanceof ItemChangedError) {
+            return replyError(
+              `The item ${input.id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
+            );
+          }
+          throw error;
+        }
+      },
     ),
   moveItem: (server, store) =>
     server.registerTool(
@@ -121,15 +132,13 @@ function reply(value: Item | Item[]): CallToolResult {
 
 function replyIfFound(item: Item | undefined, ids: string[]): CallToolResult {
   if (!item) {
-    return {
-      content: [
-        {
-          type: "text",
-          text: `No item has the id ${ids.join(" or ")}. List the items to find the right id.`,
-        },
-      ],
-      isError: true,
-    };
+    return replyError(
+      `No item has the id ${ids.join(" or ")}. List the items to find the right id.`,
+    );
   }
   return reply(item);
+}
+
+function replyError(text: string): CallToolResult {
+  return { content: [{ type: "text", text }], isError: true };
 }

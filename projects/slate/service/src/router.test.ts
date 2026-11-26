@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
-import { type Item } from "./item.js";
+import { type Item, ItemChangedError } from "./item.js";
 import { type Store } from "./operations.js";
 import { slateRouter } from "./router.js";
 
@@ -63,6 +63,38 @@ describe("slateRouter", () => {
     const updated = await caller.updateItem({ id: item.id, status: "done" });
 
     expect(updated).toEqual(item);
+  });
+
+  it("passes the updatedAt the change was made from to the store", async () => {
+    const item = anItem();
+    store.update.mockReturnValue(item);
+
+    await caller.updateItem({
+      id: item.id,
+      name: "Write the report",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(store.update).toHaveBeenCalledWith({
+      id: item.id,
+      name: "Write the report",
+      updatedAt: item.updatedAt,
+    });
+  });
+
+  it("reports a conflict when the item changed since it was read", async () => {
+    const item = anItem();
+    store.update.mockImplementation(() => {
+      throw new ItemChangedError(item.id);
+    });
+
+    const updating = caller.updateItem({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    await expect(updating).rejects.toMatchObject({ code: "CONFLICT" });
   });
 
   it("reports an unknown item on update", async () => {

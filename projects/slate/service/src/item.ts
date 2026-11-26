@@ -13,7 +13,7 @@ export const itemStatus = itemSchema.shape.status;
 
 export type ItemStatus = z.infer<typeof itemStatus>;
 
-const { id, name } = itemSchema.shape;
+const { id, name, updatedAt } = itemSchema.shape;
 
 export const addItemInput = z.object({
   name: name.describe("What the work is, in a few words."),
@@ -26,12 +26,23 @@ export const updateItemInput = z
     id: id.describe("The id of the item to change."),
     name: name.optional().describe("The item's new name."),
     status: itemStatus.optional().describe("The item's new status."),
+    updatedAt: updatedAt
+      .optional()
+      .describe(
+        "The item's updatedAt as list_items returned it. If the item has changed since, the update is refused, so that a change you have not seen is not overwritten.",
+      ),
   })
   .refine((input) => input.name !== undefined || input.status !== undefined, {
     message: "Give a name or a status to change",
   });
 
 export type UpdateItemInput = z.infer<typeof updateItemInput>;
+
+export class ItemChangedError extends Error {
+  constructor(id: string) {
+    super(`The item ${id} has changed since it was read`);
+  }
+}
 
 export const moveItemInput = z.object({
   id: id.describe("The id of the item to move."),

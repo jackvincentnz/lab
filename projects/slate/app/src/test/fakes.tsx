@@ -1,6 +1,8 @@
 import type { PropsWithChildren } from "react";
 import { createTRPCClient, TRPCClientError, type TRPCLink } from "@trpc/client";
+import { TRPCError } from "@trpc/server";
 import { observable } from "@trpc/server/observable";
+import { TRPC_ERROR_CODES_BY_KEY } from "@trpc/server/rpc";
 import { vi, type Mock } from "@lab/test-utils";
 import type { SlateRouter } from "../../../service/src/router.js";
 import {
@@ -47,10 +49,23 @@ function fakeLink(api: FakeSlateApi): TRPCLink<SlateRouter> {
             observer.next({ result: { type: "data", data } });
             observer.complete();
           },
-          (error: unknown) =>
-            observer.error(TRPCClientError.from(error as Error)),
+          (error: unknown) => observer.error(clientError(error)),
         );
       });
+}
+
+// The service sends a TRPCError's code to the client in its error data.
+function clientError(error: unknown) {
+  if (error instanceof TRPCError) {
+    return TRPCClientError.from({
+      error: {
+        code: TRPC_ERROR_CODES_BY_KEY[error.code],
+        message: error.message,
+        data: { code: error.code },
+      },
+    });
+  }
+  return TRPCClientError.from(error as Error);
 }
 
 export function withSlateApi(api: FakeSlateApi) {
