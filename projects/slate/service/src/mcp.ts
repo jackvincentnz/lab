@@ -21,7 +21,7 @@ const tools = {
       {
         title: "List items",
         description:
-          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a status (todo, doing or done), a rank, and the times it was created and last updated. Items marked done on an earlier day are left out.",
+          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a status (todo, doing or done), a rank, and the times it was created and last updated. Items marked done on an earlier day are left out.",
       },
       () => reply(listItems.run(store)),
     ),
@@ -31,7 +31,7 @@ const tools = {
       {
         title: "Add item",
         description:
-          "Add a to-do, task or priority to the user's Slate list, their list for the day. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
         inputSchema: addItem.input,
       },
       (input) => reply(addItem.run(store, input)),
@@ -42,7 +42,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status, and the item's latest updatedAt so that a change made since is not overwritten. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
+          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status, and the item's latest updatedAt so that a change made since is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),

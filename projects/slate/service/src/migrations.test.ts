@@ -14,6 +14,7 @@ const migrations = [
   "20261124181218_item",
   "20261126150944_item_deleted",
   "20261126165159_item_done_at",
+  "20261126180533_item_description",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -82,6 +83,7 @@ function randomItems(count: number): Item[] {
     items.push({
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
+      description: "",
       status: (["todo", "doing", "done"] as const)[index % 3],
       rank: generateKeyBetween(items.at(-1)?.rank ?? null, null),
       createdAt: time,
@@ -191,6 +193,16 @@ const earlierSchemas: EarlierSchema[] = [
       migrateUpTo(file, "20261126150944_item_deleted");
       const items = randomItems(3);
       insertItems(file, items);
+      return items;
+    },
+  },
+  {
+    name: "a database from before items had descriptions",
+    create(file) {
+      migrateUpTo(file, "20261126165159_item_done_at");
+      const items = randomItems(3);
+      insertItems(file, items);
+      file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
       return items;
     },
   },

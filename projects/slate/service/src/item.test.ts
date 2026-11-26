@@ -5,7 +5,22 @@ describe("addItemInput", () => {
   it("trims the name", () => {
     const input = addItemInput.parse({ name: "  Plan  " });
 
-    expect(input).toEqual({ name: "Plan" });
+    expect(input).toEqual({ name: "Plan", description: "" });
+  });
+
+  it("trims the end of the description", () => {
+    const input = addItemInput.parse({
+      name: "Plan",
+      description: "    npm test\n\n",
+    });
+
+    expect(input.description).toBe("    npm test");
+  });
+
+  it("treats a description of only whitespace as none", () => {
+    const input = addItemInput.parse({ name: "Plan", description: " \n " });
+
+    expect(input.description).toBe("");
   });
 
   it("rejects a blank name", () => {
@@ -34,6 +49,15 @@ describe("updateItemInput", () => {
     });
 
     expect(input.updatedAt).toBe(updatedAt);
+  });
+
+  it("accepts an update that changes only the description", () => {
+    const result = updateItemInput.safeParse({
+      id: crypto.randomUUID(),
+      description: "",
+    });
+
+    expect(result.success).toBe(true);
   });
 
   it("rejects an unknown status", () => {

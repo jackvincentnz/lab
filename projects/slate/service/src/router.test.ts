@@ -22,6 +22,7 @@ function anItem(): Item {
   return {
     id: crypto.randomUUID(),
     name: "Write the plan",
+    description: "",
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -45,7 +46,7 @@ describe("slateRouter", () => {
 
     const added = await caller.addItem({ name: "  Write the plan " });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan");
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "");
     expect(added).toEqual(item);
   });
 
