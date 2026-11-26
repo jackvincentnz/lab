@@ -10,7 +10,7 @@ import {
   type Mock,
   vi,
 } from "vitest";
-import { type Item } from "./item.js";
+import { type Item, ItemChangedError } from "./item.js";
 import { createSlateMcpServer, handleMcpRequest } from "./mcp.js";
 import { type Store } from "./operations.js";
 
@@ -114,6 +114,37 @@ describe("createSlateMcpServer", () => {
     const result = await call("update_item", { id: item.id, status: "done" });
 
     expect(result.content).toEqual(text(item));
+  });
+
+  it("describes the updatedAt that guards an update", async () => {
+    const { tools } = await client.listTools();
+
+    const update = tools.find((tool) => tool.name === "update_item");
+    expect(update?.inputSchema.properties).toMatchObject({
+      updatedAt: { description: expect.stringContaining("list_items") },
+    });
+  });
+
+  it("tells the agent to list again when the item changed since", async () => {
+    const item = anItem();
+    store.update.mockImplementation(() => {
+      throw new ItemChangedError(item.id);
+    });
+
+    const result = await call("update_item", {
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [
+        {
+          text: `The item ${item.id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
+        },
+      ],
+    });
   });
 
   it("names the unknown id on update", async () => {

@@ -102,7 +102,7 @@ describe("ItemList", () => {
     expect(onRename).toHaveBeenCalledWith(
       bookTravel,
       "Book travels",
-      expect.any(Function),
+      expect.anything(),
     );
     expect(onDelete).toHaveBeenCalledWith(bookTravel);
   });

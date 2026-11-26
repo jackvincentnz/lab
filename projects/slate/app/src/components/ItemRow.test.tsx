@@ -7,6 +7,7 @@ import {
   screen,
   userEvent,
   vi,
+  type Mock,
 } from "@lab/test-utils";
 import { List } from "@mantine/core";
 import type { Item } from "../api";
@@ -22,13 +23,22 @@ function renderRow(rowItem: Item = item({ name: "Plan the week" })) {
     onStatusChange: vi.fn<ItemRowProps["onStatusChange"]>(),
     onDelete: vi.fn<ItemRowProps["onDelete"]>(),
   };
-  const row = (saving: boolean) => (
+  const row = (shown: Item, saving: boolean) => (
     <List>
-      <ItemRow item={rowItem} saving={saving} {...handlers} />
+      <ItemRow item={shown} saving={saving} {...handlers} />
     </List>
   );
-  const { rerender } = render(row(false));
-  return { ...handlers, startSaving: () => rerender(row(true)) };
+  const { rerender } = render(row(rowItem, false));
+  return {
+    ...handlers,
+    startSaving: () => rerender(row(rowItem, true)),
+    showItem: (shown: Item) => rerender(row(shown, false)),
+  };
+}
+
+function renameCallbacks(onRename: Mock<ItemRowProps["onRename"]>) {
+  const [, , callbacks] = onRename.mock.lastCall!;
+  return callbacks;
 }
 
 async function startRename(user: ReturnType<typeof userEvent.setup>) {
@@ -84,15 +94,19 @@ describe("ItemRow", () => {
 
   it("closes the rename once the new name is saved", async () => {
     const user = userEvent.setup();
-    const { onRename } = renderRow();
-    onRename.mockImplementation((_name, onSaved) => onSaved());
+    const original = item({ name: "Plan the week" });
+    const { onRename } = renderRow(original);
+    onRename.mockImplementation((_editedFrom, name, { onSaved }) =>
+      onSaved({ ...original, name }),
+    );
     const name = await startRename(user);
 
     await user.type(name, " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
+      original,
       "Plan the week soon",
-      expect.any(Function),
+      expect.anything(),
     );
     expect(
       screen.queryByRole("textbox", { name: "Name" }),
@@ -113,16 +127,142 @@ describe("ItemRow", () => {
 
   it("keeps newer edits when an earlier rename is saved", async () => {
     const user = userEvent.setup();
-    const { onRename } = renderRow();
+    const original = item({ name: "Plan the week" });
+    const { onRename } = renderRow(original);
     const name = await startRename(user);
     await user.type(name, " soon{Enter}");
     await user.type(name, "er");
-    const [[, onSaved]] = onRename.mock.calls as [[string, () => void]];
+    const { onSaved } = renameCallbacks(onRename);
 
-    act(onSaved);
+    act(() => onSaved({ ...original, name: "Plan the week soon" }));
 
     expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week sooner",
+    );
+  });
+
+  it("saves newer edits from the item an earlier save returned", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename } = renderRow(original);
+    const name = await startRename(user);
+    await user.type(name, " soon{Enter}");
+    await user.type(name, "er");
+    const saved = {
+      ...original,
+      name: "Plan the week soon",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    act(() => renameCallbacks(onRename).onSaved(saved));
+
+    await user.type(name, "{Enter}");
+
+    expect(onRename).toHaveBeenLastCalledWith(
+      saved,
+      "Plan the week sooner",
+      expect.anything(),
+    );
+  });
+
+  it("saves a rename from the item as it was when the rename started", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    showItem({
+      ...original,
+      name: "Plan the month",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
+
+    await user.type(name, " soon{Enter}");
+
+    expect(onRename).toHaveBeenCalledWith(
+      original,
+      "Plan the week soon",
+      expect.anything(),
+    );
+  });
+
+  it("saves a rename from the current item when only its status changed since the rename started", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    const doing = {
+      ...original,
+      status: "doing" as const,
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    showItem(doing);
+
+    await user.type(name, " soon{Enter}");
+
+    expect(onRename).toHaveBeenCalledWith(
+      doing,
+      "Plan the week soon",
+      expect.anything(),
+    );
+  });
+
+  it("keeps the draft and shows the current name when the item changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    await user.type(name, " soon{Enter}");
+    act(() => renameCallbacks(onRename).onChanged());
+
+    showItem({
+      ...original,
+      name: "Plan the month",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
+
+    expect(name).toHaveValue("Plan the week soon");
+    expect(
+      screen.getByText("Changed elsewhere. Current name: Plan the month"),
+    ).toBeInTheDocument();
+  });
+
+  it("names no current name until a copy newer than the refused one arrives", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    showItem({
+      ...original,
+      status: "doing",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
+    await user.type(name, " soon{Enter}");
+
+    act(() => renameCallbacks(onRename).onChanged());
+
+    expect(screen.getByText("Changed elsewhere.")).toBeInTheDocument();
+    expect(screen.queryByText(/Current name/)).not.toBeInTheDocument();
+  });
+
+  it("saves again from the current item once the item changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    await user.type(name, " soon{Enter}");
+    act(() => renameCallbacks(onRename).onChanged());
+    const current = {
+      ...original,
+      name: "Plan the month",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    showItem(current);
+
+    await user.type(name, "{Enter}");
+
+    expect(onRename).toHaveBeenLastCalledWith(
+      current,
+      "Plan the week soon",
+      expect.anything(),
     );
   });
 

@@ -3,7 +3,12 @@ import {
   QueryClient,
   type QueryKey,
 } from "@tanstack/react-query";
-import { createTRPCClient, httpLink, type TRPCClient } from "@trpc/client";
+import {
+  createTRPCClient,
+  httpLink,
+  type TRPCClient,
+  type TRPCClientErrorLike,
+} from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import type { SlateRouter } from "../../service/src/router.js";
 import type {
@@ -32,6 +37,12 @@ export const { TRPCProvider, useTRPC } = createTRPCContext<SlateRouter>();
 
 export function createSlateClient(url: string): SlateClient {
   return createTRPCClient<SlateRouter>({ links: [httpLink({ url })] });
+}
+
+export function isChangedElsewhere(
+  error: TRPCClientErrorLike<SlateRouter> | null,
+): boolean {
+  return error?.data?.code === "CONFLICT";
 }
 
 export function createQueryClient(): QueryClient {

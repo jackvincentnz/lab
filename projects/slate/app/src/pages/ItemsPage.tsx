@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Alert, Button, Center, Loader, Stack, Text } from "@mantine/core";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { type Item, useTRPC } from "../api";
+import { isChangedElsewhere, type Item, useTRPC } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
 import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
@@ -16,6 +16,7 @@ export function ItemsPage() {
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
   const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
   const saving = changes.some((change) => change.isPending);
+  const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<Item>();
 
   function clearSaveError() {
@@ -51,8 +52,14 @@ export function ItemsPage() {
           </Button>
         </Alert>
       )}
-      {changes.some((change) => change.isError) && (
-        <Alert color="red" title="Could not save your change" />
+      {changedElsewhere ? (
+        <Alert color="yellow" title="Not saved: the item changed elsewhere">
+          Check the item before you try again.
+        </Alert>
+      ) : (
+        changes.some((change) => change.isError) && (
+          <Alert color="red" title="Could not save your change" />
+        )
       )}
       {deleted !== undefined && (
         <DeletedItemNotice
@@ -86,14 +93,28 @@ export function ItemsPage() {
             startChange();
             moveItem.mutate(move, { onSettled });
           }}
-          onRename={(item, name, onSaved) => {
+          onRename={(editedFrom, name, { onSaved, onChanged }) => {
             startChange();
-            updateItem.mutate({ id: item.id, name }, { onSuccess: onSaved });
+            updateItem.mutate(
+              { id: editedFrom.id, name, updatedAt: editedFrom.updatedAt },
+              {
+                onSuccess: onSaved,
+                onError: (error) => {
+                  if (isChangedElsewhere(error)) {
+                    onChanged();
+                  }
+                },
+              },
+            );
           }}
           onRenameCancel={clearSaveError}
           onStatusChange={(item, status) => {
             startChange();
-            updateItem.mutate({ id: item.id, status });
+            updateItem.mutate({
+              id: item.id,
+              status,
+              updatedAt: item.updatedAt,
+            });
           }}
           onDelete={(item) => {
             startChange();
