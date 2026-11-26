@@ -261,7 +261,7 @@ describe("a database from a newer build", () => {
     const open = () => openItemStore(dataDir);
 
     expect(open).toThrow(
-      `A newer build of Slate has migrated this database with ${newer}, so this build cannot open it. Update Slate.`,
+      `A newer build of Slate, or a build from a branch that is not merged yet, has migrated this database with ${newer}, so this build cannot open it. Update Slate, or see https://github.com/jackvincentnz/lab/blob/main/projects/slate/docs/migrations.md#a-database-from-another-build.`,
     );
   });
 });

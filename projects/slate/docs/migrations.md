@@ -60,6 +60,15 @@ bazel run //projects/slate/service:seed
 The seed command removes only the database, keeping the log and window position. It refuses the
 installed app's folder, `~/Library/Application Support/Slate`.
 
+## A database from another build
+
+A build cannot open a database that a newer build, or a build from a branch that is not merged yet,
+has migrated. Its error names the migrations it does not know.
+
+- For dev data, replace it with the sample items, as [dev data](#dev-data) describes.
+- For the installed app's data after a newer build, install the newer build again.
+- For the installed app's data after a branch build, restore the backup from before that migration.
+
 ## Restore a backup
 
 Before it applies migrations to the installed app's data, the service copies the database to
