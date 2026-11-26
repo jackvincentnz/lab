@@ -112,10 +112,13 @@ function refuseNewerDatabase(applied: string[], known: string[]) {
   const unknown = applied.filter((name) => !known.includes(name));
   if (unknown.length > 0) {
     throw new Error(
-      `A newer build of Slate has migrated this database with ${unknown.join(", ")}, so this build cannot open it. Update Slate.`,
+      `A newer build of Slate, or a build from a branch that is not merged yet, has migrated this database with ${unknown.join(", ")}, so this build cannot open it. Update Slate, or see ${newerDatabaseHelp}.`,
     );
   }
 }
+
+const newerDatabaseHelp =
+  "https://github.com/jackvincentnz/lab/blob/main/projects/slate/docs/migrations.md#a-database-from-another-build";
 
 /**
  * `VACUUM INTO` copies through SQLite, so the copy includes changes still in the journal or WAL
