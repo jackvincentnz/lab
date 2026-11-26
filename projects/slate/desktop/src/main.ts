@@ -90,10 +90,6 @@ async function start(): Promise<void> {
   // At login, Slate only needs to run. Its window opens when the user opens Slate.
   if (!openedAtLogin) {
     createWindow(url, showWindow);
-    if (showWindow) {
-      // Started from a terminal, the app would otherwise open behind the terminal.
-      app.focus({ steal: true });
-    }
   }
 
   app.on("activate", () => {
