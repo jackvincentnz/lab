@@ -33,7 +33,7 @@ export interface RenameCallbacks {
 interface Draft {
   name: string;
   editedFrom: Item;
-  changed: boolean;
+  refusedFrom?: Item;
 }
 
 interface ItemRowProps {
@@ -71,16 +71,20 @@ export function ItemRow({
     // A rename overwrites only the name, so only a name changed elsewhere makes its draft stale.
     const nameChangedElsewhere = item.name !== draft.editedFrom.name;
     const editedFrom =
-      draft.changed || !nameChangedElsewhere ? item : draft.editedFrom;
+      draft.refusedFrom !== undefined || !nameChangedElsewhere
+        ? item
+        : draft.editedFrom;
     onRename(editedFrom, draft.name, {
       onSaved: (saved) =>
         setDraft((current) =>
           current === undefined || current.name === draft.name
             ? undefined
-            : { ...current, editedFrom: saved, changed: false },
+            : { name: current.name, editedFrom: saved },
         ),
       onChanged: () =>
-        setDraft((current) => current && { ...current, changed: true }),
+        setDraft(
+          (current) => current && { ...current, refusedFrom: editedFrom },
+        ),
     });
   }
 
@@ -129,9 +133,7 @@ export function ItemRow({
               variant="subtle"
               size="xs"
               aria-label={`Rename ${item.name}`}
-              onClick={() =>
-                setDraft({ name: item.name, editedFrom: item, changed: false })
-              }
+              onClick={() => setDraft({ name: item.name, editedFrom: item })}
             >
               Rename
             </Button>
@@ -180,9 +182,9 @@ export function ItemRow({
                   Cancel
                 </Button>
               </Group>
-              {draft.changed && (
+              {draft.refusedFrom !== undefined && (
                 <Text size="xs" c="dimmed">
-                  {item.updatedAt === draft.editedFrom.updatedAt
+                  {item.updatedAt === draft.refusedFrom.updatedAt
                     ? "Changed elsewhere."
                     : `Changed elsewhere. Current name: ${item.name}`}
                 </Text>

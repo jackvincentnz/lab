@@ -211,8 +211,8 @@ describe("ItemRow", () => {
     const { onRename, showItem } = renderRow(original);
     const name = await startRename(user);
     await user.type(name, " soon{Enter}");
-
     act(() => renameCallbacks(onRename).onChanged());
+
     showItem({
       ...original,
       name: "Plan the month",
@@ -225,10 +225,16 @@ describe("ItemRow", () => {
     ).toBeInTheDocument();
   });
 
-  it("names no current name until a newer copy of the item arrives", async () => {
+  it("names no current name until a copy newer than the refused one arrives", async () => {
     const user = userEvent.setup();
-    const { onRename } = renderRow();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
     const name = await startRename(user);
+    showItem({
+      ...original,
+      status: "doing",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
     await user.type(name, " soon{Enter}");
 
     act(() => renameCallbacks(onRename).onChanged());
