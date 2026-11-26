@@ -22,7 +22,7 @@ import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
 import type { SaveCallbacks } from "../components/useItemDraft";
 
-type ItemEdit = Pick<UpdateItemInput, "name">;
+type ItemEdit = Pick<UpdateItemInput, "name" | "description">;
 
 export function ItemsPage() {
   const trpc = useTRPC();
@@ -165,6 +165,10 @@ export function ItemsPage() {
             saveEdit(editedFrom, { name }, callbacks)
           }
           onRenameCancel={clearSaveError}
+          onDescribe={(editedFrom, description, callbacks) =>
+            saveEdit(editedFrom, { description }, callbacks)
+          }
+          onDescribeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
           onDelete={() => {
             startChange();

@@ -142,6 +142,66 @@ describe("ItemsPage", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("saves an item's description and shows the service's", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const described = { ...original, description: "Before **Friday**" };
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockResolvedValue(described);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([described]);
+    const panel = await openItem(user, "Plan the week");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Add a description" }),
+    );
+    await user.type(
+      within(panel).getByRole("textbox", { name: "Markdown" }),
+      "Before **Friday**{Meta>}{Enter}{/Meta}",
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: original.id,
+      description: "Before **Friday**",
+      updatedAt: original.updatedAt,
+    });
+    expect(await within(panel).findByText("Friday")).toBeInTheDocument();
+    expect(
+      within(panel).queryByRole("textbox", { name: "Markdown" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows the newer description when a description edit is refused as changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({
+      name: "Plan the week",
+      description: "Before Friday",
+    });
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([
+      {
+        ...original,
+        description: "Before **Thursday**",
+        updatedAt: "2026-11-22T10:00:00.000Z",
+      },
+    ]);
+    const panel = await openItem(user, "Plan the week");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Edit description" }),
+    );
+    const markdown = within(panel).getByRole("textbox", { name: "Markdown" });
+    await user.type(markdown, " noon{Meta>}{Enter}{/Meta}");
+
+    expect(
+      await within(panel).findByText("Changed elsewhere. Current description:"),
+    ).toBeInTheDocument();
+    expect(within(panel).getByText("Thursday")).toBeInTheDocument();
+    expect(markdown).toHaveValue("Before Friday noon");
+  });
+
   it("changes an item's status and shows the service's new list", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });
