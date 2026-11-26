@@ -1,5 +1,6 @@
 import { createRequire } from "node:module";
 import { dirname, join } from "node:path";
+import { isatty } from "node:tty";
 import { app, BrowserWindow, dialog, shell, utilityProcess } from "electron";
 import { readConfig } from "../../service/src/config.js";
 import { type DevServer, readDevServer, waitForServer } from "./devServer.js";
@@ -8,6 +9,11 @@ import { guardApp } from "./guards.js";
 import { type Log, logOutput, openLog } from "./log.js";
 import { openAtLogin } from "./loginItem.js";
 import { waitUntilListening } from "./service.js";
+import {
+  readShowWindow,
+  type SecondInstanceData,
+  secondInstanceShowsWindow,
+} from "./window.js";
 
 const serviceEntry = join(import.meta.dirname, "../../service/src/main.js");
 const appDir = join(import.meta.dirname, "../../app");
@@ -15,11 +21,12 @@ const webDir = join(appDir, "dist");
 
 let log: Log | undefined;
 
-function createWindow(url: string): void {
+function createWindow(url: string, show: boolean): void {
   const window = new BrowserWindow({
     width: 960,
     height: 720,
     title: "Slate",
+    show,
     webPreferences: { sandbox: true },
   });
 
@@ -29,11 +36,18 @@ function createWindow(url: string): void {
 async function start(): Promise<void> {
   const { dataDir } = readConfig(process.env);
   const devServer = readDevServer(process.env);
+  // `js_run_devserver`, which `bazel run` starts Slate through, gives it a pipe for stdin, so stdout
+  // is what still reaches the terminal.
+  const showWindow = readShowWindow(process.env, {
+    packaged: app.isPackaged,
+    stdoutIsTerminal: isatty(1),
+  });
   // Electron keeps its own files, such as caches and local storage, in its user data folder. Run
   // unpackaged, every Electron app shares that folder, so Slate uses the folder that holds its list.
   app.setPath("userData", dataDir);
   // The lock is held per user data folder, so dev mode still runs beside prod mode.
-  if (!app.requestSingleInstanceLock()) {
+  const secondInstanceData: SecondInstanceData = { showWindow };
+  if (!app.requestSingleInstanceLock(secondInstanceData)) {
     const failure = lockHeldFailure(app.isPackaged, dataDir);
     if (failure) {
       throw failure;
@@ -45,6 +59,9 @@ async function start(): Promise<void> {
   const startLog = openLog(dataDir);
   log = startLog;
   await app.whenReady();
+  if (!showWindow) {
+    app.dock?.hide();
+  }
   const openedAtLogin = openAtLogin(app, (message) =>
     startLog.write("main", message),
   );
@@ -72,27 +89,33 @@ async function start(): Promise<void> {
   guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
   // At login, Slate only needs to run. Its window opens when the user opens Slate.
   if (!openedAtLogin) {
-    createWindow(url);
-    // Started from a terminal, the app would otherwise open behind the terminal.
-    app.focus({ steal: true });
+    createWindow(url, showWindow);
+    if (showWindow) {
+      // Started from a terminal, the app would otherwise open behind the terminal.
+      app.focus({ steal: true });
+    }
   }
 
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow(url);
+      createWindow(url, true);
     }
   });
 
-  app.on("second-instance", () => {
+  app.on("second-instance", (_event, _argv, _cwd, additionalData) => {
+    if (!secondInstanceShowsWindow(additionalData)) {
+      return;
+    }
+    void app.dock?.show();
     const [window] = BrowserWindow.getAllWindows();
     if (!window) {
-      createWindow(url);
+      createWindow(url, true);
       return;
     }
     if (window.isMinimized()) {
       window.restore();
     }
-    window.focus();
+    window.show();
   });
 }
 
