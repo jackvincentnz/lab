@@ -54,7 +54,6 @@ const migrationsFolder = join(import.meta.dirname, "../migrations");
 
 const sqliteSchema = sqliteTable("sqlite_schema", { name: text() });
 
-// Drizzle's migrator records each migration it applies here by name.
 const appliedMigration = sqliteTable("__drizzle_migrations", { name: text() });
 
 export function openItemStore(
@@ -114,6 +113,7 @@ export class ItemStore {
       .all();
   }
 
+  // At the bottom, so that new work never displaces what matters most.
   add(name: string, description: string): Item {
     const last = this.#database
       .select({ rank: item.rank })
@@ -155,7 +155,6 @@ export class ItemStore {
       return undefined;
     }
     if (moving.id === neighbour.id) {
-      // An item is already next to itself.
       return moving;
     }
 

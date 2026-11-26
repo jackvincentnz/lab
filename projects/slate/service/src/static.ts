@@ -33,6 +33,7 @@ export async function serveFile(
     "content-length": stats.size,
     "content-type": contentTypes[extname(file)] ?? "application/octet-stream",
   });
+  // Destroys both streams if the file cannot be read or the client goes away.
   pipeline(createReadStream(file), response, () => undefined);
 }
 

@@ -158,6 +158,17 @@ describe("listenForWindows", () => {
     expect(windows.create).toHaveBeenCalledWith(url, true);
   });
 
+  it("opens no window at login for an activate that arrives while Slate starts", async () => {
+    const { app, windows, url } = fakeElectron();
+    const slateWindows = listenForWindows(app, windows);
+    await activate(app);
+
+    slateWindows.open(url, { show: true, atLogin: true });
+    await new Promise((resolve) => setTimeout(resolve, 0));
+
+    expect(windows.create).not.toHaveBeenCalled();
+  });
+
   it("keeps the open window on activate", async () => {
     const { app, windows, url } = fakeElectron();
     listenForWindows(app, windows).open(url, { show: true, atLogin: false });

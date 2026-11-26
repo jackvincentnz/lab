@@ -12,7 +12,7 @@ const childPids: number[] = [];
 const runningChild = "console.log(process.pid); setInterval(() => {}, 1000);";
 const exitingChild = (code: number) =>
   `${runningChild} setTimeout(() => process.exit(${code}), 100);`;
-// Prints each SIGTERM it gets, listening before it prints its PID so that none is missed.
+// Listens before it prints its PID, so that no SIGTERM is missed.
 const countingChild = `process.on("SIGTERM", () => console.log("SIGTERM")); ${runningChild}`;
 
 function launcherScript(child = runningChild): string {

@@ -68,16 +68,9 @@ export function listenForWindows(
   };
 
   app.on("second-instance", (_event, _argv, _cwd, additionalData) => {
-    if ((additionalData as SecondInstanceData | null)?.showWindow) {
+    if ((additionalData as SecondInstanceData | null)?.showWindow === true) {
       void windowUrl.then(reveal);
     }
-  });
-  app.on("activate", () => {
-    void windowUrl.then((url) => {
-      if (windows.all().length === 0) {
-        windows.create(url, true);
-      }
-    });
   });
 
   return {
@@ -86,6 +79,11 @@ export function listenForWindows(
         windows.create(url, show);
       }
       opened(url);
+      app.on("activate", () => {
+        if (windows.all().length === 0) {
+          windows.create(url, true);
+        }
+      });
     },
   };
 }
