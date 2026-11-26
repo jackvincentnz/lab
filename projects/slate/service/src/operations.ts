@@ -1,14 +1,21 @@
 import {
   type AddItemInput,
   addItemInput,
+  type DeleteItemInput,
+  deleteItemInput,
   type MoveItemInput,
   moveItemInput,
+  type RestoreItemInput,
+  restoreItemInput,
   type UpdateItemInput,
   updateItemInput,
 } from "./item.js";
 import { type ItemStore } from "./store.js";
 
-export type Store = Pick<ItemStore, "list" | "add" | "update" | "move">;
+export type Store = Pick<
+  ItemStore,
+  "list" | "add" | "update" | "move" | "delete" | "restore"
+>;
 
 export const operations = {
   listItems: {
@@ -25,6 +32,14 @@ export const operations = {
   moveItem: {
     input: moveItemInput,
     run: (store: Store, input: MoveItemInput) => store.move(input),
+  },
+  deleteItem: {
+    input: deleteItemInput,
+    run: (store: Store, { id }: DeleteItemInput) => store.delete(id),
+  },
+  restoreItem: {
+    input: restoreItemInput,
+    run: (store: Store, { id }: RestoreItemInput) => store.restore(id),
   },
 };
 

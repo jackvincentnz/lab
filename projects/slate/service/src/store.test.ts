@@ -53,6 +53,15 @@ describe("list", () => {
 
     expect(reopened).toEqual([item]);
   });
+
+  it("leaves out deleted items", () => {
+    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    store.delete(second.id);
+
+    const reopened = openItemStore(dataDir).list();
+
+    expect(reopened).toEqual([first]);
+  });
 });
 
 describe("update", () => {
@@ -80,6 +89,15 @@ describe("update", () => {
 
   it("returns nothing for an unknown item", () => {
     const updated = store.update({ id: crypto.randomUUID(), name: "Missing" });
+
+    expect(updated).toBeUndefined();
+  });
+
+  it("returns nothing for a deleted item", () => {
+    const item = store.add("Draft");
+    store.delete(item.id);
+
+    const updated = store.update({ id: item.id, status: "done" });
 
     expect(updated).toBeUndefined();
   });
@@ -153,5 +171,113 @@ describe("move", () => {
     });
 
     expect(moved).toBeUndefined();
+  });
+
+  it("returns nothing for a deleted item", () => {
+    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    store.delete(second.id);
+
+    const moved = store.move({
+      id: second.id,
+      neighbourId: first.id,
+      position: "before",
+    });
+
+    expect(moved).toBeUndefined();
+  });
+
+  it("returns nothing when the neighbour is deleted", () => {
+    const [first, second] = ["A", "B"].map((name) => store.add(name));
+    store.delete(first.id);
+
+    const moved = store.move({
+      id: second.id,
+      neighbourId: first.id,
+      position: "before",
+    });
+
+    expect(moved).toBeUndefined();
+    expect(store.list()).toEqual([second]);
+  });
+});
+
+describe("delete", () => {
+  it("returns the deleted item with its update time", () => {
+    const item = store.add("Mistake");
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const deleted = store.delete(item.id);
+
+    expect(deleted).toEqual({ ...item, updatedAt: "2026-11-21T10:00:00.000Z" });
+    expect(store.list()).toEqual([]);
+  });
+
+  it("returns nothing for an unknown item", () => {
+    const deleted = store.delete(crypto.randomUUID());
+
+    expect(deleted).toBeUndefined();
+  });
+
+  it("returns nothing for an item already deleted", () => {
+    const item = store.add("Mistake");
+    store.delete(item.id);
+
+    const deletedAgain = store.delete(item.id);
+
+    expect(deletedAgain).toBeUndefined();
+  });
+});
+
+describe("restore", () => {
+  it("puts a deleted item back in its place with its update time", () => {
+    const [first, second, third] = ["A", "B", "C"].map((name) =>
+      store.add(name),
+    );
+    store.delete(second.id);
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const restored = store.restore(second.id);
+
+    const expected = { ...second, updatedAt: "2026-11-21T10:00:00.000Z" };
+    expect(restored).toEqual(expected);
+    expect(store.list()).toEqual([first, expected, third]);
+  });
+
+  it("returns an item that is not deleted unchanged", () => {
+    const item = store.add("Kept");
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const restored = store.restore(item.id);
+
+    expect(restored).toEqual(item);
+    expect(store.list()).toEqual([item]);
+  });
+
+  it("returns nothing for an unknown item", () => {
+    const restored = store.restore(crypto.randomUUID());
+
+    expect(restored).toBeUndefined();
+  });
+
+  it("keeps an item added after a deletion below the restored item", () => {
+    const [, second] = ["A", "B"].map((name) => store.add(name));
+    store.delete(second.id);
+    store.add("C");
+
+    store.restore(second.id);
+
+    expect(names(store.list())).toEqual(["A", "B", "C"]);
+  });
+
+  it("puts an item back beside one moved into its place", () => {
+    const [first, second, third] = ["A", "B", "C"].map((name) =>
+      store.add(name),
+    );
+    store.delete(second.id);
+    store.move({ id: third.id, neighbourId: first.id, position: "after" });
+
+    store.restore(second.id);
+
+    expect(names(store.list())).toEqual(["A", "C", "B"]);
   });
 });

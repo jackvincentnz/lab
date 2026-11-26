@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const itemStatuses = ["todo", "doing", "done"] as const;
 
@@ -13,6 +13,7 @@ export const item = sqliteTable(
     rank: text().notNull().unique(),
     createdAt: text("created_at").notNull(),
     updatedAt: text("updated_at").notNull(),
+    deleted: integer({ mode: "boolean" }).notNull().default(false),
   },
   (table) => [
     check(

@@ -89,7 +89,7 @@ restart the client:
   "mcpServers": {
     "wide": {
       "command": "npx",
-      "args": ["-y", "mcp-remote", "http://localhost:8095/mcp", "--allow-http"]
+      "args": ["-y", "mcp-remote@0.16.7", "http://localhost:8095/mcp", "--allow-http"]
     }
   }
 }

@@ -263,7 +263,8 @@ describe("createSlateServer", () => {
     const response = await send("/");
 
     expect(response.headers["content-security-policy"]).toBe(
-      "default-src 'self'; style-src 'self' 'unsafe-inline'",
+      "default-src 'self'; style-src 'self' 'unsafe-inline'; " +
+        "frame-ancestors 'none'; base-uri 'none'; form-action 'none'",
     );
   });
 

@@ -215,6 +215,148 @@ describe("ItemsPage", () => {
     );
   });
 
+  it("deletes an item, shows the service's new list and offers an undo", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const remaining = item({ name: "Book travel" });
+    const api = fakeSlateApi([deleted, remaining]);
+    api.deleteItem.mockResolvedValue(deleted);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([remaining]);
+
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(api.deleteItem).toHaveBeenCalledWith({ id: deleted.id });
+    expect(await screen.findByRole("alert")).toHaveTextContent(
+      "Deleted Plan the week",
+    );
+    await waitFor(() => expect(itemNames()).toEqual(["Book travel"]));
+  });
+
+  it("moves focus to the undo after a delete", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    (
+      await screen.findByRole("button", { name: "Delete Plan the week" })
+    ).focus();
+
+    await user.keyboard("{Enter}");
+
+    expect(await screen.findByRole("button", { name: "Undo" })).toHaveFocus();
+  });
+
+  it("puts a deleted item back on undo", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const remaining = item({ name: "Book travel" });
+    const api = fakeSlateApi([deleted, remaining]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.restoreItem.mockResolvedValue(deleted);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([remaining]);
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+    api.listItems.mockResolvedValue([deleted, remaining]);
+
+    await user.click(await screen.findByRole("button", { name: "Undo" }));
+
+    expect(api.restoreItem).toHaveBeenCalledWith({ id: deleted.id });
+    await waitFor(() =>
+      expect(itemNames()).toEqual(["Plan the week", "Book travel"]),
+    );
+    expect(
+      screen.queryByRole("button", { name: "Undo" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("shows an error and offers no undo when a delete fails", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.deleteItem.mockRejectedValue(new Error("offline"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(
+      await screen.findByText("Could not save your change"),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Undo" }),
+    ).not.toBeInTheDocument();
+    expect(itemNames()).toEqual(["Plan the week"]);
+  });
+
+  it("shows an error and keeps the undo when an undo fails", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.restoreItem.mockRejectedValue(new Error("offline"));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    await user.click(await screen.findByRole("button", { name: "Undo" }));
+
+    expect(
+      await screen.findByText("Could not save your change"),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Undo" })).toBeEnabled();
+  });
+
+  it("stops offering the undo once another change starts", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+    await screen.findByRole("button", { name: "Undo" });
+
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Book travel{Enter}",
+    );
+
+    expect(
+      screen.queryByRole("button", { name: "Undo" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("stops offering the undo once dismissed", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    await user.click(await screen.findByRole("button", { name: "Dismiss" }));
+
+    expect(
+      screen.queryByRole("button", { name: "Undo" }),
+    ).not.toBeInTheDocument();
+    expect(api.restoreItem).not.toHaveBeenCalled();
+  });
+
   it("puts an item back and shows an error when a move fails", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([
@@ -300,6 +442,24 @@ describe("ItemsPage", () => {
 
     expect(api.addItem).toHaveBeenCalledTimes(1);
     expect(screen.getByRole("button", { name: "Add" })).toBeDisabled();
+  });
+
+  it("takes no other change while a delete saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.deleteItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+
+    await user.click(
+      await screen.findByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(
+      screen.getByRole("combobox", { name: "Status of Book travel" }),
+    ).toBeDisabled();
   });
 
   it("shows an error and keeps what was typed when a change fails", async () => {

@@ -12,7 +12,14 @@ function toolName(procedure: string): string {
 }
 
 async function listToolNames(): Promise<string[]> {
-  const store = { list: vi.fn(), add: vi.fn(), update: vi.fn(), move: vi.fn() };
+  const store = {
+    list: vi.fn(),
+    add: vi.fn(),
+    update: vi.fn(),
+    move: vi.fn(),
+    delete: vi.fn(),
+    restore: vi.fn(),
+  };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
   await createSlateMcpServer(store).connect(serverTransport);

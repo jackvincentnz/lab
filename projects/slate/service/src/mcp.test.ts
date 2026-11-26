@@ -18,7 +18,14 @@ let store: { [K in keyof Store]: Mock<Store[K]> };
 let client: Client;
 
 beforeEach(async () => {
-  store = { list: vi.fn(), add: vi.fn(), update: vi.fn(), move: vi.fn() };
+  store = {
+    list: vi.fn(),
+    add: vi.fn(),
+    update: vi.fn(),
+    move: vi.fn(),
+    delete: vi.fn(),
+    restore: vi.fn(),
+  };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
   await createSlateMcpServer(store).connect(serverTransport);
@@ -58,6 +65,8 @@ describe("createSlateMcpServer", () => {
       "add_item",
       "update_item",
       "move_item",
+      "delete_item",
+      "restore_item",
     ]);
   });
 
@@ -148,6 +157,48 @@ describe("createSlateMcpServer", () => {
           text: `No item has the id ${id} or ${neighbourId}. List the items to find the right id.`,
         },
       ],
+    });
+  });
+
+  it("returns the deleted item", async () => {
+    const item = anItem();
+    store.delete.mockReturnValue(item);
+
+    const result = await call("delete_item", { id: item.id });
+
+    expect(store.delete).toHaveBeenCalledWith(item.id);
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("names the unknown id on delete", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("delete_item", { id });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(id) }],
+    });
+  });
+
+  it("returns the restored item", async () => {
+    const item = anItem();
+    store.restore.mockReturnValue(item);
+
+    const result = await call("restore_item", { id: item.id });
+
+    expect(store.restore).toHaveBeenCalledWith(item.id);
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("names the unknown id on restore", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("restore_item", { id });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(id) }],
     });
   });
 });
