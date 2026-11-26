@@ -1,4 +1,8 @@
-import { MutationCache, QueryClient } from "@tanstack/react-query";
+import {
+  MutationCache,
+  QueryClient,
+  type QueryKey,
+} from "@tanstack/react-query";
 import { createTRPCClient, httpLink, type TRPCClient } from "@trpc/client";
 import { createTRPCContext } from "@trpc/tanstack-react-query";
 import type { SlateRouter } from "../../service/src/router.js";
@@ -28,9 +32,36 @@ export function createQueryClient(): QueryClient {
       mutations: { networkMode: "always" },
     },
     mutationCache: new MutationCache({
-      // The service decides the order, so a change reloads its list rather than patching ours.
-      onSuccess: () => queryClient.invalidateQueries(),
+      // Agents change the list too, so even a failed change reloads what the service has.
+      onSettled: (_data, _error, change) =>
+        queryClient.invalidateQueries({
+          predicate: (query) => changeAffectsQuery(change, query.queryKey),
+        }),
     }),
   });
   return queryClient;
+}
+
+export function changeAffectsQuery(
+  change: unknown,
+  queryKey: QueryKey,
+): boolean {
+  const [, queryOptions] = queryKey;
+  const queriedItemId = itemIdOf(inputOf(queryOptions));
+  const queryIsForOneItem = queriedItemId !== undefined;
+  return !queryIsForOneItem || queriedItemId === itemIdOf(change);
+}
+
+function inputOf(queryOptions: unknown): unknown {
+  return typeof queryOptions === "object" &&
+    queryOptions !== null &&
+    "input" in queryOptions
+    ? queryOptions.input
+    : undefined;
+}
+
+function itemIdOf(value: unknown): unknown {
+  return typeof value === "object" && value !== null && "id" in value
+    ? value.id
+    : undefined;
 }
