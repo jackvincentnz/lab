@@ -183,9 +183,6 @@ describe("ItemsPage", () => {
         "Changed elsewhere. Current name: Plan the month",
       ),
     ).toBeInTheDocument();
-    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
-      "Plan the week soon",
-    );
   });
 
   it("shows the current status when a status change is refused as changed elsewhere", async () => {

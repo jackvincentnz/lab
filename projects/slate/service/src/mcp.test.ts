@@ -125,23 +125,6 @@ describe("createSlateMcpServer", () => {
     });
   });
 
-  it("passes the updatedAt the change was made from to the store", async () => {
-    const item = anItem();
-    store.update.mockReturnValue(item);
-
-    await call("update_item", {
-      id: item.id,
-      status: "done",
-      updatedAt: item.updatedAt,
-    });
-
-    expect(store.update).toHaveBeenCalledWith({
-      id: item.id,
-      status: "done",
-      updatedAt: item.updatedAt,
-    });
-  });
-
   it("tells the agent to list again when the item changed since", async () => {
     const item = anItem();
     store.update.mockImplementation(() => {

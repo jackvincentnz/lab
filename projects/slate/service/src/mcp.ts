@@ -42,21 +42,10 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status, and the updatedAt from list_items so that a change made since is not overwritten. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
+          "Rename an item on the user's Slate list or change its status, such as marking a to-do done. Give at least one of name and status, and the item's latest updatedAt so that a change made since is not overwritten. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
         inputSchema: updateItem.input,
       },
-      (input) => {
-        try {
-          return replyIfFound(updateItem.run(store, input), [input.id]);
-        } catch (error) {
-          if (error instanceof ItemChangedError) {
-            return replyError(
-              `The item ${input.id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
-            );
-          }
-          throw error;
-        }
-      },
+      (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),
     ),
   moveItem: (server, store) =>
     server.registerTool(
@@ -137,6 +126,22 @@ function replyIfFound(item: Item | undefined, ids: string[]): CallToolResult {
     );
   }
   return reply(item);
+}
+
+function replyIfUnchanged(
+  update: () => Item | undefined,
+  id: string,
+): CallToolResult {
+  try {
+    return replyIfFound(update(), [id]);
+  } catch (error) {
+    if (error instanceof ItemChangedError) {
+      return replyError(
+        `The item ${id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
+      );
+    }
+    throw error;
+  }
 }
 
 function replyError(text: string): CallToolResult {

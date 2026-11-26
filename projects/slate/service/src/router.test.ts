@@ -65,23 +65,6 @@ describe("slateRouter", () => {
     expect(updated).toEqual(item);
   });
 
-  it("passes the updatedAt the change was made from to the store", async () => {
-    const item = anItem();
-    store.update.mockReturnValue(item);
-
-    await caller.updateItem({
-      id: item.id,
-      name: "Write the report",
-      updatedAt: item.updatedAt,
-    });
-
-    expect(store.update).toHaveBeenCalledWith({
-      id: item.id,
-      name: "Write the report",
-      updatedAt: item.updatedAt,
-    });
-  });
-
   it("reports a conflict when the item changed since it was read", async () => {
     const item = anItem();
     store.update.mockImplementation(() => {

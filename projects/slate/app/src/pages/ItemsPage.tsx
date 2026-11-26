@@ -54,8 +54,7 @@ export function ItemsPage() {
       )}
       {changedElsewhere ? (
         <Alert color="yellow" title="Not saved: the item changed elsewhere">
-          The list now shows it as it is. Make your change again if you still
-          want it.
+          Check the item before you try again.
         </Alert>
       ) : (
         changes.some((change) => change.isError) && (

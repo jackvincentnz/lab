@@ -68,8 +68,10 @@ export function ItemRow({
     if (draft === undefined) {
       return;
     }
-    // After a refused save the row shows the current item, so the next save is made from it.
-    const editedFrom = draft.changed ? item : draft.editedFrom;
+    // A rename overwrites only the name, so a change to the item that leaves its name alone, such as the user's own status change, does not refuse it.
+    const nameChangedElsewhere = item.name !== draft.editedFrom.name;
+    const editedFrom =
+      draft.changed || !nameChangedElsewhere ? item : draft.editedFrom;
     onRename(editedFrom, draft.name, {
       onSaved: (saved) =>
         setDraft((current) =>

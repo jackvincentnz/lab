@@ -169,12 +169,37 @@ describe("ItemRow", () => {
     const original = item({ name: "Plan the week" });
     const { onRename, showItem } = renderRow(original);
     const name = await startRename(user);
-    showItem({ ...original, updatedAt: "2026-11-22T10:00:00.000Z" });
+    showItem({
+      ...original,
+      name: "Plan the month",
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    });
 
     await user.type(name, " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
       original,
+      "Plan the week soon",
+      expect.anything(),
+    );
+  });
+
+  it("saves a rename from the current item when only its status changed since the rename started", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const { onRename, showItem } = renderRow(original);
+    const name = await startRename(user);
+    const started = {
+      ...original,
+      status: "doing" as const,
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    showItem(started);
+
+    await user.type(name, " soon{Enter}");
+
+    expect(onRename).toHaveBeenCalledWith(
+      started,
       "Plan the week soon",
       expect.anything(),
     );

@@ -135,7 +135,6 @@ export class ItemStore {
     return added;
   }
 
-  /** Throws an {@link ItemChangedError} when the item's updatedAt is no longer the one given. */
   update({ id, updatedAt, ...changes }: UpdateItemInput): Item | undefined {
     const found = this.#find(id);
     if (!found) {

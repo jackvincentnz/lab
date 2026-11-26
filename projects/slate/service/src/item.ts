@@ -29,7 +29,7 @@ export const updateItemInput = z
     updatedAt: updatedAt
       .optional()
       .describe(
-        "The item's updatedAt as list_items returned it. If the item has changed since, the update is refused, so that a change you have not seen is not overwritten.",
+        "The item's latest updatedAt, from list_items or the last tool that returned the item. If the item has changed since, the update is refused, so that a change you have not seen is not overwritten.",
       ),
   })
   .refine((input) => input.name !== undefined || input.status !== undefined, {
