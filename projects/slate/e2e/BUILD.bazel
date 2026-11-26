@@ -8,11 +8,7 @@ playwright_bin.playwright_test(
         "--config",
         "projects/slate/e2e/playwright.config.ts",
     ],
-    data = [
-        "desktop.spec.ts",
-        "fixtures.ts",
-        "global-setup.ts",
-        "playwright.config.ts",
+    data = glob(["**/*.ts"]) + [
         "//:node_modules/@playwright/test",
         "//:node_modules/electron",
         "//projects/slate:app_dir",
