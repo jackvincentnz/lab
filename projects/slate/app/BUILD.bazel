@@ -11,6 +11,7 @@ fe_app(
         "//:node_modules/@vitejs/plugin-react",
         "//:node_modules/jsdom",
         "//:node_modules/postcss-preset-mantine",
+        "//:node_modules/postcss-simple-vars",
         "//:node_modules/vitest",
         "//tools/bazel/vitest:test_config",
     ],

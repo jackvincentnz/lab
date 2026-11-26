@@ -3,7 +3,7 @@ import { ItemsPage } from "./pages/ItemsPage";
 
 export function App() {
   return (
-    <AppShell header={{ height: 56 }} padding="md">
+    <AppShell header={{ height: 56 }}>
       <AppShell.Header>
         <Group h="100%" px="lg">
           <Title order={1} fz="lg" fw={700}>
