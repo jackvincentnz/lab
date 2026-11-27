@@ -55,7 +55,7 @@ export function App() {
           <ItemsPage key={view} view={view} />
         </ListUpdates>
       </AppShell.Main>
-      {/* Narrow enough to stay clear of the item panel at its widest, 60% of the window. */}
+      {/* Narrow enough to stay clear of the side-by-side item panel at its widest, 60% of the window. */}
       <Notifications
         position="bottom-left"
         layout="stacked"
