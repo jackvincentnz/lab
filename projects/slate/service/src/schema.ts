@@ -4,7 +4,7 @@ import type { ItemSource } from "./item.js";
 
 export const itemStatuses = [
   "todo",
-  "doing",
+  "in_progress",
   "done",
   "deferred",
   "wont_do",

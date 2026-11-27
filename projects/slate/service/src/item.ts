@@ -48,7 +48,7 @@ export const listItemsInput = z.object({
   statuses: z
     .array(itemStatus)
     .min(1)
-    .default(["todo", "doing", "done"])
+    .default(["todo", "in_progress", "done"])
     .describe("Only the items with one of these statuses. Give at least one."),
   doneTodayOnly: z
     .boolean()

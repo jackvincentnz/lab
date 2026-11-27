@@ -15,7 +15,7 @@ export const sampleItems: SampleItem[] = [
     name: "Write the launch announcement",
     description:
       "Draft for the team blog.\n\n- Lead with what changes for readers\n- Link the [release notes](https://example.com/notes)",
-    status: "doing",
+    status: "in_progress",
   },
   { name: "Review the onboarding checklist", status: "todo" },
   {
@@ -28,7 +28,7 @@ export const sampleItems: SampleItem[] = [
     },
     status: "todo",
   },
-  { name: "Fix the flaky export test", status: "doing" },
+  { name: "Fix the flaky export test", status: "in_progress" },
   { name: "Renew the team's domain name", status: "done" },
   { name: "Answer the survey about desk bookings", status: "done" },
   { name: "Redesign the team wiki", status: "deferred" },

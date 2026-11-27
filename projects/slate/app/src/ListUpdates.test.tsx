@@ -123,7 +123,7 @@ describe("ListUpdates", () => {
   it("holds a change while an item is dragged into another group", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([
-      item({ name: "Write the report", status: "doing" }),
+      item({ name: "Write the report", status: "in_progress" }),
       item({ name: "Plan the week" }),
     ]);
     await showList(api);
@@ -134,9 +134,12 @@ describe("ListUpdates", () => {
 
     expect(api.listItems).toHaveBeenCalledOnce();
     expect(
-      within(screen.getByRole("list", { name: "Doing" })).getByRole("button", {
-        name: "Open Plan the week",
-      }),
+      within(screen.getByRole("list", { name: "In progress" })).getByRole(
+        "button",
+        {
+          name: "Open Plan the week",
+        },
+      ),
     ).toBeInTheDocument();
   });
 

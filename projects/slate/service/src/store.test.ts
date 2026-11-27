@@ -160,9 +160,9 @@ describe.each(["deferred", "wont_do", "delegated"] as const)(
 describe("list by status", () => {
   it("returns the items with the given statuses in priority order", () => {
     const [a, b, c] = ["A", "B", "C"].map(addItem);
-    const doingA = store.update({
+    const inProgressA = store.update({
       id: a.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: a.updatedAt,
     });
     const deferredB = store.update({
@@ -172,14 +172,14 @@ describe("list by status", () => {
     });
     store.update({ id: c.id, status: "wont_do", updatedAt: c.updatedAt });
 
-    const listed = store.list({ statuses: ["doing", "deferred"] });
+    const listed = store.list({ statuses: ["in_progress", "deferred"] });
 
-    expect(listed).toEqual([deferredB, doingA]);
+    expect(listed).toEqual([deferredB, inProgressA]);
   });
 
   it("leaves out items with another status", () => {
     const [a, b] = ["A", "B"].map(addItem);
-    store.update({ id: a.id, status: "doing", updatedAt: a.updatedAt });
+    store.update({ id: a.id, status: "in_progress", updatedAt: a.updatedAt });
 
     const todo = store.list({ statuses: ["todo"] });
 
@@ -420,33 +420,33 @@ describe("list on the day an item is marked done", () => {
   it("shows a reopened item on the day it is marked done again", () => {
     const done = markDone("Ship it");
     time = midnight;
-    const doing = store.update({
+    const inProgress = store.update({
       id: done.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: done.updatedAt,
     })!;
 
     const doneAgain = store.update({
       id: done.id,
       status: "done",
-      updatedAt: doing.updatedAt,
+      updatedAt: inProgress.updatedAt,
     });
 
     expect(store.list()).toEqual([doneAgain]);
   });
 
-  it("keeps a doing item after midnight", () => {
+  it("keeps an in-progress item after midnight", () => {
     const added = addItem("Ongoing");
     time = lateEvening;
-    const doing = store.update({
+    const inProgress = store.update({
       id: added.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: added.updatedAt,
     });
 
     time = midnight;
 
-    expect(store.list()).toEqual([doing]);
+    expect(store.list()).toEqual([inProgress]);
   });
 });
 
@@ -457,13 +457,13 @@ describe("update", () => {
 
     const updated = store.update({
       id: item.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: item.updatedAt,
     });
 
     expect(updated).toEqual({
       ...item,
-      status: "doing",
+      status: "in_progress",
       updatedAt: "2026-11-21T10:00:00.000Z",
     });
     expect(store.list()).toEqual([updated]);

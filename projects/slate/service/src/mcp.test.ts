@@ -142,11 +142,18 @@ describe("createSlateMcpServer", () => {
     await call("list_items");
 
     expect(store.list).toHaveBeenCalledWith({
-      statuses: ["todo", "doing", "done"],
+      statuses: ["todo", "in_progress", "done"],
       doneTodayOnly: true,
       deleted: false,
       orderBy: "rank",
     });
+  });
+
+  it("refuses the old doing status to list by", async () => {
+    const result = await call("list_items", { statuses: ["doing"] });
+
+    expect(result.isError).toBe(true);
+    expect(store.list).not.toHaveBeenCalled();
   });
 
   it("refuses an unknown status to list by", async () => {
@@ -156,7 +163,7 @@ describe("createSlateMcpServer", () => {
     expect(store.list).not.toHaveBeenCalled();
   });
 
-  it.each(["deferred", "wont_do", "delegated"] as const)(
+  it.each(["in_progress", "deferred", "wont_do", "delegated"] as const)(
     "sets an item %s",
     async (status) => {
       const item = anItem();
@@ -175,6 +182,19 @@ describe("createSlateMcpServer", () => {
       });
     },
   );
+
+  it("refuses the old doing status for an update without reaching the store", async () => {
+    const item = anItem();
+
+    const result = await call("update_item", {
+      id: item.id,
+      status: "doing",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(result.isError).toBe(true);
+    expect(store.update).not.toHaveBeenCalled();
+  });
 
   it("adds an item with its trimmed name", async () => {
     const item = anItem();

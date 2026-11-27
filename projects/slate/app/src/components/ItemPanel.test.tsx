@@ -46,13 +46,13 @@ function renderPanel(
 
 describe("ItemPanel", () => {
   it("shows the item's name and status", () => {
-    renderPanel(item({ name: "Plan the week", status: "doing" }));
+    renderPanel(item({ name: "Plan the week", status: "in_progress" }));
 
     expect(
       screen.getByRole("heading", { name: "Plan the week" }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole("button", { name: "Status: Doing" }),
+      screen.getByRole("button", { name: "Status: In progress" }),
     ).toBeInTheDocument();
   });
 

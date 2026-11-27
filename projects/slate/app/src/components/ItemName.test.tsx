@@ -153,17 +153,17 @@ describe("ItemName", () => {
     const original = item({ name: "Plan the week" });
     const { onRename, showItem } = renderName(original);
     const name = await startRename(user);
-    const doing = {
+    const inProgress = {
       ...original,
-      status: "doing" as const,
+      status: "in_progress" as const,
       updatedAt: "2026-11-22T10:00:00.000Z",
     };
-    showItem(doing);
+    showItem(inProgress);
 
     await user.type(name, " soon{Enter}");
 
     expect(onRename).toHaveBeenCalledWith(
-      doing,
+      inProgress,
       "Plan the week soon",
       expect.anything(),
     );
@@ -196,7 +196,7 @@ describe("ItemName", () => {
     const name = await startRename(user);
     showItem({
       ...original,
-      status: "doing",
+      status: "in_progress",
       updatedAt: "2026-11-22T10:00:00.000Z",
     });
     await user.type(name, " soon{Enter}");

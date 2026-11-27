@@ -272,7 +272,7 @@ describe("ItemsPage", () => {
   it("changes an item's status and shows the service's new list", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });
-    const started = { ...original, status: "doing" as const };
+    const started = { ...original, status: "in_progress" as const };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(started);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
@@ -282,15 +282,15 @@ describe("ItemsPage", () => {
     await user.click(
       within(panel).getByRole("button", { name: "Status: To do" }),
     );
-    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
+    await user.click(screen.getByRole("menuitem", { name: "In progress" }));
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: original.updatedAt,
     });
     expect(
-      await within(panel).findByRole("button", { name: "Status: Doing" }),
+      await within(panel).findByRole("button", { name: "Status: In progress" }),
     ).toBeInTheDocument();
   });
 
@@ -345,7 +345,7 @@ describe("ItemsPage", () => {
     await user.click(
       within(panel).getByRole("button", { name: "Status: To do" }),
     );
-    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
+    await user.click(screen.getByRole("menuitem", { name: "In progress" }));
 
     expect(
       await screen.findByText("Not saved: the item changed elsewhere"),
@@ -558,10 +558,10 @@ describe("ItemsPage", () => {
     );
   });
 
-  it("starts an item dragged into the empty Doing group and shows the service's new list", async () => {
+  it("starts an item dragged into the empty In progress group and shows the service's new list", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });
-    const started = { ...original, status: "doing" as const };
+    const started = { ...original, status: "in_progress" as const };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(started);
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
@@ -571,11 +571,11 @@ describe("ItemsPage", () => {
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
-      status: "doing",
+      status: "in_progress",
       updatedAt: original.updatedAt,
     });
     expect(
-      within(screen.getByRole("list", { name: "Doing" })).getByText(
+      within(screen.getByRole("list", { name: "In progress" })).getByText(
         "Plan the week",
       ),
     ).toBeInTheDocument();
@@ -1080,7 +1080,7 @@ describe("ItemsPage", () => {
     await user.click(
       within(panel).getByRole("button", { name: "Status: To do" }),
     );
-    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
+    await user.click(screen.getByRole("menuitem", { name: "In progress" }));
     await screen.findByText("Could not save your change");
 
     await user.click(

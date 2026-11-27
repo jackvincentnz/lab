@@ -20,7 +20,7 @@ afterEach(() => {
 
 const kept = sampleItems.filter((sample) => !sample.deleted);
 const listed = kept.filter((sample) =>
-  ["todo", "doing", "done"].includes(sample.status),
+  ["todo", "in_progress", "done"].includes(sample.status),
 );
 
 describe("addSampleItems", () => {
