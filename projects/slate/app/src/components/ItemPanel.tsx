@@ -11,6 +11,7 @@ import type { SaveDraft } from "./useItemDraft";
 
 interface ItemPanelProps {
   item: Item;
+  width: number;
   disabled: boolean;
   saving: boolean;
   onClose(): void;
@@ -26,6 +27,7 @@ interface ItemPanelProps {
 
 export function ItemPanel({
   item,
+  width,
   disabled,
   saving,
   onClose,
@@ -63,12 +65,15 @@ export function ItemPanel({
       tabIndex={-1}
       className={classes["panel"]}
       p="lg"
-      w={{ base: "100%", md: 440 }}
       pos={{ base: "static", md: "sticky" }}
       top="var(--app-shell-header-height, 0px)"
       h={{ md: "calc(100dvh - var(--app-shell-header-height, 0px))" }}
       display="flex"
-      style={{ flexShrink: 0, overflowY: "auto" }}
+      style={{
+        "--item-panel-width": `${width}px`,
+        flexShrink: 0,
+        overflowY: "auto",
+      }}
       onKeyDown={(event) => {
         if (event.key === "Escape" && !event.defaultPrevented) {
           onClose();
