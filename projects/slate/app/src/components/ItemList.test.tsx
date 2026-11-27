@@ -37,6 +37,10 @@ function itemNames() {
     .map((handle) => handle.getAttribute("aria-label")!.slice("Move ".length));
 }
 
+function ranks() {
+  return screen.getAllByText(/^#\d+$/).map((rank) => rank.textContent);
+}
+
 async function dragWithKeyboard(name: string, keys: string) {
   const user = userEvent.setup();
   layOutRowsVertically();
@@ -64,6 +68,33 @@ describe("ItemList", () => {
       expect.stringContaining("Plan the week"),
       expect.stringContaining("Book travel"),
     ]);
+  });
+
+  it("ranks the items from 1 in the order shown, done items included", () => {
+    renderList([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel", status: "done" }),
+      item({ name: "Write the report" }),
+    ]);
+
+    expect(ranks()).toEqual(["#1", "#2", "#3"]);
+    expect(itemNames()).toEqual([
+      "Plan the week",
+      "Book travel",
+      "Write the report",
+    ]);
+  });
+
+  it("ranks a dropped item by its new place until the move settles", async () => {
+    renderList([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+
+    await dragWithKeyboard("Plan the week", "[ArrowDown]");
+
+    expect(ranks()).toEqual(["#1", "#2"]);
+    expect(itemNames()).toEqual(["Book travel", "Plan the week"]);
   });
 
   it("reports which item a change is for", async () => {

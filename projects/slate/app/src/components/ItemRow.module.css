@@ -1,0 +1,40 @@
+.row {
+  position: relative;
+  background-color: var(--mantine-color-white);
+  border: rem(1px) solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-sm);
+
+  @media (hover: hover) {
+    &:not([data-open]):has(.open:hover) {
+      border-color: var(--mantine-color-gray-4);
+      box-shadow: var(--mantine-shadow-xs);
+    }
+  }
+
+  &[data-open] {
+    border-color: var(--mantine-color-blue-4);
+    background-color: var(--mantine-color-blue-0);
+  }
+}
+
+.control {
+  position: relative;
+  z-index: 1;
+}
+
+.open {
+  flex: 1;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  gap: var(--mantine-spacing-sm);
+  padding-block: rem(9px);
+  padding-right: var(--mantine-spacing-xs);
+  cursor: pointer;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+}

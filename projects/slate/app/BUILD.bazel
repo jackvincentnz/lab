@@ -2,12 +2,16 @@ load("//tools/bazel:fe.bzl", "fe_app")
 
 fe_app(
     name = "app",
+    assets = glob(["src/**/*.css"]),
     data = [
         "index.html",
         "package.json",
+        "postcss.config.cjs",
         "vite.config.ts",
         "//:node_modules/@vitejs/plugin-react",
         "//:node_modules/jsdom",
+        "//:node_modules/postcss-preset-mantine",
+        "//:node_modules/postcss-simple-vars",
         "//:node_modules/vitest",
         "//tools/bazel/vitest:test_config",
     ],
@@ -20,6 +24,7 @@ fe_app(
         "//:node_modules/@dnd-kit/core",
         "//:node_modules/@dnd-kit/sortable",
         "//:node_modules/@dnd-kit/utilities",
+        "//:node_modules/@fontsource-variable/inter",
         "//:node_modules/@mantine/core",
         "//:node_modules/@tabler/icons-react",
         "//:node_modules/@tanstack/react-query",

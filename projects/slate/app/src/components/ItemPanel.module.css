@@ -1,0 +1,9 @@
+.panel {
+  background-color: var(--mantine-color-white);
+  border-bottom: rem(1px) solid var(--mantine-color-gray-3);
+
+  @mixin larger-than $mantine-breakpoint-md {
+    border-bottom: 0;
+    border-left: rem(1px) solid var(--mantine-color-gray-3);
+  }
+}

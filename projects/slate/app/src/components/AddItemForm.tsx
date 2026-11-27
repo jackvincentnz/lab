@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
-import { Button, Group, TextInput } from "@mantine/core";
+import { TextInput } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
 
 interface AddItemFormProps {
   saving: boolean;
@@ -11,22 +12,22 @@ export function AddItemForm({ saving, onAdd }: AddItemFormProps) {
 
   function submit(event: FormEvent) {
     event.preventDefault();
+    if (saving || name.trim() === "") {
+      return;
+    }
     onAdd(name, () => setName((current) => (current === name ? "" : current)));
   }
 
   return (
     <form onSubmit={submit}>
-      <Group align="flex-end" wrap="nowrap">
-        <TextInput
-          label="New item"
-          value={name}
-          onChange={(event) => setName(event.currentTarget.value)}
-          flex={1}
-        />
-        <Button type="submit" disabled={saving || name.trim() === ""}>
-          Add
-        </Button>
-      </Group>
+      <TextInput
+        aria-label="New item"
+        placeholder="Add an item and press Enter"
+        leftSection={<IconPlus size={16} />}
+        leftSectionPointerEvents="none"
+        value={name}
+        onChange={(event) => setName(event.currentTarget.value)}
+      />
     </form>
   );
 }

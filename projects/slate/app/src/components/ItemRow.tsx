@@ -11,9 +11,11 @@ import {
 } from "@mantine/core";
 import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
+import classes from "./ItemRow.module.css";
 
 interface ItemRowProps {
   item: Item;
+  rank: number;
   saving: boolean;
   open: boolean;
   onOpen(): void;
@@ -22,6 +24,7 @@ interface ItemRowProps {
 
 export function ItemRow({
   item,
+  rank,
   saving,
   open,
   onOpen,
@@ -43,15 +46,15 @@ export function ItemRow({
       style={{ transform: CSS.Translate.toString(transform), transition }}
     >
       <Group
+        className={classes["row"]}
+        mod={{ open }}
         wrap="nowrap"
         gap="sm"
-        px="xs"
-        py={6}
-        bg={open ? "var(--mantine-primary-color-light)" : undefined}
-        style={{ borderRadius: "var(--mantine-radius-sm)" }}
+        pl="xs"
       >
         <ActionIcon
           ref={setActivatorNodeRef}
+          className={classes["control"]}
           variant="subtle"
           color="gray"
           aria-label={`Move ${item.name}`}
@@ -60,9 +63,10 @@ export function ItemRow({
           {...attributes}
           {...listeners}
         >
-          <IconGripVertical size={16} />
+          <IconGripVertical size={16} color="var(--mantine-color-gray-5)" />
         </ActionIcon>
         <Checkbox
+          className={classes["control"]}
           aria-label={`Mark ${item.name} done`}
           checked={done}
           disabled={saving}
@@ -71,20 +75,26 @@ export function ItemRow({
           }
         />
         <UnstyledButton
-          flex={1}
+          className={classes["open"]}
           aria-label={`Open ${item.name}`}
           aria-expanded={open}
           onClick={onOpen}
         >
+          <Text span size="sm" c="dimmed" miw={28}>
+            #{rank}
+          </Text>
           <Text
             span
+            flex={1}
+            size="sm"
+            fw={500}
             td={done ? "line-through" : undefined}
             c={done ? "dimmed" : undefined}
           >
             {item.name}
           </Text>
+          {item.status === "doing" && <Badge variant="light">Doing</Badge>}
         </UnstyledButton>
-        {item.status === "doing" && <Badge variant="light">Doing</Badge>}
       </Group>
     </List.Item>
   );

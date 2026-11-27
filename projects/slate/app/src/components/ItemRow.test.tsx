@@ -17,6 +17,7 @@ type ItemRowProps = Parameters<typeof ItemRow>[0];
 function renderRow(
   rowItem: Item = item({ name: "Plan the week" }),
   open = false,
+  rank = 1,
 ) {
   const handlers = {
     onOpen: vi.fn<ItemRowProps["onOpen"]>(),
@@ -24,7 +25,13 @@ function renderRow(
   };
   const row = (saving: boolean) => (
     <List>
-      <ItemRow item={rowItem} saving={saving} open={open} {...handlers} />
+      <ItemRow
+        item={rowItem}
+        rank={rank}
+        saving={saving}
+        open={open}
+        {...handlers}
+      />
     </List>
   );
   const { rerender } = render(row(false));
@@ -36,6 +43,12 @@ describe("ItemRow", () => {
     renderRow();
 
     expect(screen.getByText("Plan the week")).toBeInTheDocument();
+  });
+
+  it("shows the item's rank", () => {
+    renderRow(item({ name: "Plan the week" }), false, 3);
+
+    expect(screen.getByText("#3")).toBeInTheDocument();
   });
 
   it("ticks and strikes through a done item", () => {
@@ -99,6 +112,15 @@ describe("ItemRow", () => {
     await user.click(
       screen.getByRole("button", { name: "Open Plan the week" }),
     );
+
+    expect(onOpen).toHaveBeenCalled();
+  });
+
+  it("opens the item when its rank is clicked", async () => {
+    const user = userEvent.setup();
+    const { onOpen } = renderRow(item({ name: "Plan the week" }), false, 3);
+
+    await user.click(screen.getByText("#3"));
 
     expect(onOpen).toHaveBeenCalled();
   });

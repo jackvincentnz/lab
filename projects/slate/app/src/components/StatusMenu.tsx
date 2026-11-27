@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Button, Menu } from "@mantine/core";
+import { Badge, Box, Button, Menu } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import type { ItemStatus } from "../api";
 
@@ -47,13 +47,15 @@ export function StatusMenu({ status, saving, onChange }: StatusMenuProps) {
         <Menu.Dropdown>
           {Object.entries(statuses)
             .filter(([other]) => other !== status)
-            .map(([other, { label: otherLabel }]) => (
+            .map(([other, { label: otherLabel, color: otherColor }]) => (
               <Menu.Item
                 key={other}
                 disabled={saving}
                 onClick={() => onChange(other as ItemStatus)}
               >
-                {otherLabel}
+                <Badge variant="light" color={otherColor} radius="sm">
+                  {otherLabel}
+                </Badge>
               </Menu.Item>
             ))}
         </Menu.Dropdown>

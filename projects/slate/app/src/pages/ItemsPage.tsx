@@ -77,12 +77,8 @@ export function ItemsPage() {
   }
 
   return (
-    <Flex
-      direction={{ base: "column-reverse", md: "row" }}
-      align="flex-start"
-      gap="lg"
-    >
-      <Stack flex={1} miw={0} w="100%">
+    <Flex direction={{ base: "column-reverse", md: "row" }} align="flex-start">
+      <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
         <AddItemForm
           saving={saving}
           onAdd={(name, onSaved) => {

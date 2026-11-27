@@ -75,14 +75,15 @@ export function ItemList({
         <List
           type="ordered"
           listStyleType="none"
-          spacing="xs"
+          spacing={6}
           aria-label="Items"
           styles={{ itemWrapper: { display: "block" } }}
         >
-          {shownItems.map((item) => (
+          {shownItems.map((item, index) => (
             <ItemRow
               key={item.id}
               item={item}
+              rank={index + 1}
               saving={saving}
               open={item.id === openId}
               onOpen={() => onOpen(item)}
