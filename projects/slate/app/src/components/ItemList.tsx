@@ -23,7 +23,7 @@ import { Badge, Box, Group, List, Stack, Text } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
 import { useHoldListUpdates } from "../ListUpdates";
 import classes from "./ItemList.module.css";
-import { ItemRow } from "./ItemRow";
+import { SortableItemRow } from "./ItemRow";
 
 const IN_PROGRESS_LIMIT = 3;
 
@@ -135,7 +135,7 @@ export function ItemList({
 
   function rows(group: Item[]) {
     return group.map((item) => (
-      <ItemRow
+      <SortableItemRow
         key={item.id}
         item={item}
         rank={shownItems.indexOf(item) + 1}
