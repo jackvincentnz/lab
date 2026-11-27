@@ -155,10 +155,10 @@ export function ItemsPage() {
             openId={opened?.id}
             onMove={(move, onSettled) => {
               if (!startChange()) {
-                onSettled();
-                return;
+                return false;
               }
               moveItem.mutate(move, { onSettled });
+              return true;
             }}
             onOpen={(item) => {
               clearSaveError();

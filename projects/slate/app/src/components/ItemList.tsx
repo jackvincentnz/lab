@@ -22,7 +22,7 @@ interface ItemListProps {
   items: Item[];
   saving: boolean;
   openId: string | undefined;
-  onMove(move: MoveItemInput, onSettled: () => void): void;
+  onMove(move: MoveItemInput, onSettled: () => void): boolean;
   onOpen(item: Item): void;
   onStatusChange(item: Item, status: ItemStatus): void;
 }
@@ -50,9 +50,7 @@ export function ItemList({
     }
     const from = items.findIndex((item) => item.id === active.id);
     const to = items.findIndex((item) => item.id === over.id);
-    // dnd-kit clears the drag offset on drop, so without the new order in the same render the row jumps back first.
-    setDroppedOrder(arrayMove(items, from, to));
-    onMove(
+    const moved = onMove(
       {
         id: String(active.id),
         neighbourId: String(over.id),
@@ -60,6 +58,10 @@ export function ItemList({
       },
       () => setDroppedOrder(undefined),
     );
+    if (moved) {
+      // dnd-kit clears the drag offset on drop, so without the new order in the same render the row jumps back first.
+      setDroppedOrder(arrayMove(items, from, to));
+    }
   }
 
   return (

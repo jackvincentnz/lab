@@ -777,6 +777,27 @@ describe("ItemsPage", () => {
     expect(api.restoreItem).toHaveBeenCalledTimes(1);
   });
 
+  it("keeps a saving move's order when another move is made", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+      item({ name: "Write the report" }),
+    ]);
+    api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await moveWithKeyboard(user, "Write the report", "[ArrowUp]");
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    expect(api.moveItem).toHaveBeenCalledTimes(1);
+    expect(itemNames()).toEqual([
+      "Plan the week",
+      "Write the report",
+      "Book travel",
+    ]);
+  });
+
   it("keeps the order when an item is moved while a change saves", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([

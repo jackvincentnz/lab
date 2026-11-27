@@ -17,7 +17,7 @@ import { ItemList } from "./ItemList";
 type ItemListProps = Parameters<typeof ItemList>[0];
 
 function renderList(items: Item[]) {
-  const onMove = vi.fn<ItemListProps["onMove"]>();
+  const onMove = vi.fn<ItemListProps["onMove"]>().mockReturnValue(true);
   render(
     <ItemList
       items={items}
@@ -197,6 +197,18 @@ describe("ItemList", () => {
     await dragWithKeyboard("Plan the week", "[ArrowDown]");
 
     expect(itemNames()).toEqual(["Book travel", "Plan the week"]);
+  });
+
+  it("keeps the items given when a move is refused", async () => {
+    const onMove = renderList([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    onMove.mockReturnValue(false);
+
+    await dragWithKeyboard("Plan the week", "[ArrowDown]");
+
+    expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
   });
 
   it("shows the items given once a move settles", async () => {
