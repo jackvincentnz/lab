@@ -14,7 +14,7 @@ import { drizzle } from "drizzle-orm/node-sqlite";
 import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { generateKeyBetween } from "fractional-indexing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { type Item, type NewSource, sourceId } from "./item.js";
+import { type Item } from "./item.js";
 import { itemStatuses } from "./schema.js";
 import { openItemStore } from "./store.js";
 
@@ -365,68 +365,35 @@ describe("upgrading a database with doing items", () => {
         );
     });
 
-    const [{ source, ...before }] = rows();
+    const [before] = rows();
 
     openItemStore(dataDir, () => now);
 
-    const [{ sources, ...after }] = rows();
-    expect(after).toEqual({ ...before, status: "in_progress" });
-    expect(JSON.parse(String(sources))).toEqual([
-      { ...JSON.parse(String(source)), id: expect.any(String) },
+    expect(rows()).toEqual([
+      { ...before, source: undefined, sources: "[]", status: "in_progress" },
     ]);
   });
 });
 
 describe("upgrading a database with sources", () => {
-  function aSource(): NewSource {
-    return {
-      kind: "reference",
-      text: `notes/${randomUUID()}.md`,
-      label: `Notes ${randomUUID()}`,
-    };
-  }
-
-  function createWithSources(items: Item[], sources: (NewSource | null)[]) {
+  it("leaves every item with no sources", () => {
+    const [sourced] = randomItems(1);
     withFile((file) => {
       migrateUpTo(file, "20261127181136_item_in_progress_status");
-      insertItems(file, items, (status) => status);
-      const setSource = file.prepare("UPDATE item SET source = ? WHERE id = ?");
-      items.forEach((item, index) => {
-        const source = sources[index];
-        if (source) {
-          setSource.run(JSON.stringify(source), item.id);
-        }
-      });
+      insertItems(file, [sourced!], (status) => status);
+      file.prepare("UPDATE item SET source = ? WHERE id = ?").run(
+        JSON.stringify({
+          kind: "reference",
+          text: `notes/${randomUUID()}.md`,
+          label: `Notes ${randomUUID()}`,
+        }),
+        sourced!.id,
+      );
     });
-  }
-
-  it("makes each item's source a list of one", () => {
-    const [sourced, unsourced] = randomItems(2);
-    const source = aSource();
-    createWithSources([sourced!, unsourced!], [source, null]);
 
     const migrated = openItemStore(dataDir, () => now).list();
 
-    expect(migrated).toEqual([
-      { ...sourced, sources: [{ ...source, id: expect.any(String) }] },
-      unsourced,
-    ]);
-  });
-
-  it("gives each source its own id", () => {
-    const items = randomItems(3);
-    createWithSources(items, [aSource(), aSource(), aSource()]);
-
-    const ids = openItemStore(dataDir, () => now)
-      .list({ statuses: [...itemStatuses], doneTodayOnly: false })
-      .flatMap((item) => item.sources.map((source) => source.id));
-
-    expect(ids.map((id) => sourceId.safeParse(id).success)).toEqual([
-      true,
-      true,
-      true,
-    ]);
-    expect(new Set(ids).size).toBe(3);
+    expect(migrated).toEqual([{ ...sourced, sources: [] }]);
   });
 });
 

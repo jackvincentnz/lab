@@ -35,7 +35,7 @@ export const newSource = z.discriminatedUnion("kind", [
 
 export type NewSource = z.infer<typeof newSource>;
 
-export const sourceId = z.uuid();
+const sourceId = z.uuid();
 
 export const itemSource = z.discriminatedUnion("kind", [
   linkSource.extend({ id: sourceId }),
