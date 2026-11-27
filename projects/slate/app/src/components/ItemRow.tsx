@@ -45,7 +45,7 @@ export function ItemRow({
   const unchangedDays = Math.floor(
     (Date.now() - Date.parse(item.updatedAt)) / DAY_MS,
   );
-  const stale = item.status === "doing" && unchangedDays >= STALE_DAYS;
+  const stale = item.status === "in_progress" && unchangedDays >= STALE_DAYS;
 
   return (
     <List.Item

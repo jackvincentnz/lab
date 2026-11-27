@@ -10,7 +10,7 @@ interface StatusStyle {
 
 const statuses: Record<ItemStatus, StatusStyle> = {
   todo: { label: "To do", color: "gray" },
-  doing: { label: "Doing", color: "blue" },
+  in_progress: { label: "In progress", color: "blue" },
   done: { label: "Done", color: "green" },
   deferred: { label: "Deferred", color: "yellow" },
   wont_do: { label: "Won't do", color: "red" },

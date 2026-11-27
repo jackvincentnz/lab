@@ -71,16 +71,16 @@ describe("ItemList", () => {
   it("pins items in progress above the rest, each ranked in the one order", () => {
     renderList([
       item({ name: "Plan the week" }),
-      item({ name: "Book travel", status: "doing" }),
+      item({ name: "Book travel", status: "in_progress" }),
       item({ name: "Write the report" }),
-      item({ name: "Call the bank", status: "doing" }),
+      item({ name: "Call the bank", status: "in_progress" }),
     ]);
 
-    expect(rowsIn("Doing")).toEqual([
+    expect(rowsIn("In progress")).toEqual([
       expect.stringMatching(/^#2Book travel/),
       expect.stringMatching(/^#4Call the bank/),
     ]);
-    expect(rowsIn("Up next")).toEqual([
+    expect(rowsIn("Next")).toEqual([
       expect.stringMatching(/^#1Plan the week/),
       expect.stringMatching(/^#3Write the report/),
     ]);
@@ -88,7 +88,7 @@ describe("ItemList", () => {
 
   it("warns when more than 3 items are in progress", () => {
     renderList(
-      Array.from({ length: 4 }, () => item({ status: "doing" as const })),
+      Array.from({ length: 4 }, () => item({ status: "in_progress" as const })),
     );
 
     expect(screen.getByText("Over your limit of 3")).toBeInTheDocument();
@@ -96,7 +96,7 @@ describe("ItemList", () => {
 
   it("does not warn when 3 items are in progress", () => {
     renderList(
-      Array.from({ length: 3 }, () => item({ status: "doing" as const })),
+      Array.from({ length: 3 }, () => item({ status: "in_progress" as const })),
     );
 
     expect(screen.queryByText("Over your limit of 3")).not.toBeInTheDocument();
@@ -104,24 +104,30 @@ describe("ItemList", () => {
 
   it("says when an item in progress has not changed for 5 days", () => {
     renderList([
-      item({ name: "Plan the week", status: "doing", updatedAt: daysAgo(6) }),
-      item({ name: "Book travel", status: "doing", updatedAt: daysAgo(4) }),
+      item({
+        name: "Plan the week",
+        status: "in_progress",
+        updatedAt: daysAgo(6),
+      }),
+      item({
+        name: "Book travel",
+        status: "in_progress",
+        updatedAt: daysAgo(4),
+      }),
       item({ name: "Write the report", updatedAt: daysAgo(9) }),
     ]);
 
-    expect(rowsIn("Doing")).toEqual([
+    expect(rowsIn("In progress")).toEqual([
       expect.stringContaining("Plan the weekNo change for 6 days"),
       expect.not.stringContaining("No change"),
     ]);
-    expect(rowsIn("Up next")).toEqual([
-      expect.not.stringContaining("No change"),
-    ]);
+    expect(rowsIn("Next")).toEqual([expect.not.stringContaining("No change")]);
   });
 
-  it("starts an item dragged into the Doing group, keeping its rank", async () => {
+  it("starts an item dragged into the In progress group, keeping its rank", async () => {
     const bookTravel = item({ name: "Book travel" });
     const { onMove, onStatusChange } = renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Write the report" }),
       bookTravel,
     ]);
@@ -131,22 +137,22 @@ describe("ItemList", () => {
     expect(onMove).not.toHaveBeenCalled();
     expect(onStatusChange).toHaveBeenCalledWith(
       bookTravel,
-      "doing",
+      "in_progress",
       expect.any(Function),
     );
-    expect(rowsIn("Doing")).toEqual([
+    expect(rowsIn("In progress")).toEqual([
       expect.stringMatching(/^#1Plan the week/),
       expect.stringMatching(/^#3Book travel/),
     ]);
-    expect(rowsIn("Up next")).toEqual([
+    expect(rowsIn("Next")).toEqual([
       expect.stringMatching(/^#2Write the report/),
     ]);
   });
 
-  it("starts a done item dragged into the Doing group", async () => {
+  it("starts a done item dragged into the In progress group", async () => {
     const bookTravel = item({ name: "Book travel", status: "done" });
     const { onStatusChange } = renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       bookTravel,
     ]);
 
@@ -154,16 +160,16 @@ describe("ItemList", () => {
 
     expect(onStatusChange).toHaveBeenCalledWith(
       bookTravel,
-      "doing",
+      "in_progress",
       expect.any(Function),
     );
   });
 
-  it("stops an item dragged out of the Doing group, keeping its rank", async () => {
-    const planTheWeek = item({ name: "Plan the week", status: "doing" });
+  it("stops an item dragged out of the In progress group, keeping its rank", async () => {
+    const planTheWeek = item({ name: "Plan the week", status: "in_progress" });
     const { onMove, onStatusChange } = renderList([
       planTheWeek,
-      item({ name: "Book travel", status: "doing" }),
+      item({ name: "Book travel", status: "in_progress" }),
       item({ name: "Write the report" }),
     ]);
 
@@ -175,14 +181,16 @@ describe("ItemList", () => {
       "todo",
       expect.any(Function),
     );
-    expect(rowsIn("Doing")).toEqual([expect.stringMatching(/^#2Book travel/)]);
-    expect(rowsIn("Up next")).toEqual([
+    expect(rowsIn("In progress")).toEqual([
+      expect.stringMatching(/^#2Book travel/),
+    ]);
+    expect(rowsIn("Next")).toEqual([
       expect.stringMatching(/^#1Plan the week/),
       expect.stringMatching(/^#3Write the report/),
     ]);
   });
 
-  it("starts an item dragged into the empty Doing group", async () => {
+  it("starts an item dragged into the empty In progress group", async () => {
     const bookTravel = item({ name: "Book travel" });
     const { onStatusChange } = renderList([
       item({ name: "Plan the week" }),
@@ -193,14 +201,16 @@ describe("ItemList", () => {
 
     expect(onStatusChange).toHaveBeenCalledWith(
       bookTravel,
-      "doing",
+      "in_progress",
       expect.any(Function),
     );
-    expect(rowsIn("Doing")).toEqual([expect.stringMatching(/^#2Book travel/)]);
+    expect(rowsIn("In progress")).toEqual([
+      expect.stringMatching(/^#2Book travel/),
+    ]);
   });
 
-  it("stops an item dragged into the empty Up next group", async () => {
-    const planTheWeek = item({ name: "Plan the week", status: "doing" });
+  it("stops an item dragged into the empty Next group", async () => {
+    const planTheWeek = item({ name: "Plan the week", status: "in_progress" });
     const { onStatusChange } = renderList([planTheWeek]);
 
     await dragWithKeyboard("Plan the week", "[ArrowDown]");
@@ -210,46 +220,44 @@ describe("ItemList", () => {
       "todo",
       expect.any(Function),
     );
-    expect(rowsIn("Up next")).toEqual([
-      expect.stringMatching(/^#1Plan the week/),
-    ]);
+    expect(rowsIn("Next")).toEqual([expect.stringMatching(/^#1Plan the week/)]);
   });
 
-  it("shows an item dragged into the Doing group at its rank there before it is dropped", async () => {
+  it("shows an item dragged into the In progress group at its rank there before it is dropped", async () => {
     renderList([
       item({ name: "Book travel" }),
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
     ]);
     const user = await startDrag("Book travel");
 
     await user.keyboard("[ArrowUp]");
 
-    expect(rowsIn("Doing")).toEqual([
+    expect(rowsIn("In progress")).toEqual([
       expect.stringMatching(/^#1Book travel/),
       expect.stringMatching(/^#2Plan the week/),
     ]);
   });
 
-  it("shows an item dragged out of the Doing group at its rank in Up next before it is dropped", async () => {
+  it("shows an item dragged out of the In progress group at its rank in Next before it is dropped", async () => {
     renderList([
       item({ name: "Write the report" }),
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Book travel" }),
     ]);
     const user = await startDrag("Plan the week");
 
     await user.keyboard("[ArrowDown]");
 
-    expect(rowsIn("Up next")).toEqual([
+    expect(rowsIn("Next")).toEqual([
       expect.stringMatching(/^#1Write the report/),
       expect.stringMatching(/^#2Plan the week/),
       expect.stringMatching(/^#3Book travel/),
     ]);
   });
 
-  it("leaves a done item done when it is dragged into Doing and back", async () => {
+  it("leaves a done item done when it is dragged into In progress and back", async () => {
     const { onMove, onStatusChange } = renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Book travel", status: "done" }),
     ]);
 
@@ -271,7 +279,7 @@ describe("ItemList", () => {
       />,
     );
 
-    expect(rowsIn("Up next")).toEqual([
+    expect(rowsIn("Next")).toEqual([
       expect.stringContaining("Plan the week"),
       expect.stringContaining("Book travel"),
     ]);
@@ -432,7 +440,7 @@ describe("ItemList", () => {
 
   it("puts an item back in its group when its drag is cancelled", async () => {
     renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Book travel" }),
     ]);
     const user = await startDrag("Book travel");
@@ -440,8 +448,10 @@ describe("ItemList", () => {
 
     await user.keyboard("[Escape]");
 
-    expect(rowsIn("Doing")).toEqual([expect.stringMatching(/Plan the week/)]);
-    expect(rowsIn("Up next")).toEqual([expect.stringMatching(/Book travel/)]);
+    expect(rowsIn("In progress")).toEqual([
+      expect.stringMatching(/Plan the week/),
+    ]);
+    expect(rowsIn("Next")).toEqual([expect.stringMatching(/Book travel/)]);
   });
 
   it("says where to drag an item when a group is empty", () => {
@@ -454,19 +464,19 @@ describe("ItemList", () => {
 
   it("keeps an item in its group when its status change is refused", async () => {
     const { onStatusChange } = renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Book travel" }),
     ]);
     onStatusChange.mockReturnValue(false);
 
     await dragWithKeyboard("Book travel", "[ArrowUp]");
 
-    expect(rowsIn("Up next")).toEqual([expect.stringMatching(/Book travel/)]);
+    expect(rowsIn("Next")).toEqual([expect.stringMatching(/Book travel/)]);
   });
 
   it("shows the items given once a status change settles", async () => {
     const { onStatusChange } = renderList([
-      item({ name: "Plan the week", status: "doing" }),
+      item({ name: "Plan the week", status: "in_progress" }),
       item({ name: "Book travel" }),
     ]);
     await dragWithKeyboard("Book travel", "[ArrowUp]");
@@ -474,7 +484,7 @@ describe("ItemList", () => {
 
     act(() => onSettled!());
 
-    expect(rowsIn("Up next")).toEqual([expect.stringMatching(/Book travel/)]);
+    expect(rowsIn("Next")).toEqual([expect.stringMatching(/Book travel/)]);
   });
 
   it("keeps the items given when a move is refused", async () => {

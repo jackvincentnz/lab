@@ -20,18 +20,20 @@ function renderMenu(status: ItemStatus = "todo", disabled = false) {
 
 describe("StatusMenu", () => {
   it("shows the current status", () => {
-    renderMenu("doing");
+    renderMenu("in_progress");
 
     expect(
-      screen.getByRole("button", { name: "Status: Doing" }),
+      screen.getByRole("button", { name: "Status: In progress" }),
     ).toBeInTheDocument();
   });
 
   it("offers every other status", async () => {
     const user = userEvent.setup();
-    renderMenu("doing");
+    renderMenu("in_progress");
 
-    await user.click(screen.getByRole("button", { name: "Status: Doing" }));
+    await user.click(
+      screen.getByRole("button", { name: "Status: In progress" }),
+    );
 
     expect(
       screen.getAllByRole("menuitem").map((option) => option.textContent),
@@ -43,9 +45,9 @@ describe("StatusMenu", () => {
     const onChange = renderMenu("todo");
 
     await user.click(screen.getByRole("button", { name: "Status: To do" }));
-    await user.click(screen.getByRole("menuitem", { name: "Doing" }));
+    await user.click(screen.getByRole("menuitem", { name: "In progress" }));
 
-    expect(onChange).toHaveBeenCalledWith("doing");
+    expect(onChange).toHaveBeenCalledWith("in_progress");
   });
 
   it("reports a status that takes the item off the list", async () => {
@@ -72,7 +74,9 @@ describe("StatusMenu", () => {
 
     await user.click(screen.getByRole("button", { name: "Status: To do" }));
 
-    expect(screen.getByRole("menuitem", { name: "Doing" })).toBeDisabled();
+    expect(
+      screen.getByRole("menuitem", { name: "In progress" }),
+    ).toBeDisabled();
   });
 
   it("keeps the status button focusable when disabled", () => {

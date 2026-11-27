@@ -175,7 +175,7 @@ describe("ItemSource", () => {
     const started = {
       ...original,
       source: { ...session },
-      status: "doing" as const,
+      status: "in_progress" as const,
       updatedAt: "2026-11-22T10:00:00.000Z",
     };
     showItem(started);

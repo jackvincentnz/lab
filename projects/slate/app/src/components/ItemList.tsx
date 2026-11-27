@@ -25,13 +25,13 @@ import { useHoldListUpdates } from "../ListUpdates";
 import classes from "./ItemList.module.css";
 import { ItemRow } from "./ItemRow";
 
-const DOING_LIMIT = 3;
+const IN_PROGRESS_LIMIT = 3;
 
-const DOING_GROUP = "doing-group";
+const IN_PROGRESS_GROUP = "in-progress-group";
 
-const UP_NEXT_GROUP = "up-next-group";
+const NEXT_GROUP = "next-group";
 
-type ItemGroupId = typeof DOING_GROUP | typeof UP_NEXT_GROUP;
+type ItemGroupId = typeof IN_PROGRESS_GROUP | typeof NEXT_GROUP;
 
 interface Visit {
   id: UniqueIdentifier;
@@ -64,8 +64,8 @@ export function ItemList({
   const [dragging, setDragging] = useState(false);
   useHoldListUpdates(dragging);
   const shownItems = visited(droppedOrder ?? items, visit);
-  const doing = shownItems.filter(isDoing);
-  const upNext = shownItems.filter((item) => !isDoing(item));
+  const inProgress = shownItems.filter(isInProgress);
+  const next = shownItems.filter((item) => !isInProgress(item));
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, { coordinateGetter: nextTarget }),
@@ -163,33 +163,33 @@ export function ItemList({
     >
       <Stack gap="lg">
         <ItemGroup
-          id={DOING_GROUP}
-          name="Doing"
-          items={doing}
+          id={IN_PROGRESS_GROUP}
+          name="In progress"
+          items={inProgress}
           empty="Drag an item here when you start it"
-          className={classes["doing"]}
-          overLimit={doing.length > DOING_LIMIT}
+          className={classes["inProgress"]}
+          overLimit={inProgress.length > IN_PROGRESS_LIMIT}
           heading={
             <Group gap="sm">
-              <Text fw={600}>Doing · {doing.length}</Text>
-              {doing.length > DOING_LIMIT && (
+              <Text fw={600}>In progress · {inProgress.length}</Text>
+              {inProgress.length > IN_PROGRESS_LIMIT && (
                 <Badge color="orange" variant="light">
-                  Over your limit of {DOING_LIMIT}
+                  Over your limit of {IN_PROGRESS_LIMIT}
                 </Badge>
               )}
             </Group>
           }
         >
-          {rows(doing)}
+          {rows(inProgress)}
         </ItemGroup>
         <ItemGroup
-          id={UP_NEXT_GROUP}
-          name="Up next"
-          items={upNext}
+          id={NEXT_GROUP}
+          name="Next"
+          items={next}
           empty="Drag an item here to stop it"
-          heading={<Text fw={600}>Up next</Text>}
+          heading={<Text fw={600}>Next</Text>}
         >
-          {rows(upNext)}
+          {rows(next)}
         </ItemGroup>
       </Stack>
     </DndContext>
@@ -283,7 +283,7 @@ function nearestGroup({
   droppableRects,
 }: Parameters<CollisionDetection>[0]): ItemGroupId | undefined {
   const middle = collisionRect.top + collisionRect.height / 2;
-  const [nearest] = ([DOING_GROUP, UP_NEXT_GROUP] as const)
+  const [nearest] = ([IN_PROGRESS_GROUP, NEXT_GROUP] as const)
     .flatMap((group) => {
       const rect = droppableRects.get(group);
       return rect
@@ -313,15 +313,17 @@ function visited(order: Item[], visit: Visit | undefined): Item[] {
 }
 
 function groupOf(item: Item | undefined): ItemGroupId {
-  return item !== undefined && isDoing(item) ? DOING_GROUP : UP_NEXT_GROUP;
+  return item !== undefined && isInProgress(item)
+    ? IN_PROGRESS_GROUP
+    : NEXT_GROUP;
 }
 
 function statusIn(group: ItemGroupId): ItemStatus {
-  return group === DOING_GROUP ? "doing" : "todo";
+  return group === IN_PROGRESS_GROUP ? "in_progress" : "todo";
 }
 
-function isDoing(item: Item) {
-  return item.status === "doing";
+function isInProgress(item: Item) {
+  return item.status === "in_progress";
 }
 
 function placed(

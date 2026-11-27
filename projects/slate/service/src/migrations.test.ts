@@ -25,6 +25,7 @@ const migrations = [
   "20261126180533_item_description",
   "20261127022610_item_set_aside_statuses",
   "20261127163149_item_source",
+  "20261127181136_item_in_progress_status",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -70,6 +71,11 @@ function migrateUpTo(file: DatabaseSync, last: string) {
   migrate(drizzle({ client: file }), { migrationsFolder });
 }
 
+/** Builds before the in-progress migration stored the in_progress status as doing. */
+function storedStatusBeforeInProgress(status: Item["status"]) {
+  return status === "in_progress" ? "doing" : status;
+}
+
 function insertItems(file: DatabaseSync, items: Item[]) {
   const insert = file.prepare(
     "INSERT INTO item (id, name, status, rank, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
@@ -78,7 +84,7 @@ function insertItems(file: DatabaseSync, items: Item[]) {
     insert.run(
       item.id,
       item.name,
-      item.status,
+      storedStatusBeforeInProgress(item.status),
       item.rank,
       item.createdAt,
       item.updatedAt,
@@ -90,7 +96,7 @@ function randomItems(count: number): Item[] {
   const items: Item[] = [];
   for (let index = 0; index < count; index++) {
     const time = new Date(now.getTime() - index * 60_000).toISOString();
-    const status = (["todo", "doing", "done"] as const)[index % 3];
+    const status = (["todo", "in_progress", "done"] as const)[index % 3];
     items.push({
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
@@ -245,7 +251,7 @@ const earlierSchemas: EarlierSchema[] = [
           item.id,
           item.name,
           item.description,
-          item.status,
+          storedStatusBeforeInProgress(item.status),
           item.rank,
           item.createdAt,
           item.updatedAt,
@@ -259,6 +265,16 @@ const earlierSchemas: EarlierSchema[] = [
     name: "a database from before items had sources",
     create(file) {
       migrateUpTo(file, "20261127022610_item_set_aside_statuses");
+      const items = randomItems(3);
+      insertItems(file, items);
+      file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
+      return items;
+    },
+  },
+  {
+    name: "a database from before items were in progress",
+    create(file) {
+      migrateUpTo(file, "20261127163149_item_source");
       const items = randomItems(3);
       insertItems(file, items);
       file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
@@ -297,6 +313,46 @@ describe("upgrading a database with done items", () => {
     const migrated = openItemStore(dataDir, () => now).list();
 
     expect(migrated).toEqual([todo]);
+  });
+});
+
+describe("upgrading a database with doing items", () => {
+  function rows() {
+    return withFile((file) =>
+      file.prepare("SELECT * FROM item ORDER BY rank").all(),
+    );
+  }
+
+  it("marks a doing item in progress and keeps the rest of it", () => {
+    const time = now.toISOString();
+    withFile((file) => {
+      migrateUpTo(file, "20261127163149_item_source");
+      file
+        .prepare(
+          "INSERT INTO item (id, name, description, source, status, rank, created_at, updated_at, deleted, done_at) VALUES (?, ?, ?, ?, 'doing', ?, ?, ?, ?, ?)",
+        )
+        .run(
+          randomUUID(),
+          `Item ${randomUUID()}`,
+          `Notes ${randomUUID()}`,
+          JSON.stringify({
+            kind: "link",
+            url: `https://example.com/${randomUUID()}`,
+            label: `Link ${randomUUID()}`,
+          }),
+          generateKeyBetween(null, null),
+          new Date(now.getTime() - 60_000).toISOString(),
+          time,
+          1,
+          time,
+        );
+    });
+
+    const [before] = rows();
+
+    openItemStore(dataDir, () => now);
+
+    expect(rows()).toEqual([{ ...before, status: "in_progress" }]);
   });
 });
 
