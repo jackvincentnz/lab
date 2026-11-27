@@ -1,8 +1,9 @@
 import type { ReactNode } from "react";
-import { List, Stack, Text } from "@mantine/core";
+import { List, Stack } from "@mantine/core";
 import type { Item, ItemStatus } from "../api";
 import { dayName } from "../dates";
 import { DeletedItemRow, ItemRow } from "./ItemRow";
+import { ListHeading } from "./ListHeading";
 
 interface ViewListProps {
   label: string;
@@ -55,7 +56,7 @@ export function ViewList({
     <Stack gap="lg">
       {byDayDone(items).map(({ day, items: done }) => (
         <Stack key={day} gap="xs">
-          <Text fw={600}>{day}</Text>
+          <ListHeading>{day}</ListHeading>
           <ItemRows label={day}>{rows(done)}</ItemRows>
         </Stack>
       ))}

@@ -1430,16 +1430,25 @@ describe("ItemsPage in another view", () => {
   });
 
   it.each([
-    ["today", "Today"],
-    ["done", "Done"],
-  ] as const)("gives the %s view no heading of its own", async (view, name) => {
-    render(<ItemsPage view={view} />, {
-      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
-    });
+    ["today", "Today", "todo"],
+    ["done", "Done", "done"],
+  ] as const)(
+    "gives the %s view no heading of its own",
+    async (view, name, status) => {
+      const api = fakeSlateApi([
+        item({
+          name: "Plan the week",
+          status,
+          doneAt: status === "done" ? new Date().toISOString() : null,
+        }),
+      ]);
 
-    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
-    expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
-  });
+      render(<ItemsPage view={view} />, { wrapper: withSlateApi(api) });
+
+      expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+      expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
+    },
+  );
 
   it("groups done items by the day they were done", async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
@@ -1482,6 +1491,32 @@ describe("ItemsPage in another view", () => {
       ["Yesterday", ["Write the notes"]],
       ["Monday, November 23", ["Book the room", "Order the cake"]],
     ]);
+  });
+
+  it("heads each day of done items with the day", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2026, 10, 27, 15));
+    const api = fakeSlateApi([
+      item({
+        name: "Ship the release",
+        status: "done",
+        doneAt: new Date(2026, 10, 27, 9).toISOString(),
+      }),
+      item({
+        name: "Write the notes",
+        status: "done",
+        doneAt: new Date(2026, 10, 26, 17).toISOString(),
+      }),
+    ]);
+
+    render(<ItemsPage view="done" />, { wrapper: withSlateApi(api) });
+
+    expect(await screen.findByText("Ship the release")).toBeInTheDocument();
+    expect(
+      screen
+        .getAllByRole("heading", { level: 2 })
+        .map((heading) => heading.textContent),
+    ).toEqual(["Today", "Yesterday"]);
   });
 
   it("reopens a done item", async () => {
