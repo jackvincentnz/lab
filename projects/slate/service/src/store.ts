@@ -113,12 +113,11 @@ export class ItemStore {
       .all();
   }
 
-  // At the bottom, so that new work never displaces what matters most.
   add(name: string, description: string): Item {
-    const last = this.#database
+    const first = this.#database
       .select({ rank: item.rank })
       .from(item)
-      .orderBy(desc(item.rank))
+      .orderBy(asc(item.rank))
       .get();
     const now = this.#now().toISOString();
     const added: Item = {
@@ -126,7 +125,7 @@ export class ItemStore {
       name,
       description,
       status: "todo",
-      rank: generateKeyBetween(last?.rank ?? null, null),
+      rank: generateKeyBetween(null, first?.rank ?? null),
       createdAt: now,
       updatedAt: now,
     };

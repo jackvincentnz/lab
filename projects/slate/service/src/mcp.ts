@@ -31,7 +31,7 @@ const tools = {
       {
         title: "Add item",
         description:
-          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it. It goes to the bottom with the status todo; to put it at the top or higher up, move it afterwards.",
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it. It goes to the top with the status todo; to put it lower down, move it afterwards.",
         inputSchema: addItem.input,
       },
       (input) => reply(addItem.run(store, input)),
