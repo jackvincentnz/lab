@@ -7,6 +7,7 @@ import {
   render,
   screen,
   userEvent,
+  vi,
   waitFor,
   within,
 } from "@lab/test-utils";
@@ -45,6 +46,7 @@ async function openItem(
 describe("ItemsPage", () => {
   afterEach(() => {
     onlineManager.setOnline(true);
+    vi.useRealTimers();
   });
 
   it("shows a loader until the list arrives", () => {
@@ -710,10 +712,73 @@ describe("ItemsPage", () => {
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
     );
-
-    expect(
+    await user.click(
       screen.getByRole("checkbox", { name: "Mark Book travel done" }),
-    ).toBeDisabled();
+    );
+
+    expect(api.updateItem).not.toHaveBeenCalled();
+  });
+
+  it("keeps the order when an item is moved while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Write the report{Enter}",
+    );
+
+    await moveWithKeyboard(user, "Book travel", "[ArrowUp]");
+
+    expect(api.moveItem).not.toHaveBeenCalled();
+    expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
+  });
+
+  it("shows controls as disabled only once a change has saved for 300 ms", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(200));
+
+    expect(checkbox).toBeEnabled();
+    await act(() => vi.advanceTimersByTimeAsync(100));
+    expect(checkbox).toBeDisabled();
+  });
+
+  it("enables controls again when a slow change finishes saving", async () => {
+    const original = item({ name: "Plan the week" });
+    const done = { ...original, status: "done" as const };
+    const api = fakeSlateApi([original]);
+    let finishSave: (saved: Item) => void = () => undefined;
+    api.updateItem.mockReturnValue(
+      new Promise<Item>((resolve) => (finishSave = resolve)),
+    );
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(300));
+    api.listItems.mockResolvedValue([done]);
+
+    finishSave(done);
+    await act(() => vi.advanceTimersByTimeAsync(0));
+
+    expect(checkbox).toBeEnabled();
+    expect(checkbox).toBeChecked();
   });
 
   it("shows an error and keeps what was typed when a change fails", async () => {
