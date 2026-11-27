@@ -867,7 +867,7 @@ describe("ItemsPage", () => {
     expect(name).toHaveValue("Plan the week soon");
   });
 
-  it("enables controls again when a change that disabled them saves", async () => {
+  it("enables controls again once a change that disabled them finishes saving", async () => {
     const original = item({ name: "Plan the week" });
     const done = { ...original, status: "done" as const };
     const api = fakeSlateApi([original]);
