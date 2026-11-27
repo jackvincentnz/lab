@@ -24,6 +24,7 @@ import type { Item, ItemStatus, MoveItemInput } from "../api";
 import { useHoldListUpdates } from "../ListUpdates";
 import classes from "./ItemList.module.css";
 import { SortableItemRow } from "./ItemRow";
+import { ListHeading } from "./ListHeading";
 
 const IN_PROGRESS_LIMIT = 3;
 
@@ -171,7 +172,7 @@ export function ItemList({
           overLimit={inProgress.length > IN_PROGRESS_LIMIT}
           heading={
             <Group gap="sm">
-              <Text fw={600}>In progress · {inProgress.length}</Text>
+              <ListHeading>In progress · {inProgress.length}</ListHeading>
               {inProgress.length > IN_PROGRESS_LIMIT && (
                 <Badge color="orange" variant="light">
                   Over your limit of {IN_PROGRESS_LIMIT}
@@ -187,7 +188,7 @@ export function ItemList({
           name="Next"
           items={next}
           empty="Drag an item here to stop it"
-          heading={<Text fw={600}>Next</Text>}
+          heading={<ListHeading>Next</ListHeading>}
         >
           {rows(next)}
         </ItemGroup>

@@ -86,6 +86,19 @@ describe("ItemList", () => {
     ]);
   });
 
+  it("heads each group with its name and the In progress group with its count", () => {
+    renderList([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel", status: "in_progress" }),
+    ]);
+
+    expect(
+      screen
+        .getAllByRole("heading", { level: 2 })
+        .map((heading) => heading.textContent),
+    ).toEqual(["In progress · 1", "Next"]);
+  });
+
   it("warns when more than 3 items are in progress", () => {
     renderList(
       Array.from({ length: 4 }, () => item({ status: "in_progress" as const })),

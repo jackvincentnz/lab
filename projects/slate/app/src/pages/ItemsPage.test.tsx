@@ -1404,6 +1404,52 @@ describe("ItemsPage in another view", () => {
     expect(await screen.findByText("Nothing delegated.")).toBeInTheDocument();
   });
 
+  it.each([
+    ["delegated", "Delegated"],
+    ["deferred", "Deferred"],
+    ["wontDo", "Won't do"],
+    ["deleted", "Deleted"],
+  ] as const)("names the %s view in a heading", async (view, name) => {
+    render(<ItemsPage view={view} />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
+  });
+
+  it("names a view in a heading when it has no items", async () => {
+    render(<ItemsPage view="deferred" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
+
+    expect(await screen.findByText("Nothing deferred.")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Deferred" }),
+    ).toBeInTheDocument();
+  });
+
+  it.each([
+    ["today", "Today", "todo"],
+    ["done", "Done", "done"],
+  ] as const)(
+    "gives the %s view no heading of its own",
+    async (view, name, status) => {
+      const api = fakeSlateApi([
+        item({
+          name: "Plan the week",
+          status,
+          doneAt: status === "done" ? new Date().toISOString() : null,
+        }),
+      ]);
+
+      render(<ItemsPage view={view} />, { wrapper: withSlateApi(api) });
+
+      expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+      expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
+    },
+  );
+
   it("groups done items by the day they were done", async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date(2026, 10, 27, 15));
@@ -1445,6 +1491,32 @@ describe("ItemsPage in another view", () => {
       ["Yesterday", ["Write the notes"]],
       ["Monday, November 23", ["Book the room", "Order the cake"]],
     ]);
+  });
+
+  it("heads each day of done items with the day", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2026, 10, 27, 15));
+    const api = fakeSlateApi([
+      item({
+        name: "Ship the release",
+        status: "done",
+        doneAt: new Date(2026, 10, 27, 9).toISOString(),
+      }),
+      item({
+        name: "Write the notes",
+        status: "done",
+        doneAt: new Date(2026, 10, 26, 17).toISOString(),
+      }),
+    ]);
+
+    render(<ItemsPage view="done" />, { wrapper: withSlateApi(api) });
+
+    expect(await screen.findByText("Ship the release")).toBeInTheDocument();
+    expect(
+      screen
+        .getAllByRole("heading", { level: 2 })
+        .map((heading) => heading.textContent),
+    ).toEqual(["Today", "Yesterday"]);
   });
 
   it("reopens a done item", async () => {
