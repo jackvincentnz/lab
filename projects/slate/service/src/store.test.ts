@@ -2,7 +2,7 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { type Item, ItemChangedError } from "./item.js";
+import { type Item, ItemChangedError, type ItemStatus } from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
 
 let dataDir: string;
@@ -87,6 +87,102 @@ describe("list", () => {
     const reopened = openItemStore(dataDir).list();
 
     expect(reopened).toEqual([a]);
+  });
+});
+
+describe.each(["deferred", "wont_do", "delegated"] as const)(
+  "list with an item that is %s",
+  (status) => {
+    function setStatus(item: Item, to: ItemStatus): Item {
+      return store.update({
+        id: item.id,
+        status: to,
+        updatedAt: item.updatedAt,
+      })!;
+    }
+
+    it("leaves the item out of the main list", () => {
+      const [a, b] = ["A", "B"].map(addItem);
+
+      setStatus(b, status);
+
+      expect(store.list()).toEqual([a]);
+    });
+
+    it("lists the item by its status", () => {
+      const [a] = ["A", "B"].map(addItem);
+
+      const setAside = setStatus(a, status);
+
+      expect(store.list(status)).toEqual([setAside]);
+    });
+
+    it("puts the item back in its place when it is reopened", () => {
+      const [a, b, c] = ["A", "B", "C"].map(addItem);
+      const setAside = setStatus(b, status);
+
+      const reopened = setStatus(setAside, "todo");
+
+      expect(store.list()).toEqual([c, reopened, a]);
+      expect(reopened.rank).toBe(b.rank);
+    });
+  },
+);
+
+describe("list by status", () => {
+  it("returns the items with that status in priority order", () => {
+    const [a, , c] = ["A", "B", "C"].map(addItem);
+    const doingA = store.update({
+      id: a.id,
+      status: "doing",
+      updatedAt: a.updatedAt,
+    });
+    const doingC = store.update({
+      id: c.id,
+      status: "doing",
+      updatedAt: c.updatedAt,
+    });
+
+    const doing = store.list("doing");
+
+    expect(doing).toEqual([doingC, doingA]);
+  });
+
+  it("leaves out items with another status", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.update({ id: a.id, status: "doing", updatedAt: a.updatedAt });
+
+    const todo = store.list("todo");
+
+    expect(todo).toEqual([b]);
+  });
+
+  it("includes done items marked done before today", () => {
+    const added = addItem("Shipped");
+    const done = store.update({
+      id: added.id,
+      status: "done",
+      updatedAt: added.updatedAt,
+    });
+    time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const listed = store.list("done");
+
+    expect(listed).toEqual([done]);
+  });
+
+  it("leaves out deleted items", () => {
+    const added = addItem("Mistake");
+    const deferred = store.update({
+      id: added.id,
+      status: "deferred",
+      updatedAt: added.updatedAt,
+    })!;
+    store.delete(deferred.id);
+
+    const listed = store.list("deferred");
+
+    expect(listed).toEqual([]);
   });
 });
 

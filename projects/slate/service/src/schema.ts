@@ -1,7 +1,14 @@
 import { sql } from "drizzle-orm";
 import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
-export const itemStatuses = ["todo", "doing", "done"] as const;
+export const itemStatuses = [
+  "todo",
+  "doing",
+  "done",
+  "deferred",
+  "wont_do",
+  "delegated",
+] as const;
 
 export const item = sqliteTable(
   "item",

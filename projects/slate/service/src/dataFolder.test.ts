@@ -32,8 +32,8 @@ const listedSamples = [
   "Plan next quarter's goals",
   "Fix the flaky export test",
   "Renew the team's domain name",
-  "Book a room for the design review",
   "Answer the survey about desk bookings",
+  "Book a room for the design review",
 ];
 
 function listedNames(folder: string): string[] {

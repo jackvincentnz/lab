@@ -3,6 +3,8 @@ import {
   addItemInput,
   type DeleteItemInput,
   deleteItemInput,
+  type ListItemsInput,
+  listItemsInput,
   type MoveItemInput,
   moveItemInput,
   type RestoreItemInput,
@@ -19,7 +21,8 @@ export type Store = Pick<
 
 export const operations = {
   listItems: {
-    run: (store: Store) => store.list(),
+    input: listItemsInput,
+    run: (store: Store, { status }: ListItemsInput = {}) => store.list(status),
   },
   addItem: {
     input: addItemInput,

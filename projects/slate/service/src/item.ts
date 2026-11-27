@@ -17,6 +17,16 @@ export type ItemStatus = z.infer<typeof itemStatus>;
 
 const { id, name, description } = itemSchema.shape;
 
+export const listItemsInput = z.object({
+  status: itemStatus
+    .optional()
+    .describe(
+      "Only the items with this status, in priority order, including done items from earlier days. Leave it out for the main list.",
+    ),
+});
+
+export type ListItemsInput = z.infer<typeof listItemsInput>;
+
 export const addItemInput = z.object({
   name: name.describe("What the work is, in a few words."),
   description: description

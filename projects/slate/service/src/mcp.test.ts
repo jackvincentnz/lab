@@ -103,6 +103,43 @@ describe("createSlateMcpServer", () => {
     expect(result.content).toEqual(text(items));
   });
 
+  it("lists the items with the given status", async () => {
+    const items = [{ ...anItem(), status: "delegated" as const }];
+    store.list.mockReturnValue(items);
+
+    const result = await call("list_items", { status: "delegated" });
+
+    expect(store.list).toHaveBeenCalledWith("delegated");
+    expect(result.content).toEqual(text(items));
+  });
+
+  it("refuses an unknown status to list by", async () => {
+    const result = await call("list_items", { status: "blocked" });
+
+    expect(result.isError).toBe(true);
+    expect(store.list).not.toHaveBeenCalled();
+  });
+
+  it.each(["deferred", "wont_do", "delegated"] as const)(
+    "sets an item %s",
+    async (status) => {
+      const item = anItem();
+      store.update.mockReturnValue({ ...item, status });
+
+      await call("update_item", {
+        id: item.id,
+        status,
+        updatedAt: item.updatedAt,
+      });
+
+      expect(store.update).toHaveBeenCalledWith({
+        id: item.id,
+        status,
+        updatedAt: item.updatedAt,
+      });
+    },
+  );
+
   it("adds an item with its trimmed name", async () => {
     const item = anItem();
     store.add.mockReturnValue(item);

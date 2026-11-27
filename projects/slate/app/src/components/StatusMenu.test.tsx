@@ -35,7 +35,7 @@ describe("StatusMenu", () => {
 
     expect(
       screen.getAllByRole("menuitem").map((option) => option.textContent),
-    ).toEqual(["To do", "Done"]);
+    ).toEqual(["To do", "Done", "Deferred", "Won't do", "Delegated"]);
   });
 
   it("reports the status picked", async () => {
@@ -46,6 +46,24 @@ describe("StatusMenu", () => {
     await user.click(screen.getByRole("menuitem", { name: "Doing" }));
 
     expect(onChange).toHaveBeenCalledWith("doing");
+  });
+
+  it("reports a status that takes the item off the list", async () => {
+    const user = userEvent.setup();
+    const onChange = renderMenu("todo");
+
+    await user.click(screen.getByRole("button", { name: "Status: To do" }));
+    await user.click(screen.getByRole("menuitem", { name: "Won't do" }));
+
+    expect(onChange).toHaveBeenCalledWith("wont_do");
+  });
+
+  it("shows a status that takes the item off the list", () => {
+    renderMenu("delegated");
+
+    expect(
+      screen.getByRole("button", { name: "Status: Delegated" }),
+    ).toBeInTheDocument();
   });
 
   it("does not change the status when disabled", async () => {

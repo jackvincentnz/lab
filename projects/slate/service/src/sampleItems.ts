@@ -24,8 +24,15 @@ export const sampleItems: SampleItem[] = [
   },
   { name: "Fix the flaky export test", status: "doing" },
   { name: "Renew the team's domain name", status: "done" },
-  { name: "Book a room for the design review", status: "todo" },
   { name: "Answer the survey about desk bookings", status: "done" },
+  { name: "Redesign the team wiki", status: "deferred" },
+  { name: "Migrate the old chat archive", status: "wont_do" },
+  {
+    name: "Order new monitors",
+    description: "Handed to Sam in IT.",
+    status: "delegated",
+  },
+  { name: "Book a room for the design review", status: "todo" },
   {
     name: "Try the old idea for weekly digests",
     status: "todo",

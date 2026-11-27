@@ -398,6 +398,35 @@ describe("ItemsPage", () => {
     );
   });
 
+  it("keeps the side panel closed when an item that left the list comes back", async () => {
+    const user = userEvent.setup();
+    const opened = item({ name: "Plan the week" });
+    const other = item({ name: "Book travel" });
+    const api = fakeSlateApi([opened, other]);
+    api.updateItem.mockResolvedValue({ ...opened, status: "delegated" });
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const panel = await openItem(user, "Plan the week");
+    api.listItems.mockResolvedValue([other]);
+    await user.click(
+      within(panel).getByRole("button", { name: "Status: To do" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "Delegated" }));
+    await waitFor(() =>
+      expect(screen.queryByText("Plan the week")).not.toBeInTheDocument(),
+    );
+    api.listItems.mockResolvedValue([opened, { ...other, status: "done" }]);
+    api.updateItem.mockResolvedValue({ ...other, status: "done" });
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
+    );
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("complementary", { name: "Item details" }),
+    ).not.toBeInTheDocument();
+  });
+
   it("shows a moved item in its new place while the move saves", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([
