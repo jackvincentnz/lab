@@ -329,6 +329,36 @@ describe("ItemSources", () => {
     expect(label).toHaveValue("Planning session notes");
   });
 
+  it("keeps the field being typed in while an added source saves", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    await user.click(screen.getByRole("button", { name: "Add a source" }));
+    const label = screen.getByRole("textbox", { name: "Label" });
+    const link = screen.getByRole("textbox", { name: "Link" });
+    await user.type(label, "Pull request");
+    await user.type(link, "https://example.com/pull/1{Enter}");
+    await user.type(link, "2");
+    const added = {
+      ...original,
+      sources: [
+        session,
+        {
+          kind: "link" as const,
+          url: "https://example.com/pull/1",
+          label: "Pull request",
+        },
+      ],
+    };
+
+    act(() => saveCallbacks(onSourcesChange).onSaved(added));
+    showItem(added);
+
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveFocus();
+    expect(link).toHaveValue("https://example.com/pull/12");
+  });
+
   it.each(["http://example.com/session", "javascript:alert(1)", "example"])(
     "refuses to save the link %s",
     async (url) => {

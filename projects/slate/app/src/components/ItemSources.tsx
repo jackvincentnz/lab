@@ -78,6 +78,9 @@ export function ItemSources({
     },
   );
   const editing = draft === undefined ? undefined : findEditing(item);
+  if (findSource(item, editingKey.current) !== undefined) {
+    savedFromKey.current = undefined;
+  }
 
   function submitSource(event: FormEvent) {
     event.preventDefault();
@@ -137,47 +140,50 @@ export function ItemSources({
       <Title order={3} size="xs" c="dimmed" tt="uppercase">
         Sources
       </Title>
-      {item.sources.map((source) => {
-        const key = sourceKey(source);
-        // A stable key keeps the editor, and the field with focus, when the source's url or text changes.
-        if (editing !== undefined && sourceKey(editing) === key) {
-          return <Fragment key="editor">{editor()}</Fragment>;
-        }
-        return (
-          <Group
-            key={`source ${key}`}
-            justify="space-between"
-            wrap="nowrap"
-            align="flex-start"
+      {/* One keyed list, so that the editor moves with its source instead of remounting and taking focus. */}
+      {[
+        ...item.sources.map((source) => {
+          const key = sourceKey(source);
+          if (editing !== undefined && sourceKey(editing) === key) {
+            return <Fragment key="editor">{editor()}</Fragment>;
+          }
+          return (
+            <Group
+              key={`source ${key}`}
+              justify="space-between"
+              wrap="nowrap"
+              align="flex-start"
+            >
+              <SourceView source={source} />
+              {draft === undefined && (
+                <Button
+                  ref={focusAfterEdit(key)}
+                  variant="subtle"
+                  size="compact-xs"
+                  aria-label={`Edit source ${source.label}`}
+                  onClick={() => startSource(source)}
+                >
+                  Edit
+                </Button>
+              )}
+            </Group>
+          );
+        }),
+        draft === undefined ? (
+          <Button
+            key="add"
+            ref={focusAfterEdit(undefined)}
+            variant="default"
+            size="xs"
+            style={{ alignSelf: "flex-start" }}
+            onClick={() => startSource(undefined)}
           >
-            <SourceView source={source} />
-            {draft === undefined && (
-              <Button
-                ref={focusAfterEdit(key)}
-                variant="subtle"
-                size="compact-xs"
-                aria-label={`Edit source ${source.label}`}
-                onClick={() => startSource(source)}
-              >
-                Edit
-              </Button>
-            )}
-          </Group>
-        );
-      })}
-      {draft === undefined ? (
-        <Button
-          ref={focusAfterEdit(undefined)}
-          variant="default"
-          size="xs"
-          style={{ alignSelf: "flex-start" }}
-          onClick={() => startSource(undefined)}
-        >
-          Add a source
-        </Button>
-      ) : (
-        editing === undefined && editor()
-      )}
+            Add a source
+          </Button>
+        ) : (
+          editing === undefined && <Fragment key="editor">{editor()}</Fragment>
+        ),
+      ]}
     </Stack>
   );
 }
