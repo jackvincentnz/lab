@@ -21,7 +21,7 @@ function renderName(shownItem: Item = item({ name: "Plan the week" })) {
     onRenameCancel: vi.fn<ItemNameProps["onRenameCancel"]>(),
   };
   const name = (shown: Item, saving: boolean) => (
-    <ItemName item={shown} saving={saving} {...handlers} />
+    <ItemName item={shown} saving={saving} pending={saving} {...handlers} />
   );
   const { rerender } = render(name(shownItem, false));
   return {

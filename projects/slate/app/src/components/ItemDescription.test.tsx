@@ -23,7 +23,12 @@ function renderDescription(
     onDescribeCancel: vi.fn<ItemDescriptionProps["onDescribeCancel"]>(),
   };
   const description = (shown: Item, saving: boolean) => (
-    <ItemDescription item={shown} saving={saving} {...handlers} />
+    <ItemDescription
+      item={shown}
+      saving={saving}
+      pending={saving}
+      {...handlers}
+    />
   );
   const { rerender } = render(description(shownItem, false));
   return {

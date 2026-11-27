@@ -16,6 +16,7 @@ import { useItemDraft, type SaveDraft } from "./useItemDraft";
 interface ItemDescriptionProps {
   item: Item;
   saving: boolean;
+  pending: boolean;
   onDescribe: SaveDraft;
   onDescribeCancel(): void;
 }
@@ -23,6 +24,7 @@ interface ItemDescriptionProps {
 export function ItemDescription({
   item,
   saving,
+  pending,
   onDescribe,
   onDescribeCancel,
 }: ItemDescriptionProps) {
@@ -35,13 +37,13 @@ export function ItemDescription({
 
   function submitDescription(event: FormEvent) {
     event.preventDefault();
-    if (!saving) {
+    if (!pending) {
       submit();
     }
   }
 
   function cancelDescription() {
-    if (!saving) {
+    if (!pending) {
       onDescribeCancel();
       cancel();
     }

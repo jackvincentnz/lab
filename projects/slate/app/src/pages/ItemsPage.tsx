@@ -172,6 +172,7 @@ export function ItemsPage() {
         <ItemPanel
           item={opened}
           saving={slowSave}
+          pending={saving}
           onClose={() => {
             clearSaveError();
             setOpenId(undefined);

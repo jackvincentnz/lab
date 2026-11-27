@@ -738,7 +738,7 @@ describe("ItemsPage", () => {
     expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
   });
 
-  it("shows controls as disabled only once a change has saved for 300 ms", async () => {
+  it("keeps controls enabled while a change has saved for less than 300 ms", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
@@ -752,8 +752,40 @@ describe("ItemsPage", () => {
     await act(() => vi.advanceTimersByTimeAsync(200));
 
     expect(checkbox).toBeEnabled();
-    await act(() => vi.advanceTimersByTimeAsync(100));
+  });
+
+  it("shows controls as disabled once a change has saved for 300 ms", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(300));
+
     expect(checkbox).toBeDisabled();
+  });
+
+  it("keeps a rename open when it is cancelled while it saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Rename Plan the week" }),
+    );
+    const name = screen.getByRole("textbox", { name: "Name" });
+    await user.type(name, " soon{Enter}");
+
+    await user.type(name, "{Escape}");
+
+    expect(name).toBeInTheDocument();
+    expect(name).toHaveValue("Plan the week soon");
   });
 
   it("enables controls again when a slow change finishes saving", async () => {
