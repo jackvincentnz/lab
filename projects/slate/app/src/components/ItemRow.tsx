@@ -11,11 +11,10 @@ import {
 import { IconGripVertical } from "@tabler/icons-react";
 import type { CSSProperties, ReactNode, Ref } from "react";
 import type { Item, ItemStatus } from "../api";
+import { daysSince } from "../dates";
 import classes from "./ItemRow.module.css";
 
 const STALE_DAYS = 5;
-
-const DAY_MS = 24 * 60 * 60 * 1000;
 
 interface ItemRowProps {
   item: Item;
@@ -78,9 +77,7 @@ export function ItemRow({
   style,
 }: RowLayoutProps) {
   const done = item.status === "done";
-  const unchangedDays = Math.floor(
-    (Date.now() - Date.parse(item.updatedAt)) / DAY_MS,
-  );
+  const unchangedDays = daysSince(new Date(item.updatedAt), new Date());
   const stale = item.status === "in_progress" && unchangedDays >= STALE_DAYS;
 
   return (
