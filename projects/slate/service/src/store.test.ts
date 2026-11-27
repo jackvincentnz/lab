@@ -9,6 +9,7 @@ import {
   sourceKey,
   type ItemSource,
   type ItemStatus,
+  itemStatus,
   type NewSource,
 } from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
@@ -30,6 +31,12 @@ afterEach(() => {
 function addItem(name: string): Item {
   return store.add(name, "", []);
 }
+
+function withStatus(item: Item, status: ItemStatus): Item {
+  return store.update({ id: item.id, status, updatedAt: item.updatedAt })!;
+}
+
+const everyStatus = itemStatus.options;
 
 function aReference(): NewSource {
   return {
@@ -365,7 +372,7 @@ describe("list deleted items", () => {
     time = new Date("2026-11-21T10:00:00.000Z");
     const deletedA = store.delete(a.id);
 
-    const listed = store.list({ deleted: true, orderBy: "updatedAt" });
+    const listed = store.list({ deleted: "only", orderBy: "updatedAt" });
 
     expect(listed).toEqual([deletedA, deletedB]);
   });
@@ -374,7 +381,7 @@ describe("list deleted items", () => {
     const [a] = ["A", "B"].map(addItem);
     const deleted = store.delete(a.id);
 
-    const listed = store.list({ deleted: true });
+    const listed = store.list({ deleted: "only" });
 
     expect(listed).toEqual([deleted]);
   });
@@ -389,7 +396,7 @@ describe("list deleted items", () => {
     const deletedDone = store.delete(done.id);
     store.delete(b.id);
 
-    const listed = store.list({ statuses: ["done"], deleted: true });
+    const listed = store.list({ statuses: ["done"], deleted: "only" });
 
     expect(listed).toEqual([deletedDone]);
   });
@@ -404,7 +411,7 @@ describe("list deleted items", () => {
     store.delete(done.id);
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    const listed = store.list({ deleted: true });
+    const listed = store.list({ deleted: "only" });
 
     expect(listed).toEqual([]);
   });
@@ -419,9 +426,185 @@ describe("list deleted items", () => {
     const deleted = store.delete(done.id);
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    const listed = store.list({ deleted: true, doneTodayOnly: false });
+    const listed = store.list({ deleted: "only", doneTodayOnly: false });
 
     expect(listed).toEqual([deleted]);
+  });
+
+  it("lists deleted items with the others when deleted items are included", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    const deleted = store.delete(a.id);
+
+    const listed = store.list({ deleted: "include" });
+
+    expect(listed).toEqual([b, deleted]);
+  });
+});
+
+describe("list by status order", () => {
+  it("puts current work first, then items set aside, then finished ones, each in priority order", () => {
+    const [wontDo, done, deferred, delegated, todo, inProgress] = (
+      [
+        "wont_do",
+        "done",
+        "deferred",
+        "delegated",
+        "todo",
+        "in_progress",
+      ] as const
+    ).map((status) => withStatus(addItem(status), status));
+
+    const listed = store.list({ statuses: everyStatus, orderBy: "status" });
+
+    expect(listed).toEqual([
+      inProgress,
+      todo,
+      delegated,
+      deferred,
+      done,
+      wontDo,
+    ]);
+  });
+
+  it("puts deleted items after the others", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    const deleted = store.delete(b.id);
+
+    const listed = store.list({ deleted: "include", orderBy: "status" });
+
+    expect(listed).toEqual([a, deleted]);
+  });
+});
+
+describe("search", () => {
+  function search(text: string): Item[] {
+    return store.list({
+      search: text,
+      statuses: everyStatus,
+      doneTodayOnly: false,
+      deleted: "include",
+    });
+  }
+
+  it("finds an item by part of its name, ignoring case", () => {
+    const found = addItem("Renew the Domain name");
+    addItem("Book a room");
+
+    const results = search("domain");
+
+    expect(results).toEqual([found]);
+  });
+
+  it("finds an item by its description", () => {
+    const found = store.add("Plan", "Ask Sam about the budget", []);
+    addItem("Budgetless");
+
+    const results = search("about the budget");
+
+    expect(results).toEqual([found]);
+  });
+
+  it("finds an item by a source's label, link or reference", () => {
+    const byLabel = store.add("A", "", [
+      { kind: "link", url: "https://example.com/1", label: "Design doc" },
+    ]);
+    const byUrl = store.add("B", "", [
+      { kind: "link", url: "https://example.com/design", label: "Link" },
+    ]);
+    const byText = store.add("C", "", [
+      { kind: "reference", text: "notes/design.md", label: "Notes" },
+    ]);
+    addItem("D");
+
+    const results = search("design");
+
+    expect(results).toEqual([byText, byUrl, byLabel]);
+  });
+
+  it("does not match a source's kind", () => {
+    store.add("A", "", [aReference()]);
+
+    const results = search("reference");
+
+    expect(results).toEqual([]);
+  });
+
+  it("does not match a source's id", () => {
+    const source = store.add("A", "", [aReference()]).sources[0]!;
+
+    const results = search(source.id);
+
+    expect(results).toEqual([]);
+  });
+
+  it("needs every word, each matching anywhere in the item", () => {
+    const found = store.add(
+      "Renew the domain",
+      "Before it lapses in March",
+      [],
+    );
+    addItem("Renew the lease");
+
+    const results = search("  march   renew ");
+
+    expect(results).toEqual([found]);
+  });
+
+  it("matches a percent sign literally", () => {
+    const percent = addItem("Raise prices by 5%");
+    addItem("Raise prices by 50");
+
+    const results = search("5%");
+
+    expect(results).toEqual([percent]);
+  });
+
+  it("matches an underscore literally", () => {
+    const underscore = addItem("Rename user_id");
+    addItem("Rename userXid");
+
+    const results = search("user_id");
+
+    expect(results).toEqual([underscore]);
+  });
+
+  it("matches a backslash literally", () => {
+    addItem("Raise prices by 5%");
+
+    const results = search("\\");
+
+    expect(results).toEqual([]);
+  });
+
+  it("finds items in every status, done on any day and deleted", () => {
+    const done = withStatus(addItem("Old report"), "done");
+    const deleted = store.delete(addItem("Deleted report").id);
+    time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const results = search("report");
+
+    expect(results).toEqual([deleted, done]);
+  });
+
+  it("combines with the other filters", () => {
+    const todo = addItem("Report A");
+    withStatus(addItem("Report B"), "deferred");
+
+    const results = store.list({ search: "report" });
+
+    expect(results).toEqual([todo]);
+  });
+
+  it("refuses a blank search", () => {
+    const blank = () => store.list({ search: "   " });
+
+    expect(blank).toThrow();
+  });
+
+  it("refuses a search longer than 200 characters", () => {
+    const tooLong = () => store.list({ search: "a".repeat(201) });
+
+    expect(tooLong).toThrow();
   });
 });
 
@@ -911,7 +1094,11 @@ describe("delete", () => {
 
     const deleted = store.delete(item.id);
 
-    expect(deleted).toEqual({ ...item, updatedAt: "2026-11-21T10:00:00.000Z" });
+    expect(deleted).toEqual({
+      ...item,
+      deleted: true,
+      updatedAt: "2026-11-21T10:00:00.000Z",
+    });
     expect(store.list()).toEqual([]);
   });
 

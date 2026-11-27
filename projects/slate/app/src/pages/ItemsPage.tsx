@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -28,7 +28,7 @@ import {
 } from "../components/useDeletedItemNotice";
 import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
-import { type ViewName, views } from "../views";
+import { searchView, type ViewName, views } from "../views";
 
 type ItemEdit = Pick<
   UpdateItemInput,
@@ -39,15 +39,21 @@ const SLOW_SAVE_MS = 300;
 
 interface ItemsPageProps {
   view: ViewName;
+  search?: string;
 }
 
-export function ItemsPage({ view }: ItemsPageProps) {
-  const { label, query, empty } = views[view];
-  const today = view === "today";
-  const done = view === "done";
-  const headed = !today && !done;
+export function ItemsPage({ view, search }: ItemsPageProps) {
+  const searching = search !== undefined;
+  const { label, query, empty } = searching ? searchView(search) : views[view];
+  const today = !searching && view === "today";
+  const done = !searching && view === "done";
+  const headed = !searching && !today && !done;
   const trpc = useTRPC();
-  const items = useQuery(trpc.listItems.queryOptions(query));
+  // Keeps the last results while the next search loads, instead of a loader on each word.
+  const items = useQuery({
+    ...trpc.listItems.queryOptions(query),
+    placeholderData: keepPreviousData,
+  });
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
@@ -60,7 +66,9 @@ export function ItemsPage({ view }: ItemsPageProps) {
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
-  const opened = items.data?.find((item) => item.id === openId);
+  const opened = items.data?.find(
+    (item) => item.id === openId && !item.deleted,
+  );
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
@@ -181,12 +189,15 @@ export function ItemsPage({ view }: ItemsPageProps) {
                 <Loader aria-label="Loading your list" />
               </Center>
             )}
-            {items.data?.length === 0 && <Text c="dimmed">{empty}</Text>}
+            {items.data?.length === 0 && !items.isPlaceholderData && (
+              <Text c="dimmed">{empty}</Text>
+            )}
             {items.data !== undefined && items.data.length > 0 && !today && (
               <ViewList
                 label={label}
                 items={items.data}
                 groupByDayDone={done}
+                showStatus={searching}
                 disabled={disabled}
                 openId={opened?.id}
                 onOpen={(item) => {
@@ -194,14 +205,12 @@ export function ItemsPage({ view }: ItemsPageProps) {
                   setOpenId(item.id);
                 }}
                 onStatusChange={changeStatus}
-                {...(view === "deleted" && {
-                  onRestore: (item: Item) => {
-                    if (!startChange()) {
-                      return;
-                    }
-                    restoreItem.mutate({ id: item.id });
-                  },
-                })}
+                onRestore={(item) => {
+                  if (!startChange()) {
+                    return;
+                  }
+                  restoreItem.mutate({ id: item.id });
+                }}
               />
             )}
             {items.data !== undefined && items.data.length > 0 && today && (

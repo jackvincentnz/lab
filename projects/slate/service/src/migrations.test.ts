@@ -114,6 +114,7 @@ function randomItems(count: number): Item[] {
       createdAt: time,
       updatedAt: time,
       doneAt: status === "done" ? time : null,
+      deleted: false,
     });
   }
   return items;

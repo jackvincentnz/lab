@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   ActionIcon,
+  Badge,
   Button,
   Checkbox,
   Group,
@@ -14,12 +15,14 @@ import type { CSSProperties, ReactNode, Ref } from "react";
 import type { Item, ItemStatus } from "../api";
 import { daysSince } from "../dates";
 import classes from "./ItemRow.module.css";
+import { StatusBadge } from "./StatusBadge";
 
 const STALE_DAYS = 5;
 
 interface ItemRowProps {
   item: Item;
   rank?: number;
+  showStatus?: boolean;
   disabled: boolean;
   open: boolean;
   onOpen(): void;
@@ -80,6 +83,7 @@ export function SortableItemRow(props: SortableItemRowProps) {
 export function ItemRow({
   item,
   rank,
+  showStatus = false,
   disabled,
   open,
   onOpen,
@@ -137,6 +141,7 @@ export function ItemRow({
               No change for {unchangedDays} days
             </Text>
           )}
+          {showStatus && <StatusBadge status={item.status} />}
         </UnstyledButton>
       </Group>
     </List.Item>
@@ -145,12 +150,14 @@ export function ItemRow({
 
 interface DeletedItemRowProps {
   item: Item;
+  showStatus?: boolean;
   disabled: boolean;
   onRestore(): void;
 }
 
 export function DeletedItemRow({
   item,
+  showStatus = false,
   disabled,
   onRestore,
 }: DeletedItemRowProps) {
@@ -160,6 +167,12 @@ export function DeletedItemRow({
         <Text span flex={1} size="sm" fw={500} className={classes["name"]}>
           {item.name}
         </Text>
+        {showStatus && <StatusBadge status={item.status} />}
+        {showStatus && (
+          <Badge variant="outline" color="gray" radius="sm">
+            Deleted
+          </Badge>
+        )}
         <Button
           variant="default"
           size="compact-sm"

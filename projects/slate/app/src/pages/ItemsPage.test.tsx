@@ -22,6 +22,7 @@ import {
 import { layOutRowsVertically } from "../test/layout";
 import { ItemsPage } from "./ItemsPage";
 import { Notifications } from "@mantine/notifications";
+import { ListUpdates } from "../ListUpdates";
 import { onlineManager } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
 
@@ -1463,7 +1464,7 @@ describe("ItemsPage in another view", () => {
     [
       "deleted",
       {
-        deleted: true,
+        deleted: "only",
         statuses: [
           "todo",
           "in_progress",
@@ -1694,7 +1695,7 @@ describe("ItemsPage in another view", () => {
 
   it("restores a deleted item", async () => {
     const user = userEvent.setup();
-    const deleted = item({ name: "Try weekly digests" });
+    const deleted = item({ name: "Try weekly digests", deleted: true });
     const api = fakeSlateApi([deleted]);
     api.restoreItem.mockResolvedValue(deleted);
     render(<ItemsPage view="deleted" />, { wrapper: withSlateApi(api) });
@@ -1706,5 +1707,141 @@ describe("ItemsPage in another view", () => {
 
     expect(api.restoreItem).toHaveBeenCalledWith({ id: deleted.id });
     expect(await screen.findByText("Nothing deleted.")).toBeInTheDocument();
+  });
+});
+
+describe("ItemsPage with a search", () => {
+  it("searches every item, current work first", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+
+    render(<ItemsPage view="done" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(api.listItems).toHaveBeenCalledWith({
+      search: "plan",
+      statuses: [
+        "todo",
+        "in_progress",
+        "done",
+        "deferred",
+        "wont_do",
+        "delegated",
+      ],
+      doneTodayOnly: false,
+      deleted: "include",
+      orderBy: "status",
+    });
+  });
+
+  it("shows each result's status, without adding, moving or ranks", async () => {
+    const api = fakeSlateApi([
+      item({ name: "Plan the week", status: "todo" }),
+      item({ name: "Plan the move", status: "deferred" }),
+    ]);
+
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    const results = await screen.findByRole("list", { name: "Search results" });
+    expect(
+      within(results)
+        .getAllByRole("listitem")
+        .map((row) => row.textContent),
+    ).toEqual(["Plan the weekTo do", "Plan the moveDeferred"]);
+    expect(
+      screen.queryByRole("textbox", { name: "New item" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Move Plan the week" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens a result in the item panel", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week", status: "done" })]);
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    const panel = await openItem(user, "Plan the week");
+
+    expect(
+      within(panel).getByRole("button", { name: "Status: Done" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows a deleted result as deleted, with its status, to restore", async () => {
+    const user = userEvent.setup();
+    const deleted = item({
+      name: "Plan the offsite",
+      status: "deferred",
+      deleted: true,
+    });
+    const api = fakeSlateApi([deleted]);
+    api.restoreItem.mockResolvedValue({ ...deleted, deleted: false });
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+    const row = (await screen.findByText("Plan the offsite")).closest("li")!;
+
+    await user.click(
+      within(row).getByRole("button", { name: "Restore Plan the offsite" }),
+    );
+
+    expect(row).toHaveTextContent("Deferred");
+    expect(row).toHaveTextContent("Deleted");
+    expect(
+      screen.queryByRole("button", { name: "Open Plan the offsite" }),
+    ).not.toBeInTheDocument();
+    expect(api.restoreItem).toHaveBeenCalledWith({ id: deleted.id });
+  });
+
+  it("closes the panel when the open result is deleted elsewhere", async () => {
+    const user = userEvent.setup();
+    const result = item({ name: "Plan the week" });
+    const api = fakeSlateApi([result]);
+    render(
+      <ListUpdates>
+        <ItemsPage view="today" search="plan" />
+      </ListUpdates>,
+      { wrapper: withSlateApi(api) },
+    );
+    await openItem(user, "Plan the week");
+    api.listItems.mockResolvedValue([{ ...result, deleted: true }]);
+
+    act(() => api.listChanged.change());
+
+    expect(
+      await screen.findByRole("button", { name: "Restore Plan the week" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("complementary", { name: "Item details" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("does not say the next search matched nothing before it loads", async () => {
+    const api = fakeSlateApi([]);
+    const { rerender } = render(<ItemsPage view="today" search="zebr" />, {
+      wrapper: withSlateApi(api),
+    });
+    await screen.findByText("No items match “zebr”.");
+    api.listItems.mockReturnValue(new Promise<Item[]>(() => undefined));
+
+    rerender(<ItemsPage view="today" search="zebra" />);
+
+    expect(screen.queryByText(/No items match/)).not.toBeInTheDocument();
+  });
+
+  it("says when nothing matches", async () => {
+    render(<ItemsPage view="today" search="zebra" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
+
+    expect(
+      await screen.findByText("No items match “zebra”."),
+    ).toBeInTheDocument();
   });
 });

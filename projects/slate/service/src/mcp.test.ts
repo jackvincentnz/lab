@@ -48,6 +48,7 @@ function anItem(): Item {
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
     doneAt: null,
+    deleted: false,
   };
 }
 
@@ -131,17 +132,34 @@ describe("createSlateMcpServer", () => {
     const result = await call("list_items", {
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: true,
+      deleted: "only",
       orderBy: "updatedAt",
     });
 
     expect(store.list).toHaveBeenCalledWith({
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: true,
+      deleted: "only",
       orderBy: "updatedAt",
     });
     expect(result.content).toEqual(text(items));
+  });
+
+  it("searches with a trimmed query", async () => {
+    store.list.mockReturnValue([]);
+
+    await call("list_items", { search: "  domain name ", orderBy: "status" });
+
+    expect(store.list).toHaveBeenCalledWith(
+      expect.objectContaining({ search: "domain name", orderBy: "status" }),
+    );
+  });
+
+  it("refuses a blank search", async () => {
+    const result = await call("list_items", { search: "  " });
+
+    expect(result.isError).toBe(true);
+    expect(store.list).not.toHaveBeenCalled();
   });
 
   it("lists today's list when given no query", async () => {
@@ -152,7 +170,7 @@ describe("createSlateMcpServer", () => {
     expect(store.list).toHaveBeenCalledWith({
       statuses: ["todo", "in_progress", "done"],
       doneTodayOnly: true,
-      deleted: false,
+      deleted: "exclude",
       orderBy: "rank",
     });
   });

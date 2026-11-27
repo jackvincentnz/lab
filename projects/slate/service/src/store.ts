@@ -3,6 +3,7 @@ import { mkdirSync, readdirSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import {
+  type Column,
   and,
   asc,
   desc,
@@ -26,6 +27,7 @@ import {
   type Item,
   ItemChangedError,
   type ItemSource,
+  type ItemStatus,
   type ListItemsInput,
   type NewSource,
   SourceChangeError,
@@ -48,6 +50,7 @@ const itemColumns = {
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
   doneAt: item.doneAt,
+  deleted: item.deleted,
 } satisfies Record<keyof Item, unknown>;
 
 const listed = eq(item.deleted, false);
@@ -66,8 +69,46 @@ function hasSource(key: string) {
   return sql`EXISTS (SELECT 1 FROM json_each(${item.sources}) WHERE coalesce(json_extract(value, '$.url'), json_extract(value, '$.text')) = ${key})`;
 }
 
+const deletedFilter = {
+  exclude: listed,
+  include: undefined,
+  only: eq(item.deleted, true),
+} satisfies Record<ListQuery["deleted"], SQL | undefined>;
+
+function matchesSearch(search: string) {
+  return and(...search.split(/\s+/).map(containsWord));
+}
+
+function containsWord(word: string) {
+  const pattern = `%${word.replace(/[\\%_]/g, "\\$&")}%`;
+  const contains = (text: SQL | Column) =>
+    sql`${text} LIKE ${pattern} ESCAPE '\\'`;
+  return or(
+    contains(item.name),
+    contains(item.description),
+    sql`EXISTS (SELECT 1 FROM json_each(${item.sources}) WHERE ${contains(sql`json_extract(value, '$.label')`)} OR ${contains(sql`coalesce(json_extract(value, '$.url'), json_extract(value, '$.text'))`)})`,
+  );
+}
+
+const statusOrder = {
+  in_progress: 0,
+  todo: 1,
+  delegated: 2,
+  deferred: 3,
+  done: 4,
+  wont_do: 5,
+} satisfies Record<ItemStatus, number>;
+
+const byStatus = sql`CASE ${item.status} ${sql.join(
+  Object.entries(statusOrder).map(
+    ([status, order]) => sql`WHEN ${status} THEN ${order}`,
+  ),
+  sql` `,
+)} END`;
+
 const listOrder = {
   rank: [],
+  status: [asc(item.deleted), byStatus],
   doneAt: [desc(item.doneAt)],
   updatedAt: [desc(item.updatedAt)],
 } satisfies Record<ListQuery["orderBy"], SQL[]>;
@@ -215,17 +256,18 @@ export class ItemStore {
   }
 
   list(input: ListItemsInput = {}): Item[] {
-    const { statuses, doneTodayOnly, deleted, source, orderBy } =
+    const { statuses, doneTodayOnly, deleted, source, search, orderBy } =
       listItemsInput.parse(input);
     return this.#database
       .select(itemColumns)
       .from(item)
       .where(
         and(
-          eq(item.deleted, deleted),
+          deletedFilter[deleted],
           inArray(item.status, statuses),
           doneTodayOnly ? notDoneBeforeToday(this.#now()) : undefined,
           source === undefined ? undefined : hasSource(source),
+          search === undefined ? undefined : matchesSearch(search),
         ),
       )
       .orderBy(...listOrder[orderBy], item.rank)
@@ -249,6 +291,7 @@ export class ItemStore {
       createdAt: now,
       updatedAt: now,
       doneAt: null,
+      deleted: false,
     };
 
     this.#database.insert(item).values(added).run();

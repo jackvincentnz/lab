@@ -78,7 +78,7 @@ export const itemSchema = createSelectSchema(item, {
   description: (description) =>
     description.overwrite((value) => value.trimEnd()),
   sources: z.array(itemSource),
-}).omit({ deleted: true });
+});
 
 export type Item = z.infer<typeof itemSchema>;
 
@@ -96,6 +96,8 @@ const sourceKeyInput = z
   .trim()
   .min(1, "Give a link's url or a reference's text that is not blank");
 
+const maxSearchLength = 200;
+
 export const listItemsInput = z.object({
   statuses: z
     .array(itemStatus)
@@ -109,21 +111,33 @@ export const listItemsInput = z.object({
       "When true, leaves out done items marked done before midnight at the start of today, in the time zone of the user's machine. Give false to include done items from every day.",
     ),
   deleted: z
-    .boolean()
-    .default(false)
+    .enum(["exclude", "include", "only"])
+    .default("exclude")
     .describe(
-      "When true, lists only deleted items; when false, none. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
+      "exclude leaves out deleted items, include lists them with the others, and only lists only deleted items. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
     ),
   source: sourceKeyInput
     .optional()
     .describe(
       "Only the items with a source whose link url or reference text is exactly this, such as a pull request link, to check whether it is already tracked. Combine it with the other inputs, for example statuses of every status and doneTodayOnly false to look across every item that is not deleted.",
     ),
+  search: z
+    .string()
+    .trim()
+    .min(1, "Give a search that is not blank")
+    .max(
+      maxSearchLength,
+      `Give a search of at most ${maxSearchLength} characters`,
+    )
+    .optional()
+    .describe(
+      "Only the items that contain every word of this, ignoring case, each word anywhere in the item's name, description, or a source's label, link url or reference text. Words are split on white space and matched as plain text, so % and _ match only themselves.",
+    ),
   orderBy: z
-    .enum(["rank", "doneAt", "updatedAt"])
+    .enum(["rank", "status", "doneAt", "updatedAt"])
     .default("rank")
     .describe(
-      "rank is priority order, the most important first. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
+      "rank is priority order, the most important first. status puts current work first: in_progress, todo, delegated, deferred, done, then wont_do, with deleted items after all of those, and each group in priority order. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
     ),
 });
 

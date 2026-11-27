@@ -136,6 +136,7 @@ export function item(fields: Partial<Item> = {}): Item {
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
     doneAt: null,
+    deleted: false,
     ...fields,
   };
 }

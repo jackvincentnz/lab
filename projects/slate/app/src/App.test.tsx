@@ -128,3 +128,106 @@ test("keeps offering the undo while it has focus", async () => {
 
   expect(undo).toHaveFocus();
 });
+
+test("searches every item from the header, in place of the view", async () => {
+  const user = userEvent.setup();
+  const api = fakeSlateApi();
+  render(<App />, { wrapper: withSlateApi(api) });
+  api.listItems.mockResolvedValue([
+    item({ name: "Renew the domain", status: "done" }),
+  ]);
+
+  await user.type(
+    screen.getByRole("searchbox", { name: "Search every item" }),
+    " domain ",
+  );
+
+  expect(await screen.findByText("Renew the domain")).toBeInTheDocument();
+  expect(api.listItems).toHaveBeenLastCalledWith(
+    expect.objectContaining({ search: "domain" }),
+  );
+  expect(api.listItems).not.toHaveBeenCalledWith(
+    expect.objectContaining({ search: "d" }),
+  );
+});
+
+test("returns to the open view when the search is cleared with Escape", async () => {
+  const user = userEvent.setup();
+  const api = fakeSlateApi();
+  render(<App />, { wrapper: withSlateApi(api) });
+  await user.click(screen.getByRole("button", { name: "Deferred" }));
+  const search = screen.getByRole("searchbox", { name: "Search every item" });
+  await user.type(search, "domain");
+  await screen.findByText("No items match “domain”.");
+
+  await user.keyboard("{Escape}");
+
+  expect(search).toHaveValue("");
+  expect(await screen.findByText("Nothing deferred.")).toBeInTheDocument();
+});
+
+test("returns to the open view when the search is cleared with its button", async () => {
+  const user = userEvent.setup();
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+  await user.type(
+    screen.getByRole("searchbox", { name: "Search every item" }),
+    "domain",
+  );
+  await screen.findByText(/No items match/);
+
+  await user.click(screen.getByRole("button", { name: "Clear search" }));
+
+  expect(
+    await screen.findByText(/Nothing on your slate yet/),
+  ).toBeInTheDocument();
+});
+
+test("shows a view chosen in the sidebar during a search", async () => {
+  const user = userEvent.setup();
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+  const search = screen.getByRole("searchbox", { name: "Search every item" });
+  await user.type(search, "domain");
+  await screen.findByText(/No items match/);
+
+  await user.click(screen.getByRole("button", { name: "Delegated" }));
+
+  expect(search).toHaveValue("");
+  expect(await screen.findByText("Nothing delegated.")).toBeInTheDocument();
+});
+
+test("focuses the search with Command K", async () => {
+  const user = userEvent.setup();
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+
+  await user.keyboard("{Meta>}k{/Meta}");
+
+  expect(
+    screen.getByRole("searchbox", { name: "Search every item" }),
+  ).toHaveFocus();
+});
+
+test("shows the view, not the last results, while a new search waits", async () => {
+  const user = userEvent.setup();
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+  const search = screen.getByRole("searchbox", { name: "Search every item" });
+  await user.type(search, "domain");
+  await screen.findByText(/No items match/);
+
+  await user.clear(search);
+  await user.type(search, "x");
+
+  expect(screen.queryByText(/No items match/)).not.toBeInTheDocument();
+  expect(screen.getByText(/Nothing on your slate yet/)).toBeInTheDocument();
+});
+
+test("focuses the search with Command K from another text box", async () => {
+  const user = userEvent.setup();
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+  await user.click(screen.getByRole("textbox", { name: "New item" }));
+
+  await user.keyboard("{Meta>}k{/Meta}");
+
+  expect(
+    screen.getByRole("searchbox", { name: "Search every item" }),
+  ).toHaveFocus();
+});

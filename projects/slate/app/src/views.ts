@@ -45,7 +45,7 @@ export const views = {
   deleted: {
     label: "Deleted",
     query: {
-      deleted: true,
+      deleted: "only",
       statuses: everyStatus,
       doneTodayOnly: false,
       orderBy: "updatedAt",
@@ -55,3 +55,17 @@ export const views = {
 } satisfies Record<string, View>;
 
 export type ViewName = keyof typeof views;
+
+export function searchView(search: string): View {
+  return {
+    label: "Search results",
+    query: {
+      search,
+      statuses: everyStatus,
+      doneTodayOnly: false,
+      deleted: "include",
+      orderBy: "status",
+    },
+    empty: `No items match “${search}”.`,
+  };
+}

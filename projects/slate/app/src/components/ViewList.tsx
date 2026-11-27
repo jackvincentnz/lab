@@ -9,17 +9,19 @@ interface ViewListProps {
   label: string;
   items: Item[];
   groupByDayDone: boolean;
+  showStatus: boolean;
   disabled: boolean;
   openId: string | undefined;
   onOpen(item: Item): void;
   onStatusChange(item: Item, status: ItemStatus): void;
-  onRestore?(item: Item): void;
+  onRestore(item: Item): void;
 }
 
 export function ViewList({
   label,
   items,
   groupByDayDone,
+  showStatus,
   disabled,
   openId,
   onOpen,
@@ -28,21 +30,23 @@ export function ViewList({
 }: ViewListProps) {
   function rows(group: Item[]) {
     return group.map((item) =>
-      onRestore === undefined ? (
+      item.deleted ? (
+        <DeletedItemRow
+          key={item.id}
+          item={item}
+          showStatus={showStatus}
+          disabled={disabled}
+          onRestore={() => onRestore(item)}
+        />
+      ) : (
         <ItemRow
           key={item.id}
           item={item}
+          showStatus={showStatus}
           disabled={disabled}
           open={item.id === openId}
           onOpen={() => onOpen(item)}
           onStatusChange={(status) => onStatusChange(item, status)}
-        />
-      ) : (
-        <DeletedItemRow
-          key={item.id}
-          item={item}
-          disabled={disabled}
-          onRestore={() => onRestore(item)}
         />
       ),
     );
