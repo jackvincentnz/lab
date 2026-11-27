@@ -9,15 +9,20 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import type { Item, ItemSource as Source } from "../api";
+import type { Item, ItemSource as Source, UpdateItemInput } from "../api";
 import { useItemDraft, type SaveDraft } from "./useItemDraft";
 
-interface ItemSourceProps {
+export type SourcesChange = Pick<
+  UpdateItemInput,
+  "addSources" | "removeSources" | "replaceSource"
+>;
+
+interface ItemSourcesProps {
   item: Item;
   disabled: boolean;
   saving: boolean;
-  onSourceChange: SaveDraft<Source | null>;
-  onSourceChangeCancel(): void;
+  onSourcesChange: SaveDraft<SourcesChange>;
+  onSourcesChangeCancel(): void;
 }
 
 type SourceKind = Source["kind"];
@@ -32,20 +37,46 @@ const noSource: SourceDraft = { kind: "link", target: "", label: "" };
 
 const maxReferenceLength = 1000;
 
-export function ItemSource({
+export function ItemSources(props: ItemSourcesProps) {
+  const { item } = props;
+  return (
+    <Stack gap="xs">
+      <Title order={3} size="xs" c="dimmed" tt="uppercase">
+        Sources
+      </Title>
+      {/* Keyed by position, so that a source edited in place keeps its editor and focus. */}
+      {[...item.sources, undefined].map((_source, index) => (
+        <SourceRow key={index} index={index} {...props} />
+      ))}
+    </Stack>
+  );
+}
+
+interface SourceRowProps extends ItemSourcesProps {
+  /** The source's position, or the number of sources for the row that adds one. */
+  index: number;
+}
+
+function SourceRow({
   item,
+  index,
   disabled,
   saving,
-  onSourceChange,
-  onSourceChangeCancel,
-}: ItemSourceProps) {
+  onSourcesChange,
+  onSourcesChangeCancel,
+}: SourceRowProps) {
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
-    sourceDraftOf,
+    (shown) => sourceDraftOf(shown.sources[index]),
     (editedFrom, value: SourceDraft, callbacks) =>
-      onSourceChange(editedFrom, sourceOf(value), callbacks),
+      onSourcesChange(
+        editedFrom,
+        sourcesChange(editedFrom.sources[index], sourceOf(value)),
+        callbacks,
+      ),
   );
   const returnFocus = useRef(false);
+  const source = item.sources[index];
 
   function submitSource(event: FormEvent) {
     event.preventDefault();
@@ -54,7 +85,7 @@ export function ItemSource({
 
   function cancelSource() {
     if (!saving) {
-      onSourceChangeCancel();
+      onSourcesChangeCancel();
       cancel();
     }
   }
@@ -75,42 +106,34 @@ export function ItemSource({
   }
 
   if (draft === undefined) {
-    return (
-      <Stack gap="xs">
-        <Group justify="space-between">
-          <Title order={3} size="xs" c="dimmed" tt="uppercase">
-            Source
-          </Title>
-          {item.source !== null && (
-            <Button
-              ref={focusAfterEdit}
-              variant="subtle"
-              size="compact-xs"
-              aria-label="Edit source"
-              onClick={startSource}
-            >
-              Edit
-            </Button>
-          )}
-        </Group>
-        {item.source === null ? (
-          <Button
-            ref={focusAfterEdit}
-            variant="default"
-            size="xs"
-            style={{ alignSelf: "flex-start" }}
-            onClick={startSource}
-          >
-            Add a source
-          </Button>
-        ) : (
-          <SourceView source={item.source} />
-        )}
-      </Stack>
+    return source === undefined ? (
+      <Button
+        ref={focusAfterEdit}
+        variant="default"
+        size="xs"
+        style={{ alignSelf: "flex-start" }}
+        onClick={startSource}
+      >
+        Add a source
+      </Button>
+    ) : (
+      <Group justify="space-between" wrap="nowrap" align="flex-start">
+        <SourceView source={source} />
+        <Button
+          ref={focusAfterEdit}
+          variant="subtle"
+          size="compact-xs"
+          aria-label={`Edit source ${source.label}`}
+          onClick={startSource}
+        >
+          Edit
+        </Button>
+      </Group>
     );
   }
 
-  const targetError = sourceTargetError(draft.value);
+  const targetError =
+    sourceTargetError(draft.value) ?? repeatError(item, index, draft.value);
 
   return (
     <form
@@ -123,19 +146,16 @@ export function ItemSource({
       }}
     >
       <Stack gap="xs">
-        <Title order={3} size="xs" c="dimmed" tt="uppercase">
-          Source
-        </Title>
         {draft.refusedFrom !== undefined && (
           <Text size="xs" c="dimmed" component="div">
             {item.updatedAt === draft.refusedFrom.updatedAt ? (
               "Changed elsewhere."
-            ) : item.source === null ? (
-              "Changed elsewhere. The item now has no source."
+            ) : source === undefined ? (
+              "Changed elsewhere. This source is no longer on the item, so Save adds it."
             ) : (
               <>
                 Changed elsewhere. Current source:{" "}
-                <SourceView source={item.source} />
+                <SourceView source={source} />
               </>
             )}
           </Text>
@@ -196,7 +216,7 @@ export function ItemSource({
           >
             Cancel
           </Button>
-          {item.source !== null && (
+          {source !== undefined && (
             <Button
               variant="subtle"
               color="red"
@@ -215,8 +235,37 @@ export function ItemSource({
   );
 }
 
-function sourceDraftOf({ source }: Item): SourceDraft {
-  if (source === null) {
+function sourcesChange(
+  editing: Source | undefined,
+  saved: Source | null,
+): SourcesChange {
+  if (editing === undefined) {
+    return { addSources: saved === null ? [] : [saved] };
+  }
+  return saved === null
+    ? { removeSources: [sourceKey(editing)] }
+    : { replaceSource: { from: sourceKey(editing), to: saved } };
+}
+
+function sourceKey(source: Source): string {
+  return source.kind === "link" ? source.url : source.text;
+}
+
+function repeatError(
+  item: Item,
+  index: number,
+  draft: SourceDraft,
+): string | undefined {
+  const target = draft.target.trim();
+  return item.sources.some(
+    (source, other) => other !== index && sourceKey(source) === target,
+  )
+    ? "The item already has this source"
+    : undefined;
+}
+
+function sourceDraftOf(source: Source | undefined): SourceDraft {
+  if (source === undefined) {
     return noSource;
   }
   return source.kind === "link"

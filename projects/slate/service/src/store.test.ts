@@ -5,6 +5,8 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   type Item,
   ItemChangedError,
+  SourceNotFoundError,
+  sourceKey,
   type ItemSource,
   type ItemStatus,
 } from "./item.js";
@@ -25,10 +27,18 @@ afterEach(() => {
 });
 
 function addItem(name: string): Item {
-  return store.add(name, "", null);
+  return store.add(name, "", []);
 }
 
-function aSource(): ItemSource {
+function aReference(): ItemSource {
+  return {
+    kind: "reference",
+    text: `notes/${crypto.randomUUID()}.md:12`,
+    label: `Notes ${crypto.randomUUID()}`,
+  };
+}
+
+function aSource(): Extract<ItemSource, { kind: "link" }> {
   return {
     kind: "link",
     url: `https://example.com/${crypto.randomUUID()}`,
@@ -53,38 +63,39 @@ describe("add", () => {
   });
 
   it("keeps the given description", () => {
-    const item = store.add("Write the plan", "Why it matters", null);
+    const item = store.add("Write the plan", "Why it matters", []);
 
     expect(item.description).toBe("Why it matters");
     expect(openItemStore(dataDir).list()).toEqual([item]);
   });
 
-  it("keeps the given source", () => {
-    const source = aSource();
+  it("keeps the given sources in order", () => {
+    const sources = [aSource(), aReference(), aSource()];
 
-    const item = store.add("Write the plan", "", source);
+    const item = store.add("Write the plan", "", sources);
 
-    expect(item.source).toEqual(source);
+    expect(item.sources).toEqual(sources);
     expect(openItemStore(dataDir).list()).toEqual([item]);
   });
 
-  it("keeps a reference source", () => {
-    const source: ItemSource = {
-      kind: "reference",
-      text: `notes/${crypto.randomUUID()}.md:12`,
-      label: `Notes ${crypto.randomUUID()}`,
-    };
+  it("keeps the first of two sources with the same url or text", () => {
+    const first = aSource();
+    const reference = aReference();
 
-    const item = store.add("Write the plan", "", source);
+    const item = store.add("Write the plan", "", [
+      first,
+      reference,
+      { ...first, label: "Again" },
+      { ...reference, label: "Again" },
+    ]);
 
-    expect(openItemStore(dataDir).list()[0]?.source).toEqual(source);
-    expect(item.source).toEqual(source);
+    expect(item.sources).toEqual([first, reference]);
   });
 
-  it("adds an item without a source", () => {
+  it("adds an item without sources", () => {
     addItem("Write the plan");
 
-    expect(openItemStore(dataDir).list()[0]?.source).toBeNull();
+    expect(openItemStore(dataDir).list()[0]?.sources).toEqual([]);
   });
 
   it("puts the first item in an empty list", () => {
@@ -235,6 +246,44 @@ describe("list by status", () => {
     const listed = store.list({ statuses: ["deferred"] });
 
     expect(listed).toEqual([]);
+  });
+});
+
+describe("list by source", () => {
+  it("lists only the items with a link of exactly that url", () => {
+    const link = aSource();
+    const tracked = store.add("Tracked", "", [aReference(), link]);
+    store.add("Other", "", [aSource()]);
+    store.add("Close", "", [{ ...link, url: `${link.url}/more` }]);
+
+    const listed = store.list({ source: sourceKey(link) });
+
+    expect(listed).toEqual([tracked]);
+  });
+
+  it("lists only the items with a reference of exactly that text", () => {
+    const reference = aReference();
+    const tracked = store.add("Tracked", "", [reference]);
+    store.add("Other", "", [aReference()]);
+
+    const listed = store.list({ source: sourceKey(reference) });
+
+    expect(listed).toEqual([tracked]);
+  });
+
+  it("combines with the other filters", () => {
+    const link = aSource();
+    const todo = store.add("Todo", "", [link]);
+    const deferred = store.add("Deferred", "", [link]);
+    store.update({
+      id: deferred.id,
+      status: "deferred",
+      updatedAt: deferred.updatedAt,
+    });
+
+    const listed = store.list({ source: sourceKey(link) });
+
+    expect(listed).toEqual([todo]);
   });
 });
 
@@ -526,7 +575,7 @@ describe("update", () => {
   });
 
   it("replaces an item's description", () => {
-    const item = store.add("Draft", "Old notes", null);
+    const item = store.add("Draft", "Old notes", []);
 
     const updated = store.update({
       id: item.id,
@@ -538,35 +587,92 @@ describe("update", () => {
     expect(openItemStore(dataDir).list()).toEqual([updated]);
   });
 
-  it("replaces an item's source", () => {
-    const item = store.add("Draft", "", aSource());
-    const source = aSource();
+  it("adds sources after the item's others, leaving out one it has", () => {
+    const first = aSource();
+    const second = aReference();
+    const third = aSource();
+    const item = store.add("Draft", "", [first, second]);
 
     const updated = store.update({
       id: item.id,
-      source,
+      addSources: [{ ...second, label: "Again" }, third],
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.source).toEqual(source);
+    expect(updated?.sources).toEqual([first, second, third]);
     expect(openItemStore(dataDir).list()).toEqual([updated]);
   });
 
-  it("removes an item's source", () => {
-    const item = store.add("Draft", "", aSource());
+  it("removes sources by their url or text, ignoring one it does not have", () => {
+    const link = aSource();
+    const reference = aReference();
+    const kept = aSource();
+    const item = store.add("Draft", "", [link, reference, kept]);
 
     const updated = store.update({
       id: item.id,
-      source: null,
+      removeSources: [
+        sourceKey(link),
+        sourceKey(reference),
+        "notes/missing.md",
+      ],
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.source).toBeNull();
-    expect(openItemStore(dataDir).list()).toEqual([updated]);
+    expect(updated?.sources).toEqual([kept]);
   });
 
-  it("keeps an item's source when other fields change", () => {
-    const item = store.add("Draft", "", aSource());
+  it("replaces a source in its place", () => {
+    const first = aSource();
+    const second = aReference();
+    const item = store.add("Draft", "", [first, second]);
+    const replacement = aReference();
+
+    const updated = store.update({
+      id: item.id,
+      replaceSource: { from: sourceKey(first), to: replacement },
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.sources).toEqual([replacement, second]);
+  });
+
+  it("refuses to replace a source the item does not have", () => {
+    const item = store.add("Draft", "", [aSource()]);
+
+    const replace = () =>
+      store.update({
+        id: item.id,
+        replaceSource: { from: "notes/missing.md", to: aReference() },
+        updatedAt: item.updatedAt,
+      });
+
+    expect(replace).toThrow(SourceNotFoundError);
+    expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("refuses a source change to an item changed since it was read", () => {
+    const item = store.add("Draft", "", [aSource()]);
+    time = new Date(time.getTime() + 60_000);
+    const changed = store.update({
+      id: item.id,
+      name: "Changed",
+      updatedAt: item.updatedAt,
+    });
+
+    const replace = () =>
+      store.update({
+        id: item.id,
+        replaceSource: { from: "notes/missing.md", to: aReference() },
+        updatedAt: item.updatedAt,
+      });
+
+    expect(replace).toThrow(ItemChangedError);
+    expect(openItemStore(dataDir).list()).toEqual([changed]);
+  });
+
+  it("keeps an item's sources when other fields change", () => {
+    const item = store.add("Draft", "", [aSource(), aReference()]);
 
     const updated = store.update({
       id: item.id,
@@ -574,7 +680,7 @@ describe("update", () => {
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.source).toEqual(item.source);
+    expect(updated?.sources).toEqual(item.sources);
   });
 
   it("returns nothing for an unknown item", () => {

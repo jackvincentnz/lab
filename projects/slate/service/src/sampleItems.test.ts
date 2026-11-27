@@ -28,17 +28,17 @@ describe("addSampleItems", () => {
     addSampleItems(store);
 
     expect(
-      store.list().map(({ name, description, source, status }) => ({
+      store.list().map(({ name, description, sources, status }) => ({
         name,
         description,
-        source,
+        sources,
         status,
       })),
     ).toEqual(
-      listed.map(({ name, description = "", source = null, status }) => ({
+      listed.map(({ name, description = "", sources = [], status }) => ({
         name,
         description,
-        source,
+        sources,
         status,
       })),
     );
@@ -60,7 +60,7 @@ describe("addSampleItems", () => {
   );
 
   it("adds them below the items already listed", () => {
-    const existing = store.add("Existing", "", null);
+    const existing = store.add("Existing", "", []);
 
     addSampleItems(store);
 
@@ -79,10 +79,20 @@ describe("sampleItems", () => {
     expect(sampleItems.some((sample) => sample.deleted)).toBe(true);
   });
 
+  it("include a listed item with several sources", () => {
+    expect(listed.some((sample) => (sample.sources?.length ?? 0) > 1)).toBe(
+      true,
+    );
+  });
+
   it.each(["link", "reference"])(
     "include a listed item with a %s source",
     (kind) => {
-      expect(listed.some((sample) => sample.source?.kind === kind)).toBe(true);
+      expect(
+        listed.some((sample) =>
+          sample.sources?.some((source) => source.kind === kind),
+        ),
+      ).toBe(true);
     },
   );
 });

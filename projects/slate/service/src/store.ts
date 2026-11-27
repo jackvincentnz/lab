@@ -14,6 +14,7 @@ import {
   lt,
   ne,
   or,
+  sql,
   type SQL,
 } from "drizzle-orm";
 import { readMigrationFiles } from "drizzle-orm/migrator";
@@ -26,6 +27,9 @@ import {
   ItemChangedError,
   type ItemSource,
   type ListItemsInput,
+  SourceNotFoundError,
+  sourceKey,
+  withoutRepeats,
   listItemsInput,
   type ListQuery,
   type MoveItemInput,
@@ -37,7 +41,7 @@ const itemColumns = {
   id: item.id,
   name: item.name,
   description: item.description,
-  source: item.source,
+  sources: item.sources,
   status: item.status,
   rank: item.rank,
   createdAt: item.createdAt,
@@ -55,6 +59,10 @@ function notDoneBeforeToday(now: Date) {
     now.getDate(),
   ).toISOString();
   return or(ne(item.status, "done"), gte(item.doneAt, startOfToday));
+}
+
+function hasSource(key: string) {
+  return sql`EXISTS (SELECT 1 FROM json_each(${item.sources}) WHERE coalesce(json_extract(value, '$.url'), json_extract(value, '$.text')) = ${key})`;
 }
 
 const listOrder = {
@@ -153,6 +161,31 @@ function backUpDatabase(client: DatabaseSync, folder: string, next: string) {
   }
 }
 
+function changedSources(
+  sources: ItemSource[],
+  {
+    addSources,
+    removeSources,
+    replaceSource,
+  }: Required<Pick<UpdateItemInput, "addSources" | "removeSources">> &
+    Pick<UpdateItemInput, "replaceSource">,
+): ItemSource[] {
+  let changed = sources;
+  if (replaceSource) {
+    const { from, to } = replaceSource;
+    if (!changed.some((source) => sourceKey(source) === from)) {
+      throw new SourceNotFoundError(from);
+    }
+    changed = changed.map((source) =>
+      sourceKey(source) === from ? to : source,
+    );
+  }
+  changed = changed.filter(
+    (source) => !removeSources.includes(sourceKey(source)),
+  );
+  return withoutRepeats([...changed, ...addSources]);
+}
+
 export class ItemStore {
   readonly #database: NodeSQLiteDatabase;
   readonly #now: () => Date;
@@ -163,7 +196,7 @@ export class ItemStore {
   }
 
   list(input: ListItemsInput = {}): Item[] {
-    const { statuses, doneTodayOnly, deleted, orderBy } =
+    const { statuses, doneTodayOnly, deleted, source, orderBy } =
       listItemsInput.parse(input);
     return this.#database
       .select(itemColumns)
@@ -173,13 +206,14 @@ export class ItemStore {
           eq(item.deleted, deleted),
           inArray(item.status, statuses),
           doneTodayOnly ? notDoneBeforeToday(this.#now()) : undefined,
+          source === undefined ? undefined : hasSource(source),
         ),
       )
       .orderBy(...listOrder[orderBy], item.rank)
       .all();
   }
 
-  add(name: string, description: string, source: ItemSource | null): Item {
+  add(name: string, description: string, sources: ItemSource[]): Item {
     const first = this.#database
       .select({ rank: item.rank })
       .from(item)
@@ -190,7 +224,7 @@ export class ItemStore {
       id: randomUUID(),
       name,
       description,
-      source,
+      sources: withoutRepeats(sources),
       status: "todo",
       rank: generateKeyBetween(null, first?.rank ?? null),
       createdAt: now,
@@ -202,13 +236,32 @@ export class ItemStore {
     return added;
   }
 
-  update({ id, updatedAt, ...changes }: UpdateItemInput): Item | undefined {
+  update({
+    id,
+    updatedAt,
+    addSources = [],
+    removeSources = [],
+    replaceSource,
+    ...changes
+  }: UpdateItemInput): Item | undefined {
     const found = this.#find(id);
     if (!found) {
       return undefined;
     }
+    if (found.updatedAt !== updatedAt) {
+      throw new ItemChangedError(id);
+    }
 
-    const saved = this.#save(found, { ...found, ...changes }, updatedAt);
+    const sources = changedSources(found.sources, {
+      addSources,
+      removeSources,
+      replaceSource,
+    });
+    const saved = this.#save(
+      found,
+      { ...found, ...changes, sources },
+      updatedAt,
+    );
     if (!saved) {
       throw new ItemChangedError(id);
     }

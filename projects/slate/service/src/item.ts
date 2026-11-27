@@ -35,6 +35,23 @@ export const itemSource = z.discriminatedUnion("kind", [
 
 export type ItemSource = z.infer<typeof itemSource>;
 
+/** A source's identity in a list: its link's url or its reference's text. */
+export function sourceKey(source: ItemSource): string {
+  return source.kind === "link" ? source.url : source.text;
+}
+
+export function withoutRepeats(sources: ItemSource[]): ItemSource[] {
+  const seen = new Set<string>();
+  return sources.filter((source) => {
+    const key = sourceKey(source);
+    if (seen.has(key)) {
+      return false;
+    }
+    seen.add(key);
+    return true;
+  });
+}
+
 /** The desktop app opens only https links in the browser. */
 function isSourceLink(url: string): boolean {
   return URL.parse(url)?.protocol === "https:";
@@ -49,7 +66,7 @@ export const itemSchema = createSelectSchema(item, {
   name: (name) => name.trim().min(1, "Give a name that is not blank"),
   description: (description) =>
     description.overwrite((value) => value.trimEnd()),
-  source: itemSource.nullable(),
+  sources: z.array(itemSource),
 }).omit({ deleted: true });
 
 export type Item = z.infer<typeof itemSchema>;
@@ -62,6 +79,11 @@ const { id, name, description } = itemSchema.shape;
 
 const sourceKinds =
   'A source is a link, {"kind": "link", "url", "label"}, whose url starts with https://, or a reference, {"kind": "reference", "text", "label"}, for anything without an https link, such as a file path or a claude:// link, kept as given. The user can copy a reference, and open a claude:// one in Claude Desktop. For example a pull request: {"kind": "link", "url": "https://example.com/pull/12", "label": "Pull request"}. A line in a notes file: {"kind": "reference", "text": "~/notes/TODO.md:12", "label": "TODO list"}. A heading in a daily note: {"kind": "reference", "text": "~/notes/daily/2026-11-27.md#Follow-ups", "label": "Daily note"}. The Claude Desktop session that captured the item: {"kind": "reference", "text": "claude://…", "label": "Claude Desktop session"}.';
+
+const sourceKeyInput = z
+  .string()
+  .trim()
+  .min(1, "Give a link's url or a reference's text that is not blank");
 
 export const listItemsInput = z.object({
   statuses: z
@@ -80,6 +102,11 @@ export const listItemsInput = z.object({
     .default(false)
     .describe(
       "When true, lists only deleted items; when false, none. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
+    ),
+  source: sourceKeyInput
+    .optional()
+    .describe(
+      "Only the items with a source whose link url or reference text is exactly this, such as a pull request link, to check whether it is already tracked. Combine it with the other inputs, for example statuses of every status and doneTodayOnly false to look across every item that is not deleted.",
     ),
   orderBy: z
     .enum(["rank", "doneAt", "updatedAt"])
@@ -100,10 +127,11 @@ export const addItemInput = z.object({
     .describe(
       "Context that belongs with the item, such as notes, links or why it matters. Markdown.",
     ),
-  source: itemSource
-    .optional()
+  sources: z
+    .array(itemSource)
+    .default([])
     .describe(
-      `Where the item came from, such as the Claude Desktop session, notes file, document or pull request that it came out of. ${sourceKinds}`,
+      `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give the main one first. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
     ),
 });
 
@@ -118,11 +146,28 @@ export const updateItemInput = z
       .describe(
         "The item's new description, which replaces the old one. Markdown. Give an empty one to remove it.",
       ),
-    source: itemSource
-      .nullable()
+    addSources: z
+      .array(itemSource)
       .optional()
       .describe(
-        `The item's new source, which replaces the old one. Give null to remove it. ${sourceKinds}`,
+        `Sources to add after the item's others, in this order. A source with the same url or text as one the item has is left out. ${sourceKinds}`,
+      ),
+    removeSources: z
+      .array(sourceKeyInput)
+      .optional()
+      .describe(
+        "Sources to remove, each named by its link's url or its reference's text exactly. A name that matches none of the item's sources is ignored.",
+      ),
+    replaceSource: z
+      .object({
+        from: sourceKeyInput.describe(
+          "The url or text of the source to replace, exactly.",
+        ),
+        to: itemSource.describe("The source to put in its place."),
+      })
+      .optional()
+      .describe(
+        "Changes one source in place, keeping its position, such as to correct a link or relabel it. Refused if the item has no source with that url or text.",
       ),
     status: itemStatus.optional().describe("The item's new status."),
     updatedAt: z
@@ -138,9 +183,14 @@ export const updateItemInput = z
     (input) =>
       input.name !== undefined ||
       input.description !== undefined ||
-      input.source !== undefined ||
+      input.addSources !== undefined ||
+      input.removeSources !== undefined ||
+      input.replaceSource !== undefined ||
       input.status !== undefined,
-    { message: "Give a name, a description, a source or a status to change" },
+    {
+      message:
+        "Give a name, a description, sources to add, remove or replace, or a status to change",
+    },
   );
 
 export type UpdateItemInput = z.infer<typeof updateItemInput>;
@@ -148,6 +198,12 @@ export type UpdateItemInput = z.infer<typeof updateItemInput>;
 export class ItemChangedError extends Error {
   constructor(id: string) {
     super(`The item ${id} has changed since it was read`);
+  }
+}
+
+export class SourceNotFoundError extends Error {
+  constructor(key: string) {
+    super(`The item has no source with the url or text ${key}`);
   }
 }
 

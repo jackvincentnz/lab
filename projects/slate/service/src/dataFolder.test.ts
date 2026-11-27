@@ -50,7 +50,7 @@ describe("openStore for dev", () => {
   });
 
   it("leaves existing data as it is", () => {
-    openItemStore(dataDir).add("Mine", "", null);
+    openItemStore(dataDir).add("Mine", "", []);
 
     const store = openStore({ profile: "dev", dataDir });
 
@@ -68,7 +68,7 @@ describe("openStore for prod", () => {
 
 describe("resetToSampleItems", () => {
   it("replaces the data with the sample items", () => {
-    openItemStore(dataDir).add("Mine", "", null);
+    openItemStore(dataDir).add("Mine", "", []);
 
     resetToSampleItems(dataDir, prodDataDir);
 
@@ -82,7 +82,7 @@ describe("resetToSampleItems", () => {
   });
 
   it("refuses the folder of the real data", () => {
-    openItemStore(prodDataDir).add("Real", "", null);
+    openItemStore(prodDataDir).add("Real", "", []);
 
     const reset = () =>
       resetToSampleItems(join(prodDataDir, "..", "Slate"), prodDataDir);
@@ -92,7 +92,7 @@ describe("resetToSampleItems", () => {
   });
 
   it("refuses a link to the folder of the real data", () => {
-    openItemStore(prodDataDir).add("Real", "", null);
+    openItemStore(prodDataDir).add("Real", "", []);
     const link = join(root, "link");
     symlinkSync(prodDataDir, link);
 

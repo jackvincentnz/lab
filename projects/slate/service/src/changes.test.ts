@@ -28,7 +28,7 @@ function anItem(): Item {
     id: crypto.randomUUID(),
     name: "Write the plan",
     description: "",
-    source: null,
+    sources: [],
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -45,13 +45,13 @@ describe("announceChanges", () => {
       return item;
     });
 
-    const added = announcing.add(item.name, item.description, item.source);
+    const added = announcing.add(item.name, item.description, item.sources);
 
     expect(added).toBe(item);
     expect(store.add).toHaveBeenCalledWith(
       item.name,
       item.description,
-      item.source,
+      item.sources,
     );
     expect(changed).toHaveBeenCalledOnce();
   });

@@ -10,7 +10,7 @@ import {
   type Mock,
   vi,
 } from "vitest";
-import { type Item, ItemChangedError } from "./item.js";
+import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
 import { createSlateMcpServer, handleMcpRequest } from "./mcp.js";
 import { type Store } from "./operations.js";
 
@@ -42,7 +42,7 @@ function anItem(): Item {
     id: crypto.randomUUID(),
     name: "Write the plan",
     description: "",
-    source: null,
+    sources: [],
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -96,22 +96,22 @@ describe("createSlateMcpServer", () => {
     });
   });
 
-  it.each(["add_item", "update_item"])(
-    "shows the agent example sources on %s",
-    async (name) => {
-      const { tools } = await client.listTools();
+  it.each([
+    ["add_item", "sources"],
+    ["update_item", "addSources"],
+  ])("shows the agent example sources on %s", async (name, property) => {
+    const { tools } = await client.listTools();
 
-      const tool = tools.find((candidate) => candidate.name === name);
-      const { description } = tool?.inputSchema.properties?.["source"] as {
-        description: string;
-      };
-      expect(description).toContain('"text": "claude://');
-      expect(description).toContain('"text": "~/notes/TODO.md:12"');
-      expect(description).toContain(
-        '"text": "~/notes/daily/2026-11-27.md#Follow-ups"',
-      );
-    },
-  );
+    const tool = tools.find((candidate) => candidate.name === name);
+    const { description } = tool?.inputSchema.properties?.[property] as {
+      description: string;
+    };
+    expect(description).toContain('"text": "claude://');
+    expect(description).toContain('"text": "~/notes/TODO.md:12"');
+    expect(description).toContain(
+      '"text": "~/notes/daily/2026-11-27.md#Follow-ups"',
+    );
+  });
 
   it("lists the store's items", async () => {
     const items = [anItem(), anItem()];
@@ -208,7 +208,7 @@ describe("createSlateMcpServer", () => {
 
     const result = await call("add_item", { name: "  Write the plan " });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "", null);
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "", []);
     expect(result.content).toEqual(text(item));
   });
 
@@ -217,7 +217,7 @@ describe("createSlateMcpServer", () => {
 
     await call("add_item", { name: "Write the plan", description: "Why" });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "Why", null);
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "Why", []);
   });
 
   it.each([
@@ -230,15 +230,17 @@ describe("createSlateMcpServer", () => {
   ])("adds an item with its source: %o", async (source) => {
     store.add.mockReturnValue(anItem());
 
-    await call("add_item", { name: "Write the plan", source });
+    await call("add_item", { name: "Write the plan", sources: [source] });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "", source);
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "", [source]);
   });
 
   it("refuses a reference on more than one line", async () => {
     const result = await call("add_item", {
       name: "Write the plan",
-      source: { kind: "reference", text: "notes.md\nplan.md", label: "Notes" },
+      sources: [
+        { kind: "reference", text: "notes.md\nplan.md", label: "Notes" },
+      ],
     });
 
     expect(result).toMatchObject({
@@ -252,7 +254,7 @@ describe("createSlateMcpServer", () => {
   it("refuses a source link that is not https", async () => {
     const result = await call("add_item", {
       name: "Write the plan",
-      source: { kind: "link", url: "javascript:alert(1)", label: "Run" },
+      sources: [{ kind: "link", url: "javascript:alert(1)", label: "Run" }],
     });
 
     expect(result).toMatchObject({
@@ -360,27 +362,77 @@ describe("createSlateMcpServer", () => {
 
   it.each([
     {
-      kind: "link",
-      url: "https://example.com/pull/1",
-      label: "Pull request",
+      addSources: [
+        { kind: "link", url: "https://example.com/pull/1", label: "PR" },
+      ],
     },
-    { kind: "reference", text: "notes/TODO.md#Today", label: "TODO list" },
-    null,
-  ])("sets or removes an item's source: %o", async (source) => {
+    { removeSources: ["notes/TODO.md#Today"] },
+    {
+      replaceSource: {
+        from: "notes/TODO.md#Today",
+        to: { kind: "reference", text: "notes/TODO.md#Later", label: "TODO" },
+      },
+    },
+  ])("changes an item's sources: %o", async (change) => {
     const item = anItem();
     store.update.mockReturnValue(item);
 
     await call("update_item", {
       id: item.id,
-      source,
+      ...change,
       updatedAt: item.updatedAt,
     });
 
     expect(store.update).toHaveBeenCalledWith({
       id: item.id,
-      source,
+      ...change,
       updatedAt: item.updatedAt,
     });
+  });
+
+  it("tells the agent when the source to replace is not on the item", async () => {
+    const item = anItem();
+    store.update.mockImplementation(() => {
+      throw new SourceNotFoundError("notes/missing.md");
+    });
+
+    const result = await call("update_item", {
+      id: item.id,
+      replaceSource: {
+        from: "notes/missing.md",
+        to: { kind: "reference", text: "notes/plan.md", label: "Plan" },
+      },
+      updatedAt: item.updatedAt,
+    });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [
+        {
+          text: "The item has no source with the url or text notes/missing.md, so it was not updated. List the items to see its sources.",
+        },
+      ],
+    });
+  });
+
+  it("lists the items with a source", async () => {
+    store.list.mockReturnValue([]);
+
+    await call("list_items", { source: "https://example.com/pull/1" });
+
+    expect(store.list).toHaveBeenCalledWith(
+      expect.objectContaining({ source: "https://example.com/pull/1" }),
+    );
+  });
+
+  it("tells the agent that an update keeps the sources it does not name", async () => {
+    const { tools } = await client.listTools();
+
+    const update = tools.find((tool) => tool.name === "update_item");
+    expect(update?.description).toContain(
+      "cannot remove a source by leaving it out",
+    );
+    expect(update?.inputSchema.properties).not.toHaveProperty("sources");
   });
 
   it("names the unknown id on update", async () => {

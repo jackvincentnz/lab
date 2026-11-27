@@ -11,8 +11,8 @@ export function announceChanges(store: Store, changes: ListChanges): Store {
 
   return {
     list: (input) => store.list(input),
-    add: (name, description, source) =>
-      announced(store.add(name, description, source)),
+    add: (name, description, sources) =>
+      announced(store.add(name, description, sources)),
     update: (input) => announced(store.update(input)),
     move: (input) => announced(store.move(input)),
     delete: (id) => announced(store.delete(id)),

@@ -4,7 +4,7 @@ import { type ItemStore } from "./store.js";
 export interface SampleItem {
   name: string;
   description?: string;
-  source?: ItemSource;
+  sources?: ItemSource[];
   status: ItemStatus;
   deleted?: boolean;
 }
@@ -19,21 +19,35 @@ export const sampleItems: SampleItem[] = [
   },
   {
     name: "Review the onboarding checklist",
-    source: {
-      kind: "reference",
-      text: "notes/TODO.md#Onboarding",
-      label: "TODO list",
-    },
+    sources: [
+      {
+        kind: "reference",
+        text: "notes/TODO.md#Onboarding",
+        label: "TODO list",
+      },
+    ],
     status: "todo",
   },
   {
     name: "Plan next quarter's goals",
     description: "Pick at most three, and say why each matters.",
-    source: {
-      kind: "link",
-      url: "https://example.com/chat/quarter-planning",
-      label: "Claude Desktop session",
-    },
+    sources: [
+      {
+        kind: "link",
+        url: "https://example.com/chat/quarter-planning",
+        label: "Claude Desktop session",
+      },
+      {
+        kind: "link",
+        url: "https://example.com/docs/last-quarter-review",
+        label: "Last quarter's review",
+      },
+      {
+        kind: "reference",
+        text: "notes/daily/2026-11-27.md#Goals",
+        label: "Daily note",
+      },
+    ],
     status: "todo",
   },
   { name: "Fix the flaky export test", status: "in_progress" },
@@ -61,11 +75,11 @@ export function addSampleItems(store: ItemStore): void {
   for (const {
     name,
     description = "",
-    source = null,
+    sources = [],
     status,
     ...sample
   } of sampleItems) {
-    let added = store.add(name, description, source);
+    let added = store.add(name, description, sources);
     if (previous) {
       added = store.move({
         id: added.id,

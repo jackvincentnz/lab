@@ -26,7 +26,10 @@ import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
 import { type ViewName, views } from "../views";
 
-type ItemEdit = Pick<UpdateItemInput, "name" | "description" | "source">;
+type ItemEdit = Pick<
+  UpdateItemInput,
+  "name" | "description" | "addSources" | "removeSources" | "replaceSource"
+>;
 
 const SLOW_SAVE_MS = 300;
 
@@ -235,10 +238,10 @@ export function ItemsPage({ view }: ItemsPageProps) {
             saveEdit(editedFrom, { description }, callbacks)
           }
           onDescribeCancel={clearSaveError}
-          onSourceChange={(editedFrom, source, callbacks) =>
-            saveEdit(editedFrom, { source }, callbacks)
+          onSourcesChange={(editedFrom, change, callbacks) =>
+            saveEdit(editedFrom, change, callbacks)
           }
-          onSourceChangeCancel={clearSaveError}
+          onSourcesChangeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
           onDelete={() => {
             if (!startChange()) {

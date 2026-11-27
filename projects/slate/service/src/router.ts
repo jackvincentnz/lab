@@ -1,7 +1,7 @@
 import { on } from "node:events";
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
 import { type ListChanges } from "./changes.js";
-import { type Item, ItemChangedError } from "./item.js";
+import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
 
 export interface Context {
@@ -70,6 +70,13 @@ function unchanged<T>(update: () => T): T {
     if (error instanceof ItemChangedError) {
       throw new TRPCError({
         code: "CONFLICT",
+        message: error.message,
+        cause: error,
+      });
+    }
+    if (error instanceof SourceNotFoundError) {
+      throw new TRPCError({
+        code: "BAD_REQUEST",
         message: error.message,
         cause: error,
       });

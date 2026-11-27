@@ -186,7 +186,7 @@ describe("ItemsPage", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("saves an item's source and shows the service's", async () => {
+  it("adds a source and shows the service's", async () => {
     const user = userEvent.setup();
     const original = item({ name: "Plan the week" });
     const source = {
@@ -194,7 +194,7 @@ describe("ItemsPage", () => {
       url: "https://example.com/session",
       label: "Planning session",
     };
-    const sourced = { ...original, source };
+    const sourced = { ...original, sources: [source] };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(sourced);
     render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
@@ -215,7 +215,7 @@ describe("ItemsPage", () => {
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
-      source,
+      addSources: [source],
       updatedAt: original.updatedAt,
     });
     expect(
@@ -227,19 +227,23 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const original = item({
       name: "Plan the week",
-      source: {
-        kind: "link",
-        url: "https://example.com/session",
-        label: "Planning session",
-      },
+      sources: [
+        {
+          kind: "link",
+          url: "https://example.com/session",
+          label: "Planning session",
+        },
+      ],
     });
     const api = fakeSlateApi([original]);
-    api.updateItem.mockResolvedValue({ ...original, source: null });
+    api.updateItem.mockResolvedValue({ ...original, sources: [] });
     render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const panel = await openItem(user, "Plan the week");
 
     await user.click(
-      within(panel).getByRole("button", { name: "Edit source" }),
+      within(panel).getByRole("button", {
+        name: "Edit source Planning session",
+      }),
     );
     await user.click(
       within(panel).getByRole("button", { name: "Remove source" }),
@@ -247,7 +251,7 @@ describe("ItemsPage", () => {
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
-      source: null,
+      removeSources: ["https://example.com/session"],
       updatedAt: original.updatedAt,
     });
   });
