@@ -10,6 +10,7 @@ import {
   userEvent,
   within,
 } from "@lab/test-utils";
+import type { Item } from "./api";
 import { ListUpdates } from "./ListUpdates";
 import { ItemsPage } from "./pages/ItemsPage";
 import {
@@ -127,13 +128,13 @@ describe("ListUpdates", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
-    const panel = await startRename(user);
+    await startRename(user);
     api.listItems.mockResolvedValue([]);
 
     act(() => api.listChanged.change());
 
     expect(api.listItems).toHaveBeenCalledOnce();
-    expect(within(panel).getByRole("textbox")).toHaveValue(
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week today",
     );
   });
@@ -182,7 +183,7 @@ describe("ListUpdates", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
-    const panel = await startRename(user);
+    await startRename(user);
     api.listItems.mockResolvedValue([]);
 
     await act(async () => {
@@ -192,7 +193,43 @@ describe("ListUpdates", () => {
     });
 
     expect(api.listItems).toHaveBeenCalledOnce();
-    expect(within(panel).getByRole("textbox")).toHaveValue(
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
+      "Plan the week today",
+    );
+  });
+
+  it("reloads the list when the window regains focus", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    api.listItems.mockResolvedValue([item({ name: "Book travel" })]);
+
+    act(() => {
+      focusManager.setFocused(false);
+      focusManager.setFocused(true);
+    });
+
+    expect(
+      await screen.findByRole("button", { name: "Open Book travel" }),
+    ).toBeInTheDocument();
+  });
+
+  it("keeps a rename's text when a reload already under way removes its item", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    let finishReload: (items: Item[]) => void = () => undefined;
+    const reloaded = new Promise<Item[]>((resolve) => (finishReload = resolve));
+    api.listItems.mockReturnValue(reloaded);
+    act(() => api.listChanged.change());
+    await startRename(user);
+
+    await act(async () => {
+      finishReload([]);
+      // The reload's result reaches the page a few tasks after the response.
+      await new Promise((settled) => setTimeout(settled, 50));
+    });
+
+    expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week today",
     );
   });

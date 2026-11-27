@@ -51,8 +51,12 @@ export const slateRouter = t.router({
   ...operationProcedures,
   listChanged: t.procedure.subscription(async function* ({ ctx, signal }) {
     const changes = on(ctx.changes, "change", { signal });
-    while (!(await changes.next()).done) {
-      yield null;
+    try {
+      while (!(await changes.next()).done) {
+        yield null;
+      }
+    } finally {
+      await changes.return?.();
     }
   }),
 });

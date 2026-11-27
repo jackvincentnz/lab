@@ -200,4 +200,16 @@ describe("slateRouter", () => {
     await expect(next).rejects.toThrow();
     expect(changes.listenerCount("change")).toBe(0);
   });
+
+  it("stops listening for changes when the subscriber stops reading", async () => {
+    const subscription = await caller.listChanged();
+    const reading = subscription[Symbol.asyncIterator]();
+    const next = reading.next();
+    changes.emit("change");
+    await next;
+
+    await reading.return?.();
+
+    expect(changes.listenerCount("change")).toBe(0);
+  });
 });

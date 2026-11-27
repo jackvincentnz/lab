@@ -6,7 +6,7 @@ import {
   useRef,
   type PropsWithChildren,
 } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { focusManager, useQueryClient } from "@tanstack/react-query";
 import { useSubscription } from "@trpc/tanstack-react-query";
 import { useTRPC } from "./api";
 
@@ -26,13 +26,13 @@ export function ListUpdates({ children }: PropsWithChildren) {
   );
 
   // A change missed while disconnected, such as during sleep or a service restart, has no event, so connecting reloads too.
-  function changed() {
+  const changed = useCallback(() => {
     if (holds.current > 0) {
       held.current = true;
     } else {
       reload();
     }
-  }
+  }, [reload]);
 
   useSubscription(
     trpc.listChanged.subscriptionOptions(undefined, {
@@ -41,8 +41,24 @@ export function ListUpdates({ children }: PropsWithChildren) {
     }),
   );
 
+  // Without a change, the list still changes at midnight, when the items done the day before drop off.
+  useEffect(
+    () =>
+      focusManager.subscribe((focused) => {
+        if (focused) {
+          changed();
+        }
+      }),
+    [changed],
+  );
+
   const hold = useCallback<Hold>(() => {
     holds.current += 1;
+    // A reload already under way could still take away the item being edited.
+    if (holds.current === 1 && queryClient.isFetching() > 0) {
+      held.current = true;
+      void queryClient.cancelQueries();
+    }
     return () => {
       holds.current -= 1;
       if (holds.current === 0 && held.current) {
@@ -50,7 +66,7 @@ export function ListUpdates({ children }: PropsWithChildren) {
         reload();
       }
     };
-  }, [reload]);
+  }, [queryClient, reload]);
 
   return <HoldContext value={hold}>{children}</HoldContext>;
 }
