@@ -28,7 +28,7 @@ export function ItemName({
 }: ItemNameProps) {
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
-    "name",
+    nameOf,
     onRename,
   );
 
@@ -101,4 +101,8 @@ export function ItemName({
       </Stack>
     </form>
   );
+}
+
+function nameOf(item: Item) {
+  return item.name;
 }

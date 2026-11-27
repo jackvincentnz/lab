@@ -6,44 +6,48 @@ export interface SaveCallbacks {
   onChanged(): void;
 }
 
-export type SaveDraft = (
+export type SaveDraft<Value = string> = (
   editedFrom: Item,
-  value: string,
+  value: Value,
   callbacks: SaveCallbacks,
 ) => void;
 
-interface Draft {
-  value: string;
+interface Draft<Value> {
+  value: Value;
   editedFrom: Item;
   refusedFrom?: Item;
 }
 
-export function useItemDraft(
+export function useItemDraft<Value>(
   item: Item,
-  field: "name" | "description",
-  save: SaveDraft,
+  valueOf: (item: Item) => Value,
+  save: SaveDraft<Value>,
 ) {
-  const [draft, setDraft] = useState<Draft>();
+  const [draft, setDraft] = useState<Draft<Value>>();
 
   function start() {
-    setDraft({ value: item[field], editedFrom: item });
+    setDraft({ value: valueOf(item), editedFrom: item });
   }
 
-  function change(value: string) {
+  function change(value: Value) {
     setDraft((current) => current && { ...current, value });
   }
 
-  function submit() {
+  function submit(value?: Value) {
     if (draft === undefined) {
       return;
     }
+    const submitted = value ?? draft.value;
     // A save overwrites only its own field, so only that field changed elsewhere makes the draft stale.
-    const fieldChangedElsewhere = item[field] !== draft.editedFrom[field];
+    const fieldChangedElsewhere = !sameValue(
+      valueOf(item),
+      valueOf(draft.editedFrom),
+    );
     const editedFrom =
       draft.refusedFrom !== undefined || !fieldChangedElsewhere
         ? item
         : draft.editedFrom;
-    save(editedFrom, draft.value, {
+    save(editedFrom, submitted, {
       onSaved: (saved) =>
         setDraft((current) =>
           current === undefined || current.value === draft.value
@@ -62,4 +66,8 @@ export function useItemDraft(
   }
 
   return { draft, start, change, submit, cancel };
+}
+
+function sameValue(a: unknown, b: unknown) {
+  return JSON.stringify(a) === JSON.stringify(b);
 }

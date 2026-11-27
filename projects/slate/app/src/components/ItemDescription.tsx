@@ -30,7 +30,7 @@ export function ItemDescription({
 }: ItemDescriptionProps) {
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
-    "description",
+    descriptionOf,
     onDescribe,
   );
   const returnFocus = useRef(false);
@@ -165,6 +165,10 @@ export function ItemDescription({
       </Stack>
     </form>
   );
+}
+
+function descriptionOf(item: Item) {
+  return item.description;
 }
 
 function focusAtEnd(textarea: HTMLTextAreaElement | null) {
