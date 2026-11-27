@@ -7,6 +7,7 @@ import {
   createTRPCClient,
   httpLink,
   httpSubscriptionLink,
+  retryLink,
   splitLink,
   type TRPCClient,
   type TRPCClientErrorLike,
@@ -35,6 +36,8 @@ export type {
   UpdateItemInput,
 };
 
+const RECONNECT_MS = 3000;
+
 export type SlateClient = TRPCClient<SlateRouter>;
 
 export const { TRPCProvider, useTRPC } = createTRPCContext<SlateRouter>();
@@ -44,7 +47,11 @@ export function createSlateClient(url: string): SlateClient {
     links: [
       splitLink({
         condition: (op) => op.type === "subscription",
-        true: httpSubscriptionLink({ url }),
+        true: [
+          // EventSource stops for good on an error response, such as the dev server's proxy answering 502 while the service restarts.
+          retryLink({ retry: () => true, retryDelayMs: () => RECONNECT_MS }),
+          httpSubscriptionLink({ url }),
+        ],
         false: httpLink({ url }),
       }),
     ],

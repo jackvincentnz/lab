@@ -38,6 +38,36 @@ async function openItem(user: ReturnType<typeof userEvent.setup>) {
   return screen.getByRole("complementary", { name: "Item details" });
 }
 
+async function startDrag(user: ReturnType<typeof userEvent.setup>) {
+  layOutRowsVertically();
+  screen.getByRole("button", { name: "Move Plan the week" }).focus();
+  await user.keyboard("[Space]");
+}
+
+async function startRename(user: ReturnType<typeof userEvent.setup>) {
+  const panel = await openItem(user);
+  await user.click(
+    within(panel).getByRole("button", { name: "Rename Plan the week" }),
+  );
+  await user.type(within(panel).getByRole("textbox"), " today");
+  return panel;
+}
+
+async function startDescription(user: ReturnType<typeof userEvent.setup>) {
+  const panel = await openItem(user);
+  await user.click(
+    within(panel).getByRole("button", { name: "Add a description" }),
+  );
+  await user.type(within(panel).getByRole("textbox"), "For Monday");
+}
+
+function twoItems() {
+  return fakeSlateApi([
+    item({ name: "Plan the week" }),
+    item({ name: "Write the report" }),
+  ]);
+}
+
 describe("ListUpdates", () => {
   it("shows a change made elsewhere as soon as the service announces it", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
@@ -62,63 +92,81 @@ describe("ListUpdates", () => {
     ).toBeInTheDocument();
   });
 
-  it("holds a change while an item is dragged and shows it when the drag ends", async () => {
+  it("holds a change while an item is dragged", async () => {
     const user = userEvent.setup();
-    const api = fakeSlateApi([
-      item({ name: "Plan the week" }),
-      item({ name: "Write the report" }),
-    ]);
+    const api = twoItems();
     await showList(api);
-    layOutRowsVertically();
-    screen.getByRole("button", { name: "Move Plan the week" }).focus();
-    await user.keyboard("[Space]");
+    await startDrag(user);
 
     changeElsewhere(api);
 
     expect(api.listItems).toHaveBeenCalledOnce();
+  });
+
+  it("shows a held change when the drag ends", async () => {
+    const user = userEvent.setup();
+    const api = twoItems();
+    await showList(api);
+    await startDrag(user);
+    changeElsewhere(api);
+
     await user.keyboard("[Escape]");
+
     expect(
       await screen.findByRole("button", { name: "Open Book travel" }),
     ).toBeInTheDocument();
   });
 
-  it("keeps a rename's text when its item is deleted elsewhere, and shows the deletion when the rename ends", async () => {
+  it("keeps a rename's text when its item is deleted elsewhere", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
-    const panel = await openItem(user);
-    await user.click(
-      within(panel).getByRole("button", { name: "Rename Plan the week" }),
-    );
-    await user.type(within(panel).getByRole("textbox"), " today");
-
+    const panel = await startRename(user);
     api.listItems.mockResolvedValue([]);
+
     act(() => api.listChanged.change());
 
     expect(api.listItems).toHaveBeenCalledOnce();
     expect(within(panel).getByRole("textbox")).toHaveValue(
       "Plan the week today",
     );
+  });
+
+  it("shows a change held during a rename when the rename ends", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    await startRename(user);
+    api.listItems.mockResolvedValue([]);
+    act(() => api.listChanged.change());
+
     await user.keyboard("{Escape}");
+
     expect(
       await screen.findByText(/Nothing on your slate yet/),
     ).toBeInTheDocument();
   });
 
-  it("holds a change while a description is edited and shows it when the edit ends", async () => {
+  it("holds a change while a description is edited", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
-    const panel = await openItem(user);
-    await user.click(
-      within(panel).getByRole("button", { name: "Add a description" }),
-    );
-    await user.type(within(panel).getByRole("textbox"), "For Monday");
+    await startDescription(user);
 
     changeElsewhere(api);
 
     expect(api.listItems).toHaveBeenCalledOnce();
+  });
+
+  it("shows a change held during a description edit when the edit ends", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    await startDescription(user);
+    changeElsewhere(api);
+
     await user.keyboard("{Escape}");
+
     expect(
       await screen.findByRole("button", { name: "Open Book travel" }),
     ).toBeInTheDocument();
