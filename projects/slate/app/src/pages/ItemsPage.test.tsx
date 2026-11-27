@@ -718,6 +718,65 @@ describe("ItemsPage", () => {
     expect(api.updateItem).not.toHaveBeenCalled();
   });
 
+  it("takes no delete while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Book travel{Enter}",
+    );
+
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(api.deleteItem).not.toHaveBeenCalled();
+  });
+
+  it("takes no rename while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Rename Plan the week" }),
+    );
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Book travel{Enter}",
+    );
+
+    await user.type(
+      screen.getByRole("textbox", { name: "Name" }),
+      " soon{Enter}",
+    );
+
+    expect(api.updateItem).not.toHaveBeenCalled();
+  });
+
+  it("puts a deleted item back only once when undo is clicked twice", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.restoreItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    const undo = await screen.findByRole("button", { name: "Undo" });
+
+    await user.dblClick(undo);
+
+    expect(api.restoreItem).toHaveBeenCalledTimes(1);
+  });
+
   it("keeps the order when an item is moved while a change saves", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([
