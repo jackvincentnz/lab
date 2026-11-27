@@ -131,7 +131,7 @@ describe.each(["deferred", "wont_do", "delegated"] as const)(
 
 describe("list by status", () => {
   it("returns the items with that status in priority order", () => {
-    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    const [a, , c] = ["A", "B", "C"].map(addItem);
     const doingA = store.update({
       id: a.id,
       status: "doing",
@@ -146,7 +146,15 @@ describe("list by status", () => {
     const doing = store.list("doing");
 
     expect(doing).toEqual([doingC, doingA]);
-    expect(store.list("todo")).toEqual([b]);
+  });
+
+  it("leaves out items with another status", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.update({ id: a.id, status: "doing", updatedAt: a.updatedAt });
+
+    const todo = store.list("todo");
+
+    expect(todo).toEqual([b]);
   });
 
   it("includes done items marked done before today", () => {

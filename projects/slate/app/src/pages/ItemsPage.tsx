@@ -41,6 +41,9 @@ export function ItemsPage() {
   const [deleted, setDeleted] = useState<Item>();
   const [openId, setOpenId] = useState<string>();
   const opened = items.data?.find((item) => item.id === openId);
+  if (openId !== undefined && items.data !== undefined && !opened) {
+    setOpenId(undefined);
+  }
 
   function clearSaveError() {
     for (const change of changes) {
