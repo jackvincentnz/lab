@@ -817,7 +817,7 @@ describe("ItemsPage", () => {
     expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
   });
 
-  it("keeps controls enabled while a change has saved for less than 300 ms", async () => {
+  it("keeps controls enabled while a change has been saving for less than 300 ms", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
@@ -833,7 +833,7 @@ describe("ItemsPage", () => {
     expect(checkbox).toBeEnabled();
   });
 
-  it("shows controls as disabled once a change has saved for 300 ms", async () => {
+  it("shows controls as disabled once a change has been saving for 300 ms", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
@@ -867,7 +867,7 @@ describe("ItemsPage", () => {
     expect(name).toHaveValue("Plan the week soon");
   });
 
-  it("enables controls again when a slow change finishes saving", async () => {
+  it("enables controls again when a change that disabled them saves", async () => {
     const original = item({ name: "Plan the week" });
     const done = { ...original, status: "done" as const };
     const api = fakeSlateApi([original]);

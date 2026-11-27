@@ -31,8 +31,8 @@ function renderDescription(
   const { rerender } = render(description(shownItem, idle));
   return {
     ...handlers,
-    disable: () =>
-      rerender(description(shownItem, { ...idle, disabled: true })),
+    disableWhileSaving: () =>
+      rerender(description(shownItem, { disabled: true, saving: true })),
     startSaving: () =>
       rerender(description(shownItem, { ...idle, saving: true })),
     showItem: (shown: Item) => rerender(description(shown, idle)),
@@ -240,14 +240,14 @@ describe("ItemDescription", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("keeps focus on Save when disabled", async () => {
+  it("keeps focus on Save when disabled while it saves", async () => {
     const user = userEvent.setup();
-    const { disable } = renderDescription();
+    const { disableWhileSaving } = renderDescription();
     await startEdit(user);
     const save = screen.getByRole("button", { name: "Save" });
     await user.click(save);
 
-    disable();
+    disableWhileSaving();
 
     expect(save).toHaveFocus();
     expect(save).toHaveAttribute("aria-disabled", "true");
