@@ -15,6 +15,7 @@ import {
   type AddItemInput,
   type DeleteItemInput,
   type Item,
+  type ListItemsInput,
   type MoveItemInput,
   type RestoreItemInput,
   type UpdateItemInput,
@@ -22,7 +23,7 @@ import {
 import { SlateProvider } from "../SlateProvider";
 
 export interface FakeSlateApi {
-  listItems: Mock<() => Promise<Item[]>>;
+  listItems: Mock<(input?: ListItemsInput) => Promise<Item[]>>;
   addItem: Mock<(input: AddItemInput) => Promise<Item>>;
   updateItem: Mock<(input: UpdateItemInput) => Promise<Item>>;
   moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;

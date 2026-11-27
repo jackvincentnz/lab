@@ -10,7 +10,7 @@ import {
 import { List } from "@mantine/core";
 import type { Item } from "../api";
 import { item } from "../test/fakes";
-import { SortableItemRow } from "./ItemRow";
+import { ItemRow, SortableItemRow } from "./ItemRow";
 
 type ItemRowProps = Parameters<typeof SortableItemRow>[0];
 
@@ -145,5 +145,24 @@ describe("ItemRow", () => {
     expect(
       screen.getByRole("button", { name: "Move Plan the week" }),
     ).toHaveAttribute("aria-disabled", "true");
+  });
+
+  it("shows neither a rank nor a move handle in a row without a rank", () => {
+    render(
+      <List>
+        <ItemRow
+          item={item({ name: "Plan the week" })}
+          disabled={false}
+          open={false}
+          onOpen={vi.fn()}
+          onStatusChange={vi.fn()}
+        />
+      </List>,
+    );
+
+    expect(screen.queryByText(/^#/)).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Move Plan the week" }),
+    ).not.toBeInTheDocument();
   });
 });
