@@ -17,12 +17,12 @@ import {
   useTRPC,
 } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
-import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
 import { ListHeading } from "../components/ListHeading";
 import { PanelResizeHandle } from "../components/PanelResizeHandle";
 import { ViewList } from "../components/ViewList";
+import { useDeletedItemNotice } from "../components/useDeletedItemNotice";
 import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
 import { type ViewName, views } from "../views";
@@ -61,6 +61,20 @@ export function ItemsPage({ view }: ItemsPageProps) {
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
+  useDeletedItemNotice(deleted, {
+    disabled,
+    onUndo: (item) => {
+      if (saving) {
+        return;
+      }
+      clearSaveError();
+      restoreItem.mutate(
+        { id: item.id },
+        { onSuccess: () => setDeleted(undefined) },
+      );
+    },
+    onDismiss: () => setDeleted(undefined),
+  });
 
   function clearSaveError() {
     for (const change of changes) {
@@ -154,23 +168,6 @@ export function ItemsPage({ view }: ItemsPageProps) {
           changes.some((change) => change.isError) && (
             <Alert color="red" title="Could not save your change" />
           )
-        )}
-        {deleted !== undefined && (
-          <DeletedItemNotice
-            item={deleted}
-            disabled={disabled}
-            onUndo={() => {
-              if (saving) {
-                return;
-              }
-              clearSaveError();
-              restoreItem.mutate(
-                { id: deleted.id },
-                { onSuccess: () => setDeleted(undefined) },
-              );
-            }}
-            onDismiss={() => setDeleted(undefined)}
-          />
         )}
         {(headed || items.isPending || items.data !== undefined) && (
           <Stack gap="xs">

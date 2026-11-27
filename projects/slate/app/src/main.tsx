@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import { MantineProvider } from "@mantine/core";
 import "@fontsource-variable/inter/index.css";
 import "@mantine/core/styles.css";
+import "@mantine/notifications/styles.css";
 import { App } from "./App";
 import { createSlateClient, createQueryClient } from "./api";
 import { SlateProvider } from "./SlateProvider";
