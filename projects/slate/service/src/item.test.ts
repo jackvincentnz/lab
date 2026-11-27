@@ -67,6 +67,51 @@ describe("addItemInput", () => {
     );
   });
 
+  it.each(["notes/TODO.md:12", "claude://claude.ai/chat/plan", "Standup"])(
+    "keeps a reference source exactly as given, trimmed: %s",
+    (text) => {
+      const input = addItemInput.parse({
+        name: "Plan",
+        source: { kind: "reference", text: ` ${text} `, label: " Notes " },
+      });
+
+      expect(input.source).toEqual({ kind: "reference", text, label: "Notes" });
+    },
+  );
+
+  it.each([
+    [" ", "Give a reference that is not blank"],
+    ["a".repeat(1001), "Give a reference of at most 1000 characters"],
+    ["notes/TODO.md\nnotes/plan.md", "Give a reference on one line"],
+  ])("rejects the reference %j", (text, message) => {
+    const result = addItemInput.safeParse({
+      name: "Plan",
+      source: { kind: "reference", text, label: "Notes" },
+    });
+
+    expect(result.error?.issues[0]?.message).toBe(message);
+  });
+
+  it("accepts a reference of 1000 characters", () => {
+    const result = addItemInput.safeParse({
+      name: "Plan",
+      source: { kind: "reference", text: "a".repeat(1000), label: "Notes" },
+    });
+
+    expect(result.success).toBe(true);
+  });
+
+  it("rejects a reference with a blank label", () => {
+    const result = addItemInput.safeParse({
+      name: "Plan",
+      source: { kind: "reference", text: "notes/TODO.md", label: " " },
+    });
+
+    expect(result.error?.issues[0]?.message).toBe(
+      "Give the reference a label that is not blank",
+    );
+  });
+
   it("rejects a source of an unknown kind", () => {
     const result = addItemInput.safeParse({
       name: "Plan",

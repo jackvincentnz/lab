@@ -23,10 +23,10 @@ function guardedContents() {
     },
   });
   const app = new EventEmitter();
-  const openInBrowser = vi.fn<(url: string) => Promise<void>>();
-  guardApp(app, origin, openInBrowser);
+  const openExternally = vi.fn<(url: string) => Promise<void>>();
+  guardApp(app, origin, openExternally);
   app.emit("web-contents-created", {}, contents);
-  return { contents, openInBrowser };
+  return { contents, openExternally };
 }
 
 function emitCancellable(
@@ -60,6 +60,7 @@ describe("guardApp", () => {
       "http://127.0.0.1:5297@example.com/",
       "file:///etc/passwd",
       "about:blank",
+      "claude://example/session",
     ])("cancels %s", (url) => {
       const { contents } = guardedContents();
 
@@ -69,29 +70,36 @@ describe("guardApp", () => {
     });
   });
 
-  it("opens an https window in the user's browser instead", () => {
-    const { contents, openInBrowser } = guardedContents();
-    const [openWindow] = contents.setWindowOpenHandler.mock.calls[0]!;
+  it.each(["https://example.com/docs", "claude://example/session"])(
+    "opens a window for %s outside the app instead",
+    (url) => {
+      const { contents, openExternally } = guardedContents();
+      const [openWindow] = contents.setWindowOpenHandler.mock.calls[0]!;
 
-    const response = openWindow({ url: "https://example.com/docs" });
+      const response = openWindow({ url });
 
-    expect(response).toEqual({ action: "deny" });
-    expect(openInBrowser).toHaveBeenCalledWith("https://example.com/docs");
-  });
+      expect(response).toEqual({ action: "deny" });
+      expect(openExternally).toHaveBeenCalledWith(url);
+    },
+  );
 
   it.each([
     "http://example.com/",
     "http://127.0.0.1:5297/",
     "file:///Applications/Calculator.app",
     "smb://example.com/share",
+    "/Users/example/notes/TODO.md",
+    "notes/TODO.md:12",
+    "vscode://file/Users/example/notes/TODO.md",
+    "claudefoo://example",
   ])("denies a window for %s without opening it", (url) => {
-    const { contents, openInBrowser } = guardedContents();
+    const { contents, openExternally } = guardedContents();
     const [openWindow] = contents.setWindowOpenHandler.mock.calls[0]!;
 
     const response = openWindow({ url });
 
     expect(response).toEqual({ action: "deny" });
-    expect(openInBrowser).not.toHaveBeenCalled();
+    expect(openExternally).not.toHaveBeenCalled();
   });
 
   it("cancels every webview", () => {

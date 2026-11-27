@@ -17,7 +17,15 @@ export const sampleItems: SampleItem[] = [
       "Draft for the team blog.\n\n- Lead with what changes for readers\n- Link the [release notes](https://example.com/notes)",
     status: "in_progress",
   },
-  { name: "Review the onboarding checklist", status: "todo" },
+  {
+    name: "Review the onboarding checklist",
+    source: {
+      kind: "reference",
+      text: "notes/TODO.md#Onboarding",
+      label: "TODO list",
+    },
+    status: "todo",
+  },
   {
     name: "Plan next quarter's goals",
     description: "Pick at most three, and say why each matters.",

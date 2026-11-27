@@ -3,6 +3,7 @@ import {
   Anchor,
   Button,
   Group,
+  SegmentedControl,
   Stack,
   Text,
   TextInput,
@@ -19,12 +20,18 @@ interface ItemSourceProps {
   onSourceChangeCancel(): void;
 }
 
+type SourceKind = Source["kind"];
+
 interface SourceDraft {
-  url: string;
+  kind: SourceKind;
+  /** A link's url or a reference's text, kept when the kind changes. */
+  target: string;
   label: string;
 }
 
-const noSource: SourceDraft = { url: "", label: "" };
+const noSource: SourceDraft = { kind: "link", target: "", label: "" };
+
+const maxReferenceLength = 1000;
 
 export function ItemSource({
   item,
@@ -98,13 +105,13 @@ export function ItemSource({
             Add a source
           </Button>
         ) : (
-          <SourceLink source={item.source} />
+          <SourceView source={item.source} />
         )}
       </Stack>
     );
   }
 
-  const urlIsLink = isSourceLink(draft.value.url.trim());
+  const targetError = sourceTargetError(draft.value);
 
   return (
     <form
@@ -129,22 +136,36 @@ export function ItemSource({
             ) : (
               <>
                 Changed elsewhere. Current source:{" "}
-                <SourceLink source={item.source} />
+                <SourceView source={item.source} />
               </>
             )}
           </Text>
         )}
-        <TextInput
-          label="Link"
-          placeholder="https://"
-          value={draft.value.url}
-          error={
-            draft.value.url.trim() !== "" &&
-            !urlIsLink &&
-            "Give a link that starts with https://"
+        <SegmentedControl
+          aria-label="Kind of source"
+          size="xs"
+          data={[
+            { value: "link", label: "Link" },
+            { value: "reference", label: "Reference" },
+          ]}
+          value={draft.value.kind}
+          onChange={(kind) =>
+            change({ ...draft.value, kind: kind as SourceKind })
           }
+          style={{ alignSelf: "flex-start" }}
+        />
+        <TextInput
+          key={draft.value.kind}
+          label={draft.value.kind === "link" ? "Link" : "Reference"}
+          placeholder={
+            draft.value.kind === "link"
+              ? "https://"
+              : "A file path, claude:// link or anything else"
+          }
+          value={draft.value.target}
+          error={draft.value.target.trim() !== "" && targetError}
           onChange={(event) =>
-            change({ ...draft.value, url: event.currentTarget.value })
+            change({ ...draft.value, target: event.currentTarget.value })
           }
           autoFocus
         />
@@ -159,7 +180,9 @@ export function ItemSource({
           <Button
             type="submit"
             size="xs"
-            disabled={!urlIsLink || draft.value.label.trim() === ""}
+            disabled={
+              targetError !== undefined || draft.value.label.trim() === ""
+            }
             data-disabled={disabled || undefined}
             aria-disabled={disabled}
           >
@@ -193,16 +216,37 @@ export function ItemSource({
   );
 }
 
-function sourceDraftOf(item: Item): SourceDraft {
-  return item.source === null
-    ? noSource
-    : { url: item.source.url, label: item.source.label };
+function sourceDraftOf({ source }: Item): SourceDraft {
+  if (source === null) {
+    return noSource;
+  }
+  return source.kind === "link"
+    ? { kind: "link", target: source.url, label: source.label }
+    : { kind: "reference", target: source.text, label: source.label };
 }
 
-function sourceOf({ url, label }: SourceDraft): Source | null {
-  return url === "" && label === ""
-    ? null
-    : { kind: "link", url: url.trim(), label: label.trim() };
+function sourceOf({ kind, target, label }: SourceDraft): Source | null {
+  if (target === "" && label === "") {
+    return null;
+  }
+  return kind === "link"
+    ? { kind, url: target.trim(), label: label.trim() }
+    : { kind, text: target.trim(), label: label.trim() };
+}
+
+function sourceTargetError({ kind, target }: SourceDraft): string | undefined {
+  const trimmed = target.trim();
+  if (kind === "link") {
+    return isSourceLink(trimmed)
+      ? undefined
+      : "Give a link that starts with https://";
+  }
+  if (trimmed === "") {
+    return "Give a reference that is not blank";
+  }
+  return trimmed.length > maxReferenceLength
+    ? `Give a reference of at most ${maxReferenceLength} characters`
+    : undefined;
 }
 
 /** The desktop app opens only https links in the browser. */
@@ -210,20 +254,56 @@ function isSourceLink(url: string): boolean {
   return URL.parse(url)?.protocol === "https:";
 }
 
-interface SourceLinkProps {
+/** The desktop app opens claude links in Claude Desktop, and no other reference. */
+function isClaudeLink(text: string): boolean {
+  return URL.parse(text)?.protocol === "claude:";
+}
+
+interface SourceViewProps {
   source: Source;
 }
 
-function SourceLink({ source }: SourceLinkProps) {
+function SourceView({ source }: SourceViewProps) {
+  if (source.kind === "link") {
+    return <ExternalLink href={source.url}>{source.label}</ExternalLink>;
+  }
+  return (
+    <Stack gap={2} component="span">
+      {isClaudeLink(source.text) ? (
+        <ExternalLink href={source.text}>{source.label}</ExternalLink>
+      ) : (
+        <Text size="sm" component="span">
+          {source.label}
+        </Text>
+      )}
+      <Text
+        size="xs"
+        c="dimmed"
+        ff="monospace"
+        component="span"
+        style={{ overflowWrap: "anywhere", userSelect: "all" }}
+      >
+        {source.text}
+      </Text>
+    </Stack>
+  );
+}
+
+interface ExternalLinkProps {
+  href: string;
+  children: string;
+}
+
+function ExternalLink({ href, children }: ExternalLinkProps) {
   return (
     <Anchor
-      href={source.url}
+      href={href}
       target="_blank"
       rel="noreferrer"
       size="sm"
       style={{ overflowWrap: "anywhere" }}
     >
-      {source.label}
+      {children}
     </Anchor>
   );
 }

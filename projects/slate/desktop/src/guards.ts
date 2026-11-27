@@ -44,17 +44,17 @@ interface GuardedApp {
 export function guardApp(
   app: GuardedApp,
   origin: string,
-  openInBrowser: (url: string) => Promise<void>,
+  openExternally: (url: string) => Promise<void>,
 ): void {
   app.on("web-contents-created", (_event, contents) =>
-    guardWebContents(contents, origin, openInBrowser),
+    guardWebContents(contents, origin, openExternally),
   );
 }
 
 function guardWebContents(
   contents: GuardedContents,
   origin: string,
-  openInBrowser: (url: string) => Promise<void>,
+  openExternally: (url: string) => Promise<void>,
 ): void {
   const cancelOffOrigin = (event: NavigationEvent) => {
     if (URL.parse(event.url)?.origin !== origin) {
@@ -64,8 +64,8 @@ function guardWebContents(
   contents.on("will-navigate", cancelOffOrigin);
   contents.on("will-redirect", cancelOffOrigin);
   contents.setWindowOpenHandler(({ url }) => {
-    if (URL.parse(url)?.protocol === "https:") {
-      void openInBrowser(url);
+    if (opensExternally(url)) {
+      void openExternally(url);
     }
     return { action: "deny" };
   });
@@ -75,4 +75,10 @@ function guardWebContents(
     (_contents, _permission, grant) => grant(false),
   );
   contents.session.setPermissionCheckHandler(() => false);
+}
+
+/** https links open in the browser, and claude links in Claude Desktop. */
+function opensExternally(url: string): boolean {
+  const protocol = URL.parse(url)?.protocol;
+  return protocol === "https:" || protocol === "claude:";
 }

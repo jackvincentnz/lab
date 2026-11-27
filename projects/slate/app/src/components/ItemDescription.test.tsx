@@ -69,6 +69,16 @@ describe("ItemDescription", () => {
     expect(link).toHaveAttribute("rel", "noreferrer");
   });
 
+  it("links to no claude link, which only a source may open", () => {
+    renderDescription(
+      item({ description: "See [the session](claude://example/session)" }),
+    );
+
+    const link = screen.getByText("the session").closest("a");
+
+    expect(link).not.toHaveAttribute("href", "claude://example/session");
+  });
+
   it("leaves out raw HTML", () => {
     renderDescription(item({ description: "Plan <button>Go</button>" }));
 
