@@ -6,6 +6,8 @@ import {
 import {
   createTRPCClient,
   httpLink,
+  httpSubscriptionLink,
+  splitLink,
   type TRPCClient,
   type TRPCClientErrorLike,
 } from "@trpc/client";
@@ -38,7 +40,15 @@ export type SlateClient = TRPCClient<SlateRouter>;
 export const { TRPCProvider, useTRPC } = createTRPCContext<SlateRouter>();
 
 export function createSlateClient(url: string): SlateClient {
-  return createTRPCClient<SlateRouter>({ links: [httpLink({ url })] });
+  return createTRPCClient<SlateRouter>({
+    links: [
+      splitLink({
+        condition: (op) => op.type === "subscription",
+        true: httpSubscriptionLink({ url }),
+        false: httpLink({ url }),
+      }),
+    ],
+  });
 }
 
 export function isChangedElsewhere(

@@ -1,5 +1,6 @@
 import { createServer, type Server } from "node:http";
 import { createHTTPHandler } from "@trpc/server/adapters/standalone";
+import { announceChanges, ListChanges } from "./changes.js";
 import { isLoopbackHost, isServiceOrigin } from "./host.js";
 import { handleMcpRequest } from "./mcp.js";
 import { slateRouter } from "./router.js";
@@ -29,10 +30,12 @@ export function createSlateServer(
   store: ItemStore,
   { webDir }: SlateServerOptions = {},
 ): Server {
+  const changes = new ListChanges();
+  const announcing = announceChanges(store, changes);
   const handleTrpc = createHTTPHandler({
     router: slateRouter,
     basePath: apiPath,
-    createContext: () => ({ store }),
+    createContext: () => ({ store: announcing, changes }),
     onError: ({ path, error }) =>
       console.error(`The API request to ${path ?? apiPath} failed:`, error),
   });
@@ -60,7 +63,7 @@ export function createSlateServer(
     } else if (pathname.startsWith(apiPath)) {
       handleTrpc(request, response);
     } else if (pathname === mcpPath) {
-      void handleMcpRequest(store, request, response);
+      void handleMcpRequest(announcing, request, response);
     } else if (webDir) {
       void serveFile(webDir, pathname, response);
     } else {

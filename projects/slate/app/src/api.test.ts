@@ -31,6 +31,29 @@ test("calls the service's procedures under the given URL", async () => {
   expect(init?.body).toBe(JSON.stringify({ name: "Plan the week" }));
 });
 
+test("listens for list changes under the given URL", async () => {
+  const opened: string[] = [];
+  vi.stubGlobal(
+    "EventSource",
+    class extends EventTarget {
+      constructor(url: string) {
+        super();
+        opened.push(url);
+      }
+      close = vi.fn();
+    },
+  );
+
+  const subscription = createSlateClient(
+    "http://slate.test/api",
+  ).listChanged.subscribe(undefined, { onData: () => undefined });
+
+  await vi.waitFor(() =>
+    expect(opened).toEqual(["http://slate.test/api/listChanged"]),
+  );
+  subscription.unsubscribe();
+});
+
 const trpc = createTRPCOptionsProxy<SlateRouter>({
   client: createSlateClient("http://slate.test/api"),
   queryClient: createQueryClient(),

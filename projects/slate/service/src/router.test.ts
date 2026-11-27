@@ -1,9 +1,11 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
+import { ListChanges } from "./changes.js";
 import { type Item, ItemChangedError } from "./item.js";
 import { type Store } from "./operations.js";
 import { slateRouter } from "./router.js";
 
 let store: { [K in keyof Store]: Mock<Store[K]> };
+let changes: ListChanges;
 let caller: ReturnType<typeof slateRouter.createCaller>;
 
 beforeEach(() => {
@@ -15,7 +17,8 @@ beforeEach(() => {
     delete: vi.fn(),
     restore: vi.fn(),
   };
-  caller = slateRouter.createCaller({ store });
+  changes = new ListChanges();
+  caller = slateRouter.createCaller({ store, changes });
 });
 
 function anItem(): Item {
@@ -170,5 +173,31 @@ describe("slateRouter", () => {
     const restoring = caller.restoreItem({ id: crypto.randomUUID() });
 
     await expect(restoring).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("tells a subscriber each time the list changes", async () => {
+    const subscription = await caller.listChanged();
+    const next = () => subscription[Symbol.asyncIterator]().next();
+
+    const first = next();
+    changes.emit("change");
+    const second = next();
+    changes.emit("change");
+
+    await expect(first).resolves.toEqual({ value: null, done: false });
+    await expect(second).resolves.toEqual({ value: null, done: false });
+  });
+
+  it("stops listening for changes when the subscriber leaves", async () => {
+    const leaving = new AbortController();
+    const subscription = await slateRouter
+      .createCaller({ store, changes }, { signal: leaving.signal })
+      .listChanged();
+    const next = subscription[Symbol.asyncIterator]().next();
+
+    leaving.abort();
+
+    await expect(next).rejects.toThrow();
+    expect(changes.listenerCount("change")).toBe(0);
   });
 });

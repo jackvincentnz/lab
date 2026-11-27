@@ -1,9 +1,12 @@
+import { on } from "node:events";
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
+import { type ListChanges } from "./changes.js";
 import { type Item, ItemChangedError } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
 
 export interface Context {
   store: Store;
+  changes: ListChanges;
 }
 
 const t = initTRPC.context<Context>().create();
@@ -11,7 +14,7 @@ const t = initTRPC.context<Context>().create();
 const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
   operations;
 
-export const slateRouter = t.router({
+const operationProcedures = {
   listItems: t.procedure
     .input(listItems.input.optional())
     .query(({ ctx, input }) => listItems.run(ctx.store, input)),
@@ -32,7 +35,17 @@ export const slateRouter = t.router({
   restoreItem: t.procedure
     .input(restoreItem.input)
     .mutation(({ ctx, input }) => found(restoreItem.run(ctx.store, input))),
-} satisfies Record<WebOperationName, AnyProcedure>);
+} satisfies Record<WebOperationName, AnyProcedure>;
+
+export const slateRouter = t.router({
+  ...operationProcedures,
+  listChanged: t.procedure.subscription(async function* ({ ctx, signal }) {
+    const changes = on(ctx.changes, "change", { signal });
+    while (!(await changes.next()).done) {
+      yield null;
+    }
+  }),
+});
 
 export type SlateRouter = typeof slateRouter;
 
