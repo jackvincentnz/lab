@@ -75,7 +75,6 @@ test("opens a claude reference outside the app when its label is clicked", async
       label: "Claude Desktop session",
     },
   });
-  await window.reload();
 
   await window.getByText("Pick up the session").click();
   await window.getByRole("link", { name: "Claude Desktop session" }).click();
