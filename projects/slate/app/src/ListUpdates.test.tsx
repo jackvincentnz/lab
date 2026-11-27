@@ -1,4 +1,4 @@
-import { focusManager } from "@tanstack/react-query";
+import { focusManager, onlineManager } from "@tanstack/react-query";
 import {
   act,
   afterEach,
@@ -74,6 +74,7 @@ function twoItems() {
 describe("ListUpdates", () => {
   afterEach(() => {
     focusManager.setFocused(undefined);
+    onlineManager.setOnline(true);
   });
 
   it("shows a change made elsewhere as soon as the service announces it", async () => {
@@ -118,6 +119,20 @@ describe("ListUpdates", () => {
     changeElsewhere(api);
 
     await user.keyboard("[Escape]");
+
+    expect(
+      await screen.findByRole("button", { name: "Open Book travel" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows a held change when the dragged item is dropped", async () => {
+    const user = userEvent.setup();
+    const api = twoItems();
+    await showList(api);
+    await startDrag(user);
+    changeElsewhere(api);
+
+    await user.keyboard("[Space]");
 
     expect(
       await screen.findByRole("button", { name: "Open Book travel" }),
@@ -179,7 +194,7 @@ describe("ListUpdates", () => {
     ).toBeInTheDocument();
   });
 
-  it("keeps a rename's text when the window regains focus after its item is deleted elsewhere", async () => {
+  it("keeps a rename's text when the page becomes visible after its item is deleted elsewhere", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
@@ -198,7 +213,7 @@ describe("ListUpdates", () => {
     );
   });
 
-  it("reloads the list when the window regains focus", async () => {
+  it("reloads the list when the page becomes visible", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
     api.listItems.mockResolvedValue([item({ name: "Book travel" })]);
@@ -232,5 +247,21 @@ describe("ListUpdates", () => {
     expect(screen.getByRole("textbox", { name: "Name" })).toHaveValue(
       "Plan the week today",
     );
+  });
+
+  it("keeps a rename's text when the browser comes back online after its item is deleted elsewhere", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    await startRename(user);
+    api.listItems.mockResolvedValue([]);
+
+    await act(async () => {
+      onlineManager.setOnline(false);
+      onlineManager.setOnline(true);
+      await Promise.resolve();
+    });
+
+    expect(api.listItems).toHaveBeenCalledOnce();
   });
 });

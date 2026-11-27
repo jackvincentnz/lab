@@ -301,6 +301,16 @@ describe("createSlateServer", () => {
     await client.close();
   });
 
+  it("tells a subscribed page when another page changes the list", async () => {
+    await start();
+    const subscription = await subscribe("/api/listChanged");
+    await subscription.nextEvent();
+
+    await send("/api/addItem", { body: '{"name":"Plan the week"}' });
+
+    expect(await subscription.nextEvent()).toBe("data: null");
+  });
+
   it("tells a subscribed page to reconnect when pings stop", async () => {
     await start();
 

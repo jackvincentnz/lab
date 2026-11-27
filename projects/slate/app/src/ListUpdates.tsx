@@ -25,7 +25,6 @@ export function ListUpdates({ children }: PropsWithChildren) {
     [queryClient],
   );
 
-  // A change missed while disconnected, such as during sleep or a service restart, has no event, so connecting reloads too.
   const changed = useCallback(() => {
     if (holds.current > 0) {
       held.current = true;
@@ -36,6 +35,7 @@ export function ListUpdates({ children }: PropsWithChildren) {
 
   useSubscription(
     trpc.listChanged.subscriptionOptions(undefined, {
+      // A change made while disconnected, such as during a service restart, sends no event.
       onStarted: changed,
       onData: changed,
     }),

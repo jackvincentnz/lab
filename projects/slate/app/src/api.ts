@@ -68,8 +68,12 @@ export function createQueryClient(): QueryClient {
   const queryClient: QueryClient = new QueryClient({
     // The service runs on this machine, so the browser going offline must not pause requests.
     defaultOptions: {
-      // ListUpdates reloads on focus instead, so that the reload waits for a drag or edit to end.
-      queries: { networkMode: "always", refetchOnWindowFocus: false },
+      // ListUpdates reloads when the page becomes visible or reconnects instead, so that the reload waits for a drag or edit to end.
+      queries: {
+        networkMode: "always",
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
       mutations: { networkMode: "always" },
     },
     mutationCache: new MutationCache({
