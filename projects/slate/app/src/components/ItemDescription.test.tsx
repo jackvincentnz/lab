@@ -25,8 +25,8 @@ function renderDescription(
   const description = (shown: Item, saving: boolean) => (
     <ItemDescription
       item={shown}
+      disabled={saving}
       saving={saving}
-      pending={saving}
       {...handlers}
     />
   );

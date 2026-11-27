@@ -16,11 +16,11 @@ const statuses: Record<ItemStatus, StatusStyle> = {
 
 interface StatusMenuProps {
   status: ItemStatus;
-  saving: boolean;
+  disabled: boolean;
   onChange(status: ItemStatus): void;
 }
 
-export function StatusMenu({ status, saving, onChange }: StatusMenuProps) {
+export function StatusMenu({ status, disabled, onChange }: StatusMenuProps) {
   const { label, color } = statuses[status];
   const [opened, setOpened] = useState(false);
 
@@ -50,7 +50,7 @@ export function StatusMenu({ status, saving, onChange }: StatusMenuProps) {
             .map(([other, { label: otherLabel, color: otherColor }]) => (
               <Menu.Item
                 key={other}
-                disabled={saving}
+                disabled={disabled}
                 onClick={() => onChange(other as ItemStatus)}
               >
                 <Badge variant="light" color={otherColor} radius="sm">

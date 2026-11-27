@@ -29,7 +29,7 @@ function renderPanel(
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };
   const panel = (shown: Item, saving: boolean) => (
-    <ItemPanel item={shown} saving={saving} pending={saving} {...handlers} />
+    <ItemPanel item={shown} disabled={saving} saving={saving} {...handlers} />
   );
   const { rerender } = render(panel(panelItem, false));
   return {
@@ -172,7 +172,7 @@ describe("ItemPanel", () => {
     expect(onDelete).toHaveBeenCalled();
   });
 
-  it("does not offer a delete while a change saves", () => {
+  it("does not offer a delete when disabled", () => {
     const { startSaving } = renderPanel();
 
     startSaving();

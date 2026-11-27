@@ -23,19 +23,19 @@ function renderRow(
     onOpen: vi.fn<ItemRowProps["onOpen"]>(),
     onStatusChange: vi.fn<ItemRowProps["onStatusChange"]>(),
   };
-  const row = (saving: boolean) => (
+  const row = (disabled: boolean) => (
     <List>
       <ItemRow
         item={rowItem}
         rank={rank}
-        saving={saving}
+        disabled={disabled}
         open={open}
         {...handlers}
       />
     </List>
   );
   const { rerender } = render(row(false));
-  return { ...handlers, startSaving: () => rerender(row(true)) };
+  return { ...handlers, disable: () => rerender(row(true)) };
 }
 
 describe("ItemRow", () => {
@@ -133,20 +133,20 @@ describe("ItemRow", () => {
     ).toHaveAttribute("aria-expanded", "true");
   });
 
-  it("does not change the status while a change saves", () => {
-    const { startSaving } = renderRow();
+  it("does not change the status when disabled", () => {
+    const { disable } = renderRow();
 
-    startSaving();
+    disable();
 
     expect(
       screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
     ).toBeDisabled();
   });
 
-  it("does not offer a move while a change saves", () => {
-    const { startSaving } = renderRow();
+  it("does not offer a move when disabled", () => {
+    const { disable } = renderRow();
 
-    startSaving();
+    disable();
 
     expect(
       screen.getByRole("button", { name: "Move Plan the week" }),

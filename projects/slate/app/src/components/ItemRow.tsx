@@ -16,7 +16,7 @@ import classes from "./ItemRow.module.css";
 interface ItemRowProps {
   item: Item;
   rank: number;
-  saving: boolean;
+  disabled: boolean;
   open: boolean;
   onOpen(): void;
   onStatusChange(status: ItemStatus): void;
@@ -25,7 +25,7 @@ interface ItemRowProps {
 export function ItemRow({
   item,
   rank,
-  saving,
+  disabled,
   open,
   onOpen,
   onStatusChange,
@@ -37,7 +37,7 @@ export function ItemRow({
     setActivatorNodeRef,
     transform,
     transition,
-  } = useSortable({ id: item.id, disabled: saving });
+  } = useSortable({ id: item.id, disabled });
   const done = item.status === "done";
 
   return (
@@ -58,7 +58,7 @@ export function ItemRow({
           variant="subtle"
           color="gray"
           aria-label={`Move ${item.name}`}
-          data-disabled={saving}
+          data-disabled={disabled}
           style={{ cursor: "grab" }}
           {...attributes}
           {...listeners}
@@ -69,7 +69,7 @@ export function ItemRow({
           className={classes["control"]}
           aria-label={`Mark ${item.name} done`}
           checked={done}
-          disabled={saving}
+          disabled={disabled}
           onChange={(event) =>
             onStatusChange(event.currentTarget.checked ? "done" : "todo")
           }

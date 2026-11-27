@@ -13,16 +13,16 @@ import { useItemDraft, type SaveDraft } from "./useItemDraft";
 
 interface ItemNameProps {
   item: Item;
+  disabled: boolean;
   saving: boolean;
-  pending: boolean;
   onRename: SaveDraft;
   onRenameCancel(): void;
 }
 
 export function ItemName({
   item,
+  disabled,
   saving,
-  pending,
   onRename,
   onRenameCancel,
 }: ItemNameProps) {
@@ -38,7 +38,7 @@ export function ItemName({
   }
 
   function cancelRename() {
-    if (!pending) {
+    if (!saving) {
       onRenameCancel();
       cancel();
     }
@@ -78,14 +78,14 @@ export function ItemName({
           <Button
             type="submit"
             size="xs"
-            disabled={saving || draft.value.trim() === ""}
+            disabled={disabled || draft.value.trim() === ""}
           >
             Save
           </Button>
           <Button
             variant="subtle"
             size="xs"
-            disabled={saving}
+            disabled={disabled}
             onClick={cancelRename}
           >
             Cancel

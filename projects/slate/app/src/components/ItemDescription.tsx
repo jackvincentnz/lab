@@ -15,16 +15,16 @@ import { useItemDraft, type SaveDraft } from "./useItemDraft";
 
 interface ItemDescriptionProps {
   item: Item;
+  disabled: boolean;
   saving: boolean;
-  pending: boolean;
   onDescribe: SaveDraft;
   onDescribeCancel(): void;
 }
 
 export function ItemDescription({
   item,
+  disabled,
   saving,
-  pending,
   onDescribe,
   onDescribeCancel,
 }: ItemDescriptionProps) {
@@ -41,7 +41,7 @@ export function ItemDescription({
   }
 
   function cancelDescription() {
-    if (!pending) {
+    if (!saving) {
       onDescribeCancel();
       cancel();
     }
@@ -147,16 +147,16 @@ export function ItemDescription({
           <Button
             type="submit"
             size="xs"
-            data-disabled={saving || undefined}
-            aria-disabled={saving}
+            data-disabled={disabled || undefined}
+            aria-disabled={disabled}
           >
             Save
           </Button>
           <Button
             variant="default"
             size="xs"
-            data-disabled={saving || undefined}
-            aria-disabled={saving}
+            data-disabled={disabled || undefined}
+            aria-disabled={disabled}
             onClick={cancelDescription}
           >
             Cancel
