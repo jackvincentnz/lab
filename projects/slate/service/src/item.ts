@@ -142,7 +142,7 @@ export const addItemInput = z.object({
     .array(newSource)
     .default([])
     .describe(
-      `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give the main one first. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
+      `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give the main one first, without ids; each gets one. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
     ),
 });
 
@@ -167,7 +167,7 @@ export const updateItemInput = z
       .array(sourceId)
       .optional()
       .describe(
-        "The ids of the sources to remove, from the item's sources. Refused if the item has no source with one of them.",
+        "The ids of the sources to remove, from the item's sources in list_items or the last tool that returned the item. Refused if the item has no source with one of them.",
       ),
     replaceSource: z
       .object({
