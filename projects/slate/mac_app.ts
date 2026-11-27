@@ -44,7 +44,7 @@ try {
     tmpdir: join(work, "tmp"),
     name: "Slate",
     appBundleId: "lab.slate",
-    icon,
+    icon: writableCopy(icon, "Slate.icns"),
     electronVersion: version,
     electronZipDir: zips,
     platform: "darwin",
@@ -55,6 +55,9 @@ try {
       identity: "-",
       identityValidation: false,
       optionsForFile: () => ({ hardenedRuntime: false }),
+      // Otherwise a failed signature is only a warning, which quiet hides, and the app is left
+      // half signed.
+      continueOnError: false,
     },
     quiet: true,
   });
