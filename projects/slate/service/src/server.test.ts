@@ -12,6 +12,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { type Item } from "./item.js";
+import { keepAlive } from "./router.js";
 import { createSlateServer, type SlateServerOptions } from "./server.js";
 import { openItemStore } from "./store.js";
 
@@ -30,6 +31,8 @@ beforeEach(() => {
 });
 
 afterEach(async () => {
+  vi.useRealTimers();
+  server.closeAllConnections();
   await new Promise((resolve) => server.close(resolve));
   rmSync(folder, { recursive: true, force: true });
 });
@@ -106,6 +109,58 @@ async function addItemOverMcp(client: Client, name: string): Promise<Item> {
   });
   const [{ text }] = result.content as [{ text: string }];
   return JSON.parse(text) as Item;
+}
+
+interface Subscription {
+  headers: IncomingHttpHeaders;
+  nextEvent(): Promise<string>;
+}
+
+function subscribe(
+  path: string,
+  headers: OutgoingHttpHeaders = {},
+): Promise<Subscription> {
+  const { port } = server.address() as AddressInfo;
+  return new Promise((resolve, reject) => {
+    const subscribing = request(
+      {
+        host: "127.0.0.1",
+        port,
+        path,
+        headers: {
+          host: "localhost:5197",
+          accept: "text/event-stream",
+          ...headers,
+        },
+      },
+      (response) => {
+        let received = "";
+        let waiting: (() => void) | undefined;
+        response.setEncoding("utf8");
+        response.on("data", (chunk: string) => {
+          received += chunk;
+          waiting?.();
+        });
+
+        async function nextEvent(): Promise<string> {
+          let end = received.indexOf("\n\n");
+          while (end === -1) {
+            await new Promise<void>((resume) => (waiting = resume));
+            end = received.indexOf("\n\n");
+          }
+          const event = received.slice(0, end).trim();
+          received = received.slice(end + 2);
+          return event === "" ? nextEvent() : event;
+        }
+
+        resolve({
+          headers: response.headers,
+          nextEvent,
+        });
+      },
+    );
+    subscribing.on("error", reject).end();
+  });
 }
 
 describe("createSlateServer", () => {
@@ -232,6 +287,69 @@ describe("createSlateServer", () => {
     expect(JSON.parse(response.body)).toMatchObject({
       result: { data: [{ name: "Book the venue" }, { name: "Plan the week" }] },
     });
+  });
+
+  it("tells a subscribed page when an agent changes the list", async () => {
+    await start();
+    const subscription = await subscribe("/api/listChanged");
+    await subscription.nextEvent();
+    const client = await connectMcpClient();
+
+    await addItemOverMcp(client, "Plan the week");
+
+    expect(await subscription.nextEvent()).toBe("data: null");
+    await client.close();
+  });
+
+  it("tells a subscribed page when another page changes the list", async () => {
+    await start();
+    const subscription = await subscribe("/api/listChanged");
+    await subscription.nextEvent();
+
+    await send("/api/addItem", { body: '{"name":"Plan the week"}' });
+
+    expect(await subscription.nextEvent()).toBe("data: null");
+  });
+
+  it("tells a subscribed page to reconnect when pings stop", async () => {
+    await start();
+
+    const subscription = await subscribe("/api/listChanged");
+
+    expect(await subscription.nextEvent()).toBe(
+      `event: connected\ndata: {"reconnectAfterInactivityMs":${keepAlive.reconnectAfterInactivityMs}}`,
+    );
+  });
+
+  it("pings a subscribed page more often than it is told to reconnect", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    await start();
+    const subscription = await subscribe("/api/listChanged");
+    await subscription.nextEvent();
+
+    await vi.advanceTimersByTimeAsync(keepAlive.pingMs);
+
+    expect(await subscription.nextEvent()).toMatch(/^event: ping/);
+  });
+
+  it("lets no other site's page read the changes", async () => {
+    await start();
+
+    const subscription = await subscribe("/api/listChanged", {
+      origin: anotherSite(),
+    });
+
+    expect(subscription.headers["access-control-allow-origin"]).toBeUndefined();
+  });
+
+  it("refuses to tell another host about changes", async () => {
+    await start();
+
+    const response = await send("/api/listChanged", {
+      headers: { host: "attacker.example:5197" },
+    });
+
+    expect(response.status).toBe(403);
   });
 
   it("serves the web UI's page at the root", async () => {

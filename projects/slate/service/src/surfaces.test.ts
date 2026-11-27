@@ -33,7 +33,10 @@ async function listToolNames(): Promise<string[]> {
 }
 
 it("offers every operation to both the web UI and agents", async () => {
-  const procedures = Object.keys(slateRouter._def.procedures);
+  // A subscription tells the web UI about changes rather than being an operation on the list.
+  const procedures = Object.entries(slateRouter._def.procedures)
+    .filter(([, procedure]) => procedure._def.type !== "subscription")
+    .map(([name]) => name);
 
   const tools = await listToolNames();
 

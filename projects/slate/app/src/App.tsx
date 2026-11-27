@@ -1,6 +1,7 @@
 import { AppShell, Group, Image, Title } from "@mantine/core";
 // Inlined, it would be a data: URL, which the service's content security policy blocks.
 import mark from "../../icons/slate-mark.svg?no-inline";
+import { ListUpdates } from "./ListUpdates";
 import { ItemsPage } from "./pages/ItemsPage";
 
 export function App() {
@@ -15,7 +16,9 @@ export function App() {
         </Group>
       </AppShell.Header>
       <AppShell.Main bg="gray.0">
-        <ItemsPage />
+        <ListUpdates>
+          <ItemsPage />
+        </ListUpdates>
       </AppShell.Main>
     </AppShell>
   );

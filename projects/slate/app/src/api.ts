@@ -6,6 +6,9 @@ import {
 import {
   createTRPCClient,
   httpLink,
+  httpSubscriptionLink,
+  retryLink,
+  splitLink,
   type TRPCClient,
   type TRPCClientErrorLike,
 } from "@trpc/client";
@@ -33,12 +36,26 @@ export type {
   UpdateItemInput,
 };
 
+const RECONNECT_MS = 3000;
+
 export type SlateClient = TRPCClient<SlateRouter>;
 
 export const { TRPCProvider, useTRPC } = createTRPCContext<SlateRouter>();
 
 export function createSlateClient(url: string): SlateClient {
-  return createTRPCClient<SlateRouter>({ links: [httpLink({ url })] });
+  return createTRPCClient<SlateRouter>({
+    links: [
+      splitLink({
+        condition: (op) => op.type === "subscription",
+        true: [
+          // EventSource stops for good on an error response, such as the dev server's proxy answering 502 while the service restarts.
+          retryLink({ retry: () => true, retryDelayMs: () => RECONNECT_MS }),
+          httpSubscriptionLink({ url }),
+        ],
+        false: httpLink({ url }),
+      }),
+    ],
+  });
 }
 
 export function isChangedElsewhere(
@@ -51,7 +68,12 @@ export function createQueryClient(): QueryClient {
   const queryClient: QueryClient = new QueryClient({
     // The service runs on this machine, so the browser going offline must not pause requests.
     defaultOptions: {
-      queries: { networkMode: "always" },
+      // ListUpdates reloads when the page becomes visible or reconnects instead, so that the reload waits for a drag or edit to end.
+      queries: {
+        networkMode: "always",
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+      },
       mutations: { networkMode: "always" },
     },
     mutationCache: new MutationCache({

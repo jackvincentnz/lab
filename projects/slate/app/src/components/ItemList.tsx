@@ -21,6 +21,7 @@ import {
 } from "@dnd-kit/sortable";
 import { Badge, Box, Group, List, Stack, Text } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
+import { useHoldListUpdates } from "../ListUpdates";
 import classes from "./ItemList.module.css";
 import { ItemRow } from "./ItemRow";
 
@@ -60,6 +61,8 @@ export function ItemList({
 }: ItemListProps) {
   const [droppedOrder, setDroppedOrder] = useState<Item[]>();
   const [visit, setVisit] = useState<Visit>();
+  const [dragging, setDragging] = useState(false);
+  useHoldListUpdates(dragging);
   const shownItems = visited(droppedOrder ?? items, visit);
   const doing = shownItems.filter(isDoing);
   const upNext = shownItems.filter((item) => !isDoing(item));
@@ -102,6 +105,7 @@ export function ItemList({
 
   function drop({ active, over, collisions }: DragEndEvent) {
     setVisit(undefined);
+    setDragging(false);
     const moving = items.find((item) => item.id === active.id);
     if (moving === undefined) {
       return;
@@ -148,10 +152,14 @@ export function ItemList({
       sensors={sensors}
       collisionDetection={collide}
       measuring={{ droppable: { strategy: MeasuringStrategy.Always } }}
+      onDragStart={() => setDragging(true)}
       onDragMove={follow}
       onDragOver={follow}
       onDragEnd={drop}
-      onDragCancel={() => setVisit(undefined)}
+      onDragCancel={() => {
+        setVisit(undefined);
+        setDragging(false);
+      }}
     >
       <Stack gap="lg">
         <ItemGroup

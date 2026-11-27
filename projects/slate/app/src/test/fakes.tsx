@@ -1,7 +1,12 @@
 import type { PropsWithChildren } from "react";
-import { createTRPCClient, TRPCClientError, type TRPCLink } from "@trpc/client";
+import {
+  createTRPCClient,
+  TRPCClientError,
+  type OperationResultEnvelope,
+  type TRPCLink,
+} from "@trpc/client";
 import { TRPCError } from "@trpc/server";
-import { observable } from "@trpc/server/observable";
+import { observable, type Observer } from "@trpc/server/observable";
 import { TRPC_ERROR_CODES_BY_KEY } from "@trpc/server/rpc";
 import { vi, type Mock } from "@lab/test-utils";
 import type { SlateRouter } from "../../../service/src/router.js";
@@ -23,6 +28,33 @@ export interface FakeSlateApi {
   moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;
   deleteItem: Mock<(input: DeleteItemInput) => Promise<Item>>;
   restoreItem: Mock<(input: RestoreItemInput) => Promise<Item>>;
+  listChanged: FakeSubscription;
+}
+
+type SubscriptionObserver = Observer<
+  OperationResultEnvelope<unknown, TRPCClientError<SlateRouter>>,
+  TRPCClientError<SlateRouter>
+>;
+
+export class FakeSubscription {
+  readonly #observers = new Set<SubscriptionObserver>();
+
+  add(observer: SubscriptionObserver): () => void {
+    this.#observers.add(observer);
+    return () => this.#observers.delete(observer);
+  }
+
+  connect() {
+    for (const observer of this.#observers) {
+      observer.next({ result: { type: "started" } });
+    }
+  }
+
+  change() {
+    for (const observer of this.#observers) {
+      observer.next({ result: { type: "data", data: null } });
+    }
+  }
 }
 
 export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
@@ -33,6 +65,7 @@ export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
     moveItem: vi.fn<FakeSlateApi["moveItem"]>(),
     deleteItem: vi.fn<FakeSlateApi["deleteItem"]>(),
     restoreItem: vi.fn<FakeSlateApi["restoreItem"]>(),
+    listChanged: new FakeSubscription(),
   };
 }
 
@@ -40,18 +73,20 @@ export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
 function fakeLink(api: FakeSlateApi): TRPCLink<SlateRouter> {
   return () =>
     ({ op }) =>
-      observable((observer) => {
-        const procedure = api[op.path as keyof FakeSlateApi] as (
-          input: unknown,
-        ) => Promise<unknown>;
-        procedure(op.input).then(
-          (data) => {
-            observer.next({ result: { type: "data", data } });
-            observer.complete();
-          },
-          (error: unknown) => observer.error(clientError(error)),
-        );
-      });
+      op.type === "subscription"
+        ? observable((observer) => api.listChanged.add(observer))
+        : observable((observer) => {
+            const procedure = api[op.path as keyof FakeSlateApi] as (
+              input: unknown,
+            ) => Promise<unknown>;
+            procedure(op.input).then(
+              (data) => {
+                observer.next({ result: { type: "data", data } });
+                observer.complete();
+              },
+              (error: unknown) => observer.error(clientError(error)),
+            );
+          });
 }
 
 // The service sends a TRPCError's code to the client in its error data.

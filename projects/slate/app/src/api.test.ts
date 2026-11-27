@@ -31,6 +31,54 @@ test("calls the service's procedures under the given URL", async () => {
   expect(init?.body).toBe(JSON.stringify({ name: "Plan the week" }));
 });
 
+class FakeEventSource extends EventTarget {
+  static opened: FakeEventSource[] = [];
+  readonly CLOSED = 2;
+  readyState = 0;
+  close = vi.fn();
+  readonly url: string;
+
+  constructor(url: string) {
+    super();
+    this.url = url;
+    FakeEventSource.opened.push(this);
+  }
+}
+
+function listenForChanges() {
+  FakeEventSource.opened = [];
+  vi.stubGlobal("EventSource", FakeEventSource);
+  return createSlateClient("http://slate.test/api").listChanged.subscribe(
+    undefined,
+    { onData: () => undefined },
+  );
+}
+
+test("listens for list changes under the given URL", async () => {
+  const subscription = listenForChanges();
+
+  await vi.waitFor(() =>
+    expect(FakeEventSource.opened.map(({ url }) => url)).toEqual([
+      "http://slate.test/api/listChanged",
+    ]),
+  );
+  subscription.unsubscribe();
+});
+
+test("listens again after the connection fails for good", async () => {
+  vi.useFakeTimers();
+  const subscription = listenForChanges();
+  await vi.waitFor(() => expect(FakeEventSource.opened).toHaveLength(1));
+  const [failed] = FakeEventSource.opened;
+
+  failed!.readyState = failed!.CLOSED;
+  failed!.dispatchEvent(new Event("error"));
+  await vi.advanceTimersByTimeAsync(3000);
+
+  expect(FakeEventSource.opened).toHaveLength(2);
+  subscription.unsubscribe();
+});
+
 const trpc = createTRPCOptionsProxy<SlateRouter>({
   client: createSlateClient("http://slate.test/api"),
   queryClient: createQueryClient(),

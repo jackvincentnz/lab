@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Item } from "../api";
+import { useHoldListUpdates } from "../ListUpdates";
 
 export interface SaveCallbacks {
   onSaved(saved: Item): void;
@@ -24,6 +25,7 @@ export function useItemDraft<Value>(
   save: SaveDraft<Value>,
 ) {
   const [draft, setDraft] = useState<Draft<Value>>();
+  useHoldListUpdates(draft !== undefined);
 
   function start() {
     setDraft({ value: valueOf(item), editedFrom: item });
