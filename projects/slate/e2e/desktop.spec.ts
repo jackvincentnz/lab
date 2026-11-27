@@ -30,6 +30,52 @@ test("lists an item added in the web UI", async ({ window }) => {
   await expect(items).toContainText("Plan the week");
 });
 
+test("draws an item dragged out of In progress over the items in Next", async ({
+  window,
+}) => {
+  const name = window.getByRole("textbox", { name: "New item" });
+  for (const item of ["Book travel", "Plan the week", "Write the report"]) {
+    await name.fill(item);
+    await name.press("Enter");
+  }
+  await expect(
+    window.getByRole("list", { name: "Next" }).getByRole("listitem"),
+  ).toHaveCount(3);
+  await window
+    .getByRole("button", { name: "Move Write the report" })
+    .dragTo(window.getByText("Drag an item here when you start it"));
+  await expect(window.getByRole("list", { name: "In progress" })).toContainText(
+    "Write the report",
+  );
+
+  const dragged = window
+    .getByRole("listitem")
+    .filter({ hasText: "Write the report" });
+  const handle = await window
+    .getByRole("button", { name: "Move Write the report" })
+    .boundingBox();
+  const target = await window
+    .getByRole("listitem")
+    .filter({ hasText: "Book travel" })
+    .boundingBox();
+  const x = handle!.x + handle!.width / 2;
+
+  await window.mouse.move(x, handle!.y + handle!.height / 2);
+  await window.mouse.down();
+  await window.mouse.move(x, target!.y + target!.height / 2, { steps: 10 });
+
+  await expect
+    .poll(() =>
+      dragged.evaluate((row) => {
+        const { x, y, width, height } = row.getBoundingClientRect();
+        return row.contains(
+          document.elementFromPoint(x + width / 2, y + height / 2),
+        );
+      }),
+    )
+    .toBe(true);
+});
+
 test("stops every process it started on quit", async ({ slate }) => {
   const main = slate.process();
   const processes = await slate.evaluate(({ app }) => app.getAppMetrics());
