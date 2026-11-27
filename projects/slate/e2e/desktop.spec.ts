@@ -1,3 +1,4 @@
+import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 
 test("serves the web UI from the service without Node access", async ({
@@ -33,14 +34,14 @@ test("lists an item added in the web UI", async ({ window }) => {
 test("draws an item dragged out of In progress over the items in Next", async ({
   window,
 }) => {
-  const name = window.getByRole("textbox", { name: "New item" });
-  for (const item of ["Book travel", "Plan the week", "Write the report"]) {
-    await name.fill(item);
-    await name.press("Enter");
-  }
-  await expect(
-    window.getByRole("list", { name: "Next" }).getByRole("listitem"),
-  ).toHaveCount(3);
+  const dragged = window
+    .getByRole("listitem")
+    .filter({ hasText: "Write the report" });
+  await addItemsInWebUi(window, [
+    "Book travel",
+    "Plan the week",
+    "Write the report",
+  ]);
   await window
     .getByRole("button", { name: "Move Write the report" })
     .dragTo(window.getByText("Drag an item here when you start it"));
@@ -48,33 +49,54 @@ test("draws an item dragged out of In progress over the items in Next", async ({
     "Write the report",
   );
 
-  const dragged = window
-    .getByRole("listitem")
-    .filter({ hasText: "Write the report" });
+  await holdDragOver(window, "Write the report", "Book travel");
+  await expect(window.getByRole("list", { name: "Next" })).toContainText(
+    "Write the report",
+  );
+  const drawn = await dragged.evaluate(
+    (row, other) => {
+      const { left, right, top } = row.getBoundingClientRect();
+      const { bottom } = other!.getBoundingClientRect();
+      return row.contains(
+        document.elementFromPoint((left + right) / 2, (top + bottom) / 2),
+      );
+    },
+    await window
+      .getByRole("listitem")
+      .filter({ hasText: "Book travel" })
+      .elementHandle(),
+  );
+
+  expect(drawn).toBe(true);
+});
+
+async function addItemsInWebUi(window: Page, names: string[]): Promise<void> {
+  const name = window.getByRole("textbox", { name: "New item" });
+  for (const item of names) {
+    await name.fill(item);
+    await name.press("Enter");
+    await expect(window.getByText(item)).toBeVisible();
+  }
+}
+
+async function holdDragOver(
+  window: Page,
+  name: string,
+  target: string,
+): Promise<void> {
   const handle = await window
-    .getByRole("button", { name: "Move Write the report" })
+    .getByRole("button", { name: `Move ${name}` })
     .boundingBox();
-  const target = await window
+  const over = await window
     .getByRole("listitem")
-    .filter({ hasText: "Book travel" })
+    .filter({ hasText: target })
     .boundingBox();
   const x = handle!.x + handle!.width / 2;
 
   await window.mouse.move(x, handle!.y + handle!.height / 2);
   await window.mouse.down();
-  await window.mouse.move(x, target!.y + target!.height / 2, { steps: 10 });
-
-  await expect
-    .poll(() =>
-      dragged.evaluate((row) => {
-        const { x, y, width, height } = row.getBoundingClientRect();
-        return row.contains(
-          document.elementFromPoint(x + width / 2, y + height / 2),
-        );
-      }),
-    )
-    .toBe(true);
-});
+  await window.mouse.move(x, over!.y + over!.height / 2, { steps: 10 });
+}
 
 test("stops every process it started on quit", async ({ slate }) => {
   const main = slate.process();

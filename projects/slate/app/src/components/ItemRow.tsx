@@ -55,7 +55,7 @@ export function SortableItemRow(props: SortableItemRowProps) {
         transform: CSS.Translate.toString(transform),
         transition,
         position: "relative",
-        // Every row moved by a drag paints in list order, so a later row would hide the dragged one.
+        // The rows a drag shifts paint in list order, so a later row would hide the dragged one.
         zIndex: isDragging ? 1 : undefined,
       }}
       handle={
