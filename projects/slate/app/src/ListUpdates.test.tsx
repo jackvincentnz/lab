@@ -120,6 +120,26 @@ describe("ListUpdates", () => {
     expect(api.listItems).toHaveBeenCalledOnce();
   });
 
+  it("holds a change while an item is dragged into another group", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Write the report", status: "doing" }),
+      item({ name: "Plan the week" }),
+    ]);
+    await showList(api);
+    await startDrag(user);
+    await user.keyboard("[ArrowUp]");
+
+    changeElsewhere(api);
+
+    expect(api.listItems).toHaveBeenCalledOnce();
+    expect(
+      within(screen.getByRole("list", { name: "Doing" })).getByRole("button", {
+        name: "Open Plan the week",
+      }),
+    ).toBeInTheDocument();
+  });
+
   it("shows a held change when the drag ends", async () => {
     const user = userEvent.setup();
     const api = twoItems();
