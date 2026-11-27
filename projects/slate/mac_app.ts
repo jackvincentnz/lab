@@ -34,6 +34,10 @@ try {
     // Extended attributes would become `._` files, which break the signature.
     "--norsrc",
     "--noextattr",
+    // Packager unzips it straight away. The default level takes seconds longer to zip, and no
+    // compression makes packager slower to unzip.
+    "--zlibCompressionLevel",
+    "1",
     electron,
     join(zips, `electron-v${version}-darwin-${arch}.zip`),
   ]);
