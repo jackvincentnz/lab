@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { ListChanges } from "./changes.js";
-import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import { type Store } from "./operations.js";
 import { slateRouter } from "./router.js";
 
@@ -115,7 +115,9 @@ describe("slateRouter", () => {
   it("rejects replacing a source the item does not have", async () => {
     const item = anItem();
     store.update.mockImplementation(() => {
-      throw new SourceNotFoundError("notes/missing.md");
+      throw new SourceChangeError(
+        "The item has no source with the url or text notes/missing.md",
+      );
     });
 
     const updating = caller.updateItem({

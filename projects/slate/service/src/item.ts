@@ -78,7 +78,7 @@ export type ItemStatus = z.infer<typeof itemStatus>;
 const { id, name, description } = itemSchema.shape;
 
 const sourceKinds =
-  'A source is a link, {"kind": "link", "url", "label"}, whose url starts with https://, or a reference, {"kind": "reference", "text", "label"}, for anything without an https link, such as a file path or a claude:// link, kept as given. The user can copy a reference, and open a claude:// one in Claude Desktop. For example a pull request: {"kind": "link", "url": "https://example.com/pull/12", "label": "Pull request"}. A line in a notes file: {"kind": "reference", "text": "~/notes/TODO.md:12", "label": "TODO list"}. A heading in a daily note: {"kind": "reference", "text": "~/notes/daily/2026-11-27.md#Follow-ups", "label": "Daily note"}. The Claude Desktop session that captured the item: {"kind": "reference", "text": "claude://…", "label": "Claude Desktop session"}.';
+  'A source is a link, {"kind": "link", "url", "label"}, whose url starts with https://, or a reference, {"kind": "reference", "text", "label"}, for anything without an https link, such as a file path or a claude:// link, kept as given. The user can copy a reference, and open a claude:// one in Claude Desktop. For example a pull request: {"kind": "link", "url": "https://example.com/pull/12", "label": "Pull request"}. A line in a notes file: {"kind": "reference", "text": "~/notes/TODO.md:12", "label": "TODO list"}. A heading in a daily note: {"kind": "reference", "text": "~/notes/daily/2026-11-27.md#Follow-ups", "label": "Daily note"}. The Claude Desktop session that captured the item: {"kind": "reference", "text": "claude://claude.ai/epitaxy/local_0b6e4c1a-5d2f-4e8a-9c7b-3f1d2a6e8b40", "label": "Claude Desktop session"}. A session in the Code tab of the Claude desktop app finds its own link as link in the result of its get_session tool called with "self".';
 
 const sourceKeyInput = z
   .string()
@@ -167,7 +167,7 @@ export const updateItemInput = z
       })
       .optional()
       .describe(
-        "Changes one source in place, keeping its position, such as to correct a link or relabel it. Refused if the item has no source with that url or text.",
+        "Changes one source in place, keeping its position, such as to correct a link or relabel it. Refused if the item has no source with the url or text from, or has another source with the url or text of to.",
       ),
     status: itemStatus.optional().describe("The item's new status."),
     updatedAt: z
@@ -201,11 +201,7 @@ export class ItemChangedError extends Error {
   }
 }
 
-export class SourceNotFoundError extends Error {
-  constructor(key: string) {
-    super(`The item has no source with the url or text ${key}`);
-  }
-}
+export class SourceChangeError extends Error {}
 
 export const moveItemInput = z.object({
   id: id.describe("The id of the item to move."),

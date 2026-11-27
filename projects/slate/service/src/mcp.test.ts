@@ -10,7 +10,7 @@ import {
   type Mock,
   vi,
 } from "vitest";
-import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import { createSlateMcpServer, handleMcpRequest } from "./mcp.js";
 import { type Store } from "./operations.js";
 
@@ -393,7 +393,9 @@ describe("createSlateMcpServer", () => {
   it("tells the agent when the source to replace is not on the item", async () => {
     const item = anItem();
     store.update.mockImplementation(() => {
-      throw new SourceNotFoundError("notes/missing.md");
+      throw new SourceChangeError(
+        "The item has no source with the url or text notes/missing.md",
+      );
     });
 
     const result = await call("update_item", {

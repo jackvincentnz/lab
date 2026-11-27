@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import {
   type AgentOperationName,
   operations,
@@ -153,7 +153,7 @@ function replyIfUnchanged(
         `The item ${id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
       );
     }
-    if (error instanceof SourceNotFoundError) {
+    if (error instanceof SourceChangeError) {
       return replyError(
         `${error.message}, so it was not updated. List the items to see its sources.`,
       );

@@ -27,7 +27,7 @@ import {
   ItemChangedError,
   type ItemSource,
   type ListItemsInput,
-  SourceNotFoundError,
+  SourceChangeError,
   sourceKey,
   withoutRepeats,
   listItemsInput,
@@ -161,20 +161,29 @@ function backUpDatabase(client: DatabaseSync, folder: string, next: string) {
   }
 }
 
+interface SourcesChange {
+  addSources: ItemSource[];
+  removeSources: string[];
+  replaceSource: UpdateItemInput["replaceSource"];
+}
+
 function changedSources(
   sources: ItemSource[],
-  {
-    addSources,
-    removeSources,
-    replaceSource,
-  }: Required<Pick<UpdateItemInput, "addSources" | "removeSources">> &
-    Pick<UpdateItemInput, "replaceSource">,
+  { addSources, removeSources, replaceSource }: SourcesChange,
 ): ItemSource[] {
   let changed = sources;
   if (replaceSource) {
     const { from, to } = replaceSource;
-    if (!changed.some((source) => sourceKey(source) === from)) {
-      throw new SourceNotFoundError(from);
+    const keys = changed.map(sourceKey);
+    if (!keys.includes(from)) {
+      throw new SourceChangeError(
+        `The item has no source with the url or text ${from}`,
+      );
+    }
+    if (sourceKey(to) !== from && keys.includes(sourceKey(to))) {
+      throw new SourceChangeError(
+        `The item already has another source with the url or text ${sourceKey(to)}`,
+      );
     }
     changed = changed.map((source) =>
       sourceKey(source) === from ? to : source,

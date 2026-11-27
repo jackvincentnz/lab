@@ -185,21 +185,23 @@ describe("ItemSources", () => {
   it("replaces an edited source in its place, closes the editor and returns focus to Edit", async () => {
     const user = userEvent.setup();
     const original = item({ sources: [session, notes] });
-    const { onSourcesChange } = renderSources(original);
+    const { onSourcesChange, showItem } = renderSources(original);
     const changed: Source = {
       kind: "link",
       url: "https://example.com/pull/1",
       label: "Pull request",
     };
+    const saved = { ...original, sources: [changed, notes] };
     onSourcesChange.mockImplementation((_editedFrom, _change, { onSaved }) =>
-      onSaved(original),
+      onSaved(saved),
     );
     const { target, label } = await startEdit(user);
-
     await user.clear(target);
     await user.type(target, ` ${changed.url} `);
     await user.clear(label);
+
     await user.type(label, ` ${changed.label} {Enter}`);
+    showItem(saved);
 
     expect(onSourcesChange).toHaveBeenCalledWith(
       original,
@@ -209,7 +211,57 @@ describe("ItemSources", () => {
     expect(
       screen.queryByRole("textbox", { name: "Link" }),
     ).not.toBeInTheDocument();
-    expect(editButton(session.label)).toHaveFocus();
+    expect(editButton(changed.label)).toHaveFocus();
+  });
+
+  it("replaces the source it edits after a source before it was removed elsewhere", async () => {
+    const user = userEvent.setup();
+    const third: Source = {
+      kind: "link",
+      url: "https://example.com/pull/3",
+      label: "Third",
+    };
+    const original = item({ sources: [session, notes, third] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    const { label } = await startEdit(user, notes.label);
+    await user.type(label, " notes{Enter}");
+    act(() => saveCallbacks(onSourcesChange).onChanged());
+    const changed = {
+      ...original,
+      sources: [notes, third],
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    showItem(changed);
+
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    expect(
+      screen.getByText(/Changed elsewhere. Current source:/),
+    ).toHaveTextContent("TODO list");
+    expect(onSourcesChange).toHaveBeenLastCalledWith(
+      changed,
+      {
+        replaceSource: {
+          from: notes.text,
+          to: { ...notes, label: "TODO list notes" },
+        },
+      },
+      expect.anything(),
+    );
+  });
+
+  it("keeps the editor open when sources before it are removed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { showItem } = renderSources(original);
+    const { label } = await startEdit(user, notes.label);
+    await user.type(label, " notes");
+
+    showItem({ ...original, sources: [notes] });
+
+    expect(screen.getByRole("textbox", { name: "Label" })).toHaveValue(
+      "TODO list notes",
+    );
   });
 
   it("removes a source", async () => {

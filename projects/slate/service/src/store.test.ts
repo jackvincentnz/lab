@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   type Item,
   ItemChangedError,
-  SourceNotFoundError,
+  SourceChangeError,
   sourceKey,
   type ItemSource,
   type ItemStatus,
@@ -38,7 +38,9 @@ function aReference(): ItemSource {
   };
 }
 
-function aSource(): Extract<ItemSource, { kind: "link" }> {
+type LinkSource = Extract<ItemSource, { kind: "link" }>;
+
+function aSource(): LinkSource {
   return {
     kind: "link",
     url: `https://example.com/${crypto.randomUUID()}`,
@@ -647,8 +649,40 @@ describe("update", () => {
         updatedAt: item.updatedAt,
       });
 
-    expect(replace).toThrow(SourceNotFoundError);
+    expect(replace).toThrow(SourceChangeError);
     expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("refuses to replace a source with one that repeats another", () => {
+    const first = aSource();
+    const second = aReference();
+    const item = store.add("Draft", "", [first, second]);
+
+    const replace = () =>
+      store.update({
+        id: item.id,
+        replaceSource: {
+          from: sourceKey(second),
+          to: { ...first, label: "Again" },
+        },
+        updatedAt: item.updatedAt,
+      });
+
+    expect(replace).toThrow(SourceChangeError);
+    expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("relabels a source in place", () => {
+    const first = aSource();
+    const item = store.add("Draft", "", [first, aReference()]);
+
+    const updated = store.update({
+      id: item.id,
+      replaceSource: { from: sourceKey(first), to: { ...first, label: "New" } },
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.sources[0]).toEqual({ ...first, label: "New" });
   });
 
   it("refuses a source change to an item changed since it was read", () => {

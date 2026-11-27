@@ -1,7 +1,7 @@
 import { on } from "node:events";
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
 import { type ListChanges } from "./changes.js";
-import { type Item, ItemChangedError, SourceNotFoundError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
 
 export interface Context {
@@ -74,7 +74,7 @@ function unchanged<T>(update: () => T): T {
         cause: error,
       });
     }
-    if (error instanceof SourceNotFoundError) {
+    if (error instanceof SourceChangeError) {
       throw new TRPCError({
         code: "BAD_REQUEST",
         message: error.message,
