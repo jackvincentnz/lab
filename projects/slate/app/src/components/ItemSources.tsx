@@ -1,6 +1,7 @@
 import { Fragment, useRef, type FormEvent } from "react";
 import {
   Anchor,
+  Box,
   Button,
   Group,
   SegmentedControl,
@@ -154,12 +155,15 @@ export function ItemSources({
               wrap="nowrap"
               align="flex-start"
             >
-              <SourceView source={source} />
+              <Box flex={1} miw={0}>
+                <SourceView source={source} />
+              </Box>
               {draft === undefined && (
                 <Button
                   ref={focusAfterEdit(key)}
                   variant="subtle"
                   size="compact-xs"
+                  style={{ flexShrink: 0 }}
                   aria-label={`Edit source ${source.label}`}
                   onClick={() => startSource(source)}
                 >
