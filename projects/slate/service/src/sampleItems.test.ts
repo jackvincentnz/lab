@@ -3,6 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { addSampleItems, sampleItems } from "./sampleItems.js";
+import { itemStatuses } from "./schema.js";
 import { type ItemStore, openItemStore } from "./store.js";
 
 let dataDir: string;
@@ -17,10 +18,13 @@ afterEach(() => {
   rmSync(dataDir, { recursive: true, force: true });
 });
 
-const listed = sampleItems.filter((sample) => !sample.deleted);
+const kept = sampleItems.filter((sample) => !sample.deleted);
+const listed = kept.filter((sample) =>
+  ["todo", "doing", "done"].includes(sample.status),
+);
 
 describe("addSampleItems", () => {
-  it("lists the sample items that are not deleted, in order", () => {
+  it("lists the sample items on the main list, in order", () => {
     addSampleItems(store);
 
     expect(
@@ -38,6 +42,21 @@ describe("addSampleItems", () => {
     );
   });
 
+  it.each(["deferred", "wont_do", "delegated"] as const)(
+    "lists the %s sample items by their status",
+    (status) => {
+      addSampleItems(store);
+
+      const names = store.list(status).map(({ name }) => name);
+
+      expect(names).toEqual(
+        kept
+          .filter((sample) => sample.status === status)
+          .map(({ name }) => name),
+      );
+    },
+  );
+
   it("adds them below the items already listed", () => {
     const existing = store.add("Existing", "");
 
@@ -49,9 +68,9 @@ describe("addSampleItems", () => {
 
 describe("sampleItems", () => {
   it("covers every status", () => {
-    const statuses = new Set(listed.map(({ status }) => status));
+    const statuses = new Set(kept.map(({ status }) => status));
 
-    expect([...statuses].sort()).toEqual(["doing", "done", "todo"]);
+    expect([...statuses].sort()).toEqual([...itemStatuses].sort());
   });
 
   it("include a deleted item", () => {
