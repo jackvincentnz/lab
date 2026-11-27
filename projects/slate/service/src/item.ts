@@ -2,11 +2,35 @@ import { z } from "zod";
 import { createSelectSchema } from "drizzle-orm/zod";
 import { item } from "./schema.js";
 
+const linkSource = z.object({
+  kind: z.literal("link"),
+  url: z
+    .string()
+    .trim()
+    .refine(isSourceLink, "Give a link that starts with https://")
+    .describe("Where the item came from, starting with https://."),
+  label: z
+    .string()
+    .trim()
+    .min(1, "Give the link a label that is not blank")
+    .describe("A few words that say what the link is."),
+});
+
+export const itemSource = z.discriminatedUnion("kind", [linkSource]);
+
+export type ItemSource = z.infer<typeof itemSource>;
+
+/** The desktop app opens only https links in the browser. */
+function isSourceLink(url: string): boolean {
+  return URL.parse(url)?.protocol === "https:";
+}
+
 export const itemSchema = createSelectSchema(item, {
   id: z.uuid(),
   name: (name) => name.trim().min(1, "Give a name that is not blank"),
   description: (description) =>
     description.overwrite((value) => value.trimEnd()),
+  source: itemSource.nullable(),
 }).omit({ deleted: true, doneAt: true });
 
 export type Item = z.infer<typeof itemSchema>;
@@ -16,6 +40,9 @@ export const itemStatus = itemSchema.shape.status;
 export type ItemStatus = z.infer<typeof itemStatus>;
 
 const { id, name, description } = itemSchema.shape;
+
+const sourceExample =
+  'For example {"kind": "link", "url": "https://claude.ai/chat/…", "label": "Claude Desktop session"} for the session that captured the item.';
 
 export const listItemsInput = z.object({
   status: itemStatus
@@ -34,6 +61,11 @@ export const addItemInput = z.object({
     .describe(
       "Context that belongs with the item, such as notes, links or why it matters. Markdown.",
     ),
+  source: itemSource
+    .optional()
+    .describe(
+      `Where the item came from, as a link with a label, such as the Claude Desktop session, document or pull request that it came out of. ${sourceExample}`,
+    ),
 });
 
 export type AddItemInput = z.infer<typeof addItemInput>;
@@ -46,6 +78,12 @@ export const updateItemInput = z
       .optional()
       .describe(
         "The item's new description, which replaces the old one. Markdown. Give an empty one to remove it.",
+      ),
+    source: itemSource
+      .nullable()
+      .optional()
+      .describe(
+        `The item's new source, which replaces the old one. Give null to remove it. ${sourceExample}`,
       ),
     status: itemStatus.optional().describe("The item's new status."),
     updatedAt: z
@@ -61,8 +99,9 @@ export const updateItemInput = z
     (input) =>
       input.name !== undefined ||
       input.description !== undefined ||
+      input.source !== undefined ||
       input.status !== undefined,
-    { message: "Give a name, a description or a status to change" },
+    { message: "Give a name, a description, a source or a status to change" },
   );
 
 export type UpdateItemInput = z.infer<typeof updateItemInput>;

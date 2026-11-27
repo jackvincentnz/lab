@@ -28,15 +28,17 @@ describe("addSampleItems", () => {
     addSampleItems(store);
 
     expect(
-      store.list().map(({ name, description, status }) => ({
+      store.list().map(({ name, description, source, status }) => ({
         name,
         description,
+        source,
         status,
       })),
     ).toEqual(
-      listed.map(({ name, description = "", status }) => ({
+      listed.map(({ name, description = "", source = null, status }) => ({
         name,
         description,
+        source,
         status,
       })),
     );
@@ -58,7 +60,7 @@ describe("addSampleItems", () => {
   );
 
   it("adds them below the items already listed", () => {
-    const existing = store.add("Existing", "");
+    const existing = store.add("Existing", "", null);
 
     addSampleItems(store);
 
@@ -75,5 +77,9 @@ describe("sampleItems", () => {
 
   it("include a deleted item", () => {
     expect(sampleItems.some((sample) => sample.deleted)).toBe(true);
+  });
+
+  it("include a listed item with a source", () => {
+    expect(listed.some((sample) => sample.source)).toBe(true);
   });
 });

@@ -94,6 +94,7 @@ export function item(fields: Partial<Item> = {}): Item {
     id: crypto.randomUUID(),
     name: `Item ${itemCount}`,
     description: "",
+    source: null,
     status: "todo",
     rank: `a${itemCount}`,
     createdAt: "2026-11-22T09:00:00.000Z",

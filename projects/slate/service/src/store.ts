@@ -23,6 +23,7 @@ import { generateKeyBetween } from "fractional-indexing";
 import {
   type Item,
   ItemChangedError,
+  type ItemSource,
   type ItemStatus,
   type MoveItemInput,
   type UpdateItemInput,
@@ -33,6 +34,7 @@ const itemColumns = {
   id: item.id,
   name: item.name,
   description: item.description,
+  source: item.source,
   status: item.status,
   rank: item.rank,
   createdAt: item.createdAt,
@@ -165,7 +167,7 @@ export class ItemStore {
       .all();
   }
 
-  add(name: string, description: string): Item {
+  add(name: string, description: string, source: ItemSource | null): Item {
     const first = this.#database
       .select({ rank: item.rank })
       .from(item)
@@ -176,6 +178,7 @@ export class ItemStore {
       id: randomUUID(),
       name,
       description,
+      source,
       status: "todo",
       rank: generateKeyBetween(null, first?.rank ?? null),
       createdAt: now,

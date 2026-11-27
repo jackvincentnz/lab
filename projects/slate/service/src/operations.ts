@@ -26,8 +26,8 @@ export const operations = {
   },
   addItem: {
     input: addItemInput,
-    run: (store: Store, { name, description }: AddItemInput) =>
-      store.add(name, description),
+    run: (store: Store, { name, description, source }: AddItemInput) =>
+      store.add(name, description, source ?? null),
   },
   updateItem: {
     input: updateItemInput,

@@ -29,7 +29,7 @@ const tools = {
       {
         title: "List items",
         description:
-          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a status (todo, doing, done, deferred, wont_do or delegated), a rank, and the times it was created and last updated. The main list leaves out items marked done on an earlier day and items that are deferred, wont_do or delegated; give a status to list only the items with it, such as everything delegated.",
+          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a source (a link with a label to where the item came from, or null when it has none), a status (todo, doing, done, deferred, wont_do or delegated), a rank, and the times it was created and last updated. The main list leaves out items marked done on an earlier day and items that are deferred, wont_do or delegated; give a status to list only the items with it, such as everything delegated.",
         inputSchema: listItems.input,
       },
       (input) => reply(listItems.run(store, input)),
@@ -40,7 +40,7 @@ const tools = {
       {
         title: "Add item",
         description:
-          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it. It goes to the top with the status todo; to put it lower down, move it afterwards.",
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it, and a source when it came from somewhere the user may want to go back to, such as a link to the Claude Desktop session that captured it. It goes to the top with the status todo; to put it lower down, move it afterwards.",
         inputSchema: addItem.input,
       },
       (input) => reply(addItem.run(store, input)),
@@ -51,7 +51,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it todo or doing brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave the main list straight away but keep their rank, and giving one todo, doing or done brings it back to its place.",
+          "Rename an item on the user's Slate list, change its description or source, or change its status, such as marking a to-do done. Give at least one of name, description, source and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it todo or doing brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave the main list straight away but keep their rank, and giving one todo, doing or done brings it back to its place.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),

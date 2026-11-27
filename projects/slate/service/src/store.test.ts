@@ -2,7 +2,12 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { type Item, ItemChangedError, type ItemStatus } from "./item.js";
+import {
+  type Item,
+  ItemChangedError,
+  type ItemSource,
+  type ItemStatus,
+} from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
 
 let dataDir: string;
@@ -20,7 +25,15 @@ afterEach(() => {
 });
 
 function addItem(name: string): Item {
-  return store.add(name, "");
+  return store.add(name, "", null);
+}
+
+function aSource(): ItemSource {
+  return {
+    kind: "link",
+    url: `https://example.com/${crypto.randomUUID()}`,
+    label: `Doc ${crypto.randomUUID()}`,
+  };
 }
 
 function names(items: Item[]): string[] {
@@ -40,10 +53,25 @@ describe("add", () => {
   });
 
   it("keeps the given description", () => {
-    const item = store.add("Write the plan", "Why it matters");
+    const item = store.add("Write the plan", "Why it matters", null);
 
     expect(item.description).toBe("Why it matters");
     expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("keeps the given source", () => {
+    const source = aSource();
+
+    const item = store.add("Write the plan", "", source);
+
+    expect(item.source).toEqual(source);
+    expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("adds an item without a source", () => {
+    addItem("Write the plan");
+
+    expect(openItemStore(dataDir).list()[0]?.source).toBeNull();
   });
 
   it("puts the first item in an empty list", () => {
@@ -328,7 +356,7 @@ describe("update", () => {
   });
 
   it("replaces an item's description", () => {
-    const item = store.add("Draft", "Old notes");
+    const item = store.add("Draft", "Old notes", null);
 
     const updated = store.update({
       id: item.id,
@@ -338,6 +366,45 @@ describe("update", () => {
 
     expect(updated?.description).toBe("New notes");
     expect(openItemStore(dataDir).list()).toEqual([updated]);
+  });
+
+  it("replaces an item's source", () => {
+    const item = store.add("Draft", "", aSource());
+    const source = aSource();
+
+    const updated = store.update({
+      id: item.id,
+      source,
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.source).toEqual(source);
+    expect(openItemStore(dataDir).list()).toEqual([updated]);
+  });
+
+  it("removes an item's source", () => {
+    const item = store.add("Draft", "", aSource());
+
+    const updated = store.update({
+      id: item.id,
+      source: null,
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.source).toBeNull();
+    expect(openItemStore(dataDir).list()).toEqual([updated]);
+  });
+
+  it("keeps an item's source when other fields change", () => {
+    const item = store.add("Draft", "", aSource());
+
+    const updated = store.update({
+      id: item.id,
+      name: "Final",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(updated?.source).toEqual(item.source);
   });
 
   it("returns nothing for an unknown item", () => {

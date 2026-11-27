@@ -1,9 +1,10 @@
-import { type ItemStatus } from "./item.js";
+import { type ItemSource, type ItemStatus } from "./item.js";
 import { type ItemStore } from "./store.js";
 
 export interface SampleItem {
   name: string;
   description?: string;
+  source?: ItemSource;
   status: ItemStatus;
   deleted?: boolean;
 }
@@ -20,6 +21,11 @@ export const sampleItems: SampleItem[] = [
   {
     name: "Plan next quarter's goals",
     description: "Pick at most three, and say why each matters.",
+    source: {
+      kind: "link",
+      url: "https://example.com/chat/quarter-planning",
+      label: "Claude Desktop session",
+    },
     status: "todo",
   },
   { name: "Fix the flaky export test", status: "doing" },
@@ -44,8 +50,14 @@ export const sampleItems: SampleItem[] = [
 export function addSampleItems(store: ItemStore): void {
   const deleted: string[] = [];
   let previous = store.list().at(-1);
-  for (const { name, description = "", status, ...sample } of sampleItems) {
-    let added = store.add(name, description);
+  for (const {
+    name,
+    description = "",
+    source = null,
+    status,
+    ...sample
+  } of sampleItems) {
+    let added = store.add(name, description, source);
     if (previous) {
       added = store.move({
         id: added.id,
