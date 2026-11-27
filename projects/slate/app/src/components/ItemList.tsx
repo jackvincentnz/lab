@@ -20,7 +20,7 @@ import { ItemRow } from "./ItemRow";
 
 interface ItemListProps {
   items: Item[];
-  saving: boolean;
+  disabled: boolean;
   openId: string | undefined;
   onMove(move: MoveItemInput, onSettled: () => void): boolean;
   onOpen(item: Item): void;
@@ -29,7 +29,7 @@ interface ItemListProps {
 
 export function ItemList({
   items,
-  saving,
+  disabled,
   openId,
   onMove,
   onOpen,
@@ -86,7 +86,7 @@ export function ItemList({
               key={item.id}
               item={item}
               rank={index + 1}
-              saving={saving}
+              disabled={disabled}
               open={item.id === openId}
               onOpen={() => onOpen(item)}
               onStatusChange={(status) => onStatusChange(item, status)}

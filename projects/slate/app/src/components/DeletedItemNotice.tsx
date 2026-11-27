@@ -4,14 +4,14 @@ import type { Item } from "../api";
 
 interface DeletedItemNoticeProps {
   item: Item;
-  saving: boolean;
+  disabled: boolean;
   onUndo(): void;
   onDismiss(): void;
 }
 
 export function DeletedItemNotice({
   item,
-  saving,
+  disabled,
   onUndo,
   onDismiss,
 }: DeletedItemNoticeProps) {
@@ -28,7 +28,7 @@ export function DeletedItemNotice({
           variant="light"
           size="xs"
           leftSection={<IconArrowBackUp size={14} />}
-          disabled={saving}
+          disabled={disabled}
           onClick={onUndo}
           autoFocus
         >

@@ -36,7 +36,7 @@ export function ItemsPage() {
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
   const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
   const saving = changes.some((change) => change.isPending);
-  const slowSave = useSlowSave(saving);
+  const disabled = useSlowSave(saving);
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<Item>();
   const [openId, setOpenId] = useState<string>();
@@ -124,7 +124,7 @@ export function ItemsPage() {
         {deleted !== undefined && (
           <DeletedItemNotice
             item={deleted}
-            saving={slowSave}
+            disabled={disabled}
             onUndo={() => {
               if (saving) {
                 return;
@@ -151,7 +151,7 @@ export function ItemsPage() {
         {items.data !== undefined && items.data.length > 0 && (
           <ItemList
             items={items.data}
-            saving={slowSave}
+            disabled={disabled}
             openId={opened?.id}
             onMove={(move, onSettled) => {
               if (!startChange()) {
@@ -171,8 +171,8 @@ export function ItemsPage() {
       {opened !== undefined && (
         <ItemPanel
           item={opened}
-          saving={slowSave}
-          pending={saving}
+          disabled={disabled}
+          saving={saving}
           onClose={() => {
             clearSaveError();
             setOpenId(undefined);

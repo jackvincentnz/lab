@@ -21,7 +21,7 @@ function renderList(items: Item[]) {
   render(
     <ItemList
       items={items}
-      saving={false}
+      disabled={false}
       openId={undefined}
       onMove={onMove}
       onOpen={vi.fn()}
@@ -53,7 +53,7 @@ describe("ItemList", () => {
     render(
       <ItemList
         items={[item({ name: "Plan the week" }), item({ name: "Book travel" })]}
-        saving={false}
+        disabled={false}
         openId={undefined}
         onMove={vi.fn()}
         onOpen={vi.fn()}
@@ -105,7 +105,7 @@ describe("ItemList", () => {
     render(
       <ItemList
         items={[item({ name: "Plan the week" }), bookTravel]}
-        saving={false}
+        disabled={false}
         openId={undefined}
         onMove={vi.fn()}
         onOpen={onOpen}
@@ -127,7 +127,7 @@ describe("ItemList", () => {
     render(
       <ItemList
         items={[item({ name: "Plan the week" }), bookTravel]}
-        saving={false}
+        disabled={false}
         openId={bookTravel.id}
         onMove={vi.fn()}
         onOpen={vi.fn()}

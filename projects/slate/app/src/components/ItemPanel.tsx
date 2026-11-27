@@ -10,8 +10,8 @@ import type { SaveDraft } from "./useItemDraft";
 
 interface ItemPanelProps {
   item: Item;
+  disabled: boolean;
   saving: boolean;
-  pending: boolean;
   onClose(): void;
   onRename: SaveDraft;
   onRenameCancel(): void;
@@ -23,8 +23,8 @@ interface ItemPanelProps {
 
 export function ItemPanel({
   item,
+  disabled,
   saving,
-  pending,
   onClose,
   onRename,
   onRenameCancel,
@@ -74,7 +74,7 @@ export function ItemPanel({
         <Group justify="space-between" wrap="nowrap">
           <StatusMenu
             status={item.status}
-            saving={saving}
+            disabled={disabled}
             onChange={onStatusChange}
           />
           <ActionIcon
@@ -89,16 +89,16 @@ export function ItemPanel({
         <ItemName
           key={item.id}
           item={item}
+          disabled={disabled}
           saving={saving}
-          pending={pending}
           onRename={onRename}
           onRenameCancel={onRenameCancel}
         />
         <ItemDescription
           key={`${item.id}-description`}
           item={item}
+          disabled={disabled}
           saving={saving}
-          pending={pending}
           onDescribe={onDescribe}
           onDescribeCancel={onDescribeCancel}
         />
@@ -107,7 +107,7 @@ export function ItemPanel({
             variant="outline"
             color="red"
             aria-label={`Delete ${item.name}`}
-            disabled={saving}
+            disabled={disabled}
             onClick={onDelete}
           >
             Delete

@@ -10,9 +10,11 @@ import {
 import type { ItemStatus } from "../api";
 import { StatusMenu } from "./StatusMenu";
 
-function renderMenu(status: ItemStatus = "todo", saving = false) {
+function renderMenu(status: ItemStatus = "todo", disabled = false) {
   const onChange = vi.fn<(status: ItemStatus) => void>();
-  render(<StatusMenu status={status} saving={saving} onChange={onChange} />);
+  render(
+    <StatusMenu status={status} disabled={disabled} onChange={onChange} />,
+  );
   return onChange;
 }
 
@@ -46,7 +48,7 @@ describe("StatusMenu", () => {
     expect(onChange).toHaveBeenCalledWith("doing");
   });
 
-  it("does not change the status while a change saves", async () => {
+  it("does not change the status when disabled", async () => {
     const user = userEvent.setup();
     renderMenu("todo", true);
 
@@ -55,7 +57,7 @@ describe("StatusMenu", () => {
     expect(screen.getByRole("menuitem", { name: "Doing" })).toBeDisabled();
   });
 
-  it("keeps the status button focusable while a change saves", () => {
+  it("keeps the status button focusable when disabled", () => {
     renderMenu("todo", true);
 
     expect(screen.getByRole("button", { name: "Status: To do" })).toBeEnabled();

@@ -14,6 +14,9 @@ import { item } from "../test/fakes";
 import { ItemDescription } from "./ItemDescription";
 
 type ItemDescriptionProps = Parameters<typeof ItemDescription>[0];
+type ChangeState = Pick<ItemDescriptionProps, "disabled" | "saving">;
+
+const idle: ChangeState = { disabled: false, saving: false };
 
 function renderDescription(
   shownItem: Item = item({ description: "Before Friday" }),
@@ -22,19 +25,17 @@ function renderDescription(
     onDescribe: vi.fn<ItemDescriptionProps["onDescribe"]>(),
     onDescribeCancel: vi.fn<ItemDescriptionProps["onDescribeCancel"]>(),
   };
-  const description = (shown: Item, saving: boolean) => (
-    <ItemDescription
-      item={shown}
-      saving={saving}
-      pending={saving}
-      {...handlers}
-    />
+  const description = (shown: Item, state: ChangeState) => (
+    <ItemDescription item={shown} {...state} {...handlers} />
   );
-  const { rerender } = render(description(shownItem, false));
+  const { rerender } = render(description(shownItem, idle));
   return {
     ...handlers,
-    startSaving: () => rerender(description(shownItem, true)),
-    showItem: (shown: Item) => rerender(description(shown, false)),
+    disableWhileSaving: () =>
+      rerender(description(shownItem, { disabled: true, saving: true })),
+    startSaving: () =>
+      rerender(description(shownItem, { ...idle, saving: true })),
+    showItem: (shown: Item) => rerender(description(shown, idle)),
   };
 }
 
@@ -239,14 +240,14 @@ describe("ItemDescription", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("keeps focus on Save while the description saves", async () => {
+  it("keeps focus on Save when disabled while it saves", async () => {
     const user = userEvent.setup();
-    const { startSaving } = renderDescription();
+    const { disableWhileSaving } = renderDescription();
     await startEdit(user);
     const save = screen.getByRole("button", { name: "Save" });
     await user.click(save);
 
-    startSaving();
+    disableWhileSaving();
 
     expect(save).toHaveFocus();
     expect(save).toHaveAttribute("aria-disabled", "true");

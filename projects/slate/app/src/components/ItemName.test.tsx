@@ -14,20 +14,24 @@ import { item } from "../test/fakes";
 import { ItemName } from "./ItemName";
 
 type ItemNameProps = Parameters<typeof ItemName>[0];
+type ChangeState = Pick<ItemNameProps, "disabled" | "saving">;
+
+const idle: ChangeState = { disabled: false, saving: false };
 
 function renderName(shownItem: Item = item({ name: "Plan the week" })) {
   const handlers = {
     onRename: vi.fn<ItemNameProps["onRename"]>(),
     onRenameCancel: vi.fn<ItemNameProps["onRenameCancel"]>(),
   };
-  const name = (shown: Item, saving: boolean) => (
-    <ItemName item={shown} saving={saving} pending={saving} {...handlers} />
+  const name = (shown: Item, state: ChangeState) => (
+    <ItemName item={shown} {...state} {...handlers} />
   );
-  const { rerender } = render(name(shownItem, false));
+  const { rerender } = render(name(shownItem, idle));
   return {
     ...handlers,
-    startSaving: () => rerender(name(shownItem, true)),
-    showItem: (shown: Item) => rerender(name(shown, false)),
+    disable: () => rerender(name(shownItem, { ...idle, disabled: true })),
+    startSaving: () => rerender(name(shownItem, { ...idle, saving: true })),
+    showItem: (shown: Item) => rerender(name(shown, idle)),
   };
 }
 
@@ -272,6 +276,16 @@ describe("ItemName", () => {
     await user.type(name, "{Escape}");
 
     expect(onRenameCancel).not.toHaveBeenCalled();
+    expect(name).toBeInTheDocument();
+  });
+
+  it("shows Save and Cancel as disabled when disabled", async () => {
+    const user = userEvent.setup();
+    const { disable } = renderName();
+    await startRename(user);
+
+    disable();
+
     expect(screen.getByRole("button", { name: "Save" })).toBeDisabled();
     expect(screen.getByRole("button", { name: "Cancel" })).toBeDisabled();
   });
