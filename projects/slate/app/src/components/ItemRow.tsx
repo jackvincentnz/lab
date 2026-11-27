@@ -44,13 +44,20 @@ export function SortableItemRow(props: SortableItemRowProps) {
     setActivatorNodeRef,
     transform,
     transition,
+    isDragging,
   } = useSortable({ id: props.item.id, disabled: props.disabled });
 
   return (
     <ItemRow
       {...props}
       rowRef={setNodeRef}
-      style={{ transform: CSS.Translate.toString(transform), transition }}
+      style={{
+        transform: CSS.Translate.toString(transform),
+        transition,
+        position: "relative",
+        // The rows a drag shifts paint in list order, so a later row would hide the dragged one.
+        zIndex: isDragging ? 1 : undefined,
+      }}
       handle={
         <ActionIcon
           ref={setActivatorNodeRef}
