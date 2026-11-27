@@ -7,6 +7,7 @@ import {
   render,
   screen,
   userEvent,
+  vi,
   waitFor,
   within,
 } from "@lab/test-utils";
@@ -706,14 +707,189 @@ describe("ItemsPage", () => {
     api.deleteItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    await user.click(
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
+    );
+
+    expect(api.updateItem).not.toHaveBeenCalled();
+  });
+
+  it("takes no delete while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Book travel{Enter}",
+    );
 
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
-    expect(
-      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
-    ).toBeDisabled();
+    expect(api.deleteItem).not.toHaveBeenCalled();
+  });
+
+  it("takes no rename while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Rename Plan the week" }),
+    );
+    await user.type(
+      screen.getByRole("textbox", { name: "New item" }),
+      "Book travel{Enter}",
+    );
+
+    await user.type(
+      screen.getByRole("textbox", { name: "Name" }),
+      " soon{Enter}",
+    );
+
+    expect(api.updateItem).not.toHaveBeenCalled();
+  });
+
+  it("puts a deleted item back only once when undo is clicked twice", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.restoreItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    const undo = await screen.findByRole("button", { name: "Undo" });
+
+    await user.dblClick(undo);
+
+    expect(api.restoreItem).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps a saving move's order when another move is made", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+      item({ name: "Write the report" }),
+    ]);
+    api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await moveWithKeyboard(user, "Write the report", "[ArrowUp]");
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
+
+    expect(api.moveItem).toHaveBeenCalledTimes(1);
+    expect(itemNames()).toEqual([
+      "Plan the week",
+      "Write the report",
+      "Book travel",
+    ]);
+  });
+
+  it("keeps the order when an item is moved while a change saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Write the report{Enter}",
+    );
+
+    await moveWithKeyboard(user, "Book travel", "[ArrowUp]");
+
+    expect(api.moveItem).not.toHaveBeenCalled();
+    expect(itemNames()).toEqual(["Plan the week", "Book travel"]);
+  });
+
+  it("keeps controls enabled while a change has saved for less than 300 ms", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(100));
+
+    expect(checkbox).toBeEnabled();
+  });
+
+  it("shows controls as disabled once a change has saved for 300 ms", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(300));
+
+    expect(checkbox).toBeDisabled();
+  });
+
+  it("keeps a rename open when it is cancelled while it saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Rename Plan the week" }),
+    );
+    const name = screen.getByRole("textbox", { name: "Name" });
+    await user.type(name, " soon{Enter}");
+
+    await user.type(name, "{Escape}");
+
+    expect(name).toBeInTheDocument();
+    expect(name).toHaveValue("Plan the week soon");
+  });
+
+  it("enables controls again when a slow change finishes saving", async () => {
+    const original = item({ name: "Plan the week" });
+    const done = { ...original, status: "done" as const };
+    const api = fakeSlateApi([original]);
+    let finishSave: (saved: Item) => void = () => undefined;
+    api.updateItem.mockReturnValue(
+      new Promise<Item>((resolve) => (finishSave = resolve)),
+    );
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const checkbox = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    await user.click(checkbox);
+    await act(() => vi.advanceTimersByTimeAsync(300));
+    api.listItems.mockResolvedValue([done]);
+
+    finishSave(done);
+    await act(() => vi.advanceTimersByTimeAsync(0));
+
+    expect(checkbox).toBeEnabled();
+    expect(checkbox).toBeChecked();
   });
 
   it("shows an error and keeps what was typed when a change fails", async () => {

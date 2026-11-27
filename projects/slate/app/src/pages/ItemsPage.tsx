@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -24,6 +24,8 @@ import type { SaveCallbacks } from "../components/useItemDraft";
 
 type ItemEdit = Pick<UpdateItemInput, "name" | "description">;
 
+const SLOW_SAVE_MS = 300;
+
 export function ItemsPage() {
   const trpc = useTRPC();
   const items = useQuery(trpc.listItems.queryOptions());
@@ -34,6 +36,7 @@ export function ItemsPage() {
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
   const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
   const saving = changes.some((change) => change.isPending);
+  const slowSave = useSlowSave(saving);
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<Item>();
   const [openId, setOpenId] = useState<string>();
@@ -47,13 +50,20 @@ export function ItemsPage() {
     }
   }
 
+  // Each change carries the updatedAt of the list that reloads after the previous change, so changes go one at a time.
   function startChange() {
+    if (saving) {
+      return false;
+    }
     clearSaveError();
     setDeleted(undefined);
+    return true;
   }
 
   function changeStatus(item: Item, status: ItemStatus) {
-    startChange();
+    if (!startChange()) {
+      return;
+    }
     updateItem.mutate({ id: item.id, status, updatedAt: item.updatedAt });
   }
 
@@ -62,7 +72,9 @@ export function ItemsPage() {
     change: ItemEdit,
     { onSaved, onChanged }: SaveCallbacks,
   ) {
-    startChange();
+    if (!startChange()) {
+      return;
+    }
     updateItem.mutate(
       { id: editedFrom.id, ...change, updatedAt: editedFrom.updatedAt },
       {
@@ -80,9 +92,10 @@ export function ItemsPage() {
     <Flex direction={{ base: "column-reverse", md: "row" }} align="flex-start">
       <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
         <AddItemForm
-          saving={saving}
           onAdd={(name, onSaved) => {
-            startChange();
+            if (!startChange()) {
+              return;
+            }
             addItem.mutate({ name }, { onSuccess: onSaved });
           }}
         />
@@ -111,8 +124,11 @@ export function ItemsPage() {
         {deleted !== undefined && (
           <DeletedItemNotice
             item={deleted}
-            saving={saving}
+            saving={slowSave}
             onUndo={() => {
+              if (saving) {
+                return;
+              }
               clearSaveError();
               restoreItem.mutate(
                 { id: deleted.id },
@@ -135,11 +151,14 @@ export function ItemsPage() {
         {items.data !== undefined && items.data.length > 0 && (
           <ItemList
             items={items.data}
-            saving={saving}
+            saving={slowSave}
             openId={opened?.id}
             onMove={(move, onSettled) => {
-              startChange();
+              if (!startChange()) {
+                return false;
+              }
               moveItem.mutate(move, { onSettled });
+              return true;
             }}
             onOpen={(item) => {
               clearSaveError();
@@ -152,7 +171,8 @@ export function ItemsPage() {
       {opened !== undefined && (
         <ItemPanel
           item={opened}
-          saving={saving}
+          saving={slowSave}
+          pending={saving}
           onClose={() => {
             clearSaveError();
             setOpenId(undefined);
@@ -167,7 +187,9 @@ export function ItemsPage() {
           onDescribeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
           onDelete={() => {
-            startChange();
+            if (!startChange()) {
+              return;
+            }
             deleteItem.mutate(
               { id: opened.id },
               {
@@ -184,4 +206,21 @@ export function ItemsPage() {
       )}
     </Flex>
   );
+}
+
+function useSlowSave(saving: boolean) {
+  const [slow, setSlow] = useState(false);
+
+  useEffect(() => {
+    if (!saving) {
+      return;
+    }
+    const timer = setTimeout(() => setSlow(true), SLOW_SAVE_MS);
+    return () => {
+      clearTimeout(timer);
+      setSlow(false);
+    };
+  }, [saving]);
+
+  return slow;
 }

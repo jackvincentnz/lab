@@ -3,16 +3,15 @@ import { TextInput } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 
 interface AddItemFormProps {
-  saving: boolean;
   onAdd(name: string, onSaved: () => void): void;
 }
 
-export function AddItemForm({ saving, onAdd }: AddItemFormProps) {
+export function AddItemForm({ onAdd }: AddItemFormProps) {
   const [name, setName] = useState("");
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    if (saving || name.trim() === "") {
+    if (name.trim() === "") {
       return;
     }
     onAdd(name, () => setName((current) => (current === name ? "" : current)));

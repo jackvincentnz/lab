@@ -14,6 +14,7 @@ import { useItemDraft, type SaveDraft } from "./useItemDraft";
 interface ItemNameProps {
   item: Item;
   saving: boolean;
+  pending: boolean;
   onRename: SaveDraft;
   onRenameCancel(): void;
 }
@@ -21,6 +22,7 @@ interface ItemNameProps {
 export function ItemName({
   item,
   saving,
+  pending,
   onRename,
   onRenameCancel,
 }: ItemNameProps) {
@@ -36,8 +38,10 @@ export function ItemName({
   }
 
   function cancelRename() {
-    onRenameCancel();
-    cancel();
+    if (!pending) {
+      onRenameCancel();
+      cancel();
+    }
   }
 
   if (draft === undefined) {
@@ -65,9 +69,7 @@ export function ItemName({
             onKeyDown={(event) => {
               if (event.key === "Escape") {
                 event.preventDefault();
-                if (!saving) {
-                  cancelRename();
-                }
+                cancelRename();
               }
             }}
             autoFocus

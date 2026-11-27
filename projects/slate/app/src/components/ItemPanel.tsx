@@ -11,6 +11,7 @@ import type { SaveDraft } from "./useItemDraft";
 interface ItemPanelProps {
   item: Item;
   saving: boolean;
+  pending: boolean;
   onClose(): void;
   onRename: SaveDraft;
   onRenameCancel(): void;
@@ -23,6 +24,7 @@ interface ItemPanelProps {
 export function ItemPanel({
   item,
   saving,
+  pending,
   onClose,
   onRename,
   onRenameCancel,
@@ -88,6 +90,7 @@ export function ItemPanel({
           key={item.id}
           item={item}
           saving={saving}
+          pending={pending}
           onRename={onRename}
           onRenameCancel={onRenameCancel}
         />
@@ -95,6 +98,7 @@ export function ItemPanel({
           key={`${item.id}-description`}
           item={item}
           saving={saving}
+          pending={pending}
           onDescribe={onDescribe}
           onDescribeCancel={onDescribeCancel}
         />

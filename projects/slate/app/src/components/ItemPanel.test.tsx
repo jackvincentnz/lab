@@ -29,7 +29,7 @@ function renderPanel(
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };
   const panel = (shown: Item, saving: boolean) => (
-    <ItemPanel item={shown} saving={saving} {...handlers} />
+    <ItemPanel item={shown} saving={saving} pending={saving} {...handlers} />
   );
   const { rerender } = render(panel(panelItem, false));
   return {

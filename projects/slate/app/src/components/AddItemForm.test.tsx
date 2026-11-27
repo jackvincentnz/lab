@@ -16,7 +16,7 @@ describe("AddItemForm", () => {
   it("adds the typed name and clears it once saved", async () => {
     const user = userEvent.setup();
     const onAdd = vi.fn<OnAdd>((_name, onSaved) => onSaved());
-    render(<AddItemForm saving={false} onAdd={onAdd} />);
+    render(<AddItemForm onAdd={onAdd} />);
 
     await user.type(
       screen.getByRole("textbox", { name: "New item" }),
@@ -28,7 +28,7 @@ describe("AddItemForm", () => {
   });
 
   it("asks for a name to add with Enter and offers no Add button", () => {
-    render(<AddItemForm saving={false} onAdd={vi.fn<OnAdd>()} />);
+    render(<AddItemForm onAdd={vi.fn<OnAdd>()} />);
 
     expect(screen.getByRole("textbox", { name: "New item" })).toHaveAttribute(
       "placeholder",
@@ -42,7 +42,7 @@ describe("AddItemForm", () => {
   it("keeps newer typing when an earlier add is saved", async () => {
     const user = userEvent.setup();
     const onAdd = vi.fn<OnAdd>();
-    render(<AddItemForm saving={false} onAdd={onAdd} />);
+    render(<AddItemForm onAdd={onAdd} />);
     const name = screen.getByRole("textbox", { name: "New item" });
     await user.type(name, "Plan the week{Enter}");
     await user.type(name, " ahead");
@@ -55,7 +55,7 @@ describe("AddItemForm", () => {
 
   it("keeps the typed name until it is saved", async () => {
     const user = userEvent.setup();
-    render(<AddItemForm saving={false} onAdd={vi.fn<OnAdd>()} />);
+    render(<AddItemForm onAdd={vi.fn<OnAdd>()} />);
 
     await user.type(
       screen.getByRole("textbox", { name: "New item" }),
@@ -70,24 +70,11 @@ describe("AddItemForm", () => {
   it("does not add a blank name", async () => {
     const user = userEvent.setup();
     const onAdd = vi.fn<OnAdd>();
-    render(<AddItemForm saving={false} onAdd={onAdd} />);
+    render(<AddItemForm onAdd={onAdd} />);
 
     await user.type(
       screen.getByRole("textbox", { name: "New item" }),
       "   {Enter}",
-    );
-
-    expect(onAdd).not.toHaveBeenCalled();
-  });
-
-  it("does not add while a change saves", async () => {
-    const user = userEvent.setup();
-    const onAdd = vi.fn<OnAdd>();
-    render(<AddItemForm saving onAdd={onAdd} />);
-
-    await user.type(
-      screen.getByRole("textbox", { name: "New item" }),
-      "Plan the week{Enter}",
     );
 
     expect(onAdd).not.toHaveBeenCalled();
