@@ -3,6 +3,7 @@ import {
   afterEach,
   describe,
   expect,
+  fireEvent,
   it,
   render,
   screen,
@@ -41,6 +42,17 @@ async function openItem(
 ) {
   await user.click(await screen.findByRole("button", { name: `Open ${name}` }));
   return screen.getByRole("complementary", { name: "Item details" });
+}
+
+function layOutWindow(width: number) {
+  vi.stubGlobal("innerWidth", width);
+  vi.spyOn(Element.prototype, "getBoundingClientRect").mockReturnValue(
+    DOMRect.fromRect({ width: width - 200, height: 800 }),
+  );
+}
+
+function panelWidth(panel: HTMLElement) {
+  return panel.style.getPropertyValue("--item-panel-width");
 }
 
 describe("ItemsPage", () => {
@@ -443,6 +455,173 @@ describe("ItemsPage", () => {
     expect(
       screen.getByRole("button", { name: "Open Plan the week" }),
     ).toHaveFocus();
+  });
+
+  it("shows the side panel 440 pixels wide when no width is saved", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    const panel = await openItem(user, "Plan the week");
+
+    expect(panelWidth(panel)).toBe("440px");
+  });
+
+  it("widens the side panel when its edge is dragged and saves the width", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+    const edge = screen.getByRole("separator", { name: "Resize item details" });
+
+    await user.pointer([
+      { keys: "[MouseLeft>]", target: edge, coords: { clientX: 960 } },
+      { coords: { clientX: 860 } },
+      { keys: "[/MouseLeft]", coords: { clientX: 860 } },
+    ]);
+
+    expect(panelWidth(panel)).toBe("540px");
+    expect(localStorage.getItem("slate.itemPanelWidth")).toBe("540");
+  });
+
+  it("widens the side panel from its edge with the keyboard", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+    screen.getByRole("separator", { name: "Resize item details" }).focus();
+
+    await user.keyboard("{ArrowLeft}");
+
+    expect(panelWidth(panel)).toBe("450px");
+  });
+
+  it("narrows the side panel to no less than 360 pixels", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+    screen.getByRole("separator", { name: "Resize item details" }).focus();
+
+    await user.keyboard("{End}");
+
+    expect(panelWidth(panel)).toBe("360px");
+  });
+
+  it("widens the side panel to no more than 60% of the window", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+    screen.getByRole("separator", { name: "Resize item details" }).focus();
+
+    await user.keyboard("{Home}");
+
+    expect(panelWidth(panel)).toBe("960px");
+  });
+
+  it("shows the side panel at its saved width", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    localStorage.setItem("slate.itemPanelWidth", "520");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    const panel = await openItem(user, "Plan the week");
+
+    expect(panelWidth(panel)).toBe("520px");
+  });
+
+  it("narrows the side panel to fit a narrower window and keeps its saved width", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    localStorage.setItem("slate.itemPanelWidth", "900");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+
+    layOutWindow(1000);
+    fireEvent(window, new Event("resize"));
+
+    expect(panelWidth(panel)).toBe("600px");
+    expect(localStorage.getItem("slate.itemPanelWidth")).toBe("900");
+  });
+
+  it("widens the side panel back to its saved width when the window widens", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1000);
+    localStorage.setItem("slate.itemPanelWidth", "900");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+
+    layOutWindow(1600);
+    fireEvent(window, new Event("resize"));
+
+    expect(panelWidth(panel)).toBe("900px");
+  });
+
+  it("tells assistive technology the side panel's width and limits", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    await openItem(user, "Plan the week");
+
+    const edge = screen.getByRole("separator", { name: "Resize item details" });
+    expect(edge).toHaveAttribute("aria-valuenow", "440");
+    expect(edge).toHaveAttribute("aria-valuemin", "360");
+    expect(edge).toHaveAttribute("aria-valuemax", "960");
+  });
+
+  it("keeps the saved width when the edge of a narrowed side panel is clicked", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    localStorage.setItem("slate.itemPanelWidth", "900");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    await openItem(user, "Plan the week");
+    layOutWindow(1000);
+    fireEvent(window, new Event("resize"));
+
+    await user.click(
+      screen.getByRole("separator", { name: "Resize item details" }),
+    );
+
+    expect(localStorage.getItem("slate.itemPanelWidth")).toBe("900");
+  });
+
+  it("returns the side panel to 440 pixels when its edge is double-clicked", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    localStorage.setItem("slate.itemPanelWidth", "700");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    const panel = await openItem(user, "Plan the week");
+
+    await user.dblClick(
+      screen.getByRole("separator", { name: "Resize item details" }),
+    );
+
+    expect(panelWidth(panel)).toBe("440px");
+    expect(localStorage.getItem("slate.itemPanelWidth")).toBe("440");
   });
 
   it("closes the side panel when its item leaves the list", async () => {

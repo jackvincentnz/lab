@@ -20,8 +20,10 @@ import { AddItemForm } from "../components/AddItemForm";
 import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
+import { PanelResizeHandle } from "../components/PanelResizeHandle";
 import { ViewList } from "../components/ViewList";
 import type { SaveCallbacks } from "../components/useItemDraft";
+import { useResizablePanel } from "../components/useResizablePanel";
 import { type ViewName, views } from "../views";
 
 type ItemEdit = Pick<UpdateItemInput, "name" | "description" | "source">;
@@ -45,6 +47,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
   const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
   const saving = changes.some((change) => change.isPending);
   const disabled = useSlowSave(saving);
+  const panel = useResizablePanel();
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<Item>();
   const [openId, setOpenId] = useState<string>();
@@ -108,7 +111,11 @@ export function ItemsPage({ view }: ItemsPageProps) {
   }
 
   return (
-    <Flex direction={{ base: "column-reverse", md: "row" }} align="flex-start">
+    <Flex
+      ref={panel.containerRef}
+      direction={{ base: "column-reverse", md: "row" }}
+      align="flex-start"
+    >
       <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
         {today && (
           <AddItemForm
@@ -208,8 +215,12 @@ export function ItemsPage({ view }: ItemsPageProps) {
         )}
       </Stack>
       {opened !== undefined && (
+        <PanelResizeHandle handleProps={panel.handleProps} />
+      )}
+      {opened !== undefined && (
         <ItemPanel
           item={opened}
+          width={panel.width}
           disabled={disabled}
           saving={saving}
           onClose={() => {

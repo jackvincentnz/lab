@@ -1,0 +1,27 @@
+.handle {
+  position: sticky;
+  top: var(--app-shell-header-height, 0px);
+  z-index: 1;
+  flex-shrink: 0;
+  width: 0;
+  height: calc(100dvh - var(--app-shell-header-height, 0px));
+  cursor: col-resize;
+  touch-action: none;
+  user-select: none;
+  outline: none;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 rem(-4px);
+  }
+
+  &:hover::after,
+  &:focus-visible::after,
+  &[data-active]::after {
+    content: "";
+    position: absolute;
+    inset: 0 rem(-1px);
+    background-color: var(--mantine-primary-color-filled);
+  }
+}
