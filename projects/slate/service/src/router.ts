@@ -9,7 +9,17 @@ export interface Context {
   changes: ListChanges;
 }
 
-const t = initTRPC.context<Context>().create();
+export const keepAlive = { pingMs: 5_000, reconnectAfterInactivityMs: 15_000 };
+
+// After the machine sleeps, a connection can stay open with neither end noticing that it is dead, so the page reconnects when the pings stop.
+const t = initTRPC.context<Context>().create({
+  sse: {
+    ping: { enabled: true, intervalMs: keepAlive.pingMs },
+    client: {
+      reconnectAfterInactivityMs: keepAlive.reconnectAfterInactivityMs,
+    },
+  },
+});
 
 const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
   operations;

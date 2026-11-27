@@ -68,7 +68,8 @@ export function createQueryClient(): QueryClient {
   const queryClient: QueryClient = new QueryClient({
     // The service runs on this machine, so the browser going offline must not pause requests.
     defaultOptions: {
-      queries: { networkMode: "always" },
+      // The service pushes every change, and a reload on focus would close an editor whose item an agent deleted.
+      queries: { networkMode: "always", refetchOnWindowFocus: false },
       mutations: { networkMode: "always" },
     },
     mutationCache: new MutationCache({

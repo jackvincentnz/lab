@@ -12,6 +12,7 @@ import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { StreamableHTTPClientTransport } from "@modelcontextprotocol/sdk/client/streamableHttp.js";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { type Item } from "./item.js";
+import { keepAlive } from "./router.js";
 import { createSlateServer, type SlateServerOptions } from "./server.js";
 import { openItemStore } from "./store.js";
 
@@ -30,6 +31,7 @@ beforeEach(() => {
 });
 
 afterEach(async () => {
+  vi.useRealTimers();
   server.closeAllConnections();
   await new Promise((resolve) => server.close(resolve));
   rmSync(folder, { recursive: true, force: true });
@@ -297,6 +299,27 @@ describe("createSlateServer", () => {
 
     expect(await subscription.nextEvent()).toBe("data: null");
     await client.close();
+  });
+
+  it("tells a subscribed page to reconnect when pings stop", async () => {
+    await start();
+
+    const subscription = await subscribe("/api/listChanged");
+
+    expect(await subscription.nextEvent()).toBe(
+      `event: connected\ndata: {"reconnectAfterInactivityMs":${keepAlive.reconnectAfterInactivityMs}}`,
+    );
+  });
+
+  it("pings a subscribed page more often than it is told to reconnect", async () => {
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    await start();
+    const subscription = await subscribe("/api/listChanged");
+    await subscription.nextEvent();
+
+    await vi.advanceTimersByTimeAsync(keepAlive.pingMs);
+
+    expect(await subscription.nextEvent()).toMatch(/^event: ping/);
   });
 
   it("lets no other site's page read the changes", async () => {

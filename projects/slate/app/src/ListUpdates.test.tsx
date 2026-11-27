@@ -1,5 +1,7 @@
+import { focusManager } from "@tanstack/react-query";
 import {
   act,
+  afterEach,
   describe,
   expect,
   it,
@@ -69,6 +71,10 @@ function twoItems() {
 }
 
 describe("ListUpdates", () => {
+  afterEach(() => {
+    focusManager.setFocused(undefined);
+  });
+
   it("shows a change made elsewhere as soon as the service announces it", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
@@ -170,5 +176,24 @@ describe("ListUpdates", () => {
     expect(
       await screen.findByRole("button", { name: "Open Book travel" }),
     ).toBeInTheDocument();
+  });
+
+  it("keeps a rename's text when the window regains focus after its item is deleted elsewhere", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    const panel = await startRename(user);
+    api.listItems.mockResolvedValue([]);
+
+    await act(async () => {
+      focusManager.setFocused(false);
+      focusManager.setFocused(true);
+      await Promise.resolve();
+    });
+
+    expect(api.listItems).toHaveBeenCalledOnce();
+    expect(within(panel).getByRole("textbox")).toHaveValue(
+      "Plan the week today",
+    );
   });
 });
