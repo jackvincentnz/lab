@@ -37,9 +37,7 @@ export function ItemDescription({
 
   function submitDescription(event: FormEvent) {
     event.preventDefault();
-    if (!pending) {
-      submit();
-    }
+    submit();
   }
 
   function cancelDescription() {

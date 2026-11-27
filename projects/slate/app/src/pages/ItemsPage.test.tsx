@@ -46,7 +46,6 @@ async function openItem(
 describe("ItemsPage", () => {
   afterEach(() => {
     onlineManager.setOnline(true);
-    vi.useRealTimers();
   });
 
   it("shows a loader until the list arrives", () => {
@@ -708,10 +707,10 @@ describe("ItemsPage", () => {
     api.deleteItem.mockReturnValue(new Promise<Item>(() => undefined));
     render(<ItemsPage />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
-
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
     );
+
     await user.click(
       screen.getByRole("checkbox", { name: "Mark Book travel done" }),
     );
@@ -749,7 +748,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
 
     await user.click(checkbox);
-    await act(() => vi.advanceTimersByTimeAsync(200));
+    await act(() => vi.advanceTimersByTimeAsync(100));
 
     expect(checkbox).toBeEnabled();
   });
