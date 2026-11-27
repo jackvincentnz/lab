@@ -14,6 +14,7 @@ import {
   lt,
   ne,
   or,
+  type SQL,
 } from "drizzle-orm";
 import { readMigrationFiles } from "drizzle-orm/migrator";
 import { drizzle, type NodeSQLiteDatabase } from "drizzle-orm/node-sqlite";
@@ -24,7 +25,9 @@ import {
   type Item,
   ItemChangedError,
   type ItemSource,
-  type ItemStatus,
+  type ListItemsInput,
+  listItemsInput,
+  type ListQuery,
   type MoveItemInput,
   type UpdateItemInput,
 } from "./item.js";
@@ -39,11 +42,10 @@ const itemColumns = {
   rank: item.rank,
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
+  doneAt: item.doneAt,
 } satisfies Record<keyof Item, unknown>;
 
 const listed = eq(item.deleted, false);
-
-const onMainList = inArray(item.status, ["todo", "doing", "done"]);
 
 /** Today starts at midnight local to the service, which runs on the user's machine. */
 function notDoneBeforeToday(now: Date) {
@@ -54,6 +56,12 @@ function notDoneBeforeToday(now: Date) {
   ).toISOString();
   return or(ne(item.status, "done"), gte(item.doneAt, startOfToday));
 }
+
+const listOrder = {
+  rank: [],
+  doneAt: [desc(item.doneAt)],
+  updatedAt: [desc(item.updatedAt)],
+} satisfies Record<ListQuery["orderBy"], SQL[]>;
 
 const migrationsFolder = join(import.meta.dirname, "../migrations");
 
@@ -154,16 +162,20 @@ export class ItemStore {
     this.#now = now;
   }
 
-  list(status?: ItemStatus): Item[] {
-    const shown =
-      status === undefined
-        ? and(onMainList, notDoneBeforeToday(this.#now()))
-        : eq(item.status, status);
+  list(input: ListItemsInput = {}): Item[] {
+    const { statuses, doneTodayOnly, deleted, orderBy } =
+      listItemsInput.parse(input);
     return this.#database
       .select(itemColumns)
       .from(item)
-      .where(and(listed, shown))
-      .orderBy(item.rank)
+      .where(
+        and(
+          eq(item.deleted, deleted),
+          inArray(item.status, statuses),
+          doneTodayOnly ? notDoneBeforeToday(this.#now()) : undefined,
+        ),
+      )
+      .orderBy(...listOrder[orderBy], item.rank)
       .all();
   }
 
@@ -183,6 +195,7 @@ export class ItemStore {
       rank: generateKeyBetween(null, first?.rank ?? null),
       createdAt: now,
       updatedAt: now,
+      doneAt: null,
     };
 
     this.#database.insert(item).values(added).run();

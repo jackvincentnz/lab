@@ -142,7 +142,7 @@ describe.each(["deferred", "wont_do", "delegated"] as const)(
 
       const setAside = setStatus(a, status);
 
-      expect(store.list(status)).toEqual([setAside]);
+      expect(store.list({ statuses: [status] })).toEqual([setAside]);
     });
 
     it("puts the item back in its place when it is reopened", () => {
@@ -158,34 +158,45 @@ describe.each(["deferred", "wont_do", "delegated"] as const)(
 );
 
 describe("list by status", () => {
-  it("returns the items with that status in priority order", () => {
-    const [a, , c] = ["A", "B", "C"].map(addItem);
+  it("returns the items with the given statuses in priority order", () => {
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
     const doingA = store.update({
       id: a.id,
       status: "doing",
       updatedAt: a.updatedAt,
     });
-    const doingC = store.update({
-      id: c.id,
-      status: "doing",
-      updatedAt: c.updatedAt,
+    const deferredB = store.update({
+      id: b.id,
+      status: "deferred",
+      updatedAt: b.updatedAt,
     });
+    store.update({ id: c.id, status: "wont_do", updatedAt: c.updatedAt });
 
-    const doing = store.list("doing");
+    const listed = store.list({ statuses: ["doing", "deferred"] });
 
-    expect(doing).toEqual([doingC, doingA]);
+    expect(listed).toEqual([deferredB, doingA]);
   });
 
   it("leaves out items with another status", () => {
     const [a, b] = ["A", "B"].map(addItem);
     store.update({ id: a.id, status: "doing", updatedAt: a.updatedAt });
 
-    const todo = store.list("todo");
+    const todo = store.list({ statuses: ["todo"] });
 
     expect(todo).toEqual([b]);
   });
 
-  it("includes done items marked done before today", () => {
+  it("leaves out done items marked done before today", () => {
+    const added = addItem("Shipped");
+    store.update({ id: added.id, status: "done", updatedAt: added.updatedAt });
+    time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const listed = store.list({ statuses: ["done"] });
+
+    expect(listed).toEqual([]);
+  });
+
+  it("includes done items marked done before today when not only today's", () => {
     const added = addItem("Shipped");
     const done = store.update({
       id: added.id,
@@ -194,7 +205,7 @@ describe("list by status", () => {
     });
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    const listed = store.list("done");
+    const listed = store.list({ statuses: ["done"], doneTodayOnly: false });
 
     expect(listed).toEqual([done]);
   });
@@ -208,9 +219,124 @@ describe("list by status", () => {
     })!;
     store.delete(deferred.id);
 
-    const listed = store.list("deferred");
+    const listed = store.list({ statuses: ["deferred"] });
 
     expect(listed).toEqual([]);
+  });
+});
+
+describe("list in order of a time", () => {
+  it("returns done items most recently done first", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    const doneB = store.update({
+      id: b.id,
+      status: "done",
+      updatedAt: b.updatedAt,
+    });
+    time = new Date("2026-11-21T10:00:00.000Z");
+    const doneA = store.update({
+      id: a.id,
+      status: "done",
+      updatedAt: a.updatedAt,
+    });
+
+    const listed = store.list({ statuses: ["done"], orderBy: "doneAt" });
+
+    expect(listed).toEqual([doneA, doneB]);
+  });
+
+  it("puts items without a done time last in priority order", () => {
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    const done = store.update({
+      id: a.id,
+      status: "done",
+      updatedAt: a.updatedAt,
+    });
+
+    const listed = store.list({ orderBy: "doneAt" });
+
+    expect(listed).toEqual([done, c, b]);
+  });
+
+  it("returns items most recently updated first", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    time = new Date("2026-11-21T10:00:00.000Z");
+    const renamed = store.update({
+      id: b.id,
+      name: "Renamed",
+      updatedAt: b.updatedAt,
+    });
+
+    const listed = store.list({ orderBy: "updatedAt" });
+
+    expect(listed).toEqual([renamed, a]);
+  });
+});
+
+describe("list deleted items", () => {
+  it("returns deleted items most recently deleted first", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    const deletedB = store.delete(b.id);
+    time = new Date("2026-11-21T10:00:00.000Z");
+    const deletedA = store.delete(a.id);
+
+    const listed = store.list({ deleted: true, orderBy: "updatedAt" });
+
+    expect(listed).toEqual([deletedA, deletedB]);
+  });
+
+  it("leaves out items that are not deleted", () => {
+    const [a] = ["A", "B"].map(addItem);
+    const deleted = store.delete(a.id);
+
+    const listed = store.list({ deleted: true });
+
+    expect(listed).toEqual([deleted]);
+  });
+
+  it("returns only the deleted items with the given statuses", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    const done = store.update({
+      id: a.id,
+      status: "done",
+      updatedAt: a.updatedAt,
+    })!;
+    const deletedDone = store.delete(done.id);
+    store.delete(b.id);
+
+    const listed = store.list({ statuses: ["done"], deleted: true });
+
+    expect(listed).toEqual([deletedDone]);
+  });
+
+  it("leaves out a deleted item done on an earlier day", () => {
+    const added = addItem("Shipped");
+    const done = store.update({
+      id: added.id,
+      status: "done",
+      updatedAt: added.updatedAt,
+    })!;
+    store.delete(done.id);
+    time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const listed = store.list({ deleted: true });
+
+    expect(listed).toEqual([]);
+  });
+
+  it("includes a deleted item done on an earlier day when not only today's", () => {
+    const added = addItem("Shipped");
+    const done = store.update({
+      id: added.id,
+      status: "done",
+      updatedAt: added.updatedAt,
+    })!;
+    const deleted = store.delete(done.id);
+    time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
+
+    const listed = store.list({ deleted: true, doneTodayOnly: false });
+
+    expect(listed).toEqual([deleted]);
   });
 });
 
@@ -341,6 +467,37 @@ describe("update", () => {
       updatedAt: "2026-11-21T10:00:00.000Z",
     });
     expect(store.list()).toEqual([updated]);
+  });
+
+  it("records when an item is marked done", () => {
+    const item = addItem("Draft");
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const done = store.update({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(done?.doneAt).toBe("2026-11-21T10:00:00.000Z");
+  });
+
+  it("clears when an item was done once it is reopened", () => {
+    const item = addItem("Draft");
+    const done = store.update({
+      id: item.id,
+      status: "done",
+      updatedAt: item.updatedAt,
+    })!;
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    const reopened = store.update({
+      id: done.id,
+      status: "todo",
+      updatedAt: done.updatedAt,
+    });
+
+    expect(reopened?.doneAt).toBeNull();
   });
 
   it("renames an item", () => {

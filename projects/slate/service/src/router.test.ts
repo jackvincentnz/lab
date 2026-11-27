@@ -28,6 +28,7 @@ function anItem(): Item {
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
+    doneAt: null,
   };
 }
 
@@ -38,6 +39,26 @@ describe("slateRouter", () => {
 
     const listed = await caller.listItems();
 
+    expect(listed).toEqual(items);
+  });
+
+  it("lists every item that matches the given query", async () => {
+    const items = [anItem()];
+    store.list.mockReturnValue(items);
+
+    const listed = await caller.listItems({
+      statuses: ["done"],
+      doneTodayOnly: false,
+      deleted: true,
+      orderBy: "updatedAt",
+    });
+
+    expect(store.list).toHaveBeenCalledWith({
+      statuses: ["done"],
+      doneTodayOnly: false,
+      deleted: true,
+      orderBy: "updatedAt",
+    });
     expect(listed).toEqual(items);
   });
 

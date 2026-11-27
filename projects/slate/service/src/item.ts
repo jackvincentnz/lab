@@ -31,7 +31,7 @@ export const itemSchema = createSelectSchema(item, {
   description: (description) =>
     description.overwrite((value) => value.trimEnd()),
   source: itemSource.nullable(),
-}).omit({ deleted: true, doneAt: true });
+}).omit({ deleted: true });
 
 export type Item = z.infer<typeof itemSchema>;
 
@@ -45,14 +45,34 @@ const sourceExample =
   'For example {"kind": "link", "url": "https://claude.ai/chat/…", "label": "Claude Desktop session"} for the session that captured the item.';
 
 export const listItemsInput = z.object({
-  status: itemStatus
-    .optional()
+  statuses: z
+    .array(itemStatus)
+    .min(1)
+    .default(["todo", "doing", "done"])
+    .describe("Only the items with one of these statuses. Give at least one."),
+  doneTodayOnly: z
+    .boolean()
+    .default(true)
     .describe(
-      "Only the items with this status, in priority order, including done items from earlier days. Leave it out for the main list.",
+      "When true, leaves out done items marked done before midnight at the start of today, in the time zone of the user's machine. Give false to include done items from every day.",
+    ),
+  deleted: z
+    .boolean()
+    .default(false)
+    .describe(
+      "When true, lists only deleted items; when false, none. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
+    ),
+  orderBy: z
+    .enum(["rank", "doneAt", "updatedAt"])
+    .default("rank")
+    .describe(
+      "rank is priority order, the most important first. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
     ),
 });
 
-export type ListItemsInput = z.infer<typeof listItemsInput>;
+export type ListItemsInput = z.input<typeof listItemsInput>;
+
+export type ListQuery = z.output<typeof listItemsInput>;
 
 export const addItemInput = z.object({
   name: name.describe("What the work is, in a few words."),

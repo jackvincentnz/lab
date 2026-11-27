@@ -90,15 +90,17 @@ function randomItems(count: number): Item[] {
   const items: Item[] = [];
   for (let index = 0; index < count; index++) {
     const time = new Date(now.getTime() - index * 60_000).toISOString();
+    const status = (["todo", "doing", "done"] as const)[index % 3];
     items.push({
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
       description: "",
       source: null,
-      status: (["todo", "doing", "done"] as const)[index % 3],
+      status,
       rank: generateKeyBetween(items.at(-1)?.rank ?? null, null),
       createdAt: time,
       updatedAt: time,
+      doneAt: status === "done" ? time : null,
     });
   }
   return items;
@@ -127,7 +129,9 @@ describe("a new folder", () => {
       return store.update({ id: added.id, status, updatedAt: added.updatedAt });
     });
 
-    expect(itemStatuses.flatMap((status) => store.list(status))).toEqual(items);
+    expect(
+      itemStatuses.flatMap((status) => store.list({ statuses: [status] })),
+    ).toEqual(items);
   });
 
   it("gets an item table that refuses an unknown status", () => {
@@ -245,7 +249,7 @@ const earlierSchemas: EarlierSchema[] = [
           item.rank,
           item.createdAt,
           item.updatedAt,
-          item.status === "done" ? item.updatedAt : null,
+          item.doneAt,
         );
       }
       return items;
