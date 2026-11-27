@@ -142,7 +142,7 @@ export const addItemInput = z.object({
     .array(newSource)
     .default([])
     .describe(
-      `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give the main one first, without ids; each gets one. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
+      `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give them without ids; each gets one. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
     ),
 });
 
