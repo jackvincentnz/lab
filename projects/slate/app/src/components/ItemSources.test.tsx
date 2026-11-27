@@ -394,6 +394,23 @@ describe("ItemSources", () => {
     expect(label).toHaveFocus();
   });
 
+  it("moves focus to the open add editor once a source is removed", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    const saved = { ...original, sources: [session] };
+    onSourcesChange.mockImplementation((_editedFrom, _change, { onSaved }) =>
+      onSaved(saved),
+    );
+    await user.click(screen.getByRole("button", { name: "Add a source" }));
+    await user.click(editButton(notes.label));
+
+    await user.click(screen.getByRole("button", { name: "Remove source" }));
+    showItem(saved);
+
+    expect(screen.getByRole("textbox", { name: "Label" })).toHaveFocus();
+  });
+
   it("returns focus to Add a source once a source is removed", async () => {
     const user = userEvent.setup();
     const original = item({ sources: [session, notes] });

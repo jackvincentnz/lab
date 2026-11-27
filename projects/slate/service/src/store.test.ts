@@ -671,12 +671,13 @@ describe("update", () => {
     ]);
   });
 
-  it("refuses to replace a source the item does not have", () => {
+  it("refuses to replace a source the item does not have, changing nothing", () => {
     const item = store.add("Draft", "", [aSource()]);
 
     const replace = () =>
       store.update({
         id: item.id,
+        name: "Renamed",
         replaceSource: { id: crypto.randomUUID(), to: aReference() },
         updatedAt: item.updatedAt,
       });

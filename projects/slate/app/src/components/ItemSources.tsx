@@ -45,6 +45,15 @@ const maxReferenceLength = 1000;
 
 export function ItemSources(props: ItemSourcesProps) {
   const addButton = useRef<HTMLButtonElement>(null);
+  const addForm = useRef<HTMLFormElement>(null);
+
+  function focusAdd() {
+    if (addButton.current !== null) {
+      addButton.current.focus();
+    } else {
+      addForm.current?.querySelector("input")?.focus();
+    }
+  }
   return (
     <Stack gap="xs">
       <Title order={3} size="xs" c="dimmed" tt="uppercase">
@@ -54,11 +63,11 @@ export function ItemSources(props: ItemSourcesProps) {
         <SourceRow
           key={source.id}
           source={source}
-          onRemoved={() => addButton.current?.focus()}
+          onRemoved={focusAdd}
           {...props}
         />
       ))}
-      <AddSource addButton={addButton} {...props} />
+      <AddSource addButton={addButton} addForm={addForm} {...props} />
     </Stack>
   );
 }
@@ -157,6 +166,7 @@ function SourceRow({
 
 interface AddSourceProps extends ItemSourcesProps {
   addButton: RefObject<HTMLButtonElement | null>;
+  addForm: RefObject<HTMLFormElement | null>;
 }
 
 function AddSource({
@@ -166,6 +176,7 @@ function AddSource({
   onSourcesChange,
   onSourcesChangeCancel,
   addButton,
+  addForm,
 }: AddSourceProps) {
   const returnFocus = useReturnFocus();
   const { draft, start, change, submit, cancel } = useItemDraft(
@@ -197,6 +208,7 @@ function AddSource({
 
   return (
     <SourceEditor
+      formRef={addForm}
       item={item}
       current={undefined}
       draft={draft}
