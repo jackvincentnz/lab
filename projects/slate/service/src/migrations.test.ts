@@ -24,6 +24,7 @@ const migrations = [
   "20261126165159_item_done_at",
   "20261126180533_item_description",
   "20261127022610_item_set_aside_statuses",
+  "20261127163149_item_source",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -93,6 +94,7 @@ function randomItems(count: number): Item[] {
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
       description: "",
+      source: null,
       status: (["todo", "doing", "done"] as const)[index % 3],
       rank: generateKeyBetween(items.at(-1)?.rank ?? null, null),
       createdAt: time,
@@ -121,7 +123,7 @@ describe("a new folder", () => {
   it("gets an item table that accepts every status", () => {
     const store = openItemStore(dataDir);
     const items = itemStatuses.map((status) => {
-      const added = store.add(`Item ${randomUUID()}`, "");
+      const added = store.add(`Item ${randomUUID()}`, "", null);
       return store.update({ id: added.id, status, updatedAt: added.updatedAt });
     });
 
@@ -154,7 +156,7 @@ describe("a new folder", () => {
 
 describe("a current database", () => {
   it("keeps its items when reopened", () => {
-    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "");
+    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "", null);
 
     const items = openItemStore(dataDir).list();
 
@@ -246,6 +248,16 @@ const earlierSchemas: EarlierSchema[] = [
           item.status === "done" ? item.updatedAt : null,
         );
       }
+      return items;
+    },
+  },
+  {
+    name: "a database from before items had sources",
+    create(file) {
+      migrateUpTo(file, "20261127022610_item_set_aside_statuses");
+      const items = randomItems(3);
+      insertItems(file, items);
+      file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
       return items;
     },
   },

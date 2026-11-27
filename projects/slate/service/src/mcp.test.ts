@@ -42,6 +42,7 @@ function anItem(): Item {
     id: crypto.randomUUID(),
     name: "Write the plan",
     description: "",
+    source: null,
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -91,6 +92,17 @@ describe("createSlateMcpServer", () => {
       id: { description: expect.any(String) },
       neighbourId: { description: expect.any(String) },
       position: { description: expect.any(String) },
+    });
+  });
+
+  it("shows the agent an example source", async () => {
+    const { tools } = await client.listTools();
+
+    const add = tools.find((tool) => tool.name === "add_item");
+    expect(add?.inputSchema.properties).toMatchObject({
+      source: {
+        description: expect.stringContaining("Claude Desktop session"),
+      },
     });
   });
 
@@ -146,7 +158,7 @@ describe("createSlateMcpServer", () => {
 
     const result = await call("add_item", { name: "  Write the plan " });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "");
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "", null);
     expect(result.content).toEqual(text(item));
   });
 
@@ -155,7 +167,39 @@ describe("createSlateMcpServer", () => {
 
     await call("add_item", { name: "Write the plan", description: "Why" });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "Why");
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "Why", null);
+  });
+
+  it("adds an item with its source", async () => {
+    store.add.mockReturnValue(anItem());
+    const source = {
+      kind: "link",
+      url: "https://example.com/session",
+      label: "Claude Desktop session",
+    };
+
+    await call("add_item", { name: "Write the plan", source });
+
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "", source);
+  });
+
+  it("refuses a source link that is not https", async () => {
+    const result = await call("add_item", {
+      name: "Write the plan",
+      source: { kind: "link", url: "javascript:alert(1)", label: "Run" },
+    });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [
+        {
+          text: expect.stringContaining(
+            "Give a link that starts with https://",
+          ),
+        },
+      ],
+    });
+    expect(store.add).not.toHaveBeenCalled();
   });
 
   it("refuses invalid input without reaching the store", async () => {
@@ -244,6 +288,30 @@ describe("createSlateMcpServer", () => {
     expect(store.update).toHaveBeenCalledWith({
       id: item.id,
       description: "New notes",
+      updatedAt: item.updatedAt,
+    });
+  });
+
+  it.each([
+    {
+      kind: "link",
+      url: "https://example.com/pull/1",
+      label: "Pull request",
+    },
+    null,
+  ])("sets or removes an item's source: %o", async (source) => {
+    const item = anItem();
+    store.update.mockReturnValue(item);
+
+    await call("update_item", {
+      id: item.id,
+      source,
+      updatedAt: item.updatedAt,
+    });
+
+    expect(store.update).toHaveBeenCalledWith({
+      id: item.id,
+      source,
       updatedAt: item.updatedAt,
     });
   });

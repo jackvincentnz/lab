@@ -28,6 +28,8 @@ function renderPanel(
     onRenameCancel: vi.fn<ItemPanelProps["onRenameCancel"]>(),
     onDescribe: vi.fn<ItemPanelProps["onDescribe"]>(),
     onDescribeCancel: vi.fn<ItemPanelProps["onDescribeCancel"]>(),
+    onSourceChange: vi.fn<ItemPanelProps["onSourceChange"]>(),
+    onSourceChangeCancel: vi.fn<ItemPanelProps["onSourceChangeCancel"]>(),
     onStatusChange: vi.fn<ItemPanelProps["onStatusChange"]>(),
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };

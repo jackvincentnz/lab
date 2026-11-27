@@ -15,6 +15,7 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 - See everything you are working on in one global priority order.
 - Reprioritise in seconds, either by dragging an item in the app or by asking an agent to move it
   through [MCP](https://modelcontextprotocol.io), the protocol agents use to call tools.
+- Do by hand in the app anything that an agent can do through MCP.
 - Keep the data in a local database rather than in notes, so that later features can query it.
 - Start the window, the storage and the agent connection with one command.
 - Stay small, and add a feature only when the daily process shows it is missing.
@@ -25,6 +26,7 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 | ----------- | ----------------------------------------------------------------------------------------- |
 | Name        | What the work is.                                                                         |
 | Description | Context that belongs with it, such as notes, links or why it matters. Markdown.           |
+| Source      | Where it came from, such as the agent session that captured it, as a link with a label.   |
 | Status      | To do, doing, done, deferred, won't do, or delegated. The list leaves out the last three. |
 | Rank        | Its place in the one global priority order.                                               |
 | Created     | When it was added.                                                                        |

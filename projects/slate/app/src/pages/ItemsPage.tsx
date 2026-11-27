@@ -22,7 +22,7 @@ import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
 import type { SaveCallbacks } from "../components/useItemDraft";
 
-type ItemEdit = Pick<UpdateItemInput, "name" | "description">;
+type ItemEdit = Pick<UpdateItemInput, "name" | "description" | "source">;
 
 const SLOW_SAVE_MS = 300;
 
@@ -188,6 +188,10 @@ export function ItemsPage() {
             saveEdit(editedFrom, { description }, callbacks)
           }
           onDescribeCancel={clearSaveError}
+          onSourceChange={(editedFrom, source, callbacks) =>
+            saveEdit(editedFrom, { source }, callbacks)
+          }
+          onSourceChangeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
           onDelete={() => {
             if (!startChange()) {

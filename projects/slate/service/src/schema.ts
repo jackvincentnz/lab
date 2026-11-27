@@ -1,5 +1,6 @@
 import { sql } from "drizzle-orm";
 import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import type { ItemSource } from "./item.js";
 
 export const itemStatuses = [
   "todo",
@@ -16,6 +17,7 @@ export const item = sqliteTable(
     id: text().primaryKey(),
     name: text().notNull(),
     description: text().notNull().default(""),
+    source: text({ mode: "json" }).$type<ItemSource>(),
     status: text({ enum: itemStatuses }).notNull(),
     // SQLite compares text byte by byte, the same order fractional-indexing's keys sort in.
     rank: text().notNull().unique(),

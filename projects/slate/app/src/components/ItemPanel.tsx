@@ -1,10 +1,11 @@
 import { useLayoutEffect, useRef } from "react";
 import { ActionIcon, Box, Button, Group, Stack } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import type { Item, ItemStatus } from "../api";
+import type { Item, ItemSource as Source, ItemStatus } from "../api";
 import classes from "./ItemPanel.module.css";
 import { ItemDescription } from "./ItemDescription";
 import { ItemName } from "./ItemName";
+import { ItemSource } from "./ItemSource";
 import { StatusMenu } from "./StatusMenu";
 import type { SaveDraft } from "./useItemDraft";
 
@@ -17,6 +18,8 @@ interface ItemPanelProps {
   onRenameCancel(): void;
   onDescribe: SaveDraft;
   onDescribeCancel(): void;
+  onSourceChange: SaveDraft<Source | null>;
+  onSourceChangeCancel(): void;
   onStatusChange(status: ItemStatus): void;
   onDelete(): void;
 }
@@ -30,6 +33,8 @@ export function ItemPanel({
   onRenameCancel,
   onDescribe,
   onDescribeCancel,
+  onSourceChange,
+  onSourceChangeCancel,
   onStatusChange,
   onDelete,
 }: ItemPanelProps) {
@@ -101,6 +106,14 @@ export function ItemPanel({
           saving={saving}
           onDescribe={onDescribe}
           onDescribeCancel={onDescribeCancel}
+        />
+        <ItemSource
+          key={`${item.id}-source`}
+          item={item}
+          disabled={disabled}
+          saving={saving}
+          onSourceChange={onSourceChange}
+          onSourceChangeCancel={onSourceChangeCancel}
         />
         <Group mt="auto">
           <Button

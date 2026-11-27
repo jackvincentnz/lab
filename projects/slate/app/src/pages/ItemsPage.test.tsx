@@ -172,6 +172,72 @@ describe("ItemsPage", () => {
     ).not.toBeInTheDocument();
   });
 
+  it("saves an item's source and shows the service's", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const source = {
+      kind: "link" as const,
+      url: "https://example.com/session",
+      label: "Planning session",
+    };
+    const sourced = { ...original, source };
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockResolvedValue(sourced);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([sourced]);
+    const panel = await openItem(user, "Plan the week");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Add a source" }),
+    );
+    await user.type(
+      within(panel).getByRole("textbox", { name: "Link" }),
+      source.url,
+    );
+    await user.type(
+      within(panel).getByRole("textbox", { name: "Label" }),
+      `${source.label}{Enter}`,
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: original.id,
+      source,
+      updatedAt: original.updatedAt,
+    });
+    expect(
+      await within(panel).findByRole("link", { name: "Planning session" }),
+    ).toHaveAttribute("href", source.url);
+  });
+
+  it("removes an item's source", async () => {
+    const user = userEvent.setup();
+    const original = item({
+      name: "Plan the week",
+      source: {
+        kind: "link",
+        url: "https://example.com/session",
+        label: "Planning session",
+      },
+    });
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockResolvedValue({ ...original, source: null });
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    const panel = await openItem(user, "Plan the week");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Edit source" }),
+    );
+    await user.click(
+      within(panel).getByRole("button", { name: "Remove source" }),
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: original.id,
+      source: null,
+      updatedAt: original.updatedAt,
+    });
+  });
+
   it("shows the newer description when a description edit is refused as changed elsewhere", async () => {
     const user = userEvent.setup();
     const original = item({
