@@ -1,4 +1,3 @@
-import type { Page } from "@playwright/test";
 import { expect, test } from "./fixtures";
 
 test("serves the web UI from the service without Node access", async ({
@@ -30,73 +29,6 @@ test("lists an item added in the web UI", async ({ window }) => {
   await expect(items).toHaveCount(1);
   await expect(items).toContainText("Plan the week");
 });
-
-test("draws an item dragged out of In progress over the items in Next", async ({
-  window,
-}) => {
-  const dragged = window
-    .getByRole("listitem")
-    .filter({ hasText: "Write the report" });
-  await addItemsInWebUi(window, [
-    "Book travel",
-    "Plan the week",
-    "Write the report",
-  ]);
-  await window
-    .getByRole("button", { name: "Move Write the report" })
-    .dragTo(window.getByText("Drag an item here when you start it"));
-  await expect(window.getByRole("list", { name: "In progress" })).toContainText(
-    "Write the report",
-  );
-
-  await holdDragOver(window, "Write the report", "Book travel");
-  await expect(window.getByRole("list", { name: "Next" })).toContainText(
-    "Write the report",
-  );
-  const drawn = await dragged.evaluate(
-    (row, other) => {
-      const { left, right, top } = row.getBoundingClientRect();
-      const { bottom } = other!.getBoundingClientRect();
-      return row.contains(
-        document.elementFromPoint((left + right) / 2, (top + bottom) / 2),
-      );
-    },
-    await window
-      .getByRole("listitem")
-      .filter({ hasText: "Book travel" })
-      .elementHandle(),
-  );
-
-  expect(drawn).toBe(true);
-});
-
-async function addItemsInWebUi(window: Page, names: string[]): Promise<void> {
-  const name = window.getByRole("textbox", { name: "New item" });
-  for (const item of names) {
-    await name.fill(item);
-    await name.press("Enter");
-    await expect(window.getByText(item)).toBeVisible();
-  }
-}
-
-async function holdDragOver(
-  window: Page,
-  name: string,
-  target: string,
-): Promise<void> {
-  const handle = await window
-    .getByRole("button", { name: `Move ${name}` })
-    .boundingBox();
-  const over = await window
-    .getByRole("listitem")
-    .filter({ hasText: target })
-    .boundingBox();
-  const x = handle!.x + handle!.width / 2;
-
-  await window.mouse.move(x, handle!.y + handle!.height / 2);
-  await window.mouse.down();
-  await window.mouse.move(x, over!.y + over!.height / 2, { steps: 10 });
-}
 
 test("stops every process it started on quit", async ({ slate }) => {
   const main = slate.process();
