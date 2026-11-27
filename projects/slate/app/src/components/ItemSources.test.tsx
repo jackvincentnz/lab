@@ -236,7 +236,7 @@ describe("ItemSources", () => {
     expect(editButton(changed.label)).toHaveFocus();
   });
 
-  it("replaces the source it edits after a source before it was removed elsewhere", async () => {
+  it("replaces its own source after another was removed elsewhere", async () => {
     const user = userEvent.setup();
     const third: Source = {
       id: crypto.randomUUID(),
@@ -304,7 +304,7 @@ describe("ItemSources", () => {
     );
   });
 
-  it("keeps the editor open when sources before it are removed elsewhere", async () => {
+  it("keeps an editor open when another source is removed elsewhere", async () => {
     const user = userEvent.setup();
     const original = item({ sources: [session, notes] });
     const { showItem } = renderSources(original);
@@ -331,6 +331,67 @@ describe("ItemSources", () => {
       { removeSources: [notes.id] },
       expect.anything(),
     );
+  });
+
+  it("returns focus to Add a source once a source is added", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session] });
+    const { onSourcesChange } = renderSources(original);
+    onSourcesChange.mockImplementation((_editedFrom, _change, { onSaved }) =>
+      onSaved(original),
+    );
+    await user.click(screen.getByRole("button", { name: "Add a source" }));
+    await user.type(screen.getByRole("textbox", { name: "Label" }), "Notes");
+    await user.type(
+      screen.getByRole("textbox", { name: "Link" }),
+      "https://example.com/notes{Enter}",
+    );
+
+    expect(screen.getByRole("button", { name: "Add a source" })).toHaveFocus();
+  });
+
+  it("saves one source while another's editor stays open", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange } = renderSources(original);
+    await user.click(editButton(notes.label));
+    const notesLabel = screen.getByRole("textbox", { name: "Label" });
+    await user.type(notesLabel, " draft");
+    await user.click(editButton(session.label));
+    const [sessionLabel] = screen.getAllByRole("textbox", { name: "Label" });
+
+    await user.type(sessionLabel!, " notes{Enter}");
+
+    expect(onSourcesChange).toHaveBeenCalledWith(
+      original,
+      {
+        replaceSource: {
+          id: session.id,
+          to: { ...newSource(session), label: "Planning session notes" },
+        },
+      },
+      expect.anything(),
+    );
+    expect(notesLabel).toHaveValue("TODO list draft");
+  });
+
+  it("leaves focus where it is when a removal saves after it moved on", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange } = renderSources(original);
+    await startEdit(user, notes.label);
+    await user.click(screen.getByRole("button", { name: "Remove source" }));
+    await user.click(editButton(session.label));
+    const label = screen.getAllByRole("textbox", { name: "Label" })[0]!;
+
+    act(() =>
+      saveCallbacks(onSourcesChange).onSaved({
+        ...original,
+        sources: [session],
+      }),
+    );
+
+    expect(label).toHaveFocus();
   });
 
   it("returns focus to Add a source once a source is removed", async () => {

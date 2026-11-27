@@ -78,15 +78,15 @@ function SourceRow({
   onRemoved,
 }: SourceRowProps) {
   const returnFocus = useReturnFocus();
+  const editor = useRef<HTMLFormElement>(null);
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
     (shown) => sourceDraftOf(shown.sources.find(({ id }) => id === source.id)),
     (editedFrom, value: SourceDraft, callbacks) => {
-      const saved = sourceOf(value);
-      if (saved !== null) {
+      if (value !== noSource) {
         onSourcesChange(
           editedFrom,
-          { replaceSource: { id: source.id, to: saved } },
+          { replaceSource: { id: source.id, to: sourceOf(value) } },
           callbacks,
         );
         return;
@@ -97,8 +97,15 @@ function SourceRow({
         {
           ...callbacks,
           onSaved: (savedItem) => {
+            // The row goes once the list reloads, so focus moves on unless it already has.
+            const focus = document.activeElement;
+            const focusWasHere =
+              focus === document.body || editor.current?.contains(focus);
+            returnFocus.forget();
             callbacks.onSaved(savedItem);
-            onRemoved();
+            if (focusWasHere) {
+              onRemoved();
+            }
           },
         },
       );
@@ -130,8 +137,8 @@ function SourceRow({
 
   return (
     <SourceEditor
+      formRef={editor}
       item={item}
-      editingId={source.id}
       current={source}
       draft={draft}
       disabled={disabled}
@@ -164,12 +171,8 @@ function AddSource({
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
     () => noSource,
-    (editedFrom, value: SourceDraft, callbacks) => {
-      const saved = sourceOf(value);
-      if (saved !== null) {
-        onSourcesChange(editedFrom, { addSources: [saved] }, callbacks);
-      }
-    },
+    (editedFrom, value: SourceDraft, callbacks) =>
+      onSourcesChange(editedFrom, { addSources: [sourceOf(value)] }, callbacks),
   );
 
   if (draft === undefined) {
@@ -195,7 +198,6 @@ function AddSource({
   return (
     <SourceEditor
       item={item}
-      editingId={undefined}
       current={undefined}
       draft={draft}
       disabled={disabled}
@@ -218,6 +220,9 @@ function useReturnFocus() {
     expect() {
       returning.current = true;
     },
+    forget() {
+      returning.current = false;
+    },
     ref(button: HTMLButtonElement | null) {
       if (button !== null && returning.current) {
         returning.current = false;
@@ -230,8 +235,8 @@ function useReturnFocus() {
 }
 
 interface SourceEditorProps {
+  formRef?: RefObject<HTMLFormElement | null>;
   item: Item;
-  editingId: string | undefined;
   current: Source | undefined;
   draft: Draft<SourceDraft>;
   disabled: boolean;
@@ -242,8 +247,8 @@ interface SourceEditorProps {
 }
 
 function SourceEditor({
+  formRef,
   item,
-  editingId,
   current,
   draft,
   disabled,
@@ -253,10 +258,11 @@ function SourceEditor({
   onRemove,
 }: SourceEditorProps) {
   const targetError =
-    sourceTargetError(draft.value) ?? repeatError(item, editingId, draft.value);
+    sourceTargetError(draft.value) ?? repeatError(item, current, draft.value);
 
   return (
     <form
+      ref={formRef}
       onSubmit={(event) => {
         event.preventDefault();
         onSubmit();
@@ -362,12 +368,12 @@ function sourceKey(source: NewSource): string {
 
 function repeatError(
   item: Item,
-  editingId: string | undefined,
+  editing: Source | undefined,
   draft: SourceDraft,
 ): string | undefined {
   const target = draft.target.trim();
   return item.sources.some(
-    (source) => source.id !== editingId && sourceKey(source) === target,
+    (source) => source.id !== editing?.id && sourceKey(source) === target,
   )
     ? "The item already has this source"
     : undefined;
@@ -382,10 +388,7 @@ function sourceDraftOf(source: Source | undefined): SourceDraft {
     : { kind: "reference", target: source.text, label: source.label };
 }
 
-function sourceOf({ kind, target, label }: SourceDraft): NewSource | null {
-  if (target === "" && label === "") {
-    return null;
-  }
+function sourceOf({ kind, target, label }: SourceDraft): NewSource {
   return kind === "link"
     ? { kind, url: target.trim(), label: label.trim() }
     : { kind, text: target.trim(), label: label.trim() };
