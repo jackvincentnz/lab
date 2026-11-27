@@ -12,7 +12,6 @@ const fetch = vi.fn<typeof globalThis.fetch>();
 
 afterEach(() => {
   fetch.mockReset();
-  vi.useRealTimers();
 });
 
 test("calls the service's procedures under the given URL", async () => {
