@@ -40,6 +40,7 @@ interface ItemsPageProps {
 export function ItemsPage({ view }: ItemsPageProps) {
   const { label, query, empty } = views[view];
   const today = view === "today";
+  const done = view === "done";
   const trpc = useTRPC();
   const items = useQuery(trpc.listItems.queryOptions(query));
   const addItem = useMutation(trpc.addItem.mutationOptions());
@@ -169,53 +170,60 @@ export function ItemsPage({ view }: ItemsPageProps) {
             onDismiss={() => setDeleted(undefined)}
           />
         )}
-        {items.isPending && (
-          <Center>
-            <Loader aria-label="Loading your list" />
-          </Center>
-        )}
-        {items.data?.length === 0 && <Text c="dimmed">{empty}</Text>}
-        {items.data !== undefined && items.data.length > 0 && !today && (
-          <ViewList
-            label={label}
-            items={items.data}
-            groupByDayDone={view === "done"}
-            disabled={disabled}
-            openId={opened?.id}
-            onOpen={(item) => {
-              clearSaveError();
-              setOpenId(item.id);
-            }}
-            onStatusChange={changeStatus}
-            {...(view === "deleted" && {
-              onRestore: (item: Item) => {
+        <Stack gap="xs">
+          {!today && !done && (
+            <Text component="h2" fw={600}>
+              {label}
+            </Text>
+          )}
+          {items.isPending && (
+            <Center>
+              <Loader aria-label="Loading your list" />
+            </Center>
+          )}
+          {items.data?.length === 0 && <Text c="dimmed">{empty}</Text>}
+          {items.data !== undefined && items.data.length > 0 && !today && (
+            <ViewList
+              label={label}
+              items={items.data}
+              groupByDayDone={done}
+              disabled={disabled}
+              openId={opened?.id}
+              onOpen={(item) => {
+                clearSaveError();
+                setOpenId(item.id);
+              }}
+              onStatusChange={changeStatus}
+              {...(view === "deleted" && {
+                onRestore: (item: Item) => {
+                  if (!startChange()) {
+                    return;
+                  }
+                  restoreItem.mutate({ id: item.id });
+                },
+              })}
+            />
+          )}
+          {items.data !== undefined && items.data.length > 0 && today && (
+            <ItemList
+              items={items.data}
+              disabled={disabled}
+              openId={opened?.id}
+              onMove={(move, onSettled) => {
                 if (!startChange()) {
-                  return;
+                  return false;
                 }
-                restoreItem.mutate({ id: item.id });
-              },
-            })}
-          />
-        )}
-        {items.data !== undefined && items.data.length > 0 && today && (
-          <ItemList
-            items={items.data}
-            disabled={disabled}
-            openId={opened?.id}
-            onMove={(move, onSettled) => {
-              if (!startChange()) {
-                return false;
-              }
-              moveItem.mutate(move, { onSettled });
-              return true;
-            }}
-            onOpen={(item) => {
-              clearSaveError();
-              setOpenId(item.id);
-            }}
-            onStatusChange={changeStatus}
-          />
-        )}
+                moveItem.mutate(move, { onSettled });
+                return true;
+              }}
+              onOpen={(item) => {
+                clearSaveError();
+                setOpenId(item.id);
+              }}
+              onStatusChange={changeStatus}
+            />
+          )}
+        </Stack>
       </Stack>
       {opened !== undefined && (
         <PanelResizeHandle handleProps={panel.handleProps} />

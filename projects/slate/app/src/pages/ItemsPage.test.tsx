@@ -1404,6 +1404,43 @@ describe("ItemsPage in another view", () => {
     expect(await screen.findByText("Nothing delegated.")).toBeInTheDocument();
   });
 
+  it.each([
+    ["delegated", "Delegated"],
+    ["deferred", "Deferred"],
+    ["wontDo", "Won't do"],
+    ["deleted", "Deleted"],
+  ] as const)("names the %s view in a heading", async (view, name) => {
+    render(<ItemsPage view={view} />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { level: 2, name })).toBeInTheDocument();
+  });
+
+  it("names a view in a heading when it has no items", async () => {
+    render(<ItemsPage view="deferred" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
+
+    expect(await screen.findByText("Nothing deferred.")).toBeInTheDocument();
+    expect(
+      screen.getByRole("heading", { level: 2, name: "Deferred" }),
+    ).toBeInTheDocument();
+  });
+
+  it.each([
+    ["today", "Today"],
+    ["done", "Done"],
+  ] as const)("gives the %s view no heading of its own", async (view, name) => {
+    render(<ItemsPage view={view} />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(screen.queryByRole("heading", { name })).not.toBeInTheDocument();
+  });
+
   it("groups done items by the day they were done", async () => {
     vi.useFakeTimers({ toFake: ["Date"] });
     vi.setSystemTime(new Date(2026, 10, 27, 15));
