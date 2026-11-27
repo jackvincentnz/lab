@@ -25,7 +25,7 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 | ----------- | ------------------------------------------------------------------------------- |
 | Name        | What the work is.                                                               |
 | Description | Context that belongs with it, such as notes, links or why it matters. Markdown. |
-| Status      | To do, doing, or done.                                                          |
+| Status      | To do, doing, done, deferred, won't do, or delegated.                           |
 | Rank        | Its place in the one global priority order.                                     |
 | Created     | When it was added.                                                              |
 | Updated     | When it was last changed.                                                       |

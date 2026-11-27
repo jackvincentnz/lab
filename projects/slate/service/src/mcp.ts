@@ -29,9 +29,10 @@ const tools = {
       {
         title: "List items",
         description:
-          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a status (todo, doing or done), a rank, and the times it was created and last updated. Items marked done on an earlier day are left out.",
+          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a status (todo, doing, done, deferred, wont_do or delegated), a rank, and the times it was created and last updated. The main list leaves out items marked done on an earlier day and items that are deferred, wont_do or delegated; give a status to list only the items with it, such as everything delegated.",
+        inputSchema: listItems.input,
       },
-      () => reply(listItems.run(store)),
+      (input) => reply(listItems.run(store, input)),
     ),
   addItem: (server, store) =>
     server.registerTool(
@@ -50,7 +51,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it another status brings it back.",
+          "Rename an item on the user's Slate list, change its description, or change its status, such as marking a to-do done. Give at least one of name, description and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave the main list but keep their rank. Giving a hidden item todo or doing brings it back to its place.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),
@@ -73,7 +74,7 @@ const tools = {
       {
         title: "Delete item",
         description:
-          "Delete an item from the user's Slate list, such as one added by mistake or no longer wanted, using its id from list_items. To set aside finished work, mark it done with update_item instead. A deleted item no longer appears in list_items, and restore_item puts it back.",
+          "Delete an item from the user's Slate list, such as one added by mistake or no longer wanted, using its id from list_items. To set aside finished work, or work that is deferred, delegated or will not be done, change its status with update_item instead. A deleted item no longer appears in list_items, and restore_item puts it back.",
         inputSchema: deleteItem.input,
       },
       (input) => replyIfFound(deleteItem.run(store, input), [input.id]),

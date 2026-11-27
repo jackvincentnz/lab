@@ -10,6 +10,7 @@ import {
   getTableName,
   gt,
   gte,
+  inArray,
   lt,
   ne,
   or,
@@ -22,6 +23,7 @@ import { generateKeyBetween } from "fractional-indexing";
 import {
   type Item,
   ItemChangedError,
+  type ItemStatus,
   type MoveItemInput,
   type UpdateItemInput,
 } from "./item.js";
@@ -38,6 +40,8 @@ const itemColumns = {
 } satisfies Record<keyof Item, unknown>;
 
 const listed = eq(item.deleted, false);
+
+const onMainList = inArray(item.status, ["todo", "doing", "done"]);
 
 /** Today starts at midnight local to the service, which runs on the user's machine. */
 function notDoneBeforeToday(now: Date) {
@@ -148,11 +152,15 @@ export class ItemStore {
     this.#now = now;
   }
 
-  list(): Item[] {
+  list(status?: ItemStatus): Item[] {
+    const shown =
+      status === undefined
+        ? and(onMainList, notDoneBeforeToday(this.#now()))
+        : eq(item.status, status);
     return this.#database
       .select(itemColumns)
       .from(item)
-      .where(and(listed, notDoneBeforeToday(this.#now())))
+      .where(and(listed, shown))
       .orderBy(item.rank)
       .all();
   }

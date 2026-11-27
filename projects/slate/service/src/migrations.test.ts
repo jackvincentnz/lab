@@ -15,6 +15,7 @@ import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { generateKeyBetween } from "fractional-indexing";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { type Item } from "./item.js";
+import { itemStatuses } from "./schema.js";
 import { openItemStore } from "./store.js";
 
 const migrations = [
@@ -22,6 +23,7 @@ const migrations = [
   "20261126150944_item_deleted",
   "20261126165159_item_done_at",
   "20261126180533_item_description",
+  "20261127022610_item_set_aside_statuses",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -116,6 +118,16 @@ describe("a new folder", () => {
     expect(table).toMatchObject({ strict: 1 });
   });
 
+  it("gets an item table that accepts every status", () => {
+    const store = openItemStore(dataDir);
+    const items = itemStatuses.map((status) => {
+      const added = store.add(`Item ${randomUUID()}`, "");
+      return store.update({ id: added.id, status, updatedAt: added.updatedAt });
+    });
+
+    expect(itemStatuses.flatMap((status) => store.list(status))).toEqual(items);
+  });
+
   it("gets an item table that refuses an unknown status", () => {
     openItemStore(dataDir);
     const [item] = randomItems(1);
@@ -208,6 +220,32 @@ const earlierSchemas: EarlierSchema[] = [
       const items = randomItems(3);
       insertItems(file, items);
       file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
+      return items;
+    },
+  },
+  {
+    name: "a database from before items could be deferred, delegated or not done",
+    create(file) {
+      migrateUpTo(file, "20261126180533_item_description");
+      const items = randomItems(3).map((item) => ({
+        ...item,
+        description: `Notes ${randomUUID()}`,
+      }));
+      const insert = file.prepare(
+        "INSERT INTO item (id, name, description, status, rank, created_at, updated_at, done_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      );
+      for (const item of items) {
+        insert.run(
+          item.id,
+          item.name,
+          item.description,
+          item.status,
+          item.rank,
+          item.createdAt,
+          item.updatedAt,
+          item.status === "done" ? item.updatedAt : null,
+        );
+      }
       return items;
     },
   },
