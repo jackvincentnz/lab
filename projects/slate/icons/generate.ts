@@ -8,6 +8,7 @@ const folder = join(
   "projects/slate/icons",
 );
 const logo = readFileSync(join(folder, "slate.svg"), "utf8");
+const menuBarLogo = readFileSync(join(folder, "slateTemplate.svg"), "utf8");
 
 // The letters are paths, so that the band does not depend on the fonts a machine has.
 const devBand =
@@ -36,6 +37,16 @@ try {
   writeFileSync(join(folder, "slate-dev.png"), await render(devLogo, 512));
   // Sent to MCP clients, which show it at about 16 to 32 px.
   writeFileSync(join(folder, "slate-64.png"), await render(logo, 64));
+  // Electron picks the @2x file on Retina displays and treats a name ending in Template as a template
+  // image, which macOS colours to match the menu bar.
+  writeFileSync(
+    join(folder, "slateTemplate.png"),
+    await render(menuBarLogo, 22),
+  );
+  writeFileSync(
+    join(folder, "slateTemplate@2x.png"),
+    await render(menuBarLogo, 44),
+  );
 } finally {
   await browser.close();
 }

@@ -22,6 +22,18 @@ js_library(
 )
 
 js_library(
+    name = "menu_bar",
+    srcs = [
+        "slateTemplate.png",
+        "slateTemplate@2x.png",
+    ],
+    visibility = [
+        "//projects/slate:__pkg__",
+        "//projects/slate/desktop:__pkg__",
+    ],
+)
+
+js_library(
     name = "mark",
     srcs = ["slate-mark.svg"],
     visibility = ["//projects/slate/app:__pkg__"],
