@@ -20,15 +20,23 @@ import { AddItemForm } from "../components/AddItemForm";
 import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
+import { ViewList } from "../components/ViewList";
 import type { SaveCallbacks } from "../components/useItemDraft";
+import { type ViewName, views } from "../views";
 
 type ItemEdit = Pick<UpdateItemInput, "name" | "description" | "source">;
 
 const SLOW_SAVE_MS = 300;
 
-export function ItemsPage() {
+interface ItemsPageProps {
+  view: ViewName;
+}
+
+export function ItemsPage({ view }: ItemsPageProps) {
+  const { label, query, empty } = views[view];
+  const today = view === "today";
   const trpc = useTRPC();
-  const items = useQuery(trpc.listItems.queryOptions());
+  const items = useQuery(trpc.listItems.queryOptions(query));
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
@@ -102,14 +110,16 @@ export function ItemsPage() {
   return (
     <Flex direction={{ base: "column-reverse", md: "row" }} align="flex-start">
       <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
-        <AddItemForm
-          onAdd={(name, onSaved) => {
-            if (!startChange()) {
-              return;
-            }
-            addItem.mutate({ name }, { onSuccess: onSaved });
-          }}
-        />
+        {today && (
+          <AddItemForm
+            onAdd={(name, onSaved) => {
+              if (!startChange()) {
+                return;
+              }
+              addItem.mutate({ name }, { onSuccess: onSaved });
+            }}
+          />
+        )}
         {items.isError && (
           <Alert color="red" title="Could not load your list">
             <Button
@@ -154,12 +164,30 @@ export function ItemsPage() {
             <Loader aria-label="Loading your list" />
           </Center>
         )}
-        {items.data?.length === 0 && (
-          <Text c="dimmed">
-            Nothing on your slate yet. Add the first item above.
-          </Text>
+        {items.data?.length === 0 && <Text c="dimmed">{empty}</Text>}
+        {items.data !== undefined && items.data.length > 0 && !today && (
+          <ViewList
+            label={label}
+            items={items.data}
+            groupByDayDone={view === "done"}
+            disabled={disabled}
+            openId={opened?.id}
+            onOpen={(item) => {
+              clearSaveError();
+              setOpenId(item.id);
+            }}
+            onStatusChange={changeStatus}
+            {...(view === "deleted" && {
+              onRestore: (item: Item) => {
+                if (!startChange()) {
+                  return;
+                }
+                restoreItem.mutate({ id: item.id });
+              },
+            })}
+          />
         )}
-        {items.data !== undefined && items.data.length > 0 && (
+        {items.data !== undefined && items.data.length > 0 && today && (
           <ItemList
             items={items.data}
             disabled={disabled}

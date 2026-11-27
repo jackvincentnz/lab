@@ -52,7 +52,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi();
     api.listItems.mockReturnValue(new Promise<Item[]>(() => undefined));
 
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     expect(screen.getByLabelText("Loading your list")).toBeInTheDocument();
   });
@@ -63,7 +63,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
 
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     expect(await screen.findAllByRole("listitem")).toHaveLength(2);
     expect(screen.getByText("Plan the week")).toBeInTheDocument();
@@ -71,7 +71,9 @@ describe("ItemsPage", () => {
   });
 
   it("says the list is empty when there are no items", async () => {
-    render(<ItemsPage />, { wrapper: withSlateApi(fakeSlateApi([])) });
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
 
     expect(
       await screen.findByText(/Nothing on your slate yet/),
@@ -84,7 +86,7 @@ describe("ItemsPage", () => {
     api.listItems
       .mockRejectedValueOnce(new Error("offline"))
       .mockResolvedValueOnce([item({ name: "Plan the week" })]);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await user.click(await screen.findByRole("button", { name: "Retry" }));
 
@@ -99,7 +101,7 @@ describe("ItemsPage", () => {
     const added = item({ name: "Plan the week" });
     const api = fakeSlateApi([]);
     api.addItem.mockResolvedValue(added);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([added]);
 
     await user.type(
@@ -118,7 +120,7 @@ describe("ItemsPage", () => {
     const renamed = { ...original, name: "Plan the month" };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(renamed);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([renamed]);
     const panel = await openItem(user, "Plan the week");
 
@@ -149,7 +151,7 @@ describe("ItemsPage", () => {
     const described = { ...original, description: "Before **Friday**" };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(described);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([described]);
     const panel = await openItem(user, "Plan the week");
 
@@ -183,7 +185,7 @@ describe("ItemsPage", () => {
     const sourced = { ...original, source };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(sourced);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([sourced]);
     const panel = await openItem(user, "Plan the week");
 
@@ -221,7 +223,7 @@ describe("ItemsPage", () => {
     });
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue({ ...original, source: null });
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const panel = await openItem(user, "Plan the week");
 
     await user.click(
@@ -246,7 +248,7 @@ describe("ItemsPage", () => {
     });
     const api = fakeSlateApi([original]);
     api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([
       {
         ...original,
@@ -275,7 +277,7 @@ describe("ItemsPage", () => {
     const started = { ...original, status: "in_progress" as const };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(started);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([started]);
     const panel = await openItem(user, "Plan the week");
 
@@ -299,7 +301,7 @@ describe("ItemsPage", () => {
     const original = item({ name: "Plan the week" });
     const api = fakeSlateApi([original]);
     api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([
       {
         ...original,
@@ -332,7 +334,7 @@ describe("ItemsPage", () => {
     const original = item({ name: "Plan the week" });
     const api = fakeSlateApi([original]);
     api.updateItem.mockRejectedValue(new TRPCError({ code: "CONFLICT" }));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([
       {
         ...original,
@@ -364,7 +366,7 @@ describe("ItemsPage", () => {
     const done = { ...original, status: "done" as const };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(done);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([done]);
 
     await user.click(
@@ -384,7 +386,7 @@ describe("ItemsPage", () => {
   });
 
   it("shows no side panel until an item is opened", async () => {
-    render(<ItemsPage />, {
+    render(<ItemsPage view="today" />, {
       wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
     });
 
@@ -397,7 +399,7 @@ describe("ItemsPage", () => {
 
   it("opens an item in the side panel", async () => {
     const user = userEvent.setup();
-    render(<ItemsPage />, {
+    render(<ItemsPage view="today" />, {
       wrapper: withSlateApi(
         fakeSlateApi([
           item({ name: "Plan the week" }),
@@ -415,7 +417,7 @@ describe("ItemsPage", () => {
 
   it("closes the side panel", async () => {
     const user = userEvent.setup();
-    render(<ItemsPage />, {
+    render(<ItemsPage view="today" />, {
       wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
     });
     const panel = await openItem(user, "Plan the week");
@@ -431,7 +433,7 @@ describe("ItemsPage", () => {
 
   it("returns focus to the item's row when the side panel closes", async () => {
     const user = userEvent.setup();
-    render(<ItemsPage />, {
+    render(<ItemsPage view="today" />, {
       wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
     });
     await openItem(user, "Plan the week");
@@ -449,7 +451,7 @@ describe("ItemsPage", () => {
     const other = item({ name: "Book travel" });
     const api = fakeSlateApi([opened, other]);
     api.updateItem.mockResolvedValue({ ...other, status: "done" });
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     api.listItems.mockResolvedValue([{ ...other, status: "done" }]);
 
@@ -470,7 +472,7 @@ describe("ItemsPage", () => {
     const other = item({ name: "Book travel" });
     const api = fakeSlateApi([opened, other]);
     api.updateItem.mockResolvedValue({ ...opened, status: "delegated" });
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const panel = await openItem(user, "Plan the week");
     api.listItems.mockResolvedValue([other]);
     await user.click(
@@ -501,7 +503,7 @@ describe("ItemsPage", () => {
       item({ name: "Write the report" }),
     ]);
     api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await moveWithKeyboard(user, "Write the report", "[ArrowUp]");
 
@@ -519,7 +521,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
     api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
 
@@ -539,7 +541,7 @@ describe("ItemsPage", () => {
     ];
     const api = fakeSlateApi([first, second, third]);
     api.moveItem.mockResolvedValue(first);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([third, second, first]);
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
@@ -564,7 +566,7 @@ describe("ItemsPage", () => {
     const started = { ...original, status: "in_progress" as const };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(started);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([started]);
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowUp]");
@@ -587,7 +589,7 @@ describe("ItemsPage", () => {
     const remaining = item({ name: "Book travel" });
     const api = fakeSlateApi([deleted, remaining]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
     await openItem(user, "Plan the week");
 
@@ -610,7 +612,7 @@ describe("ItemsPage", () => {
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     screen.getByRole("button", { name: "Delete Plan the week" }).focus();
@@ -627,7 +629,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted, remaining]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockResolvedValue(deleted);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -650,7 +652,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.deleteItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
 
     await user.click(
@@ -672,7 +674,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -693,7 +695,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -716,7 +718,7 @@ describe("ItemsPage", () => {
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -738,7 +740,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
     api.moveItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
 
@@ -754,7 +756,7 @@ describe("ItemsPage", () => {
     const remaining = item({ name: "Book travel" });
     const api = fakeSlateApi([removed, remaining]);
     api.updateItem.mockRejectedValue(new Error("No such item"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([remaining]);
 
     await user.click(
@@ -776,7 +778,7 @@ describe("ItemsPage", () => {
     ];
     const api = fakeSlateApi([first, second, third]);
     api.moveItem.mockRejectedValue(new Error("No such item"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([third, first]);
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
@@ -792,7 +794,7 @@ describe("ItemsPage", () => {
     const added = item({ name: "Plan the week" });
     const api = fakeSlateApi([]);
     api.addItem.mockResolvedValue(added);
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const name = await screen.findByRole("textbox", { name: "New item" });
     onlineManager.setOnline(false);
     api.listItems.mockResolvedValue([added]);
@@ -806,7 +808,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([]);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await user.type(
       await screen.findByRole("textbox", { name: "New item" }),
@@ -823,7 +825,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
     api.deleteItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
@@ -840,7 +842,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.type(
       screen.getByRole("textbox", { name: "New item" }),
@@ -858,7 +860,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Rename Plan the week" }),
@@ -882,7 +884,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -903,7 +905,7 @@ describe("ItemsPage", () => {
       item({ name: "Write the report" }),
     ]);
     api.moveItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await moveWithKeyboard(user, "Write the report", "[ArrowUp]");
 
     await moveWithKeyboard(user, "Plan the week", "[ArrowDown]");
@@ -923,7 +925,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await user.type(
       await screen.findByRole("textbox", { name: "New item" }),
       "Write the report{Enter}",
@@ -938,7 +940,7 @@ describe("ItemsPage", () => {
   it("keeps controls enabled while a change has been saving for less than 300 ms", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const checkbox = await screen.findByRole("checkbox", {
       name: "Mark Plan the week done",
     });
@@ -954,7 +956,7 @@ describe("ItemsPage", () => {
   it("shows controls as disabled once a change has been saving for 300 ms", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const checkbox = await screen.findByRole("checkbox", {
       name: "Mark Plan the week done",
     });
@@ -971,7 +973,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Rename Plan the week" }),
@@ -993,7 +995,7 @@ describe("ItemsPage", () => {
     api.updateItem.mockReturnValue(
       new Promise<Item>((resolve) => (finishSave = resolve)),
     );
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const checkbox = await screen.findByRole("checkbox", {
       name: "Mark Plan the week done",
     });
@@ -1014,7 +1016,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([]);
     api.addItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
 
     await user.type(
       await screen.findByRole("textbox", { name: "New item" }),
@@ -1033,7 +1035,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Rename Plan the week" }),
@@ -1058,7 +1060,7 @@ describe("ItemsPage", () => {
       item({ name: "Book travel" }),
     ]);
     api.updateItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await user.click(
       await screen.findByRole("checkbox", { name: "Mark Plan the week done" }),
     );
@@ -1075,7 +1077,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.updateItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const panel = await openItem(user, "Plan the week");
     await user.click(
       within(panel).getByRole("button", { name: "Status: To do" }),
@@ -1102,7 +1104,7 @@ describe("ItemsPage", () => {
         finishDelete = resolve;
       }),
     );
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
@@ -1124,7 +1126,7 @@ describe("ItemsPage", () => {
         finishDelete = resolve;
       }),
     );
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
@@ -1143,7 +1145,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi();
     api.listItems.mockRejectedValue(new Error("offline"));
     api.addItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     await screen.findByRole("button", { name: "Retry" });
 
     await user.type(
@@ -1155,5 +1157,189 @@ describe("ItemsPage", () => {
       await screen.findByText("Could not save your change"),
     ).toBeInTheDocument();
     expect(screen.getByRole("button", { name: "Retry" })).toBeInTheDocument();
+  });
+});
+
+describe("ItemsPage in another view", () => {
+  it.each([
+    ["today", {}],
+    ["delegated", { statuses: ["delegated"] }],
+    ["deferred", { statuses: ["deferred"] }],
+    ["done", { statuses: ["done"], doneTodayOnly: false, orderBy: "doneAt" }],
+    ["wontDo", { statuses: ["wont_do"] }],
+    [
+      "deleted",
+      {
+        deleted: true,
+        statuses: [
+          "todo",
+          "in_progress",
+          "done",
+          "deferred",
+          "wont_do",
+          "delegated",
+        ],
+        doneTodayOnly: false,
+        orderBy: "updatedAt",
+      },
+    ],
+  ] as const)("lists the %s view's items", async (view, query) => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+
+    render(<ItemsPage view={view} />, { wrapper: withSlateApi(api) });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(api.listItems).toHaveBeenCalledWith(query);
+  });
+
+  it("offers neither adding nor moving outside Today", async () => {
+    const api = fakeSlateApi([
+      item({ name: "Plan the week", status: "deferred" }),
+    ]);
+
+    render(<ItemsPage view="deferred" />, { wrapper: withSlateApi(api) });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("textbox", { name: "New item" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Move Plan the week" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("says when a view has no items", async () => {
+    render(<ItemsPage view="delegated" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
+
+    expect(await screen.findByText("Nothing delegated.")).toBeInTheDocument();
+  });
+
+  it("groups done items by the day they were done", async () => {
+    vi.useFakeTimers({ toFake: ["Date"] });
+    vi.setSystemTime(new Date(2026, 10, 27, 15));
+    const api = fakeSlateApi([
+      item({
+        name: "Ship the release",
+        status: "done",
+        doneAt: new Date(2026, 10, 27, 9).toISOString(),
+      }),
+      item({
+        name: "Write the notes",
+        status: "done",
+        doneAt: new Date(2026, 10, 26, 17).toISOString(),
+      }),
+      item({
+        name: "Book the room",
+        status: "done",
+        doneAt: new Date(2026, 10, 23, 11).toISOString(),
+      }),
+      item({
+        name: "Order the cake",
+        status: "done",
+        doneAt: new Date(2026, 10, 23, 10).toISOString(),
+      }),
+    ]);
+
+    render(<ItemsPage view="done" />, { wrapper: withSlateApi(api) });
+
+    const days = await screen.findAllByRole("list");
+    expect(
+      days.map((day) => [
+        day.getAttribute("aria-label"),
+        within(day)
+          .getAllByRole("listitem")
+          .map((row) => row.textContent),
+      ]),
+    ).toEqual([
+      ["Today", ["Ship the release"]],
+      ["Yesterday", ["Write the notes"]],
+      ["Monday, November 23", ["Book the room", "Order the cake"]],
+    ]);
+  });
+
+  it("reopens a done item", async () => {
+    const user = userEvent.setup();
+    const done = item({
+      name: "Ship the release",
+      status: "done",
+      doneAt: "2026-11-22T09:00:00.000Z",
+    });
+    const api = fakeSlateApi([done]);
+    api.updateItem.mockResolvedValue({ ...done, status: "todo" });
+    render(<ItemsPage view="done" />, { wrapper: withSlateApi(api) });
+
+    await user.click(
+      await screen.findByRole("checkbox", {
+        name: "Mark Ship the release done",
+      }),
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: done.id,
+      status: "todo",
+      updatedAt: done.updatedAt,
+    });
+  });
+
+  it("marks a delegated item done", async () => {
+    const user = userEvent.setup();
+    const delegated = item({ name: "Order monitors", status: "delegated" });
+    const api = fakeSlateApi([delegated]);
+    api.updateItem.mockResolvedValue({ ...delegated, status: "done" });
+    render(<ItemsPage view="delegated" />, { wrapper: withSlateApi(api) });
+
+    await user.click(
+      await screen.findByRole("checkbox", { name: "Mark Order monitors done" }),
+    );
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: delegated.id,
+      status: "done",
+      updatedAt: delegated.updatedAt,
+    });
+  });
+
+  it("takes back a delegated item from its status menu", async () => {
+    const user = userEvent.setup();
+    const delegated = item({ name: "Order monitors", status: "delegated" });
+    const api = fakeSlateApi([delegated]);
+    api.updateItem.mockResolvedValue({ ...delegated, status: "todo" });
+    render(<ItemsPage view="delegated" />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+    const panel = await openItem(user, "Order monitors");
+
+    await user.click(
+      within(panel).getByRole("button", { name: "Status: Delegated" }),
+    );
+    await user.click(screen.getByRole("menuitem", { name: "To do" }));
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: delegated.id,
+      status: "todo",
+      updatedAt: delegated.updatedAt,
+    });
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("complementary", { name: "Item details" }),
+      ).not.toBeInTheDocument(),
+    );
+  });
+
+  it("restores a deleted item", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Try weekly digests" });
+    const api = fakeSlateApi([deleted]);
+    api.restoreItem.mockResolvedValue(deleted);
+    render(<ItemsPage view="deleted" />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([]);
+
+    await user.click(
+      await screen.findByRole("button", { name: "Restore Try weekly digests" }),
+    );
+
+    expect(api.restoreItem).toHaveBeenCalledWith({ id: deleted.id });
+    expect(await screen.findByText("Nothing deleted.")).toBeInTheDocument();
   });
 });

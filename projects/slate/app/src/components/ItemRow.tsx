@@ -2,6 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   ActionIcon,
+  Button,
   Checkbox,
   Group,
   List,
@@ -18,11 +19,15 @@ const STALE_DAYS = 5;
 
 interface ItemRowProps {
   item: Item;
-  rank: number;
+  rank?: number;
   disabled: boolean;
   open: boolean;
   onOpen(): void;
   onStatusChange(status: ItemStatus): void;
+}
+
+interface SortableItemRowProps extends ItemRowProps {
+  rank: number;
 }
 
 interface RowLayoutProps extends ItemRowProps {
@@ -31,7 +36,7 @@ interface RowLayoutProps extends ItemRowProps {
   style?: CSSProperties;
 }
 
-export function SortableItemRow(props: ItemRowProps) {
+export function SortableItemRow(props: SortableItemRowProps) {
   const {
     attributes,
     listeners,
@@ -105,9 +110,11 @@ export function ItemRow({
           aria-expanded={open}
           onClick={onOpen}
         >
-          <Text span size="sm" c="dimmed" miw={28}>
-            #{rank}
-          </Text>
+          {rank !== undefined && (
+            <Text span size="sm" c="dimmed" miw={28}>
+              #{rank}
+            </Text>
+          )}
           <Text
             span
             flex={1}
@@ -124,6 +131,37 @@ export function ItemRow({
             </Text>
           )}
         </UnstyledButton>
+      </Group>
+    </List.Item>
+  );
+}
+
+interface DeletedItemRowProps {
+  item: Item;
+  disabled: boolean;
+  onRestore(): void;
+}
+
+export function DeletedItemRow({
+  item,
+  disabled,
+  onRestore,
+}: DeletedItemRowProps) {
+  return (
+    <List.Item>
+      <Group className={classes["row"]} wrap="nowrap" gap="sm" px="sm">
+        <Text span flex={1} size="sm" fw={500} className={classes["name"]}>
+          {item.name}
+        </Text>
+        <Button
+          variant="default"
+          size="compact-sm"
+          aria-label={`Restore ${item.name}`}
+          disabled={disabled}
+          onClick={onRestore}
+        >
+          Restore
+        </Button>
       </Group>
     </List.Item>
   );

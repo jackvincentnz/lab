@@ -24,7 +24,7 @@ import { layOutRowsVertically } from "./test/layout";
 async function showList(api: FakeSlateApi) {
   render(
     <ListUpdates>
-      <ItemsPage />
+      <ItemsPage view="today" />
     </ListUpdates>,
     { wrapper: withSlateApi(api) },
   );
@@ -96,6 +96,33 @@ describe("ListUpdates", () => {
       await screen.findByRole("button", { name: "Open Book travel" }),
     ).toBeInTheDocument();
   });
+
+  it.each([
+    ["delegated", { status: "delegated" }],
+    ["deferred", { status: "deferred" }],
+    ["done", { status: "done", doneAt: "2026-11-22T09:00:00.000Z" }],
+    ["wontDo", { status: "wont_do" }],
+    ["deleted", { status: "todo" }],
+  ] as const)(
+    "shows a change made elsewhere in the %s view",
+    async (view, fields) => {
+      const api = fakeSlateApi([item({ name: "Plan the week", ...fields })]);
+      render(
+        <ListUpdates>
+          <ItemsPage view={view} />
+        </ListUpdates>,
+        { wrapper: withSlateApi(api) },
+      );
+      await screen.findByText("Plan the week");
+      api.listItems.mockResolvedValue([
+        item({ name: "Book travel", ...fields }),
+      ]);
+
+      act(() => api.listChanged.change());
+
+      expect(await screen.findByText("Book travel")).toBeInTheDocument();
+    },
+  );
 
   it("reloads the list on connecting, to show changes made while disconnected", async () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
