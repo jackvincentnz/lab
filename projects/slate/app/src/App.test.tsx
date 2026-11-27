@@ -81,7 +81,10 @@ test("offers to hide the views on a narrow window while they show", () => {
   expect(menuButton("Hide views")).toBeInTheDocument();
 });
 
-async function deleteItem(user: ReturnType<typeof userEvent.setup>) {
+async function deleteItem(
+  user: ReturnType<typeof userEvent.setup>,
+  { withKeyboard = false } = {},
+) {
   const deleted = item({ name: "Plan the week" });
   const api = fakeSlateApi([deleted]);
   api.deleteItem.mockResolvedValue(deleted);
@@ -90,9 +93,16 @@ async function deleteItem(user: ReturnType<typeof userEvent.setup>) {
     await screen.findByRole("button", { name: "Open Plan the week" }),
   );
   api.listItems.mockResolvedValue([]);
-  await user.click(
-    screen.getByRole("button", { name: "Delete Plan the week" }),
-  );
+  const deleteButton = screen.getByRole("button", {
+    name: "Delete Plan the week",
+  });
+  if (withKeyboard) {
+    deleteButton.focus();
+    await user.keyboard("{Enter}");
+  } else {
+    await user.click(deleteButton);
+  }
+  await screen.findByRole("button", { name: "Undo" });
 }
 
 test("offers the undo for a deleted item over the page rather than in the list", async () => {
@@ -100,7 +110,7 @@ test("offers the undo for a deleted item over the page rather than in the list",
 
   await deleteItem(user);
 
-  const notice = await screen.findByRole("alert");
+  const notice = screen.getByRole("alert");
   expect(notice).toHaveTextContent("Deleted Plan the week");
   expect(screen.getByRole("main")).not.toContainElement(notice);
 });
@@ -108,7 +118,6 @@ test("offers the undo for a deleted item over the page rather than in the list",
 test("stops offering the undo once another view is chosen", async () => {
   const user = userEvent.setup();
   await deleteItem(user);
-  await screen.findByRole("button", { name: "Undo" });
 
   await user.click(screen.getByRole("button", { name: "Deleted" }));
 
@@ -119,29 +128,34 @@ test("stops offering the undo once another view is chosen", async () => {
   );
 });
 
-test("keeps offering the undo while it has focus", async () => {
+test("keeps offering the undo until 8 seconds after a delete", async () => {
   vi.useFakeTimers({ shouldAdvanceTime: true });
   const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
   await deleteItem(user);
-  const undo = await screen.findByRole("button", { name: "Undo" });
-
-  await act(() => vi.advanceTimersByTimeAsync(20_000));
-
-  expect(undo).toBeInTheDocument();
-});
-
-test("stops offering the undo 8 seconds after focus leaves it", async () => {
-  vi.useFakeTimers({ shouldAdvanceTime: true });
-  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-  await deleteItem(user);
-  const undo = await screen.findByRole("button", { name: "Undo" });
-  act(() => undo.blur());
 
   await act(() => vi.advanceTimersByTimeAsync(7_900));
-  expect(undo).toBeInTheDocument();
-  await act(() => vi.advanceTimersByTimeAsync(1_000));
+
+  expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
+});
+
+test("stops offering the undo 8 seconds after a delete", async () => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+  await deleteItem(user);
+
+  await act(() => vi.advanceTimersByTimeAsync(9_000));
 
   expect(
     screen.queryByRole("button", { name: "Undo" }),
   ).not.toBeInTheDocument();
+});
+
+test("keeps offering the undo while it has focus", async () => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+  await deleteItem(user, { withKeyboard: true });
+
+  await act(() => vi.advanceTimersByTimeAsync(20_000));
+
+  expect(screen.getByRole("button", { name: "Undo" })).toHaveFocus();
 });

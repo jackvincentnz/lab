@@ -22,7 +22,10 @@ import { ItemPanel } from "../components/ItemPanel";
 import { ListHeading } from "../components/ListHeading";
 import { PanelResizeHandle } from "../components/PanelResizeHandle";
 import { ViewList } from "../components/ViewList";
-import { useDeletedItemNotice } from "../components/useDeletedItemNotice";
+import {
+  type DeletedItem,
+  useDeletedItemNotice,
+} from "../components/useDeletedItemNotice";
 import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
 import { type ViewName, views } from "../views";
@@ -55,7 +58,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
   const disabled = useSlowSave(saving);
   const panel = useResizablePanel();
   const changedElsewhere = isChangedElsewhere(updateItem.error);
-  const [deleted, setDeleted] = useState<Item>();
+  const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
   const opened = items.data?.find((item) => item.id === openId);
   if (openId !== undefined && items.data !== undefined && !opened) {
@@ -248,7 +251,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
           }
           onSourcesChangeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
-          onDelete={() => {
+          onDelete={(withKeyboard) => {
             if (!startChange()) {
               return;
             }
@@ -259,7 +262,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
                   setOpenId((current) =>
                     current === item.id ? undefined : current,
                   );
-                  setDeleted(item);
+                  setDeleted({ item, withKeyboard });
                 },
               },
             );

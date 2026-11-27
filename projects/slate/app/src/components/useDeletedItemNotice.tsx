@@ -6,30 +6,40 @@ import type { Item } from "../api";
 
 const AUTO_CLOSE_MS = 8000;
 
+export interface DeletedItem {
+  item: Item;
+  withKeyboard: boolean;
+}
+
 interface DeletedItemNoticeOptions {
   disabled: boolean;
   onUndo(item: Item): void;
   onDismiss(): void;
 }
 
+interface ShownNotice {
+  id: string;
+  deleted: DeletedItem;
+}
+
 export function useDeletedItemNotice(
-  item: Item | undefined,
+  deleted: DeletedItem | undefined,
   options: DeletedItemNoticeOptions,
 ) {
   const latest = useRef(options);
-  const shownId = useRef<string>(undefined);
+  const shown = useRef<ShownNotice>(undefined);
 
   useEffect(() => {
     latest.current = options;
   });
 
   useEffect(() => {
-    if (item === undefined) {
+    if (deleted === undefined) {
       return;
     }
     let closedByPage = false;
     const id = notifications.show({
-      message: message(item, latest),
+      message: message(deleted, latest),
       color: "gray",
       withBorder: true,
       autoClose: AUTO_CLOSE_MS,
@@ -40,26 +50,29 @@ export function useDeletedItemNotice(
         }
       },
     });
-    shownId.current = id;
+    shown.current = { id, deleted };
 
     return () => {
       closedByPage = true;
-      shownId.current = undefined;
+      shown.current = undefined;
       notifications.hide(id);
     };
-  }, [item]);
+  }, [deleted]);
 
   useEffect(() => {
-    if (item !== undefined && shownId.current !== undefined) {
+    if (shown.current !== undefined) {
       notifications.update({
-        id: shownId.current,
-        message: message(item, latest),
+        id: shown.current.id,
+        message: message(shown.current.deleted, latest),
       });
     }
-  }, [item, options.disabled]);
+  }, [options.disabled]);
 }
 
-function message(item: Item, latest: RefObject<DeletedItemNoticeOptions>) {
+function message(
+  { item, withKeyboard }: DeletedItem,
+  latest: RefObject<DeletedItemNoticeOptions>,
+) {
   return (
     <Group justify="space-between" wrap="nowrap">
       <Text size="sm">Deleted {item.name}</Text>
@@ -69,7 +82,8 @@ function message(item: Item, latest: RefObject<DeletedItemNoticeOptions>) {
         leftSection={<IconArrowBackUp size={14} />}
         disabled={latest.current.disabled}
         onClick={() => latest.current.onUndo(item)}
-        autoFocus
+        // Focus keeps the notification open, so it moves there only for a keyboard user, who could not reach it otherwise.
+        autoFocus={withKeyboard}
       >
         Undo
       </Button>

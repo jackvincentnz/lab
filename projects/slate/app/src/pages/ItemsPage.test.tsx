@@ -812,7 +812,7 @@ describe("ItemsPage", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("moves focus to the undo after a delete", async () => {
+  it("moves focus to the undo after a delete made with the keyboard", async () => {
     const user = userEvent.setup();
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
@@ -825,6 +825,24 @@ describe("ItemsPage", () => {
     await user.keyboard("{Enter}");
 
     expect(await screen.findByRole("button", { name: "Undo" })).toHaveFocus();
+  });
+
+  it("leaves focus off the undo after a delete made with the pointer", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    renderWithNotifications(api);
+    api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
+
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(
+      await screen.findByRole("button", { name: "Undo" }),
+    ).not.toHaveFocus();
   });
 
   it("puts a deleted item back on undo", async () => {
@@ -944,8 +962,7 @@ describe("ItemsPage", () => {
     expect(api.restoreItem).not.toHaveBeenCalled();
   });
 
-  it("offers an undo for the latest delete only", async () => {
-    const user = userEvent.setup();
+  async function deleteTwoItems(user: ReturnType<typeof userEvent.setup>) {
     const first = item({ name: "Plan the week" });
     const second = item({ name: "Book travel" });
     const api = fakeSlateApi([first, second]);
@@ -959,17 +976,35 @@ describe("ItemsPage", () => {
     );
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Book travel");
-
     await user.click(
       screen.getByRole("button", { name: "Delete Book travel" }),
     );
+    return { api, second };
+  }
+
+  it("offers an undo for the latest delete only", async () => {
+    const user = userEvent.setup();
+
+    await deleteTwoItems(user);
 
     await waitFor(() =>
       expect(screen.getByRole("alert")).toHaveTextContent(
         "Deleted Book travel",
       ),
     );
+  });
+
+  it("puts back only the latest deleted item on undo", async () => {
+    const user = userEvent.setup();
+    const { api, second } = await deleteTwoItems(user);
+    await waitFor(() =>
+      expect(screen.getByRole("alert")).toHaveTextContent(
+        "Deleted Book travel",
+      ),
+    );
+
     await user.click(screen.getByRole("button", { name: "Undo" }));
+
     expect(api.restoreItem).toHaveBeenCalledExactlyOnceWith({ id: second.id });
   });
 

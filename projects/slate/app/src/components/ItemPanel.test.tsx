@@ -166,7 +166,7 @@ describe("ItemPanel", () => {
     expect(screen.getByText("Book the hotel")).toBeInTheDocument();
   });
 
-  it("reports a delete", async () => {
+  it("reports a delete made with the pointer", async () => {
     const user = userEvent.setup();
     const { onDelete } = renderPanel();
 
@@ -174,7 +174,17 @@ describe("ItemPanel", () => {
       screen.getByRole("button", { name: "Delete Plan the week" }),
     );
 
-    expect(onDelete).toHaveBeenCalled();
+    expect(onDelete).toHaveBeenCalledExactlyOnceWith(false);
+  });
+
+  it("reports a delete made with the keyboard", async () => {
+    const user = userEvent.setup();
+    const { onDelete } = renderPanel();
+    screen.getByRole("button", { name: "Delete Plan the week" }).focus();
+
+    await user.keyboard("{Enter}");
+
+    expect(onDelete).toHaveBeenCalledExactlyOnceWith(true);
   });
 
   it("does not offer a delete when disabled", () => {
