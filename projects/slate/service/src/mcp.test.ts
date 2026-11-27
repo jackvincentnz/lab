@@ -47,6 +47,7 @@ function anItem(): Item {
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
+    doneAt: null,
   };
 }
 
@@ -115,18 +116,41 @@ describe("createSlateMcpServer", () => {
     expect(result.content).toEqual(text(items));
   });
 
-  it("lists the items with the given status", async () => {
-    const items = [{ ...anItem(), status: "delegated" as const }];
+  it("lists every item that matches the given query", async () => {
+    const items = [anItem()];
     store.list.mockReturnValue(items);
 
-    const result = await call("list_items", { status: "delegated" });
+    const result = await call("list_items", {
+      statuses: ["done"],
+      doneTodayOnly: false,
+      deleted: true,
+      orderBy: "updatedAt",
+    });
 
-    expect(store.list).toHaveBeenCalledWith("delegated");
+    expect(store.list).toHaveBeenCalledWith({
+      statuses: ["done"],
+      doneTodayOnly: false,
+      deleted: true,
+      orderBy: "updatedAt",
+    });
     expect(result.content).toEqual(text(items));
   });
 
+  it("lists today's list when given no query", async () => {
+    store.list.mockReturnValue([]);
+
+    await call("list_items");
+
+    expect(store.list).toHaveBeenCalledWith({
+      statuses: ["todo", "doing", "done"],
+      doneTodayOnly: true,
+      deleted: false,
+      orderBy: "rank",
+    });
+  });
+
   it("refuses an unknown status to list by", async () => {
-    const result = await call("list_items", { status: "blocked" });
+    const result = await call("list_items", { statuses: ["blocked"] });
 
     expect(result.isError).toBe(true);
     expect(store.list).not.toHaveBeenCalled();

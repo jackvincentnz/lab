@@ -29,7 +29,7 @@ const tools = {
       {
         title: "List items",
         description:
-          "List the items on the user's Slate list, their to-dos, tasks and priorities for the day, in priority order with the most important first. Each item has an id, a name, a description (empty when it has none), a source (a link with a label to where the item came from, or null when it has none), a status (todo, doing, done, deferred, wont_do or delegated), a rank, and the times it was created and last updated. The main list leaves out items marked done on an earlier day and items that are deferred, wont_do or delegated; give a status to list only the items with it, such as everything delegated.",
+          'List the items on the user\'s Slate list, their to-dos, tasks and priorities. Each item has an id, a name, a description (empty when it has none), a source (a link with a label to where the item came from, or null when it has none), a status (todo, doing, done, deferred, wont_do or delegated), a rank, the times it was created and last updated, and doneAt, the time it was marked done, or null when it is not done. With no input, it lists today\'s list: items that are todo, doing, or done today, in priority order, which is what each input defaults to. Each input narrows or orders the list on its own, so give every one that differs from its default. For example, every done item, newest first: statuses ["done"], doneTodayOnly false, orderBy doneAt. Every deleted item, most recently deleted first: deleted true, statuses ["todo", "doing", "done", "deferred", "wont_do", "delegated"], doneTodayOnly false, orderBy updatedAt.',
         inputSchema: listItems.input,
       },
       (input) => reply(listItems.run(store, input)),
@@ -51,7 +51,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list, change its description or source, or change its status, such as marking a to-do done. Give at least one of name, description, source and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays in list_items until the end of the day it was marked done; giving it todo or doing brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave the main list straight away but keep their rank, and giving one todo, doing or done brings it back to its place.",
+          "Rename an item on the user's Slate list, change its description or source, or change its status, such as marking a to-do done. Give at least one of name, description, source and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays on today's list until the end of the day it was marked done; giving it todo or doing brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave today's list straight away but keep their rank, and giving one todo, doing or done brings it back to its place.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),
@@ -74,7 +74,7 @@ const tools = {
       {
         title: "Delete item",
         description:
-          "Delete an item from the user's Slate list, such as one added by mistake or no longer wanted, using its id from list_items. To set aside finished work, or work that is deferred, delegated or will not be done, change its status with update_item instead. A deleted item no longer appears in list_items, and restore_item puts it back.",
+          "Delete an item from the user's Slate list, such as one added by mistake or no longer wanted, using its id from list_items. To set aside finished work, or work that is deferred, delegated or will not be done, change its status with update_item instead. A deleted item leaves list_items unless you list deleted items, and restore_item puts it back.",
         inputSchema: deleteItem.input,
       },
       (input) => replyIfFound(deleteItem.run(store, input), [input.id]),
@@ -85,7 +85,7 @@ const tools = {
       {
         title: "Restore item",
         description:
-          "Put an item deleted from the user's Slate list back at its earlier rank in the order, using the id that delete_item returned. Deleted items do not appear in list_items. It keeps its status, so a restored item that is deferred, wont_do or delegated stays off the main list. An item that is not deleted is returned unchanged.",
+          "Put an item deleted from the user's Slate list back at its earlier rank in the order, using its id from delete_item or from list_items with deleted. It keeps its status, so a restored item that is deferred, wont_do or delegated stays off today's list. An item that is not deleted is returned unchanged.",
         inputSchema: restoreItem.input,
       },
       (input) => replyIfFound(restoreItem.run(store, input), [input.id]),

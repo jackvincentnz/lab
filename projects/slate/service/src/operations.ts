@@ -22,7 +22,7 @@ export type Store = Pick<
 export const operations = {
   listItems: {
     input: listItemsInput,
-    run: (store: Store, { status }: ListItemsInput = {}) => store.list(status),
+    run: (store: Store, input: ListItemsInput = {}) => store.list(input),
   },
   addItem: {
     input: addItemInput,

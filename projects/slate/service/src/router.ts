@@ -12,7 +12,9 @@ const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
   operations;
 
 export const slateRouter = t.router({
-  listItems: t.procedure.query(({ ctx }) => listItems.run(ctx.store)),
+  listItems: t.procedure
+    .input(listItems.input.optional())
+    .query(({ ctx, input }) => listItems.run(ctx.store, input)),
   addItem: t.procedure
     .input(addItem.input)
     .mutation(({ ctx, input }) => addItem.run(ctx.store, input)),

@@ -49,7 +49,7 @@ describe("addSampleItems", () => {
     (status) => {
       addSampleItems(store);
 
-      const names = store.list(status).map(({ name }) => name);
+      const names = store.list({ statuses: [status] }).map(({ name }) => name);
 
       expect(names).toEqual(
         kept
