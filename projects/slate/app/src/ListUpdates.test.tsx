@@ -64,6 +64,15 @@ async function startDescription(user: ReturnType<typeof userEvent.setup>) {
   await user.type(within(panel).getByRole("textbox"), "For Monday");
 }
 
+async function startSource(user: ReturnType<typeof userEvent.setup>) {
+  const panel = await openItem(user);
+  await user.click(within(panel).getByRole("button", { name: "Add a source" }));
+  await user.type(
+    within(panel).getByRole("textbox", { name: "Link" }),
+    "https://example.com",
+  );
+}
+
 function twoItems() {
   return fakeSlateApi([
     item({ name: "Plan the week" }),
@@ -185,6 +194,34 @@ describe("ListUpdates", () => {
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     await showList(api);
     await startDescription(user);
+    changeElsewhere(api);
+
+    await user.keyboard("{Escape}");
+
+    expect(
+      await screen.findByRole("button", { name: "Open Book travel" }),
+    ).toBeInTheDocument();
+  });
+
+  it("holds a change while a source is edited", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    await startSource(user);
+
+    changeElsewhere(api);
+
+    expect(api.listItems).toHaveBeenCalledOnce();
+    expect(screen.getByRole("textbox", { name: "Link" })).toHaveValue(
+      "https://example.com",
+    );
+  });
+
+  it("shows a change held during a source edit when the edit ends", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    await showList(api);
+    await startSource(user);
     changeElsewhere(api);
 
     await user.keyboard("{Escape}");
