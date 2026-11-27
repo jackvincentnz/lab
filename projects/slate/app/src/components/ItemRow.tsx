@@ -9,6 +9,7 @@ import {
   UnstyledButton,
 } from "@mantine/core";
 import { IconGripVertical } from "@tabler/icons-react";
+import type { CSSProperties, ReactNode, Ref } from "react";
 import type { Item, ItemStatus } from "../api";
 import classes from "./ItemRow.module.css";
 
@@ -25,14 +26,13 @@ interface ItemRowProps {
   onStatusChange(status: ItemStatus): void;
 }
 
-export function ItemRow({
-  item,
-  rank,
-  disabled,
-  open,
-  onOpen,
-  onStatusChange,
-}: ItemRowProps) {
+interface RowLayoutProps extends ItemRowProps {
+  handle?: ReactNode;
+  rowRef?: Ref<HTMLLIElement>;
+  style?: CSSProperties;
+}
+
+export function SortableItemRow(props: ItemRowProps) {
   const {
     attributes,
     listeners,
@@ -40,7 +40,43 @@ export function ItemRow({
     setActivatorNodeRef,
     transform,
     transition,
-  } = useSortable({ id: item.id, disabled });
+  } = useSortable({ id: props.item.id, disabled: props.disabled });
+
+  return (
+    <ItemRow
+      {...props}
+      rowRef={setNodeRef}
+      style={{ transform: CSS.Translate.toString(transform), transition }}
+      handle={
+        <ActionIcon
+          ref={setActivatorNodeRef}
+          className={classes["control"]}
+          variant="subtle"
+          color="gray"
+          aria-label={`Move ${props.item.name}`}
+          data-disabled={props.disabled}
+          style={{ cursor: "grab" }}
+          {...attributes}
+          {...listeners}
+        >
+          <IconGripVertical size={16} color="var(--mantine-color-gray-5)" />
+        </ActionIcon>
+      }
+    />
+  );
+}
+
+export function ItemRow({
+  item,
+  rank,
+  disabled,
+  open,
+  onOpen,
+  onStatusChange,
+  handle,
+  rowRef,
+  style,
+}: RowLayoutProps) {
   const done = item.status === "done";
   const unchangedDays = Math.floor(
     (Date.now() - Date.parse(item.updatedAt)) / DAY_MS,
@@ -48,10 +84,7 @@ export function ItemRow({
   const stale = item.status === "in_progress" && unchangedDays >= STALE_DAYS;
 
   return (
-    <List.Item
-      ref={setNodeRef}
-      style={{ transform: CSS.Translate.toString(transform), transition }}
-    >
+    <List.Item ref={rowRef} style={style}>
       <Group
         className={classes["row"]}
         mod={{ open }}
@@ -59,19 +92,7 @@ export function ItemRow({
         gap="sm"
         pl="xs"
       >
-        <ActionIcon
-          ref={setActivatorNodeRef}
-          className={classes["control"]}
-          variant="subtle"
-          color="gray"
-          aria-label={`Move ${item.name}`}
-          data-disabled={disabled}
-          style={{ cursor: "grab" }}
-          {...attributes}
-          {...listeners}
-        >
-          <IconGripVertical size={16} color="var(--mantine-color-gray-5)" />
-        </ActionIcon>
+        {handle}
         <Checkbox
           className={classes["control"]}
           aria-label={`Mark ${item.name} done`}

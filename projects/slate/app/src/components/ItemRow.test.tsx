@@ -10,9 +10,9 @@ import {
 import { List } from "@mantine/core";
 import type { Item } from "../api";
 import { item } from "../test/fakes";
-import { ItemRow } from "./ItemRow";
+import { SortableItemRow } from "./ItemRow";
 
-type ItemRowProps = Parameters<typeof ItemRow>[0];
+type ItemRowProps = Parameters<typeof SortableItemRow>[0];
 
 function renderRow(
   rowItem: Item = item({ name: "Plan the week" }),
@@ -25,7 +25,7 @@ function renderRow(
   };
   const row = (disabled: boolean) => (
     <List>
-      <ItemRow
+      <SortableItemRow
         item={rowItem}
         rank={rank}
         disabled={disabled}
