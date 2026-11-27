@@ -166,7 +166,9 @@ describe("list by status", () => {
     });
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    expect(store.list("done")).toEqual([done]);
+    const listed = store.list("done");
+
+    expect(listed).toEqual([done]);
   });
 
   it("leaves out deleted items", () => {
@@ -178,7 +180,9 @@ describe("list by status", () => {
     })!;
     store.delete(deferred.id);
 
-    expect(store.list("deferred")).toEqual([]);
+    const listed = store.list("deferred");
+
+    expect(listed).toEqual([]);
   });
 });
 
