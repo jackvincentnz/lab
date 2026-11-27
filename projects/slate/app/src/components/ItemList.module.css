@@ -1,0 +1,18 @@
+.doing {
+  padding: var(--mantine-spacing-sm);
+  background-color: var(--mantine-color-gray-0);
+  border: rem(1px) solid var(--mantine-color-gray-3);
+  border-radius: var(--mantine-radius-md);
+
+  &[data-over-limit] {
+    background-color: var(--mantine-color-orange-0);
+    border-color: var(--mantine-color-orange-3);
+  }
+}
+
+.dropZone {
+  padding: var(--mantine-spacing-sm);
+  border: rem(1px) dashed var(--mantine-color-gray-4);
+  border-radius: var(--mantine-radius-sm);
+  text-align: center;
+}

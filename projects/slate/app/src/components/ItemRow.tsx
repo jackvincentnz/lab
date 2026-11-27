@@ -2,7 +2,6 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import {
   ActionIcon,
-  Badge,
   Checkbox,
   Group,
   List,
@@ -12,6 +11,10 @@ import {
 import { IconGripVertical } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
 import classes from "./ItemRow.module.css";
+
+const STALE_DAYS = 5;
+
+const DAY_MS = 24 * 60 * 60 * 1000;
 
 interface ItemRowProps {
   item: Item;
@@ -39,6 +42,10 @@ export function ItemRow({
     transition,
   } = useSortable({ id: item.id, disabled });
   const done = item.status === "done";
+  const unchangedDays = Math.floor(
+    (Date.now() - Date.parse(item.updatedAt)) / DAY_MS,
+  );
+  const stale = item.status === "doing" && unchangedDays >= STALE_DAYS;
 
   return (
     <List.Item
@@ -93,7 +100,11 @@ export function ItemRow({
           >
             {item.name}
           </Text>
-          {item.status === "doing" && <Badge variant="light">Doing</Badge>}
+          {stale && (
+            <Text span size="xs" fw={500} c="orange.8">
+              No change for {unchangedDays} days
+            </Text>
+          )}
         </UnstyledButton>
       </Group>
     </List.Item>

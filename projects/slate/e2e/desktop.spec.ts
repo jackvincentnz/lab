@@ -19,7 +19,7 @@ test("shows the logo in the header", async ({ window }) => {
 
 test("lists an item added in the web UI", async ({ window }) => {
   const items = window
-    .getByRole("list", { name: "Items" })
+    .getByRole("list", { name: "Up next" })
     .getByRole("listitem");
 
   const name = window.getByRole("textbox", { name: "New item" });

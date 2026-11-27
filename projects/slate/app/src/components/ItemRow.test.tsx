@@ -62,12 +62,6 @@ describe("ItemRow", () => {
     });
   });
 
-  it("tags an item in progress as doing", () => {
-    renderRow(item({ name: "Plan the week", status: "doing" }));
-
-    expect(screen.getByText("Doing")).toBeInTheDocument();
-  });
-
   it("marks an item done when it is ticked", async () => {
     const user = userEvent.setup();
     const { onStatusChange } = renderRow();
