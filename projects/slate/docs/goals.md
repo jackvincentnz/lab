@@ -22,16 +22,16 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 
 ## An item
 
-| Field       | Meaning                                                                                         |
-| ----------- | ----------------------------------------------------------------------------------------------- |
-| Name        | What the work is.                                                                               |
-| Description | Context that belongs with it, such as notes, links or why it matters. Markdown.                 |
-| Source      | Where it came from, such as the agent session that captured it, as a link with a label.         |
-| Status      | To do, in progress, done, deferred, won't do, or delegated. The list leaves out the last three. |
-| Rank        | Its place in the one global priority order.                                                     |
-| Created     | When it was added.                                                                              |
-| Updated     | When it was last changed.                                                                       |
-| Done        | When it was marked done. The list shows a done item only on that day.                           |
+| Field       | Meaning                                                                                                                         |
+| ----------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Name        | What the work is.                                                                                                               |
+| Description | Context that belongs with it, such as notes, links or why it matters. Markdown.                                                 |
+| Source      | Where it came from, such as the agent session that captured it: an https link or a reference such as a file path, with a label. |
+| Status      | To do, in progress, done, deferred, won't do, or delegated. The list leaves out the last three.                                 |
+| Rank        | Its place in the one global priority order.                                                                                     |
+| Created     | When it was added.                                                                                                              |
+| Updated     | When it was last changed.                                                                                                       |
+| Done        | When it was marked done. The list shows a done item only on that day.                                                           |
 
 ## Non-goals
 

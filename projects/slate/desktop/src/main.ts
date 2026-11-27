@@ -110,7 +110,12 @@ async function start(): Promise<void> {
   const url = devServer
     ? await startDevServer(devServer, new URL(serviceUrl).port)
     : serviceUrl;
-  guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
+  guardApp(
+    app,
+    new URL(url).origin,
+    (target) => shell.openExternal(target),
+    (message) => startLog.write("main", message),
+  );
   windows.open(url, { show: showWindow, atLogin });
 }
 

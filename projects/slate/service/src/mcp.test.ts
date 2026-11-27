@@ -96,16 +96,22 @@ describe("createSlateMcpServer", () => {
     });
   });
 
-  it("shows the agent an example source", async () => {
-    const { tools } = await client.listTools();
+  it.each(["add_item", "update_item"])(
+    "shows the agent example sources on %s",
+    async (name) => {
+      const { tools } = await client.listTools();
 
-    const add = tools.find((tool) => tool.name === "add_item");
-    expect(add?.inputSchema.properties).toMatchObject({
-      source: {
-        description: expect.stringContaining("Claude Desktop session"),
-      },
-    });
-  });
+      const tool = tools.find((candidate) => candidate.name === name);
+      const { description } = tool?.inputSchema.properties?.["source"] as {
+        description: string;
+      };
+      expect(description).toContain('"text": "claude://');
+      expect(description).toContain('"text": "~/notes/TODO.md:12"');
+      expect(description).toContain(
+        '"text": "~/notes/daily/2026-11-27.md#Follow-ups"',
+      );
+    },
+  );
 
   it("lists the store's items", async () => {
     const items = [anItem(), anItem()];
@@ -214,17 +220,33 @@ describe("createSlateMcpServer", () => {
     expect(store.add).toHaveBeenCalledWith("Write the plan", "Why", null);
   });
 
-  it("adds an item with its source", async () => {
-    store.add.mockReturnValue(anItem());
-    const source = {
-      kind: "link",
-      url: "https://example.com/session",
+  it.each([
+    { kind: "link", url: "https://example.com/pull/1", label: "Pull request" },
+    {
+      kind: "reference",
+      text: "claude://example/session",
       label: "Claude Desktop session",
-    };
+    },
+  ])("adds an item with its source: %o", async (source) => {
+    store.add.mockReturnValue(anItem());
 
     await call("add_item", { name: "Write the plan", source });
 
     expect(store.add).toHaveBeenCalledWith("Write the plan", "", source);
+  });
+
+  it("refuses a reference on more than one line", async () => {
+    const result = await call("add_item", {
+      name: "Write the plan",
+      source: { kind: "reference", text: "notes.md\nplan.md", label: "Notes" },
+    });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [
+        { text: expect.stringContaining("Give a reference on one line") },
+      ],
+    });
   });
 
   it("refuses a source link that is not https", async () => {
@@ -342,6 +364,7 @@ describe("createSlateMcpServer", () => {
       url: "https://example.com/pull/1",
       label: "Pull request",
     },
+    { kind: "reference", text: "notes/TODO.md#Today", label: "TODO list" },
     null,
   ])("sets or removes an item's source: %o", async (source) => {
     const item = anItem();

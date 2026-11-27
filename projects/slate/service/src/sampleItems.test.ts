@@ -79,7 +79,10 @@ describe("sampleItems", () => {
     expect(sampleItems.some((sample) => sample.deleted)).toBe(true);
   });
 
-  it("include a listed item with a source", () => {
-    expect(listed.some((sample) => sample.source)).toBe(true);
-  });
+  it.each(["link", "reference"])(
+    "include a listed item with a %s source",
+    (kind) => {
+      expect(listed.some((sample) => sample.source?.kind === kind)).toBe(true);
+    },
+  );
 });

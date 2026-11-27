@@ -9,20 +9,39 @@ const linkSource = z.object({
     .trim()
     .refine(isSourceLink, "Give a link that starts with https://")
     .describe("Where the item came from, starting with https://."),
-  label: z
-    .string()
-    .trim()
-    .min(1, "Give the link a label that is not blank")
-    .describe("A few words that say what the link is."),
+  label: sourceLabel("link").describe("A few words that say what the link is."),
 });
 
-export const itemSource = z.discriminatedUnion("kind", [linkSource]);
+const referenceSource = z.object({
+  kind: z.literal("reference"),
+  text: z
+    .string()
+    .trim()
+    .min(1, "Give a reference that is not blank")
+    .max(1000, "Give a reference of at most 1000 characters")
+    .refine((text) => !/[\r\n]/.test(text), "Give a reference on one line")
+    .describe(
+      "Where the item came from, on one line, kept as given: a file path, with a line or heading if it helps, a claude:// link to a Claude Desktop session, or anything else.",
+    ),
+  label: sourceLabel("reference").describe(
+    "A few words that say what the reference is.",
+  ),
+});
+
+export const itemSource = z.discriminatedUnion("kind", [
+  linkSource,
+  referenceSource,
+]);
 
 export type ItemSource = z.infer<typeof itemSource>;
 
 /** The desktop app opens only https links in the browser. */
 function isSourceLink(url: string): boolean {
   return URL.parse(url)?.protocol === "https:";
+}
+
+function sourceLabel(kind: string) {
+  return z.string().trim().min(1, `Give the ${kind} a label that is not blank`);
 }
 
 export const itemSchema = createSelectSchema(item, {
@@ -41,8 +60,8 @@ export type ItemStatus = z.infer<typeof itemStatus>;
 
 const { id, name, description } = itemSchema.shape;
 
-const sourceExample =
-  'For example {"kind": "link", "url": "https://claude.ai/chat/…", "label": "Claude Desktop session"} for the session that captured the item.';
+const sourceKinds =
+  'A source is a link, {"kind": "link", "url", "label"}, whose url starts with https://, or a reference, {"kind": "reference", "text", "label"}, for anything without an https link, such as a file path or a claude:// link, kept as given. The user can copy a reference, and open a claude:// one in Claude Desktop. For example a pull request: {"kind": "link", "url": "https://example.com/pull/12", "label": "Pull request"}. A line in a notes file: {"kind": "reference", "text": "~/notes/TODO.md:12", "label": "TODO list"}. A heading in a daily note: {"kind": "reference", "text": "~/notes/daily/2026-11-27.md#Follow-ups", "label": "Daily note"}. The Claude Desktop session that captured the item: {"kind": "reference", "text": "claude://…", "label": "Claude Desktop session"}.';
 
 export const listItemsInput = z.object({
   statuses: z
@@ -84,7 +103,7 @@ export const addItemInput = z.object({
   source: itemSource
     .optional()
     .describe(
-      `Where the item came from, as a link with a label, such as the Claude Desktop session, document or pull request that it came out of. ${sourceExample}`,
+      `Where the item came from, such as the Claude Desktop session, notes file, document or pull request that it came out of. ${sourceKinds}`,
     ),
 });
 
@@ -103,7 +122,7 @@ export const updateItemInput = z
       .nullable()
       .optional()
       .describe(
-        `The item's new source, which replaces the old one. Give null to remove it. ${sourceExample}`,
+        `The item's new source, which replaces the old one. Give null to remove it. ${sourceKinds}`,
       ),
     status: itemStatus.optional().describe("The item's new status."),
     updatedAt: z

@@ -29,7 +29,7 @@ const tools = {
       {
         title: "List items",
         description:
-          'List the items on the user\'s Slate list, their to-dos, tasks and priorities. Each item has an id, a name, a description (empty when it has none), a source (a link with a label to where the item came from, or null when it has none), a status (todo, in_progress, done, deferred, wont_do or delegated), a rank, the times it was created and last updated, and doneAt, the time it was marked done, or null when it is not done. With no input, it lists today\'s list: items that are todo, in_progress, or done today, in priority order, which is what each input defaults to. Each input narrows or orders the list on its own, so give every one that differs from its default. For example, every done item, newest first: statuses ["done"], doneTodayOnly false, orderBy doneAt. Every deleted item, most recently deleted first: deleted true, statuses ["todo", "in_progress", "done", "deferred", "wont_do", "delegated"], doneTodayOnly false, orderBy updatedAt.',
+          'List the items on the user\'s Slate list, their to-dos, tasks and priorities. Each item has an id, a name, a description (empty when it has none), a source (where the item came from: a link or a reference, each with a label, or null when it has none), a status (todo, in_progress, done, deferred, wont_do or delegated), a rank, the times it was created and last updated, and doneAt, the time it was marked done, or null when it is not done. With no input, it lists today\'s list: items that are todo, in_progress, or done today, in priority order, which is what each input defaults to. Each input narrows or orders the list on its own, so give every one that differs from its default. For example, every done item, newest first: statuses ["done"], doneTodayOnly false, orderBy doneAt. Every deleted item, most recently deleted first: deleted true, statuses ["todo", "in_progress", "done", "deferred", "wont_do", "delegated"], doneTodayOnly false, orderBy updatedAt.',
         inputSchema: listItems.input,
       },
       (input) => reply(listItems.run(store, input)),
@@ -40,7 +40,7 @@ const tools = {
       {
         title: "Add item",
         description:
-          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it, and a source when it came from somewhere the user may want to go back to, such as a link to the Claude Desktop session that captured it. It goes to the top with the status todo; to put it lower down, move it afterwards.",
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it, and a source when it came from somewhere the user may want to go back to, such as the Claude Desktop session or the line in a notes file that it came from. It goes to the top with the status todo; to put it lower down, move it afterwards.",
         inputSchema: addItem.input,
       },
       (input) => reply(addItem.run(store, input)),

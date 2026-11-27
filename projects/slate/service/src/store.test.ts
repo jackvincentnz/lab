@@ -68,6 +68,19 @@ describe("add", () => {
     expect(openItemStore(dataDir).list()).toEqual([item]);
   });
 
+  it("keeps a reference source", () => {
+    const source: ItemSource = {
+      kind: "reference",
+      text: `notes/${crypto.randomUUID()}.md:12`,
+      label: `Notes ${crypto.randomUUID()}`,
+    };
+
+    const item = store.add("Write the plan", "", source);
+
+    expect(openItemStore(dataDir).list()[0]?.source).toEqual(source);
+    expect(item.source).toEqual(source);
+  });
+
   it("adds an item without a source", () => {
     addItem("Write the plan");
 
