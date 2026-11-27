@@ -76,7 +76,7 @@ describe("ItemDescription", () => {
 
     const link = screen.getByText("the session").closest("a");
 
-    expect(link).not.toHaveAttribute("href", "claude://example/session");
+    expect(link).toHaveAttribute("href", "");
   });
 
   it("leaves out raw HTML", () => {

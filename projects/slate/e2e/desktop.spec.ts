@@ -55,3 +55,51 @@ function isRunning(pid: number): boolean {
     return (error as NodeJS.ErrnoException).code !== "ESRCH";
   }
 }
+
+test("opens a claude reference outside the app when its label is clicked", async ({
+  slate,
+  window,
+}) => {
+  await slate.evaluate(({ shell }) => {
+    const opened: string[] = [];
+    Object.assign(globalThis, { opened });
+    shell.openExternal = async (url) => {
+      opened.push(url);
+    };
+  });
+  await addItem(window.url(), {
+    name: "Pick up the session",
+    source: {
+      kind: "reference",
+      text: "claude://example/session",
+      label: "Claude Desktop session",
+    },
+  });
+
+  await window.getByText("Pick up the session").click();
+  await window.getByRole("link", { name: "Claude Desktop session" }).click();
+
+  await expect
+    .poll(() =>
+      slate.evaluate(() => (globalThis as { opened?: string[] }).opened),
+    )
+    .toEqual(["claude://example/session"]);
+  expect(slate.windows()).toHaveLength(1);
+});
+
+async function addItem(serviceUrl: string, item: object): Promise<void> {
+  const response = await fetch(new URL("mcp", serviceUrl), {
+    method: "POST",
+    headers: {
+      "content-type": "application/json",
+      accept: "application/json, text/event-stream",
+    },
+    body: JSON.stringify({
+      jsonrpc: "2.0",
+      id: 1,
+      method: "tools/call",
+      params: { name: "add_item", arguments: item },
+    }),
+  });
+  expect(response.ok).toBe(true);
+}

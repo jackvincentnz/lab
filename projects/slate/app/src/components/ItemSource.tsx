@@ -24,7 +24,6 @@ type SourceKind = Source["kind"];
 
 interface SourceDraft {
   kind: SourceKind;
-  /** A link's url or a reference's text, kept when the kind changes. */
   target: string;
   label: string;
 }

@@ -77,7 +77,6 @@ function guardWebContents(
   contents.session.setPermissionCheckHandler(() => false);
 }
 
-/** https links open in the browser, and claude links in Claude Desktop. */
 function opensExternally(url: string): boolean {
   const protocol = URL.parse(url)?.protocol;
   return protocol === "https:" || protocol === "claude:";
