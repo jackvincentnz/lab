@@ -69,11 +69,13 @@ test("opens a claude reference outside the app when its label is clicked", async
   });
   await addItem(window.url(), {
     name: "Pick up the session",
-    source: {
-      kind: "reference",
-      text: "claude://example/session",
-      label: "Claude Desktop session",
-    },
+    sources: [
+      {
+        kind: "reference",
+        text: "claude://example/session",
+        label: "Claude Desktop session",
+      },
+    ],
   });
 
   await window.getByText("Pick up the session").click();

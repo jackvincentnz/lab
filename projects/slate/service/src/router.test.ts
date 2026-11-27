@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, type Mock, vi } from "vitest";
 import { ListChanges } from "./changes.js";
-import { type Item, ItemChangedError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import { type Store } from "./operations.js";
 import { slateRouter } from "./router.js";
 
@@ -26,7 +26,7 @@ function anItem(): Item {
     id: crypto.randomUUID(),
     name: "Write the plan",
     description: "",
-    source: null,
+    sources: [],
     status: "todo",
     rank: "a0",
     createdAt: "2026-11-22T09:00:00.000Z",
@@ -53,6 +53,7 @@ describe("slateRouter", () => {
       statuses: ["done"],
       doneTodayOnly: false,
       deleted: true,
+      source: "https://example.com/pull/1",
       orderBy: "updatedAt",
     });
 
@@ -60,6 +61,7 @@ describe("slateRouter", () => {
       statuses: ["done"],
       doneTodayOnly: false,
       deleted: true,
+      source: "https://example.com/pull/1",
       orderBy: "updatedAt",
     });
     expect(listed).toEqual(items);
@@ -71,7 +73,7 @@ describe("slateRouter", () => {
 
     const added = await caller.addItem({ name: "  Write the plan " });
 
-    expect(store.add).toHaveBeenCalledWith("Write the plan", "", null);
+    expect(store.add).toHaveBeenCalledWith("Write the plan", "", []);
     expect(added).toEqual(item);
   });
 
@@ -108,6 +110,24 @@ describe("slateRouter", () => {
     });
 
     await expect(updating).rejects.toMatchObject({ code: "CONFLICT" });
+  });
+
+  it("rejects replacing a source the item does not have", async () => {
+    const item = anItem();
+    store.update.mockImplementation(() => {
+      throw new SourceChangeError("The item has no source with that id");
+    });
+
+    const updating = caller.updateItem({
+      id: item.id,
+      replaceSource: {
+        id: crypto.randomUUID(),
+        to: { kind: "reference", text: "notes/plan.md", label: "Plan" },
+      },
+      updatedAt: item.updatedAt,
+    });
+
+    await expect(updating).rejects.toMatchObject({ code: "BAD_REQUEST" });
   });
 
   it("reports an unknown item on update", async () => {

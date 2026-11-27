@@ -5,7 +5,7 @@ describe("addItemInput", () => {
   it("trims the name", () => {
     const input = addItemInput.parse({ name: "  Plan  " });
 
-    expect(input).toEqual({ name: "Plan", description: "" });
+    expect(input).toEqual({ name: "Plan", description: "", sources: [] });
   });
 
   it("trims the end of the description", () => {
@@ -26,18 +26,22 @@ describe("addItemInput", () => {
   it("trims the source's link and label", () => {
     const input = addItemInput.parse({
       name: "Plan",
-      source: {
-        kind: "link",
-        url: " https://example.com/plan ",
-        label: " Planning doc ",
-      },
+      sources: [
+        {
+          kind: "link",
+          url: " https://example.com/plan ",
+          label: " Planning doc ",
+        },
+      ],
     });
 
-    expect(input.source).toEqual({
-      kind: "link",
-      url: "https://example.com/plan",
-      label: "Planning doc",
-    });
+    expect(input.sources).toEqual([
+      {
+        kind: "link",
+        url: "https://example.com/plan",
+        label: "Planning doc",
+      },
+    ]);
   });
 
   it.each([
@@ -48,7 +52,7 @@ describe("addItemInput", () => {
   ])("rejects a source link that is not https: %s", (url) => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "link", url, label: "Plan" },
+      sources: [{ kind: "link", url, label: "Plan" }],
     });
 
     expect(result.error?.issues[0]?.message).toBe(
@@ -59,7 +63,7 @@ describe("addItemInput", () => {
   it("rejects a source with a blank label", () => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "link", url: "https://example.com/plan", label: " " },
+      sources: [{ kind: "link", url: "https://example.com/plan", label: " " }],
     });
 
     expect(result.error?.issues[0]?.message).toBe(
@@ -72,10 +76,12 @@ describe("addItemInput", () => {
     (text) => {
       const input = addItemInput.parse({
         name: "Plan",
-        source: { kind: "reference", text: ` ${text} `, label: " Notes " },
+        sources: [{ kind: "reference", text: ` ${text} `, label: " Notes " }],
       });
 
-      expect(input.source).toEqual({ kind: "reference", text, label: "Notes" });
+      expect(input.sources).toEqual([
+        { kind: "reference", text, label: "Notes" },
+      ]);
     },
   );
 
@@ -86,7 +92,7 @@ describe("addItemInput", () => {
   ])("rejects the reference %j", (text, message) => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "reference", text, label: "Notes" },
+      sources: [{ kind: "reference", text, label: "Notes" }],
     });
 
     expect(result.error?.issues[0]?.message).toBe(message);
@@ -95,7 +101,7 @@ describe("addItemInput", () => {
   it("accepts a reference of 1000 characters", () => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "reference", text: "a".repeat(1000), label: "Notes" },
+      sources: [{ kind: "reference", text: "a".repeat(1000), label: "Notes" }],
     });
 
     expect(result.success).toBe(true);
@@ -104,7 +110,7 @@ describe("addItemInput", () => {
   it("rejects a reference with a blank label", () => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "reference", text: "notes/TODO.md", label: " " },
+      sources: [{ kind: "reference", text: "notes/TODO.md", label: " " }],
     });
 
     expect(result.error?.issues[0]?.message).toBe(
@@ -115,7 +121,7 @@ describe("addItemInput", () => {
   it("rejects a source of an unknown kind", () => {
     const result = addItemInput.safeParse({
       name: "Plan",
-      source: { kind: "note", text: "From the standup" },
+      sources: [{ kind: "note", text: "From the standup" }],
     });
 
     expect(result.success).toBe(false);
@@ -140,7 +146,7 @@ describe("updateItemInput", () => {
     });
 
     expect(result.error?.issues[0]?.message).toBe(
-      "Give a name, a description, a source or a status to change",
+      "Give a name, a description, sources to add, remove or replace, or a status to change",
     );
   });
 
@@ -165,14 +171,39 @@ describe("updateItemInput", () => {
     expect(result.success).toBe(true);
   });
 
-  it("accepts an update that only removes the source", () => {
+  it("accepts an update that only removes a source", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
-      source: null,
+      removeSources: [crypto.randomUUID()],
       updatedAt,
     });
 
     expect(result.success).toBe(true);
+  });
+
+  it("rejects a replacement that is not a valid source", () => {
+    const result = updateItemInput.safeParse({
+      id: crypto.randomUUID(),
+      replaceSource: {
+        id: crypto.randomUUID(),
+        to: { kind: "link", url: "http://example.com/plan", label: "Plan" },
+      },
+      updatedAt,
+    });
+
+    expect(result.error?.issues[0]?.message).toBe(
+      "Give a link that starts with https://",
+    );
+  });
+
+  it("rejects a source to remove that is not an id", () => {
+    const result = updateItemInput.safeParse({
+      id: crypto.randomUUID(),
+      removeSources: ["https://example.com/plan"],
+      updatedAt,
+    });
+
+    expect(result.success).toBe(false);
   });
 
   it("rejects an unknown status", () => {

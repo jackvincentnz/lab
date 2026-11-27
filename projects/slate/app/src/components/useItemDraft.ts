@@ -13,7 +13,7 @@ export type SaveDraft<Value = string> = (
   callbacks: SaveCallbacks,
 ) => void;
 
-interface Draft<Value> {
+export interface Draft<Value> {
   value: Value;
   editedFrom: Item;
   refusedFrom?: Item;

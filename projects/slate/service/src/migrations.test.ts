@@ -26,6 +26,7 @@ const migrations = [
   "20261127022610_item_set_aside_statuses",
   "20261127163149_item_source",
   "20261127181136_item_in_progress_status",
+  "20261127195930_item_sources",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -76,7 +77,13 @@ function storedStatusBeforeInProgress(status: Item["status"]) {
   return status === "in_progress" ? "doing" : status;
 }
 
-function insertItems(file: DatabaseSync, items: Item[]) {
+function insertItems(
+  file: DatabaseSync,
+  items: Item[],
+  storedStatus: (
+    status: Item["status"],
+  ) => string = storedStatusBeforeInProgress,
+) {
   const insert = file.prepare(
     "INSERT INTO item (id, name, status, rank, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?)",
   );
@@ -84,7 +91,7 @@ function insertItems(file: DatabaseSync, items: Item[]) {
     insert.run(
       item.id,
       item.name,
-      storedStatusBeforeInProgress(item.status),
+      storedStatus(item.status),
       item.rank,
       item.createdAt,
       item.updatedAt,
@@ -101,7 +108,7 @@ function randomItems(count: number): Item[] {
       id: randomUUID(),
       name: `Item ${randomUUID()}`,
       description: "",
-      source: null,
+      sources: [],
       status,
       rank: generateKeyBetween(items.at(-1)?.rank ?? null, null),
       createdAt: time,
@@ -131,7 +138,7 @@ describe("a new folder", () => {
   it("gets an item table that accepts every status", () => {
     const store = openItemStore(dataDir);
     const items = itemStatuses.map((status) => {
-      const added = store.add(`Item ${randomUUID()}`, "", null);
+      const added = store.add(`Item ${randomUUID()}`, "", []);
       return store.update({ id: added.id, status, updatedAt: added.updatedAt });
     });
 
@@ -166,7 +173,7 @@ describe("a new folder", () => {
 
 describe("a current database", () => {
   it("keeps its items when reopened", () => {
-    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "", null);
+    const added = openItemStore(dataDir).add(`Item ${randomUUID()}`, "", []);
 
     const items = openItemStore(dataDir).list();
 
@@ -281,6 +288,16 @@ const earlierSchemas: EarlierSchema[] = [
       return items;
     },
   },
+  {
+    name: "a database from before items had several sources",
+    create(file) {
+      migrateUpTo(file, "20261127181136_item_in_progress_status");
+      const items = randomItems(3);
+      insertItems(file, items, (status) => status);
+      file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
+      return items;
+    },
+  },
 ];
 
 describe.each(earlierSchemas)("$name", ({ create }) => {
@@ -352,7 +369,31 @@ describe("upgrading a database with doing items", () => {
 
     openItemStore(dataDir, () => now);
 
-    expect(rows()).toEqual([{ ...before, status: "in_progress" }]);
+    expect(rows()).toEqual([
+      { ...before, source: undefined, sources: "[]", status: "in_progress" },
+    ]);
+  });
+});
+
+describe("upgrading a database with sources", () => {
+  it("leaves every item with no sources", () => {
+    const [sourced] = randomItems(1);
+    withFile((file) => {
+      migrateUpTo(file, "20261127181136_item_in_progress_status");
+      insertItems(file, [sourced!], (status) => status);
+      file.prepare("UPDATE item SET source = ? WHERE id = ?").run(
+        JSON.stringify({
+          kind: "reference",
+          text: `notes/${randomUUID()}.md`,
+          label: `Notes ${randomUUID()}`,
+        }),
+        sourced!.id,
+      );
+    });
+
+    const migrated = openItemStore(dataDir, () => now).list();
+
+    expect(migrated).toEqual([{ ...sourced, sources: [] }]);
   });
 });
 

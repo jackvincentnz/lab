@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Item, ItemChangedError } from "./item.js";
+import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import {
   type AgentOperationName,
   operations,
@@ -29,7 +29,7 @@ const tools = {
       {
         title: "List items",
         description:
-          'List the items on the user\'s Slate list, their to-dos, tasks and priorities. Each item has an id, a name, a description (empty when it has none), a source (where the item came from: a link or a reference, each with a label, or null when it has none), a status (todo, in_progress, done, deferred, wont_do or delegated), a rank, the times it was created and last updated, and doneAt, the time it was marked done, or null when it is not done. With no input, it lists today\'s list: items that are todo, in_progress, or done today, in priority order, which is what each input defaults to. Each input narrows or orders the list on its own, so give every one that differs from its default. For example, every done item, newest first: statuses ["done"], doneTodayOnly false, orderBy doneAt. Every deleted item, most recently deleted first: deleted true, statuses ["todo", "in_progress", "done", "deferred", "wont_do", "delegated"], doneTodayOnly false, orderBy updatedAt.',
+          'List the items on the user\'s Slate list, their to-dos, tasks and priorities. Each item has an id, a name, a description (empty when it has none), sources (where the item came from, in the order they were added: links and references, each with an id and a label, or an empty list), a status (todo, in_progress, done, deferred, wont_do or delegated), a rank, the times it was created and last updated, and doneAt, the time it was marked done, or null when it is not done. With no input, it lists today\'s list: items that are todo, in_progress, or done today, in priority order, which is what each input defaults to. Each input narrows or orders the list on its own, so give every one that differs from its default. For example, every done item, newest first: statuses ["done"], doneTodayOnly false, orderBy doneAt. Every deleted item, most recently deleted first: deleted true, statuses ["todo", "in_progress", "done", "deferred", "wont_do", "delegated"], doneTodayOnly false, orderBy updatedAt. Whether a link is already tracked on any item that is not deleted: source with the link, statuses of every status, doneTodayOnly false.',
         inputSchema: listItems.input,
       },
       (input) => reply(listItems.run(store, input)),
@@ -40,7 +40,7 @@ const tools = {
       {
         title: "Add item",
         description:
-          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it, and a source when it came from somewhere the user may want to go back to, such as the Claude Desktop session or the line in a notes file that it came from. It goes to the top with the status todo; to put it lower down, move it afterwards.",
+          "Add a to-do, task or priority to the user's Slate list, their list for the day. Give it a description when there is context worth keeping with it, and sources when it came from somewhere the user may want to go back to, such as the Claude Desktop session, the line in a notes file, or the pull requests that it came from. To avoid tracking the same work twice, check first with list_items and a source. It goes to the top with the status todo; to put it lower down, move it afterwards.",
         inputSchema: addItem.input,
       },
       (input) => reply(addItem.run(store, input)),
@@ -51,7 +51,7 @@ const tools = {
       {
         title: "Update item",
         description:
-          "Rename an item on the user's Slate list, change its description or source, or change its status, such as marking a to-do done. Give at least one of name, description, source and status. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays on today's list until the end of the day it was marked done; giving it todo or in_progress brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave today's list straight away but keep their rank, and giving one todo, in_progress or done brings it back to its place.",
+          "Rename an item on the user's Slate list, change its description or sources, or change its status, such as marking a to-do done. Give at least one of name, description, addSources, removeSources, replaceSource and status. Sources change only by what you name: replaceSource changes one in place and removeSources removes some, each by the source's id from list_items or the last tool that returned the item, and addSources appends new ones, so you cannot remove a source by leaving it out, and you do not need to read the item's sources first unless you are removing or replacing one. Given together, they apply in that order: replaceSource, then removeSources, then addSources. Always give the item's latest updatedAt, from list_items or the last tool that returned the item: if the item has changed since, the update is refused so that a change you have not seen is not overwritten. A description replaces the old one, so to add to it, start from the description in list_items. A done item stays on today's list until the end of the day it was marked done; giving it todo or in_progress brings it back. Mark an item deferred when it is put off until later, wont_do when it will not be done, and delegated when it was handed to someone else, noting who in its description; these leave today's list straight away but keep their rank, and giving one todo, in_progress or done brings it back to its place.",
         inputSchema: updateItem.input,
       },
       (input) => replyIfUnchanged(() => updateItem.run(store, input), input.id),
@@ -151,6 +151,11 @@ function replyIfUnchanged(
     if (error instanceof ItemChangedError) {
       return replyError(
         `The item ${id} has changed since you listed it, so it was not updated. List the items again to see the change before you update it.`,
+      );
+    }
+    if (error instanceof SourceChangeError) {
+      return replyError(
+        `${error.message}, so it was not updated. List the items to see its sources.`,
       );
     }
     throw error;
