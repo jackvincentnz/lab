@@ -492,6 +492,29 @@ describe("ItemsPage", () => {
     );
   });
 
+  it("starts an item dragged into the empty Doing group and shows the service's new list", async () => {
+    const user = userEvent.setup();
+    const original = item({ name: "Plan the week" });
+    const started = { ...original, status: "doing" as const };
+    const api = fakeSlateApi([original]);
+    api.updateItem.mockResolvedValue(started);
+    render(<ItemsPage />, { wrapper: withSlateApi(api) });
+    api.listItems.mockResolvedValue([started]);
+
+    await moveWithKeyboard(user, "Plan the week", "[ArrowUp]");
+
+    expect(api.updateItem).toHaveBeenCalledWith({
+      id: original.id,
+      status: "doing",
+      updatedAt: original.updatedAt,
+    });
+    expect(
+      within(screen.getByRole("list", { name: "Doing" })).getByText(
+        "Plan the week",
+      ),
+    ).toBeInTheDocument();
+  });
+
   it("deletes an item, shows the service's new list and offers an undo", async () => {
     const user = userEvent.setup();
     const deleted = item({ name: "Plan the week" });

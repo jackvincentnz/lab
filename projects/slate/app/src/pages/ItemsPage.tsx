@@ -63,11 +63,19 @@ export function ItemsPage() {
     return true;
   }
 
-  function changeStatus(item: Item, status: ItemStatus) {
+  function changeStatus(
+    item: Item,
+    status: ItemStatus,
+    onSettled?: () => void,
+  ) {
     if (!startChange()) {
-      return;
+      return false;
     }
-    updateItem.mutate({ id: item.id, status, updatedAt: item.updatedAt });
+    updateItem.mutate(
+      { id: item.id, status, updatedAt: item.updatedAt },
+      { onSettled },
+    );
+    return true;
   }
 
   function saveEdit(
