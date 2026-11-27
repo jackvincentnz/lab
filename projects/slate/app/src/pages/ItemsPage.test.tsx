@@ -543,7 +543,7 @@ describe("ItemsPage", () => {
     expect(panelWidth(panel)).toBe("520px");
   });
 
-  it("narrows the side panel to fit a narrower window and widens it back to its saved width", async () => {
+  it("narrows the side panel to fit a narrower window and keeps its saved width", async () => {
     const user = userEvent.setup();
     layOutWindow(1600);
     localStorage.setItem("slate.itemPanelWidth", "900");
@@ -554,22 +554,51 @@ describe("ItemsPage", () => {
 
     layOutWindow(1000);
     fireEvent(window, new Event("resize"));
-    const narrowed = panelWidth(panel);
-    layOutWindow(1600);
-    fireEvent(window, new Event("resize"));
 
-    expect(narrowed).toBe("600px");
-    expect(panelWidth(panel)).toBe("900px");
+    expect(panelWidth(panel)).toBe("600px");
+    expect(localStorage.getItem("slate.itemPanelWidth")).toBe("900");
   });
 
-  it("keeps the saved width when the edge of a narrowed side panel is clicked", async () => {
+  it("widens the side panel back to its saved width when the window widens", async () => {
     const user = userEvent.setup();
     layOutWindow(1000);
     localStorage.setItem("slate.itemPanelWidth", "900");
     render(<ItemsPage view="today" />, {
       wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
     });
+    const panel = await openItem(user, "Plan the week");
+
+    layOutWindow(1600);
+    fireEvent(window, new Event("resize"));
+
+    expect(panelWidth(panel)).toBe("900px");
+  });
+
+  it("tells assistive technology the side panel's width and limits", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+
     await openItem(user, "Plan the week");
+
+    const edge = screen.getByRole("separator", { name: "Resize item details" });
+    expect(edge).toHaveAttribute("aria-valuenow", "440");
+    expect(edge).toHaveAttribute("aria-valuemin", "360");
+    expect(edge).toHaveAttribute("aria-valuemax", "960");
+  });
+
+  it("keeps the saved width when the edge of a narrowed side panel is clicked", async () => {
+    const user = userEvent.setup();
+    layOutWindow(1600);
+    localStorage.setItem("slate.itemPanelWidth", "900");
+    render(<ItemsPage view="today" />, {
+      wrapper: withSlateApi(fakeSlateApi([item({ name: "Plan the week" })])),
+    });
+    await openItem(user, "Plan the week");
+    layOutWindow(1000);
+    fireEvent(window, new Event("resize"));
 
     await user.click(
       screen.getByRole("separator", { name: "Resize item details" }),

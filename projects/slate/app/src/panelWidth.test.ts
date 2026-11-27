@@ -22,6 +22,12 @@ describe("readSavedPanelWidth", () => {
     expect(readSavedPanelWidth()).toBeUndefined();
   });
 
+  it("finds no width when the saved value is empty", () => {
+    localStorage.setItem("slate.itemPanelWidth", "");
+
+    expect(readSavedPanelWidth()).toBeUndefined();
+  });
+
   it("finds no width when storage cannot be read", () => {
     vi.spyOn(Storage.prototype, "getItem").mockImplementation(() => {
       throw new DOMException("Blocked", "SecurityError");

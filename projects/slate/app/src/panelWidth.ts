@@ -7,7 +7,7 @@ export function readSavedPanelWidth(): number | undefined {
   try {
     const saved = localStorage.getItem(STORAGE_KEY);
     const width = Number(saved);
-    return saved !== null && Number.isFinite(width) ? width : undefined;
+    return Number.isFinite(width) && width > 0 ? width : undefined;
   } catch {
     return undefined;
   }
@@ -17,7 +17,7 @@ export function savePanelWidth(width: number) {
   try {
     localStorage.setItem(STORAGE_KEY, String(width));
   } catch {
-    // The width then lasts until the page is reloaded.
+    // Storage can be blocked or full, and a width that is not kept is no reason to break the page.
   }
 }
 
