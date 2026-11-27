@@ -9,6 +9,7 @@ import {
   sourceKey,
   type ItemSource,
   type ItemStatus,
+  type NewSource,
 } from "./item.js";
 import { type ItemStore, openItemStore } from "./store.js";
 
@@ -30,7 +31,7 @@ function addItem(name: string): Item {
   return store.add(name, "", []);
 }
 
-function aReference(): ItemSource {
+function aReference(): NewSource {
   return {
     kind: "reference",
     text: `notes/${crypto.randomUUID()}.md:12`,
@@ -38,7 +39,7 @@ function aReference(): ItemSource {
   };
 }
 
-type LinkSource = Extract<ItemSource, { kind: "link" }>;
+type LinkSource = Extract<NewSource, { kind: "link" }>;
 
 function aSource(): LinkSource {
   return {
@@ -46,6 +47,16 @@ function aSource(): LinkSource {
     url: `https://example.com/${crypto.randomUUID()}`,
     label: `Doc ${crypto.randomUUID()}`,
   };
+}
+
+function withoutIds(sources: ItemSource[] | undefined): NewSource[] {
+  return (sources ?? []).map(newSourceOf);
+}
+
+function newSourceOf(source: ItemSource): NewSource {
+  return source.kind === "link"
+    ? { kind: "link", url: source.url, label: source.label }
+    : { kind: "reference", text: source.text, label: source.label };
 }
 
 function names(items: Item[]): string[] {
@@ -76,8 +87,18 @@ describe("add", () => {
 
     const item = store.add("Write the plan", "", sources);
 
-    expect(item.sources).toEqual(sources);
+    expect(withoutIds(item.sources)).toEqual(sources);
     expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("gives each source its own id", () => {
+    const item = store.add("Write the plan", "", [aSource(), aReference()]);
+
+    const [first, second] = item.sources;
+
+    expect(first?.id).toEqual(expect.any(String));
+    expect(second?.id).toEqual(expect.any(String));
+    expect(first?.id).not.toBe(second?.id);
   });
 
   it("keeps the first of two sources with the same url or text", () => {
@@ -91,7 +112,7 @@ describe("add", () => {
       { ...reference, label: "Again" },
     ]);
 
-    expect(item.sources).toEqual([first, reference]);
+    expect(withoutIds(item.sources)).toEqual([first, reference]);
   });
 
   it("adds an item without sources", () => {
@@ -601,42 +622,53 @@ describe("update", () => {
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.sources).toEqual([first, second, third]);
+    expect(updated?.sources.slice(0, 2)).toEqual(item.sources);
+    expect(withoutIds(updated?.sources)).toEqual([first, second, third]);
     expect(openItemStore(dataDir).list()).toEqual([updated]);
   });
 
-  it("removes sources by their url or text, ignoring one it does not have", () => {
-    const link = aSource();
-    const reference = aReference();
-    const kept = aSource();
-    const item = store.add("Draft", "", [link, reference, kept]);
+  it("removes sources by their ids", () => {
+    const item = store.add("Draft", "", [aSource(), aReference(), aSource()]);
+    const [link, reference, kept] = item.sources;
 
     const updated = store.update({
       id: item.id,
-      removeSources: [
-        sourceKey(link),
-        sourceKey(reference),
-        "notes/missing.md",
-      ],
+      removeSources: [link!.id, reference!.id],
       updatedAt: item.updatedAt,
     });
 
     expect(updated?.sources).toEqual([kept]);
   });
 
-  it("replaces a source in its place", () => {
-    const first = aSource();
-    const second = aReference();
-    const item = store.add("Draft", "", [first, second]);
+  it("refuses to remove a source the item does not have", () => {
+    const item = store.add("Draft", "", [aSource()]);
+
+    const remove = () =>
+      store.update({
+        id: item.id,
+        removeSources: [crypto.randomUUID()],
+        updatedAt: item.updatedAt,
+      });
+
+    expect(remove).toThrow(SourceChangeError);
+    expect(openItemStore(dataDir).list()).toEqual([item]);
+  });
+
+  it("replaces a source in its place, keeping its id", () => {
+    const item = store.add("Draft", "", [aSource(), aReference()]);
+    const [first, second] = item.sources;
     const replacement = aReference();
 
     const updated = store.update({
       id: item.id,
-      replaceSource: { from: sourceKey(first), to: replacement },
+      replaceSource: { id: first!.id, to: replacement },
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.sources).toEqual([replacement, second]);
+    expect(updated?.sources).toEqual([
+      { ...replacement, id: first!.id },
+      second,
+    ]);
   });
 
   it("refuses to replace a source the item does not have", () => {
@@ -645,7 +677,7 @@ describe("update", () => {
     const replace = () =>
       store.update({
         id: item.id,
-        replaceSource: { from: "notes/missing.md", to: aReference() },
+        replaceSource: { id: crypto.randomUUID(), to: aReference() },
         updatedAt: item.updatedAt,
       });
 
@@ -655,14 +687,13 @@ describe("update", () => {
 
   it("refuses to replace a source with one that repeats another", () => {
     const first = aSource();
-    const second = aReference();
-    const item = store.add("Draft", "", [first, second]);
+    const item = store.add("Draft", "", [first, aReference()]);
 
     const replace = () =>
       store.update({
         id: item.id,
         replaceSource: {
-          from: sourceKey(second),
+          id: item.sources[1]!.id,
           to: { ...first, label: "Again" },
         },
         updatedAt: item.updatedAt,
@@ -678,11 +709,18 @@ describe("update", () => {
 
     const updated = store.update({
       id: item.id,
-      replaceSource: { from: sourceKey(first), to: { ...first, label: "New" } },
+      replaceSource: {
+        id: item.sources[0]!.id,
+        to: { ...first, label: "New" },
+      },
       updatedAt: item.updatedAt,
     });
 
-    expect(updated?.sources[0]).toEqual({ ...first, label: "New" });
+    expect(updated?.sources[0]).toEqual({
+      ...first,
+      label: "New",
+      id: item.sources[0]!.id,
+    });
   });
 
   it("refuses a source change to an item changed since it was read", () => {
@@ -694,14 +732,14 @@ describe("update", () => {
       updatedAt: item.updatedAt,
     });
 
-    const replace = () =>
+    const remove = () =>
       store.update({
         id: item.id,
-        replaceSource: { from: "notes/missing.md", to: aReference() },
+        removeSources: [item.sources[0]!.id],
         updatedAt: item.updatedAt,
       });
 
-    expect(replace).toThrow(ItemChangedError);
+    expect(remove).toThrow(ItemChangedError);
     expect(openItemStore(dataDir).list()).toEqual([changed]);
   });
 

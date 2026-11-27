@@ -9,7 +9,7 @@ import {
   vi,
   type Mock,
 } from "@lab/test-utils";
-import type { Item, ItemSource as Source } from "../api";
+import type { Item, ItemSource as Source, NewSource } from "../api";
 import { item } from "../test/fakes";
 import { ItemSources } from "./ItemSources";
 
@@ -18,17 +18,25 @@ type ChangeState = Pick<ItemSourcesProps, "disabled" | "saving">;
 
 const idle: ChangeState = { disabled: false, saving: false };
 
-const session: Source = {
-  kind: "link",
+const session = {
+  id: crypto.randomUUID(),
+  kind: "link" as const,
   url: "https://example.com/session",
   label: "Planning session",
 };
 
-const notes: Source = {
-  kind: "reference",
+const notes = {
+  id: crypto.randomUUID(),
+  kind: "reference" as const,
   text: "notes/TODO.md:12",
   label: "TODO list",
 };
+
+function newSource(source: Source): NewSource {
+  return source.kind === "link"
+    ? { kind: "link", url: source.url, label: source.label }
+    : { kind: "reference", text: source.text, label: source.label };
+}
 
 function renderSources(shownItem: Item = item({ sources: [session, notes] })) {
   const handlers = {
@@ -115,6 +123,7 @@ describe("ItemSources", () => {
       item({
         sources: [
           {
+            id: crypto.randomUUID(),
             kind: "reference",
             text: "claude://example/session",
             label: "Claude Desktop session",
@@ -162,7 +171,7 @@ describe("ItemSources", () => {
 
     expect(onSourcesChange).toHaveBeenCalledWith(
       original,
-      { addSources: [notes] },
+      { addSources: [newSource(notes)] },
       expect.anything(),
     );
   });
@@ -196,12 +205,15 @@ describe("ItemSources", () => {
     const user = userEvent.setup();
     const original = item({ sources: [session, notes] });
     const { onSourcesChange, showItem } = renderSources(original);
-    const changed: Source = {
+    const changed: NewSource = {
       kind: "link",
       url: "https://example.com/pull/1",
       label: "Pull request",
     };
-    const saved = { ...original, sources: [changed, notes] };
+    const saved = {
+      ...original,
+      sources: [{ ...changed, id: session.id }, notes],
+    };
     onSourcesChange.mockImplementation((_editedFrom, _change, { onSaved }) =>
       onSaved(saved),
     );
@@ -215,7 +227,7 @@ describe("ItemSources", () => {
 
     expect(onSourcesChange).toHaveBeenCalledWith(
       original,
-      { replaceSource: { from: session.url, to: changed } },
+      { replaceSource: { id: session.id, to: changed } },
       expect.anything(),
     );
     expect(
@@ -227,6 +239,7 @@ describe("ItemSources", () => {
   it("replaces the source it edits after a source before it was removed elsewhere", async () => {
     const user = userEvent.setup();
     const third: Source = {
+      id: crypto.randomUUID(),
       kind: "link",
       url: "https://example.com/pull/3",
       label: "Third",
@@ -252,8 +265,39 @@ describe("ItemSources", () => {
       changed,
       {
         replaceSource: {
-          from: notes.text,
-          to: { ...notes, label: "TODO list notes" },
+          id: notes.id,
+          to: { ...newSource(notes), label: "TODO list notes" },
+        },
+      },
+      expect.anything(),
+    );
+  });
+
+  it("still replaces the source it edits when its link changed elsewhere", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    const { label } = await startEdit(user);
+    await user.type(label, " notes{Enter}");
+    act(() => saveCallbacks(onSourcesChange).onChanged());
+    const changed = {
+      ...original,
+      sources: [{ ...session, url: "https://example.com/moved" }, notes],
+      updatedAt: "2026-11-22T10:00:00.000Z",
+    };
+    showItem(changed);
+
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    expect(
+      screen.getByText(/Changed elsewhere. Current source:/),
+    ).toBeInTheDocument();
+    expect(onSourcesChange).toHaveBeenLastCalledWith(
+      changed,
+      {
+        replaceSource: {
+          id: session.id,
+          to: { ...newSource(session), label: "Planning session notes" },
         },
       },
       expect.anything(),
@@ -284,7 +328,7 @@ describe("ItemSources", () => {
 
     expect(onSourcesChange).toHaveBeenCalledWith(
       original,
-      { removeSources: [notes.text] },
+      { removeSources: [notes.id] },
       expect.anything(),
     );
   });
@@ -344,6 +388,7 @@ describe("ItemSources", () => {
       sources: [
         session,
         {
+          id: crypto.randomUUID(),
           kind: "link" as const,
           url: "https://example.com/pull/1",
           label: "Pull request",
@@ -425,7 +470,7 @@ describe("ItemSources", () => {
       original,
       {
         replaceSource: {
-          from: session.url,
+          id: session.id,
           to: {
             kind: "reference",
             text: "claude://example/session",
@@ -485,8 +530,8 @@ describe("ItemSources", () => {
       started,
       {
         replaceSource: {
-          from: session.url,
-          to: { ...session, label: "Planning session notes" },
+          id: session.id,
+          to: { ...newSource(session), label: "Planning session notes" },
         },
       },
       expect.anything(),
@@ -537,7 +582,11 @@ describe("ItemSources", () => {
     ).toBeInTheDocument();
     expect(onSourcesChange).toHaveBeenLastCalledWith(
       removed,
-      { addSources: [{ ...session, label: "Planning session notes" }] },
+      {
+        addSources: [
+          { ...newSource(session), label: "Planning session notes" },
+        ],
+      },
       expect.anything(),
     );
   });

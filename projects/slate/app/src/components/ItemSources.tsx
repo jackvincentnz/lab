@@ -10,7 +10,12 @@ import {
   TextInput,
   Title,
 } from "@mantine/core";
-import type { Item, ItemSource as Source, UpdateItemInput } from "../api";
+import type {
+  Item,
+  NewSource,
+  ItemSource as Source,
+  UpdateItemInput,
+} from "../api";
 import { type Draft, useItemDraft, type SaveDraft } from "./useItemDraft";
 
 export type SourcesChange = Pick<
@@ -39,7 +44,7 @@ const noSource: SourceDraft = { kind: "link", target: "", label: "" };
 const maxReferenceLength = 1000;
 
 interface FocusTarget {
-  key: string | undefined;
+  id: string | undefined;
 }
 
 export function ItemSources({
@@ -49,28 +54,26 @@ export function ItemSources({
   onSourcesChange,
   onSourcesChangeCancel,
 }: ItemSourcesProps) {
-  // Found by url or text rather than position, which shifts when a source is removed elsewhere.
-  const editingKey = useRef<string>(undefined);
-  // The list reloads after a save, so until then the source still has the url or text it had.
-  const savedFromKey = useRef<string>(undefined);
-  const findEditing = (shown: Item) =>
-    findSource(shown, editingKey.current) ??
-    findSource(shown, savedFromKey.current);
+  const editingId = useRef<string>(undefined);
   const focusTarget = useRef<FocusTarget>(undefined);
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
-    (shown) => sourceDraftOf(findEditing(shown)),
+    (shown) => sourceDraftOf(findSource(shown, editingId.current)),
     (editedFrom, value: SourceDraft, { onSaved, onChanged }) => {
       const saved = sourceOf(value);
-      const savedKey = saved === null ? undefined : sourceKey(saved);
-      focusTarget.current = { key: savedKey };
       onSourcesChange(
         editedFrom,
-        sourcesChange(findEditing(editedFrom), saved),
+        sourcesChange(findSource(editedFrom, editingId.current), saved),
         {
           onSaved: (savedItem) => {
-            savedFromKey.current = editingKey.current;
-            editingKey.current = savedKey;
+            const savedSource =
+              saved === null
+                ? undefined
+                : savedItem.sources.find(
+                    (source) => sourceKey(source) === sourceKey(saved),
+                  );
+            editingId.current = savedSource?.id;
+            focusTarget.current = { id: savedSource?.id };
             onSaved(savedItem);
           },
           onChanged,
@@ -78,10 +81,8 @@ export function ItemSources({
       );
     },
   );
-  const editing = draft === undefined ? undefined : findEditing(item);
-  if (findSource(item, editingKey.current) !== undefined) {
-    savedFromKey.current = undefined;
-  }
+  const editing =
+    draft === undefined ? undefined : findSource(item, editingId.current);
 
   function submitSource(event: FormEvent) {
     event.preventDefault();
@@ -90,27 +91,24 @@ export function ItemSources({
 
   function cancelSource() {
     if (!saving) {
-      focusTarget.current = {
-        key: editing === undefined ? undefined : sourceKey(editing),
-      };
+      focusTarget.current = { id: editing?.id };
       onSourcesChangeCancel();
       cancel();
     }
   }
 
   function startSource(source: Source | undefined) {
-    editingKey.current = source === undefined ? undefined : sourceKey(source);
-    savedFromKey.current = undefined;
+    editingId.current = source?.id;
     start();
   }
 
   // Closing the editor removes the control that had focus, which leaves focus on the page.
-  function focusAfterEdit(key: string | undefined) {
+  function focusAfterEdit(id: string | undefined) {
     return (button: HTMLButtonElement | null) => {
       if (
         button !== null &&
         focusTarget.current !== undefined &&
-        focusTarget.current.key === key
+        focusTarget.current.id === id
       ) {
         focusTarget.current = undefined;
         if (document.activeElement === document.body) {
@@ -125,7 +123,7 @@ export function ItemSources({
       <SourceEditor
         item={item}
         editing={editing}
-        adding={editingKey.current === undefined}
+        adding={editingId.current === undefined}
         draft={draft}
         disabled={disabled}
         change={change}
@@ -144,13 +142,12 @@ export function ItemSources({
       {/* One keyed list, so that the editor moves with its source instead of remounting and taking focus. */}
       {[
         ...item.sources.map((source) => {
-          const key = sourceKey(source);
-          if (editing !== undefined && sourceKey(editing) === key) {
+          if (source.id === editing?.id) {
             return <Fragment key="editor">{editor()}</Fragment>;
           }
           return (
             <Group
-              key={`source ${key}`}
+              key={source.id}
               justify="space-between"
               wrap="nowrap"
               align="flex-start"
@@ -160,7 +157,7 @@ export function ItemSources({
               </Box>
               {draft === undefined && (
                 <Button
-                  ref={focusAfterEdit(key)}
+                  ref={focusAfterEdit(source.id)}
                   variant="subtle"
                   size="compact-xs"
                   style={{ flexShrink: 0 }}
@@ -319,24 +316,24 @@ function SourceEditor({
 
 function sourcesChange(
   editing: Source | undefined,
-  saved: Source | null,
+  saved: NewSource | null,
 ): SourcesChange {
   if (editing === undefined) {
     return { addSources: saved === null ? [] : [saved] };
   }
   return saved === null
-    ? { removeSources: [sourceKey(editing)] }
-    : { replaceSource: { from: sourceKey(editing), to: saved } };
+    ? { removeSources: [editing.id] }
+    : { replaceSource: { id: editing.id, to: saved } };
 }
 
-function sourceKey(source: Source): string {
+function sourceKey(source: NewSource): string {
   return source.kind === "link" ? source.url : source.text;
 }
 
-function findSource(item: Item, key: string | undefined): Source | undefined {
-  return key === undefined
+function findSource(item: Item, id: string | undefined): Source | undefined {
+  return id === undefined
     ? undefined
-    : item.sources.find((source) => sourceKey(source) === key);
+    : item.sources.find((source) => source.id === id);
 }
 
 function repeatError(
@@ -363,7 +360,7 @@ function sourceDraftOf(source: Source | undefined): SourceDraft {
     : { kind: "reference", target: source.text, label: source.label };
 }
 
-function sourceOf({ kind, target, label }: SourceDraft): Source | null {
+function sourceOf({ kind, target, label }: SourceDraft): NewSource | null {
   if (target === "" && label === "") {
     return null;
   }

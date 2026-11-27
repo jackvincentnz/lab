@@ -27,6 +27,7 @@ import {
   ItemChangedError,
   type ItemSource,
   type ListItemsInput,
+  type NewSource,
   SourceChangeError,
   sourceKey,
   withoutRepeats,
@@ -162,37 +163,46 @@ function backUpDatabase(client: DatabaseSync, folder: string, next: string) {
 }
 
 interface SourcesChange {
-  addSources: ItemSource[];
+  addSources: NewSource[];
   removeSources: string[];
   replaceSource: UpdateItemInput["replaceSource"];
+}
+
+function withIds(sources: NewSource[]): ItemSource[] {
+  return sources.map((source) => ({ ...source, id: randomUUID() }));
 }
 
 function changedSources(
   sources: ItemSource[],
   { addSources, removeSources, replaceSource }: SourcesChange,
 ): ItemSource[] {
+  const ids = sources.map((source) => source.id);
+  for (const id of [
+    ...removeSources,
+    ...(replaceSource ? [replaceSource.id] : []),
+  ]) {
+    if (!ids.includes(id)) {
+      throw new SourceChangeError(`The item has no source with the id ${id}`);
+    }
+  }
+
   let changed = sources;
   if (replaceSource) {
-    const { from, to } = replaceSource;
-    const keys = changed.map(sourceKey);
-    if (!keys.includes(from)) {
+    const { id, to } = replaceSource;
+    const repeated = sources.find(
+      (source) => source.id !== id && sourceKey(source) === sourceKey(to),
+    );
+    if (repeated) {
       throw new SourceChangeError(
-        `The item has no source with the url or text ${from}`,
-      );
-    }
-    if (sourceKey(to) !== from && keys.includes(sourceKey(to))) {
-      throw new SourceChangeError(
-        `The item already has another source with the url or text ${sourceKey(to)}`,
+        `The item already has another source, ${repeated.id}, with the url or text ${sourceKey(to)}`,
       );
     }
     changed = changed.map((source) =>
-      sourceKey(source) === from ? to : source,
+      source.id === id ? { ...to, id } : source,
     );
   }
-  changed = changed.filter(
-    (source) => !removeSources.includes(sourceKey(source)),
-  );
-  return withoutRepeats([...changed, ...addSources]);
+  changed = changed.filter((source) => !removeSources.includes(source.id));
+  return withoutRepeats([...changed, ...withIds(addSources)]);
 }
 
 export class ItemStore {
@@ -222,7 +232,7 @@ export class ItemStore {
       .all();
   }
 
-  add(name: string, description: string, sources: ItemSource[]): Item {
+  add(name: string, description: string, sources: NewSource[]): Item {
     const first = this.#database
       .select({ rank: item.rank })
       .from(item)
@@ -233,7 +243,7 @@ export class ItemStore {
       id: randomUUID(),
       name,
       description,
-      sources: withoutRepeats(sources),
+      sources: withIds(withoutRepeats(sources)),
       status: "todo",
       rank: generateKeyBetween(null, first?.rank ?? null),
       createdAt: now,

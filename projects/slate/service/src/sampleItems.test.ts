@@ -31,7 +31,11 @@ describe("addSampleItems", () => {
       store.list().map(({ name, description, sources, status }) => ({
         name,
         description,
-        sources,
+        sources: sources.map((source) =>
+          source.kind === "link"
+            ? { kind: source.kind, url: source.url, label: source.label }
+            : { kind: source.kind, text: source.text, label: source.label },
+        ),
         status,
       })),
     ).toEqual(

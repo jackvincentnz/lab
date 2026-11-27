@@ -194,7 +194,10 @@ describe("ItemsPage", () => {
       url: "https://example.com/session",
       label: "Planning session",
     };
-    const sourced = { ...original, sources: [source] };
+    const sourced = {
+      ...original,
+      sources: [{ ...source, id: crypto.randomUUID() }],
+    };
     const api = fakeSlateApi([original]);
     api.updateItem.mockResolvedValue(sourced);
     render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
@@ -225,10 +228,12 @@ describe("ItemsPage", () => {
 
   it("removes an item's source", async () => {
     const user = userEvent.setup();
+    const sourceId = crypto.randomUUID();
     const original = item({
       name: "Plan the week",
       sources: [
         {
+          id: sourceId,
           kind: "link",
           url: "https://example.com/session",
           label: "Planning session",
@@ -251,7 +256,7 @@ describe("ItemsPage", () => {
 
     expect(api.updateItem).toHaveBeenCalledWith({
       id: original.id,
-      removeSources: ["https://example.com/session"],
+      removeSources: [sourceId],
       updatedAt: original.updatedAt,
     });
   });

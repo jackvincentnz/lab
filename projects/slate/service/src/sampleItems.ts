@@ -1,10 +1,10 @@
-import { type ItemSource, type ItemStatus } from "./item.js";
+import { type ItemStatus, type NewSource } from "./item.js";
 import { type ItemStore } from "./store.js";
 
 export interface SampleItem {
   name: string;
   description?: string;
-  sources?: ItemSource[];
+  sources?: NewSource[];
   status: ItemStatus;
   deleted?: boolean;
 }

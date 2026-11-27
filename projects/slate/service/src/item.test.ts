@@ -174,7 +174,7 @@ describe("updateItemInput", () => {
   it("accepts an update that only removes a source", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
-      removeSources: ["https://example.com/plan"],
+      removeSources: [crypto.randomUUID()],
       updatedAt,
     });
 
@@ -185,7 +185,7 @@ describe("updateItemInput", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
       replaceSource: {
-        from: "https://example.com/plan",
+        id: crypto.randomUUID(),
         to: { kind: "link", url: "http://example.com/plan", label: "Plan" },
       },
       updatedAt,
@@ -196,16 +196,14 @@ describe("updateItemInput", () => {
     );
   });
 
-  it("rejects a blank source to remove", () => {
+  it("rejects a source to remove that is not an id", () => {
     const result = updateItemInput.safeParse({
       id: crypto.randomUUID(),
-      removeSources: [" "],
+      removeSources: ["https://example.com/plan"],
       updatedAt,
     });
 
-    expect(result.error?.issues[0]?.message).toBe(
-      "Give a link's url or a reference's text that is not blank",
-    );
+    expect(result.success).toBe(false);
   });
 
   it("rejects an unknown status", () => {

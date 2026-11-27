@@ -51,6 +51,8 @@ function anItem(): Item {
   };
 }
 
+const sourceId = crypto.randomUUID();
+
 function call(name: string, args: Record<string, unknown> = {}) {
   return client.callTool({ name, arguments: args });
 }
@@ -366,10 +368,10 @@ describe("createSlateMcpServer", () => {
         { kind: "link", url: "https://example.com/pull/1", label: "PR" },
       ],
     },
-    { removeSources: ["notes/TODO.md#Today"] },
+    { removeSources: [sourceId] },
     {
       replaceSource: {
-        from: "notes/TODO.md#Today",
+        id: sourceId,
         to: { kind: "reference", text: "notes/TODO.md#Later", label: "TODO" },
       },
     },
@@ -394,14 +396,14 @@ describe("createSlateMcpServer", () => {
     const item = anItem();
     store.update.mockImplementation(() => {
       throw new SourceChangeError(
-        "The item has no source with the url or text notes/missing.md",
+        `The item has no source with the id ${sourceId}`,
       );
     });
 
     const result = await call("update_item", {
       id: item.id,
       replaceSource: {
-        from: "notes/missing.md",
+        id: sourceId,
         to: { kind: "reference", text: "notes/plan.md", label: "Plan" },
       },
       updatedAt: item.updatedAt,
@@ -411,7 +413,7 @@ describe("createSlateMcpServer", () => {
       isError: true,
       content: [
         {
-          text: "The item has no source with the url or text notes/missing.md, so it was not updated. List the items to see its sources.",
+          text: `The item has no source with the id ${sourceId}, so it was not updated. List the items to see its sources.`,
         },
       ],
     });

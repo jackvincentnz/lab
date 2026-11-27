@@ -115,15 +115,13 @@ describe("slateRouter", () => {
   it("rejects replacing a source the item does not have", async () => {
     const item = anItem();
     store.update.mockImplementation(() => {
-      throw new SourceChangeError(
-        "The item has no source with the url or text notes/missing.md",
-      );
+      throw new SourceChangeError("The item has no source with that id");
     });
 
     const updating = caller.updateItem({
       id: item.id,
       replaceSource: {
-        from: "notes/missing.md",
+        id: crypto.randomUUID(),
         to: { kind: "reference", text: "notes/plan.md", label: "Plan" },
       },
       updatedAt: item.updatedAt,

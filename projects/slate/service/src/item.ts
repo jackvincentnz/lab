@@ -28,19 +28,30 @@ const referenceSource = z.object({
   ),
 });
 
-export const itemSource = z.discriminatedUnion("kind", [
+export const newSource = z.discriminatedUnion("kind", [
   linkSource,
   referenceSource,
 ]);
 
+export type NewSource = z.infer<typeof newSource>;
+
+export const sourceId = z.uuid();
+
+export const itemSource = z.discriminatedUnion("kind", [
+  linkSource.extend({ id: sourceId }),
+  referenceSource.extend({ id: sourceId }),
+]);
+
 export type ItemSource = z.infer<typeof itemSource>;
 
-/** A source's identity in a list: its link's url or its reference's text. */
-export function sourceKey(source: ItemSource): string {
+/** What no two of an item's sources share: a link's url or a reference's text. */
+export function sourceKey(source: NewSource): string {
   return source.kind === "link" ? source.url : source.text;
 }
 
-export function withoutRepeats(sources: ItemSource[]): ItemSource[] {
+export function withoutRepeats<Source extends NewSource>(
+  sources: Source[],
+): Source[] {
   const seen = new Set<string>();
   return sources.filter((source) => {
     const key = sourceKey(source);
@@ -128,7 +139,7 @@ export const addItemInput = z.object({
       "Context that belongs with the item, such as notes, links or why it matters. Markdown.",
     ),
   sources: z
-    .array(itemSource)
+    .array(newSource)
     .default([])
     .describe(
       `Where the item came from, such as the Claude Desktop session, notes file, documents or pull requests that it came out of. Give the main one first. A source repeating an earlier one's url or text is left out. ${sourceKinds}`,
@@ -147,27 +158,27 @@ export const updateItemInput = z
         "The item's new description, which replaces the old one. Markdown. Give an empty one to remove it.",
       ),
     addSources: z
-      .array(itemSource)
+      .array(newSource)
       .optional()
       .describe(
-        `Sources to add after the item's others, in this order. A source with the same url or text as one the item has is left out. ${sourceKinds}`,
+        `Sources to add after the item's others, in this order, without ids; each gets one. A source with the same url or text as one the item has is left out. ${sourceKinds}`,
       ),
     removeSources: z
-      .array(sourceKeyInput)
+      .array(sourceId)
       .optional()
       .describe(
-        "Sources to remove, each named by its link's url or its reference's text exactly. A name that matches none of the item's sources is ignored.",
+        "The ids of the sources to remove, from the item's sources. Refused if the item has no source with one of them.",
       ),
     replaceSource: z
       .object({
-        from: sourceKeyInput.describe(
-          "The url or text of the source to replace, exactly.",
+        id: sourceId.describe("The id of the source to replace."),
+        to: newSource.describe(
+          "The source to put in its place, without an id; it keeps the id it replaces.",
         ),
-        to: itemSource.describe("The source to put in its place."),
       })
       .optional()
       .describe(
-        "Changes one source in place, keeping its position, such as to correct a link or relabel it. Refused if the item has no source with the url or text from, or has another source with the url or text of to.",
+        "Changes one source in place, keeping its id and position, such as to correct a link or relabel it. Refused if the item has no source with that id, or has another source with the url or text of to.",
       ),
     status: itemStatus.optional().describe("The item's new status."),
     updatedAt: z
