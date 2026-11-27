@@ -1,5 +1,5 @@
 import { type RefObject, useEffect, useRef } from "react";
-import { Button, Group, Text } from "@mantine/core";
+import { Button, Stack, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
 import { IconArrowBackUp } from "@tabler/icons-react";
 import type { Item } from "../api";
@@ -45,6 +45,7 @@ export function useDeletedItemNotice(
       withBorder: true,
       autoClose: AUTO_CLOSE_MS,
       closeButtonProps: { "aria-label": "Dismiss" },
+      styles: { closeButton: { alignSelf: "flex-start" } },
       onClose: () => {
         if (!closedByPage) {
           latest.current.onDismiss();
@@ -75,13 +76,10 @@ function message(
   latest: RefObject<DeletedItemNoticeOptions>,
 ) {
   return (
-    <Group justify="space-between" wrap="nowrap">
-      <Text size="sm" miw={0}>
-        {item.name}
-      </Text>
+    <Stack gap="xs" align="flex-start">
+      <Text size="sm">{item.name}</Text>
       <Button
         variant="light"
-        flex="none"
         size="xs"
         leftSection={<IconArrowBackUp size={14} />}
         disabled={latest.current.disabled}
@@ -91,6 +89,6 @@ function message(
       >
         Undo
       </Button>
-    </Group>
+    </Stack>
   );
 }
