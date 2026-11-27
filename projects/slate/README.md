@@ -21,8 +21,11 @@ web UI and the API at `http://127.0.0.1:5297` and keeps data in
 `~/Library/Application Support/Slate (dev)` on macOS, or in `projects/slate/.dev-data` when run from
 a worktree that `git worktree add` created, as [dev data](docs/migrations.md#dev-data) describes. A new data folder starts with sample items. Quitting the app stops the service.
 
-Started without a terminal, as agents and tests start it, the app runs without a window. Set
-`SLATE_SHOW_WINDOW=1` to show it.
+Closing the window leaves the app running in the menu bar, where dev mode's icon reads DEV. Click the
+icon to bring the window back, or right-click it and choose Quit Slate.
+
+Started without a terminal, as agents and tests start it, the app runs without a window or a menu
+bar icon. Set `SLATE_SHOW_WINDOW=1` to show them.
 
 Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` and listens on port
 5197, so it can run beside dev mode:
@@ -31,8 +34,8 @@ Run it in prod mode, which keeps data in `~/Library/Application Support/Slate` a
 bazel run //projects/slate:prod
 ```
 
-Install or update it in prod mode as `/Applications/Slate.app`. It starts at login, so agents can
-reach the list before you open Slate:
+Install or update it in prod mode as `/Applications/Slate.app`. It starts at login without a window,
+so agents can reach the list before you open Slate from the menu bar:
 
 ```zsh
 bazel run //projects/slate:install

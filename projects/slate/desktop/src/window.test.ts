@@ -45,7 +45,7 @@ describe("readShowWindow", () => {
 });
 
 function fakeElectron({ minimized = false } = {}) {
-  const app = Object.assign(new EventEmitter(), { dock: { show: vi.fn() } });
+  const app = new EventEmitter();
   const open: { isMinimized(): boolean; restore(): void; show(): void }[] = [];
   const windows = {
     all: () => open,
@@ -56,6 +56,7 @@ function fakeElectron({ minimized = false } = {}) {
         show: vi.fn(),
       });
     }),
+    present: vi.fn(),
   };
   const url = `http://127.0.0.1:${1024 + Math.floor(Math.random() * 60000)}/`;
   return { app, windows, open, url };
@@ -105,7 +106,7 @@ describe("listenForWindows", () => {
     await launchAgain(app, { showWindow: true });
 
     expect(open[0]?.show).toHaveBeenCalled();
-    expect(app.dock.show).toHaveBeenCalled();
+    expect(windows.present).toHaveBeenCalled();
   });
 
   it.each([{ showWindow: false }, null])(
@@ -120,7 +121,7 @@ describe("listenForWindows", () => {
       await launchAgain(app, data);
 
       expect(open[0]?.show).not.toHaveBeenCalled();
-      expect(app.dock.show).not.toHaveBeenCalled();
+      expect(windows.present).not.toHaveBeenCalled();
     },
   );
 
@@ -172,6 +173,54 @@ describe("listenForWindows", () => {
     await settle();
 
     expect(windows.create).not.toHaveBeenCalled();
+  });
+
+  it("shows the window and presents Slate when revealed", async () => {
+    const { app, windows, open, url } = fakeElectron();
+    const slateWindows = listenForWindows(app, windows);
+    slateWindows.open(url, { show: false, atLogin: false });
+
+    slateWindows.reveal();
+    await settle();
+
+    expect(open[0]?.show).toHaveBeenCalled();
+    expect(windows.present).toHaveBeenCalled();
+  });
+
+  it("restores a minimized window when revealed", async () => {
+    const { app, windows, open, url } = fakeElectron({ minimized: true });
+    const slateWindows = listenForWindows(app, windows);
+    slateWindows.open(url, { show: true, atLogin: false });
+
+    slateWindows.reveal();
+    await settle();
+
+    expect(open[0]?.restore).toHaveBeenCalled();
+    expect(open[0]?.show).toHaveBeenCalled();
+  });
+
+  it("opens a shown window when revealed after the window was closed", async () => {
+    const { app, windows, open, url } = fakeElectron();
+    const slateWindows = listenForWindows(app, windows);
+    slateWindows.open(url, { show: true, atLogin: false });
+    open.pop();
+
+    slateWindows.reveal();
+    await settle();
+
+    expect(windows.create).toHaveBeenLastCalledWith(url, true);
+    expect(windows.create).toHaveBeenCalledTimes(2);
+  });
+
+  it("opens the window once Slate has started when revealed while it starts", async () => {
+    const { app, windows, url } = fakeElectron();
+    const slateWindows = listenForWindows(app, windows);
+    slateWindows.reveal();
+
+    slateWindows.open(url, { show: true, atLogin: true });
+    await settle();
+
+    expect(windows.create).toHaveBeenCalledWith(url, true);
   });
 
   it("keeps the open window on activate", async () => {

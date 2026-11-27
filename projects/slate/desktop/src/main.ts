@@ -5,8 +5,10 @@ import {
   app,
   BrowserWindow,
   dialog,
+  Menu,
   screen,
   shell,
+  Tray,
   utilityProcess,
 } from "electron";
 import { readConfig } from "../../service/src/config.js";
@@ -15,6 +17,7 @@ import { failureDialog, lockHeldFailure } from "./failure.js";
 import { guardApp } from "./guards.js";
 import { type Log, logOutput, openLog } from "./log.js";
 import { openAtLogin } from "./loginItem.js";
+import { showInMenuBar } from "./menuBar.js";
 import { waitUntilListening } from "./service.js";
 import {
   listenForWindows,
@@ -34,6 +37,8 @@ const webDir = join(appDir, "dist");
 const iconsDir = join(import.meta.dirname, "../../icons");
 
 let log: Log | undefined;
+// Electron removes a tray icon whose object is garbage collected.
+let menuBar: Tray | undefined;
 
 function createWindow(dataDir: string, url: string, show: boolean): void {
   const { bounds, minimumSize, maximized } = placeWindow(
@@ -77,7 +82,12 @@ async function start(): Promise<void> {
   const windows = listenForWindows(app, {
     all: () => BrowserWindow.getAllWindows(),
     create: (url, show) => createWindow(dataDir, url, show),
+    present: () => present(),
   });
+  const present = () => {
+    void app.dock?.show();
+    menuBar ??= addToMenuBar(profile, () => windows.reveal());
+  };
   // Opened only by the lock's holder, so a second launch cannot move the running log aside.
   const startLog = openLog(dataDir);
   log = startLog;
@@ -88,7 +98,9 @@ async function start(): Promise<void> {
       join(iconsDir, profile === "dev" ? "slate-dev.png" : "slate.png"),
     );
   }
-  if (!showWindow) {
+  if (showWindow) {
+    present();
+  } else {
     app.dock?.hide();
   }
   const atLogin = openAtLogin(app, (message) =>
@@ -100,6 +112,16 @@ async function start(): Promise<void> {
     : serviceUrl;
   guardApp(app, new URL(url).origin, (target) => shell.openExternal(target));
   windows.open(url, { show: showWindow, atLogin });
+}
+
+function addToMenuBar(profile: "dev" | "prod", open: () => void): Tray {
+  const tray = new Tray(join(iconsDir, "slateTemplate.png"));
+  showInMenuBar(tray, (template) => Menu.buildFromTemplate(template), {
+    profile,
+    open,
+    quit: () => app.quit(),
+  });
+  return tray;
 }
 
 function claimInstance(dataDir: string, showWindow: boolean): boolean {

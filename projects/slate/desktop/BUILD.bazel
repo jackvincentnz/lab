@@ -22,6 +22,7 @@ js_library(
     srcs = [
         "package.json",
         "//projects/slate/icons:dock",
+        "//projects/slate/icons:menu_bar",
     ],
     visibility = ["//projects/slate:__pkg__"],
     deps = [":src_ts"],

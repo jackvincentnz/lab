@@ -14,7 +14,6 @@ interface SlateWindow {
 }
 
 interface WindowApp {
-  readonly dock?: { show(): unknown };
   on(
     event: "second-instance",
     listener: (
@@ -30,6 +29,7 @@ interface WindowApp {
 interface WindowFactory {
   all(): SlateWindow[];
   create(url: string, show: boolean): void;
+  present(): void;
 }
 
 interface OpenOptions {
@@ -39,6 +39,7 @@ interface OpenOptions {
 
 interface Windows {
   open(url: string, options: OpenOptions): void;
+  reveal(): void;
 }
 
 // On macOS, showing a window brings Slate in front of other apps, so a window that agents or tests
@@ -60,7 +61,7 @@ export function listenForWindows(
   });
 
   const reveal = (url: string) => {
-    void app.dock?.show();
+    windows.present();
     const [window] = windows.all();
     if (!window) {
       windows.create(url, true);
@@ -89,6 +90,9 @@ export function listenForWindows(
           windows.create(url, true);
         }
       });
+    },
+    reveal() {
+      void windowUrl.then(reveal);
     },
   };
 }

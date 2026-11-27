@@ -70,6 +70,7 @@ copy_to_directory(
         # The e2e test runs this folder unpackaged, which sets the Dock icon from these.
         "//projects/slate/icons:dock",
         "//projects/slate/icons:mcp",
+        "//projects/slate/icons:menu_bar",
         "//projects/slate/service:migrations",
     ],
     replace_prefixes = {"bundle/": ""},
