@@ -559,36 +559,18 @@ describe("ItemSources", () => {
     expect(screen.getByRole("link", { name: "Retro" })).toBeInTheDocument();
   });
 
-  it("adds the draft again when its source was removed elsewhere", async () => {
+  it("closes the editor of a source removed elsewhere", async () => {
     const user = userEvent.setup();
-    const original = item({ sources: [session] });
-    const { onSourcesChange, showItem } = renderSources(original);
-    const { label } = await startEdit(user);
-    await user.type(label, " notes{Enter}");
-    act(() => saveCallbacks(onSourcesChange).onChanged());
-    const removed = {
-      ...original,
-      sources: [],
-      updatedAt: "2026-11-22T10:00:00.000Z",
-    };
-    showItem(removed);
+    const original = item({ sources: [session, notes] });
+    const { showItem } = renderSources(original);
+    await startEdit(user);
 
-    await user.click(screen.getByRole("button", { name: "Save" }));
+    showItem({ ...original, sources: [notes] });
 
     expect(
-      screen.getByText(
-        "Changed elsewhere. This source is no longer on the item, so Save adds it.",
-      ),
-    ).toBeInTheDocument();
-    expect(onSourcesChange).toHaveBeenLastCalledWith(
-      removed,
-      {
-        addSources: [
-          { ...newSource(session), label: "Planning session notes" },
-        ],
-      },
-      expect.anything(),
-    );
+      screen.queryByRole("textbox", { name: "Label" }),
+    ).not.toBeInTheDocument();
+    expect(editButton(notes.label)).toBeInTheDocument();
   });
 
   it("cancels an edit with Escape and returns focus to Edit", async () => {

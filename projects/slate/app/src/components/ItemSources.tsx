@@ -1,4 +1,4 @@
-import { Fragment, useRef, type FormEvent } from "react";
+import { type RefObject, useRef } from "react";
 import {
   Anchor,
   Box,
@@ -43,168 +43,208 @@ const noSource: SourceDraft = { kind: "link", target: "", label: "" };
 
 const maxReferenceLength = 1000;
 
-interface FocusTarget {
-  id: string | undefined;
-}
-
-export function ItemSources({
-  item,
-  disabled,
-  saving,
-  onSourcesChange,
-  onSourcesChangeCancel,
-}: ItemSourcesProps) {
-  const editingId = useRef<string>(undefined);
-  const focusTarget = useRef<FocusTarget>(undefined);
-  const { draft, start, change, submit, cancel } = useItemDraft(
-    item,
-    (shown) => sourceDraftOf(findSource(shown, editingId.current)),
-    (editedFrom, value: SourceDraft, { onSaved, onChanged }) => {
-      const saved = sourceOf(value);
-      onSourcesChange(
-        editedFrom,
-        sourcesChange(findSource(editedFrom, editingId.current), saved),
-        {
-          onSaved: (savedItem) => {
-            const savedSource =
-              saved === null
-                ? undefined
-                : savedItem.sources.find(
-                    (source) => sourceKey(source) === sourceKey(saved),
-                  );
-            editingId.current = savedSource?.id;
-            focusTarget.current = { id: savedSource?.id };
-            onSaved(savedItem);
-          },
-          onChanged,
-        },
-      );
-    },
-  );
-  const editing =
-    draft === undefined ? undefined : findSource(item, editingId.current);
-
-  function submitSource(event: FormEvent) {
-    event.preventDefault();
-    submit();
-  }
-
-  function cancelSource() {
-    if (!saving) {
-      focusTarget.current = { id: editing?.id };
-      onSourcesChangeCancel();
-      cancel();
-    }
-  }
-
-  function startSource(source: Source | undefined) {
-    editingId.current = source?.id;
-    start();
-  }
-
-  // Closing the editor removes the control that had focus, which leaves focus on the page.
-  function focusAfterEdit(id: string | undefined) {
-    return (button: HTMLButtonElement | null) => {
-      if (
-        button !== null &&
-        focusTarget.current !== undefined &&
-        focusTarget.current.id === id
-      ) {
-        focusTarget.current = undefined;
-        if (document.activeElement === document.body) {
-          button.focus();
-        }
-      }
-    };
-  }
-
-  function editor() {
-    return draft === undefined ? null : (
-      <SourceEditor
-        item={item}
-        editing={editing}
-        adding={editingId.current === undefined}
-        draft={draft}
-        disabled={disabled}
-        change={change}
-        onSubmit={submitSource}
-        onCancel={cancelSource}
-        onRemove={() => submit(noSource)}
-      />
-    );
-  }
-
+export function ItemSources(props: ItemSourcesProps) {
+  const addButton = useRef<HTMLButtonElement>(null);
   return (
     <Stack gap="xs">
       <Title order={3} size="xs" c="dimmed" tt="uppercase">
         Sources
       </Title>
-      {/* One keyed list, so that the editor moves with its source instead of remounting and taking focus. */}
-      {[
-        ...item.sources.map((source) => {
-          if (source.id === editing?.id) {
-            return <Fragment key="editor">{editor()}</Fragment>;
-          }
-          return (
-            <Group
-              key={source.id}
-              justify="space-between"
-              wrap="nowrap"
-              align="flex-start"
-            >
-              <Box flex={1} miw={0}>
-                <SourceView source={source} />
-              </Box>
-              {draft === undefined && (
-                <Button
-                  ref={focusAfterEdit(source.id)}
-                  variant="subtle"
-                  size="compact-xs"
-                  style={{ flexShrink: 0 }}
-                  aria-label={`Edit source ${source.label}`}
-                  onClick={() => startSource(source)}
-                >
-                  Edit
-                </Button>
-              )}
-            </Group>
-          );
-        }),
-        draft === undefined ? (
-          <Button
-            key="add"
-            ref={focusAfterEdit(undefined)}
-            variant="default"
-            size="xs"
-            style={{ alignSelf: "flex-start" }}
-            onClick={() => startSource(undefined)}
-          >
-            Add a source
-          </Button>
-        ) : (
-          editing === undefined && <Fragment key="editor">{editor()}</Fragment>
-        ),
-      ]}
+      {props.item.sources.map((source) => (
+        <SourceRow
+          key={source.id}
+          source={source}
+          onRemoved={() => addButton.current?.focus()}
+          {...props}
+        />
+      ))}
+      <AddSource addButton={addButton} {...props} />
     </Stack>
   );
 }
 
+interface SourceRowProps extends ItemSourcesProps {
+  source: Source;
+  onRemoved(): void;
+}
+
+function SourceRow({
+  item,
+  source,
+  disabled,
+  saving,
+  onSourcesChange,
+  onSourcesChangeCancel,
+  onRemoved,
+}: SourceRowProps) {
+  const returnFocus = useReturnFocus();
+  const { draft, start, change, submit, cancel } = useItemDraft(
+    item,
+    (shown) => sourceDraftOf(shown.sources.find(({ id }) => id === source.id)),
+    (editedFrom, value: SourceDraft, callbacks) => {
+      const saved = sourceOf(value);
+      if (saved !== null) {
+        onSourcesChange(
+          editedFrom,
+          { replaceSource: { id: source.id, to: saved } },
+          callbacks,
+        );
+        return;
+      }
+      onSourcesChange(
+        editedFrom,
+        { removeSources: [source.id] },
+        {
+          ...callbacks,
+          onSaved: (savedItem) => {
+            callbacks.onSaved(savedItem);
+            onRemoved();
+          },
+        },
+      );
+    },
+  );
+
+  if (draft === undefined) {
+    return (
+      <Group justify="space-between" wrap="nowrap" align="flex-start">
+        <Box flex={1} miw={0}>
+          <SourceView source={source} />
+        </Box>
+        <Button
+          ref={returnFocus.ref}
+          variant="subtle"
+          size="compact-xs"
+          style={{ flexShrink: 0 }}
+          aria-label={`Edit source ${source.label}`}
+          onClick={() => {
+            returnFocus.expect();
+            start();
+          }}
+        >
+          Edit
+        </Button>
+      </Group>
+    );
+  }
+
+  return (
+    <SourceEditor
+      item={item}
+      editingId={source.id}
+      current={source}
+      draft={draft}
+      disabled={disabled}
+      change={change}
+      onSubmit={() => submit()}
+      onCancel={() => {
+        if (!saving) {
+          onSourcesChangeCancel();
+          cancel();
+        }
+      }}
+      onRemove={() => submit(noSource)}
+    />
+  );
+}
+
+interface AddSourceProps extends ItemSourcesProps {
+  addButton: RefObject<HTMLButtonElement | null>;
+}
+
+function AddSource({
+  item,
+  disabled,
+  saving,
+  onSourcesChange,
+  onSourcesChangeCancel,
+  addButton,
+}: AddSourceProps) {
+  const returnFocus = useReturnFocus();
+  const { draft, start, change, submit, cancel } = useItemDraft(
+    item,
+    () => noSource,
+    (editedFrom, value: SourceDraft, callbacks) => {
+      const saved = sourceOf(value);
+      if (saved !== null) {
+        onSourcesChange(editedFrom, { addSources: [saved] }, callbacks);
+      }
+    },
+  );
+
+  if (draft === undefined) {
+    return (
+      <Button
+        ref={(button) => {
+          addButton.current = button;
+          returnFocus.ref(button);
+        }}
+        variant="default"
+        size="xs"
+        style={{ alignSelf: "flex-start" }}
+        onClick={() => {
+          returnFocus.expect();
+          start();
+        }}
+      >
+        Add a source
+      </Button>
+    );
+  }
+
+  return (
+    <SourceEditor
+      item={item}
+      editingId={undefined}
+      current={undefined}
+      draft={draft}
+      disabled={disabled}
+      change={change}
+      onSubmit={() => submit()}
+      onCancel={() => {
+        if (!saving) {
+          onSourcesChangeCancel();
+          cancel();
+        }
+      }}
+    />
+  );
+}
+
+/** Closing an editor removes the control that had focus, which leaves focus on the page. */
+function useReturnFocus() {
+  const returning = useRef(false);
+  return {
+    expect() {
+      returning.current = true;
+    },
+    ref(button: HTMLButtonElement | null) {
+      if (button !== null && returning.current) {
+        returning.current = false;
+        if (document.activeElement === document.body) {
+          button.focus();
+        }
+      }
+    },
+  };
+}
+
 interface SourceEditorProps {
   item: Item;
-  editing: Source | undefined;
-  adding: boolean;
+  editingId: string | undefined;
+  current: Source | undefined;
   draft: Draft<SourceDraft>;
   disabled: boolean;
   change(value: SourceDraft): void;
-  onSubmit(event: FormEvent): void;
+  onSubmit(): void;
   onCancel(): void;
-  onRemove(): void;
+  onRemove?(): void;
 }
 
 function SourceEditor({
   item,
-  editing,
-  adding,
+  editingId,
+  current,
   draft,
   disabled,
   change,
@@ -213,11 +253,14 @@ function SourceEditor({
   onRemove,
 }: SourceEditorProps) {
   const targetError =
-    sourceTargetError(draft.value) ?? repeatError(item, editing, draft.value);
+    sourceTargetError(draft.value) ?? repeatError(item, editingId, draft.value);
 
   return (
     <form
-      onSubmit={onSubmit}
+      onSubmit={(event) => {
+        event.preventDefault();
+        onSubmit();
+      }}
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           event.preventDefault();
@@ -228,14 +271,13 @@ function SourceEditor({
       <Stack gap="xs">
         {draft.refusedFrom !== undefined && (
           <Text size="xs" c="dimmed" component="div">
-            {item.updatedAt === draft.refusedFrom.updatedAt || adding ? (
+            {item.updatedAt === draft.refusedFrom.updatedAt ||
+            current === undefined ? (
               "Changed elsewhere."
-            ) : editing === undefined ? (
-              "Changed elsewhere. This source is no longer on the item, so Save adds it."
             ) : (
               <>
                 Changed elsewhere. Current source:{" "}
-                <SourceView source={editing} />
+                <SourceView source={current} />
               </>
             )}
           </Text>
@@ -295,7 +337,7 @@ function SourceEditor({
           >
             Cancel
           </Button>
-          {editing !== undefined && (
+          {onRemove !== undefined && (
             <Button
               variant="subtle"
               color="red"
@@ -314,38 +356,18 @@ function SourceEditor({
   );
 }
 
-function sourcesChange(
-  editing: Source | undefined,
-  saved: NewSource | null,
-): SourcesChange {
-  if (editing === undefined) {
-    return { addSources: saved === null ? [] : [saved] };
-  }
-  return saved === null
-    ? { removeSources: [editing.id] }
-    : { replaceSource: { id: editing.id, to: saved } };
-}
-
 function sourceKey(source: NewSource): string {
   return source.kind === "link" ? source.url : source.text;
 }
 
-function findSource(item: Item, id: string | undefined): Source | undefined {
-  return id === undefined
-    ? undefined
-    : item.sources.find((source) => source.id === id);
-}
-
 function repeatError(
   item: Item,
-  editing: Source | undefined,
+  editingId: string | undefined,
   draft: SourceDraft,
 ): string | undefined {
   const target = draft.target.trim();
-  const editingKey = editing === undefined ? undefined : sourceKey(editing);
   return item.sources.some(
-    (source) =>
-      sourceKey(source) !== editingKey && sourceKey(source) === target,
+    (source) => source.id !== editingId && sourceKey(source) === target,
   )
     ? "The item already has this source"
     : undefined;
