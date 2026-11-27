@@ -12,6 +12,9 @@ import { item } from "../test/fakes";
 import { ItemPanel } from "./ItemPanel";
 
 type ItemPanelProps = Parameters<typeof ItemPanel>[0];
+type ChangeState = Pick<ItemPanelProps, "disabled" | "saving">;
+
+const idle: ChangeState = { disabled: false, saving: false };
 
 function renderPanel(
   panelItem: Item = item({
@@ -28,14 +31,14 @@ function renderPanel(
     onStatusChange: vi.fn<ItemPanelProps["onStatusChange"]>(),
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };
-  const panel = (shown: Item, saving: boolean) => (
-    <ItemPanel item={shown} disabled={saving} saving={saving} {...handlers} />
+  const panel = (shown: Item, state: ChangeState) => (
+    <ItemPanel item={shown} {...state} {...handlers} />
   );
-  const { rerender } = render(panel(panelItem, false));
+  const { rerender } = render(panel(panelItem, idle));
   return {
     ...handlers,
-    startSaving: () => rerender(panel(panelItem, true)),
-    showItem: (shown: Item) => rerender(panel(shown, false)),
+    disable: () => rerender(panel(panelItem, { ...idle, disabled: true })),
+    showItem: (shown: Item) => rerender(panel(shown, idle)),
   };
 }
 
@@ -173,9 +176,9 @@ describe("ItemPanel", () => {
   });
 
   it("does not offer a delete when disabled", () => {
-    const { startSaving } = renderPanel();
+    const { disable } = renderPanel();
 
-    startSaving();
+    disable();
 
     expect(
       screen.getByRole("button", { name: "Delete Plan the week" }),
