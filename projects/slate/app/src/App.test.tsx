@@ -111,7 +111,8 @@ test("offers the undo for a deleted item over the page rather than in the list",
   await deleteItem(user);
 
   const notice = screen.getByRole("alert");
-  expect(notice).toHaveTextContent("Deleted Plan the week");
+  expect(within(notice).getByText("Deleted")).toBeInTheDocument();
+  expect(within(notice).getByText("Plan the week")).toBeInTheDocument();
   expect(screen.getByRole("main")).not.toContainElement(notice);
 });
 

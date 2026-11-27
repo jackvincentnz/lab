@@ -803,9 +803,9 @@ describe("ItemsPage", () => {
     );
 
     expect(api.deleteItem).toHaveBeenCalledWith({ id: deleted.id });
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Deleted Plan the week",
-    );
+    const notice = await screen.findByRole("alert");
+    expect(within(notice).getByText("Deleted")).toBeInTheDocument();
+    expect(within(notice).getByText("Plan the week")).toBeInTheDocument();
     await waitFor(() => expect(itemNames()).toEqual(["Book travel"]));
     expect(
       screen.queryByRole("complementary", { name: "Item details" }),
@@ -988,9 +988,7 @@ describe("ItemsPage", () => {
     await deleteTwoItems(user);
 
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent(
-        "Deleted Book travel",
-      ),
+      expect(screen.getByRole("alert")).toHaveTextContent("Book travel"),
     );
   });
 
@@ -998,9 +996,7 @@ describe("ItemsPage", () => {
     const user = userEvent.setup();
     const { api, second } = await deleteTwoItems(user);
     await waitFor(() =>
-      expect(screen.getByRole("alert")).toHaveTextContent(
-        "Deleted Book travel",
-      ),
+      expect(screen.getByRole("alert")).toHaveTextContent("Book travel"),
     );
 
     await user.click(screen.getByRole("button", { name: "Undo" }));

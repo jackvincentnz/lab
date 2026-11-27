@@ -39,6 +39,7 @@ export function useDeletedItemNotice(
     }
     let closedByPage = false;
     const id = notifications.show({
+      title: "Deleted",
       message: message(deleted, latest),
       color: "gray",
       withBorder: true,
@@ -75,9 +76,12 @@ function message(
 ) {
   return (
     <Group justify="space-between" wrap="nowrap">
-      <Text size="sm">Deleted {item.name}</Text>
+      <Text size="sm" miw={0}>
+        {item.name}
+      </Text>
       <Button
         variant="light"
+        flex="none"
         size="xs"
         leftSection={<IconArrowBackUp size={14} />}
         disabled={latest.current.disabled}
