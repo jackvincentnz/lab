@@ -50,19 +50,25 @@ export function ItemSources({
 }: ItemSourcesProps) {
   // Found by url or text rather than position, which shifts when a source is removed elsewhere.
   const editingKey = useRef<string>(undefined);
+  // The list reloads after a save, so until then the source still has the url or text it had.
+  const savedFromKey = useRef<string>(undefined);
+  const findEditing = (shown: Item) =>
+    findSource(shown, editingKey.current) ??
+    findSource(shown, savedFromKey.current);
   const focusTarget = useRef<FocusTarget>(undefined);
   const { draft, start, change, submit, cancel } = useItemDraft(
     item,
-    (shown) => sourceDraftOf(findSource(shown, editingKey.current)),
+    (shown) => sourceDraftOf(findEditing(shown)),
     (editedFrom, value: SourceDraft, { onSaved, onChanged }) => {
       const saved = sourceOf(value);
       const savedKey = saved === null ? undefined : sourceKey(saved);
       focusTarget.current = { key: savedKey };
       onSourcesChange(
         editedFrom,
-        sourcesChange(findSource(editedFrom, editingKey.current), saved),
+        sourcesChange(findEditing(editedFrom), saved),
         {
           onSaved: (savedItem) => {
+            savedFromKey.current = editingKey.current;
             editingKey.current = savedKey;
             onSaved(savedItem);
           },
@@ -71,8 +77,7 @@ export function ItemSources({
       );
     },
   );
-  const editing =
-    draft === undefined ? undefined : findSource(item, editingKey.current);
+  const editing = draft === undefined ? undefined : findEditing(item);
 
   function submitSource(event: FormEvent) {
     event.preventDefault();
@@ -81,7 +86,9 @@ export function ItemSources({
 
   function cancelSource() {
     if (!saving) {
-      focusTarget.current = { key: editingKey.current };
+      focusTarget.current = {
+        key: editing === undefined ? undefined : sourceKey(editing),
+      };
       onSourcesChangeCancel();
       cancel();
     }
@@ -89,6 +96,7 @@ export function ItemSources({
 
   function startSource(source: Source | undefined) {
     editingKey.current = source === undefined ? undefined : sourceKey(source);
+    savedFromKey.current = undefined;
     start();
   }
 
@@ -131,12 +139,13 @@ export function ItemSources({
       </Title>
       {item.sources.map((source) => {
         const key = sourceKey(source);
+        // A stable key keeps the editor, and the field with focus, when the source's url or text changes.
         if (editing !== undefined && sourceKey(editing) === key) {
-          return <Fragment key={key}>{editor()}</Fragment>;
+          return <Fragment key="editor">{editor()}</Fragment>;
         }
         return (
           <Group
-            key={key}
+            key={`source ${key}`}
             justify="space-between"
             wrap="nowrap"
             align="flex-start"
@@ -224,6 +233,14 @@ function SourceEditor({
             )}
           </Text>
         )}
+        <TextInput
+          label="Label"
+          autoFocus
+          value={draft.value.label}
+          onChange={(event) =>
+            change({ ...draft.value, label: event.currentTarget.value })
+          }
+        />
         <SegmentedControl
           aria-label="Kind of source"
           size="xs"
@@ -238,7 +255,6 @@ function SourceEditor({
           style={{ alignSelf: "flex-start" }}
         />
         <TextInput
-          key={draft.value.kind}
           label={draft.value.kind === "link" ? "Link" : "Reference"}
           placeholder={
             draft.value.kind === "link"
@@ -249,14 +265,6 @@ function SourceEditor({
           error={draft.value.target.trim() !== "" && targetError}
           onChange={(event) =>
             change({ ...draft.value, target: event.currentTarget.value })
-          }
-          autoFocus
-        />
-        <TextInput
-          label="Label"
-          value={draft.value.label}
-          onChange={(event) =>
-            change({ ...draft.value, label: event.currentTarget.value })
           }
         />
         <Group gap="xs">
@@ -327,8 +335,10 @@ function repeatError(
   draft: SourceDraft,
 ): string | undefined {
   const target = draft.target.trim();
+  const editingKey = editing === undefined ? undefined : sourceKey(editing);
   return item.sources.some(
-    (source) => source !== editing && sourceKey(source) === target,
+    (source) =>
+      sourceKey(source) !== editingKey && sourceKey(source) === target,
   )
     ? "The item already has this source"
     : undefined;

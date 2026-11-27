@@ -136,9 +136,9 @@ describe("ItemSources", () => {
 
     await user.click(screen.getByRole("button", { name: "Add a source" }));
 
-    expect(screen.getByRole("textbox", { name: "Link" })).toHaveValue("");
-    expect(screen.getByRole("textbox", { name: "Link" })).toHaveFocus();
     expect(screen.getByRole("textbox", { name: "Label" })).toHaveValue("");
+    expect(screen.getByRole("textbox", { name: "Label" })).toHaveFocus();
+    expect(screen.getByRole("textbox", { name: "Link" })).toHaveValue("");
     expect(
       screen.queryByRole("button", { name: "Remove source" }),
     ).not.toBeInTheDocument();
@@ -165,6 +165,16 @@ describe("ItemSources", () => {
       { addSources: [notes] },
       expect.anything(),
     );
+  });
+
+  it("asks for the label before the link or reference, as it shows them", async () => {
+    const user = userEvent.setup();
+    renderSources();
+
+    const { label, target } = await startEdit(user);
+
+    expect(label).toHaveFocus();
+    expect(screen.getAllByRole("textbox")).toEqual([label, target]);
   });
 
   it("opens a source for editing", async () => {
@@ -277,6 +287,46 @@ describe("ItemSources", () => {
       { removeSources: [notes.text] },
       expect.anything(),
     );
+  });
+
+  it("returns focus to Add a source once a source is removed", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    const saved = { ...original, sources: [session] };
+    onSourcesChange.mockImplementation((_editedFrom, _change, { onSaved }) =>
+      onSaved(saved),
+    );
+    await startEdit(user, notes.label);
+
+    await user.click(screen.getByRole("button", { name: "Remove source" }));
+    showItem(saved);
+
+    expect(screen.getByRole("button", { name: "Add a source" })).toHaveFocus();
+  });
+
+  it("keeps the field being typed in while a changed link saves", async () => {
+    const user = userEvent.setup();
+    const original = item({ sources: [session, notes] });
+    const { onSourcesChange, showItem } = renderSources(original);
+    const changed = { ...session, url: "https://example.com/pull/1" };
+    const { target, label } = await startEdit(user);
+    await user.clear(target);
+    await user.type(target, changed.url);
+    await user.type(label, "{Enter}");
+    await user.type(label, " notes");
+
+    act(() =>
+      saveCallbacks(onSourcesChange).onSaved({
+        ...original,
+        sources: [changed, notes],
+      }),
+    );
+    showItem({ ...original, sources: [changed, notes] });
+
+    expect(label).toBeInTheDocument();
+    expect(label).toHaveFocus();
+    expect(label).toHaveValue("Planning session notes");
   });
 
   it.each(["http://example.com/session", "javascript:alert(1)", "example"])(
