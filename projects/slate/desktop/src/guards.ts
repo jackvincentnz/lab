@@ -45,9 +45,10 @@ export function guardApp(
   app: GuardedApp,
   origin: string,
   openExternally: (url: string) => Promise<void>,
+  log: (message: string) => void,
 ): void {
   app.on("web-contents-created", (_event, contents) =>
-    guardWebContents(contents, origin, openExternally),
+    guardWebContents(contents, origin, openExternally, log),
   );
 }
 
@@ -55,6 +56,7 @@ function guardWebContents(
   contents: GuardedContents,
   origin: string,
   openExternally: (url: string) => Promise<void>,
+  log: (message: string) => void,
 ): void {
   const cancelOffOrigin = (event: NavigationEvent) => {
     if (URL.parse(event.url)?.origin !== origin) {
@@ -65,7 +67,9 @@ function guardWebContents(
   contents.on("will-redirect", cancelOffOrigin);
   contents.setWindowOpenHandler(({ url }) => {
     if (opensExternally(url)) {
-      void openExternally(url);
+      openExternally(url).catch((error: Error) =>
+        log(`Could not open ${url}: ${error.message}`),
+      );
     }
     return { action: "deny" };
   });

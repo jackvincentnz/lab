@@ -23,10 +23,13 @@ function guardedContents() {
     },
   });
   const app = new EventEmitter();
-  const openExternally = vi.fn<(url: string) => Promise<void>>();
-  guardApp(app, origin, openExternally);
+  const openExternally = vi
+    .fn<(url: string) => Promise<void>>()
+    .mockResolvedValue(undefined);
+  const log = vi.fn<(message: string) => void>();
+  guardApp(app, origin, openExternally, log);
   app.emit("web-contents-created", {}, contents);
-  return { contents, openExternally };
+  return { contents, openExternally, log };
 }
 
 function emitCancellable(
@@ -82,6 +85,22 @@ describe("guardApp", () => {
       expect(openExternally).toHaveBeenCalledWith(url);
     },
   );
+
+  it("logs a link that nothing could open", async () => {
+    const { contents, openExternally, log } = guardedContents();
+    const [openWindow] = contents.setWindowOpenHandler.mock.calls[0]!;
+    openExternally.mockRejectedValue(
+      new Error("No application found to open URL"),
+    );
+
+    openWindow({ url: "claude://example/session" });
+
+    await vi.waitFor(() =>
+      expect(log).toHaveBeenCalledWith(
+        "Could not open claude://example/session: No application found to open URL",
+      ),
+    );
+  });
 
   it.each([
     "http://example.com/",
