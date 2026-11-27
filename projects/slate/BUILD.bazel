@@ -67,6 +67,9 @@ copy_to_directory(
         "package.json",
         ":bundle",
         "//projects/slate/app:build",
+        # The e2e test runs this folder unpackaged, which sets the Dock icon from these.
+        "//projects/slate/icons:dock",
+        "//projects/slate/icons:mcp",
         "//projects/slate/service:migrations",
     ],
     replace_prefixes = {"bundle/": ""},
@@ -93,10 +96,12 @@ js_run_binary(
     srcs = [
         ":app_dir",
         "//:node_modules/electron/dir",
+        "//projects/slate/icons:app",
     ],
     args = [
         "$(rootpath :app_dir)",
         "$(rootpath //:node_modules/electron/dir)",
+        "$(rootpath //projects/slate/icons:app)",
         "%s/Slate.app" % package_name(),
     ],
     mnemonic = "ElectronPackager",

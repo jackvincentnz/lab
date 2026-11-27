@@ -58,6 +58,18 @@ function text(value: unknown) {
 }
 
 describe("createSlateMcpServer", () => {
+  it("sends Slate's icon", () => {
+    const icons = client.getServerVersion()?.icons;
+
+    expect(icons).toEqual([
+      {
+        src: expect.stringMatching(/^data:image\/png;base64,iVBORw0KGgo/),
+        mimeType: "image/png",
+        sizes: ["64x64"],
+      },
+    ]);
+  });
+
   it("offers a tool for each operation", async () => {
     const { tools } = await client.listTools();
 

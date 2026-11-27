@@ -25,6 +25,7 @@ beforeEach(() => {
   mkdirSync(join(webDir, "assets"), { recursive: true });
   writeFileSync(join(webDir, "index.html"), "<h1>Slate</h1>");
   writeFileSync(join(webDir, "assets", "index.js"), "render();");
+  writeFileSync(join(webDir, "assets", "logo.svg"), "<svg/>");
   writeFileSync(join(folder, "secret"), "private");
 });
 
@@ -254,6 +255,18 @@ describe("createSlateServer", () => {
       status: 200,
       headers: { "content-type": "text/javascript; charset=utf-8" },
       body: "render();",
+    });
+  });
+
+  it("serves the web UI's images", async () => {
+    await start({ webDir });
+
+    const response = await send("/assets/logo.svg");
+
+    expect(response).toMatchObject({
+      status: 200,
+      headers: { "content-type": "image/svg+xml" },
+      body: "<svg/>",
     });
   });
 

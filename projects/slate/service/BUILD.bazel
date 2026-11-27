@@ -52,6 +52,7 @@ js_library(
     srcs = [
         "package.json",
         ":migrations",
+        "//projects/slate/icons:mcp",
     ],
     visibility = [
         "//projects/slate:__pkg__",

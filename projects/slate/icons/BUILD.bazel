@@ -1,0 +1,55 @@
+load("//tools/bazel:js.bzl", "js_binary", "js_library")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+
+# The files besides slate.svg and slateTemplate.svg come from `bazel run :generate`.
+
+js_library(
+    name = "app",
+    srcs = ["Slate.icns"],
+    visibility = ["//projects/slate:__pkg__"],
+)
+
+js_library(
+    name = "dock",
+    srcs = [
+        "slate.png",
+        "slate-dev.png",
+    ],
+    visibility = [
+        "//projects/slate:__pkg__",
+        "//projects/slate/desktop:__pkg__",
+    ],
+)
+
+js_library(
+    name = "mark",
+    srcs = ["slate-mark.svg"],
+    visibility = ["//projects/slate/app:__pkg__"],
+)
+
+js_library(
+    name = "mcp",
+    srcs = ["slate-64.png"],
+    visibility = [
+        "//projects/slate:__pkg__",
+        "//projects/slate/service:__pkg__",
+    ],
+)
+
+node_ts_project(
+    name = "generate_ts",
+    srcs = ["generate.ts"],
+    deps = ["//:node_modules/@playwright/test"],
+)
+
+js_binary(
+    name = "generate",
+    data = [
+        ":generate_ts",
+        "@playwright//:chromium-headless-shell",
+    ],
+    entry_point = "generate.js",
+    env = {
+        "PLAYWRIGHT_BROWSERS_PATH": "$(rootpath @playwright//:chromium-headless-shell)/../",
+    },
+)

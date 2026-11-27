@@ -19,7 +19,10 @@ node_ts_project(
 
 js_library(
     name = "desktop",
-    srcs = ["package.json"],
+    srcs = [
+        "package.json",
+        "//projects/slate/icons:dock",
+    ],
     visibility = ["//projects/slate:__pkg__"],
     deps = [":src_ts"],
 )
