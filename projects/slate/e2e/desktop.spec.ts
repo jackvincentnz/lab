@@ -75,6 +75,7 @@ test("opens a claude reference outside the app when its label is clicked", async
       label: "Claude Desktop session",
     },
   });
+  await window.reload();
 
   await window.getByText("Pick up the session").click();
   await window.getByRole("link", { name: "Claude Desktop session" }).click();
@@ -101,5 +102,8 @@ async function addItem(serviceUrl: string, item: object): Promise<void> {
       params: { name: "add_item", arguments: item },
     }),
   });
-  expect(response.ok).toBe(true);
+  const { result } = (await response.json()) as {
+    result: { isError?: boolean };
+  };
+  expect(result.isError).toBeUndefined();
 }
