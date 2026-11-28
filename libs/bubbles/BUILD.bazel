@@ -1,5 +1,4 @@
-load("@aspect_rules_js//npm:defs.bzl", "npm_package")
-load("//tools/bazel:js.bzl", "js_library")
+load("//tools/bazel:js.bzl", "js_library", "npm_package")
 load("//tools/bazel:pkg.bzl", "tar")
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/oci:defs.bzl", "oci_deliver", "oci_image")
