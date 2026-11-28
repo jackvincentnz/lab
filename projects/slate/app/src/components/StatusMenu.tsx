@@ -17,7 +17,8 @@ export function StatusMenu({ status, disabled, onChange }: StatusMenuProps) {
 
   return (
     <Box
-      onKeyDown={(event) => {
+      // Capture, because the menu closes on Escape before the key press bubbles.
+      onKeyDownCapture={(event) => {
         if (event.key === "Escape" && opened) {
           event.preventDefault();
         }

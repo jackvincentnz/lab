@@ -3,7 +3,7 @@ import { TextInput } from "@mantine/core";
 import { IconPlus } from "@tabler/icons-react";
 
 interface AddItemFormProps {
-  onAdd(name: string, onSaved: () => void): void;
+  onAdd(name: string, onFailed: () => void): void;
 }
 
 export function AddItemForm({ onAdd }: AddItemFormProps) {
@@ -14,7 +14,8 @@ export function AddItemForm({ onAdd }: AddItemFormProps) {
     if (name.trim() === "") {
       return;
     }
-    onAdd(name, () => setName((current) => (current === name ? "" : current)));
+    setName("");
+    onAdd(name, () => setName((current) => (current === "" ? name : current)));
   }
 
   return (

@@ -1089,6 +1089,109 @@ describe("ItemsPage", () => {
     expect(api.addItem).toHaveBeenCalledTimes(1);
   });
 
+  it("takes no second change made before the page updates", async () => {
+    const user = userEvent.setup({ delay: null });
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Book travel" }),
+    ]);
+    api.updateItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    const planTheWeek = await screen.findByRole("checkbox", {
+      name: "Mark Plan the week done",
+    });
+    const bookTravel = screen.getByRole("checkbox", {
+      name: "Mark Book travel done",
+    });
+
+    await user.click(planTheWeek);
+    await user.click(bookTravel);
+
+    expect(api.updateItem).toHaveBeenCalledTimes(1);
+  });
+
+  it("adds each item typed while an earlier add saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Plan the week{Enter}Book travel{Enter}",
+    );
+
+    expect(api.addItem.mock.calls).toEqual([
+      [{ name: "Plan the week" }],
+      [{ name: "Book travel" }],
+    ]);
+    expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue("");
+  });
+
+  it("puts the name back and shows an error when an add fails", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([]);
+    api.addItem.mockRejectedValue(new Error("Service stopped"));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Plan the week{Enter}",
+    );
+
+    expect(
+      await screen.findByRole("alert", { name: "Could not save your change" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue(
+      "Plan the week",
+    );
+  });
+
+  it("shows an error when an earlier add fails while a later one saves", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([]);
+    let failFirst!: (error: Error) => void;
+    api.addItem
+      .mockReturnValueOnce(
+        new Promise<Item>((_resolve, reject) => {
+          failFirst = reject;
+        }),
+      )
+      .mockReturnValueOnce(new Promise<Item>(() => undefined));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Plan the week{Enter}Book travel{Enter}",
+    );
+
+    act(() => failFirst(new Error("Service stopped")));
+
+    expect(
+      await screen.findByRole("alert", { name: "Could not save your change" }),
+    ).toBeInTheDocument();
+    expect(screen.getByRole("textbox", { name: "New item" })).toHaveValue(
+      "Plan the week",
+    );
+  });
+
+  it("shows controls as disabled while an earlier add saves after a later one", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+    api.addItem
+      .mockReturnValueOnce(new Promise<Item>(() => undefined))
+      .mockResolvedValueOnce(item({ name: "Write the report" }));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    const name = await screen.findByRole("textbox", { name: "New item" });
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+
+    await user.type(name, "Book travel{Enter}Write the report{Enter}");
+    await act(() => vi.advanceTimersByTimeAsync(300));
+
+    expect(
+      screen.getByRole("checkbox", { name: "Mark Plan the week done" }),
+    ).toBeDisabled();
+  });
+
   it("takes no other change while a delete saves", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([

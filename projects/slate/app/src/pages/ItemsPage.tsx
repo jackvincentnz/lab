@@ -8,7 +8,12 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  useIsMutating,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -49,6 +54,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const done = !searching && view === "done";
   const headed = !today && !done;
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   // Keeps the last results while the next search loads, instead of a loader on each word.
   const items = useQuery({
     ...trpc.listItems.queryOptions(query),
@@ -60,7 +66,8 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const deleteItem = useMutation(trpc.deleteItem.mutationOptions());
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
   const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
-  const saving = changes.some((change) => change.isPending);
+  const saving = useIsMutating() > 0;
+  const [addFailed, setAddFailed] = useState(false);
   const disabled = useSlowSave(saving);
   const panel = useResizablePanel();
   const changedElsewhere = isChangedElsewhere(updateItem.error);
@@ -74,7 +81,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
     disabled,
     restoring: restoreItem.isPending,
     onUndo: (item) => {
-      if (saving) {
+      if (hasPendingChange()) {
         return;
       }
       clearSaveError();
@@ -86,7 +93,12 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
     onDismiss: () => setDeleted(undefined),
   });
 
+  function hasPendingChange() {
+    return queryClient.isMutating() > 0;
+  }
+
   function clearSaveError() {
+    setAddFailed(false);
     for (const change of changes) {
       if (!change.isPending) {
         change.reset();
@@ -94,14 +106,18 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
     }
   }
 
-  // Each change carries the updatedAt of the list that reloads after the previous change, so changes go one at a time.
+  // Each change carries the updatedAt of the list that reloads after the previous change, so changes go one at a time. An add carries none, so adds need not wait.
   function startChange() {
-    if (saving) {
+    if (hasPendingChange()) {
       return false;
     }
+    beginChange();
+    return true;
+  }
+
+  function beginChange() {
     clearSaveError();
     setDeleted(undefined);
-    return true;
   }
 
   function changeStatus(
@@ -149,11 +165,12 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
         {today && (
           <AddItemForm
-            onAdd={(name, onSaved) => {
-              if (!startChange()) {
-                return;
-              }
-              addItem.mutate({ name }, { onSuccess: onSaved });
+            onAdd={(name, onFailed) => {
+              beginChange();
+              addItem.mutateAsync({ name }).catch(() => {
+                setAddFailed(true);
+                onFailed();
+              });
             }}
           />
         )}
@@ -175,7 +192,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
             Check the item before you try again.
           </Alert>
         ) : (
-          changes.some((change) => change.isError) && (
+          (addFailed || changes.some((change) => change.isError)) && (
             <Alert color="red" title="Could not save your change" />
           )
         )}
