@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import {
   AppShell,
+  Box,
   Burger,
   CloseButton,
   Group,
@@ -51,23 +52,24 @@ export function App() {
       }}
     >
       <AppShell.Header>
-        <Group h="100%" px="lg" gap="xs">
-          <Burger
-            opened={narrowNavOpened}
-            onClick={() => setNarrowNavOpened((opened) => !opened)}
-            hiddenFrom="sm"
-            size="sm"
-            aria-label={narrowNavOpened ? "Hide views" : "Show views"}
-          />
-          <Image src={mark} alt="" w={28} h={28} />
-          <Title order={1} fz="lg" fw={700}>
-            Slate
-          </Title>
+        <Group h="100%" px="lg" gap="xs" wrap="nowrap">
+          <Group flex={1} gap="xs" wrap="nowrap">
+            <Burger
+              opened={narrowNavOpened}
+              onClick={() => setNarrowNavOpened((opened) => !opened)}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label={narrowNavOpened ? "Hide views" : "Show views"}
+            />
+            <Image src={mark} alt="" w={28} h={28} />
+            <Title order={1} fz="lg" fw={700}>
+              Slate
+            </Title>
+          </Group>
           <TextInput
             ref={searchRef}
             type="search"
-            ml="auto"
-            w={{ base: 180, sm: 320 }}
+            w={{ base: 200, sm: 400 }}
             aria-label="Search every item"
             placeholder="Search every item"
             maxLength={MAX_SEARCH_LENGTH}
@@ -95,6 +97,7 @@ export function App() {
               }
             }}
           />
+          <Box flex={1} />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs" aria-label="Views">
