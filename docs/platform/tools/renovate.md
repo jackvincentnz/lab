@@ -24,11 +24,7 @@ Use this when changing custom managers, package rules, schedules, or other behav
 
 The existing custom managers cover:
 
-- Docker images in Java and TypeScript files that are passed to
-  `DockerImageName.parse` or a Testcontainers constructor, or assigned to an
-  `*_IMAGE` constant, so that strings such as `"broker:9092"` are not taken for
-  images. Renovate opens a PR that pins the digest of an unpinned image. An
-  image written anywhere else is not found.
+- Docker image references embedded in project files.
 - `rules_jvm_external` Maven BOMs declared in `MODULE.bazel`.
 - GitHub release assets used by multitool and the OpenTelemetry Java agent.
 - The `rules_playwright` browser version in `MODULE.bazel`, tracked as
