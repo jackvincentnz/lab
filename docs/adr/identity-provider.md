@@ -30,8 +30,9 @@ the platform does not build them.
    that the private service layout never reaches the provider or the consent screen.
 3. Put the organization the user chose at sign-in or consent in each token, including tokens from
    MCP consent, so that the gateway can map the token to one tenant.
-4. Support MCP authorization: authorization code with PKCE, resource indicators, and client
-   registration through CIMD or DCR.
+4. Support MCP authorization: authorization code with PKCE (proof key for code exchange), resource
+   indicators, and client registration through CIMD (client ID metadata documents) or DCR (dynamic
+   client registration), so that an MCP client no admin knows about can still connect.
 5. Show users which client is asking and what it may do, in public scope names, so that they know
    what they grant.
 6. Cost little to run for a small lab, with predictable pricing as it grows.
@@ -50,8 +51,7 @@ gets its own.
 ## Decision
 
 The provider is not chosen yet. Auth0, WorkOS AuthKit, and self-hosted Keycloak are the
-candidates. An earlier preference for Auth0 assumed one Auth0 API per private service, which these
-requirements rule out.
+candidates.
 
 Each candidate goes through the same proof of concept, listed under
 [Resolve before accepting](#resolve-before-accepting), so that the choice rests on what each one
@@ -71,10 +71,6 @@ policy engine.
   well CIMD, DCR, and resource indicators work with MCP clients. Running, securing, upgrading, and
   backing it up is a real cost.
 
-Clerk, Zitadel, Ory, Cognito, Microsoft Entra External ID, FusionAuth, and Okta were considered
-earlier. Revisit them only if no candidate meets the requirements, since some were ruled out by the
-per-service audience assumption.
-
 ## Consequences
 
 - Sign-in and consent come off the shelf. The gateway keeps sessions, public API security,
@@ -85,6 +81,14 @@ per-service audience assumption.
 - Provider SDKs and features add switching cost. Avoiding a home-grown identity system matters more
   than portability no one needs yet.
 - This proposal chooses no provider and no session integration.
+
+## Alternatives considered
+
+- **Auth0 with one API per private service.** Rejected. It puts the private service layout in the
+  provider and on the consent screen, which requirement 2 rules out.
+- **Clerk, Zitadel, Ory, Cognito, Microsoft Entra External ID, FusionAuth, and Okta.** Not
+  evaluated further. Revisit them if no candidate meets the requirements, since some were set aside
+  only for the per-service audience design above.
 
 ## Resolve before accepting
 
