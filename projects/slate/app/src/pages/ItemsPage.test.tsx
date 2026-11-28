@@ -1771,7 +1771,7 @@ describe("ItemsPage with a search", () => {
     ).toBeInTheDocument();
   });
 
-  it("does not say the next search matched nothing before it loads", async () => {
+  it("shows a loader, not the empty message, while the search after an empty one loads", async () => {
     const api = fakeSlateApi([]);
     const { rerender } = render(<ItemsPage view="today" search="zebr" />, {
       wrapper: withSlateApi(api),
@@ -1782,6 +1782,7 @@ describe("ItemsPage with a search", () => {
     rerender(<ItemsPage view="today" search="zebra" />);
 
     expect(screen.queryByText(/No items match/)).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Loading your list")).toBeInTheDocument();
   });
 
   it("heads the results with how many items match", async () => {

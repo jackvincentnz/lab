@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { keepPreviousData, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -52,7 +52,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   // Keeps the last results while the next search loads, instead of a loader on each word.
   const items = useQuery({
     ...trpc.listItems.queryOptions(query),
-    placeholderData: keepPreviousData,
+    placeholderData: (previous) => (previous?.length ? previous : undefined),
   });
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
@@ -194,9 +194,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
                 <Loader aria-label="Loading your list" />
               </Center>
             )}
-            {items.data?.length === 0 && !items.isPlaceholderData && (
-              <Text c="dimmed">{empty}</Text>
-            )}
+            {items.data?.length === 0 && <Text c="dimmed">{empty}</Text>}
             {items.data !== undefined && items.data.length > 0 && !today && (
               <ViewList
                 label={label}
