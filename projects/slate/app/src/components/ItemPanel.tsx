@@ -22,7 +22,7 @@ interface ItemPanelProps {
   onSourcesChange: SaveDraft<SourcesChange>;
   onSourcesChangeCancel(): void;
   onStatusChange(status: ItemStatus): void;
-  onDelete(): void;
+  onDelete(withKeyboard: boolean): void;
 }
 
 export function ItemPanel({
@@ -126,7 +126,8 @@ export function ItemPanel({
             color="red"
             aria-label={`Delete ${item.name}`}
             disabled={disabled}
-            onClick={onDelete}
+            // A click from Enter or Space has no click count.
+            onClick={(event) => onDelete(event.detail === 0)}
           >
             Delete
           </Button>

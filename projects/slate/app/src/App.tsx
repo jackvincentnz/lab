@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AppShell, Burger, Group, Image, NavLink, Title } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 // Inlined, it would be a data: URL, which the service's content security policy blocks.
 import mark from "../../icons/slate-mark.svg?no-inline";
 import { ListUpdates } from "./ListUpdates";
@@ -54,6 +55,12 @@ export function App() {
           <ItemsPage key={view} view={view} />
         </ListUpdates>
       </AppShell.Main>
+      {/* Narrow enough to stay clear of the side-by-side item panel at its widest, 60% of the window. */}
+      <Notifications
+        position="bottom-left"
+        layout="stacked"
+        containerWidth={360}
+      />
     </AppShell>
   );
 }

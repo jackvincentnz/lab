@@ -17,12 +17,15 @@ import {
   useTRPC,
 } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
-import { DeletedItemNotice } from "../components/DeletedItemNotice";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
 import { ListHeading } from "../components/ListHeading";
 import { PanelResizeHandle } from "../components/PanelResizeHandle";
 import { ViewList } from "../components/ViewList";
+import {
+  type DeletedItem,
+  useDeletedItemNotice,
+} from "../components/useDeletedItemNotice";
 import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
 import { type ViewName, views } from "../views";
@@ -55,12 +58,27 @@ export function ItemsPage({ view }: ItemsPageProps) {
   const disabled = useSlowSave(saving);
   const panel = useResizablePanel();
   const changedElsewhere = isChangedElsewhere(updateItem.error);
-  const [deleted, setDeleted] = useState<Item>();
+  const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
   const opened = items.data?.find((item) => item.id === openId);
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
+  useDeletedItemNotice(deleted, {
+    disabled,
+    restoring: restoreItem.isPending,
+    onUndo: (item) => {
+      if (saving) {
+        return;
+      }
+      clearSaveError();
+      restoreItem.mutate(
+        { id: item.id },
+        { onSuccess: () => setDeleted(undefined) },
+      );
+    },
+    onDismiss: () => setDeleted(undefined),
+  });
 
   function clearSaveError() {
     for (const change of changes) {
@@ -155,23 +173,6 @@ export function ItemsPage({ view }: ItemsPageProps) {
             <Alert color="red" title="Could not save your change" />
           )
         )}
-        {deleted !== undefined && (
-          <DeletedItemNotice
-            item={deleted}
-            disabled={disabled}
-            onUndo={() => {
-              if (saving) {
-                return;
-              }
-              clearSaveError();
-              restoreItem.mutate(
-                { id: deleted.id },
-                { onSuccess: () => setDeleted(undefined) },
-              );
-            }}
-            onDismiss={() => setDeleted(undefined)}
-          />
-        )}
         {(headed || items.isPending || items.data !== undefined) && (
           <Stack gap="xs">
             {headed && <ListHeading>{label}</ListHeading>}
@@ -251,7 +252,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
           }
           onSourcesChangeCancel={clearSaveError}
           onStatusChange={(status) => changeStatus(opened, status)}
-          onDelete={() => {
+          onDelete={(withKeyboard) => {
             if (!startChange()) {
               return;
             }
@@ -262,7 +263,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
                   setOpenId((current) =>
                     current === item.id ? undefined : current,
                   );
-                  setDeleted(item);
+                  setDeleted({ item, withKeyboard });
                 },
               },
             );

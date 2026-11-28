@@ -13,9 +13,15 @@ import {
   within,
 } from "@lab/test-utils";
 import type { Item } from "../api";
-import { fakeSlateApi, item, withSlateApi } from "../test/fakes";
+import {
+  type FakeSlateApi,
+  fakeSlateApi,
+  item,
+  withSlateApi,
+} from "../test/fakes";
 import { layOutRowsVertically } from "../test/layout";
 import { ItemsPage } from "./ItemsPage";
+import { Notifications } from "@mantine/notifications";
 import { onlineManager } from "@tanstack/react-query";
 import { TRPCError } from "@trpc/server";
 
@@ -48,6 +54,17 @@ function layOutWindow(width: number) {
   vi.stubGlobal("innerWidth", width);
   vi.spyOn(Element.prototype, "getBoundingClientRect").mockReturnValue(
     DOMRect.fromRect({ width: width - 200, height: 800 }),
+  );
+}
+
+// App renders the notifications, which the delete undo shows in.
+function renderWithNotifications(api: FakeSlateApi) {
+  return render(
+    <>
+      <ItemsPage view="today" />
+      <Notifications />
+    </>,
+    { wrapper: withSlateApi(api) },
   );
 }
 
@@ -777,7 +794,7 @@ describe("ItemsPage", () => {
     const remaining = item({ name: "Book travel" });
     const api = fakeSlateApi([deleted, remaining]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([remaining]);
     await openItem(user, "Plan the week");
 
@@ -786,21 +803,21 @@ describe("ItemsPage", () => {
     );
 
     expect(api.deleteItem).toHaveBeenCalledWith({ id: deleted.id });
-    expect(await screen.findByRole("alert")).toHaveTextContent(
-      "Deleted Plan the week",
-    );
+    const notice = await screen.findByRole("alert");
+    expect(within(notice).getByText("Deleted")).toBeInTheDocument();
+    expect(within(notice).getByText("Plan the week")).toBeInTheDocument();
     await waitFor(() => expect(itemNames()).toEqual(["Book travel"]));
     expect(
       screen.queryByRole("complementary", { name: "Item details" }),
     ).not.toBeInTheDocument();
   });
 
-  it("moves focus to the undo after a delete", async () => {
+  it("moves focus to the undo after a delete made with the keyboard", async () => {
     const user = userEvent.setup();
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     screen.getByRole("button", { name: "Delete Plan the week" }).focus();
@@ -810,6 +827,24 @@ describe("ItemsPage", () => {
     expect(await screen.findByRole("button", { name: "Undo" })).toHaveFocus();
   });
 
+  it("leaves focus off the undo after a delete made with the pointer", async () => {
+    const user = userEvent.setup();
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    renderWithNotifications(api);
+    api.listItems.mockResolvedValue([]);
+    await openItem(user, "Plan the week");
+
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+
+    expect(
+      await screen.findByRole("button", { name: "Undo" }),
+    ).not.toHaveFocus();
+  });
+
   it("puts a deleted item back on undo", async () => {
     const user = userEvent.setup();
     const deleted = item({ name: "Plan the week" });
@@ -817,7 +852,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted, remaining]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockResolvedValue(deleted);
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([remaining]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -831,16 +866,18 @@ describe("ItemsPage", () => {
     await waitFor(() =>
       expect(itemNames()).toEqual(["Plan the week", "Book travel"]),
     );
-    expect(
-      screen.queryByRole("button", { name: "Undo" }),
-    ).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("button", { name: "Undo" }),
+      ).not.toBeInTheDocument(),
+    );
   });
 
   it("shows an error and offers no undo when a delete fails", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([item({ name: "Plan the week" })]);
     api.deleteItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     await openItem(user, "Plan the week");
 
     await user.click(
@@ -862,7 +899,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockRejectedValue(new Error("offline"));
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -883,7 +920,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -896,9 +933,11 @@ describe("ItemsPage", () => {
       "Book travel{Enter}",
     );
 
-    expect(
-      screen.queryByRole("button", { name: "Undo" }),
-    ).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("button", { name: "Undo" }),
+      ).not.toBeInTheDocument(),
+    );
   });
 
   it("stops offering the undo once dismissed", async () => {
@@ -906,7 +945,7 @@ describe("ItemsPage", () => {
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -915,10 +954,54 @@ describe("ItemsPage", () => {
 
     await user.click(await screen.findByRole("button", { name: "Dismiss" }));
 
-    expect(
-      screen.queryByRole("button", { name: "Undo" }),
-    ).not.toBeInTheDocument();
+    await waitFor(() =>
+      expect(
+        screen.queryByRole("button", { name: "Undo" }),
+      ).not.toBeInTheDocument(),
+    );
     expect(api.restoreItem).not.toHaveBeenCalled();
+  });
+
+  async function deleteTwoItems(user: ReturnType<typeof userEvent.setup>) {
+    const first = item({ name: "Plan the week" });
+    const second = item({ name: "Book travel" });
+    const api = fakeSlateApi([first, second]);
+    api.deleteItem.mockResolvedValueOnce(first).mockResolvedValueOnce(second);
+    api.restoreItem.mockResolvedValue(second);
+    renderWithNotifications(api);
+    api.listItems.mockResolvedValue([second]);
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    api.listItems.mockResolvedValue([]);
+    await openItem(user, "Book travel");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Book travel" }),
+    );
+    return { api, second };
+  }
+
+  it("offers an undo for the latest delete only", async () => {
+    const user = userEvent.setup();
+
+    await deleteTwoItems(user);
+
+    await waitFor(() =>
+      expect(screen.getByRole("alert")).toHaveTextContent("Book travel"),
+    );
+  });
+
+  it("puts back only the latest deleted item on undo", async () => {
+    const user = userEvent.setup();
+    const { api, second } = await deleteTwoItems(user);
+    await waitFor(() =>
+      expect(screen.getByRole("alert")).toHaveTextContent("Book travel"),
+    );
+
+    await user.click(screen.getByRole("button", { name: "Undo" }));
+
+    expect(api.restoreItem).toHaveBeenCalledExactlyOnceWith({ id: second.id });
   });
 
   it("puts an item back and shows an error when a move fails", async () => {
@@ -1072,7 +1155,7 @@ describe("ItemsPage", () => {
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
     api.restoreItem.mockReturnValue(new Promise<Item>(() => undefined));
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     api.listItems.mockResolvedValue([]);
     await openItem(user, "Plan the week");
     await user.click(
@@ -1083,6 +1166,28 @@ describe("ItemsPage", () => {
     await user.dblClick(undo);
 
     expect(api.restoreItem).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps offering the undo while an undo is saving", async () => {
+    const deleted = item({ name: "Plan the week" });
+    const api = fakeSlateApi([deleted]);
+    api.deleteItem.mockResolvedValue(deleted);
+    api.restoreItem.mockReturnValue(new Promise<Item>(() => undefined));
+    renderWithNotifications(api);
+    api.listItems.mockResolvedValue([]);
+    vi.useFakeTimers({ shouldAdvanceTime: true });
+    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+    await openItem(user, "Plan the week");
+    await user.click(
+      screen.getByRole("button", { name: "Delete Plan the week" }),
+    );
+    const undo = await screen.findByRole("button", { name: "Undo" });
+    await user.click(undo);
+    await user.unhover(undo);
+
+    await act(() => vi.advanceTimersByTimeAsync(20_000));
+
+    expect(undo).toBeInTheDocument();
   });
 
   it("keeps a saving move's order when another move is made", async () => {
@@ -1292,7 +1397,7 @@ describe("ItemsPage", () => {
         finishDelete = resolve;
       }),
     );
-    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    renderWithNotifications(api);
     await openItem(user, "Plan the week");
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),

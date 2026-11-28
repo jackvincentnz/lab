@@ -1,10 +1,13 @@
 import {
+  act,
   expect,
   fireEvent,
   render,
   screen,
   test,
   userEvent,
+  vi,
+  waitFor,
   within,
 } from "@lab/test-utils";
 import { App } from "./App";
@@ -76,4 +79,52 @@ test("offers to hide the views on a narrow window while they show", () => {
   fireEvent.click(menuButton("Show views"));
 
   expect(menuButton("Hide views")).toBeInTheDocument();
+});
+
+async function openItemToDelete(user: ReturnType<typeof userEvent.setup>) {
+  const deleted = item({ name: "Plan the week" });
+  const api = fakeSlateApi([deleted]);
+  api.deleteItem.mockResolvedValue(deleted);
+  render(<App />, { wrapper: withSlateApi(api) });
+  await user.click(
+    await screen.findByRole("button", { name: "Open Plan the week" }),
+  );
+  api.listItems.mockResolvedValue([]);
+  return screen.getByRole("button", { name: "Delete Plan the week" });
+}
+
+test("offers the undo for a deleted item over the page rather than in the list", async () => {
+  const user = userEvent.setup();
+  const deleteButton = await openItemToDelete(user);
+
+  await user.click(deleteButton);
+
+  const notice = await screen.findByRole("alert");
+  expect(screen.getByRole("main")).not.toContainElement(notice);
+});
+
+test("stops offering the undo once another view is chosen", async () => {
+  const user = userEvent.setup();
+  await user.click(await openItemToDelete(user));
+  await screen.findByRole("button", { name: "Undo" });
+
+  await user.click(screen.getByRole("button", { name: "Deleted" }));
+
+  await waitFor(() =>
+    expect(
+      screen.queryByRole("button", { name: "Undo" }),
+    ).not.toBeInTheDocument(),
+  );
+});
+
+test("keeps offering the undo while it has focus", async () => {
+  vi.useFakeTimers({ shouldAdvanceTime: true });
+  const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
+  (await openItemToDelete(user)).focus();
+  await user.keyboard("{Enter}");
+  const undo = await screen.findByRole("button", { name: "Undo" });
+
+  await act(() => vi.advanceTimersByTimeAsync(20_000));
+
+  expect(undo).toHaveFocus();
 });
