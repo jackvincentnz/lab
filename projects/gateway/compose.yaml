@@ -1,10 +1,10 @@
 services:
   redis:
-    image: redis:8.10.3-alpine@sha256:7958cfbb9d152f87dadfbc89f1b0b15938f0b81ff8982feb327476f4911935c3
+    image: redis:8.12.0-alpine@sha256:5af80107c1eeecb484a2269b80a26d12bfa6521787da4663bd9f19f60a163483
     ports:
       - "127.0.0.1:${GATEWAY_REDIS_PORT:-6379}:6379"
   mock-oauth2-server:
-    image: ghcr.io/navikt/mock-oauth2-server:7.0.1@sha256:eb07a0a65007c34c40c7b849592a47e6299128a514a5c6c582a53451cc6e3390
+    image: ghcr.io/navikt/mock-oauth2-server:7.0.2@sha256:95966a61e512c003daa3c884623665c2bbf04f46f85ce97d7ee659384d804202
     ports:
       - "127.0.0.1:${GATEWAY_ISSUER_PORT:-3007}:8080"
     environment:

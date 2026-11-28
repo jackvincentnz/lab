@@ -7,15 +7,15 @@ bazel_dep(name = "rules_proto", version = "7.1.0")
 bazel_dep(name = "protobuf", version = "36.2")
 bazel_dep(name = "rules_java", version = "9.9.0")
 bazel_dep(name = "rules_jvm_external", version = "7.2")
-bazel_dep(name = "contrib_rules_jvm", version = "0.34.0")
+bazel_dep(name = "contrib_rules_jvm", version = "0.35.0")
 bazel_dep(name = "rules_nodejs", version = "6.7.7")
-bazel_dep(name = "aspect_rules_js", version = "3.5.2")
+bazel_dep(name = "aspect_rules_js", version = "3.6.1")
 bazel_dep(name = "aspect_rules_ts", version = "3.10.1")
 bazel_dep(name = "aspect_rules_swc", version = "2.7.6")
 bazel_dep(name = "rules_playwright", version = "0.0.0")
 bazel_dep(name = "rules_pkg", version = "1.3.0")
-bazel_dep(name = "rules_shell", version = "0.8.0")
-bazel_dep(name = "rules_oci", version = "2.3.0")
+bazel_dep(name = "rules_shell", version = "0.10.0")
+bazel_dep(name = "rules_oci", version = "2.3.5")
 bazel_dep(name = "rules_multirun", version = "0.14.0")
 bazel_dep(name = "rules_spring", version = "2.6.3")
 bazel_dep(name = "rules_multitool", version = "1.11.1")
@@ -31,16 +31,6 @@ bazel_dep(name = "rules_go", version = "0.65.0", dev_dependency = True)
 go_sdk = use_extension("@rules_go//go:extensions.bzl", "go_sdk", dev_dependency = True)
 go_sdk.download(version = "1.26.7")
 
-# 0.34.0 deadlocks the JUnit 5 runner's hostname lookup, so every Java test waits 5 seconds after
-# its last test. The patch backports bazel-contrib/rules_jvm#499. Setting no version keeps Renovate
-# proposing releases; the first release with the fix makes the patch fail to apply. See #1143 for
-# how to remove this override then.
-single_version_override(
-    module_name = "contrib_rules_jvm",
-    patch_strip = 1,
-    patches = ["//third_party/contrib_rules_jvm:hostname-deadlock.patch"],
-)
-
 git_override(
     module_name = "rules_playwright",
     commit = "bf4a6acf00321e30df612e4af8ef900f51bc4fe3",
@@ -55,8 +45,8 @@ http_jar = use_repo_rule("@bazel_tools//tools/build_defs/repo:http.bzl", "http_j
 
 http_jar(
     name = "opentelemetry-javaagent",
-    sha256 = "e43a270df53c6f423e0ab157be9c27ccc01d5dc3232e162fe54777573db2f149",
-    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.33.1/opentelemetry-javaagent.jar",
+    sha256 = "da44154cea128257779c8a782b9651fd7c0c6aa177cd3810f9a867ac8509555d",
+    url = "https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/download/v2.34.0/opentelemetry-javaagent.jar",
 )
 
 ####################################################################################################
@@ -113,7 +103,7 @@ maven.install(
         "org.springframework.cloud:spring-cloud-starter-gateway-server-webflux",
         "org.springframework.session:spring-session-data-redis",
         "redis.clients:jedis",
-        "org.postgresql:postgresql:42.7.14",
+        "org.postgresql:postgresql:42.7.15",
         "org.springframework.boot:spring-boot-starter-test",
         "org.springframework.kafka:spring-kafka-test",
         "org.testcontainers:testcontainers",
@@ -127,22 +117,23 @@ maven.install(
         "com.netflix.graphql.dgs:dgs-starter-test",
         "com.netflix.graphql.dgs:graphql-dgs-extended-scalars",
         "jakarta.servlet:jakarta.servlet-api",
-        "io.confluent:kafka-protobuf-serializer:8.3.2",
-        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.7.0",
+        "io.confluent:kafka-protobuf-serializer:8.4.1",
+        "com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core:8.8.0",
         "com.github.ajalt.clikt:clikt-jvm:4.4.0",  # explicitly depend on the jvm version rather than the kotlin one linked from com.netflix.graphql.dgs.codegen:graphql-dgs-codegen-core, at the 4.4.0 it declares; Clikt 5 changed the CliktCommand constructor, so codegen fails with NoSuchMethodError
         "com.squareup.okhttp3:okhttp-jvm:5.5.1",
-        "org.apache.tomcat.embed:tomcat-embed-core:11.0.27",
-        "org.apache.tomcat.embed:tomcat-embed-el:11.0.27",
-        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.27",
+        "com.apollographql.federation:federation-graphql-java-support:7.1.1",  # DGS 12.1.1 manages 5.3.0, which fails with NoClassDefFoundError on the graphql-java 26 that Spring Boot 4.2 manages; 7.x is built for graphql-java 26
+        "org.apache.tomcat.embed:tomcat-embed-core:11.0.29",
+        "org.apache.tomcat.embed:tomcat-embed-el:11.0.29",
+        "org.apache.tomcat.embed:tomcat-embed-websocket:11.0.29",
     ],
     boms = [
         # First wins
-        "io.netty:netty-bom:4.2.20.Final",
+        "io.netty:netty-bom:4.2.21.Final",
         "com.google.protobuf:protobuf-bom:4.36.2",
-        "org.springframework.boot:spring-boot-dependencies:4.1.2",
-        "org.springframework.cloud:spring-cloud-dependencies:2025.1.4",
-        "org.springframework.ai:spring-ai-bom:2.0.2",
-        "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.1.0",
+        "org.springframework.boot:spring-boot-dependencies:4.2.0",
+        "org.springframework.cloud:spring-cloud-dependencies:2026.0.0",
+        "org.springframework.ai:spring-ai-bom:2.1.0",
+        "com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:12.1.1",
         "org.testcontainers:testcontainers-bom:2.0.5",
     ],
     fail_if_repin_required = True,
@@ -280,13 +271,13 @@ oci.pull(
 )
 oci.pull(
     name = "nginx_alpine_slim",
-    digest = "sha256:4c734d33ee731135dc9f2349914a34551c920f4451fca8bb05bf5880eb9079e8",
+    digest = "sha256:c293b28729906d97fa5302fce3bd79bd27a3ea9a5d9604e21c6ff0ebf14549fc",
     image = "nginx",
     platforms = [
         "linux/amd64",
         "linux/arm64/v8",
     ],
-    tag = "1.31.8-alpine-slim",
+    tag = "1.31.10-alpine-slim",
 )
 oci.toolchains(name = "lab_oci")
 use_repo(oci, "distroless_java", "distroless_java_linux_amd64", "distroless_java_linux_arm64_v8", "lab_oci_crane_toolchains", "lab_oci_regctl_toolchains", "nginx_alpine_slim", "nginx_alpine_slim_linux_amd64", "nginx_alpine_slim_linux_arm64_v8")

@@ -1,7 +1,7 @@
 {
   "name": "lab-docs",
   "private": true,
-  "packageManager": "pnpm@12.16.1",
+  "packageManager": "pnpm@12.23.0",
   "engines": {
     "node": "^26.13.1"
   },
@@ -19,7 +19,7 @@
     "@docusaurus/utils": "3.10.2",
     "@easyops-cn/docusaurus-search-local": "0.55.3",
     "@mdx-js/react": "3.1.1",
-    "@mermaid-js/layout-elk": "1.0.1",
+    "@mermaid-js/layout-elk": "1.0.2",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   }

@@ -26,7 +26,7 @@ public class KafkaTest {
   public ConfluentKafkaContainer kafka =
       new ConfluentKafkaContainer(
           DockerImageName.parse(
-                  "confluentinc/cp-kafka:8.3.2@sha256:5e8f3ab5b4977c9a8fd6137d26af2caad878aca316f24c55f08206217e3cec48")
+                  "confluentinc/cp-kafka:8.4.1@sha256:edda4e9ae47bc58b71559e99144f4e4e78233666373036311a946f141ed7b3a4")
               .withRepository("confluentinc/cp-kafka"));
 
   @Test
