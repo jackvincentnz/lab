@@ -30,7 +30,9 @@ interface GuardedContents {
         grant: (granted: boolean) => void,
       ) => void,
     ): void;
-    setPermissionCheckHandler(handler: () => boolean): void;
+    setPermissionCheckHandler(
+      handler: (contents: unknown, permission: string) => boolean,
+    ): void;
   };
 }
 
@@ -75,10 +77,16 @@ function guardWebContents(
   });
   contents.on("will-attach-webview", (event) => event.preventDefault());
   // Without handlers, Electron grants every permission, such as the camera or location.
-  contents.session.setPermissionRequestHandler(
-    (_contents, _permission, grant) => grant(false),
+  contents.session.setPermissionRequestHandler((_contents, permission, grant) =>
+    grant(isGranted(permission)),
   );
-  contents.session.setPermissionCheckHandler(() => false);
+  contents.session.setPermissionCheckHandler((_contents, permission) =>
+    isGranted(permission),
+  );
+}
+
+function isGranted(permission: string): boolean {
+  return permission === "clipboard-sanitized-write";
 }
 
 function opensExternally(url: string): boolean {
