@@ -14,11 +14,11 @@
   "customManagers": [
     {
       "customType": "regex",
-      "description": "Update Docker images in source files, and pin the digest of an unpinned image passed to DockerImageName.parse, a Testcontainers constructor, or an *_IMAGE constant",
+      "description": "Update and digest-pin Docker images passed to DockerImageName.parse or a Testcontainers constructor, or assigned to an *_IMAGE constant, in source files",
       "managerFilePatterns": ["{projects,learn,libs}/**/*.{java,ts}"],
       "matchStringsStrategy": "recursive",
       "matchStrings": [
-        "[\"'][a-z0-9][a-z0-9._:/-]*:[A-Za-z0-9_.-]+@sha256:[a-f0-9]{64}[\"']|(?:DockerImageName\\.parse\\(|new [A-Za-z]*Container(?:<[^>]*>)?\\(|\\b[A-Z][A-Z0-9_]*_IMAGE(?:\\s*:\\s*string)?\\s*=)\\s*[\"'][a-z0-9][a-z0-9._:/-]*:[A-Za-z0-9_.-]+[\"']",
+        "(?:DockerImageName\\.parse\\(|new [A-Z][A-Za-z0-9]*Container(?:<[^>]*>)?\\(|\\b[A-Z][A-Z0-9_]*_IMAGE(?:\\s*:\\s*string)?\\s*=)\\s*[\"'][a-z0-9][a-z0-9._:/-]*:[A-Za-z0-9_.-]+(?:@sha256:[a-f0-9]{64})?[\"']\\s*[,);]",
         "(?<depName>[a-z0-9][a-z0-9._:/-]*):(?<currentValue>[A-Za-z0-9_.-]+)(?:@(?<currentDigest>sha256:[a-f0-9]{64}))?"
       ],
       "datasourceTemplate": "docker",

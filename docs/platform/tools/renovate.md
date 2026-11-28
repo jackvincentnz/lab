@@ -24,12 +24,11 @@ Use this when changing custom managers, package rules, schedules, or other behav
 
 The existing custom managers cover:
 
-- Docker image references embedded in Java and TypeScript files. A digest-pinned
-  reference is found anywhere. An unpinned one is found only where it is passed
-  to `DockerImageName.parse` or a Testcontainers constructor, or assigned to an
+- Docker images in Java and TypeScript files that are passed to
+  `DockerImageName.parse` or a Testcontainers constructor, or assigned to an
   `*_IMAGE` constant, so that strings such as `"broker:9092"` are not taken for
-  images. Renovate opens a PR that pins the digest of each unpinned reference it
-  finds. An unpinned image written anywhere else is not found.
+  images. Renovate opens a PR that pins the digest of an unpinned image. An
+  image written anywhere else is not found.
 - `rules_jvm_external` Maven BOMs declared in `MODULE.bazel`.
 - GitHub release assets used by multitool and the OpenTelemetry Java agent.
 - The `rules_playwright` browser version in `MODULE.bazel`, tracked as
