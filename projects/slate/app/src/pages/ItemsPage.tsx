@@ -66,6 +66,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
   }
   useDeletedItemNotice(deleted, {
     disabled,
+    restoring: restoreItem.isPending,
     onUndo: (item) => {
       if (saving) {
         return;

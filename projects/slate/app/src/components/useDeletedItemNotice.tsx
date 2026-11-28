@@ -13,6 +13,7 @@ export interface DeletedItem {
 
 interface DeletedItemNoticeOptions {
   disabled: boolean;
+  restoring: boolean;
   onUndo(item: Item): void;
   onDismiss(): void;
 }
@@ -66,9 +67,10 @@ export function useDeletedItemNotice(
       notifications.update({
         id: shown.current.id,
         message: message(shown.current.deleted, latest),
+        autoClose: options.restoring ? false : AUTO_CLOSE_MS,
       });
     }
-  }, [options.disabled]);
+  }, [options.disabled, options.restoring]);
 }
 
 function message(
