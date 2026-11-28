@@ -22,6 +22,7 @@ import {
 import { Badge, Box, Group, List, Stack, Text } from "@mantine/core";
 import type { Item, ItemStatus, MoveItemInput } from "../api";
 import { useHoldListUpdates } from "../ListUpdates";
+import { statusStyles } from "../statuses";
 import classes from "./ItemList.module.css";
 import { SortableItemRow } from "./ItemRow";
 import { ListHeading } from "./ListHeading";
@@ -165,14 +166,16 @@ export function ItemList({
       <Stack gap="lg">
         <ItemGroup
           id={IN_PROGRESS_GROUP}
-          name="In progress"
+          name={statusStyles.in_progress.label}
           items={inProgress}
           empty="Drag an item here when you start it"
           className={classes["inProgress"]}
           overLimit={inProgress.length > IN_PROGRESS_LIMIT}
           heading={
             <Group gap="sm">
-              <ListHeading>In progress · {inProgress.length}</ListHeading>
+              <ListHeading>
+                {statusStyles.in_progress.label} · {inProgress.length}
+              </ListHeading>
               {inProgress.length > IN_PROGRESS_LIMIT && (
                 <Badge color="orange" variant="light">
                   Over your limit of {IN_PROGRESS_LIMIT}

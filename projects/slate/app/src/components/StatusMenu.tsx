@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Box, Button, Menu } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import type { ItemStatus } from "../api";
-import { StatusBadge, statusStyles } from "./StatusBadge";
+import { everyStatus, statusStyles } from "../statuses";
+import { StatusBadge } from "./StatusBadge";
 
 interface StatusMenuProps {
   status: ItemStatus;
@@ -35,7 +36,7 @@ export function StatusMenu({ status, disabled, onChange }: StatusMenuProps) {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          {(Object.keys(statusStyles) as ItemStatus[])
+          {everyStatus
             .filter((other) => other !== status)
             .map((other) => (
               <Menu.Item

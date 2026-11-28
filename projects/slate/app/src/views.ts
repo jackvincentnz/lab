@@ -1,20 +1,11 @@
-import type { ItemStatus, ListItemsInput } from "./api";
+import type { ListItemsInput } from "./api";
+import { everyStatus, statusStyles } from "./statuses";
 
 export interface View {
   label: string;
   query: ListItemsInput;
   empty: string;
 }
-
-// A record, so that the compiler asks for a new status here too.
-const everyStatus = Object.keys({
-  todo: true,
-  in_progress: true,
-  done: true,
-  deferred: true,
-  wont_do: true,
-  delegated: true,
-} satisfies Record<ItemStatus, true>) as ItemStatus[];
 
 export const views = {
   today: {
@@ -23,22 +14,22 @@ export const views = {
     empty: "Nothing on your slate yet. Add the first item above.",
   },
   delegated: {
-    label: "Delegated",
+    label: statusStyles.delegated.label,
     query: { statuses: ["delegated"] },
     empty: "Nothing delegated.",
   },
   deferred: {
-    label: "Deferred",
+    label: statusStyles.deferred.label,
     query: { statuses: ["deferred"] },
     empty: "Nothing deferred.",
   },
   done: {
-    label: "Done",
+    label: statusStyles.done.label,
     query: { statuses: ["done"], doneTodayOnly: false, orderBy: "doneAt" },
     empty: "Nothing done yet.",
   },
   wontDo: {
-    label: "Won't do",
+    label: statusStyles.wont_do.label,
     query: { statuses: ["wont_do"] },
     empty: "Nothing marked won't do.",
   },
