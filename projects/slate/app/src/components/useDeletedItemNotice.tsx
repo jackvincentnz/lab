@@ -4,7 +4,7 @@ import { notifications } from "@mantine/notifications";
 import { IconArrowBackUp } from "@tabler/icons-react";
 import type { Item } from "../api";
 
-const AUTO_CLOSE_MS = 8000;
+export const AUTO_CLOSE_MS = 8000;
 
 export interface DeletedItem {
   item: Item;

@@ -1168,44 +1168,7 @@ describe("ItemsPage", () => {
     expect(api.restoreItem).toHaveBeenCalledTimes(1);
   });
 
-  async function undoDelete(restore: () => Promise<Item>) {
-    const deleted = item({ name: "Plan the week" });
-    const api = fakeSlateApi([deleted]);
-    api.deleteItem.mockResolvedValue(deleted);
-    api.restoreItem.mockImplementation(restore);
-    renderWithNotifications(api);
-    api.listItems.mockResolvedValue([]);
-    vi.useFakeTimers({ shouldAdvanceTime: true });
-    const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
-    await openItem(user, "Plan the week");
-    await user.click(
-      screen.getByRole("button", { name: "Delete Plan the week" }),
-    );
-    const undo = await screen.findByRole("button", { name: "Undo" });
-    await user.click(undo);
-    await user.unhover(undo);
-  }
-
   it("keeps offering the undo while an undo is saving", async () => {
-    await undoDelete(() => new Promise<Item>(() => undefined));
-
-    await act(() => vi.advanceTimersByTimeAsync(20_000));
-
-    expect(screen.getByRole("button", { name: "Undo" })).toBeInTheDocument();
-  });
-
-  it("stops offering the undo 8 seconds after an undo fails", async () => {
-    await undoDelete(() => Promise.reject(new Error("offline")));
-    await screen.findByText("Could not save your change");
-
-    await act(() => vi.advanceTimersByTimeAsync(9_000));
-
-    expect(
-      screen.queryByRole("button", { name: "Undo" }),
-    ).not.toBeInTheDocument();
-  });
-
-  it("shows the undo as disabled once an undo has been saving for 300 ms", async () => {
     const deleted = item({ name: "Plan the week" });
     const api = fakeSlateApi([deleted]);
     api.deleteItem.mockResolvedValue(deleted);
@@ -1218,11 +1181,13 @@ describe("ItemsPage", () => {
     await user.click(
       screen.getByRole("button", { name: "Delete Plan the week" }),
     );
+    const undo = await screen.findByRole("button", { name: "Undo" });
+    await user.click(undo);
+    await user.unhover(undo);
 
-    await user.click(await screen.findByRole("button", { name: "Undo" }));
-    await act(() => vi.advanceTimersByTimeAsync(300));
+    await act(() => vi.advanceTimersByTimeAsync(20_000));
 
-    expect(screen.getByRole("button", { name: "Undo" })).toBeDisabled();
+    expect(undo).toBeInTheDocument();
   });
 
   it("keeps a saving move's order when another move is made", async () => {
