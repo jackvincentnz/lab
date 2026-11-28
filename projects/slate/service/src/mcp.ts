@@ -24,9 +24,9 @@ const {
   deleteItem,
   restoreItem,
   listItemChanges,
-  linkItems,
-  unlinkItems,
-  listLinkedItems,
+  relateItems,
+  unrelateItems,
+  listRelatedItems,
 } = operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
@@ -116,39 +116,42 @@ const tools = {
       },
       (input) => replyIfFound(listItemChanges.run(store, input), [input.id]),
     ),
-  linkItems: (server, store) =>
+  relateItems: (server, store) =>
     server.registerTool(
-      "link_items",
+      "relate_items",
       {
-        title: "Link items",
+        title: "Relate items",
         description:
-          "Link two related items on the user's Slate list, such as one that follows from the other, parts of the same piece of work, or one split off from another, using their ids from list_items. A link has no direction or kind: both items show it, and list_linked_items lists it from either. For where an item came from outside Slate, such as a pull request or a notes file, add a source with update_item instead. Linking items that are already linked changes nothing. Returns the item with the id given as id.",
-        inputSchema: linkItems.input,
+          "Mark two items on the user's Slate list as related, such as one that follows from the other, parts of the same piece of work, or one split off from another, using their ids from list_items. A relation has no direction or kind: both items show it, and list_related_items lists it from either. For where an item came from outside Slate, such as a pull request or a notes file, add a source with update_item instead. Relating items that are already related changes nothing. Returns the item with the id given as id.",
+        inputSchema: relateItems.input,
       },
       (input) =>
-        replyIfFound(linkItems.run(store, input), [input.id, input.linkedId]),
+        replyIfFound(relateItems.run(store, input), [
+          input.id,
+          input.relatedId,
+        ]),
     ),
-  unlinkItems: (server, store) =>
+  unrelateItems: (server, store) =>
     server.registerTool(
-      "unlink_items",
+      "unrelate_items",
       {
-        title: "Unlink items",
+        title: "Unrelate items",
         description:
-          "Remove the link between two items on the user's Slate list, using their ids from list_linked_items. Unlinking items that are not linked changes nothing. Returns the item with the id given as id.",
-        inputSchema: unlinkItems.input,
+          "Remove the relation between two items on the user's Slate list, using their ids from list_related_items. Unrelating items that are not related changes nothing. Returns the item with the id given as id.",
+        inputSchema: unrelateItems.input,
       },
-      (input) => replyIfFound(unlinkItems.run(store, input), [input.id]),
+      (input) => replyIfFound(unrelateItems.run(store, input), [input.id]),
     ),
-  listLinkedItems: (server, store) =>
+  listRelatedItems: (server, store) =>
     server.registerTool(
-      "list_linked_items",
+      "list_related_items",
       {
-        title: "List linked items",
+        title: "List related items",
         description:
-          "List the items linked to an item on the user's Slate list, in priority order and whatever their status, using its id from list_items. A deleted item is left out while it is deleted, and comes back with its links when restored.",
-        inputSchema: listLinkedItems.input,
+          "List the items related to an item on the user's Slate list, in priority order and whatever their status, using its id from list_items. A deleted item is left out while it is deleted, and comes back with its relations when restored.",
+        inputSchema: listRelatedItems.input,
       },
-      (input) => replyIfFound(listLinkedItems.run(store, input), [input.id]),
+      (input) => replyIfFound(listRelatedItems.run(store, input), [input.id]),
     ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 

@@ -475,28 +475,28 @@ describe("ItemsPage", () => {
     expect(api.listItemChanges).toHaveBeenCalledWith({ id: travel.id });
   });
 
-  it("links the open item to another item on the list", async () => {
+  it("relates the open item to another item on the list", async () => {
     const user = userEvent.setup();
     const plan = item({ name: "Plan the week" });
     const travel = item({ name: "Book travel" });
     const api = fakeSlateApi([plan, travel]);
-    api.linkItems.mockImplementation(() => {
-      api.listLinkedItems.mockResolvedValue([plan]);
+    api.relateItems.mockImplementation(() => {
+      api.listRelatedItems.mockResolvedValue([plan]);
       return Promise.resolve(travel);
     });
     render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
     const panel = await openItem(user, "Book travel");
 
     await user.click(
-      within(panel).getByRole("combobox", { name: "Link an item" }),
+      within(panel).getByRole("combobox", { name: "Add a related item" }),
     );
     await user.click(
       await screen.findByRole("option", { name: "Plan the week" }),
     );
 
-    expect(api.linkItems).toHaveBeenCalledWith({
+    expect(api.relateItems).toHaveBeenCalledWith({
       id: travel.id,
-      linkedId: plan.id,
+      relatedId: plan.id,
     });
     expect(
       await within(panel).findByRole("button", { name: "Plan the week" }),

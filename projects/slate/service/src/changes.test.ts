@@ -17,9 +17,9 @@ beforeEach(() => {
     delete: vi.fn(),
     restore: vi.fn(),
     changes: vi.fn(),
-    link: vi.fn(),
-    unlink: vi.fn(),
-    linked: vi.fn(),
+    relate: vi.fn(),
+    unrelate: vi.fn(),
+    related: vi.fn(),
   };
   changes = new ListChanges();
   changed = vi.fn();
@@ -138,31 +138,31 @@ describe("announceChanges", () => {
     expect(changed).not.toHaveBeenCalled();
   });
 
-  it("announces a link", () => {
-    const input = { id: crypto.randomUUID(), linkedId: crypto.randomUUID() };
+  it("announces relating items", () => {
+    const input = { id: crypto.randomUUID(), relatedId: crypto.randomUUID() };
 
-    announcing.link(input);
+    announcing.relate(input);
 
-    expect(store.link).toHaveBeenCalledWith(input);
+    expect(store.relate).toHaveBeenCalledWith(input);
     expect(changed).toHaveBeenCalledOnce();
   });
 
-  it("announces an unlink", () => {
-    const input = { id: crypto.randomUUID(), linkedId: crypto.randomUUID() };
+  it("announces unrelating items", () => {
+    const input = { id: crypto.randomUUID(), relatedId: crypto.randomUUID() };
 
-    announcing.unlink(input);
+    announcing.unrelate(input);
 
-    expect(store.unlink).toHaveBeenCalledWith(input);
+    expect(store.unrelate).toHaveBeenCalledWith(input);
     expect(changed).toHaveBeenCalledOnce();
   });
 
-  it("lists linked items without announcing a change", () => {
+  it("lists related items without announcing a change", () => {
     const id = crypto.randomUUID();
-    store.linked.mockReturnValue([]);
+    store.related.mockReturnValue([]);
 
-    announcing.linked(id);
+    announcing.related(id);
 
-    expect(store.linked).toHaveBeenCalledWith(id);
+    expect(store.related).toHaveBeenCalledWith(id);
     expect(changed).not.toHaveBeenCalled();
   });
 

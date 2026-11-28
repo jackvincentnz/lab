@@ -36,12 +36,13 @@ import {
   sourceKey,
   withoutRepeats,
   listItemsInput,
-  type LinkItemsInput,
+  type RelateItemsInput,
+  type UnrelateItemsInput,
   type ListQuery,
   type MoveItemInput,
   type UpdateItemInput,
 } from "./item.js";
-import { item, itemChange, itemLink } from "./schema.js";
+import { item, itemChange, itemRelation } from "./schema.js";
 
 const itemColumns = {
   id: item.id,
@@ -266,10 +267,10 @@ function changedFields(previous: Item, changed: Item): RecordedChange[] {
   return kinds;
 }
 
-function linkPair(id: string, linkedId: string) {
-  return id < linkedId
-    ? { itemId: id, linkedId }
-    : { itemId: linkedId, linkedId: id };
+function relationPair(id: string, relatedId: string) {
+  return id < relatedId
+    ? { itemId: id, relatedId }
+    : { itemId: relatedId, relatedId: id };
 }
 
 export class ItemStore {
@@ -434,54 +435,54 @@ export class ItemStore {
     });
   }
 
-  link({ id, linkedId }: LinkItemsInput): Item | undefined {
+  relate({ id, relatedId }: RelateItemsInput): Item | undefined {
     return this.#database.transaction((transaction) => {
       const found = this.#find(id);
-      if (!found || !this.#find(linkedId)) {
+      if (!found || !this.#find(relatedId)) {
         return undefined;
       }
 
       transaction
-        .insert(itemLink)
-        .values(linkPair(id, linkedId))
+        .insert(itemRelation)
+        .values(relationPair(id, relatedId))
         .onConflictDoNothing()
         .run();
       return found;
     });
   }
 
-  unlink({ id, linkedId }: LinkItemsInput): Item | undefined {
+  unrelate({ id, relatedId }: UnrelateItemsInput): Item | undefined {
     const found = this.#find(id);
     if (!found) {
       return undefined;
     }
 
-    const pair = linkPair(id, linkedId);
+    const pair = relationPair(id, relatedId);
     this.#database
-      .delete(itemLink)
+      .delete(itemRelation)
       .where(
         and(
-          eq(itemLink.itemId, pair.itemId),
-          eq(itemLink.linkedId, pair.linkedId),
+          eq(itemRelation.itemId, pair.itemId),
+          eq(itemRelation.relatedId, pair.relatedId),
         ),
       )
       .run();
     return found;
   }
 
-  linked(id: string): Item[] | undefined {
+  related(id: string): Item[] | undefined {
     if (!this.#find(id)) {
       return undefined;
     }
 
     return this.#database
       .select(itemColumns)
-      .from(itemLink)
+      .from(itemRelation)
       .innerJoin(
         item,
         or(
-          and(eq(itemLink.itemId, id), eq(item.id, itemLink.linkedId)),
-          and(eq(itemLink.linkedId, id), eq(item.id, itemLink.itemId)),
+          and(eq(itemRelation.itemId, id), eq(item.id, itemRelation.relatedId)),
+          and(eq(itemRelation.relatedId, id), eq(item.id, itemRelation.itemId)),
         ),
       )
       .where(listed)

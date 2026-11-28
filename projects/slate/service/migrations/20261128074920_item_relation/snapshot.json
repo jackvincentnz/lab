@@ -1,7 +1,7 @@
 {
   "version": "7",
   "dialect": "sqlite",
-  "id": "db5aedc0-49b2-402e-bc48-55587c51acf4",
+  "id": "250f5d38-b79e-4dbc-ae1f-2fa99b90ae6b",
   "prevIds": ["99abde7d-2b57-4c5e-a818-5e895feb3f4a"],
   "ddl": [
     {
@@ -13,7 +13,7 @@
       "entityType": "tables"
     },
     {
-      "name": "item_link",
+      "name": "item_relation",
       "entityType": "tables"
     },
     {
@@ -177,7 +177,7 @@
       "entityType": "columns"
     },
     {
-      "table": "item_link",
+      "table": "item_relation",
       "name": "item_id",
       "type": "text",
       "notNull": true,
@@ -187,8 +187,8 @@
       "entityType": "columns"
     },
     {
-      "table": "item_link",
-      "name": "linked_id",
+      "table": "item_relation",
+      "name": "related_id",
       "type": "text",
       "notNull": true,
       "autoincrement": false,
@@ -211,11 +211,11 @@
       "entityType": "indexes"
     },
     {
-      "table": "item_link",
-      "name": "item_link_linked_id",
+      "table": "item_relation",
+      "name": "item_relation_related_id",
       "columns": [
         {
-          "value": "linked_id",
+          "value": "related_id",
           "isExpression": false
         }
       ],
@@ -236,8 +236,8 @@
       "entityType": "fks"
     },
     {
-      "table": "item_link",
-      "name": "fk_item_link_item_id_item_id_fk",
+      "table": "item_relation",
+      "name": "fk_item_relation_item_id_item_id_fk",
       "columns": ["item_id"],
       "tableTo": "item",
       "columnsTo": ["id"],
@@ -247,9 +247,9 @@
       "entityType": "fks"
     },
     {
-      "table": "item_link",
-      "name": "fk_item_link_linked_id_item_id_fk",
-      "columns": ["linked_id"],
+      "table": "item_relation",
+      "name": "fk_item_relation_related_id_item_id_fk",
+      "columns": ["related_id"],
       "tableTo": "item",
       "columnsTo": ["id"],
       "onUpdate": "NO ACTION",
@@ -258,9 +258,9 @@
       "entityType": "fks"
     },
     {
-      "table": "item_link",
-      "name": "item_link_pk",
-      "columns": ["item_id", "linked_id"],
+      "table": "item_relation",
+      "name": "item_relation_pk",
+      "columns": ["item_id", "related_id"],
       "nameExplicit": false,
       "entityType": "pks"
     },
@@ -316,9 +316,9 @@
       "entityType": "checks"
     },
     {
-      "table": "item_link",
-      "name": "item_link_order",
-      "value": "\"item_id\" < \"linked_id\"",
+      "table": "item_relation",
+      "name": "item_relation_order",
+      "value": "\"item_id\" < \"related_id\"",
       "entityType": "checks"
     }
   ],

@@ -59,16 +59,16 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
   const deleteItem = useMutation(trpc.deleteItem.mutationOptions());
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
-  const linkItems = useMutation(trpc.linkItems.mutationOptions());
-  const unlinkItems = useMutation(trpc.unlinkItems.mutationOptions());
+  const relateItems = useMutation(trpc.relateItems.mutationOptions());
+  const unrelateItems = useMutation(trpc.unrelateItems.mutationOptions());
   const changes = [
     addItem,
     updateItem,
     moveItem,
     deleteItem,
     restoreItem,
-    linkItems,
-    unlinkItems,
+    relateItems,
+    unrelateItems,
   ];
   const saving = changes.some((change) => change.isPending);
   const disabled = useSlowSave(saving);
@@ -82,8 +82,8 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       opened === undefined ? skipToken : { id: opened.id },
     ),
   );
-  const openedLinks = useQuery(
-    trpc.listLinkedItems.queryOptions(
+  const openedRelated = useQuery(
+    trpc.listRelatedItems.queryOptions(
       opened === undefined ? skipToken : { id: opened.id },
     ),
   );
@@ -267,22 +267,24 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
         <ItemPanel
           item={opened}
           changes={openedChanges.data}
-          links={openedLinks.data}
-          linkCandidates={items.data?.filter(
+          related={openedRelated.data}
+          relatedCandidates={items.data?.filter(
             (candidate) =>
               candidate.id !== opened.id &&
-              !openedLinks.data?.some((linked) => linked.id === candidate.id),
+              !openedRelated.data?.some(
+                (relatedItem) => relatedItem.id === candidate.id,
+              ),
           )}
           openableIds={items.data?.map((listed) => listed.id)}
-          onOpenLinked={setOpenId}
-          onLink={(linkedId) => {
+          onOpenRelated={setOpenId}
+          onRelate={(relatedId) => {
             if (startChange()) {
-              linkItems.mutate({ id: opened.id, linkedId });
+              relateItems.mutate({ id: opened.id, relatedId });
             }
           }}
-          onUnlink={(linkedId) => {
+          onUnrelate={(relatedId) => {
             if (startChange()) {
-              unlinkItems.mutate({ id: opened.id, linkedId });
+              unrelateItems.mutate({ id: opened.id, relatedId });
             }
           }}
           width={panel.width}

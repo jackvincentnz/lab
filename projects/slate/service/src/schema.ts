@@ -85,19 +85,19 @@ export const itemChange = sqliteTable(
   ],
 );
 
-export const itemLink = sqliteTable(
-  "item_link",
+export const itemRelation = sqliteTable(
+  "item_relation",
   {
     itemId: text("item_id")
       .notNull()
       .references(() => item.id),
-    linkedId: text("linked_id")
+    relatedId: text("related_id")
       .notNull()
       .references(() => item.id),
   },
   (table) => [
-    primaryKey({ columns: [table.itemId, table.linkedId] }),
-    index("item_link_linked_id").on(table.linkedId),
-    check("item_link_order", sql`${table.itemId} < ${table.linkedId}`),
+    primaryKey({ columns: [table.itemId, table.relatedId] }),
+    index("item_relation_related_id").on(table.relatedId),
+    check("item_relation_order", sql`${table.itemId} < ${table.relatedId}`),
   ],
 );

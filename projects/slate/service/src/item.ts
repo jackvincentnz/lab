@@ -267,25 +267,25 @@ export const listItemChangesInput = z.object({
 
 export type ListItemChangesInput = z.infer<typeof listItemChangesInput>;
 
-const linkInput = z
+const relationInput = z
   .object({
     id: id.describe("The id of one item."),
-    linkedId: id.describe("The id of the other item."),
+    relatedId: id.describe("The id of the other item."),
   })
-  .refine((input) => input.id !== input.linkedId, {
+  .refine((input) => input.id !== input.relatedId, {
     message: "Give two different items",
   });
 
-export const linkItemsInput = linkInput;
+export const relateItemsInput = relationInput;
 
-export type LinkItemsInput = z.infer<typeof linkItemsInput>;
+export type RelateItemsInput = z.infer<typeof relateItemsInput>;
 
-export const unlinkItemsInput = linkInput;
+export const unrelateItemsInput = relationInput;
 
-export type UnlinkItemsInput = z.infer<typeof unlinkItemsInput>;
+export type UnrelateItemsInput = z.infer<typeof unrelateItemsInput>;
 
-export const listLinkedItemsInput = z.object({
-  id: id.describe("The id of the item whose linked items to list."),
+export const listRelatedItemsInput = z.object({
+  id: id.describe("The id of the item whose related items to list."),
 });
 
-export type ListLinkedItemsInput = z.infer<typeof listLinkedItemsInput>;
+export type ListRelatedItemsInput = z.infer<typeof listRelatedItemsInput>;

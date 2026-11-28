@@ -1245,80 +1245,85 @@ describe("changes", () => {
   });
 });
 
-describe("links", () => {
-  it("shows a link on both items", () => {
+describe("related items", () => {
+  it("shows a relation on both items", () => {
     const [a, b] = ["A", "B"].map(addItem);
 
-    const linked = store.link({ id: a.id, linkedId: b.id });
+    const result = store.relate({ id: a.id, relatedId: b.id });
 
-    expect(linked).toEqual(a);
-    expect(store.linked(a.id)).toEqual([b]);
-    expect(store.linked(b.id)).toEqual([a]);
+    expect(result).toEqual(a);
+    expect(store.related(a.id)).toEqual([b]);
+    expect(store.related(b.id)).toEqual([a]);
   });
 
-  it("lists linked items in priority order, whatever their status", () => {
+  it("lists related items in priority order, whatever their status", () => {
     const [a, b, c] = ["A", "B", "C"].map(addItem);
     const deferred = withStatus(b, "deferred");
-    store.link({ id: c.id, linkedId: a.id });
-    store.link({ id: c.id, linkedId: b.id });
+    store.relate({ id: c.id, relatedId: a.id });
+    store.relate({ id: c.id, relatedId: b.id });
 
-    expect(store.linked(c.id)).toEqual([deferred, a]);
+    expect(store.related(c.id)).toEqual([deferred, a]);
   });
 
-  it("keeps one link when two items are linked twice", () => {
+  it("keeps one relation when two items are related twice", () => {
     const [a, b] = ["A", "B"].map(addItem);
 
-    store.link({ id: a.id, linkedId: b.id });
-    store.link({ id: b.id, linkedId: a.id });
+    store.relate({ id: a.id, relatedId: b.id });
+    store.relate({ id: b.id, relatedId: a.id });
 
-    expect(store.linked(a.id)).toEqual([b]);
+    expect(store.related(a.id)).toEqual([b]);
   });
 
-  it("removes a link from either item", () => {
+  it("removes a relation from either item", () => {
     const [a, b] = ["A", "B"].map(addItem);
-    store.link({ id: a.id, linkedId: b.id });
+    store.relate({ id: a.id, relatedId: b.id });
 
-    const unlinked = store.unlink({ id: b.id, linkedId: a.id });
+    const unrelated = store.unrelate({ id: b.id, relatedId: a.id });
 
-    expect(unlinked).toEqual(b);
-    expect(store.linked(a.id)).toEqual([]);
+    expect(unrelated).toEqual(b);
+    expect(store.related(a.id)).toEqual([]);
   });
 
   it("leaves out a deleted item until it is restored", () => {
     const [a, b] = ["A", "B"].map(addItem);
-    store.link({ id: a.id, linkedId: b.id });
+    store.relate({ id: a.id, relatedId: b.id });
 
     store.delete(b.id);
-    const whileDeleted = store.linked(a.id);
+    const whileDeleted = store.related(a.id);
     const restored = store.restore(b.id);
 
     expect(whileDeleted).toEqual([]);
-    expect(store.linked(a.id)).toEqual([restored]);
+    expect(store.related(a.id)).toEqual([restored]);
   });
 
-  it("refuses to link a deleted item", () => {
+  it("refuses to relate a deleted item", () => {
     const [a, b] = ["A", "B"].map(addItem);
     store.delete(b.id);
 
-    const linked = store.link({ id: a.id, linkedId: b.id });
+    const result = store.relate({ id: a.id, relatedId: b.id });
 
-    expect(linked).toBeUndefined();
+    expect(result).toBeUndefined();
     store.restore(b.id);
-    expect(store.linked(a.id)).toEqual([]);
+    expect(store.related(a.id)).toEqual([]);
   });
 
-  it("refuses to link an unknown item", () => {
+  it("refuses to relate an unknown item", () => {
     const a = addItem("A");
 
-    const linked = store.link({ id: crypto.randomUUID(), linkedId: a.id });
+    const result = store.relate({
+      id: crypto.randomUUID(),
+      relatedId: a.id,
+    });
 
-    expect(linked).toBeUndefined();
+    expect(result).toBeUndefined();
   });
 
   it("returns nothing for an unknown item", () => {
     const id = crypto.randomUUID();
 
-    expect(store.linked(id)).toBeUndefined();
-    expect(store.unlink({ id, linkedId: crypto.randomUUID() })).toBeUndefined();
+    expect(store.related(id)).toBeUndefined();
+    expect(
+      store.unrelate({ id, relatedId: crypto.randomUUID() }),
+    ).toBeUndefined();
   });
 });

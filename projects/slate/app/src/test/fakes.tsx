@@ -16,8 +16,9 @@ import {
   type DeleteItemInput,
   type Item,
   type ItemChange,
-  type LinkItemsInput,
-  type ListLinkedItemsInput,
+  type RelateItemsInput,
+  type UnrelateItemsInput,
+  type ListRelatedItemsInput,
   type ListItemChangesInput,
   type ListItemsInput,
   type MoveItemInput,
@@ -33,9 +34,9 @@ export interface FakeSlateApi {
   moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;
   deleteItem: Mock<(input: DeleteItemInput) => Promise<Item>>;
   restoreItem: Mock<(input: RestoreItemInput) => Promise<Item>>;
-  linkItems: Mock<(input: LinkItemsInput) => Promise<Item>>;
-  unlinkItems: Mock<(input: LinkItemsInput) => Promise<Item>>;
-  listLinkedItems: Mock<(input: ListLinkedItemsInput) => Promise<Item[]>>;
+  relateItems: Mock<(input: RelateItemsInput) => Promise<Item>>;
+  unrelateItems: Mock<(input: UnrelateItemsInput) => Promise<Item>>;
+  listRelatedItems: Mock<(input: ListRelatedItemsInput) => Promise<Item[]>>;
   listItemChanges: Mock<(input: ListItemChangesInput) => Promise<ItemChange[]>>;
   listChanged: FakeSubscription;
 }
@@ -74,10 +75,10 @@ export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
     moveItem: vi.fn<FakeSlateApi["moveItem"]>(),
     deleteItem: vi.fn<FakeSlateApi["deleteItem"]>(),
     restoreItem: vi.fn<FakeSlateApi["restoreItem"]>(),
-    linkItems: vi.fn<FakeSlateApi["linkItems"]>(),
-    unlinkItems: vi.fn<FakeSlateApi["unlinkItems"]>(),
-    listLinkedItems: vi
-      .fn<FakeSlateApi["listLinkedItems"]>()
+    relateItems: vi.fn<FakeSlateApi["relateItems"]>(),
+    unrelateItems: vi.fn<FakeSlateApi["unrelateItems"]>(),
+    listRelatedItems: vi
+      .fn<FakeSlateApi["listRelatedItems"]>()
       .mockResolvedValue([]),
     listItemChanges: vi
       .fn<FakeSlateApi["listItemChanges"]>()

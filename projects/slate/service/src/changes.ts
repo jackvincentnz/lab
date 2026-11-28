@@ -18,8 +18,8 @@ export function announceChanges(store: Store, changes: ListChanges): Store {
     delete: (id) => announced(store.delete(id)),
     restore: (id) => announced(store.restore(id)),
     changes: (id) => store.changes(id),
-    link: (input) => announced(store.link(input)),
-    unlink: (input) => announced(store.unlink(input)),
-    linked: (id) => store.linked(id),
+    relate: (input) => announced(store.relate(input)),
+    unrelate: (input) => announced(store.unrelate(input)),
+    related: (id) => store.related(id),
   };
 }

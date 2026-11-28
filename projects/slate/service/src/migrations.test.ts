@@ -28,7 +28,7 @@ const migrations = [
   "20261127181136_item_in_progress_status",
   "20261127195930_item_sources",
   "20261128050734_item_change",
-  "20261128051424_item_link",
+  "20261128074920_item_relation",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -146,11 +146,11 @@ describe("a new folder", () => {
     expect(table).toMatchObject({ strict: 1 });
   });
 
-  it("gets a strict item link table", () => {
+  it("gets a strict item relation table", () => {
     openItemStore(dataDir);
 
     const [table] = withFile((file) =>
-      file.prepare("PRAGMA table_list('item_link')").all(),
+      file.prepare("PRAGMA table_list('item_relation')").all(),
     );
     expect(table).toMatchObject({ strict: 1 });
   });
@@ -329,7 +329,7 @@ const earlierSchemas: EarlierSchema[] = [
     },
   },
   {
-    name: "a database from before items had links",
+    name: "a database from before items had related items",
     create(file) {
       migrateUpTo(file, "20261128050734_item_change");
       const items = randomItems(3);
