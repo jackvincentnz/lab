@@ -3,6 +3,10 @@ import {
   addItemInput,
   type DeleteItemInput,
   deleteItemInput,
+  type GetItemInput,
+  getItemInput,
+  type Item,
+  itemStatus,
   type ListItemsInput,
   listItemsInput,
   type MoveItemInput,
@@ -45,13 +49,40 @@ export const operations = {
     input: restoreItemInput,
     run: (store: Store, { id }: RestoreItemInput) => store.restore(id),
   },
+  getItem: {
+    input: getItemInput,
+    run: (store: Store, { item }: GetItemInput) =>
+      findItem(store, linkedItemId(item)),
+  },
 };
+
+export interface FoundItem extends Item {
+  deleted: boolean;
+}
+
+function linkedItemId(reference: string): string {
+  return URL.parse(reference)?.searchParams.get("item") ?? reference;
+}
+
+function findItem(store: Store, id: string): FoundItem | undefined {
+  const everyItem = { statuses: [...itemStatus.options], doneTodayOnly: false };
+  const kept = store.list(everyItem).find((item) => item.id === id);
+  if (kept !== undefined) {
+    return { ...kept, deleted: false };
+  }
+  const deleted = store
+    .list({ ...everyItem, deleted: true })
+    .find((item) => item.id === id);
+  return deleted && { ...deleted, deleted: true };
+}
 
 export type OperationName = keyof typeof operations;
 
 export const webOnly = [] as const satisfies readonly OperationName[];
 
-export const agentOnly = [] as const satisfies readonly OperationName[];
+export const agentOnly = [
+  "getItem",
+] as const satisfies readonly OperationName[];
 
 export type WebOperationName = Exclude<
   OperationName,

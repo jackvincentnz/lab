@@ -7,14 +7,22 @@ import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
 import {
   type AgentOperationName,
+  type FoundItem,
   operations,
   type Store,
 } from "./operations.js";
 
-const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
-  operations;
+const {
+  listItems,
+  addItem,
+  updateItem,
+  moveItem,
+  deleteItem,
+  restoreItem,
+  getItem,
+} = operations;
 
-type RegisterTool = (server: McpServer, store: Store) => void;
+type RegisterTool = (server: McpServer, store: Store, origin: string) => void;
 
 const icon = {
   src: `data:image/png;base64,${readFileSync(join(import.meta.dirname, "../../icons/slate-64.png")).toString("base64")}`,
@@ -90,9 +98,27 @@ const tools = {
       },
       (input) => replyIfFound(restoreItem.run(store, input), [input.id]),
     ),
+  getItem: (server, store, origin) =>
+    server.registerTool(
+      "get_item",
+      {
+        title: "Get item",
+        description:
+          "Get one item from the user's Slate list by its id, or by a Slate link to it that someone pasted elsewhere, in any status and even when deleted. It returns the item as list_items does, with deleted, whether it is deleted, and link, a link that opens the item in Slate. Write that link into the place the item came from, such as a pull request or a notes file, so that it points back at the item.",
+        inputSchema: getItem.input,
+      },
+      (input) => {
+        const found = getItem.run(store, input);
+        return found
+          ? reply({ ...found, link: itemLink(origin, found.id) })
+          : replyError(
+              `No item has the id or link ${input.item}. Find the item with list_items and a search instead.`,
+            );
+      },
+    ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 
-export function createSlateMcpServer(store: Store): McpServer {
+export function createSlateMcpServer(store: Store, origin: string): McpServer {
   const server = new McpServer({
     name: "slate",
     version: "0.1.0",
@@ -100,7 +126,7 @@ export function createSlateMcpServer(store: Store): McpServer {
   });
 
   for (const register of Object.values(tools)) {
-    register(server, store);
+    register(server, store, origin);
   }
 
   return server;
@@ -117,7 +143,7 @@ export async function handleMcpRequest(
     return;
   }
 
-  const server = createSlateMcpServer(store);
+  const server = createSlateMcpServer(store, `http://${request.headers.host}`);
   const transport = new StreamableHTTPServerTransport({
     sessionIdGenerator: undefined,
     enableJsonResponse: true,
@@ -128,7 +154,15 @@ export async function handleMcpRequest(
   await transport.handleRequest(request, response);
 }
 
-function reply(value: Item | Item[]): CallToolResult {
+function itemLink(origin: string, id: string): string {
+  const link = new URL("/", origin);
+  link.searchParams.set("item", id);
+  return link.href;
+}
+
+function reply(
+  value: Item | Item[] | (FoundItem & { link: string }),
+): CallToolResult {
   return { content: [{ type: "text", text: JSON.stringify(value) }] };
 }
 

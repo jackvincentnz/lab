@@ -22,7 +22,9 @@ async function listToolNames(): Promise<string[]> {
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
-  await createSlateMcpServer(store).connect(serverTransport);
+  await createSlateMcpServer(store, "http://127.0.0.1:5197").connect(
+    serverTransport,
+  );
   const client = new Client({ name: "test", version: "1.0.0" });
   await client.connect(clientTransport);
 
