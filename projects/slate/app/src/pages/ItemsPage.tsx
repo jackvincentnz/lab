@@ -154,11 +154,10 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       <Stack flex={1} miw={0} w="100%" p={{ base: "md", md: "xl" }}>
         {today && (
           <AddItemForm
-            onAdd={(name, onSaved) => {
-              if (!startChange()) {
-                return;
-              }
-              addItem.mutate({ name }, { onSuccess: onSaved });
+            onAdd={(name, onFailed) => {
+              clearSaveError();
+              setDeleted(undefined);
+              addItem.mutateAsync({ name }).catch(onFailed);
             }}
           />
         )}
