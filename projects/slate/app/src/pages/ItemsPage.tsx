@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -49,6 +49,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const done = !searching && view === "done";
   const headed = !today && !done;
   const trpc = useTRPC();
+  const queryClient = useQueryClient();
   // Keeps the last results while the next search loads, instead of a loader on each word.
   const items = useQuery({
     ...trpc.listItems.queryOptions(query),
@@ -74,7 +75,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
     disabled,
     restoring: restoreItem.isPending,
     onUndo: (item) => {
-      if (saving) {
+      if (hasPendingChange()) {
         return;
       }
       clearSaveError();
@@ -86,6 +87,10 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
     onDismiss: () => setDeleted(undefined),
   });
 
+  function hasPendingChange() {
+    return queryClient.isMutating() > 0;
+  }
+
   function clearSaveError() {
     for (const change of changes) {
       if (!change.isPending) {
@@ -96,7 +101,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
 
   // Each change carries the updatedAt of the list that reloads after the previous change, so changes go one at a time.
   function startChange() {
-    if (saving) {
+    if (hasPendingChange()) {
       return false;
     }
     clearSaveError();

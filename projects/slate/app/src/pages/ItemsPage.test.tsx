@@ -1089,6 +1089,20 @@ describe("ItemsPage", () => {
     expect(api.addItem).toHaveBeenCalledTimes(1);
   });
 
+  it("adds an item once when Enter is pressed twice before the page updates", async () => {
+    const user = userEvent.setup({ delay: null });
+    const api = fakeSlateApi([]);
+    api.addItem.mockReturnValue(new Promise<Item>(() => undefined));
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+
+    await user.type(
+      await screen.findByRole("textbox", { name: "New item" }),
+      "Plan the week{Enter}{Enter}",
+    );
+
+    expect(api.addItem).toHaveBeenCalledTimes(1);
+  });
+
   it("takes no other change while a delete saves", async () => {
     const user = userEvent.setup();
     const api = fakeSlateApi([
