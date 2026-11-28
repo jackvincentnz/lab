@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
@@ -21,7 +21,7 @@ public class MopsApplication {
     context = SpringApplication.run(MopsApplication.class, args);
   }
 
-  @GetMapping("/reset")
+  @PostMapping("/reset")
   public void reset() {
     ApplicationArguments args = context.getBean(ApplicationArguments.class);
 

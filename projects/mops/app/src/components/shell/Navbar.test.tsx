@@ -39,10 +39,16 @@ describe("Navbar", () => {
     );
   });
 
-  test("calls the reset endpoint after confirmation", async () => {
+  test("posts to the reset endpoint with the CSRF token after confirmation", async () => {
     const fetchSpy = vi
       .spyOn(globalThis, "fetch")
-      .mockResolvedValue({ ok: true } as Response);
+      .mockImplementation((input) =>
+        Promise.resolve(
+          input === "/api/csrf"
+            ? Response.json({ headerName: "X-CSRF-TOKEN", token: "csrf-token" })
+            : new Response(),
+        ),
+      );
 
     render(<Navbar opened={false} onCloseClick={() => undefined} />, {
       route: "/spend",
@@ -56,7 +62,18 @@ describe("Navbar", () => {
       screen.getByRole("button", { name: "Confirm Data Reset" }),
     );
 
-    expect(fetchSpy).toHaveBeenCalledWith("/api/reset");
+    await vi.waitFor(() =>
+      expect(fetchSpy).toHaveBeenCalledWith(
+        "/api/reset",
+        expect.objectContaining({ method: "POST" }),
+      ),
+    );
+    const resetRequest = fetchSpy.mock.calls.find(
+      ([input]) => input === "/api/reset",
+    );
+    expect(new Headers(resetRequest?.[1]?.headers).get("X-CSRF-TOKEN")).toBe(
+      "csrf-token",
+    );
   });
 
   test("shows gated footer actions when the iam gate is enabled", () => {

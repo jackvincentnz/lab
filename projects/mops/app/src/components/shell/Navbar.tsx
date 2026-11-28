@@ -6,6 +6,7 @@ import { Link, useLocation } from "react-router-dom";
 import logo from "./logo.png";
 import { useStatsigClient } from "@statsig/react-bindings";
 import { navigationItems } from "./navigation";
+import { csrfFetch } from "../../csrfFetch";
 
 export interface NavbarProps {
   opened: boolean;
@@ -62,7 +63,7 @@ function Footer() {
       ),
       labels: { confirm: "Confirm Data Reset", cancel: "Cancel" },
       confirmProps: { color: "red" },
-      onConfirm: () => fetch("/api/reset"),
+      onConfirm: () => csrfFetch("/api/reset", { method: "POST" }),
     });
   }
 
