@@ -7,6 +7,7 @@ import {
   Text,
   Title,
 } from "@mantine/core";
+import { useState } from "react";
 import { IconX } from "@tabler/icons-react";
 import type { Item } from "../api";
 import { StatusBadge } from "./StatusBadge";
@@ -30,6 +31,8 @@ export function ItemLinks({
   onLink,
   onUnlink,
 }: ItemLinksProps) {
+  const [search, setSearch] = useState("");
+
   return (
     <Stack gap="xs">
       <Title order={3} size="xs" c="dimmed" tt="uppercase">
@@ -70,6 +73,9 @@ export function ItemLinks({
         placeholder="Link an item"
         size="xs"
         searchable
+        selectFirstOptionOnChange
+        searchValue={search}
+        onSearchChange={setSearch}
         value={null}
         disabled={disabled}
         data={candidates.map((candidate) => ({
@@ -78,6 +84,7 @@ export function ItemLinks({
         }))}
         onChange={(linkedId) => {
           if (linkedId !== null) {
+            setSearch("");
             onLink(linkedId);
           }
         }}

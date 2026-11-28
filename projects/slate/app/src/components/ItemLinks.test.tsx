@@ -81,6 +81,20 @@ describe("ItemLinks", () => {
     expect(onLink).toHaveBeenCalledWith(candidate.id);
   });
 
+  it("links the first match when Enter is pressed and clears the search", async () => {
+    const user = userEvent.setup();
+    const candidate = item({ name: "Plan the week" });
+    const { onLink } = renderLinks({
+      candidates: [item({ name: "Book travel" }), candidate],
+    });
+    const picker = screen.getByRole("combobox", { name: "Link an item" });
+
+    await user.type(picker, "week[Enter]");
+
+    expect(onLink).toHaveBeenCalledWith(candidate.id);
+    expect(picker).toHaveValue("");
+  });
+
   it("changes nothing while disabled", () => {
     renderLinks({ links: [item({ name: "Book travel" })], disabled: true });
 
