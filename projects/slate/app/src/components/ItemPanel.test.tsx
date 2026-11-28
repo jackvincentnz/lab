@@ -34,7 +34,13 @@ function renderPanel(
     onDelete: vi.fn<ItemPanelProps["onDelete"]>(),
   };
   const panel = (shown: Item, state: ChangeState) => (
-    <ItemPanel item={shown} width={440} {...state} {...handlers} />
+    <ItemPanel
+      item={shown}
+      link="http://127.0.0.1:5197/?item=1"
+      width={440}
+      {...state}
+      {...handlers}
+    />
   );
   const { rerender } = render(panel(panelItem, idle));
   return {
@@ -64,6 +70,20 @@ describe("ItemPanel", () => {
     await user.click(screen.getByRole("menuitem", { name: "Done" }));
 
     expect(onStatusChange).toHaveBeenCalledWith("done");
+  });
+
+  it("copies a link to the item", async () => {
+    const user = userEvent.setup();
+    renderPanel();
+
+    await user.click(screen.getByRole("button", { name: "Copy link" }));
+
+    expect(await navigator.clipboard.readText()).toBe(
+      "http://127.0.0.1:5197/?item=1",
+    );
+    expect(
+      screen.getByRole("button", { name: "Link copied" }),
+    ).toBeInTheDocument();
   });
 
   it("closes with the close button", async () => {

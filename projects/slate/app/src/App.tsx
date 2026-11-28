@@ -3,10 +3,12 @@ import {
   AppShell,
   Box,
   Burger,
+  Center,
   CloseButton,
   Group,
   Image,
   Kbd,
+  Loader,
   NavLink,
   TextInput,
   Title,
@@ -16,6 +18,7 @@ import { Notifications } from "@mantine/notifications";
 import { IconSearch } from "@tabler/icons-react";
 // Inlined, it would be a data: URL, which the service's content security policy blocks.
 import mark from "../../icons/slate-mark.svg?no-inline";
+import { linkedItemId, useLinkedItem } from "./itemLink";
 import { ListUpdates } from "./ListUpdates";
 import { ItemsPage } from "./pages/ItemsPage";
 import { type ViewName, views } from "./views";
@@ -25,6 +28,16 @@ const MAX_SEARCH_LENGTH = 200;
 
 export function App() {
   const [view, setView] = useState<ViewName>("today");
+  const [linkedId, setLinkedId] = useState(linkedItemId);
+  const [openId, setOpenId] = useState<string>();
+  const linked = useLinkedItem(linkedId);
+  if (linked !== undefined) {
+    setLinkedId(undefined);
+    if (linked.found) {
+      setView(linked.view);
+      setOpenId(linked.id);
+    }
+  }
   const [narrowNavOpened, setNarrowNavOpened] = useState(false);
   const [searchText, setSearchText] = useState("");
   const [search, setSearch] = useState<string>();
@@ -34,6 +47,7 @@ export function App() {
 
   function changeSearch(text: string) {
     setSearchText(text);
+    setOpenId(undefined);
     if (text.trim() === "") {
       searchLater.cancel();
       setSearch(undefined);
@@ -112,6 +126,7 @@ export function App() {
             }
             onClick={() => {
               setView(name as ViewName);
+              setOpenId(undefined);
               changeSearch("");
               setNarrowNavOpened(false);
             }}
@@ -119,13 +134,20 @@ export function App() {
         ))}
       </AppShell.Navbar>
       <AppShell.Main bg="gray.0">
-        <ListUpdates>
-          <ItemsPage
-            key={search === undefined ? view : "search"}
-            view={view}
-            search={search}
-          />
-        </ListUpdates>
+        {linkedId === undefined ? (
+          <ListUpdates>
+            <ItemsPage
+              key={search === undefined ? view : "search"}
+              view={view}
+              search={search}
+              initialOpenId={search === undefined ? openId : undefined}
+            />
+          </ListUpdates>
+        ) : (
+          <Center p="xl">
+            <Loader aria-label="Opening the linked item" />
+          </Center>
+        )}
       </AppShell.Main>
       {/* Narrow enough to stay clear of the side-by-side item panel at its widest, 60% of the window. */}
       <Notifications
