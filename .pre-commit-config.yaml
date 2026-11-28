@@ -12,14 +12,14 @@ exclude: ^docs/platform/bazel/macros/.*\.md$
 repos:
   # Check and format Bazel source files
   - repo: https://github.com/keith/pre-commit-buildifier
-    rev: 10.1.0
+    rev: 10.2.0
     hooks:
       - id: buildifier
       - id: buildifier-lint
 
   # Lint FE source files
   - repo: https://github.com/pre-commit/mirrors-eslint
-    rev: v10.14.0
+    rev: v10.16.0
     hooks:
       - id: eslint
         args: [--fix]
@@ -30,10 +30,10 @@ repos:
         additional_dependencies:
           # Keep versions in sync with package.json so that IDE/CLI tooling works
           - "@eslint/js@10.0.1"
-          - "eslint@10.14.0"
+          - "eslint@10.15.0"
           - "eslint-config-prettier@10.1.8"
-          - "globals@17.13.0"
-          - "typescript-eslint@8.72.1"
+          - "globals@17.14.0"
+          - "typescript-eslint@8.74.0"
 
   # Format FE source files
   - repo: https://github.com/pre-commit/mirrors-prettier
@@ -42,7 +42,7 @@ repos:
       - id: prettier
         language: node
         # Keep aligned with package.json; Renovate updates this npm dependency.
-        additional_dependencies: ["prettier@3.9.10"]
+        additional_dependencies: ["prettier@3.10.1"]
 
   # Format java source files
   - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
@@ -69,7 +69,7 @@ repos:
         stages: [pre-commit]
 
   - repo: https://github.com/renovatebot/pre-commit-hooks
-    rev: 45.1.0
+    rev: 45.3.2
     hooks:
       - id: renovate-config-validator
 
@@ -91,7 +91,7 @@ repos:
         name: diff-cover
         entry: diff-cover dist/out/_coverage/_coverage_report.dat --compare-branch=origin/main --include-untracked
         language: python
-        additional_dependencies: ["diff-cover==11.0.3"]
+        additional_dependencies: ["diff-cover==11.0.5"]
         pass_filenames: false
         always_run: true
         stages: [manual]

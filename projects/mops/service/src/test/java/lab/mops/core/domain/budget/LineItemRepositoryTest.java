@@ -27,7 +27,7 @@ class LineItemRepositoryTest extends TestBase {
   static final PostgreSQLContainer POSTGRES =
       new PostgreSQLContainer(
           DockerImageName.parse(
-                  "postgres:18.6@sha256:e3d24f6906d0760bf4da0dae872415391ededefad23fd471c47dc53b0ddf3c42")
+                  "postgres:18.7@sha256:64c8b0d31e4ab6ea665e8426ea406a94bf52de3c05b3a4a8bf713704eefa9328")
               .withRepository("postgres"));
 
   static {
