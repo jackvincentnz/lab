@@ -16,10 +16,12 @@ def vite_build(name, **kwargs):
         name: Target name.
         **kwargs: Additional attributes passed to the underlying rule.
     """
+    chdir = kwargs.pop("chdir", native.package_name())
+
     js_run_binary(
         name = name,
         srcs = kwargs.pop("srcs", []),
-        chdir = kwargs.pop("chdir", native.package_name()),
+        chdir = chdir,
         args = ["build"] + kwargs.pop("args", []),
         tool = "//tools/bazel/vite:vite_binary",
         mnemonic = kwargs.pop("mnemonic", "ViteBuild"),
@@ -29,7 +31,7 @@ def vite_build(name, **kwargs):
 
     js_run_devserver(
         name = "preview",
-        chdir = kwargs.pop("chdir", native.package_name()),
+        chdir = chdir,
         data = [":%s" % name],
         args = [
             "preview",
