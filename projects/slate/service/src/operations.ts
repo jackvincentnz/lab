@@ -3,6 +3,8 @@ import {
   addItemInput,
   type DeleteItemInput,
   deleteItemInput,
+  type ListItemChangesInput,
+  listItemChangesInput,
   type ListItemsInput,
   listItemsInput,
   type MoveItemInput,
@@ -16,7 +18,7 @@ import { type ItemStore } from "./store.js";
 
 export type Store = Pick<
   ItemStore,
-  "list" | "add" | "update" | "move" | "delete" | "restore"
+  "list" | "add" | "update" | "move" | "delete" | "restore" | "changes"
 >;
 
 export const operations = {
@@ -44,6 +46,10 @@ export const operations = {
   restoreItem: {
     input: restoreItemInput,
     run: (store: Store, { id }: RestoreItemInput) => store.restore(id),
+  },
+  listItemChanges: {
+    input: listItemChangesInput,
+    run: (store: Store, { id }: ListItemChangesInput) => store.changes(id),
   },
 };
 

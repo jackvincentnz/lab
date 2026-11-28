@@ -453,6 +453,28 @@ describe("ItemsPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the open item's history", async () => {
+    const user = userEvent.setup();
+    const travel = item({ name: "Book travel" });
+    const api = fakeSlateApi([item({ name: "Plan the week" }), travel]);
+    api.listItemChanges.mockResolvedValue([
+      {
+        at: new Date().toISOString(),
+        actor: "agent",
+        kind: "rank",
+        status: null,
+      },
+    ]);
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+
+    const panel = await openItem(user, "Book travel");
+
+    expect(
+      await within(panel).findByText(/An agent moved it/),
+    ).toBeInTheDocument();
+    expect(api.listItemChanges).toHaveBeenCalledWith({ id: travel.id });
+  });
+
   it("closes the side panel", async () => {
     const user = userEvent.setup();
     render(<ItemsPage view="today" />, {

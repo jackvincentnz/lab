@@ -4,15 +4,27 @@ import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
+import {
+  type Item,
+  type ItemChange,
+  ItemChangedError,
+  SourceChangeError,
+} from "./item.js";
 import {
   type AgentOperationName,
   operations,
   type Store,
 } from "./operations.js";
 
-const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
-  operations;
+const {
+  listItems,
+  addItem,
+  updateItem,
+  moveItem,
+  deleteItem,
+  restoreItem,
+  listItemChanges,
+} = operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
 
@@ -90,6 +102,17 @@ const tools = {
       },
       (input) => replyIfFound(restoreItem.run(store, input), [input.id]),
     ),
+  listItemChanges: (server, store) =>
+    server.registerTool(
+      "list_item_changes",
+      {
+        title: "List item changes",
+        description:
+          "List the changes to an item on the user's Slate list, newest first, using its id from list_items; a deleted item's too. Each change has at, the time it was made, actor, who made it: user in the Slate app or agent over MCP, kind, what changed: added, name, description, sources, status, rank (moved in the priority order), deleted or restored, and status, the new status when kind is status, otherwise null.",
+        inputSchema: listItemChanges.input,
+      },
+      (input) => replyIfFound(listItemChanges.run(store, input), [input.id]),
+    ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
@@ -128,17 +151,20 @@ export async function handleMcpRequest(
   await transport.handleRequest(request, response);
 }
 
-function reply(value: Item | Item[]): CallToolResult {
+function reply(value: Item | Item[] | ItemChange[]): CallToolResult {
   return { content: [{ type: "text", text: JSON.stringify(value) }] };
 }
 
-function replyIfFound(item: Item | undefined, ids: string[]): CallToolResult {
-  if (!item) {
+function replyIfFound(
+  result: Item | ItemChange[] | undefined,
+  ids: string[],
+): CallToolResult {
+  if (!result) {
     return replyError(
       `No item has the id ${ids.join(" or ")}. List the items to find the right id.`,
     );
   }
-  return reply(item);
+  return reply(result);
 }
 
 function replyIfUnchanged(

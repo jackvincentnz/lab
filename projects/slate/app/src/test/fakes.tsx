@@ -15,6 +15,8 @@ import {
   type AddItemInput,
   type DeleteItemInput,
   type Item,
+  type ItemChange,
+  type ListItemChangesInput,
   type ListItemsInput,
   type MoveItemInput,
   type RestoreItemInput,
@@ -29,6 +31,7 @@ export interface FakeSlateApi {
   moveItem: Mock<(input: MoveItemInput) => Promise<Item>>;
   deleteItem: Mock<(input: DeleteItemInput) => Promise<Item>>;
   restoreItem: Mock<(input: RestoreItemInput) => Promise<Item>>;
+  listItemChanges: Mock<(input: ListItemChangesInput) => Promise<ItemChange[]>>;
   listChanged: FakeSubscription;
 }
 
@@ -66,6 +69,9 @@ export function fakeSlateApi(items: Item[] = []): FakeSlateApi {
     moveItem: vi.fn<FakeSlateApi["moveItem"]>(),
     deleteItem: vi.fn<FakeSlateApi["deleteItem"]>(),
     restoreItem: vi.fn<FakeSlateApi["restoreItem"]>(),
+    listItemChanges: vi
+      .fn<FakeSlateApi["listItemChanges"]>()
+      .mockResolvedValue([]),
     listChanged: new FakeSubscription(),
   };
 }

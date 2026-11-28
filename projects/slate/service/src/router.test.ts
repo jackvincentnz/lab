@@ -16,6 +16,7 @@ beforeEach(() => {
     move: vi.fn(),
     delete: vi.fn(),
     restore: vi.fn(),
+    changes: vi.fn(),
   };
   changes = new ListChanges();
   caller = slateRouter.createCaller({ store, changes });
@@ -195,6 +196,30 @@ describe("slateRouter", () => {
     const restoring = caller.restoreItem({ id: crypto.randomUUID() });
 
     await expect(restoring).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("lists an item's changes", async () => {
+    const id = crypto.randomUUID();
+    const changes = [
+      {
+        at: "2026-11-22T09:00:00.000Z",
+        actor: "agent" as const,
+        kind: "rank" as const,
+        status: null,
+      },
+    ];
+    store.changes.mockReturnValue(changes);
+
+    const listed = await caller.listItemChanges({ id });
+
+    expect(store.changes).toHaveBeenCalledWith(id);
+    expect(listed).toEqual(changes);
+  });
+
+  it("reports an unknown item when listing changes", async () => {
+    await expect(
+      caller.listItemChanges({ id: crypto.randomUUID() }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
   });
 
   it("tells a subscriber each time the list changes", async () => {

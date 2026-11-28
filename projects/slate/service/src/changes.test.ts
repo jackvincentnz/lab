@@ -16,6 +16,7 @@ beforeEach(() => {
     move: vi.fn(),
     delete: vi.fn(),
     restore: vi.fn(),
+    changes: vi.fn(),
   };
   changes = new ListChanges();
   changed = vi.fn();
@@ -120,6 +121,17 @@ describe("announceChanges", () => {
 
     expect(listed).toBe(items);
     expect(store.list).toHaveBeenCalledWith(query);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("lists an item's changes without announcing a change", () => {
+    const id = crypto.randomUUID();
+    store.changes.mockReturnValue([]);
+
+    const listed = announcing.changes(id);
+
+    expect(listed).toEqual([]);
+    expect(store.changes).toHaveBeenCalledWith(id);
     expect(changed).not.toHaveBeenCalled();
   });
 

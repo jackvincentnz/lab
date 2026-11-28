@@ -1,8 +1,9 @@
 import { useLayoutEffect, useRef } from "react";
 import { ActionIcon, Box, Button, Group, Stack } from "@mantine/core";
 import { IconX } from "@tabler/icons-react";
-import type { Item, ItemStatus } from "../api";
+import type { Item, ItemChange, ItemStatus } from "../api";
 import classes from "./ItemPanel.module.css";
+import { ItemChanges } from "./ItemChanges";
 import { ItemDescription } from "./ItemDescription";
 import { ItemName } from "./ItemName";
 import { ItemSources, type SourcesChange } from "./ItemSources";
@@ -11,6 +12,7 @@ import type { SaveDraft } from "./useItemDraft";
 
 interface ItemPanelProps {
   item: Item;
+  changes?: ItemChange[];
   width: number;
   disabled: boolean;
   saving: boolean;
@@ -27,6 +29,7 @@ interface ItemPanelProps {
 
 export function ItemPanel({
   item,
+  changes = [],
   width,
   disabled,
   saving,
@@ -120,6 +123,7 @@ export function ItemPanel({
           onSourcesChange={onSourcesChange}
           onSourcesChangeCancel={onSourcesChangeCancel}
         />
+        <ItemChanges changes={changes} />
         <Group mt="auto">
           <Button
             variant="outline"
