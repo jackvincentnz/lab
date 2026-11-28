@@ -1,4 +1,4 @@
-load("@aspect_rules_js//npm:defs.bzl", "npm_package")
+load("//tools/bazel:js.bzl", "npm_package")
 load("//tools/bazel:ts.bzl", "ts_project")
 load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
 
