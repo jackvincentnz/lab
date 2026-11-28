@@ -11,8 +11,8 @@
 | `docs/adr/`             | Architecture decisions and their consequences.                         |
 | `docs/contributing/`    | Conventions for contributors.                                          |
 
-Keep a README to that description and what a contributor needs to build, run,
-and test the component, and put feature descriptions, design explanations, and
+Keep a component's README to that description and what a contributor needs to
+build, run, and test it, and put feature descriptions, design explanations, and
 troubleshooting in the component's `docs/` folder, such as
 `projects/<name>/docs/`, or in an ADR, so that the README stays short and stays
 true as features change.
