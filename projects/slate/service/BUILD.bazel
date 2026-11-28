@@ -57,6 +57,7 @@ js_library(
     visibility = [
         "//projects/slate:__pkg__",
         "//projects/slate/desktop:__pkg__",
+        "//projects/slate/extension:__pkg__",
     ],
     deps = [":src_ts"],
 )

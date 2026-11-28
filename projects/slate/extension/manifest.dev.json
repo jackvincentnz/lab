@@ -1,0 +1,23 @@
+{
+  "manifest_version": "0.3",
+  "name": "slate-dev",
+  "display_name": "Slate (dev)",
+  "version": "0.1.0",
+  "description": "Connects Claude to the list in the Slate desktop app in dev mode, which must be running.",
+  "author": { "name": "jackvincentnz" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jackvincentnz/lab"
+  },
+  "icon": "icon.png",
+  "server": {
+    "type": "node",
+    "entry_point": "server.mjs",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server.mjs"],
+      "env": { "SLATE_MCP_URL": "http://127.0.0.1:5297/mcp" }
+    }
+  },
+  "compatibility": { "runtimes": { "node": ">=20.0.0" } }
+}

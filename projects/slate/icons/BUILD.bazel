@@ -3,6 +3,14 @@ load("//tools/bazel:ts.bzl", "node_ts_project")
 
 # The files besides slate.svg and slateTemplate.svg come from `bazel run :generate`.
 
+exports_files(
+    [
+        "slate.png",
+        "slate-dev.png",
+    ],
+    visibility = ["//projects/slate/extension:__pkg__"],
+)
+
 js_library(
     name = "app",
     srcs = ["Slate.icns"],

@@ -1,0 +1,141 @@
+load("//tools/bazel:js.bzl", "js_library", "js_run_binary")
+load("//tools/bazel:pkg.bzl", "files", "zip")
+load("//tools/bazel:ts.bzl", "node_ts_project")
+load("//tools/bazel/vitest:vitest.bzl", "vitest_run")
+
+TEST_SRCS = ["src/**/*.test.ts"]
+
+BUNDLE_TEST_SRCS = ["src/bundle.test.ts"]
+
+node_ts_project(
+    name = "src_ts",
+    srcs = glob(
+        ["src/**/*.ts"],
+        exclude = TEST_SRCS,
+    ),
+    deps = ["//:node_modules/@modelcontextprotocol/sdk"],
+)
+
+js_library(
+    name = "package_json",
+    srcs = ["package.json"],
+)
+
+js_library(
+    name = "src",
+    srcs = [":package_json"],
+    deps = [":src_ts"],
+)
+
+js_run_binary(
+    name = "server",
+    srcs = [
+        "bundle.config.ts",
+        ":src",
+        "//:node_modules/vite",
+    ],
+    outs = ["bundle/server.mjs"],
+    args = [
+        "build",
+        "--config",
+        "bundle.config.ts",
+    ],
+    chdir = package_name(),
+    mnemonic = "ViteBuild",
+    tool = "//tools/bazel/vite:vite_binary",
+)
+
+files(
+    name = "slate_files",
+    srcs = [
+        "manifest.json",
+        ":server",
+        "//projects/slate/icons:slate.png",
+    ],
+    renames = {"//projects/slate/icons:slate.png": "icon.png"},
+)
+
+files(
+    name = "slate_dev_files",
+    srcs = [
+        "manifest.dev.json",
+        ":server",
+        "//projects/slate/icons:slate-dev.png",
+    ],
+    renames = {
+        "manifest.dev.json": "manifest.json",
+        "//projects/slate/icons:slate-dev.png": "icon.png",
+    },
+)
+
+zip(
+    name = "slate",
+    srcs = [":slate_files"],
+    out = "slate.mcpb",
+)
+
+zip(
+    name = "slate_dev",
+    srcs = [":slate_dev_files"],
+    out = "slate-dev.mcpb",
+)
+
+js_library(
+    name = "vite_config",
+    srcs = ["vite.config.ts"],
+)
+
+node_ts_project(
+    name = "test_ts",
+    testonly = True,
+    srcs = glob(
+        TEST_SRCS,
+        exclude = BUNDLE_TEST_SRCS,
+    ),
+    deps = [
+        ":src",
+        "//:node_modules/@modelcontextprotocol/sdk",
+        "//:node_modules/vitest",
+    ],
+)
+
+vitest_run(
+    name = "test",
+    data = [
+        ":test_ts",
+        ":vite_config",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:test_config",
+    ],
+)
+
+node_ts_project(
+    name = "bundle_test_ts",
+    testonly = True,
+    srcs = BUNDLE_TEST_SRCS,
+    deps = [
+        ":package_json",
+        "//:node_modules/@anthropic-ai/mcpb",
+        "//:node_modules/@modelcontextprotocol/sdk",
+        "//:node_modules/vitest",
+        "//projects/slate/service:src",
+    ],
+)
+
+vitest_run(
+    name = "bundle_test",
+    data = [
+        ":bundle_test_ts",
+        ":slate",
+        ":slate_dev",
+        ":vite_config",
+        "//:node_modules/vitest",
+        "//tools/bazel/vitest:test_config",
+    ],
+    # The test starts the Slate service on a loopback port. It tests the built bundles, and under
+    # coverage it would report every service line it depends on as missed.
+    tags = [
+        "no-coverage",
+        "requires-network",
+    ],
+)

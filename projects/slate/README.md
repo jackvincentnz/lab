@@ -50,23 +50,17 @@ For Claude Code:
 claude mcp add --transport http --scope user slate http://127.0.0.1:5197/mcp
 ```
 
-Claude Desktop needs the [mcp-remote](https://github.com/punkpeye/mcp-remote) bridge. Add this
-entry to `~/Library/Application Support/Claude/claude_desktop_config.json`, then restart Claude
-Desktop:
+For Claude Desktop, build the Slate extension and open it, then choose Install in the dialog that
+Claude Desktop shows:
 
-```json
-{
-  "mcpServers": {
-    "slate": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote@0.16.7", "http://127.0.0.1:5197/mcp"]
-    }
-  }
-}
+```zsh
+bazel build //projects/slate/extension:slate
+open dist/bin/projects/slate/extension/slate.mcpb
 ```
 
 To connect an agent to the dev mode list instead, register `http://127.0.0.1:5297/mcp` under another
-name, such as `slate-dev`.
+name, such as `slate-dev`. For Claude Desktop, build and open `//projects/slate/extension:slate_dev`,
+which is `slate-dev.mcpb`.
 
 ## Development
 
@@ -100,5 +94,7 @@ bazel run //projects/slate -- --remote-debugging-port=9222
 
 - `projects/slate/app`: the React web UI.
 - `projects/slate/desktop`: the Electron main process, which starts the service and opens the window.
+- `projects/slate/extension`: the Claude Desktop extension, which forwards MCP over stdio to the
+  service.
 - `projects/slate/launcher`: starts Electron for `bazel run` and stops it when `bazel run` stops.
 - `projects/slate/service`: the local service, which owns the database and serves the web UI.
