@@ -17,6 +17,9 @@ beforeEach(() => {
     delete: vi.fn(),
     restore: vi.fn(),
     changes: vi.fn(),
+    link: vi.fn(),
+    unlink: vi.fn(),
+    linked: vi.fn(),
   };
   changes = new ListChanges();
   changed = vi.fn();
@@ -132,6 +135,34 @@ describe("announceChanges", () => {
 
     expect(listed).toEqual([]);
     expect(store.changes).toHaveBeenCalledWith(id);
+    expect(changed).not.toHaveBeenCalled();
+  });
+
+  it("announces a link", () => {
+    const input = { id: crypto.randomUUID(), linkedId: crypto.randomUUID() };
+
+    announcing.link(input);
+
+    expect(store.link).toHaveBeenCalledWith(input);
+    expect(changed).toHaveBeenCalledOnce();
+  });
+
+  it("announces an unlink", () => {
+    const input = { id: crypto.randomUUID(), linkedId: crypto.randomUUID() };
+
+    announcing.unlink(input);
+
+    expect(store.unlink).toHaveBeenCalledWith(input);
+    expect(changed).toHaveBeenCalledOnce();
+  });
+
+  it("lists linked items without announcing a change", () => {
+    const id = crypto.randomUUID();
+    store.linked.mockReturnValue([]);
+
+    announcing.linked(id);
+
+    expect(store.linked).toHaveBeenCalledWith(id);
     expect(changed).not.toHaveBeenCalled();
   });
 

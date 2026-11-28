@@ -26,6 +26,9 @@ beforeEach(async () => {
     delete: vi.fn(),
     restore: vi.fn(),
     changes: vi.fn(),
+    link: vi.fn(),
+    unlink: vi.fn(),
+    linked: vi.fn(),
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
@@ -86,6 +89,9 @@ describe("createSlateMcpServer", () => {
       "delete_item",
       "restore_item",
       "list_item_changes",
+      "link_items",
+      "unlink_items",
+      "list_linked_items",
     ]);
   });
 
@@ -564,6 +570,60 @@ describe("createSlateMcpServer", () => {
 
     expect(store.changes).toHaveBeenCalledWith(id);
     expect(result.content).toEqual(text(changes));
+  });
+
+  it("links two items", async () => {
+    const item = anItem();
+    const linkedId = crypto.randomUUID();
+    store.link.mockReturnValue(item);
+
+    const result = await call("link_items", { id: item.id, linkedId });
+
+    expect(store.link).toHaveBeenCalledWith({ id: item.id, linkedId });
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("refuses to link an item to itself without reaching the store", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("link_items", { id, linkedId: id });
+
+    expect(result.isError).toBe(true);
+    expect(store.link).not.toHaveBeenCalled();
+  });
+
+  it("names both ids when a link finds no item", async () => {
+    const id = crypto.randomUUID();
+    const linkedId = crypto.randomUUID();
+
+    const result = await call("link_items", { id, linkedId });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(`${id} or ${linkedId}`) }],
+    });
+  });
+
+  it("unlinks two items", async () => {
+    const item = anItem();
+    const linkedId = crypto.randomUUID();
+    store.unlink.mockReturnValue(item);
+
+    const result = await call("unlink_items", { id: item.id, linkedId });
+
+    expect(store.unlink).toHaveBeenCalledWith({ id: item.id, linkedId });
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("lists an item's linked items", async () => {
+    const id = crypto.randomUUID();
+    const linked = [anItem()];
+    store.linked.mockReturnValue(linked);
+
+    const result = await call("list_linked_items", { id });
+
+    expect(store.linked).toHaveBeenCalledWith(id);
+    expect(result.content).toEqual(text(linked));
   });
 
   it("names the unknown id when listing changes", async () => {

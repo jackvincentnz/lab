@@ -29,6 +29,9 @@ const {
   deleteItem,
   restoreItem,
   listItemChanges,
+  linkItems,
+  unlinkItems,
+  listLinkedItems,
 } = operations;
 
 const operationProcedures = {
@@ -55,6 +58,15 @@ const operationProcedures = {
   listItemChanges: t.procedure
     .input(listItemChanges.input)
     .query(({ ctx, input }) => found(listItemChanges.run(ctx.store, input))),
+  linkItems: t.procedure
+    .input(linkItems.input)
+    .mutation(({ ctx, input }) => found(linkItems.run(ctx.store, input))),
+  unlinkItems: t.procedure
+    .input(unlinkItems.input)
+    .mutation(({ ctx, input }) => found(unlinkItems.run(ctx.store, input))),
+  listLinkedItems: t.procedure
+    .input(listLinkedItems.input)
+    .query(({ ctx, input }) => found(listLinkedItems.run(ctx.store, input))),
 } satisfies Record<WebOperationName, AnyProcedure>;
 
 export const slateRouter = t.router({

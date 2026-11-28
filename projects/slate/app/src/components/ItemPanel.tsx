@@ -5,6 +5,7 @@ import type { Item, ItemChange, ItemStatus } from "../api";
 import classes from "./ItemPanel.module.css";
 import { ItemChanges } from "./ItemChanges";
 import { ItemDescription } from "./ItemDescription";
+import { ItemLinks } from "./ItemLinks";
 import { ItemName } from "./ItemName";
 import { ItemSources, type SourcesChange } from "./ItemSources";
 import { StatusMenu } from "./StatusMenu";
@@ -13,6 +14,12 @@ import type { SaveDraft } from "./useItemDraft";
 interface ItemPanelProps {
   item: Item;
   changes?: ItemChange[];
+  links?: Item[];
+  linkCandidates?: Item[];
+  openableIds?: string[];
+  onOpenLinked(id: string): void;
+  onLink(linkedId: string): void;
+  onUnlink(linkedId: string): void;
   width: number;
   disabled: boolean;
   saving: boolean;
@@ -30,6 +37,12 @@ interface ItemPanelProps {
 export function ItemPanel({
   item,
   changes = [],
+  links = [],
+  linkCandidates = [],
+  openableIds = [],
+  onOpenLinked,
+  onLink,
+  onUnlink,
   width,
   disabled,
   saving,
@@ -122,6 +135,15 @@ export function ItemPanel({
           saving={saving}
           onSourcesChange={onSourcesChange}
           onSourcesChangeCancel={onSourcesChangeCancel}
+        />
+        <ItemLinks
+          links={links}
+          candidates={linkCandidates}
+          openableIds={openableIds}
+          disabled={disabled}
+          onOpen={onOpenLinked}
+          onLink={onLink}
+          onUnlink={onUnlink}
         />
         <ItemChanges changes={changes} />
         <Group mt="auto">

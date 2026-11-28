@@ -24,6 +24,9 @@ const {
   deleteItem,
   restoreItem,
   listItemChanges,
+  linkItems,
+  unlinkItems,
+  listLinkedItems,
 } = operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
@@ -113,6 +116,40 @@ const tools = {
       },
       (input) => replyIfFound(listItemChanges.run(store, input), [input.id]),
     ),
+  linkItems: (server, store) =>
+    server.registerTool(
+      "link_items",
+      {
+        title: "Link items",
+        description:
+          "Link two related items on the user's Slate list, such as one that follows from the other, parts of the same piece of work, or one split off from another, using their ids from list_items. A link has no direction or kind: both items show it, and list_linked_items lists it from either. For where an item came from outside Slate, such as a pull request or a notes file, add a source with update_item instead. Linking items that are already linked changes nothing. Returns the item with the id given as id.",
+        inputSchema: linkItems.input,
+      },
+      (input) =>
+        replyIfFound(linkItems.run(store, input), [input.id, input.linkedId]),
+    ),
+  unlinkItems: (server, store) =>
+    server.registerTool(
+      "unlink_items",
+      {
+        title: "Unlink items",
+        description:
+          "Remove the link between two items on the user's Slate list, using their ids from list_linked_items. Unlinking items that are not linked changes nothing. Returns the item with the id given as id.",
+        inputSchema: unlinkItems.input,
+      },
+      (input) => replyIfFound(unlinkItems.run(store, input), [input.id]),
+    ),
+  listLinkedItems: (server, store) =>
+    server.registerTool(
+      "list_linked_items",
+      {
+        title: "List linked items",
+        description:
+          "List the items linked to an item on the user's Slate list, in priority order and whatever their status, using its id from list_items. A deleted item is left out while it is deleted, and comes back with its links when restored.",
+        inputSchema: listLinkedItems.input,
+      },
+      (input) => replyIfFound(listLinkedItems.run(store, input), [input.id]),
+    ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
@@ -156,7 +193,7 @@ function reply(value: Item | Item[] | ItemChange[]): CallToolResult {
 }
 
 function replyIfFound(
-  result: Item | ItemChange[] | undefined,
+  result: Item | Item[] | ItemChange[] | undefined,
   ids: string[],
 ): CallToolResult {
   if (!result) {

@@ -1244,3 +1244,81 @@ describe("changes", () => {
     expect(store.changes(crypto.randomUUID())).toBeUndefined();
   });
 });
+
+describe("links", () => {
+  it("shows a link on both items", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    const linked = store.link({ id: a.id, linkedId: b.id });
+
+    expect(linked).toEqual(a);
+    expect(store.linked(a.id)).toEqual([b]);
+    expect(store.linked(b.id)).toEqual([a]);
+  });
+
+  it("lists linked items in priority order, whatever their status", () => {
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    const deferred = withStatus(b, "deferred");
+    store.link({ id: c.id, linkedId: a.id });
+    store.link({ id: c.id, linkedId: b.id });
+
+    expect(store.linked(c.id)).toEqual([deferred, a]);
+  });
+
+  it("keeps one link when two items are linked twice", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    store.link({ id: a.id, linkedId: b.id });
+    store.link({ id: b.id, linkedId: a.id });
+
+    expect(store.linked(a.id)).toEqual([b]);
+  });
+
+  it("removes a link from either item", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.link({ id: a.id, linkedId: b.id });
+
+    const unlinked = store.unlink({ id: b.id, linkedId: a.id });
+
+    expect(unlinked).toEqual(b);
+    expect(store.linked(a.id)).toEqual([]);
+  });
+
+  it("leaves out a deleted item until it is restored", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.link({ id: a.id, linkedId: b.id });
+
+    store.delete(b.id);
+    const whileDeleted = store.linked(a.id);
+    const restored = store.restore(b.id);
+
+    expect(whileDeleted).toEqual([]);
+    expect(store.linked(a.id)).toEqual([restored]);
+  });
+
+  it("refuses to link a deleted item", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
+
+    const linked = store.link({ id: a.id, linkedId: b.id });
+
+    expect(linked).toBeUndefined();
+    store.restore(b.id);
+    expect(store.linked(a.id)).toEqual([]);
+  });
+
+  it("refuses to link an unknown item", () => {
+    const a = addItem("A");
+
+    const linked = store.link({ id: crypto.randomUUID(), linkedId: a.id });
+
+    expect(linked).toBeUndefined();
+  });
+
+  it("returns nothing for an unknown item", () => {
+    const id = crypto.randomUUID();
+
+    expect(store.linked(id)).toBeUndefined();
+    expect(store.unlink({ id, linkedId: crypto.randomUUID() })).toBeUndefined();
+  });
+});

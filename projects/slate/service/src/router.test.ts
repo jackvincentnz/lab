@@ -17,6 +17,9 @@ beforeEach(() => {
     delete: vi.fn(),
     restore: vi.fn(),
     changes: vi.fn(),
+    link: vi.fn(),
+    unlink: vi.fn(),
+    linked: vi.fn(),
   };
   changes = new ListChanges();
   caller = slateRouter.createCaller({ store, changes });
@@ -220,6 +223,48 @@ describe("slateRouter", () => {
     await expect(
       caller.listItemChanges({ id: crypto.randomUUID() }),
     ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("links two items", async () => {
+    const item = anItem();
+    const linkedId = crypto.randomUUID();
+    store.link.mockReturnValue(item);
+
+    const linked = await caller.linkItems({ id: item.id, linkedId });
+
+    expect(store.link).toHaveBeenCalledWith({ id: item.id, linkedId });
+    expect(linked).toEqual(item);
+  });
+
+  it("reports an unknown item on link", async () => {
+    await expect(
+      caller.linkItems({
+        id: crypto.randomUUID(),
+        linkedId: crypto.randomUUID(),
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("unlinks two items", async () => {
+    const item = anItem();
+    const linkedId = crypto.randomUUID();
+    store.unlink.mockReturnValue(item);
+
+    const unlinked = await caller.unlinkItems({ id: item.id, linkedId });
+
+    expect(store.unlink).toHaveBeenCalledWith({ id: item.id, linkedId });
+    expect(unlinked).toEqual(item);
+  });
+
+  it("lists an item's linked items", async () => {
+    const id = crypto.randomUUID();
+    const items = [anItem()];
+    store.linked.mockReturnValue(items);
+
+    const listed = await caller.listLinkedItems({ id });
+
+    expect(store.linked).toHaveBeenCalledWith(id);
+    expect(listed).toEqual(items);
   });
 
   it("tells a subscriber each time the list changes", async () => {

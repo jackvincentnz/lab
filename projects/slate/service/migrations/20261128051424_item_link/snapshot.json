@@ -1,0 +1,326 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "id": "db5aedc0-49b2-402e-bc48-55587c51acf4",
+  "prevIds": ["99abde7d-2b57-4c5e-a818-5e895feb3f4a"],
+  "ddl": [
+    {
+      "name": "item",
+      "entityType": "tables"
+    },
+    {
+      "name": "item_change",
+      "entityType": "tables"
+    },
+    {
+      "name": "item_link",
+      "entityType": "tables"
+    },
+    {
+      "table": "item",
+      "name": "id",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "name",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "description",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "''",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "sources",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "'[]'",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "status",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "rank",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "created_at",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "updated_at",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "deleted",
+      "type": "integer",
+      "notNull": true,
+      "autoincrement": false,
+      "default": "false",
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item",
+      "name": "done_at",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "id",
+      "type": "integer",
+      "notNull": false,
+      "autoincrement": true,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "item_id",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "at",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "actor",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "kind",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "status",
+      "type": "text",
+      "notNull": false,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_link",
+      "name": "item_id",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_link",
+      "name": "linked_id",
+      "type": "text",
+      "notNull": true,
+      "autoincrement": false,
+      "default": null,
+      "generated": null,
+      "entityType": "columns"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_item_id",
+      "columns": [
+        {
+          "value": "item_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "item_link",
+      "name": "item_link_linked_id",
+      "columns": [
+        {
+          "value": "linked_id",
+          "isExpression": false
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "origin": "manual",
+      "entityType": "indexes"
+    },
+    {
+      "table": "item_change",
+      "name": "fk_item_change_item_id_item_id_fk",
+      "columns": ["item_id"],
+      "tableTo": "item",
+      "columnsTo": ["id"],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "entityType": "fks"
+    },
+    {
+      "table": "item_link",
+      "name": "fk_item_link_item_id_item_id_fk",
+      "columns": ["item_id"],
+      "tableTo": "item",
+      "columnsTo": ["id"],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "entityType": "fks"
+    },
+    {
+      "table": "item_link",
+      "name": "fk_item_link_linked_id_item_id_fk",
+      "columns": ["linked_id"],
+      "tableTo": "item",
+      "columnsTo": ["id"],
+      "onUpdate": "NO ACTION",
+      "onDelete": "NO ACTION",
+      "nameExplicit": false,
+      "entityType": "fks"
+    },
+    {
+      "table": "item_link",
+      "name": "item_link_pk",
+      "columns": ["item_id", "linked_id"],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "item",
+      "name": "item_pk",
+      "columns": ["id"],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_pk",
+      "columns": ["id"],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "table": "item",
+      "name": "item_rank_unique",
+      "columns": ["rank"],
+      "nameExplicit": false,
+      "entityType": "uniques"
+    },
+    {
+      "table": "item",
+      "name": "item_status",
+      "value": "\"status\" IN ('todo', 'in_progress', 'done', 'deferred', 'wont_do', 'delegated')",
+      "entityType": "checks"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_actor",
+      "value": "\"actor\" IN ('user', 'agent')",
+      "entityType": "checks"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_kind",
+      "value": "\"kind\" IN ('added', 'name', 'description', 'sources', 'status', 'rank', 'deleted', 'restored')",
+      "entityType": "checks"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_status_value",
+      "value": "\"status\" IN ('todo', 'in_progress', 'done', 'deferred', 'wont_do', 'delegated')",
+      "entityType": "checks"
+    },
+    {
+      "table": "item_change",
+      "name": "item_change_status",
+      "value": "(\"kind\" = 'status') = (\"status\" IS NOT NULL)",
+      "entityType": "checks"
+    },
+    {
+      "table": "item_link",
+      "name": "item_link_order",
+      "value": "\"item_id\" < \"linked_id\"",
+      "entityType": "checks"
+    }
+  ],
+  "renames": []
+}

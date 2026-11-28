@@ -3,6 +3,7 @@ import {
   check,
   index,
   integer,
+  primaryKey,
   sqliteTable,
   text,
 } from "drizzle-orm/sqlite-core";
@@ -81,5 +82,22 @@ export const itemChange = sqliteTable(
       "item_change_status",
       sql`(${table.kind} = 'status') = (${table.status} IS NOT NULL)`,
     ),
+  ],
+);
+
+export const itemLink = sqliteTable(
+  "item_link",
+  {
+    itemId: text("item_id")
+      .notNull()
+      .references(() => item.id),
+    linkedId: text("linked_id")
+      .notNull()
+      .references(() => item.id),
+  },
+  (table) => [
+    primaryKey({ columns: [table.itemId, table.linkedId] }),
+    index("item_link_linked_id").on(table.linkedId),
+    check("item_link_order", sql`${table.itemId} < ${table.linkedId}`),
   ],
 );

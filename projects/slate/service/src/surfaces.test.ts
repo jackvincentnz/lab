@@ -20,6 +20,9 @@ async function listToolNames(): Promise<string[]> {
     delete: vi.fn(),
     restore: vi.fn(),
     changes: vi.fn(),
+    link: vi.fn(),
+    unlink: vi.fn(),
+    linked: vi.fn(),
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();

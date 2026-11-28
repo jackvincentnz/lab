@@ -36,11 +36,12 @@ import {
   sourceKey,
   withoutRepeats,
   listItemsInput,
+  type LinkItemsInput,
   type ListQuery,
   type MoveItemInput,
   type UpdateItemInput,
 } from "./item.js";
-import { item, itemChange } from "./schema.js";
+import { item, itemChange, itemLink } from "./schema.js";
 
 const itemColumns = {
   id: item.id,
@@ -265,6 +266,12 @@ function changedFields(previous: Item, changed: Item): RecordedChange[] {
   return kinds;
 }
 
+function linkPair(id: string, linkedId: string) {
+  return id < linkedId
+    ? { itemId: id, linkedId }
+    : { itemId: linkedId, linkedId: id };
+}
+
 export class ItemStore {
   readonly #database: NodeSQLiteDatabase;
   readonly #now: () => Date;
@@ -425,6 +432,61 @@ export class ItemStore {
       this.#record(transaction, restored, [{ kind: "restored" }]);
       return restored ?? this.#find(id);
     });
+  }
+
+  link({ id, linkedId }: LinkItemsInput): Item | undefined {
+    return this.#database.transaction((transaction) => {
+      const found = this.#find(id);
+      if (!found || !this.#find(linkedId)) {
+        return undefined;
+      }
+
+      transaction
+        .insert(itemLink)
+        .values(linkPair(id, linkedId))
+        .onConflictDoNothing()
+        .run();
+      return found;
+    });
+  }
+
+  unlink({ id, linkedId }: LinkItemsInput): Item | undefined {
+    const found = this.#find(id);
+    if (!found) {
+      return undefined;
+    }
+
+    const pair = linkPair(id, linkedId);
+    this.#database
+      .delete(itemLink)
+      .where(
+        and(
+          eq(itemLink.itemId, pair.itemId),
+          eq(itemLink.linkedId, pair.linkedId),
+        ),
+      )
+      .run();
+    return found;
+  }
+
+  linked(id: string): Item[] | undefined {
+    if (!this.#find(id)) {
+      return undefined;
+    }
+
+    return this.#database
+      .select(itemColumns)
+      .from(itemLink)
+      .innerJoin(
+        item,
+        or(
+          and(eq(itemLink.itemId, id), eq(item.id, itemLink.linkedId)),
+          and(eq(itemLink.linkedId, id), eq(item.id, itemLink.itemId)),
+        ),
+      )
+      .where(listed)
+      .orderBy(item.rank)
+      .all();
   }
 
   #find(id: string): Item | undefined {

@@ -3,6 +3,10 @@ import {
   addItemInput,
   type DeleteItemInput,
   deleteItemInput,
+  type LinkItemsInput,
+  linkItemsInput,
+  type ListLinkedItemsInput,
+  listLinkedItemsInput,
   type ListItemChangesInput,
   listItemChangesInput,
   type ListItemsInput,
@@ -11,6 +15,8 @@ import {
   moveItemInput,
   type RestoreItemInput,
   restoreItemInput,
+  type UnlinkItemsInput,
+  unlinkItemsInput,
   type UpdateItemInput,
   updateItemInput,
 } from "./item.js";
@@ -18,7 +24,16 @@ import { type ItemStore } from "./store.js";
 
 export type Store = Pick<
   ItemStore,
-  "list" | "add" | "update" | "move" | "delete" | "restore" | "changes"
+  | "list"
+  | "add"
+  | "update"
+  | "move"
+  | "delete"
+  | "restore"
+  | "changes"
+  | "link"
+  | "unlink"
+  | "linked"
 >;
 
 export const operations = {
@@ -50,6 +65,18 @@ export const operations = {
   listItemChanges: {
     input: listItemChangesInput,
     run: (store: Store, { id }: ListItemChangesInput) => store.changes(id),
+  },
+  linkItems: {
+    input: linkItemsInput,
+    run: (store: Store, input: LinkItemsInput) => store.link(input),
+  },
+  unlinkItems: {
+    input: unlinkItemsInput,
+    run: (store: Store, input: UnlinkItemsInput) => store.unlink(input),
+  },
+  listLinkedItems: {
+    input: listLinkedItemsInput,
+    run: (store: Store, { id }: ListLinkedItemsInput) => store.linked(id),
   },
 };
 

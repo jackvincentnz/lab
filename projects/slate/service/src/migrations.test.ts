@@ -28,6 +28,7 @@ const migrations = [
   "20261127181136_item_in_progress_status",
   "20261127195930_item_sources",
   "20261128050734_item_change",
+  "20261128051424_item_link",
 ];
 
 const now = new Date(2026, 10, 26, 12);
@@ -141,6 +142,15 @@ describe("a new folder", () => {
 
     const [table] = withFile((file) =>
       file.prepare("PRAGMA table_list('item_change')").all(),
+    );
+    expect(table).toMatchObject({ strict: 1 });
+  });
+
+  it("gets a strict item link table", () => {
+    openItemStore(dataDir);
+
+    const [table] = withFile((file) =>
+      file.prepare("PRAGMA table_list('item_link')").all(),
     );
     expect(table).toMatchObject({ strict: 1 });
   });
@@ -312,6 +322,16 @@ const earlierSchemas: EarlierSchema[] = [
     name: "a database from before items recorded their changes",
     create(file) {
       migrateUpTo(file, "20261127195930_item_sources");
+      const items = randomItems(3);
+      insertItems(file, items, (status) => status);
+      file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");
+      return items;
+    },
+  },
+  {
+    name: "a database from before items had links",
+    create(file) {
+      migrateUpTo(file, "20261128050734_item_change");
       const items = randomItems(3);
       insertItems(file, items, (status) => status);
       file.exec("UPDATE item SET done_at = updated_at WHERE status = 'done'");

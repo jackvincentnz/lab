@@ -59,7 +59,17 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
   const deleteItem = useMutation(trpc.deleteItem.mutationOptions());
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
-  const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
+  const linkItems = useMutation(trpc.linkItems.mutationOptions());
+  const unlinkItems = useMutation(trpc.unlinkItems.mutationOptions());
+  const changes = [
+    addItem,
+    updateItem,
+    moveItem,
+    deleteItem,
+    restoreItem,
+    linkItems,
+    unlinkItems,
+  ];
   const saving = changes.some((change) => change.isPending);
   const disabled = useSlowSave(saving);
   const panel = useResizablePanel();
@@ -69,6 +79,11 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const opened = items.data?.find((item) => item.id === openId);
   const openedChanges = useQuery(
     trpc.listItemChanges.queryOptions(
+      opened === undefined ? skipToken : { id: opened.id },
+    ),
+  );
+  const openedLinks = useQuery(
+    trpc.listLinkedItems.queryOptions(
       opened === undefined ? skipToken : { id: opened.id },
     ),
   );
@@ -252,6 +267,24 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
         <ItemPanel
           item={opened}
           changes={openedChanges.data}
+          links={openedLinks.data}
+          linkCandidates={items.data?.filter(
+            (candidate) =>
+              candidate.id !== opened.id &&
+              !openedLinks.data?.some((linked) => linked.id === candidate.id),
+          )}
+          openableIds={items.data?.map((listed) => listed.id)}
+          onOpenLinked={setOpenId}
+          onLink={(linkedId) => {
+            if (startChange()) {
+              linkItems.mutate({ id: opened.id, linkedId });
+            }
+          }}
+          onUnlink={(linkedId) => {
+            if (startChange()) {
+              unlinkItems.mutate({ id: opened.id, linkedId });
+            }
+          }}
           width={panel.width}
           disabled={disabled}
           saving={saving}
