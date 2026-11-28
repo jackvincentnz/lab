@@ -59,6 +59,7 @@
     "@lab/test-utils": "workspace:*",
     "@lab/vitest-config": "workspace:*",
     "@playwright/test": "1.56.1",
+    "@anthropic-ai/mcpb": "2.1.2",
     "@apollo/rover": "1.1.0",
     "@electron/packager": "20.3.0",
     "@eslint/js": "10.0.1",
