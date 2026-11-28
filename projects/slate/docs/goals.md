@@ -32,6 +32,7 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 | Created     | When it was added.                                                                                                                |
 | Updated     | When it was last changed.                                                                                                         |
 | Done        | When it was marked done. The list shows a done item only on that day.                                                             |
+| History     | Who changed it, you in the app or an agent over MCP, what changed and when.                                                       |
 
 ## Non-goals
 

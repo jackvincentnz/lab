@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -67,6 +67,11 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
   const opened = items.data?.find((item) => item.id === openId);
+  const openedChanges = useQuery(
+    trpc.listItemChanges.queryOptions(
+      opened === undefined ? skipToken : { id: opened.id },
+    ),
+  );
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
@@ -246,6 +251,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       {opened !== undefined && (
         <ItemPanel
           item={opened}
+          changes={openedChanges.data}
           width={panel.width}
           disabled={disabled}
           saving={saving}

@@ -1153,3 +1153,94 @@ describe("restore", () => {
     expect(names(store.list())).toEqual(["C", "A", "B"]);
   });
 });
+
+describe("changes", () => {
+  function kinds(id: string) {
+    return store.changes(id)?.map(({ kind, status }) => ({ kind, status }));
+  }
+
+  it("records who added an item and when", () => {
+    const item = store.by("agent").add("Plan the week", "", []);
+
+    expect(store.changes(item.id)).toEqual([
+      { at: item.createdAt, actor: "agent", kind: "added", status: null },
+    ]);
+  });
+
+  it("records each field an update changes, newest first", () => {
+    const item = addItem("Plan");
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    store.by("agent").update({
+      id: item.id,
+      name: "Plan the week",
+      description: "Monday first",
+      addSources: [aSource()],
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(store.changes(item.id)).toEqual([
+      {
+        at: time.toISOString(),
+        actor: "agent",
+        kind: "status",
+        status: "done",
+      },
+      { at: time.toISOString(), actor: "agent", kind: "sources", status: null },
+      {
+        at: time.toISOString(),
+        actor: "agent",
+        kind: "description",
+        status: null,
+      },
+      { at: time.toISOString(), actor: "agent", kind: "name", status: null },
+      { at: item.createdAt, actor: "user", kind: "added", status: null },
+    ]);
+  });
+
+  it("records nothing for an update that changes nothing", () => {
+    const item = addItem("Plan");
+
+    store.update({ id: item.id, name: "Plan", updatedAt: item.updatedAt });
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("records nothing for a refused update", () => {
+    const item = addItem("Plan");
+
+    expect(() =>
+      store.update({ id: item.id, name: "Other", updatedAt: "stale" }),
+    ).toThrow(ItemChangedError);
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("records a move, a deletion and a restore", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    store.move({ id: a.id, neighbourId: b.id, position: "before" });
+    store.delete(a.id);
+    store.restore(a.id);
+
+    expect(kinds(a.id)).toEqual([
+      { kind: "restored", status: null },
+      { kind: "deleted", status: null },
+      { kind: "rank", status: null },
+      { kind: "added", status: null },
+    ]);
+  });
+
+  it("records nothing for restoring an item that is not deleted", () => {
+    const item = addItem("Plan");
+
+    store.restore(item.id);
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("returns nothing for an unknown item", () => {
+    expect(store.changes(crypto.randomUUID())).toBeUndefined();
+  });
+});

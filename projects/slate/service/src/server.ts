@@ -31,11 +31,12 @@ export function createSlateServer(
   { webDir }: SlateServerOptions = {},
 ): Server {
   const changes = new ListChanges();
-  const announcing = announceChanges(store, changes);
+  const byUser = announceChanges(store.by("user"), changes);
+  const byAgent = announceChanges(store.by("agent"), changes);
   const handleTrpc = createHTTPHandler({
     router: slateRouter,
     basePath: apiPath,
-    createContext: () => ({ store: announcing, changes }),
+    createContext: () => ({ store: byUser, changes }),
     onError: ({ path, error }) =>
       console.error(`The API request to ${path ?? apiPath} failed:`, error),
   });
@@ -63,7 +64,7 @@ export function createSlateServer(
     } else if (pathname.startsWith(apiPath)) {
       handleTrpc(request, response);
     } else if (pathname === mcpPath) {
-      void handleMcpRequest(announcing, request, response);
+      void handleMcpRequest(byAgent, request, response);
     } else if (webDir) {
       void serveFile(webDir, pathname, response);
     } else {

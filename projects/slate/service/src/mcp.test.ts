@@ -25,6 +25,7 @@ beforeEach(async () => {
     move: vi.fn(),
     delete: vi.fn(),
     restore: vi.fn(),
+    changes: vi.fn(),
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
@@ -84,6 +85,7 @@ describe("createSlateMcpServer", () => {
       "move_item",
       "delete_item",
       "restore_item",
+      "list_item_changes",
     ]);
   });
 
@@ -539,6 +541,35 @@ describe("createSlateMcpServer", () => {
     const id = crypto.randomUUID();
 
     const result = await call("restore_item", { id });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(id) }],
+    });
+  });
+
+  it("lists an item's changes", async () => {
+    const id = crypto.randomUUID();
+    const changes = [
+      {
+        at: "2026-11-22T09:00:00.000Z",
+        actor: "user" as const,
+        kind: "status" as const,
+        status: "done" as const,
+      },
+    ];
+    store.changes.mockReturnValue(changes);
+
+    const result = await call("list_item_changes", { id });
+
+    expect(store.changes).toHaveBeenCalledWith(id);
+    expect(result.content).toEqual(text(changes));
+  });
+
+  it("names the unknown id when listing changes", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("list_item_changes", { id });
 
     expect(result).toMatchObject({
       isError: true,
