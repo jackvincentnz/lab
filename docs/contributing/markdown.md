@@ -11,6 +11,11 @@
 | `docs/adr/`             | Architecture decisions and their consequences.            |
 | `docs/contributing/`    | Conventions for contributors.                             |
 
+Keep a README to what a contributor needs to build, run, and test the
+component, and put feature descriptions, design explanations, and
+troubleshooting in `projects/<name>/docs/` or an ADR, so that the README stays
+short and stays true as features change.
+
 Place shared setup and workflows at the directory level that owns them. For
 example, document a multi-service environment and its end-to-end tests in the
 parent project README, then link to it from each app.

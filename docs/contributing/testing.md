@@ -12,6 +12,10 @@ See [coverage](../platform/coverage/README.md) for how coverage is collected and
 - Test every behavior your code adds, not the framework's, at each level that
   needs it, and state the expected value directly, so that each test shows why
   it exists and fails only when that behavior changes.
+- Keep end-to-end tests to the main happy-path flows, and check a specific case
+  that only an end-to-end test could show by hand, describing the check in the
+  PR's `Validation` section, so that the end-to-end suite stays small and
+  stable.
 
 ## Layout
 
