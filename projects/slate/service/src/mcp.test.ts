@@ -48,7 +48,6 @@ function anItem(): Item {
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
     doneAt: null,
-    deleted: false,
   };
 }
 
@@ -132,14 +131,14 @@ describe("createSlateMcpServer", () => {
     const result = await call("list_items", {
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: "only",
+      deleted: true,
       orderBy: "updatedAt",
     });
 
     expect(store.list).toHaveBeenCalledWith({
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: "only",
+      deleted: true,
       orderBy: "updatedAt",
     });
     expect(result.content).toEqual(text(items));
@@ -170,7 +169,7 @@ describe("createSlateMcpServer", () => {
     expect(store.list).toHaveBeenCalledWith({
       statuses: ["todo", "in_progress", "done"],
       doneTodayOnly: true,
-      deleted: "exclude",
+      deleted: false,
       orderBy: "rank",
     });
   });

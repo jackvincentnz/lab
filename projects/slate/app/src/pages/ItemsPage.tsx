@@ -47,7 +47,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const { label, query, empty } = searching ? searchView(search) : views[view];
   const today = !searching && view === "today";
   const done = !searching && view === "done";
-  const headed = !searching && !today && !done;
+  const headed = !today && !done;
   const trpc = useTRPC();
   // Keeps the last results while the next search loads, instead of a loader on each word.
   const items = useQuery({
@@ -66,9 +66,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
-  const opened = items.data?.find(
-    (item) => item.id === openId && !item.deleted,
-  );
+  const opened = items.data?.find((item) => item.id === openId);
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
@@ -183,7 +181,14 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
         )}
         {(headed || items.isPending || items.data !== undefined) && (
           <Stack gap="xs">
-            {headed && <ListHeading>{label}</ListHeading>}
+            {headed && (
+              <ListHeading>
+                {label}
+                {searching &&
+                  items.data !== undefined &&
+                  ` · ${items.data.length}`}
+              </ListHeading>
+            )}
             {items.isPending && (
               <Center>
                 <Loader aria-label="Loading your list" />
@@ -205,12 +210,14 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
                   setOpenId(item.id);
                 }}
                 onStatusChange={changeStatus}
-                onRestore={(item) => {
-                  if (!startChange()) {
-                    return;
-                  }
-                  restoreItem.mutate({ id: item.id });
-                }}
+                {...(view === "deleted" && {
+                  onRestore: (item: Item) => {
+                    if (!startChange()) {
+                      return;
+                    }
+                    restoreItem.mutate({ id: item.id });
+                  },
+                })}
               />
             )}
             {items.data !== undefined && items.data.length > 0 && today && (

@@ -78,7 +78,7 @@ export const itemSchema = createSelectSchema(item, {
   description: (description) =>
     description.overwrite((value) => value.trimEnd()),
   sources: z.array(itemSource),
-});
+}).omit({ deleted: true });
 
 export type Item = z.infer<typeof itemSchema>;
 
@@ -111,10 +111,10 @@ export const listItemsInput = z.object({
       "When true, leaves out done items marked done before midnight at the start of today, in the time zone of the user's machine. Give false to include done items from every day.",
     ),
   deleted: z
-    .enum(["exclude", "include", "only"])
-    .default("exclude")
+    .boolean()
+    .default(false)
     .describe(
-      "exclude leaves out deleted items, include lists them with the others, and only lists only deleted items. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
+      "When true, lists only deleted items; when false, none. A deleted item that was done on an earlier day is listed only with doneTodayOnly false.",
     ),
   source: sourceKeyInput
     .optional()
@@ -137,7 +137,7 @@ export const listItemsInput = z.object({
     .enum(["rank", "status", "doneAt", "updatedAt"])
     .default("rank")
     .describe(
-      "rank is priority order, the most important first. status puts current work first: in_progress, todo, delegated, deferred, done, then wont_do, with deleted items after all of those, and each group in priority order. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
+      "rank is priority order, the most important first. status puts current work first: in_progress, todo, delegated, deferred, done, then wont_do, each group in priority order. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
     ),
 });
 

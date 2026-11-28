@@ -50,7 +50,6 @@ const itemColumns = {
   createdAt: item.createdAt,
   updatedAt: item.updatedAt,
   doneAt: item.doneAt,
-  deleted: item.deleted,
 } satisfies Record<keyof Item, unknown>;
 
 const listed = eq(item.deleted, false);
@@ -68,12 +67,6 @@ function notDoneBeforeToday(now: Date) {
 function hasSource(key: string) {
   return sql`EXISTS (SELECT 1 FROM json_each(${item.sources}) WHERE coalesce(json_extract(value, '$.url'), json_extract(value, '$.text')) = ${key})`;
 }
-
-const deletedFilter = {
-  exclude: listed,
-  include: undefined,
-  only: eq(item.deleted, true),
-} satisfies Record<ListQuery["deleted"], SQL | undefined>;
 
 function matchesSearch(search: string) {
   return and(...search.split(/\s+/).map(containsWord));
@@ -108,7 +101,7 @@ const byStatus = sql`CASE ${item.status} ${sql.join(
 
 const listOrder = {
   rank: [],
-  status: [asc(item.deleted), byStatus],
+  status: [byStatus],
   doneAt: [desc(item.doneAt)],
   updatedAt: [desc(item.updatedAt)],
 } satisfies Record<ListQuery["orderBy"], SQL[]>;
@@ -263,7 +256,7 @@ export class ItemStore {
       .from(item)
       .where(
         and(
-          deletedFilter[deleted],
+          eq(item.deleted, deleted),
           inArray(item.status, statuses),
           doneTodayOnly ? notDoneBeforeToday(this.#now()) : undefined,
           source === undefined ? undefined : hasSource(source),
@@ -291,7 +284,6 @@ export class ItemStore {
       createdAt: now,
       updatedAt: now,
       doneAt: null,
-      deleted: false,
     };
 
     this.#database.insert(item).values(added).run();

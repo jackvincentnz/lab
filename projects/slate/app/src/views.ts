@@ -45,7 +45,7 @@ export const views = {
   deleted: {
     label: "Deleted",
     query: {
-      deleted: "only",
+      deleted: true,
       statuses: everyStatus,
       doneTodayOnly: false,
       orderBy: "updatedAt",
@@ -63,7 +63,6 @@ export function searchView(search: string): View {
       search,
       statuses: everyStatus,
       doneTodayOnly: false,
-      deleted: "include",
       orderBy: "status",
     },
     empty: `No items match “${search}”.`,

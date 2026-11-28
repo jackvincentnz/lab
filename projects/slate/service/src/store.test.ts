@@ -372,7 +372,7 @@ describe("list deleted items", () => {
     time = new Date("2026-11-21T10:00:00.000Z");
     const deletedA = store.delete(a.id);
 
-    const listed = store.list({ deleted: "only", orderBy: "updatedAt" });
+    const listed = store.list({ deleted: true, orderBy: "updatedAt" });
 
     expect(listed).toEqual([deletedA, deletedB]);
   });
@@ -381,7 +381,7 @@ describe("list deleted items", () => {
     const [a] = ["A", "B"].map(addItem);
     const deleted = store.delete(a.id);
 
-    const listed = store.list({ deleted: "only" });
+    const listed = store.list({ deleted: true });
 
     expect(listed).toEqual([deleted]);
   });
@@ -396,7 +396,7 @@ describe("list deleted items", () => {
     const deletedDone = store.delete(done.id);
     store.delete(b.id);
 
-    const listed = store.list({ statuses: ["done"], deleted: "only" });
+    const listed = store.list({ statuses: ["done"], deleted: true });
 
     expect(listed).toEqual([deletedDone]);
   });
@@ -411,7 +411,7 @@ describe("list deleted items", () => {
     store.delete(done.id);
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    const listed = store.list({ deleted: "only" });
+    const listed = store.list({ deleted: true });
 
     expect(listed).toEqual([]);
   });
@@ -426,18 +426,9 @@ describe("list deleted items", () => {
     const deleted = store.delete(done.id);
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
-    const listed = store.list({ deleted: "only", doneTodayOnly: false });
+    const listed = store.list({ deleted: true, doneTodayOnly: false });
 
     expect(listed).toEqual([deleted]);
-  });
-
-  it("lists deleted items with the others when deleted items are included", () => {
-    const [a, b] = ["A", "B"].map(addItem);
-    const deleted = store.delete(a.id);
-
-    const listed = store.list({ deleted: "include" });
-
-    expect(listed).toEqual([b, deleted]);
   });
 });
 
@@ -465,15 +456,6 @@ describe("list by status order", () => {
       wontDo,
     ]);
   });
-
-  it("puts deleted items after the others", () => {
-    const [a, b] = ["A", "B"].map(addItem);
-    const deleted = store.delete(b.id);
-
-    const listed = store.list({ deleted: "include", orderBy: "status" });
-
-    expect(listed).toEqual([a, deleted]);
-  });
 });
 
 describe("search", () => {
@@ -482,7 +464,6 @@ describe("search", () => {
       search: text,
       statuses: everyStatus,
       doneTodayOnly: false,
-      deleted: "include",
     });
   }
 
@@ -576,14 +557,23 @@ describe("search", () => {
     expect(results).toEqual([]);
   });
 
-  it("finds items in every status, done on any day and deleted", () => {
+  it("finds items in every status, done on any day", () => {
     const done = withStatus(addItem("Old report"), "done");
-    const deleted = store.delete(addItem("Deleted report").id);
+    const deferred = withStatus(addItem("Deferred report"), "deferred");
     time = new Date(time.getTime() + 2 * 24 * 60 * 60 * 1000);
 
     const results = search("report");
 
-    expect(results).toEqual([deleted, done]);
+    expect(results).toEqual([deferred, done]);
+  });
+
+  it("finds deleted items only when listing deleted items", () => {
+    store.delete(addItem("Deleted report").id);
+    const kept = addItem("Kept report");
+
+    const results = search("report");
+
+    expect(results).toEqual([kept]);
   });
 
   it("combines with the other filters", () => {
@@ -1094,11 +1084,7 @@ describe("delete", () => {
 
     const deleted = store.delete(item.id);
 
-    expect(deleted).toEqual({
-      ...item,
-      deleted: true,
-      updatedAt: "2026-11-21T10:00:00.000Z",
-    });
+    expect(deleted).toEqual({ ...item, updatedAt: "2026-11-21T10:00:00.000Z" });
     expect(store.list()).toEqual([]);
   });
 

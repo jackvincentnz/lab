@@ -14,7 +14,7 @@ interface ViewListProps {
   openId: string | undefined;
   onOpen(item: Item): void;
   onStatusChange(item: Item, status: ItemStatus): void;
-  onRestore(item: Item): void;
+  onRestore?(item: Item): void;
 }
 
 export function ViewList({
@@ -30,15 +30,7 @@ export function ViewList({
 }: ViewListProps) {
   function rows(group: Item[]) {
     return group.map((item) =>
-      item.deleted ? (
-        <DeletedItemRow
-          key={item.id}
-          item={item}
-          showStatus={showStatus}
-          disabled={disabled}
-          onRestore={() => onRestore(item)}
-        />
-      ) : (
+      onRestore === undefined ? (
         <ItemRow
           key={item.id}
           item={item}
@@ -47,6 +39,13 @@ export function ViewList({
           open={item.id === openId}
           onOpen={() => onOpen(item)}
           onStatusChange={(status) => onStatusChange(item, status)}
+        />
+      ) : (
+        <DeletedItemRow
+          key={item.id}
+          item={item}
+          disabled={disabled}
+          onRestore={() => onRestore(item)}
         />
       ),
     );

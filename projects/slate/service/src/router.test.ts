@@ -32,7 +32,6 @@ function anItem(): Item {
     createdAt: "2026-11-22T09:00:00.000Z",
     updatedAt: "2026-11-22T09:00:00.000Z",
     doneAt: null,
-    deleted: false,
   };
 }
 
@@ -53,7 +52,7 @@ describe("slateRouter", () => {
     const listed = await caller.listItems({
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: "only",
+      deleted: true,
       source: "https://example.com/pull/1",
       search: "plan",
       orderBy: "status",
@@ -62,7 +61,7 @@ describe("slateRouter", () => {
     expect(store.list).toHaveBeenCalledWith({
       statuses: ["done"],
       doneTodayOnly: false,
-      deleted: "only",
+      deleted: true,
       source: "https://example.com/pull/1",
       search: "plan",
       orderBy: "status",
