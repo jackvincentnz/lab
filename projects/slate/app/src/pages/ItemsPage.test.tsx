@@ -453,6 +453,56 @@ describe("ItemsPage", () => {
     ).toBeInTheDocument();
   });
 
+  it("shows the open item's history", async () => {
+    const user = userEvent.setup();
+    const travel = item({ name: "Book travel" });
+    const api = fakeSlateApi([item({ name: "Plan the week" }), travel]);
+    api.listItemChanges.mockResolvedValue([
+      {
+        at: new Date().toISOString(),
+        actor: "agent",
+        kind: "rank",
+        status: null,
+      },
+    ]);
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+
+    const panel = await openItem(user, "Book travel");
+
+    expect(
+      await within(panel).findByText(/An agent moved it/),
+    ).toBeInTheDocument();
+    expect(api.listItemChanges).toHaveBeenCalledWith({ id: travel.id });
+  });
+
+  it("relates the open item to another item on the list", async () => {
+    const user = userEvent.setup();
+    const plan = item({ name: "Plan the week" });
+    const travel = item({ name: "Book travel" });
+    const api = fakeSlateApi([plan, travel]);
+    api.relateItems.mockImplementation(() => {
+      api.listRelatedItems.mockResolvedValue([plan]);
+      return Promise.resolve(travel);
+    });
+    render(<ItemsPage view="today" />, { wrapper: withSlateApi(api) });
+    const panel = await openItem(user, "Book travel");
+
+    await user.click(
+      within(panel).getByRole("combobox", { name: "Add a related item" }),
+    );
+    await user.click(
+      await screen.findByRole("option", { name: "Plan the week" }),
+    );
+
+    expect(api.relateItems).toHaveBeenCalledWith({
+      id: travel.id,
+      relatedId: plan.id,
+    });
+    expect(
+      await within(panel).findByRole("button", { name: "Plan the week" }),
+    ).toBeInTheDocument();
+  });
+
   it("closes the side panel", async () => {
     const user = userEvent.setup();
     render(<ItemsPage view="today" />, {

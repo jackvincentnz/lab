@@ -1,7 +1,7 @@
 import { on } from "node:events";
 import { type AnyProcedure, initTRPC, TRPCError } from "@trpc/server";
 import { type ListChanges } from "./changes.js";
-import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
+import { ItemChangedError, SourceChangeError } from "./item.js";
 import { operations, type Store, type WebOperationName } from "./operations.js";
 
 export interface Context {
@@ -21,8 +21,18 @@ const t = initTRPC.context<Context>().create({
   },
 });
 
-const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
-  operations;
+const {
+  listItems,
+  addItem,
+  updateItem,
+  moveItem,
+  deleteItem,
+  restoreItem,
+  listItemChanges,
+  relateItems,
+  unrelateItems,
+  listRelatedItems,
+} = operations;
 
 const operationProcedures = {
   listItems: t.procedure
@@ -45,6 +55,18 @@ const operationProcedures = {
   restoreItem: t.procedure
     .input(restoreItem.input)
     .mutation(({ ctx, input }) => found(restoreItem.run(ctx.store, input))),
+  listItemChanges: t.procedure
+    .input(listItemChanges.input)
+    .query(({ ctx, input }) => found(listItemChanges.run(ctx.store, input))),
+  relateItems: t.procedure
+    .input(relateItems.input)
+    .mutation(({ ctx, input }) => found(relateItems.run(ctx.store, input))),
+  unrelateItems: t.procedure
+    .input(unrelateItems.input)
+    .mutation(({ ctx, input }) => found(unrelateItems.run(ctx.store, input))),
+  listRelatedItems: t.procedure
+    .input(listRelatedItems.input)
+    .query(({ ctx, input }) => found(listRelatedItems.run(ctx.store, input))),
 } satisfies Record<WebOperationName, AnyProcedure>;
 
 export const slateRouter = t.router({
@@ -85,9 +107,9 @@ function unchanged<T>(update: () => T): T {
   }
 }
 
-function found(item: Item | undefined): Item {
-  if (!item) {
+function found<T>(result: T | undefined): T {
+  if (result === undefined) {
     throw new TRPCError({ code: "NOT_FOUND", message: "No such item" });
   }
-  return item;
+  return result;
 }

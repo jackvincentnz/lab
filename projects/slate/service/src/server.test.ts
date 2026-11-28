@@ -289,6 +289,27 @@ describe("createSlateServer", () => {
     });
   });
 
+  it("records whether the web UI or an agent changed an item", async () => {
+    await start();
+    const client = await connectMcpClient();
+    const added = await addItemOverMcp(client, "Plan the week");
+    await client.close();
+
+    await send("/api/deleteItem", { body: JSON.stringify({ id: added.id }) });
+
+    const response = await send(
+      `/api/listItemChanges?input=${encodeURIComponent(JSON.stringify({ id: added.id }))}`,
+    );
+    expect(JSON.parse(response.body)).toMatchObject({
+      result: {
+        data: [
+          { actor: "user", kind: "deleted" },
+          { actor: "agent", kind: "added" },
+        ],
+      },
+    });
+  });
+
   it("tells a subscribed page when an agent changes the list", async () => {
     await start();
     const subscription = await subscribe("/api/listChanged");

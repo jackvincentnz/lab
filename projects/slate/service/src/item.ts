@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { createSelectSchema } from "drizzle-orm/zod";
-import { item } from "./schema.js";
+import { item, itemChange } from "./schema.js";
 
 const linkSource = z.object({
   kind: z.literal("link"),
@@ -251,3 +251,41 @@ export const restoreItemInput = z.object({
 });
 
 export type RestoreItemInput = z.infer<typeof restoreItemInput>;
+
+export const itemChangeSchema = createSelectSchema(itemChange).omit({
+  id: true,
+  itemId: true,
+});
+
+export type ItemChange = z.infer<typeof itemChangeSchema>;
+
+export type Actor = ItemChange["actor"];
+
+export const listItemChangesInput = z.object({
+  id: id.describe("The id of the item whose changes to list."),
+});
+
+export type ListItemChangesInput = z.infer<typeof listItemChangesInput>;
+
+const relationInput = z
+  .object({
+    id: id.describe("The id of one item."),
+    relatedId: id.describe("The id of the other item."),
+  })
+  .refine((input) => input.id !== input.relatedId, {
+    message: "Give two different items",
+  });
+
+export const relateItemsInput = relationInput;
+
+export type RelateItemsInput = z.infer<typeof relateItemsInput>;
+
+export const unrelateItemsInput = relationInput;
+
+export type UnrelateItemsInput = z.infer<typeof unrelateItemsInput>;
+
+export const listRelatedItemsInput = z.object({
+  id: id.describe("The id of the item whose related items to list."),
+});
+
+export type ListRelatedItemsInput = z.infer<typeof listRelatedItemsInput>;

@@ -1153,3 +1153,177 @@ describe("restore", () => {
     expect(names(store.list())).toEqual(["C", "A", "B"]);
   });
 });
+
+describe("changes", () => {
+  function kinds(id: string) {
+    return store.changes(id)?.map(({ kind, status }) => ({ kind, status }));
+  }
+
+  it("records who added an item and when", () => {
+    const item = store.by("agent").add("Plan the week", "", []);
+
+    expect(store.changes(item.id)).toEqual([
+      { at: item.createdAt, actor: "agent", kind: "added", status: null },
+    ]);
+  });
+
+  it("records each field an update changes, newest first", () => {
+    const item = addItem("Plan");
+    time = new Date("2026-11-21T10:00:00.000Z");
+
+    store.by("agent").update({
+      id: item.id,
+      name: "Plan the week",
+      description: "Monday first",
+      addSources: [aSource()],
+      status: "done",
+      updatedAt: item.updatedAt,
+    });
+
+    expect(store.changes(item.id)).toEqual([
+      {
+        at: time.toISOString(),
+        actor: "agent",
+        kind: "status",
+        status: "done",
+      },
+      { at: time.toISOString(), actor: "agent", kind: "sources", status: null },
+      {
+        at: time.toISOString(),
+        actor: "agent",
+        kind: "description",
+        status: null,
+      },
+      { at: time.toISOString(), actor: "agent", kind: "name", status: null },
+      { at: item.createdAt, actor: "user", kind: "added", status: null },
+    ]);
+  });
+
+  it("records nothing for an update that changes nothing", () => {
+    const item = addItem("Plan");
+
+    store.update({ id: item.id, name: "Plan", updatedAt: item.updatedAt });
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("records nothing for a refused update", () => {
+    const item = addItem("Plan");
+
+    expect(() =>
+      store.update({ id: item.id, name: "Other", updatedAt: "stale" }),
+    ).toThrow(ItemChangedError);
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("records a move, a deletion and a restore", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    store.move({ id: a.id, neighbourId: b.id, position: "before" });
+    store.delete(a.id);
+    store.restore(a.id);
+
+    expect(kinds(a.id)).toEqual([
+      { kind: "restored", status: null },
+      { kind: "deleted", status: null },
+      { kind: "rank", status: null },
+      { kind: "added", status: null },
+    ]);
+  });
+
+  it("records nothing for restoring an item that is not deleted", () => {
+    const item = addItem("Plan");
+
+    store.restore(item.id);
+
+    expect(kinds(item.id)).toEqual([{ kind: "added", status: null }]);
+  });
+
+  it("returns nothing for an unknown item", () => {
+    expect(store.changes(crypto.randomUUID())).toBeUndefined();
+  });
+});
+
+describe("related items", () => {
+  it("shows a relation on both items", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    const result = store.relate({ id: a.id, relatedId: b.id });
+
+    expect(result).toEqual(a);
+    expect(store.related(a.id)).toEqual([b]);
+    expect(store.related(b.id)).toEqual([a]);
+  });
+
+  it("lists related items in priority order, whatever their status", () => {
+    const [a, b, c] = ["A", "B", "C"].map(addItem);
+    const deferred = withStatus(b, "deferred");
+    store.relate({ id: c.id, relatedId: a.id });
+    store.relate({ id: c.id, relatedId: b.id });
+
+    expect(store.related(c.id)).toEqual([deferred, a]);
+  });
+
+  it("keeps one relation when two items are related twice", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+
+    store.relate({ id: a.id, relatedId: b.id });
+    store.relate({ id: b.id, relatedId: a.id });
+
+    expect(store.related(a.id)).toEqual([b]);
+  });
+
+  it("removes a relation from either item", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.relate({ id: a.id, relatedId: b.id });
+
+    const unrelated = store.unrelate({ id: b.id, relatedId: a.id });
+
+    expect(unrelated).toEqual(b);
+    expect(store.related(a.id)).toEqual([]);
+  });
+
+  it("leaves out a deleted item until it is restored", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.relate({ id: a.id, relatedId: b.id });
+
+    store.delete(b.id);
+    const whileDeleted = store.related(a.id);
+    const restored = store.restore(b.id);
+
+    expect(whileDeleted).toEqual([]);
+    expect(store.related(a.id)).toEqual([restored]);
+  });
+
+  it("refuses to relate a deleted item", () => {
+    const [a, b] = ["A", "B"].map(addItem);
+    store.delete(b.id);
+
+    const result = store.relate({ id: a.id, relatedId: b.id });
+
+    expect(result).toBeUndefined();
+    store.restore(b.id);
+    expect(store.related(a.id)).toEqual([]);
+  });
+
+  it("refuses to relate an unknown item", () => {
+    const a = addItem("A");
+
+    const result = store.relate({
+      id: crypto.randomUUID(),
+      relatedId: a.id,
+    });
+
+    expect(result).toBeUndefined();
+  });
+
+  it("returns nothing for an unknown item", () => {
+    const id = crypto.randomUUID();
+
+    expect(store.related(id)).toBeUndefined();
+    expect(
+      store.unrelate({ id, relatedId: crypto.randomUUID() }),
+    ).toBeUndefined();
+  });
+});

@@ -16,6 +16,10 @@ beforeEach(() => {
     move: vi.fn(),
     delete: vi.fn(),
     restore: vi.fn(),
+    changes: vi.fn(),
+    relate: vi.fn(),
+    unrelate: vi.fn(),
+    related: vi.fn(),
   };
   changes = new ListChanges();
   caller = slateRouter.createCaller({ store, changes });
@@ -195,6 +199,72 @@ describe("slateRouter", () => {
     const restoring = caller.restoreItem({ id: crypto.randomUUID() });
 
     await expect(restoring).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("lists an item's changes", async () => {
+    const id = crypto.randomUUID();
+    const changes = [
+      {
+        at: "2026-11-22T09:00:00.000Z",
+        actor: "agent" as const,
+        kind: "rank" as const,
+        status: null,
+      },
+    ];
+    store.changes.mockReturnValue(changes);
+
+    const listed = await caller.listItemChanges({ id });
+
+    expect(store.changes).toHaveBeenCalledWith(id);
+    expect(listed).toEqual(changes);
+  });
+
+  it("reports an unknown item when listing changes", async () => {
+    await expect(
+      caller.listItemChanges({ id: crypto.randomUUID() }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("relates two items", async () => {
+    const item = anItem();
+    const relatedId = crypto.randomUUID();
+    store.relate.mockReturnValue(item);
+
+    const result = await caller.relateItems({ id: item.id, relatedId });
+
+    expect(store.relate).toHaveBeenCalledWith({ id: item.id, relatedId });
+    expect(result).toEqual(item);
+  });
+
+  it("reports an unknown item on relate", async () => {
+    await expect(
+      caller.relateItems({
+        id: crypto.randomUUID(),
+        relatedId: crypto.randomUUID(),
+      }),
+    ).rejects.toMatchObject({ code: "NOT_FOUND" });
+  });
+
+  it("unrelates two items", async () => {
+    const item = anItem();
+    const relatedId = crypto.randomUUID();
+    store.unrelate.mockReturnValue(item);
+
+    const unrelated = await caller.unrelateItems({ id: item.id, relatedId });
+
+    expect(store.unrelate).toHaveBeenCalledWith({ id: item.id, relatedId });
+    expect(unrelated).toEqual(item);
+  });
+
+  it("lists an item's related items", async () => {
+    const id = crypto.randomUUID();
+    const items = [anItem()];
+    store.related.mockReturnValue(items);
+
+    const listed = await caller.listRelatedItems({ id });
+
+    expect(store.related).toHaveBeenCalledWith(id);
+    expect(listed).toEqual(items);
   });
 
   it("tells a subscriber each time the list changes", async () => {

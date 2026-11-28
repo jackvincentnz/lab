@@ -1,5 +1,12 @@
 import { sql } from "drizzle-orm";
-import { check, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  check,
+  index,
+  integer,
+  primaryKey,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 import type { ItemSource } from "./item.js";
 
 export const itemStatuses = [
@@ -34,5 +41,63 @@ export const item = sqliteTable(
       "item_status",
       sql`${table.status} IN (${sql.raw(itemStatuses.map((status) => `'${status}'`).join(", "))})`,
     ),
+  ],
+);
+
+export const actors = ["user", "agent"] as const;
+
+export const itemChangeKinds = [
+  "added",
+  "name",
+  "description",
+  "sources",
+  "status",
+  "rank",
+  "deleted",
+  "restored",
+] as const;
+
+function oneOf(column: unknown, values: readonly string[]) {
+  return sql`${column} IN (${sql.raw(values.map((value) => `'${value}'`).join(", "))})`;
+}
+
+export const itemChange = sqliteTable(
+  "item_change",
+  {
+    id: integer().primaryKey({ autoIncrement: true }),
+    itemId: text("item_id")
+      .notNull()
+      .references(() => item.id),
+    at: text().notNull(),
+    actor: text({ enum: actors }).notNull(),
+    kind: text({ enum: itemChangeKinds }).notNull(),
+    status: text({ enum: itemStatuses }),
+  },
+  (table) => [
+    index("item_change_item_id").on(table.itemId),
+    check("item_change_actor", oneOf(table.actor, actors)),
+    check("item_change_kind", oneOf(table.kind, itemChangeKinds)),
+    check("item_change_status_value", oneOf(table.status, itemStatuses)),
+    check(
+      "item_change_status",
+      sql`(${table.kind} = 'status') = (${table.status} IS NOT NULL)`,
+    ),
+  ],
+);
+
+export const itemRelation = sqliteTable(
+  "item_relation",
+  {
+    itemId: text("item_id")
+      .notNull()
+      .references(() => item.id),
+    relatedId: text("related_id")
+      .notNull()
+      .references(() => item.id),
+  },
+  (table) => [
+    primaryKey({ columns: [table.itemId, table.relatedId] }),
+    index("item_relation_related_id").on(table.relatedId),
+    check("item_relation_order", sql`${table.itemId} < ${table.relatedId}`),
   ],
 );

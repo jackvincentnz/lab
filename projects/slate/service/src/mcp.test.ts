@@ -25,6 +25,10 @@ beforeEach(async () => {
     move: vi.fn(),
     delete: vi.fn(),
     restore: vi.fn(),
+    changes: vi.fn(),
+    relate: vi.fn(),
+    unrelate: vi.fn(),
+    related: vi.fn(),
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
@@ -84,6 +88,10 @@ describe("createSlateMcpServer", () => {
       "move_item",
       "delete_item",
       "restore_item",
+      "list_item_changes",
+      "relate_items",
+      "unrelate_items",
+      "list_related_items",
     ]);
   });
 
@@ -539,6 +547,89 @@ describe("createSlateMcpServer", () => {
     const id = crypto.randomUUID();
 
     const result = await call("restore_item", { id });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(id) }],
+    });
+  });
+
+  it("lists an item's changes", async () => {
+    const id = crypto.randomUUID();
+    const changes = [
+      {
+        at: "2026-11-22T09:00:00.000Z",
+        actor: "user" as const,
+        kind: "status" as const,
+        status: "done" as const,
+      },
+    ];
+    store.changes.mockReturnValue(changes);
+
+    const result = await call("list_item_changes", { id });
+
+    expect(store.changes).toHaveBeenCalledWith(id);
+    expect(result.content).toEqual(text(changes));
+  });
+
+  it("relates two items", async () => {
+    const item = anItem();
+    const relatedId = crypto.randomUUID();
+    store.relate.mockReturnValue(item);
+
+    const result = await call("relate_items", { id: item.id, relatedId });
+
+    expect(store.relate).toHaveBeenCalledWith({ id: item.id, relatedId });
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("refuses to relate an item to itself without reaching the store", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("relate_items", { id, relatedId: id });
+
+    expect(result.isError).toBe(true);
+    expect(store.relate).not.toHaveBeenCalled();
+  });
+
+  it("names both ids when relating finds no item", async () => {
+    const id = crypto.randomUUID();
+    const relatedId = crypto.randomUUID();
+
+    const result = await call("relate_items", { id, relatedId });
+
+    expect(result).toMatchObject({
+      isError: true,
+      content: [{ text: expect.stringContaining(`${id} or ${relatedId}`) }],
+    });
+  });
+
+  it("unrelates two items", async () => {
+    const item = anItem();
+    const relatedId = crypto.randomUUID();
+    store.unrelate.mockReturnValue(item);
+
+    const result = await call("unrelate_items", { id: item.id, relatedId });
+
+    expect(store.unrelate).toHaveBeenCalledWith({ id: item.id, relatedId });
+    expect(result.content).toEqual(text(item));
+  });
+
+  it("lists an item's related items", async () => {
+    const id = crypto.randomUUID();
+    const relatedItems = [anItem()];
+    store.related.mockReturnValue(relatedItems);
+
+    const result = await call("list_related_items", { id });
+
+    expect(store.related).toHaveBeenCalledWith(id);
+    expect(result.content).toEqual(text(relatedItems));
+  });
+
+  it("names the unknown id when listing changes", async () => {
+    const id = crypto.randomUUID();
+
+    const result = await call("list_item_changes", { id });
 
     expect(result).toMatchObject({
       isError: true,

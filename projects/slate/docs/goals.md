@@ -27,11 +27,13 @@ It is a personal view. A team backlog tool such as Jira still owns the team's wo
 | Name        | What the work is.                                                                                                                 |
 | Description | Context that belongs with it, such as notes, links or why it matters. Markdown.                                                   |
 | Sources     | Where it came from, such as the agent session that captured it: https links or references such as a file path, each with a label. |
+| Related     | Other Slate items it relates to, shown on both items, whatever their status.                                                      |
 | Status      | To do, in progress, done, deferred, won't do, or delegated. The list leaves out the last three.                                   |
 | Rank        | Its place in the one global priority order.                                                                                       |
 | Created     | When it was added.                                                                                                                |
 | Updated     | When it was last changed.                                                                                                         |
 | Done        | When it was marked done. The list shows a done item only on that day.                                                             |
+| History     | Who changed it, you in the app or an agent over MCP, what changed and when.                                                       |
 
 ## Non-goals
 

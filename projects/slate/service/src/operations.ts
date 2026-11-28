@@ -3,12 +3,20 @@ import {
   addItemInput,
   type DeleteItemInput,
   deleteItemInput,
+  type RelateItemsInput,
+  relateItemsInput,
+  type ListRelatedItemsInput,
+  listRelatedItemsInput,
+  type ListItemChangesInput,
+  listItemChangesInput,
   type ListItemsInput,
   listItemsInput,
   type MoveItemInput,
   moveItemInput,
   type RestoreItemInput,
   restoreItemInput,
+  type UnrelateItemsInput,
+  unrelateItemsInput,
   type UpdateItemInput,
   updateItemInput,
 } from "./item.js";
@@ -16,7 +24,16 @@ import { type ItemStore } from "./store.js";
 
 export type Store = Pick<
   ItemStore,
-  "list" | "add" | "update" | "move" | "delete" | "restore"
+  | "list"
+  | "add"
+  | "update"
+  | "move"
+  | "delete"
+  | "restore"
+  | "changes"
+  | "relate"
+  | "unrelate"
+  | "related"
 >;
 
 export const operations = {
@@ -44,6 +61,22 @@ export const operations = {
   restoreItem: {
     input: restoreItemInput,
     run: (store: Store, { id }: RestoreItemInput) => store.restore(id),
+  },
+  listItemChanges: {
+    input: listItemChangesInput,
+    run: (store: Store, { id }: ListItemChangesInput) => store.changes(id),
+  },
+  relateItems: {
+    input: relateItemsInput,
+    run: (store: Store, input: RelateItemsInput) => store.relate(input),
+  },
+  unrelateItems: {
+    input: unrelateItemsInput,
+    run: (store: Store, input: UnrelateItemsInput) => store.unrelate(input),
+  },
+  listRelatedItems: {
+    input: listRelatedItemsInput,
+    run: (store: Store, { id }: ListRelatedItemsInput) => store.related(id),
   },
 };
 

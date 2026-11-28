@@ -4,15 +4,30 @@ import { join } from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import { type CallToolResult } from "@modelcontextprotocol/sdk/types.js";
-import { type Item, ItemChangedError, SourceChangeError } from "./item.js";
+import {
+  type Item,
+  type ItemChange,
+  ItemChangedError,
+  SourceChangeError,
+} from "./item.js";
 import {
   type AgentOperationName,
   operations,
   type Store,
 } from "./operations.js";
 
-const { listItems, addItem, updateItem, moveItem, deleteItem, restoreItem } =
-  operations;
+const {
+  listItems,
+  addItem,
+  updateItem,
+  moveItem,
+  deleteItem,
+  restoreItem,
+  listItemChanges,
+  relateItems,
+  unrelateItems,
+  listRelatedItems,
+} = operations;
 
 type RegisterTool = (server: McpServer, store: Store) => void;
 
@@ -90,6 +105,54 @@ const tools = {
       },
       (input) => replyIfFound(restoreItem.run(store, input), [input.id]),
     ),
+  listItemChanges: (server, store) =>
+    server.registerTool(
+      "list_item_changes",
+      {
+        title: "List item changes",
+        description:
+          "List the changes to an item on the user's Slate list, newest first, using its id from list_items; a deleted item's too. Each change has at, the time it was made, actor, who made it: user in the Slate app or agent over MCP, kind, what changed: added, name, description, sources, status, rank (moved in the priority order), deleted or restored, and status, the new status when kind is status, otherwise null.",
+        inputSchema: listItemChanges.input,
+      },
+      (input) => replyIfFound(listItemChanges.run(store, input), [input.id]),
+    ),
+  relateItems: (server, store) =>
+    server.registerTool(
+      "relate_items",
+      {
+        title: "Relate items",
+        description:
+          "Mark two items on the user's Slate list as related, such as one that follows from the other, parts of the same piece of work, or one split off from another, using their ids from list_items. A relation has no direction or kind: both items show it, and list_related_items lists it from either. For where an item came from outside Slate, such as a pull request or a notes file, add a source with update_item instead. Relating items that are already related changes nothing. Returns the item with the id given as id.",
+        inputSchema: relateItems.input,
+      },
+      (input) =>
+        replyIfFound(relateItems.run(store, input), [
+          input.id,
+          input.relatedId,
+        ]),
+    ),
+  unrelateItems: (server, store) =>
+    server.registerTool(
+      "unrelate_items",
+      {
+        title: "Unrelate items",
+        description:
+          "Remove the relation between two items on the user's Slate list, using their ids from list_related_items. Unrelating items that are not related changes nothing. Returns the item with the id given as id.",
+        inputSchema: unrelateItems.input,
+      },
+      (input) => replyIfFound(unrelateItems.run(store, input), [input.id]),
+    ),
+  listRelatedItems: (server, store) =>
+    server.registerTool(
+      "list_related_items",
+      {
+        title: "List related items",
+        description:
+          "List the items related to an item on the user's Slate list, in priority order and whatever their status, using its id from list_items. A deleted item is left out while it is deleted, and comes back with its relations when restored.",
+        inputSchema: listRelatedItems.input,
+      },
+      (input) => replyIfFound(listRelatedItems.run(store, input), [input.id]),
+    ),
 } satisfies Record<AgentOperationName, RegisterTool>;
 
 export function createSlateMcpServer(store: Store): McpServer {
@@ -128,17 +191,20 @@ export async function handleMcpRequest(
   await transport.handleRequest(request, response);
 }
 
-function reply(value: Item | Item[]): CallToolResult {
+function reply(value: Item | Item[] | ItemChange[]): CallToolResult {
   return { content: [{ type: "text", text: JSON.stringify(value) }] };
 }
 
-function replyIfFound(item: Item | undefined, ids: string[]): CallToolResult {
-  if (!item) {
+function replyIfFound(
+  result: Item | Item[] | ItemChange[] | undefined,
+  ids: string[],
+): CallToolResult {
+  if (!result) {
     return replyError(
       `No item has the id ${ids.join(" or ")}. List the items to find the right id.`,
     );
   }
-  return reply(item);
+  return reply(result);
 }
 
 function replyIfUnchanged(

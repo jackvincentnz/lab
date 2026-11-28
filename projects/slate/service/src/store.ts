@@ -24,7 +24,9 @@ import { migrate } from "drizzle-orm/node-sqlite/migrator";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { generateKeyBetween } from "fractional-indexing";
 import {
+  type Actor,
   type Item,
+  type ItemChange,
   ItemChangedError,
   type ItemSource,
   type ItemStatus,
@@ -34,11 +36,13 @@ import {
   sourceKey,
   withoutRepeats,
   listItemsInput,
+  type RelateItemsInput,
+  type UnrelateItemsInput,
   type ListQuery,
   type MoveItemInput,
   type UpdateItemInput,
 } from "./item.js";
-import { item } from "./schema.js";
+import { item, itemChange, itemRelation } from "./schema.js";
 
 const itemColumns = {
   id: item.id,
@@ -141,7 +145,7 @@ export function openItemStore(
     backUpDatabase(client, join(dataDir, "backups"), next);
   }
   migrate(database, { migrationsFolder });
-  return new ItemStore(database, now);
+  return new ItemStore(database, now, "user");
 }
 
 function hasTables(database: NodeSQLiteDatabase): boolean {
@@ -239,13 +243,72 @@ function changedSources(
   return withoutRepeats([...changed, ...withIds(addSources)]);
 }
 
+type Transaction = Parameters<
+  Parameters<NodeSQLiteDatabase["transaction"]>[0]
+>[0];
+
+interface RecordedChange
+  extends Pick<ItemChange, "kind">, Partial<Pick<ItemChange, "status">> {}
+
+function changedFields(previous: Item, changed: Item): RecordedChange[] {
+  const kinds: RecordedChange[] = [];
+  if (changed.name !== previous.name) {
+    kinds.push({ kind: "name" });
+  }
+  if (changed.description !== previous.description) {
+    kinds.push({ kind: "description" });
+  }
+  if (JSON.stringify(changed.sources) !== JSON.stringify(previous.sources)) {
+    kinds.push({ kind: "sources" });
+  }
+  if (changed.status !== previous.status) {
+    kinds.push({ kind: "status", status: changed.status });
+  }
+  return kinds;
+}
+
+function relationPair(id: string, relatedId: string) {
+  return id < relatedId
+    ? { itemId: id, relatedId }
+    : { itemId: relatedId, relatedId: id };
+}
+
 export class ItemStore {
   readonly #database: NodeSQLiteDatabase;
   readonly #now: () => Date;
+  readonly #actor: Actor;
 
-  constructor(database: NodeSQLiteDatabase, now: () => Date) {
+  constructor(database: NodeSQLiteDatabase, now: () => Date, actor: Actor) {
     this.#database = database;
     this.#now = now;
+    this.#actor = actor;
+  }
+
+  by(actor: Actor): ItemStore {
+    return new ItemStore(this.#database, this.#now, actor);
+  }
+
+  changes(id: string): ItemChange[] | undefined {
+    const found = this.#database
+      .select({ id: item.id })
+      .from(item)
+      .where(eq(item.id, id))
+      .get();
+    if (!found) {
+      return undefined;
+    }
+
+    return this.#database
+      .select({
+        at: itemChange.at,
+        actor: itemChange.actor,
+        kind: itemChange.kind,
+        status: itemChange.status,
+      })
+      .from(itemChange)
+      .where(eq(itemChange.itemId, id))
+      .orderBy(desc(itemChange.id))
+      .all();
   }
 
   list(input: ListItemsInput = {}): Item[] {
@@ -286,7 +349,10 @@ export class ItemStore {
       doneAt: null,
     };
 
-    this.#database.insert(item).values(added).run();
+    this.#database.transaction((transaction) => {
+      transaction.insert(item).values(added).run();
+      this.#record(transaction, added, [{ kind: "added" }]);
+    });
     return added;
   }
 
@@ -315,6 +381,7 @@ export class ItemStore {
       found,
       { ...found, ...changes, sources },
       updatedAt,
+      changedFields(found, { ...found, ...changes, sources }),
     );
     if (!saved) {
       throw new ItemChangedError(id);
@@ -337,27 +404,90 @@ export class ItemStore {
       position === "before"
         ? generateKeyBetween(next, neighbour.rank)
         : generateKeyBetween(neighbour.rank, next);
-    return this.#save(moving, { ...moving, rank }, moving.updatedAt);
+    return this.#save(moving, { ...moving, rank }, moving.updatedAt, [
+      { kind: "rank" },
+    ]);
   }
 
   delete(id: string): Item | undefined {
-    return this.#database
-      .update(item)
-      .set({ deleted: true, updatedAt: this.#now().toISOString() })
-      .where(and(eq(item.id, id), listed))
-      .returning(itemColumns)
-      .get();
+    return this.#database.transaction((transaction) => {
+      const deleted = transaction
+        .update(item)
+        .set({ deleted: true, updatedAt: this.#now().toISOString() })
+        .where(and(eq(item.id, id), listed))
+        .returning(itemColumns)
+        .get();
+      this.#record(transaction, deleted, [{ kind: "deleted" }]);
+      return deleted;
+    });
   }
 
   restore(id: string): Item | undefined {
-    return (
-      this.#database
+    return this.#database.transaction((transaction) => {
+      const restored = transaction
         .update(item)
         .set({ deleted: false, updatedAt: this.#now().toISOString() })
         .where(and(eq(item.id, id), eq(item.deleted, true)))
         .returning(itemColumns)
-        .get() ?? this.#find(id)
-    );
+        .get();
+      this.#record(transaction, restored, [{ kind: "restored" }]);
+      return restored ?? this.#find(id);
+    });
+  }
+
+  relate({ id, relatedId }: RelateItemsInput): Item | undefined {
+    return this.#database.transaction((transaction) => {
+      const found = this.#find(id);
+      if (!found || !this.#find(relatedId)) {
+        return undefined;
+      }
+
+      transaction
+        .insert(itemRelation)
+        .values(relationPair(id, relatedId))
+        .onConflictDoNothing()
+        .run();
+      return found;
+    });
+  }
+
+  unrelate({ id, relatedId }: UnrelateItemsInput): Item | undefined {
+    const found = this.#find(id);
+    if (!found) {
+      return undefined;
+    }
+
+    const pair = relationPair(id, relatedId);
+    this.#database
+      .delete(itemRelation)
+      .where(
+        and(
+          eq(itemRelation.itemId, pair.itemId),
+          eq(itemRelation.relatedId, pair.relatedId),
+        ),
+      )
+      .run();
+    return found;
+  }
+
+  related(id: string): Item[] | undefined {
+    if (!this.#find(id)) {
+      return undefined;
+    }
+
+    return this.#database
+      .select(itemColumns)
+      .from(itemRelation)
+      .innerJoin(
+        item,
+        or(
+          and(eq(itemRelation.itemId, id), eq(item.id, itemRelation.relatedId)),
+          and(eq(itemRelation.relatedId, id), eq(item.id, itemRelation.itemId)),
+        ),
+      )
+      .where(listed)
+      .orderBy(item.rank)
+      .all();
   }
 
   #find(id: string): Item | undefined {
@@ -391,6 +521,7 @@ export class ItemStore {
     previous: Item,
     changed: Item,
     seenUpdatedAt: string,
+    kinds: RecordedChange[],
   ): Item | undefined {
     const now = this.#now().toISOString();
     const { id, ...fields } = changed;
@@ -399,11 +530,36 @@ export class ItemStore {
         ? {}
         : { doneAt: changed.status === "done" ? now : null };
 
-    return this.#database
-      .update(item)
-      .set({ ...fields, ...doneAt, updatedAt: now })
-      .where(and(eq(item.id, id), listed, eq(item.updatedAt, seenUpdatedAt)))
-      .returning(itemColumns)
-      .get();
+    return this.#database.transaction((transaction) => {
+      const saved = transaction
+        .update(item)
+        .set({ ...fields, ...doneAt, updatedAt: now })
+        .where(and(eq(item.id, id), listed, eq(item.updatedAt, seenUpdatedAt)))
+        .returning(itemColumns)
+        .get();
+      this.#record(transaction, saved, kinds);
+      return saved;
+    });
+  }
+
+  #record(
+    transaction: Transaction,
+    changed: Item | undefined,
+    kinds: RecordedChange[],
+  ) {
+    if (!changed || kinds.length === 0) {
+      return;
+    }
+    transaction
+      .insert(itemChange)
+      .values(
+        kinds.map((kind) => ({
+          itemId: changed.id,
+          at: changed.updatedAt,
+          actor: this.#actor,
+          ...kind,
+        })),
+      )
+      .run();
   }
 }

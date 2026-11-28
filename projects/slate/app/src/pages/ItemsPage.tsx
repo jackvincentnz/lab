@@ -8,7 +8,7 @@ import {
   Stack,
   Text,
 } from "@mantine/core";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { skipToken, useMutation, useQuery } from "@tanstack/react-query";
 import {
   isChangedElsewhere,
   type Item,
@@ -59,7 +59,17 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
   const deleteItem = useMutation(trpc.deleteItem.mutationOptions());
   const restoreItem = useMutation(trpc.restoreItem.mutationOptions());
-  const changes = [addItem, updateItem, moveItem, deleteItem, restoreItem];
+  const relateItems = useMutation(trpc.relateItems.mutationOptions());
+  const unrelateItems = useMutation(trpc.unrelateItems.mutationOptions());
+  const changes = [
+    addItem,
+    updateItem,
+    moveItem,
+    deleteItem,
+    restoreItem,
+    relateItems,
+    unrelateItems,
+  ];
   const saving = changes.some((change) => change.isPending);
   const disabled = useSlowSave(saving);
   const panel = useResizablePanel();
@@ -67,6 +77,16 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const [deleted, setDeleted] = useState<DeletedItem>();
   const [openId, setOpenId] = useState<string>();
   const opened = items.data?.find((item) => item.id === openId);
+  const openedChanges = useQuery(
+    trpc.listItemChanges.queryOptions(
+      opened === undefined ? skipToken : { id: opened.id },
+    ),
+  );
+  const openedRelated = useQuery(
+    trpc.listRelatedItems.queryOptions(
+      opened === undefined ? skipToken : { id: opened.id },
+    ),
+  );
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
   }
@@ -246,6 +266,27 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       {opened !== undefined && (
         <ItemPanel
           item={opened}
+          changes={openedChanges.data}
+          related={openedRelated.data}
+          relatedCandidates={items.data?.filter(
+            (candidate) =>
+              candidate.id !== opened.id &&
+              !openedRelated.data?.some(
+                (relatedItem) => relatedItem.id === candidate.id,
+              ),
+          )}
+          openableIds={items.data?.map((listed) => listed.id)}
+          onOpenRelated={setOpenId}
+          onRelate={(relatedId) => {
+            if (startChange()) {
+              relateItems.mutate({ id: opened.id, relatedId });
+            }
+          }}
+          onUnrelate={(relatedId) => {
+            if (startChange()) {
+              unrelateItems.mutate({ id: opened.id, relatedId });
+            }
+          }}
           width={panel.width}
           disabled={disabled}
           saving={saving}
