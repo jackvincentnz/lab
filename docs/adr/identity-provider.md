@@ -93,9 +93,10 @@ per-service audience assumption.
    validating the public audience and no API per private service.
 3. Show the organization claim in tokens from browser sign-in and from MCP consent, mapped to a
    platform tenant.
-4. Check registration friction, federation, account linking, and real pricing for a small lab and a
-   multi-tenant product.
-5. Record the chosen provider and its tradeoffs here.
+4. Have an MCP client that no admin registered register itself through CIMD or DCR.
+5. Show that the consent screen names the client and describes its scopes in public scope names.
+6. Check federation, account linking, and real pricing for a small lab and a multi-tenant product.
+7. Record the chosen provider and its tradeoffs here.
 
 ## References
 

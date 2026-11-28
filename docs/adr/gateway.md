@@ -79,6 +79,10 @@ scripts cannot read them. A session acts for one tenant at a time, so that every
 about whose data it touches. Switching tenant may require signing in again to meet that tenant's
 policy. How the session stores this is deferred.
 
+Membership and the tenant's sign-in policy are checked when the session is created, so a change to
+either reaches an existing session only when it ends. Ending sessions when membership or policy
+changes belongs to the tenant service decision.
+
 Session requests are CSRF-protected; see the [Gateway CSRF decision](gateway-csrf.md) for token
 validation and delivery. WebSocket upgrades are proxied under the same rules.
 
