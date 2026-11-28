@@ -33,7 +33,10 @@ const IN_PROGRESS_GROUP = "in-progress-group";
 
 const NEXT_GROUP = "next-group";
 
-type ItemGroupId = typeof IN_PROGRESS_GROUP | typeof NEXT_GROUP;
+const DONE_ZONE = "done-zone";
+
+type ItemGroupId =
+  typeof IN_PROGRESS_GROUP | typeof NEXT_GROUP | typeof DONE_ZONE;
 
 interface Visit {
   id: UniqueIdentifier;
@@ -116,6 +119,9 @@ export function ItemList({
     const group = visiting(collisions);
 
     if (group !== undefined) {
+      if (moving.status === statusIn(group)) {
+        return;
+      }
       show(
         onStatusChange(moving, statusIn(group), settled),
         visited(items, { id: moving.id, group }),
@@ -195,6 +201,7 @@ export function ItemList({
         >
           {rows(next)}
         </ItemGroup>
+        {dragging && <DoneZone />}
       </Stack>
     </DndContext>
   );
@@ -258,6 +265,20 @@ function ItemGroup({
   );
 }
 
+function DoneZone() {
+  const { setNodeRef } = useDroppable({ id: DONE_ZONE });
+
+  return (
+    <Box ref={setNodeRef} data-group>
+      <Box className={classes["dropZone"]} data-empty-group>
+        <Text size="sm" c="dimmed">
+          Drop here to mark it done
+        </Text>
+      </Box>
+    </Box>
+  );
+}
+
 // dnd-kit's own getter also targets a group, which spans its rows, so a key press could skip past them.
 const nextTarget: KeyboardCoordinateGetter = (
   event,
@@ -287,7 +308,7 @@ function nearestGroup({
   droppableRects,
 }: Parameters<CollisionDetection>[0]): ItemGroupId | undefined {
   const middle = collisionRect.top + collisionRect.height / 2;
-  const [nearest] = ([IN_PROGRESS_GROUP, NEXT_GROUP] as const)
+  const [nearest] = ([IN_PROGRESS_GROUP, NEXT_GROUP, DONE_ZONE] as const)
     .flatMap((group) => {
       const rect = droppableRects.get(group);
       return rect
@@ -323,6 +344,9 @@ function groupOf(item: Item | undefined): ItemGroupId {
 }
 
 function statusIn(group: ItemGroupId): ItemStatus {
+  if (group === DONE_ZONE) {
+    return "done";
+  }
   return group === IN_PROGRESS_GROUP ? "in_progress" : "todo";
 }
 

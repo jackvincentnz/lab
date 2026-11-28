@@ -268,6 +268,64 @@ describe("ItemList", () => {
     ]);
   });
 
+  it("offers the Done drop zone only while an item is dragged", async () => {
+    renderList([item({ name: "Book travel" })]);
+    expect(
+      screen.queryByText("Drop here to mark it done"),
+    ).not.toBeInTheDocument();
+
+    await startDrag("Book travel");
+
+    expect(screen.getByText("Drop here to mark it done")).toBeInTheDocument();
+  });
+
+  it("marks an item dropped on the Done zone done", async () => {
+    const bookTravel = item({ name: "Book travel" });
+    const { onMove, onStatusChange } = renderList([
+      item({ name: "Plan the week" }),
+      bookTravel,
+    ]);
+
+    await dragWithKeyboard("Book travel", "[ArrowDown]");
+
+    expect(onMove).not.toHaveBeenCalled();
+    expect(onStatusChange).toHaveBeenCalledWith(
+      bookTravel,
+      "done",
+      expect.any(Function),
+    );
+    expect(
+      screen.getByRole("checkbox", { name: "Mark Book travel done" }),
+    ).toBeChecked();
+  });
+
+  it("marks an item in progress dropped on the Done zone done", async () => {
+    const planTheWeek = item({ name: "Plan the week", status: "in_progress" });
+    const { onStatusChange } = renderList([
+      planTheWeek,
+      item({ name: "Book travel" }),
+    ]);
+
+    await dragWithKeyboard("Plan the week", "[ArrowDown][ArrowDown]");
+
+    expect(onStatusChange).toHaveBeenCalledWith(
+      planTheWeek,
+      "done",
+      expect.any(Function),
+    );
+  });
+
+  it("leaves a done item unchanged when it is dropped on the Done zone", async () => {
+    const { onMove, onStatusChange } = renderList([
+      item({ name: "Book travel", status: "done" }),
+    ]);
+
+    await dragWithKeyboard("Book travel", "[ArrowDown]");
+
+    expect(onMove).not.toHaveBeenCalled();
+    expect(onStatusChange).not.toHaveBeenCalled();
+  });
+
   it("leaves a done item done when it is dragged into In progress and back", async () => {
     const { onMove, onStatusChange } = renderList([
       item({ name: "Plan the week", status: "in_progress" }),
