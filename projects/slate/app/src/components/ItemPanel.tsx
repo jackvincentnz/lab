@@ -1,6 +1,7 @@
 import { useLayoutEffect, useRef } from "react";
 import { ActionIcon, Box, Button, Group, Stack } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
+import { useClipboard } from "@mantine/hooks";
+import { IconCheck, IconLink, IconX } from "@tabler/icons-react";
 import type { Item, ItemStatus } from "../api";
 import classes from "./ItemPanel.module.css";
 import { ItemDescription } from "./ItemDescription";
@@ -11,6 +12,7 @@ import type { SaveDraft } from "./useItemDraft";
 
 interface ItemPanelProps {
   item: Item;
+  link: string;
   width: number;
   disabled: boolean;
   saving: boolean;
@@ -27,6 +29,7 @@ interface ItemPanelProps {
 
 export function ItemPanel({
   item,
+  link,
   width,
   disabled,
   saving,
@@ -42,6 +45,7 @@ export function ItemPanel({
 }: ItemPanelProps) {
   const panel = useRef<HTMLElement>(null);
   const opener = useRef<Element | null>(null);
+  const clipboard = useClipboard();
 
   useLayoutEffect(() => {
     opener.current = document.activeElement;
@@ -87,14 +91,28 @@ export function ItemPanel({
             disabled={disabled}
             onChange={onStatusChange}
           />
-          <ActionIcon
-            variant="default"
-            size="input-xs"
-            aria-label="Close details"
-            onClick={onClose}
-          >
-            <IconX size={16} />
-          </ActionIcon>
+          <Group gap="xs" wrap="nowrap">
+            <ActionIcon
+              variant="default"
+              size="input-xs"
+              aria-label={clipboard.copied ? "Link copied" : "Copy link"}
+              onClick={() => clipboard.copy(link)}
+            >
+              {clipboard.copied ? (
+                <IconCheck size={16} />
+              ) : (
+                <IconLink size={16} />
+              )}
+            </ActionIcon>
+            <ActionIcon
+              variant="default"
+              size="input-xs"
+              aria-label="Close details"
+              onClick={onClose}
+            >
+              <IconX size={16} />
+            </ActionIcon>
+          </Group>
         </Group>
         <ItemName
           key={item.id}

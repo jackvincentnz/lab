@@ -28,7 +28,9 @@ beforeEach(async () => {
   };
   const [clientTransport, serverTransport] =
     InMemoryTransport.createLinkedPair();
-  await createSlateMcpServer(store).connect(serverTransport);
+  await createSlateMcpServer(store, "http://127.0.0.1:5197").connect(
+    serverTransport,
+  );
   client = new Client({ name: "test", version: "1.0.0" });
   await client.connect(clientTransport);
 });
@@ -84,6 +86,7 @@ describe("createSlateMcpServer", () => {
       "move_item",
       "delete_item",
       "restore_item",
+      "get_item",
     ]);
   });
 
@@ -544,6 +547,82 @@ describe("createSlateMcpServer", () => {
       isError: true,
       content: [{ text: expect.stringContaining(id) }],
     });
+  });
+});
+
+describe("get_item", () => {
+  it("gets an item by its id, with a link that opens it", async () => {
+    const found = anItem();
+    store.list.mockReturnValue([anItem(), found]);
+
+    const result = await call("get_item", { item: found.id });
+
+    expect(result.content).toEqual(
+      text({
+        ...found,
+        deleted: false,
+        link: `http://127.0.0.1:5197/?item=${found.id}`,
+      }),
+    );
+    expect(store.list).toHaveBeenCalledWith({
+      statuses: [
+        "todo",
+        "in_progress",
+        "done",
+        "deferred",
+        "wont_do",
+        "delegated",
+      ],
+      doneTodayOnly: false,
+    });
+  });
+
+  it("gets the item a link opens", async () => {
+    const found = anItem();
+    store.list.mockReturnValue([found]);
+
+    const result = await call("get_item", {
+      item: `http://127.0.0.1:5197/?item=${found.id}`,
+    });
+
+    expect(result.content).toEqual(
+      text({
+        ...found,
+        deleted: false,
+        link: `http://127.0.0.1:5197/?item=${found.id}`,
+      }),
+    );
+  });
+
+  it("gets a deleted item and says it is deleted", async () => {
+    const found = anItem();
+    store.list.mockImplementation((query) =>
+      query?.deleted ? [found] : [anItem()],
+    );
+
+    const result = await call("get_item", { item: found.id });
+
+    expect(result.content).toEqual(
+      text({
+        ...found,
+        deleted: true,
+        link: `http://127.0.0.1:5197/?item=${found.id}`,
+      }),
+    );
+  });
+
+  it("names the id or link that finds no item", async () => {
+    store.list.mockReturnValue([anItem()]);
+
+    const result = await call("get_item", { item: "not-an-item" });
+
+    expect(result.isError).toBe(true);
+    expect(result.content).toEqual([
+      {
+        type: "text",
+        text: "No item has the id or link not-an-item. Find the item with list_items and a search instead.",
+      },
+    ]);
   });
 });
 

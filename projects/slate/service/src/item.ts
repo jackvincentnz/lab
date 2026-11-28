@@ -251,3 +251,15 @@ export const restoreItemInput = z.object({
 });
 
 export type RestoreItemInput = z.infer<typeof restoreItemInput>;
+
+export const getItemInput = z.object({
+  item: z
+    .string()
+    .trim()
+    .min(1, "Give an item's id or a link to it")
+    .describe(
+      "The item's id, or a Slate link to it such as http://127.0.0.1:5197/?item=<id>.",
+    ),
+});
+
+export type GetItemInput = z.infer<typeof getItemInput>;

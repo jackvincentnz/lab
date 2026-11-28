@@ -19,7 +19,10 @@ function guardedContents() {
             ) => void,
           ) => void
         >(),
-      setPermissionCheckHandler: vi.fn<(handler: () => boolean) => void>(),
+      setPermissionCheckHandler:
+        vi.fn<
+          (handler: (contents: unknown, permission: string) => boolean) => void
+        >(),
     },
   });
   const app = new EventEmitter();
@@ -129,7 +132,28 @@ describe("guardApp", () => {
     expect(cancelled).toBe(true);
   });
 
-  it("denies every permission request", () => {
+  it("grants a request to write text to the clipboard", () => {
+    const { contents } = guardedContents();
+    const [handleRequest] =
+      contents.session.setPermissionRequestHandler.mock.calls[0]!;
+    const grant = vi.fn();
+
+    handleRequest(contents, "clipboard-sanitized-write", grant);
+
+    expect(grant).toHaveBeenCalledWith(true);
+  });
+
+  it("grants a check to write text to the clipboard", () => {
+    const { contents } = guardedContents();
+    const [handleCheck] =
+      contents.session.setPermissionCheckHandler.mock.calls[0]!;
+
+    const granted = handleCheck(contents, "clipboard-sanitized-write");
+
+    expect(granted).toBe(true);
+  });
+
+  it("denies every other permission request", () => {
     const { contents } = guardedContents();
     const [handleRequest] =
       contents.session.setPermissionRequestHandler.mock.calls[0]!;
@@ -140,12 +164,12 @@ describe("guardApp", () => {
     expect(grant).toHaveBeenCalledWith(false);
   });
 
-  it("denies every permission check", () => {
+  it("denies every other permission check", () => {
     const { contents } = guardedContents();
     const [handleCheck] =
       contents.session.setPermissionCheckHandler.mock.calls[0]!;
 
-    const granted = handleCheck();
+    const granted = handleCheck(contents, "media");
 
     expect(granted).toBe(false);
   });

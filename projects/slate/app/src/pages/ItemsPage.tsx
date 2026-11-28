@@ -17,6 +17,7 @@ import {
   useTRPC,
 } from "../api";
 import { AddItemForm } from "../components/AddItemForm";
+import { itemLink } from "../itemLink";
 import { ItemList } from "../components/ItemList";
 import { ItemPanel } from "../components/ItemPanel";
 import { ListHeading } from "../components/ListHeading";
@@ -40,9 +41,10 @@ const SLOW_SAVE_MS = 300;
 interface ItemsPageProps {
   view: ViewName;
   search?: string;
+  initialOpenId?: string | undefined;
 }
 
-export function ItemsPage({ view, search }: ItemsPageProps) {
+export function ItemsPage({ view, search, initialOpenId }: ItemsPageProps) {
   const searching = search !== undefined;
   const { label, query, empty } = searching ? searchView(search) : views[view];
   const today = !searching && view === "today";
@@ -65,7 +67,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
   const panel = useResizablePanel();
   const changedElsewhere = isChangedElsewhere(updateItem.error);
   const [deleted, setDeleted] = useState<DeletedItem>();
-  const [openId, setOpenId] = useState<string>();
+  const [openId, setOpenId] = useState(initialOpenId);
   const opened = items.data?.find((item) => item.id === openId);
   if (openId !== undefined && items.data !== undefined && !opened) {
     setOpenId(undefined);
@@ -246,6 +248,7 @@ export function ItemsPage({ view, search }: ItemsPageProps) {
       {opened !== undefined && (
         <ItemPanel
           item={opened}
+          link={itemLink(opened)}
           width={panel.width}
           disabled={disabled}
           saving={saving}

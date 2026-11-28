@@ -1,5 +1,6 @@
 import {
   act,
+  afterEach,
   expect,
   fireEvent,
   render,
@@ -12,6 +13,10 @@ import {
 } from "@lab/test-utils";
 import { App } from "./App";
 import { fakeSlateApi, item, withSlateApi } from "./test/fakes";
+
+afterEach(() => {
+  window.history.replaceState(null, "", "/");
+});
 
 test("shows the app name above the list", async () => {
   render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
@@ -230,4 +235,66 @@ test("focuses the search with Command K from another text box", async () => {
   expect(
     screen.getByRole("searchbox", { name: "Search every item" }),
   ).toHaveFocus();
+});
+
+function openLink(id: string) {
+  window.history.replaceState(null, "", `/?item=${id}`);
+}
+
+test("opens a linked item in the view that lists it", async () => {
+  const linked = item({ name: "Order monitors", status: "deferred" });
+  const api = fakeSlateApi();
+  api.listItems.mockImplementation((input) =>
+    Promise.resolve(input?.deleted ? [] : [linked]),
+  );
+  openLink(linked.id);
+
+  render(<App />, { wrapper: withSlateApi(api) });
+
+  const panel = await screen.findByRole("complementary", {
+    name: "Item details",
+  });
+  expect(
+    within(panel).getByRole("heading", { name: "Order monitors" }),
+  ).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Deferred" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+});
+
+test("opens a deleted linked item in the Deleted view", async () => {
+  const linked = item({ name: "Order monitors" });
+  const api = fakeSlateApi();
+  api.listItems.mockImplementation((input) =>
+    Promise.resolve(input?.deleted ? [linked] : []),
+  );
+  openLink(linked.id);
+
+  render(<App />, { wrapper: withSlateApi(api) });
+
+  expect(
+    await screen.findByRole("complementary", { name: "Item details" }),
+  ).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Deleted" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+});
+
+test("starts on Today when a linked item is not found", async () => {
+  openLink("missing");
+
+  render(<App />, { wrapper: withSlateApi(fakeSlateApi()) });
+
+  expect(
+    await screen.findByText(/Nothing on your slate yet/),
+  ).toBeInTheDocument();
+  expect(screen.getByRole("button", { name: "Today" })).toHaveAttribute(
+    "aria-current",
+    "page",
+  );
+  expect(
+    screen.queryByRole("complementary", { name: "Item details" }),
+  ).not.toBeInTheDocument();
 });
