@@ -1,3 +1,7 @@
+---
+uses: [libs/test-utils]
+---
+
 # Slate App
 
 The web app for [Slate](../README.md). The desktop app renders it in its Electron window, and you

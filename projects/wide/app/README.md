@@ -1,3 +1,7 @@
+---
+uses: [libs/test-utils]
+---
+
 # WIDE App
 
 Read-only explorer for the WIDE project: browse saved signals, problems, candidate

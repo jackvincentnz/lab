@@ -45,5 +45,8 @@ bazel test //projects/organizer/e2e
 
 ## Related docs
 
+- [Task](task/README.md).
+- [Journal](journal/README.md).
+- [Autojournal](autojournal/README.md).
 - [Tasklist](tasklist/README.md).
 - [Journal app](journal_app/README.md).

@@ -84,5 +84,6 @@ Set `MOPS_PORT`, `MOPS_APP_PORT` or `GATEWAY_PORT` to move the service, the app,
 ## Related docs
 
 - [Mops App](app/README.md).
+- [Mops eval](eval/README.md).
 - [Agent overview](docs/agent-overview.md).
 - [Glossary](docs/glossary.md).

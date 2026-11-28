@@ -1,3 +1,7 @@
+---
+uses: [libs/test-utils]
+---
+
 # Mops App
 
 Web app for the Mops project.
