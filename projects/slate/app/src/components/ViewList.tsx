@@ -9,6 +9,7 @@ interface ViewListProps {
   label: string;
   items: Item[];
   groupByDayDone: boolean;
+  showStatus: boolean;
   disabled: boolean;
   openId: string | undefined;
   onOpen(item: Item): void;
@@ -20,6 +21,7 @@ export function ViewList({
   label,
   items,
   groupByDayDone,
+  showStatus,
   disabled,
   openId,
   onOpen,
@@ -32,6 +34,7 @@ export function ViewList({
         <ItemRow
           key={item.id}
           item={item}
+          showStatus={showStatus}
           disabled={disabled}
           open={item.id === openId}
           onOpen={() => onOpen(item)}

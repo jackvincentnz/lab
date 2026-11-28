@@ -1,21 +1,9 @@
 import { useState } from "react";
-import { Badge, Box, Button, Menu } from "@mantine/core";
+import { Box, Button, Menu } from "@mantine/core";
 import { IconChevronDown } from "@tabler/icons-react";
 import type { ItemStatus } from "../api";
-
-interface StatusStyle {
-  label: string;
-  color: string;
-}
-
-const statuses: Record<ItemStatus, StatusStyle> = {
-  todo: { label: "To do", color: "gray" },
-  in_progress: { label: "In progress", color: "blue" },
-  done: { label: "Done", color: "green" },
-  deferred: { label: "Deferred", color: "yellow" },
-  wont_do: { label: "Won't do", color: "red" },
-  delegated: { label: "Delegated", color: "violet" },
-};
+import { everyStatus, statusStyles } from "../statuses";
+import { StatusBadge } from "./StatusBadge";
 
 interface StatusMenuProps {
   status: ItemStatus;
@@ -24,7 +12,7 @@ interface StatusMenuProps {
 }
 
 export function StatusMenu({ status, disabled, onChange }: StatusMenuProps) {
-  const { label, color } = statuses[status];
+  const { label, color } = statusStyles[status];
   const [opened, setOpened] = useState(false);
 
   return (
@@ -48,17 +36,15 @@ export function StatusMenu({ status, disabled, onChange }: StatusMenuProps) {
           </Button>
         </Menu.Target>
         <Menu.Dropdown>
-          {Object.entries(statuses)
-            .filter(([other]) => other !== status)
-            .map(([other, { label: otherLabel, color: otherColor }]) => (
+          {everyStatus
+            .filter((other) => other !== status)
+            .map((other) => (
               <Menu.Item
                 key={other}
                 disabled={disabled}
-                onClick={() => onChange(other as ItemStatus)}
+                onClick={() => onChange(other)}
               >
-                <Badge variant="light" color={otherColor} radius="sm">
-                  {otherLabel}
-                </Badge>
+                <StatusBadge status={other} />
               </Menu.Item>
             ))}
         </Menu.Dropdown>

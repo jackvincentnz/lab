@@ -1,15 +1,46 @@
-import { useState } from "react";
-import { AppShell, Burger, Group, Image, NavLink, Title } from "@mantine/core";
+import { useRef, useState } from "react";
+import {
+  AppShell,
+  Box,
+  Burger,
+  CloseButton,
+  Group,
+  Image,
+  Kbd,
+  NavLink,
+  TextInput,
+  Title,
+} from "@mantine/core";
+import { useDebouncedCallback, useHotkeys } from "@mantine/hooks";
 import { Notifications } from "@mantine/notifications";
+import { IconSearch } from "@tabler/icons-react";
 // Inlined, it would be a data: URL, which the service's content security policy blocks.
 import mark from "../../icons/slate-mark.svg?no-inline";
 import { ListUpdates } from "./ListUpdates";
 import { ItemsPage } from "./pages/ItemsPage";
 import { type ViewName, views } from "./views";
 
+const SEARCH_DELAY_MS = 250;
+const MAX_SEARCH_LENGTH = 200;
+
 export function App() {
   const [view, setView] = useState<ViewName>("today");
   const [narrowNavOpened, setNarrowNavOpened] = useState(false);
+  const [searchText, setSearchText] = useState("");
+  const [search, setSearch] = useState<string>();
+  const searchLater = useDebouncedCallback(setSearch, SEARCH_DELAY_MS);
+  const searchRef = useRef<HTMLInputElement>(null);
+  useHotkeys([["mod+K", () => searchRef.current?.focus()]], []);
+
+  function changeSearch(text: string) {
+    setSearchText(text);
+    if (text.trim() === "") {
+      searchLater.cancel();
+      setSearch(undefined);
+    } else {
+      searchLater(text.trim());
+    }
+  }
 
   return (
     <AppShell
@@ -21,18 +52,52 @@ export function App() {
       }}
     >
       <AppShell.Header>
-        <Group h="100%" px="lg" gap="xs">
-          <Burger
-            opened={narrowNavOpened}
-            onClick={() => setNarrowNavOpened((opened) => !opened)}
-            hiddenFrom="sm"
-            size="sm"
-            aria-label={narrowNavOpened ? "Hide views" : "Show views"}
+        <Group h="100%" px="lg" gap="xs" wrap="nowrap">
+          <Group flex={1} gap="xs" wrap="nowrap">
+            <Burger
+              opened={narrowNavOpened}
+              onClick={() => setNarrowNavOpened((opened) => !opened)}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label={narrowNavOpened ? "Hide views" : "Show views"}
+            />
+            <Image src={mark} alt="" w={28} h={28} />
+            <Title order={1} fz="lg" fw={700}>
+              Slate
+            </Title>
+          </Group>
+          <TextInput
+            ref={searchRef}
+            type="search"
+            w={{ base: 200, sm: 400 }}
+            aria-label="Search every item"
+            placeholder="Search every item"
+            maxLength={MAX_SEARCH_LENGTH}
+            leftSection={<IconSearch size={16} />}
+            rightSectionWidth={searchText === "" ? 42 : undefined}
+            rightSection={
+              searchText === "" ? (
+                <Kbd size="xs">⌘K</Kbd>
+              ) : (
+                <CloseButton
+                  size="sm"
+                  aria-label="Clear search"
+                  onClick={() => {
+                    changeSearch("");
+                    searchRef.current?.focus();
+                  }}
+                />
+              )
+            }
+            value={searchText}
+            onChange={(event) => changeSearch(event.currentTarget.value)}
+            onKeyDown={(event) => {
+              if (event.key === "Escape") {
+                changeSearch("");
+              }
+            }}
           />
-          <Image src={mark} alt="" w={28} h={28} />
-          <Title order={1} fz="lg" fw={700}>
-            Slate
-          </Title>
+          <Box flex={1} />
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs" aria-label="Views">
@@ -41,10 +106,13 @@ export function App() {
             key={name}
             component="button"
             label={label}
-            active={name === view}
-            aria-current={name === view ? "page" : undefined}
+            active={search === undefined && name === view}
+            aria-current={
+              search === undefined && name === view ? "page" : undefined
+            }
             onClick={() => {
               setView(name as ViewName);
+              changeSearch("");
               setNarrowNavOpened(false);
             }}
           />
@@ -52,7 +120,11 @@ export function App() {
       </AppShell.Navbar>
       <AppShell.Main bg="gray.0">
         <ListUpdates>
-          <ItemsPage key={view} view={view} />
+          <ItemsPage
+            key={search === undefined ? view : "search"}
+            view={view}
+            search={search}
+          />
         </ListUpdates>
       </AppShell.Main>
       {/* Narrow enough to stay clear of the side-by-side item panel at its widest, 60% of the window. */}

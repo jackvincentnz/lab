@@ -96,6 +96,8 @@ const sourceKeyInput = z
   .trim()
   .min(1, "Give a link's url or a reference's text that is not blank");
 
+const maxSearchLength = 200;
+
 export const listItemsInput = z.object({
   statuses: z
     .array(itemStatus)
@@ -119,11 +121,23 @@ export const listItemsInput = z.object({
     .describe(
       "Only the items with a source whose link url or reference text is exactly this, such as a pull request link, to check whether it is already tracked. Combine it with the other inputs, for example statuses of every status and doneTodayOnly false to look across every item that is not deleted.",
     ),
+  search: z
+    .string()
+    .trim()
+    .min(1, "Give a search that is not blank")
+    .max(
+      maxSearchLength,
+      `Give a search of at most ${maxSearchLength} characters`,
+    )
+    .optional()
+    .describe(
+      "Only the items that contain every word of this, ignoring case, each word anywhere in the item's name, description, or a source's label, link url or reference text. Words are split on white space and matched as plain text, so % and _ match only themselves.",
+    ),
   orderBy: z
-    .enum(["rank", "doneAt", "updatedAt"])
+    .enum(["rank", "status", "doneAt", "updatedAt"])
     .default("rank")
     .describe(
-      "rank is priority order, the most important first. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
+      "rank is priority order, the most important first. status puts current work first: in_progress, todo, delegated, deferred, done, then wont_do, each group in priority order. doneAt and updatedAt are newest first, and items without that time come last in priority order. A deleted item's updatedAt is when it was deleted.",
     ),
 });
 

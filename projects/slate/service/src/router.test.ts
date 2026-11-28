@@ -54,7 +54,8 @@ describe("slateRouter", () => {
       doneTodayOnly: false,
       deleted: true,
       source: "https://example.com/pull/1",
-      orderBy: "updatedAt",
+      search: "plan",
+      orderBy: "status",
     });
 
     expect(store.list).toHaveBeenCalledWith({
@@ -62,7 +63,8 @@ describe("slateRouter", () => {
       doneTodayOnly: false,
       deleted: true,
       source: "https://example.com/pull/1",
-      orderBy: "updatedAt",
+      search: "plan",
+      orderBy: "status",
     });
     expect(listed).toEqual(items);
   });

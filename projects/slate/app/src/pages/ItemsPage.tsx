@@ -28,7 +28,7 @@ import {
 } from "../components/useDeletedItemNotice";
 import type { SaveCallbacks } from "../components/useItemDraft";
 import { useResizablePanel } from "../components/useResizablePanel";
-import { type ViewName, views } from "../views";
+import { searchView, type ViewName, views } from "../views";
 
 type ItemEdit = Pick<
   UpdateItemInput,
@@ -39,15 +39,21 @@ const SLOW_SAVE_MS = 300;
 
 interface ItemsPageProps {
   view: ViewName;
+  search?: string;
 }
 
-export function ItemsPage({ view }: ItemsPageProps) {
-  const { label, query, empty } = views[view];
-  const today = view === "today";
-  const done = view === "done";
+export function ItemsPage({ view, search }: ItemsPageProps) {
+  const searching = search !== undefined;
+  const { label, query, empty } = searching ? searchView(search) : views[view];
+  const today = !searching && view === "today";
+  const done = !searching && view === "done";
   const headed = !today && !done;
   const trpc = useTRPC();
-  const items = useQuery(trpc.listItems.queryOptions(query));
+  // Keeps the last results while the next search loads, instead of a loader on each word.
+  const items = useQuery({
+    ...trpc.listItems.queryOptions(query),
+    placeholderData: (previous) => (previous?.length ? previous : undefined),
+  });
   const addItem = useMutation(trpc.addItem.mutationOptions());
   const updateItem = useMutation(trpc.updateItem.mutationOptions());
   const moveItem = useMutation(trpc.moveItem.mutationOptions());
@@ -175,7 +181,14 @@ export function ItemsPage({ view }: ItemsPageProps) {
         )}
         {(headed || items.isPending || items.data !== undefined) && (
           <Stack gap="xs">
-            {headed && <ListHeading>{label}</ListHeading>}
+            {headed && (
+              <ListHeading>
+                {label}
+                {searching &&
+                  items.data !== undefined &&
+                  ` · ${items.data.length}`}
+              </ListHeading>
+            )}
             {items.isPending && (
               <Center>
                 <Loader aria-label="Loading your list" />
@@ -187,6 +200,7 @@ export function ItemsPage({ view }: ItemsPageProps) {
                 label={label}
                 items={items.data}
                 groupByDayDone={done}
+                showStatus={searching}
                 disabled={disabled}
                 openId={opened?.id}
                 onOpen={(item) => {

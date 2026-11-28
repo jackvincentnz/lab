@@ -1708,3 +1708,105 @@ describe("ItemsPage in another view", () => {
     expect(await screen.findByText("Nothing deleted.")).toBeInTheDocument();
   });
 });
+
+describe("ItemsPage with a search", () => {
+  it("searches every item, current work first", async () => {
+    const api = fakeSlateApi([item({ name: "Plan the week" })]);
+
+    render(<ItemsPage view="done" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    expect(await screen.findByText("Plan the week")).toBeInTheDocument();
+    expect(api.listItems).toHaveBeenCalledWith({
+      search: "plan",
+      statuses: [
+        "todo",
+        "in_progress",
+        "done",
+        "deferred",
+        "wont_do",
+        "delegated",
+      ],
+      doneTodayOnly: false,
+      orderBy: "status",
+    });
+  });
+
+  it("shows each result's status, without adding, moving or ranks", async () => {
+    const api = fakeSlateApi([
+      item({ name: "Plan the week", status: "todo" }),
+      item({ name: "Plan the move", status: "deferred" }),
+    ]);
+
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    const results = await screen.findByRole("list", { name: "Search results" });
+    expect(
+      within(results)
+        .getAllByRole("listitem")
+        .map((row) => row.textContent),
+    ).toEqual(["Plan the weekTo do", "Plan the moveDeferred"]);
+    expect(
+      screen.queryByRole("textbox", { name: "New item" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Move Plan the week" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("opens a result in the item panel", async () => {
+    const user = userEvent.setup();
+    const api = fakeSlateApi([item({ name: "Plan the week", status: "done" })]);
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    const panel = await openItem(user, "Plan the week");
+
+    expect(
+      within(panel).getByRole("button", { name: "Status: Done" }),
+    ).toBeInTheDocument();
+  });
+
+  it("shows a loader, not the empty message, while the search after an empty one loads", async () => {
+    const api = fakeSlateApi([]);
+    const { rerender } = render(<ItemsPage view="today" search="zebr" />, {
+      wrapper: withSlateApi(api),
+    });
+    await screen.findByText("No items match “zebr”.");
+    api.listItems.mockReturnValue(new Promise<Item[]>(() => undefined));
+
+    rerender(<ItemsPage view="today" search="zebra" />);
+
+    expect(screen.queryByText(/No items match/)).not.toBeInTheDocument();
+    expect(screen.getByLabelText("Loading your list")).toBeInTheDocument();
+  });
+
+  it("heads the results with how many items match", async () => {
+    const api = fakeSlateApi([
+      item({ name: "Plan the week" }),
+      item({ name: "Plan the move" }),
+    ]);
+
+    render(<ItemsPage view="today" search="plan" />, {
+      wrapper: withSlateApi(api),
+    });
+
+    expect(
+      await screen.findByRole("heading", { name: "Search results · 2" }),
+    ).toBeInTheDocument();
+  });
+
+  it("says when nothing matches", async () => {
+    render(<ItemsPage view="today" search="zebra" />, {
+      wrapper: withSlateApi(fakeSlateApi([])),
+    });
+
+    expect(
+      await screen.findByText("No items match “zebra”."),
+    ).toBeInTheDocument();
+  });
+});

@@ -144,6 +144,23 @@ describe("createSlateMcpServer", () => {
     expect(result.content).toEqual(text(items));
   });
 
+  it("searches with a trimmed query", async () => {
+    store.list.mockReturnValue([]);
+
+    await call("list_items", { search: "  domain name ", orderBy: "status" });
+
+    expect(store.list).toHaveBeenCalledWith(
+      expect.objectContaining({ search: "domain name", orderBy: "status" }),
+    );
+  });
+
+  it("refuses a blank search", async () => {
+    const result = await call("list_items", { search: "  " });
+
+    expect(result.isError).toBe(true);
+    expect(store.list).not.toHaveBeenCalled();
+  });
+
   it("lists today's list when given no query", async () => {
     store.list.mockReturnValue([]);
 
