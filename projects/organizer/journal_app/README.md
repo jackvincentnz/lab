@@ -1,3 +1,7 @@
+---
+uses: [libs/test-utils]
+---
+
 # Journal App
 
 Web app for viewing Organizer journal entries.

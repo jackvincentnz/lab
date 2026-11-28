@@ -1,3 +1,7 @@
+---
+uses: [libs/test-utils]
+---
+
 # Tasklist
 
 Web app for creating and completing Organizer tasks.

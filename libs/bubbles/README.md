@@ -1,3 +1,7 @@
+---
+uses: [libs/packages/client]
+---
+
 # Bubbles
 
 ## Summary
