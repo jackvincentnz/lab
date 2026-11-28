@@ -17,7 +17,7 @@ public abstract class PostgresTestBase extends TestBase {
   private static final PostgreSQLContainer<?> POSTGRES =
       new PostgreSQLContainer<>(
           DockerImageName.parse(
-                  "postgres:17.12@sha256:97fb53376be3e4fb1a8a61421daa69dcc3bf2fa39bda3259f5245f9a455af1a9")
+                  "postgres:19.0@sha256:4ea94de574c17f0372722806c949757050fbb1cd7648410fe45d6bba275cc00e")
               .withRepository("postgres"));
 
   @DynamicPropertySource
